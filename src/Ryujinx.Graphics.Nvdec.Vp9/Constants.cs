@@ -1,8 +1,10 @@
+﻿using Ryujinx.Graphics.Nvdec.Vp9.Types;
+
 namespace Ryujinx.Graphics.Nvdec.Vp9
 {
     internal static class Constants
     {
-        public const int Vp9InterpExtend = 4;
+        public const int InterpExtend = 4;
 
         public const int MaxMbPlane = 3;
 
@@ -25,6 +27,7 @@ namespace Ryujinx.Graphics.Nvdec.Vp9
         /* Segment Feature Masks */
         public const int MaxMvRefCandidates = 2;
 
+        public const int IntraInterContexts = 4;
         public const int CompInterContexts = 5;
         public const int RefContexts = 5;
 
@@ -32,11 +35,25 @@ namespace Ryujinx.Graphics.Nvdec.Vp9
         public const int EightTapSmooth = 1;
         public const int EightTapSharp = 2;
         public const int SwitchableFilters = 3; /* Number of switchable filters */
+
         public const int Bilinear = 3;
-        public const int Switchable = 4; /* should be the last one */
+
+        // The codec can operate in four possible inter prediction filter mode:
+        // 8-tap, 8-tap-smooth, 8-tap-sharp, and switching between the three.
+        public const int SwitchableFilterContexts = SwitchableFilters + 1;
+        public const int Switchable = 4; /* Should be the last one */
 
         // Frame
         public const int RefsPerFrame = 3;
+
+        public const int RefFramesLog2 = 3;
+        public const int RefFrames = 1 << RefFramesLog2;
+
+        // 1 scratch frame for the new frame, 3 for scaled references on the encoder.
+        public const int FrameBuffers = RefFrames + 4;
+
+        public const int FrameContextsLog2 = 2;
+        public const int FrameContexts = 1 << FrameContextsLog2;
 
         public const int NumPingPongBuffers = 2;
 
@@ -48,9 +65,9 @@ namespace Ryujinx.Graphics.Nvdec.Vp9
         public const int MvLow = -(1 << MvInUseBits);
 
         // Coefficient token alphabet
-        public const int ZeroToken = 0; // 0 Extra Bits 0+0
-        public const int OneToken = 1; // 1 Extra Bits 0+1
-        public const int TwoToken = 2; // 2 Extra Bits 0+1
+        public const int ZeroToken = 0; // 0     Extra Bits 0+0
+        public const int OneToken = 1; // 1     Extra Bits 0+1
+        public const int TwoToken = 2; // 2     Extra Bits 0+1
 
         public const int PivotNode = 2;
 
@@ -65,5 +82,19 @@ namespace Ryujinx.Graphics.Nvdec.Vp9
 
         public const int SegmentAbsData = 1;
         public const int MaxSegments = 8;
+
+        public const int PartitionTypes = (int)PartitionType.PartitionTypes;
+
+        public const int PartitionPlOffset = 4; // Number of probability models per block size
+        public const int PartitionContexts = 4 * PartitionPlOffset;
+
+        public const int PlaneTypes = (int)PlaneType.PlaneTypes;
+
+        public const int IntraModes = (int)PredictionMode.TmPred + 1;
+
+        public const int InterModes = 1 + (int)PredictionMode.NewMv - (int)PredictionMode.NearestMv;
+
+        public const int SkipContexts = 3;
+        public const int InterModeContexts = 7;
     }
 }
