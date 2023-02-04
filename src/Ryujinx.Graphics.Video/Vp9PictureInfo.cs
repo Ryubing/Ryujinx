@@ -10,6 +10,8 @@ namespace Ryujinx.Graphics.Video
         public bool IsKeyFrame;
         public bool IntraOnly;
         public Array4<sbyte> RefFrameSignBias;
+        public int LoopFilterLevel;
+        public int LoopFilterSharpnessLevel;
         public int BaseQIndex;
         public int YDcDeltaQ;
         public int UvDcDeltaQ;

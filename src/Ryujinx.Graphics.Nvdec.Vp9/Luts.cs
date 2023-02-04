@@ -1,4 +1,4 @@
-using Ryujinx.Common.Memory;
+﻿using Ryujinx.Common.Memory;
 using Ryujinx.Graphics.Nvdec.Vp9.Types;
 using System;
 
@@ -8,170 +8,175 @@ namespace Ryujinx.Graphics.Nvdec.Vp9
     {
         public static ReadOnlySpan<byte> SizeGroupLookup => new byte[] { 0, 0, 0, 1, 1, 1, 2, 2, 2, 3, 3, 3, 3 };
 
-        public static readonly BlockSize[][] SubsizeLookup = {
-            new[]
+        public static readonly BlockSize[][] SubsizeLookup = new BlockSize[][]
+        {
+            new BlockSize[]
             { // PARTITION_NONE
                 BlockSize.Block4x4, BlockSize.Block4x8, BlockSize.Block8x4, BlockSize.Block8x8, BlockSize.Block8x16, BlockSize.Block16x8,
                 BlockSize.Block16x16, BlockSize.Block16x32, BlockSize.Block32x16, BlockSize.Block32x32, BlockSize.Block32x64,
-                BlockSize.Block64x32, BlockSize.Block64x64,
+                BlockSize.Block64x32, BlockSize.Block64x64
             },
-            new[]
+            new BlockSize[]
             { // PARTITION_HORZ
                 BlockSize.BlockInvalid, BlockSize.BlockInvalid, BlockSize.BlockInvalid, BlockSize.Block8x4, BlockSize.BlockInvalid,
                 BlockSize.BlockInvalid, BlockSize.Block16x8, BlockSize.BlockInvalid, BlockSize.BlockInvalid, BlockSize.Block32x16,
-                BlockSize.BlockInvalid, BlockSize.BlockInvalid, BlockSize.Block64x32,
+                BlockSize.BlockInvalid, BlockSize.BlockInvalid, BlockSize.Block64x32
             },
-            new[]
+            new BlockSize[]
             { // PARTITION_VERT
                 BlockSize.BlockInvalid, BlockSize.BlockInvalid, BlockSize.BlockInvalid, BlockSize.Block4x8, BlockSize.BlockInvalid,
                 BlockSize.BlockInvalid, BlockSize.Block8x16, BlockSize.BlockInvalid, BlockSize.BlockInvalid, BlockSize.Block16x32,
-                BlockSize.BlockInvalid, BlockSize.BlockInvalid, BlockSize.Block32x64,
+                BlockSize.BlockInvalid, BlockSize.BlockInvalid, BlockSize.Block32x64
             },
-            new[]
+            new BlockSize[]
             { // PARTITION_SPLIT
                 BlockSize.BlockInvalid, BlockSize.BlockInvalid, BlockSize.BlockInvalid, BlockSize.Block4x4, BlockSize.BlockInvalid,
                 BlockSize.BlockInvalid, BlockSize.Block8x8, BlockSize.BlockInvalid, BlockSize.BlockInvalid, BlockSize.Block16x16,
-                BlockSize.BlockInvalid, BlockSize.BlockInvalid, BlockSize.Block32x32,
-            },
+                BlockSize.BlockInvalid, BlockSize.BlockInvalid, BlockSize.Block32x32
+            }
         };
 
-        public static readonly TxSize[] MaxTxSizeLookup = {
+        public static readonly TxSize[] MaxTxSizeLookup = new TxSize[]
+        {
             TxSize.Tx4x4,   TxSize.Tx4x4,   TxSize.Tx4x4,   TxSize.Tx8x8,   TxSize.Tx8x8,   TxSize.Tx8x8,  TxSize.Tx16x16,
-            TxSize.Tx16x16, TxSize.Tx16x16, TxSize.Tx32x32, TxSize.Tx32x32, TxSize.Tx32x32, TxSize.Tx32x32,
+            TxSize.Tx16x16, TxSize.Tx16x16, TxSize.Tx32x32, TxSize.Tx32x32, TxSize.Tx32x32, TxSize.Tx32x32
         };
 
-        public static readonly TxSize[] TxModeToBiggestTxSize = {
-            TxSize.Tx4x4, // ONLY_4X4
-            TxSize.Tx8x8, // ALLOW_8X8
-            TxSize.Tx16x16, // ALLOW_16X16
-            TxSize.Tx32x32, // ALLOW_32X32
-            TxSize.Tx32x32, // TX_MODE_SELECT
+        public static readonly TxSize[] TxModeToBiggestTxSize = new TxSize[]
+        {
+            TxSize.Tx4x4,    // ONLY_4X4
+            TxSize.Tx8x8,    // ALLOW_8X8
+            TxSize.Tx16x16,  // ALLOW_16X16
+            TxSize.Tx32x32,  // ALLOW_32X32
+            TxSize.Tx32x32,  // TX_MODE_SELECT
         };
 
-        public static readonly BlockSize[][][] SsSizeLookup = {
+        public static readonly BlockSize[][][] SsSizeLookup = new BlockSize[][][]
+        {
             //  ss_x == 0    ss_x == 0        ss_x == 1      ss_x == 1
             //  ss_y == 0    ss_y == 1        ss_y == 0      ss_y == 1
-            new[] { new[] { BlockSize.Block4x4, BlockSize.BlockInvalid }, new[] { BlockSize.BlockInvalid, BlockSize.BlockInvalid } },
-            new[] { new[] { BlockSize.Block4x8, BlockSize.Block4x4 }, new[] { BlockSize.BlockInvalid, BlockSize.BlockInvalid } },
-            new[] { new[] { BlockSize.Block8x4, BlockSize.BlockInvalid }, new[] { BlockSize.Block4x4, BlockSize.BlockInvalid } },
-            new[] { new[] { BlockSize.Block8x8, BlockSize.Block8x4 }, new[] { BlockSize.Block4x8, BlockSize.Block4x4 } },
-            new[] { new[] { BlockSize.Block8x16, BlockSize.Block8x8 }, new[] { BlockSize.BlockInvalid, BlockSize.Block4x8 } },
-            new[] { new[] { BlockSize.Block16x8, BlockSize.BlockInvalid }, new[] { BlockSize.Block8x8, BlockSize.Block8x4 } },
-            new[] { new[] { BlockSize.Block16x16, BlockSize.Block16x8 }, new[] { BlockSize.Block8x16, BlockSize.Block8x8 } },
-            new[] { new[] { BlockSize.Block16x32, BlockSize.Block16x16 }, new[] { BlockSize.BlockInvalid, BlockSize.Block8x16 } },
-            new[] { new[] { BlockSize.Block32x16, BlockSize.BlockInvalid }, new[] { BlockSize.Block16x16, BlockSize.Block16x8 } },
-            new[] { new[] { BlockSize.Block32x32, BlockSize.Block32x16 }, new[] { BlockSize.Block16x32, BlockSize.Block16x16 } },
-            new[] { new[] { BlockSize.Block32x64, BlockSize.Block32x32 }, new[] { BlockSize.BlockInvalid, BlockSize.Block16x32 } },
-            new[] { new[] { BlockSize.Block64x32, BlockSize.BlockInvalid }, new[] { BlockSize.Block32x32, BlockSize.Block32x16 } },
-            new[] { new[] { BlockSize.Block64x64, BlockSize.Block64x32 }, new[] { BlockSize.Block32x64, BlockSize.Block32x32 } },
+            new BlockSize[][] { new BlockSize[] { BlockSize.Block4x4, BlockSize.BlockInvalid }, new BlockSize[] { BlockSize.BlockInvalid, BlockSize.BlockInvalid } },
+            new BlockSize[][] { new BlockSize[] { BlockSize.Block4x8, BlockSize.Block4x4 }, new BlockSize[] { BlockSize.BlockInvalid, BlockSize.BlockInvalid } },
+            new BlockSize[][] { new BlockSize[] { BlockSize.Block8x4, BlockSize.BlockInvalid }, new BlockSize[] { BlockSize.Block4x4, BlockSize.BlockInvalid } },
+            new BlockSize[][] { new BlockSize[] { BlockSize.Block8x8, BlockSize.Block8x4 }, new BlockSize[] { BlockSize.Block4x8, BlockSize.Block4x4 } },
+            new BlockSize[][] { new BlockSize[] { BlockSize.Block8x16, BlockSize.Block8x8 }, new BlockSize[] { BlockSize.BlockInvalid, BlockSize.Block4x8 } },
+            new BlockSize[][] { new BlockSize[] { BlockSize.Block16x8, BlockSize.BlockInvalid }, new BlockSize[] { BlockSize.Block8x8, BlockSize.Block8x4 } },
+            new BlockSize[][] { new BlockSize[] { BlockSize.Block16x16, BlockSize.Block16x8 }, new BlockSize[] { BlockSize.Block8x16, BlockSize.Block8x8 } },
+            new BlockSize[][] { new BlockSize[] { BlockSize.Block16x32, BlockSize.Block16x16 }, new BlockSize[] { BlockSize.BlockInvalid, BlockSize.Block8x16 } },
+            new BlockSize[][] { new BlockSize[] { BlockSize.Block32x16, BlockSize.BlockInvalid }, new BlockSize[] { BlockSize.Block16x16, BlockSize.Block16x8 } },
+            new BlockSize[][] { new BlockSize[] { BlockSize.Block32x32, BlockSize.Block32x16 }, new BlockSize[] { BlockSize.Block16x32, BlockSize.Block16x16 } },
+            new BlockSize[][] { new BlockSize[] { BlockSize.Block32x64, BlockSize.Block32x32 }, new BlockSize[] { BlockSize.BlockInvalid, BlockSize.Block16x32 } },
+            new BlockSize[][] { new BlockSize[] { BlockSize.Block64x32, BlockSize.BlockInvalid }, new BlockSize[] { BlockSize.Block32x32, BlockSize.Block32x16 } },
+            new BlockSize[][] { new BlockSize[] { BlockSize.Block64x64, BlockSize.Block64x32 }, new BlockSize[] { BlockSize.Block32x64, BlockSize.Block32x32 } },
         };
 
-        public static readonly TxSize[][][][] UvTxsizeLookup = {
+        public static readonly TxSize[][][][] UvTxsizeLookup = new TxSize[][][][]
+        {
           //  ss_x == 0    ss_x == 0        ss_x == 1      ss_x == 1
           //  ss_y == 0    ss_y == 1        ss_y == 0      ss_y == 1
-          new[]
+          new TxSize[][][]
           {
               // BLOCK_4X4
-              new[] { new[] { TxSize.Tx4x4, TxSize.Tx4x4 }, new[] { TxSize.Tx4x4, TxSize.Tx4x4 } },
-              new[] { new[] { TxSize.Tx4x4, TxSize.Tx4x4 }, new[] { TxSize.Tx4x4, TxSize.Tx4x4 } },
-              new[] { new[] { TxSize.Tx4x4, TxSize.Tx4x4 }, new[] { TxSize.Tx4x4, TxSize.Tx4x4 } },
-              new[] { new[] { TxSize.Tx4x4, TxSize.Tx4x4 }, new[] { TxSize.Tx4x4, TxSize.Tx4x4 } },
+              new TxSize[][] { new TxSize[] { TxSize.Tx4x4, TxSize.Tx4x4 }, new TxSize[] { TxSize.Tx4x4, TxSize.Tx4x4 } },
+              new TxSize[][] { new TxSize[] { TxSize.Tx4x4, TxSize.Tx4x4 }, new TxSize[] { TxSize.Tx4x4, TxSize.Tx4x4 } },
+              new TxSize[][] { new TxSize[] { TxSize.Tx4x4, TxSize.Tx4x4 }, new TxSize[] { TxSize.Tx4x4, TxSize.Tx4x4 } },
+              new TxSize[][] { new TxSize[] { TxSize.Tx4x4, TxSize.Tx4x4 }, new TxSize[] { TxSize.Tx4x4, TxSize.Tx4x4 } },
           },
-          new[]
+          new TxSize[][][]
           {
-              // BLOCK_4X8
-              new[] { new[] { TxSize.Tx4x4, TxSize.Tx4x4 }, new[] { TxSize.Tx4x4, TxSize.Tx4x4 } },
-              new[] { new[] { TxSize.Tx4x4, TxSize.Tx4x4 }, new[] { TxSize.Tx4x4, TxSize.Tx4x4 } },
-              new[] { new[] { TxSize.Tx4x4, TxSize.Tx4x4 }, new[] { TxSize.Tx4x4, TxSize.Tx4x4 } },
-              new[] { new[] { TxSize.Tx4x4, TxSize.Tx4x4 }, new[] { TxSize.Tx4x4, TxSize.Tx4x4 } },
+              // BLOCK_4x8
+              new TxSize[][] { new TxSize[] { TxSize.Tx4x4, TxSize.Tx4x4 }, new TxSize[] { TxSize.Tx4x4, TxSize.Tx4x4 } },
+              new TxSize[][] { new TxSize[] { TxSize.Tx4x4, TxSize.Tx4x4 }, new TxSize[] { TxSize.Tx4x4, TxSize.Tx4x4 } },
+              new TxSize[][] { new TxSize[] { TxSize.Tx4x4, TxSize.Tx4x4 }, new TxSize[] { TxSize.Tx4x4, TxSize.Tx4x4 } },
+              new TxSize[][] { new TxSize[] { TxSize.Tx4x4, TxSize.Tx4x4 }, new TxSize[] { TxSize.Tx4x4, TxSize.Tx4x4 } },
           },
-          new[]
+          new TxSize[][][]
           {
-              // BLOCK_8X4
-              new[] { new[] { TxSize.Tx4x4, TxSize.Tx4x4 }, new[] { TxSize.Tx4x4, TxSize.Tx4x4 } },
-              new[] { new[] { TxSize.Tx4x4, TxSize.Tx4x4 }, new[] { TxSize.Tx4x4, TxSize.Tx4x4 } },
-              new[] { new[] { TxSize.Tx4x4, TxSize.Tx4x4 }, new[] { TxSize.Tx4x4, TxSize.Tx4x4 } },
-              new[] { new[] { TxSize.Tx4x4, TxSize.Tx4x4 }, new[] { TxSize.Tx4x4, TxSize.Tx4x4 } },
+              // BLOCK_8x4
+              new TxSize[][] { new TxSize[] { TxSize.Tx4x4, TxSize.Tx4x4 }, new TxSize[] { TxSize.Tx4x4, TxSize.Tx4x4 } },
+              new TxSize[][] { new TxSize[] { TxSize.Tx4x4, TxSize.Tx4x4 }, new TxSize[] { TxSize.Tx4x4, TxSize.Tx4x4 } },
+              new TxSize[][] { new TxSize[] { TxSize.Tx4x4, TxSize.Tx4x4 }, new TxSize[] { TxSize.Tx4x4, TxSize.Tx4x4 } },
+              new TxSize[][] { new TxSize[] { TxSize.Tx4x4, TxSize.Tx4x4 }, new TxSize[] { TxSize.Tx4x4, TxSize.Tx4x4 } },
           },
-          new[]
+          new TxSize[][][]
           {
               // BLOCK_8X8
-              new[] { new[] { TxSize.Tx4x4, TxSize.Tx4x4 }, new[] { TxSize.Tx4x4, TxSize.Tx4x4 } },
-              new[] { new[] { TxSize.Tx8x8, TxSize.Tx4x4 }, new[] { TxSize.Tx4x4, TxSize.Tx4x4 } },
-              new[] { new[] { TxSize.Tx8x8, TxSize.Tx4x4 }, new[] { TxSize.Tx4x4, TxSize.Tx4x4 } },
-              new[] { new[] { TxSize.Tx8x8, TxSize.Tx4x4 }, new[] { TxSize.Tx4x4, TxSize.Tx4x4 } },
+              new TxSize[][] { new TxSize[] { TxSize.Tx4x4, TxSize.Tx4x4 }, new TxSize[] { TxSize.Tx4x4, TxSize.Tx4x4 } },
+              new TxSize[][] { new TxSize[] { TxSize.Tx8x8, TxSize.Tx4x4 }, new TxSize[] { TxSize.Tx4x4, TxSize.Tx4x4 } },
+              new TxSize[][] { new TxSize[] { TxSize.Tx8x8, TxSize.Tx4x4 }, new TxSize[] { TxSize.Tx4x4, TxSize.Tx4x4 } },
+              new TxSize[][] { new TxSize[] { TxSize.Tx8x8, TxSize.Tx4x4 }, new TxSize[] { TxSize.Tx4x4, TxSize.Tx4x4 } },
           },
-          new[]
+          new TxSize[][][]
           {
-              // BLOCK_8X16
-              new[] { new[] { TxSize.Tx4x4, TxSize.Tx4x4 }, new[] { TxSize.Tx4x4, TxSize.Tx4x4 } },
-              new[] { new[] { TxSize.Tx8x8, TxSize.Tx8x8 }, new[] { TxSize.Tx4x4, TxSize.Tx4x4 } },
-              new[] { new[] { TxSize.Tx8x8, TxSize.Tx8x8 }, new[] { TxSize.Tx4x4, TxSize.Tx4x4 } },
-              new[] { new[] { TxSize.Tx8x8, TxSize.Tx8x8 }, new[] { TxSize.Tx4x4, TxSize.Tx4x4 } },
+              // BLOCK_8x16
+              new TxSize[][] { new TxSize[] { TxSize.Tx4x4, TxSize.Tx4x4 }, new TxSize[] { TxSize.Tx4x4, TxSize.Tx4x4 } },
+              new TxSize[][] { new TxSize[] { TxSize.Tx8x8, TxSize.Tx8x8 }, new TxSize[] { TxSize.Tx4x4, TxSize.Tx4x4 } },
+              new TxSize[][] { new TxSize[] { TxSize.Tx8x8, TxSize.Tx8x8 }, new TxSize[] { TxSize.Tx4x4, TxSize.Tx4x4 } },
+              new TxSize[][] { new TxSize[] { TxSize.Tx8x8, TxSize.Tx8x8 }, new TxSize[] { TxSize.Tx4x4, TxSize.Tx4x4 } },
           },
-          new[]
+          new TxSize[][][]
           {
-              // BLOCK_16X8
-              new[] { new[] { TxSize.Tx4x4, TxSize.Tx4x4 }, new[] { TxSize.Tx4x4, TxSize.Tx4x4 } },
-              new[] { new[] { TxSize.Tx8x8, TxSize.Tx4x4 }, new[] { TxSize.Tx8x8, TxSize.Tx4x4 } },
-              new[] { new[] { TxSize.Tx8x8, TxSize.Tx4x4 }, new[] { TxSize.Tx8x8, TxSize.Tx8x8 } },
-              new[] { new[] { TxSize.Tx8x8, TxSize.Tx4x4 }, new[] { TxSize.Tx8x8, TxSize.Tx8x8 } },
+              // BLOCK_16x8
+              new TxSize[][] { new TxSize[] { TxSize.Tx4x4, TxSize.Tx4x4 }, new TxSize[] { TxSize.Tx4x4, TxSize.Tx4x4 } },
+              new TxSize[][] { new TxSize[] { TxSize.Tx8x8, TxSize.Tx4x4 }, new TxSize[] { TxSize.Tx8x8, TxSize.Tx4x4 } },
+              new TxSize[][] { new TxSize[] { TxSize.Tx8x8, TxSize.Tx4x4 }, new TxSize[] { TxSize.Tx8x8, TxSize.Tx8x8 } },
+              new TxSize[][] { new TxSize[] { TxSize.Tx8x8, TxSize.Tx4x4 }, new TxSize[] { TxSize.Tx8x8, TxSize.Tx8x8 } },
           },
-          new[]
+          new TxSize[][][]
           {
               // BLOCK_16X16
-              new[] { new[] { TxSize.Tx4x4, TxSize.Tx4x4 }, new[] { TxSize.Tx4x4, TxSize.Tx4x4 } },
-              new[] { new[] { TxSize.Tx8x8, TxSize.Tx8x8 }, new[] { TxSize.Tx8x8, TxSize.Tx8x8 } },
-              new[] { new[] { TxSize.Tx16x16, TxSize.Tx8x8 }, new[] { TxSize.Tx8x8, TxSize.Tx8x8 } },
-              new[] { new[] { TxSize.Tx16x16, TxSize.Tx8x8 }, new[] { TxSize.Tx8x8, TxSize.Tx8x8 } },
+              new TxSize[][] { new TxSize[] { TxSize.Tx4x4, TxSize.Tx4x4 }, new TxSize[] { TxSize.Tx4x4, TxSize.Tx4x4 } },
+              new TxSize[][] { new TxSize[] { TxSize.Tx8x8, TxSize.Tx8x8 }, new TxSize[] { TxSize.Tx8x8, TxSize.Tx8x8 } },
+              new TxSize[][] { new TxSize[] { TxSize.Tx16x16, TxSize.Tx8x8 }, new TxSize[] { TxSize.Tx8x8, TxSize.Tx8x8 } },
+              new TxSize[][] { new TxSize[] { TxSize.Tx16x16, TxSize.Tx8x8 }, new TxSize[] { TxSize.Tx8x8, TxSize.Tx8x8 } },
           },
-          new[]
+          new TxSize[][][]
           {
-              // BLOCK_16X32
-              new[] { new[] { TxSize.Tx4x4, TxSize.Tx4x4 }, new[] { TxSize.Tx4x4, TxSize.Tx4x4 } },
-              new[] { new[] { TxSize.Tx8x8, TxSize.Tx8x8 }, new[] { TxSize.Tx8x8, TxSize.Tx8x8 } },
-              new[] { new[] { TxSize.Tx16x16, TxSize.Tx16x16 }, new[] { TxSize.Tx8x8, TxSize.Tx8x8 } },
-              new[] { new[] { TxSize.Tx16x16, TxSize.Tx16x16 }, new[] { TxSize.Tx8x8, TxSize.Tx8x8 } },
+              // BLOCK_16x32
+              new TxSize[][] { new TxSize[] { TxSize.Tx4x4, TxSize.Tx4x4 }, new TxSize[] { TxSize.Tx4x4, TxSize.Tx4x4 } },
+              new TxSize[][] { new TxSize[] { TxSize.Tx8x8, TxSize.Tx8x8 }, new TxSize[] { TxSize.Tx8x8, TxSize.Tx8x8 } },
+              new TxSize[][] { new TxSize[] { TxSize.Tx16x16, TxSize.Tx16x16 }, new TxSize[] { TxSize.Tx8x8, TxSize.Tx8x8 } },
+              new TxSize[][] { new TxSize[] { TxSize.Tx16x16, TxSize.Tx16x16 }, new TxSize[] { TxSize.Tx8x8, TxSize.Tx8x8 } },
           },
-          new[]
+          new TxSize[][][]
           {
-              // BLOCK_32X16
-              new[] { new[] { TxSize.Tx4x4, TxSize.Tx4x4 }, new[] { TxSize.Tx4x4, TxSize.Tx4x4 } },
-              new[] { new[] { TxSize.Tx8x8, TxSize.Tx8x8 }, new[] { TxSize.Tx8x8, TxSize.Tx8x8 } },
-              new[] { new[] { TxSize.Tx16x16, TxSize.Tx8x8 }, new[] { TxSize.Tx16x16, TxSize.Tx8x8 } },
-              new[] { new[] { TxSize.Tx16x16, TxSize.Tx8x8 }, new[] { TxSize.Tx16x16, TxSize.Tx8x8 } },
+              // BLOCK_32x16
+              new TxSize[][] { new TxSize[] { TxSize.Tx4x4, TxSize.Tx4x4 }, new TxSize[] { TxSize.Tx4x4, TxSize.Tx4x4 } },
+              new TxSize[][] { new TxSize[] { TxSize.Tx8x8, TxSize.Tx8x8 }, new TxSize[] { TxSize.Tx8x8, TxSize.Tx8x8 } },
+              new TxSize[][] { new TxSize[] { TxSize.Tx16x16, TxSize.Tx8x8 }, new TxSize[] { TxSize.Tx16x16, TxSize.Tx8x8 } },
+              new TxSize[][] { new TxSize[] { TxSize.Tx16x16, TxSize.Tx8x8 }, new TxSize[] { TxSize.Tx16x16, TxSize.Tx8x8 } },
           },
-          new[]
+          new TxSize[][][]
           {
               // BLOCK_32X32
-              new[] { new[] { TxSize.Tx4x4, TxSize.Tx4x4 }, new[] { TxSize.Tx4x4, TxSize.Tx4x4 } },
-              new[] { new[] { TxSize.Tx8x8, TxSize.Tx8x8 }, new[] { TxSize.Tx8x8, TxSize.Tx8x8 } },
-              new[] { new[] { TxSize.Tx16x16, TxSize.Tx16x16 }, new[] { TxSize.Tx16x16, TxSize.Tx16x16 } },
-              new[] { new[] { TxSize.Tx32x32, TxSize.Tx16x16 }, new[] { TxSize.Tx16x16, TxSize.Tx16x16 } },
+              new TxSize[][] { new TxSize[] { TxSize.Tx4x4, TxSize.Tx4x4 }, new TxSize[] { TxSize.Tx4x4, TxSize.Tx4x4 } },
+              new TxSize[][] { new TxSize[] { TxSize.Tx8x8, TxSize.Tx8x8 }, new TxSize[] { TxSize.Tx8x8, TxSize.Tx8x8 } },
+              new TxSize[][] { new TxSize[] { TxSize.Tx16x16, TxSize.Tx16x16 }, new TxSize[] { TxSize.Tx16x16, TxSize.Tx16x16 } },
+              new TxSize[][] { new TxSize[] { TxSize.Tx32x32, TxSize.Tx16x16 }, new TxSize[] { TxSize.Tx16x16, TxSize.Tx16x16 } },
           },
-          new[]
+          new TxSize[][][]
           {
-              // BLOCK_32X64
-              new[] { new[] { TxSize.Tx4x4, TxSize.Tx4x4 }, new[] { TxSize.Tx4x4, TxSize.Tx4x4 } },
-              new[] { new[] { TxSize.Tx8x8, TxSize.Tx8x8 }, new[] { TxSize.Tx8x8, TxSize.Tx8x8 } },
-              new[] { new[] { TxSize.Tx16x16, TxSize.Tx16x16 }, new[] { TxSize.Tx16x16, TxSize.Tx16x16 } },
-              new[] { new[] { TxSize.Tx32x32, TxSize.Tx32x32 }, new[] { TxSize.Tx16x16, TxSize.Tx16x16 } },
+              // BLOCK_32x64
+              new TxSize[][] { new TxSize[] { TxSize.Tx4x4, TxSize.Tx4x4 }, new TxSize[] { TxSize.Tx4x4, TxSize.Tx4x4 } },
+              new TxSize[][] { new TxSize[] { TxSize.Tx8x8, TxSize.Tx8x8 }, new TxSize[] { TxSize.Tx8x8, TxSize.Tx8x8 } },
+              new TxSize[][] { new TxSize[] { TxSize.Tx16x16, TxSize.Tx16x16 }, new TxSize[] { TxSize.Tx16x16, TxSize.Tx16x16 } },
+              new TxSize[][] { new TxSize[] { TxSize.Tx32x32, TxSize.Tx32x32 }, new TxSize[] { TxSize.Tx16x16, TxSize.Tx16x16 } },
           },
-          new[]
+          new TxSize[][][]
           {
-              // BLOCK_64X32
-              new[] { new[] { TxSize.Tx4x4, TxSize.Tx4x4 }, new[] { TxSize.Tx4x4, TxSize.Tx4x4 } },
-              new[] { new[] { TxSize.Tx8x8, TxSize.Tx8x8 }, new[] { TxSize.Tx8x8, TxSize.Tx8x8 } },
-              new[] { new[] { TxSize.Tx16x16, TxSize.Tx16x16 }, new[] { TxSize.Tx16x16, TxSize.Tx16x16 } },
-              new[] { new[] { TxSize.Tx32x32, TxSize.Tx16x16 }, new[] { TxSize.Tx32x32, TxSize.Tx16x16 } },
+              // BLOCK_64x32
+              new TxSize[][] { new TxSize[] { TxSize.Tx4x4, TxSize.Tx4x4 }, new TxSize[] { TxSize.Tx4x4, TxSize.Tx4x4 } },
+              new TxSize[][] { new TxSize[] { TxSize.Tx8x8, TxSize.Tx8x8 }, new TxSize[] { TxSize.Tx8x8, TxSize.Tx8x8 } },
+              new TxSize[][] { new TxSize[] { TxSize.Tx16x16, TxSize.Tx16x16 }, new TxSize[] { TxSize.Tx16x16, TxSize.Tx16x16 } },
+              new TxSize[][] { new TxSize[] { TxSize.Tx32x32, TxSize.Tx16x16 }, new TxSize[] { TxSize.Tx32x32, TxSize.Tx16x16 } },
           },
-          new[]
+          new TxSize[][][]
           {
-              // BLOCK_64X64
-              new[] { new[] { TxSize.Tx4x4, TxSize.Tx4x4 }, new[] { TxSize.Tx4x4, TxSize.Tx4x4 } },
-              new[] { new[] { TxSize.Tx8x8, TxSize.Tx8x8 }, new[] { TxSize.Tx8x8, TxSize.Tx8x8 } },
-              new[] { new[] { TxSize.Tx16x16, TxSize.Tx16x16 }, new[] { TxSize.Tx16x16, TxSize.Tx16x16 } },
-              new[] { new[] { TxSize.Tx32x32, TxSize.Tx32x32 }, new[] { TxSize.Tx32x32, TxSize.Tx32x32 } },
+              // BLOCK_64x64
+              new TxSize[][] { new TxSize[] { TxSize.Tx4x4, TxSize.Tx4x4 }, new TxSize[] { TxSize.Tx4x4, TxSize.Tx4x4 } },
+              new TxSize[][] { new TxSize[] { TxSize.Tx8x8, TxSize.Tx8x8 }, new TxSize[] { TxSize.Tx8x8, TxSize.Tx8x8 } },
+              new TxSize[][] { new TxSize[] { TxSize.Tx16x16, TxSize.Tx16x16 }, new TxSize[] { TxSize.Tx16x16, TxSize.Tx16x16 } },
+              new TxSize[][] { new TxSize[] { TxSize.Tx32x32, TxSize.Tx32x32 }, new TxSize[] { TxSize.Tx32x32, TxSize.Tx32x32 } },
           },
         };
 
@@ -190,25 +195,27 @@ namespace Ryujinx.Graphics.Nvdec.Vp9
         // Generates 4 bit field in which each bit set to 1 represents
         // a blocksize partition  1111 means we split 64x64, 32x32, 16x16
         // and 8x8. 1000 means we just split the 64x64 to 32x32
-        public static readonly PartitionContextPair[] PartitionContextLookup = {
-            new(15, 15), // 4X4   - {0b1111, 0b1111}
-            new(15, 14), // 4X8   - {0b1111, 0b1110}
-            new(14, 15), // 8X4   - {0b1110, 0b1111}
-            new(14, 14), // 8X8   - {0b1110, 0b1110}
-            new(14, 12), // 8X16  - {0b1110, 0b1100}
-            new(12, 14), // 16X8  - {0b1100, 0b1110}
-            new(12, 12), // 16X16 - {0b1100, 0b1100}
-            new(12, 8), // 16X32 - {0b1100, 0b1000}
-            new(8, 12), // 32X16 - {0b1000, 0b1100}
-            new(8, 8), // 32X32 - {0b1000, 0b1000}
-            new(8, 0), // 32X64 - {0b1000, 0b0000}
-            new(0, 8), // 64X32 - {0b0000, 0b1000}
-            new(0, 0), // 64X64 - {0b0000, 0b0000}
+        public static readonly PartitionContextPair[] PartitionContextLookup = new PartitionContextPair[]
+        {
+            new PartitionContextPair(15, 15),  // 4X4   - {0b1111, 0b1111}
+            new PartitionContextPair(15, 14),  // 4x8   - {0b1111, 0b1110}
+            new PartitionContextPair(14, 15),  // 8x4   - {0b1110, 0b1111}
+            new PartitionContextPair(14, 14),  // 8X8   - {0b1110, 0b1110}
+            new PartitionContextPair(14, 12),  // 8x16  - {0b1110, 0b1100}
+            new PartitionContextPair(12, 14),  // 16x8  - {0b1100, 0b1110}
+            new PartitionContextPair(12, 12),  // 16X16 - {0b1100, 0b1100}
+            new PartitionContextPair(12, 8),   // 16x32 - {0b1100, 0b1000}
+            new PartitionContextPair(8, 12),   // 32x16 - {0b1000, 0b1100}
+            new PartitionContextPair(8, 8),    // 32X32 - {0b1000, 0b1000}
+            new PartitionContextPair(8, 0),    // 32x64 - {0b1000, 0b0000}
+            new PartitionContextPair(0, 8),    // 64x32 - {0b0000, 0b1000}
+            new PartitionContextPair(0, 0),    // 64x64 - {0b0000, 0b0000}
         };
 
         // Filter
 
-        private static readonly Array8<short>[] _bilinearFilters = {
+        private static readonly Array8<short>[] BilinearFilters = new Array8<short>[]
+        {
             NewArray8Short(0, 0, 0, 128, 0, 0, 0, 0),  NewArray8Short(0, 0, 0, 120, 8, 0, 0, 0),
             NewArray8Short(0, 0, 0, 112, 16, 0, 0, 0), NewArray8Short(0, 0, 0, 104, 24, 0, 0, 0),
             NewArray8Short(0, 0, 0, 96, 32, 0, 0, 0),  NewArray8Short(0, 0, 0, 88, 40, 0, 0, 0),
@@ -216,11 +223,12 @@ namespace Ryujinx.Graphics.Nvdec.Vp9
             NewArray8Short(0, 0, 0, 64, 64, 0, 0, 0),  NewArray8Short(0, 0, 0, 56, 72, 0, 0, 0),
             NewArray8Short(0, 0, 0, 48, 80, 0, 0, 0),  NewArray8Short(0, 0, 0, 40, 88, 0, 0, 0),
             NewArray8Short(0, 0, 0, 32, 96, 0, 0, 0),  NewArray8Short(0, 0, 0, 24, 104, 0, 0, 0),
-            NewArray8Short(0, 0, 0, 16, 112, 0, 0, 0), NewArray8Short(0, 0, 0, 8, 120, 0, 0, 0),
+            NewArray8Short(0, 0, 0, 16, 112, 0, 0, 0), NewArray8Short(0, 0, 0, 8, 120, 0, 0, 0)
         };
 
         // Lagrangian interpolation filter
-        private static readonly Array8<short>[] _subPelFilters8 = {
+        private static readonly Array8<short>[] SubPelFilters8 = new Array8<short>[]
+        {
             NewArray8Short(0, 0, 0, 128, 0, 0, 0, 0),        NewArray8Short(0, 1, -5, 126, 8, -3, 1, 0),
             NewArray8Short(-1, 3, -10, 122, 18, -6, 2, 0),   NewArray8Short(-1, 4, -13, 118, 27, -9, 3, -1),
             NewArray8Short(-1, 4, -16, 112, 37, -11, 4, -1), NewArray8Short(-1, 5, -18, 105, 48, -14, 4, -1),
@@ -228,11 +236,12 @@ namespace Ryujinx.Graphics.Nvdec.Vp9
             NewArray8Short(-1, 6, -19, 78, 78, -19, 6, -1),  NewArray8Short(-1, 5, -18, 68, 88, -19, 6, -1),
             NewArray8Short(-1, 5, -16, 58, 97, -19, 5, -1),  NewArray8Short(-1, 4, -14, 48, 105, -18, 5, -1),
             NewArray8Short(-1, 4, -11, 37, 112, -16, 4, -1), NewArray8Short(-1, 3, -9, 27, 118, -13, 4, -1),
-            NewArray8Short(0, 2, -6, 18, 122, -10, 3, -1),   NewArray8Short(0, 1, -3, 8, 126, -5, 1, 0),
+            NewArray8Short(0, 2, -6, 18, 122, -10, 3, -1),   NewArray8Short(0, 1, -3, 8, 126, -5, 1, 0)
         };
 
         // DCT based filter
-        private static readonly Array8<short>[] _subPelFilters8S = {
+        private static readonly Array8<short>[] SubPelFilters8S = new Array8<short>[]
+        {
             NewArray8Short(0, 0, 0, 128, 0, 0, 0, 0),         NewArray8Short(-1, 3, -7, 127, 8, -3, 1, 0),
             NewArray8Short(-2, 5, -13, 125, 17, -6, 3, -1),   NewArray8Short(-3, 7, -17, 121, 27, -10, 5, -2),
             NewArray8Short(-4, 9, -20, 115, 37, -13, 6, -2),  NewArray8Short(-4, 10, -23, 108, 48, -16, 8, -3),
@@ -240,11 +249,12 @@ namespace Ryujinx.Graphics.Nvdec.Vp9
             NewArray8Short(-4, 11, -23, 80, 80, -23, 11, -4), NewArray8Short(-4, 10, -21, 70, 90, -24, 11, -4),
             NewArray8Short(-3, 9, -19, 59, 100, -24, 10, -4), NewArray8Short(-3, 8, -16, 48, 108, -23, 10, -4),
             NewArray8Short(-2, 6, -13, 37, 115, -20, 9, -4),  NewArray8Short(-2, 5, -10, 27, 121, -17, 7, -3),
-            NewArray8Short(-1, 3, -6, 17, 125, -13, 5, -2),   NewArray8Short(0, 1, -3, 8, 127, -7, 3, -1),
+            NewArray8Short(-1, 3, -6, 17, 125, -13, 5, -2),   NewArray8Short(0, 1, -3, 8, 127, -7, 3, -1)
         };
 
         // freqmultiplier = 0.5
-        private static readonly Array8<short>[] _subPelFilters8Lp = {
+        private static readonly Array8<short>[] SubPelFilters8Lp = new Array8<short>[]
+        {
             NewArray8Short(0, 0, 0, 128, 0, 0, 0, 0),       NewArray8Short(-3, -1, 32, 64, 38, 1, -3, 0),
             NewArray8Short(-2, -2, 29, 63, 41, 2, -3, 0),   NewArray8Short(-2, -2, 26, 63, 43, 4, -4, 0),
             NewArray8Short(-2, -3, 24, 62, 46, 5, -4, 0),   NewArray8Short(-2, -3, 21, 60, 49, 7, -4, 0),
@@ -252,12 +262,12 @@ namespace Ryujinx.Graphics.Nvdec.Vp9
             NewArray8Short(-1, -4, 14, 55, 55, 14, -4, -1), NewArray8Short(-1, -4, 12, 53, 57, 16, -4, -1),
             NewArray8Short(0, -4, 9, 51, 59, 18, -4, -1),   NewArray8Short(0, -4, 7, 49, 60, 21, -3, -2),
             NewArray8Short(0, -4, 5, 46, 62, 24, -3, -2),   NewArray8Short(0, -4, 4, 43, 63, 26, -2, -2),
-            NewArray8Short(0, -3, 2, 41, 63, 29, -2, -2),   NewArray8Short(0, -3, 1, 38, 64, 32, -1, -3),
+            NewArray8Short(0, -3, 2, 41, 63, 29, -2, -2),   NewArray8Short(0, -3, 1, 38, 64, 32, -1, -3)
         };
 
         private static Array8<short> NewArray8Short(short e0, short e1, short e2, short e3, short e4, short e5, short e6, short e7)
         {
-            Array8<short> output = new();
+            Array8<short> output = new Array8<short>();
 
             output[0] = e0;
             output[1] = e1;
@@ -271,46 +281,54 @@ namespace Ryujinx.Graphics.Nvdec.Vp9
             return output;
         }
 
-        public static readonly Array8<short>[][] Vp9FilterKernels = {
-            _subPelFilters8, _subPelFilters8Lp, _subPelFilters8S, _bilinearFilters,
+        public static readonly Array8<short>[][] FilterKernels = new Array8<short>[][]
+        {
+            SubPelFilters8, SubPelFilters8Lp, SubPelFilters8S, BilinearFilters
         };
 
         // Scan
 
-        private static readonly short[] _defaultScan4X4 = {
+        private static readonly short[] DefaultScan4X4 = new short[]
+        {
             0, 4, 1, 5, 8, 2, 12, 9, 3, 6, 13, 10, 7, 14, 11, 15,
         };
 
-        private static readonly short[] _colScan4X4 = {
+        private static readonly short[] ColScan4X4 = new short[]
+        {
             0, 4, 8, 1, 12, 5, 9, 2, 13, 6, 10, 3, 7, 14, 11, 15,
         };
 
-        private static readonly short[] _rowScan4X4 = {
+        private static readonly short[] RowScan4X4 = new short[]
+        {
             0, 1, 4, 2, 5, 3, 6, 8, 9, 7, 12, 10, 13, 11, 14, 15,
         };
 
-        private static readonly short[] _defaultScan8X8 = {
+        private static readonly short[] DefaultScan8X8 = new short[]
+        {
             0,  8,  1,  16, 9,  2,  17, 24, 10, 3,  18, 25, 32, 11, 4,  26,
             33, 19, 40, 12, 34, 27, 5,  41, 20, 48, 13, 35, 42, 28, 21, 6,
             49, 56, 36, 43, 29, 7,  14, 50, 57, 44, 22, 37, 15, 51, 58, 30,
             45, 23, 52, 59, 38, 31, 60, 53, 46, 39, 61, 54, 47, 62, 55, 63,
         };
 
-        private static readonly short[] _colScan8X8 = {
+        private static readonly short[] ColScan8X8 = new short[]
+        {
             0,  8,  16, 1,  24, 9,  32, 17, 2,  40, 25, 10, 33, 18, 48, 3,
             26, 41, 11, 56, 19, 34, 4,  49, 27, 42, 12, 35, 20, 57, 50, 28,
             5,  43, 13, 36, 58, 51, 21, 44, 6,  29, 59, 37, 14, 52, 22, 7,
             45, 60, 30, 15, 38, 53, 23, 46, 31, 61, 39, 54, 47, 62, 55, 63,
         };
 
-        private static readonly short[] _rowScan8X8 = {
+        private static readonly short[] RowScan8X8 = new short[]
+        {
             0,  1,  2,  8,  9,  3,  16, 10, 4,  17, 11, 24, 5,  18, 25, 12,
             19, 26, 32, 6,  13, 20, 33, 27, 7,  34, 40, 21, 28, 41, 14, 35,
             48, 42, 29, 36, 49, 22, 43, 15, 56, 37, 50, 44, 30, 57, 23, 51,
             58, 45, 38, 52, 31, 59, 53, 46, 60, 39, 61, 47, 54, 55, 62, 63,
         };
 
-        private static readonly short[] _defaultScan16X16 = {
+        private static readonly short[] DefaultScan16X16 = new short[]
+        {
             0,   16,  1,   32,  17,  2,   48,  33,  18,  3,   64,  34,  49,  19,  65,
             80,  50,  4,   35,  66,  20,  81,  96,  51,  5,   36,  82,  97,  67,  112,
             21,  52,  98,  37,  83,  113, 6,   68,  128, 53,  22,  99,  114, 84,  7,
@@ -331,7 +349,8 @@ namespace Ryujinx.Graphics.Nvdec.Vp9
             255,
         };
 
-        private static readonly short[] _colScan16X16 = {
+        private static readonly short[] ColScan16X16 = new short[]
+        {
             0,   16,  32,  48,  1,   64,  17,  80,  33,  96,  49,  2,   65,  112, 18,
             81,  34,  128, 50,  97,  3,   66,  144, 19,  113, 35,  82,  160, 98,  51,
             129, 4,   67,  176, 20,  114, 145, 83,  36,  99,  130, 52,  192, 5,   161,
@@ -352,7 +371,8 @@ namespace Ryujinx.Graphics.Nvdec.Vp9
             255,
         };
 
-        private static readonly short[] _rowScan16X16 = {
+        private static readonly short[] RowScan16X16 = new short[]
+        {
             0,   1,   2,   16,  3,   17,  4,   18,  32,  5,   33,  19,  6,   34,  48,
             20,  49,  7,   35,  21,  50,  64,  8,   36,  65,  22,  51,  37,  80,  9,
             66,  52,  23,  38,  81,  67,  10,  53,  24,  82,  68,  96,  39,  11,  54,
@@ -373,7 +393,8 @@ namespace Ryujinx.Graphics.Nvdec.Vp9
             255,
         };
 
-        private static readonly short[] _defaultScan32X32 = {
+        private static readonly short[] DefaultScan32X32 = new short[]
+        {
             0,    32,   1,    64,  33,   2,    96,   65,   34,   128,  3,    97,   66,
             160,  129,  35,   98,  4,    67,   130,  161,  192,  36,   99,   224,  5,
             162,  193,  68,   131, 37,   100,  225,  194,  256,  163,  69,   132,  6,
@@ -457,22 +478,26 @@ namespace Ryujinx.Graphics.Nvdec.Vp9
 
         // Neighborhood 2-tuples for various scans and blocksizes,
         // in {top, left} order for each position in corresponding scan order.
-        private static readonly short[] _defaultScan4X4Neighbors = {
+        private static readonly short[] DefaultScan4X4Neighbors = new short[]
+        {
             0, 0, 0, 0, 0,  0, 1, 4, 4, 4,  1,  1, 8,  8,  5,  8, 2,
             2, 2, 5, 9, 12, 6, 9, 3, 6, 10, 13, 7, 10, 11, 14, 0, 0,
         };
 
-        private static readonly short[] _colScan4X4Neighbors = {
+        private static readonly short[] ColScan4X4Neighbors = new short[]
+        {
             0, 0, 0, 0, 4, 4, 0, 0, 8, 8,  1,  1, 5, 5,  1,  1, 9,
             9, 2, 2, 6, 6, 2, 2, 3, 3, 10, 10, 7, 7, 11, 11, 0, 0,
         };
 
-        private static readonly short[] _rowScan4X4Neighbors = {
+        private static readonly short[] RowScan4X4Neighbors = new short[]
+        {
             0, 0, 0, 0, 0, 0, 1, 1,  4,  4,  2,  2,  5,  5,  4,  4, 8,
             8, 6, 6, 8, 8, 9, 9, 12, 12, 10, 10, 13, 13, 14, 14, 0, 0,
         };
 
-        private static readonly short[] _colScan8X8Neighbors = {
+        private static readonly short[] ColScan8X8Neighbors = new short[]
+        {
             0,  0,  0,  0,  8,  8,  0,  0,  16, 16, 1,  1,  24, 24, 9,  9,  1,  1,  32,
             32, 17, 17, 2,  2,  25, 25, 10, 10, 40, 40, 2,  2,  18, 18, 33, 33, 3,  3,
             48, 48, 11, 11, 26, 26, 3,  3,  41, 41, 19, 19, 34, 34, 4,  4,  27, 27, 12,
@@ -482,7 +507,8 @@ namespace Ryujinx.Graphics.Nvdec.Vp9
             53, 53, 31, 31, 46, 46, 39, 39, 54, 54, 47, 47, 55, 55, 0,  0,
         };
 
-        private static readonly short[] _rowScan8X8Neighbors = {
+        private static readonly short[] RowScan8X8Neighbors = new short[]
+        {
             0,  0,  0,  0,  1,  1,  0,  0,  8,  8,  2,  2,  8,  8,  9,  9,  3,  3,  16,
             16, 10, 10, 16, 16, 4,  4,  17, 17, 24, 24, 11, 11, 18, 18, 25, 25, 24, 24,
             5,  5,  12, 12, 19, 19, 32, 32, 26, 26, 6,  6,  33, 33, 32, 32, 20, 20, 27,
@@ -492,7 +518,8 @@ namespace Ryujinx.Graphics.Nvdec.Vp9
             38, 38, 60, 60, 46, 46, 53, 53, 54, 54, 61, 61, 62, 62, 0,  0,
         };
 
-        private static readonly short[] _defaultScan8X8Neighbors = {
+        private static readonly short[] DefaultScan8X8Neighbors = new short[]
+        {
             0,  0,  0,  0,  0,  0,  8,  8,  1,  8,  1,  1,  9,  16, 16, 16, 2,  9,  2,
             2,  10, 17, 17, 24, 24, 24, 3,  10, 3,  3,  18, 25, 25, 32, 11, 18, 32, 32,
             4,  11, 26, 33, 19, 26, 4,  4,  33, 40, 12, 19, 40, 40, 5,  12, 27, 34, 34,
@@ -502,7 +529,8 @@ namespace Ryujinx.Graphics.Nvdec.Vp9
             31, 38, 53, 60, 46, 53, 39, 46, 54, 61, 47, 54, 55, 62, 0,  0,
         };
 
-        private static readonly short[] _colScan16X16Neighbors = {
+        private static readonly short[] ColScan16X16Neighbors = new short[]
+        {
             0,   0,   0,   0,   16,  16,  32,  32,  0,   0,   48,  48,  1,   1,   64,
             64,  17,  17,  80,  80,  33,  33,  1,   1,   49,  49,  96,  96,  2,   2,
             65,  65,  18,  18,  112, 112, 34,  34,  81,  81,  2,   2,   50,  50,  128,
@@ -540,7 +568,8 @@ namespace Ryujinx.Graphics.Nvdec.Vp9
             239, 239, 0,   0,
         };
 
-        private static readonly short[] _rowScan16X16Neighbors = {
+        private static readonly short[] RowScan16X16Neighbors = new short[]
+        {
             0,   0,   0,   0,   1,   1,   0,   0,   2,   2,   16,  16,  3,   3,   17,
             17,  16,  16,  4,   4,   32,  32,  18,  18,  5,   5,   33,  33,  32,  32,
             19,  19,  48,  48,  6,   6,   34,  34,  20,  20,  49,  49,  48,  48,  7,
@@ -578,7 +607,8 @@ namespace Ryujinx.Graphics.Nvdec.Vp9
             254, 254, 0,   0,
         };
 
-        private static readonly short[] _defaultScan16X16Neighbors = {
+        private static readonly short[] DefaultScan16X16Neighbors = new short[]
+        {
             0,   0,   0,   0,   0,   0,   16,  16,  1,   16,  1,   1,   32,  32,  17,
             32,  2,   17,  2,   2,   48,  48,  18,  33,  33,  48,  3,   18,  49,  64,
             64,  64,  34,  49,  3,   3,   19,  34,  50,  65,  4,   19,  65,  80,  80,
@@ -616,7 +646,8 @@ namespace Ryujinx.Graphics.Nvdec.Vp9
             239, 254, 0,   0,
         };
 
-        private static readonly short[] _defaultScan32X32Neighbors = {
+        private static readonly short[] DefaultScan32X32Neighbors = new short[]
+        {
             0,   0,    0,   0,    0,   0,    32,  32,   1,   32,  1,   1,    64,  64,
             33,  64,   2,   33,   96,  96,   2,   2,    65,  96,  34,  65,   128, 128,
             97,  128,  3,   34,   66,  97,   3,   3,    35,  66,  98,  129,  129, 160,
@@ -766,40 +797,47 @@ namespace Ryujinx.Graphics.Nvdec.Vp9
             959, 990,  991, 1022, 0,   0,
         };
 
-        private static readonly short[] _vp9DefaultIscan4X4 = {
+        private static readonly short[] DefaultIscan4X4 = new short[]
+        {
             0, 2, 5, 8, 1, 3, 9, 12, 4, 7, 11, 14, 6, 10, 13, 15,
         };
 
-        private static readonly short[] _vp9ColIscan4X4 = {
+        private static readonly short[] ColIscan4X4 = new short[]
+        {
             0, 3, 7, 11, 1, 5, 9, 12, 2, 6, 10, 14, 4, 8, 13, 15,
         };
 
-        private static readonly short[] _vp9RowIscan4X4 = {
+        private static readonly short[] RowIscan4X4 = new short[]
+        {
             0, 1, 3, 5, 2, 4, 6, 9, 7, 8, 11, 13, 10, 12, 14, 15,
         };
 
-        private static readonly short[] _vp9ColIscan8X8 = {
+        private static readonly short[] ColIscan8X8 = new short[]
+        {
             0,  3,  8,  15, 22, 32, 40, 47, 1,  5,  11, 18, 26, 34, 44, 51,
             2,  7,  13, 20, 28, 38, 46, 54, 4,  10, 16, 24, 31, 41, 50, 56,
             6,  12, 21, 27, 35, 43, 52, 58, 9,  17, 25, 33, 39, 48, 55, 60,
             14, 23, 30, 37, 45, 53, 59, 62, 19, 29, 36, 42, 49, 57, 61, 63,
         };
 
-        private static readonly short[] _vp9RowIscan8X8 = {
+        private static readonly short[] RowIscan8X8 = new short[]
+        {
             0,  1,  2,  5,  8,  12, 19, 24, 3,  4,  7,  10, 15, 20, 30, 39,
             6,  9,  13, 16, 21, 27, 37, 46, 11, 14, 17, 23, 28, 34, 44, 52,
             18, 22, 25, 31, 35, 41, 50, 57, 26, 29, 33, 38, 43, 49, 55, 59,
             32, 36, 42, 47, 51, 54, 60, 61, 40, 45, 48, 53, 56, 58, 62, 63,
         };
 
-        private static readonly short[] _vp9DefaultIscan8X8 = {
+        private static readonly short[] DefaultIscan8X8 = new short[]
+        {
             0,  2,  5,  9,  14, 22, 31, 37, 1,  4,  8,  13, 19, 26, 38, 44,
             3,  6,  10, 17, 24, 30, 42, 49, 7,  11, 15, 21, 29, 36, 47, 53,
             12, 16, 20, 27, 34, 43, 52, 57, 18, 23, 28, 35, 41, 48, 56, 60,
             25, 32, 39, 45, 50, 55, 59, 62, 33, 40, 46, 51, 54, 58, 61, 63,
         };
 
-        private static readonly short[] _vp9ColIscan16X16 = {
+        private static readonly short[] ColIscan16X16 = new short[]
+        {
             0,  4,  11,  20,  31,  43,  59,  75,  85,  109, 130, 150, 165, 181, 195, 198,
             1,  6,  14,  23,  34,  47,  64,  81,  95,  114, 135, 153, 171, 188, 201, 212,
             2,  8,  16,  25,  38,  52,  67,  83,  101, 116, 136, 157, 172, 190, 205, 216,
@@ -818,7 +856,8 @@ namespace Ryujinx.Graphics.Nvdec.Vp9
             65, 88, 107, 124, 139, 152, 163, 177, 185, 199, 221, 234, 243, 248, 252, 255,
         };
 
-        private static readonly short[] _vp9RowIscan16X16 = {
+        private static readonly short[] RowIscan16X16 = new short[]
+        {
             0,   1,   2,   4,   6,   9,   12,  17,  22,  29,  36,  43,  54,  64,  76,
             86,  3,   5,   7,   11,  15,  19,  25,  32,  38,  48,  59,  68,  84,  99,
             115, 130, 8,   10,  13,  18,  23,  27,  33,  42,  51,  60,  72,  88,  103,
@@ -839,7 +878,8 @@ namespace Ryujinx.Graphics.Nvdec.Vp9
             255,
         };
 
-        private static readonly short[] _vp9DefaultIscan16X16 = {
+        private static readonly short[] DefaultIscan16X16 = new short[]
+        {
             0,   2,   5,   9,   17,  24,  36,  44,  55,  72,  88,  104, 128, 143, 166,
             179, 1,   4,   8,   13,  20,  30,  40,  54,  66,  79,  96,  113, 141, 154,
             178, 196, 3,   7,   11,  18,  25,  33,  46,  57,  71,  86,  101, 119, 148,
@@ -860,7 +900,8 @@ namespace Ryujinx.Graphics.Nvdec.Vp9
             255,
         };
 
-        private static readonly short[] _vp9DefaultIscan32X32 = {
+        private static readonly short[] DefaultIscan32X32 = new short[]
+        {
             0,    2,    5,    10,   17,   25,   38,   47,   62,   83,   101,  121,  145,
             170,  193,  204,  210,  219,  229,  233,  245,  257,  275,  299,  342,  356,
             377,  405,  455,  471,  495,  527,  1,    4,    8,    15,   22,   30,   45,
@@ -956,90 +997,95 @@ namespace Ryujinx.Graphics.Nvdec.Vp9
             }
         }
 
-        public static readonly ScanOrder[] Vp9DefaultScanOrders = {
-            new(_defaultScan4X4, _vp9DefaultIscan4X4, _defaultScan4X4Neighbors),
-            new(_defaultScan8X8, _vp9DefaultIscan8X8, _defaultScan8X8Neighbors),
-            new(_defaultScan16X16, _vp9DefaultIscan16X16, _defaultScan16X16Neighbors),
-            new(_defaultScan32X32, _vp9DefaultIscan32X32, _defaultScan32X32Neighbors),
+        public static readonly ScanOrder[] DefaultScanOrders = new ScanOrder[]
+        {
+            new ScanOrder(DefaultScan4X4, DefaultIscan4X4, DefaultScan4X4Neighbors),
+            new ScanOrder(DefaultScan8X8, DefaultIscan8X8, DefaultScan8X8Neighbors),
+            new ScanOrder(DefaultScan16X16, DefaultIscan16X16, DefaultScan16X16Neighbors),
+            new ScanOrder(DefaultScan32X32, DefaultIscan32X32, DefaultScan32X32Neighbors)
         };
 
-        public static readonly ScanOrder[][] Vp9ScanOrders = {
+        public static readonly ScanOrder[][] ScanOrders = new ScanOrder[][]
+        {
             new ScanOrder[]
             { // TX_4X4
-                new(_defaultScan4X4, _vp9DefaultIscan4X4, _defaultScan4X4Neighbors),
-                new(_rowScan4X4, _vp9RowIscan4X4, _rowScan4X4Neighbors),
-                new(_colScan4X4, _vp9ColIscan4X4, _colScan4X4Neighbors),
-                new(_defaultScan4X4, _vp9DefaultIscan4X4, _defaultScan4X4Neighbors),
+                new ScanOrder(DefaultScan4X4, DefaultIscan4X4, DefaultScan4X4Neighbors),
+                new ScanOrder(RowScan4X4, RowIscan4X4, RowScan4X4Neighbors),
+                new ScanOrder(ColScan4X4, ColIscan4X4, ColScan4X4Neighbors),
+                new ScanOrder(DefaultScan4X4, DefaultIscan4X4, DefaultScan4X4Neighbors)
             },
             new ScanOrder[]
             { // TX_8X8
-                new(_defaultScan8X8, _vp9DefaultIscan8X8, _defaultScan8X8Neighbors),
-                new(_rowScan8X8, _vp9RowIscan8X8, _rowScan8X8Neighbors),
-                new(_colScan8X8, _vp9ColIscan8X8, _colScan8X8Neighbors),
-                new(_defaultScan8X8, _vp9DefaultIscan8X8, _defaultScan8X8Neighbors),
+                new ScanOrder(DefaultScan8X8, DefaultIscan8X8, DefaultScan8X8Neighbors),
+                new ScanOrder(RowScan8X8, RowIscan8X8, RowScan8X8Neighbors),
+                new ScanOrder(ColScan8X8, ColIscan8X8, ColScan8X8Neighbors),
+                new ScanOrder(DefaultScan8X8, DefaultIscan8X8, DefaultScan8X8Neighbors)
             },
             new ScanOrder[]
             { // TX_16X16
-                new(_defaultScan16X16, _vp9DefaultIscan16X16, _defaultScan16X16Neighbors),
-                new(_rowScan16X16, _vp9RowIscan16X16, _rowScan16X16Neighbors),
-                new(_colScan16X16, _vp9ColIscan16X16, _colScan16X16Neighbors),
-                new(_defaultScan16X16, _vp9DefaultIscan16X16, _defaultScan16X16Neighbors),
+                new ScanOrder(DefaultScan16X16, DefaultIscan16X16, DefaultScan16X16Neighbors),
+                new ScanOrder(RowScan16X16, RowIscan16X16, RowScan16X16Neighbors),
+                new ScanOrder(ColScan16X16, ColIscan16X16, ColScan16X16Neighbors),
+                new ScanOrder(DefaultScan16X16, DefaultIscan16X16, DefaultScan16X16Neighbors)
             },
             new ScanOrder[]
             { // TX_32X32
-                new(_defaultScan32X32, _vp9DefaultIscan32X32, _defaultScan32X32Neighbors),
-                new(_defaultScan32X32, _vp9DefaultIscan32X32, _defaultScan32X32Neighbors),
-                new(_defaultScan32X32, _vp9DefaultIscan32X32, _defaultScan32X32Neighbors),
-                new(_defaultScan32X32, _vp9DefaultIscan32X32, _defaultScan32X32Neighbors),
-            },
+                new ScanOrder(DefaultScan32X32, DefaultIscan32X32, DefaultScan32X32Neighbors),
+                new ScanOrder(DefaultScan32X32, DefaultIscan32X32, DefaultScan32X32Neighbors),
+                new ScanOrder(DefaultScan32X32, DefaultIscan32X32, DefaultScan32X32Neighbors),
+                new ScanOrder(DefaultScan32X32, DefaultIscan32X32, DefaultScan32X32Neighbors)
+            }
         };
 
         // Entropy MV
 
-        public static readonly sbyte[] Vp9MvJointTree = {
-            -(sbyte)MvJointType.MvJointZero, 2, -(sbyte)MvJointType.MvJointHnzvz, 4, -(sbyte)MvJointType.MvJointHzvnz, -(sbyte)MvJointType.MvJointHnzvnz,
+        public static readonly sbyte[] MvJointTree = new sbyte[]
+        {
+            -(sbyte)MvJointType.Zero, 2, -(sbyte)MvJointType.Hnzvz, 4, -(sbyte)MvJointType.Hzvnz, -(sbyte)MvJointType.Hnzvnz
         };
 
-        public static readonly sbyte[] Vp9MvClassTree = {
-            -(sbyte)MvClassType.MvClass0,
+        public static readonly sbyte[] MvClassTree = new sbyte[]
+        {
+            -(sbyte)MvClassType.Class0,
             2,
-            -(sbyte)MvClassType.MvClass1,
+            -(sbyte)MvClassType.Class1,
             4,
             6,
             8,
-            -(sbyte)MvClassType.MvClass2,
-            -(sbyte)MvClassType.MvClass3,
+            -(sbyte)MvClassType.Class2,
+            -(sbyte)MvClassType.Class3,
             10,
             12,
-            -(sbyte)MvClassType.MvClass4,
-            -(sbyte)MvClassType.MvClass5,
-            -(sbyte)MvClassType.MvClass6,
+            -(sbyte)MvClassType.Class4,
+            -(sbyte)MvClassType.Class5,
+            -(sbyte)MvClassType.Class6,
             14,
             16,
             18,
-            -(sbyte)MvClassType.MvClass7,
-            -(sbyte)MvClassType.MvClass8,
-            -(sbyte)MvClassType.MvClass9,
-            -(sbyte)MvClassType.MvClass10,
+            -(sbyte)MvClassType.Class7,
+            -(sbyte)MvClassType.Class8,
+            -(sbyte)MvClassType.Class9,
+            -(sbyte)MvClassType.Class10
         };
 
-        public static ReadOnlySpan<sbyte> Vp9MvFPTree => new sbyte[] { -0, 2, -1, 4, -2, -3 };
+        public static ReadOnlySpan<sbyte> MvFPTree => new sbyte[] { -0, 2, -1, 4, -2, -3 };
 
         // Entropy
 
-        public static ReadOnlySpan<byte> Vp9Cat1Prob => new byte[] { 159 };
-        public static ReadOnlySpan<byte> Vp9Cat2Prob => new byte[] { 165, 145 };
-        public static ReadOnlySpan<byte> Vp9Cat3Prob => new byte[] { 173, 148, 140 };
-        public static ReadOnlySpan<byte> Vp9Cat4Prob => new byte[] { 176, 155, 140, 135 };
-        public static ReadOnlySpan<byte> Vp9Cat5Prob => new byte[] { 180, 157, 141, 134, 130 };
-        public static ReadOnlySpan<byte> Vp9Cat6Prob => new byte[] { 254, 254, 254, 252, 249, 243, 230, 196, 177, 153, 140, 133, 130, 129 };
+        public static ReadOnlySpan<byte> Cat1Prob => new byte[] { 159 };
+        public static ReadOnlySpan<byte> Cat2Prob => new byte[] { 165, 145 };
+        public static ReadOnlySpan<byte> Cat3Prob => new byte[] { 173, 148, 140 };
+        public static ReadOnlySpan<byte> Cat4Prob => new byte[] { 176, 155, 140, 135 };
+        public static ReadOnlySpan<byte> Cat5Prob => new byte[] { 180, 157, 141, 134, 130 };
+        public static ReadOnlySpan<byte> Cat6Prob => new byte[] { 254, 254, 254, 252, 249, 243, 230, 196, 177, 153, 140, 133, 130, 129 };
 
-        public static ReadOnlySpan<byte> Vp9Cat6ProbHigh12 => new byte[]
+        public static ReadOnlySpan<byte> Cat6ProbHigh12 => new byte[]
         {
-            255, 255, 255, 255, 254, 254, 54, 252, 249, 243, 230, 196, 177, 153, 140, 133, 130, 129,
+            255, 255, 255, 255, 254, 254, 54, 252, 249, 243, 230, 196, 177, 153, 140, 133, 130, 129
         };
 
-        private static readonly byte[] _vp9CoefbandTrans8X8Plus = {
+        private static readonly byte[] CoefbandTrans8X8Plus = new byte[]
+        {
             0, 1, 1, 2, 2, 2, 3, 3, 3, 3, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 5,
             // Beyond MAXBAND_INDEX+1 all values are filled as 5
             5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5,
@@ -1083,17 +1129,18 @@ namespace Ryujinx.Graphics.Nvdec.Vp9
             5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5,
         };
 
-        private static ReadOnlySpan<byte> Vp9CoefbandTrans4X4 => new byte[]
+        private static ReadOnlySpan<byte> CoefbandTrans4X4 => new byte[]
         {
             0, 1, 1, 2, 2, 2, 3, 3, 3, 3, 4, 4, 4, 5, 5, 5,
         };
 
         public static ReadOnlySpan<byte> GetBandTranslate(TxSize txSize)
         {
-            return txSize == TxSize.Tx4x4 ? Vp9CoefbandTrans4X4 : _vp9CoefbandTrans8X8Plus;
+            return txSize == TxSize.Tx4x4 ? CoefbandTrans4X4 : CoefbandTrans8X8Plus;
         }
 
-        public static readonly byte[][] Vp9Pareto8Full = {
+        public static readonly byte[][] Pareto8Full = new byte[][]
+        {
             new byte[] { 3, 86, 128, 6, 86, 23, 88, 29 },
             new byte[] { 6, 86, 128, 11, 87, 42, 91, 52 },
             new byte[] { 9, 86, 129, 17, 88, 61, 94, 76 },
@@ -1351,36 +1398,41 @@ namespace Ryujinx.Graphics.Nvdec.Vp9
             new byte[] { 255, 246, 247, 255, 239, 255, 253, 255 },
         };
 
-        // Array indices are identical to previously-existing INTRAMODECONTEXTNODES.
-        public static readonly sbyte[] Vp9IntraModeTree = {
-            -(sbyte)PredictionMode.DcPred,   2,                                 // 0 = DC_NODE
-            -(sbyte)PredictionMode.TmPred,   4,                                 // 1 = TM_NODE
-            -(sbyte)PredictionMode.VPred,    6,                                 // 2 = V_NODE
-            8,                               12,                                // 3 = COM_NODE
-            -(sbyte)PredictionMode.HPred,    10,                                // 4 = H_NODE
-            -(sbyte)PredictionMode.D135Pred, -(sbyte)PredictionMode.D117Pred,   // 5 = D135_NODE
-            -(sbyte)PredictionMode.D45Pred,  14,                                // 6 = D45_NODE
-            -(sbyte)PredictionMode.D63Pred,  16,                                // 7 = D63_NODE
-            -(sbyte)PredictionMode.D153Pred, -(sbyte)PredictionMode.D207Pred,   // 8 = D153_NODE
+        /* Array indices are identical to previously-existing INTRAMODECONTEXTNODES. */
+        public static readonly sbyte[] IntraModeTree = new sbyte[]
+        {
+            -(sbyte)PredictionMode.DcPred,   2,                                 /* 0 = DC_NODE */
+            -(sbyte)PredictionMode.TmPred,   4,                                 /* 1 = TM_NODE */
+            -(sbyte)PredictionMode.VPred,    6,                                 /* 2 = V_NODE */
+            8,                                 12,                                /* 3 = COM_NODE */
+            -(sbyte)PredictionMode.HPred,    10,                                /* 4 = H_NODE */
+            -(sbyte)PredictionMode.D135Pred, -(sbyte)PredictionMode.D117Pred, /* 5 = D135_NODE */
+            -(sbyte)PredictionMode.D45Pred,  14,                                /* 6 = D45_NODE */
+            -(sbyte)PredictionMode.D63Pred,  16,                                /* 7 = D63_NODE */
+            -(sbyte)PredictionMode.D153Pred, -(sbyte)PredictionMode.D207Pred  /* 8 = D153_NODE */
         };
 
-        public static readonly sbyte[] Vp9InterModeTree = {
+        public static readonly sbyte[] InterModeTree = new sbyte[]
+        {
             -((sbyte)PredictionMode.ZeroMv - (sbyte)PredictionMode. NearestMv), 2,
             -((sbyte)PredictionMode.NearestMv - (sbyte)PredictionMode.NearestMv), 4,
             -((sbyte)PredictionMode.NearMv - (sbyte)PredictionMode.NearestMv),
-            -((sbyte)PredictionMode.NewMv - (sbyte)PredictionMode.NearestMv),
+            -((sbyte)PredictionMode.NewMv - (sbyte)PredictionMode.NearestMv)
         };
 
-        public static readonly sbyte[] Vp9PartitionTree = {
-            -(sbyte)PartitionType.PartitionNone, 2, -(sbyte)PartitionType.PartitionHorz, 4, -(sbyte)PartitionType.PartitionVert, -(sbyte)PartitionType.PartitionSplit,
+        public static readonly sbyte[] PartitionTree = new sbyte[]
+        {
+            -(sbyte)PartitionType.PartitionNone, 2, -(sbyte)PartitionType.PartitionHorz, 4, -(sbyte)PartitionType.PartitionVert, -(sbyte)PartitionType.PartitionSplit
         };
 
-        public static readonly sbyte[] Vp9SwitchableInterpTree = {
-            -Constants.EightTap, 2, -Constants.EightTapSmooth, -Constants.EightTapSharp,
+        public static readonly sbyte[] SwitchableInterpTree = new sbyte[]
+        {
+            -Constants.EightTap, 2, -Constants.EightTapSmooth, -Constants.EightTapSharp
         };
 
-        public static readonly sbyte[] Vp9SegmentTree = {
-            2, 4, 6, 8, 10, 12, 0, -1, -2, -3, -4, -5, -6, -7,
+        public static readonly sbyte[] SegmentTree = new sbyte[]
+        {
+            2, 4, 6, 8, 10, 12, 0, -1, -2, -3, -4, -5, -6, -7
         };
 
         // MV Ref
@@ -1390,192 +1442,169 @@ namespace Ryujinx.Graphics.Nvdec.Vp9
         // adding 9 for each intra block, 3 for each zero mv and 1 for each new
         // motion vector. This single number is then converted into a context
         // with a single lookup ( CounterToContext ).
-        public static readonly int[] Mode2Counter = {
-            9, // DC_PRED
-            9, // V_PRED
-            9, // H_PRED
-            9, // D45_PRED
-            9, // D135_PRED
-            9, // D117_PRED
-            9, // D153_PRED
-            9, // D207_PRED
-            9, // D63_PRED
-            9, // TM_PRED
-            0, // NEARESTMV
-            0, // NEARMV
-            3, // ZEROMV
-            1, // NEWMV
+        public static readonly int[] Mode2Counter = new int[]
+        {
+            9,  // DC_PRED
+            9,  // V_PRED
+            9,  // H_PRED
+            9,  // D45_PRED
+            9,  // D135_PRED
+            9,  // D117_PRED
+            9,  // D153_PRED
+            9,  // D207_PRED
+            9,  // D63_PRED
+            9,  // TM_PRED
+            0,  // NEARESTMV
+            0,  // NEARMV
+            3,  // ZEROMV
+            1,  // NEWMV
         };
 
         // There are 3^3 different combinations of 3 counts that can be either 0,1 or
         // 2. However the actual count can never be greater than 2 so the highest
         // counter we need is 18. 9 is an invalid counter that's never used.
-        public static readonly MotionVectorContext[] CounterToContext = {
-            MotionVectorContext.BothPredicted, // 0
-            MotionVectorContext.NewPlusNonIntra, // 1
-            MotionVectorContext.BothNew, // 2
+        public static readonly MotionVectorContext[] CounterToContext = new MotionVectorContext[]
+        {
+            MotionVectorContext.BothPredicted,     // 0
+            MotionVectorContext.NewPlusNonIntra,   // 1
+            MotionVectorContext.BothNew,           // 2
             MotionVectorContext.ZeroPlusPredicted, // 3
-            MotionVectorContext.NewPlusNonIntra, // 4
-            MotionVectorContext.InvalidCase, // 5
-            MotionVectorContext.BothZero, // 6
-            MotionVectorContext.InvalidCase, // 7
-            MotionVectorContext.InvalidCase, // 8
+            MotionVectorContext.NewPlusNonIntra,   // 4
+            MotionVectorContext.InvalidCase,       // 5
+            MotionVectorContext.BothZero,          // 6
+            MotionVectorContext.InvalidCase,       // 7
+            MotionVectorContext.InvalidCase,       // 8
             MotionVectorContext.IntraPlusNonIntra, // 9
             MotionVectorContext.IntraPlusNonIntra, // 10
-            MotionVectorContext.InvalidCase, // 11
+            MotionVectorContext.InvalidCase,       // 11
             MotionVectorContext.IntraPlusNonIntra, // 12
-            MotionVectorContext.InvalidCase, // 13
-            MotionVectorContext.InvalidCase, // 14
-            MotionVectorContext.InvalidCase, // 15
-            MotionVectorContext.InvalidCase, // 16
-            MotionVectorContext.InvalidCase, // 17
-            MotionVectorContext.BothIntra, // 18
+            MotionVectorContext.InvalidCase,       // 13
+            MotionVectorContext.InvalidCase,       // 14
+            MotionVectorContext.InvalidCase,       // 15
+            MotionVectorContext.InvalidCase,       // 16
+            MotionVectorContext.InvalidCase,       // 17
+            MotionVectorContext.BothIntra          // 18
         };
 
-        public static readonly Position[][] MvRefBlocks = {
+        public static readonly Position[][] MvRefBlocks = new Position[][]
+        {
             // 4X4
-            new Position[] {
-                new(-1, 0),
-                new(0, -1),
-                new(-1, -1),
-                new(-2, 0),
-                new(0, -2),
-                new(-2, -1),
-                new(-1, -2),
-                new(-2, -2),
-            },
-            // 4X8
-            new Position[] {
-                new(-1, 0),
-                new(0, -1),
-                new(-1, -1),
-                new(-2, 0),
-                new(0, -2),
-                new(-2, -1),
-                new(-1, -2),
-                new(-2, -2),
-            },
-            // 8X4
-            new Position[] {
-                new(-1, 0),
-                new(0, -1),
-                new(-1, -1),
-                new(-2, 0),
-                new(0, -2),
-                new(-2, -1),
-                new(-1, -2),
-                new(-2, -2),
-            },
+            new Position[] { new Position( -1, 0 ),
+            new Position( 0, -1 ),
+            new Position( -1, -1 ),
+            new Position( -2, 0 ),
+            new Position( 0, -2 ),
+            new Position( -2, -1 ),
+            new Position( -1, -2 ),
+            new Position( -2, -2 ) },
+            // 4x8
+            new Position[] { new Position( -1, 0 ),
+            new Position( 0, -1 ),
+            new Position( -1, -1 ),
+            new Position( -2, 0 ),
+            new Position( 0, -2 ),
+            new Position( -2, -1 ),
+            new Position( -1, -2 ),
+            new Position( -2, -2 ) },
+            // 8x4
+            new Position[] { new Position( -1, 0 ),
+            new Position( 0, -1 ),
+            new Position( -1, -1 ),
+            new Position( -2, 0 ),
+            new Position( 0, -2 ),
+            new Position( -2, -1 ),
+            new Position( -1, -2 ),
+            new Position( -2, -2 ) },
             // 8X8
-            new Position[] {
-                new(-1, 0),
-                new(0, -1),
-                new(-1, -1),
-                new(-2, 0),
-                new(0, -2),
-                new(-2, -1),
-                new(-1, -2),
-                new(-2, -2),
-            },
-            // 8X16
-            new Position[] {
-                new(0, -1),
-                new(-1, 0),
-                new(1, -1),
-                new(-1, -1),
-                new(0, -2),
-                new(-2, 0),
-                new(-2, -1),
-                new(-1, -2),
-            },
-            // 16X8
-            new Position[] {
-                new(-1, 0),
-                new(0, -1),
-                new(-1, 1),
-                new(-1, -1),
-                new(-2, 0),
-                new(0, -2),
-                new(-1, -2),
-                new(-2, -1),
-            },
+            new Position[] { new Position( -1, 0 ),
+            new Position( 0, -1 ),
+            new Position( -1, -1 ),
+            new Position( -2, 0 ),
+            new Position( 0, -2 ),
+            new Position( -2, -1 ),
+            new Position( -1, -2 ),
+            new Position( -2, -2 ) },
+            // 8x16
+            new Position[] { new Position( 0, -1 ),
+            new Position( -1, 0 ),
+            new Position( 1, -1 ),
+            new Position( -1, -1 ),
+            new Position( 0, -2 ),
+            new Position( -2, 0 ),
+            new Position( -2, -1 ),
+            new Position( -1, -2 ) },
+            // 16x8
+            new Position[] { new Position( -1, 0 ),
+            new Position( 0, -1 ),
+            new Position( -1, 1 ),
+            new Position( -1, -1 ),
+            new Position( -2, 0 ),
+            new Position( 0, -2 ),
+            new Position( -1, -2 ),
+            new Position( -2, -1 ) },
             // 16X16
-            new Position[] {
-                new(-1, 0),
-                new(0, -1),
-                new(-1, 1),
-                new(1, -1),
-                new(-1, -1),
-                new(-3, 0),
-                new(0, -3),
-                new(-3, -3),
-            },
-            // 16X32
-            new Position[] {
-                new(0, -1),
-                new(-1, 0),
-                new(2, -1),
-                new(-1, -1),
-                new(-1, 1),
-                new(0, -3),
-                new(-3, 0),
-                new(-3, -3),
-            },
-            // 32X16
-            new Position[] {
-                new(-1, 0),
-                new(0, -1),
-                new(-1, 2),
-                new(-1, -1),
-                new(1, -1),
-                new(-3, 0),
-                new(0, -3),
-                new(-3, -3),
-            },
+            new Position[] { new Position( -1, 0 ),
+            new Position( 0, -1 ),
+            new Position( -1, 1 ),
+            new Position( 1, -1 ),
+            new Position( -1, -1 ),
+            new Position( -3, 0 ),
+            new Position( 0, -3 ),
+            new Position( -3, -3 ) },
+            // 16x32
+            new Position[] { new Position( 0, -1 ),
+            new Position( -1, 0 ),
+            new Position( 2, -1 ),
+            new Position( -1, -1 ),
+            new Position( -1, 1 ),
+            new Position( 0, -3 ),
+            new Position( -3, 0 ),
+            new Position( -3, -3 ) },
+            // 32x16
+            new Position[] { new Position( -1, 0 ),
+            new Position( 0, -1 ),
+            new Position( -1, 2 ),
+            new Position( -1, -1 ),
+            new Position( 1, -1 ),
+            new Position( -3, 0 ),
+            new Position( 0, -3 ),
+            new Position( -3, -3 ) },
             // 32X32
-            new Position[] {
-                new(-1, 1),
-                new(1, -1),
-                new(-1, 2),
-                new(2, -1),
-                new(-1, -1),
-                new(-3, 0),
-                new(0, -3),
-                new(-3, -3),
-            },
-            // 32X64
-            new Position[] {
-                new(0, -1),
-                new(-1, 0),
-                new(4, -1),
-                new(-1, 2),
-                new(-1, -1),
-                new(0, -3),
-                new(-3, 0),
-                new(2, -1),
-            },
-            // 64X32
-            new Position[] {
-                new(-1, 0),
-                new(0, -1),
-                new(-1, 4),
-                new(2, -1),
-                new(-1, -1),
-                new(-3, 0),
-                new(0, -3),
-                new(-1, 2),
-            },
-            // 64X64
-            new Position[] {
-                new(-1, 3),
-                new(3, -1),
-                new(-1, 4),
-                new(4, -1),
-                new(-1, -1),
-                new(-1, 0),
-                new(0, -1),
-                new(-1, 6),
-            },
+            new Position[] { new Position( -1, 1 ),
+            new Position( 1, -1 ),
+            new Position( -1, 2 ),
+            new Position( 2, -1 ),
+            new Position( -1, -1 ),
+            new Position( -3, 0 ),
+            new Position( 0, -3 ),
+            new Position( -3, -3 ) },
+            // 32x64
+            new Position[] { new Position( 0, -1 ),
+            new Position( -1, 0 ),
+            new Position( 4, -1 ),
+            new Position( -1, 2 ),
+            new Position( -1, -1 ),
+            new Position( 0, -3 ),
+            new Position( -3, 0 ),
+            new Position( 2, -1 ) },
+            // 64x32
+            new Position[] { new Position( -1, 0 ),
+            new Position( 0, -1 ),
+            new Position( -1, 4 ),
+            new Position( 2, -1 ),
+            new Position( -1, -1 ),
+            new Position( -3, 0 ),
+            new Position( 0, -3 ),
+            new Position( -1, 2 ) },
+            // 64x64
+            new Position[] { new Position( -1, 3 ),
+            new Position( 3, -1 ),
+            new Position( -1, 4 ),
+            new Position( 4, -1 ),
+            new Position( -1, -1 ),
+            new Position( -1, 0 ),
+            new Position( 0, -1 ),
+            new Position( -1, 6 ) }
         };
     }
 }
