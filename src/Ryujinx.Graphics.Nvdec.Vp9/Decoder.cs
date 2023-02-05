@@ -110,6 +110,11 @@ namespace Ryujinx.Graphics.Nvdec.Vp9
 
             cm.SetMvs(mvsIn);
 
+            if (cm.Lf.FilterLevel != 0 && cm.SkipLoopFilter == 0)
+            {
+                LoopFilter.LoopFilterFrameInit(ref cm, cm.Lf.FilterLevel);
+            }
+
             fixed (byte* dataPtr = bitstream)
             {
                 try
