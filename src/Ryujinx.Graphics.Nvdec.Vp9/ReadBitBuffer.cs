@@ -1,7 +1,6 @@
-﻿using Ryujinx.Graphics.Nvdec.Vp9.Types;
+﻿using Ryujinx.Graphics.Nvdec.Vp9.Common;
+using Ryujinx.Graphics.Nvdec.Vp9.Types;
 using System;
-using System.Diagnostics;
-using System.Numerics;
 
 namespace Ryujinx.Graphics.Nvdec.Vp9
 {
@@ -11,20 +10,9 @@ namespace Ryujinx.Graphics.Nvdec.Vp9
         public ulong BitOffset;
         public object ErrorHandlerData;
 
-        private static int GetMsb(uint n)
-        {
-            Debug.Assert(n != 0);
-            return 31 ^ BitOperations.LeadingZeroCount(n);
-        }
-
-        private static int GetUnsignedBits(uint numValues)
-        {
-            return numValues > 0 ? GetMsb(numValues) + 1 : 0;
-        }
-
         public int DecodeUnsignedMax(int max)
         {
-            int data = ReadLiteral(GetUnsignedBits((uint)max));
+            int data = ReadLiteral(BitUtils.GetUnsignedBits((uint)max));
             return data > max ? max : data;
         }
 
