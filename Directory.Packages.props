@@ -3,13 +3,13 @@
     <ManagePackageVersionsCentrally>true</ManagePackageVersionsCentrally>
   </PropertyGroup>
   <ItemGroup>
-    <PackageVersion Include="Avalonia" Version="11.0.10" />
-    <PackageVersion Include="Avalonia.Controls.DataGrid" Version="11.0.10" />
-    <PackageVersion Include="Avalonia.Desktop" Version="11.0.10" />
-    <PackageVersion Include="Avalonia.Diagnostics" Version="11.0.10" />
-    <PackageVersion Include="Avalonia.Markup.Xaml.Loader" Version="11.0.10" />
-    <PackageVersion Include="Avalonia.Svg" Version="11.0.0.18" />
-    <PackageVersion Include="Avalonia.Svg.Skia" Version="11.0.0.18" />
+    <PackageVersion Include="Avalonia" Version="11.0.13" />
+    <PackageVersion Include="Avalonia.Controls.DataGrid" Version="11.0.13" />
+    <PackageVersion Include="Avalonia.Desktop" Version="11.0.13" />
+    <PackageVersion Include="Avalonia.Diagnostics" Version="11.0.13" />
+    <PackageVersion Include="Avalonia.Markup.Xaml.Loader" Version="11.0.13" />
+    <PackageVersion Include="Avalonia.Svg" Version="11.0.0.19" />
+    <PackageVersion Include="Avalonia.Svg.Skia" Version="11.0.0.19" />
     <PackageVersion Include="Microsoft.Build.Framework" Version="17.11.4" />
     <PackageVersion Include="Microsoft.Build.Utilities.Core" Version="17.12.6" />
     <PackageVersion Include="Newtonsoft.Json" Version="13.0.3" />
