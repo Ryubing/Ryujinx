@@ -32,12 +32,10 @@ namespace Ryujinx.Graphics.Vulkan
             CommandBuffer
         }
 
-        private bool _feedbackLoopActive;
         private PipelineStageFlags _incoherentBufferWriteStages;
         private PipelineStageFlags _incoherentTextureWriteStages;
         private PipelineStageFlags _extraStages;
         private IncoherentBarrierType _queuedIncoherentBarrier;
-        private bool _queuedFeedbackLoopBarrier;
 
         public BarrierBatch(VulkanRenderer gd)
         {
@@ -53,6 +51,17 @@ namespace Ryujinx.Graphics.Vulkan
             {
                 access |= AccessFlags.TransformFeedbackWriteBitExt;
                 stages |= PipelineStageFlags.TransformFeedbackBitExt;
+            }
+
+            if (!gd.IsTBDR)
+            {
+                // Desktop GPUs can transform image barriers into memory barriers.
+
+                access |= AccessFlags.DepthStencilAttachmentWriteBit | AccessFlags.ColorAttachmentWriteBit;
+                access |= AccessFlags.DepthStencilAttachmentReadBit | AccessFlags.ColorAttachmentReadBit;
+
+                stages |= PipelineStageFlags.EarlyFragmentTestsBit | PipelineStageFlags.LateFragmentTestsBit;
+                stages |= PipelineStageFlags.ColorAttachmentOutputBit;
             }
 
             return (access, stages);
@@ -169,42 +178,22 @@ namespace Ryujinx.Graphics.Vulkan
                     }
 
                     _queuedIncoherentBarrier = IncoherentBarrierType.None;
-                    _queuedFeedbackLoopBarrier = false;
                 }
-                else if (_feedbackLoopActive && _queuedFeedbackLoopBarrier)
-                {
-                    // Feedback loop barrier.
-
-                    MemoryBarrier barrier = new MemoryBarrier()
-                    {
-                        SType = StructureType.MemoryBarrier,
-                        SrcAccessMask = AccessFlags.ShaderWriteBit,
-                        DstAccessMask = AccessFlags.ShaderReadBit
-                    };
-
-                    QueueBarrier(barrier, PipelineStageFlags.FragmentShaderBit, PipelineStageFlags.AllGraphicsBit);
-
-                    _queuedFeedbackLoopBarrier = false;
-                }
-
-                _feedbackLoopActive = false;
             }
         }
 
         public unsafe void Flush(CommandBufferScoped cbs, bool inRenderPass, RenderPassHolder rpHolder, Action endRenderPass)
         {
-            Flush(cbs, null, false, inRenderPass, rpHolder, endRenderPass);
+            Flush(cbs, null, inRenderPass, rpHolder, endRenderPass);
         }
 
-        public unsafe void Flush(CommandBufferScoped cbs, ShaderCollection program, bool feedbackLoopActive, bool inRenderPass, RenderPassHolder rpHolder, Action endRenderPass)
+        public unsafe void Flush(CommandBufferScoped cbs, ShaderCollection program, bool inRenderPass, RenderPassHolder rpHolder, Action endRenderPass)
         {
             if (program != null)
             {
                 _incoherentBufferWriteStages |= program.IncoherentBufferWriteStages | _extraStages;
                 _incoherentTextureWriteStages |= program.IncoherentTextureWriteStages;
             }
-
-            _feedbackLoopActive |= feedbackLoopActive;
 
             FlushMemoryBarrier(program, inRenderPass);
 
@@ -417,8 +406,6 @@ namespace Ryujinx.Graphics.Vulkan
             {
                 _queuedIncoherentBarrier = type;
             }
-
-            _queuedFeedbackLoopBarrier = true;
         }
 
         public void QueueTextureBarrier()

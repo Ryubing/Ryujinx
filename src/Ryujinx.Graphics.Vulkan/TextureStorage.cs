@@ -4,7 +4,6 @@ using Silk.NET.Vulkan;
 using System;
 using System.Collections.Generic;
 using System.Numerics;
-using System.Runtime.CompilerServices;
 using Format = Ryujinx.Graphics.GAL.Format;
 using VkBuffer = Silk.NET.Vulkan.Buffer;
 using VkFormat = Silk.NET.Vulkan.Format;
@@ -13,11 +12,6 @@ namespace Ryujinx.Graphics.Vulkan
 {
     class TextureStorage : IDisposable
     {
-        private struct TextureSliceInfo
-        {
-            public int BindCount;
-        }
-
         private const MemoryPropertyFlags DefaultImageMemoryFlags =
             MemoryPropertyFlags.DeviceLocalBit;
 
@@ -49,7 +43,6 @@ namespace Ryujinx.Graphics.Vulkan
         private readonly Image _image;
         private readonly Auto<DisposableImage> _imageAuto;
         private readonly Auto<MemoryAllocation> _allocationAuto;
-        private readonly int _depthOrLayers;
         private Auto<MemoryAllocation> _foreignAllocationAuto;
 
         private Dictionary<Format, TextureStorage> _aliasedStorages;
@@ -61,9 +54,6 @@ namespace Ryujinx.Graphics.Vulkan
 
         private int _viewsCount;
         private readonly ulong _size;
-
-        private int _bindCount;
-        private readonly TextureSliceInfo[] _slices;
 
         public VkFormat VkFormat { get; }
 
@@ -85,7 +75,6 @@ namespace Ryujinx.Graphics.Vulkan
             var depth = (uint)(info.Target == Target.Texture3D ? info.Depth : 1);
 
             VkFormat = format;
-            _depthOrLayers = info.GetDepthOrLayers();
 
             var type = info.Target.Convert();
 
@@ -161,8 +150,6 @@ namespace Ryujinx.Graphics.Vulkan
 
                 InitialTransition(ImageLayout.Preinitialized, ImageLayout.General);
             }
-
-            _slices = new TextureSliceInfo[levels * _depthOrLayers];
         }
 
         public TextureStorage CreateAliasedColorForDepthStorageUnsafe(Format format)
@@ -323,12 +310,6 @@ namespace Ryujinx.Graphics.Vulkan
             if ((format.IsImageCompatible() && isMsImageStorageSupported) || extendedUsage)
             {
                 usage |= ImageUsageFlags.StorageBit;
-            }
-
-            if (capabilities.SupportsAttachmentFeedbackLoop &&
-                (usage & (ImageUsageFlags.DepthStencilAttachmentBit | ImageUsageFlags.ColorAttachmentBit)) != 0)
-            {
-                usage |= ImageUsageFlags.AttachmentFeedbackLoopBitExt;
             }
 
             return usage;
@@ -529,55 +510,6 @@ namespace Ryujinx.Graphics.Vulkan
 
                 _lastModificationAccess = AccessFlags.None;
             }
-        }
-
-        public void AddBinding(TextureView view)
-        {
-            // Assumes a view only has a first level.
-
-            int index = view.FirstLevel * _depthOrLayers + view.FirstLayer;
-            int layers = view.Layers;
-
-            for (int i = 0; i < layers; i++)
-            {
-                ref TextureSliceInfo info = ref _slices[index++];
-
-                info.BindCount++;
-            }
-
-            _bindCount++;
-        }
-
-        public void ClearBindings()
-        {
-            if (_bindCount != 0)
-            {
-                Array.Clear(_slices, 0, _slices.Length);
-
-                _bindCount = 0;
-            }
-        }
-
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public bool IsBound(TextureView view)
-        {
-            if (_bindCount != 0)
-            {
-                int index = view.FirstLevel * _depthOrLayers + view.FirstLayer;
-                int layers = view.Layers;
-
-                for (int i = 0; i < layers; i++)
-                {
-                    ref TextureSliceInfo info = ref _slices[index++];
-
-                    if (info.BindCount != 0)
-                    {
-                        return true;
-                    }
-                }
-            }
-
-            return false;
         }
 
         public void IncrementViewsCount()

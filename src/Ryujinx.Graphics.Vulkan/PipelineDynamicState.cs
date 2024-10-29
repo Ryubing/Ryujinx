@@ -1,6 +1,5 @@
 using Ryujinx.Common.Memory;
 using Silk.NET.Vulkan;
-using Silk.NET.Vulkan.Extensions.EXT;
 
 namespace Ryujinx.Graphics.Vulkan
 {
@@ -22,8 +21,6 @@ namespace Ryujinx.Graphics.Vulkan
 
         private Array4<float> _blendConstants;
 
-        private FeedbackLoopAspects _feedbackLoopAspects;
-
         public uint ViewportsCount;
         public Array16<Viewport> Viewports;
 
@@ -35,8 +32,7 @@ namespace Ryujinx.Graphics.Vulkan
             Scissor = 1 << 2,
             Stencil = 1 << 3,
             Viewport = 1 << 4,
-            FeedbackLoop = 1 << 5,
-            All = Blend | DepthBias | Scissor | Stencil | Viewport | FeedbackLoop,
+            All = Blend | DepthBias | Scissor | Stencil | Viewport,
         }
 
         private DirtyFlags _dirty;
@@ -103,22 +99,13 @@ namespace Ryujinx.Graphics.Vulkan
             }
         }
 
-        public void SetFeedbackLoop(FeedbackLoopAspects aspects)
-        {
-            _feedbackLoopAspects = aspects;
-
-            _dirty |= DirtyFlags.FeedbackLoop;
-        }
-
         public void ForceAllDirty()
         {
             _dirty = DirtyFlags.All;
         }
 
-        public void ReplayIfDirty(VulkanRenderer gd, CommandBuffer commandBuffer)
+        public void ReplayIfDirty(Vk api, CommandBuffer commandBuffer)
         {
-            Vk api = gd.Api;
-
             if (_dirty.HasFlag(DirtyFlags.Blend))
             {
                 RecordBlend(api, commandBuffer);
@@ -142,11 +129,6 @@ namespace Ryujinx.Graphics.Vulkan
             if (_dirty.HasFlag(DirtyFlags.Viewport))
             {
                 RecordViewport(api, commandBuffer);
-            }
-
-            if (_dirty.HasFlag(DirtyFlags.FeedbackLoop) && gd.Capabilities.SupportsDynamicAttachmentFeedbackLoop)
-            {
-                RecordFeedbackLoop(gd.DynamicFeedbackLoopApi, commandBuffer);
             }
 
             _dirty = DirtyFlags.None;
@@ -186,18 +168,6 @@ namespace Ryujinx.Graphics.Vulkan
             {
                 api.CmdSetViewport(commandBuffer, 0, ViewportsCount, Viewports.AsSpan());
             }
-        }
-
-        private readonly void RecordFeedbackLoop(ExtAttachmentFeedbackLoopDynamicState api, CommandBuffer commandBuffer)
-        {
-            ImageAspectFlags aspects = (_feedbackLoopAspects & FeedbackLoopAspects.Color) != 0 ? ImageAspectFlags.ColorBit : 0;
-
-            if ((_feedbackLoopAspects & FeedbackLoopAspects.Depth) != 0)
-            {
-                aspects |= ImageAspectFlags.DepthBit | ImageAspectFlags.StencilBit;
-            }
-
-            api.CmdSetAttachmentFeedbackLoopEnable(commandBuffer, aspects);
         }
     }
 }
