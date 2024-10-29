@@ -3,7 +3,6 @@ using Ryujinx.Graphics.GAL;
 using Ryujinx.Graphics.Shader;
 using Silk.NET.Vulkan;
 using System;
-using System.Collections.Generic;
 using System.Linq;
 using System.Numerics;
 using System.Runtime.CompilerServices;
@@ -36,7 +35,6 @@ namespace Ryujinx.Graphics.Vulkan
         public readonly Action EndRenderPassDelegate;
 
         protected PipelineDynamicState DynamicState;
-        protected bool IsMainPipeline;
         private PipelineState _newState;
         private bool _graphicsStateDirty;
         private bool _computeStateDirty;
@@ -89,9 +87,6 @@ namespace Ryujinx.Graphics.Vulkan
         private bool _tfEnabled;
         private bool _tfActive;
 
-        private FeedbackLoopAspects _feedbackLoop;
-        private bool _passWritesDepthStencil;
-
         private readonly PipelineColorBlendAttachmentState[] _storedBlend;
         public ulong DrawCount { get; private set; }
         public bool RenderPassActive { get; private set; }
@@ -133,7 +128,7 @@ namespace Ryujinx.Graphics.Vulkan
 
         public void Initialize()
         {
-            _descriptorSetUpdater.Initialize(IsMainPipeline);
+            _descriptorSetUpdater.Initialize();
 
             QuadsToTrisPattern = new IndexBufferPattern(Gd, 4, 6, 0, [0, 1, 2, 0, 2, 3], 4, false);
             TriFanToTrisPattern = new IndexBufferPattern(Gd, 3, 3, 2, [int.MinValue, -1, 0], 1, true);
@@ -821,8 +816,6 @@ namespace Ryujinx.Graphics.Vulkan
             _newState.DepthTestEnable = depthTest.TestEnable;
             _newState.DepthWriteEnable = depthTest.WriteEnable;
             _newState.DepthCompareOp = depthTest.Func.Convert();
-
-            UpdatePassDepthStencil();
             SignalStateChange();
         }
 
@@ -1088,8 +1081,6 @@ namespace Ryujinx.Graphics.Vulkan
             _newState.StencilFrontPassOp = stencilTest.FrontDpPass.Convert();
             _newState.StencilFrontDepthFailOp = stencilTest.FrontDpFail.Convert();
             _newState.StencilFrontCompareOp = stencilTest.FrontFunc.Convert();
-
-            UpdatePassDepthStencil();
             SignalStateChange();
         }
 
@@ -1437,23 +1428,7 @@ namespace Ryujinx.Graphics.Vulkan
                 }
             }
 
-            if (IsMainPipeline)
-            {
-                FramebufferParams?.ClearBindings();
-            }
-
             FramebufferParams = new FramebufferParams(Device, colors, depthStencil);
-
-            if (IsMainPipeline)
-            {
-                FramebufferParams.AddBindings();
-
-                _newState.FeedbackLoopAspects = FeedbackLoopAspects.None;
-                _bindingBarriersDirty = true;
-            }
-
-            _passWritesDepthStencil = false;
-            UpdatePassDepthStencil();
             UpdatePipelineAttachmentFormats();
         }
 
@@ -1520,80 +1495,9 @@ namespace Ryujinx.Graphics.Vulkan
                 }
             }
 
-            Gd.Barriers.Flush(Cbs, _program, _feedbackLoop != 0, RenderPassActive, _rpHolder, EndRenderPassDelegate);
+            Gd.Barriers.Flush(Cbs, _program, RenderPassActive, _rpHolder, EndRenderPassDelegate);
 
             _descriptorSetUpdater.UpdateAndBindDescriptorSets(Cbs, PipelineBindPoint.Compute);
-        }
-
-        private bool ChangeFeedbackLoop(FeedbackLoopAspects aspects)
-        {
-            if (_feedbackLoop != aspects)
-            {
-                if (Gd.Capabilities.SupportsDynamicAttachmentFeedbackLoop)
-                {
-                    DynamicState.SetFeedbackLoop(aspects);
-                }
-                else
-                {
-                    _newState.FeedbackLoopAspects = aspects;
-                }
-
-                _feedbackLoop = aspects;
-
-                return true;
-            }
-
-            return false;
-        }
-
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        private bool UpdateFeedbackLoop()
-        {
-            List<TextureView> hazards = _descriptorSetUpdater.FeedbackLoopHazards;
-
-            if ((hazards?.Count ?? 0) > 0)
-            {
-                FeedbackLoopAspects aspects = 0;
-
-                foreach (TextureView view in hazards)
-                {
-                    // May need to enforce feedback loop layout here in the future.
-                    // Though technically, it should always work with the general layout.
-
-                    if (view.Info.Format.IsDepthOrStencil())
-                    {
-                        if (_passWritesDepthStencil)
-                        {
-                            // If depth/stencil isn't written in the pass, it doesn't count as a feedback loop.
-
-                            aspects |= FeedbackLoopAspects.Depth;
-                        }
-                    }
-                    else
-                    {
-                        aspects |= FeedbackLoopAspects.Color;
-                    }
-                }
-
-                return ChangeFeedbackLoop(aspects);
-            }
-            else if (_feedbackLoop != 0)
-            {
-                return ChangeFeedbackLoop(FeedbackLoopAspects.None);
-            }
-
-            return false;
-        }
-
-        private void UpdatePassDepthStencil()
-        {
-            if (!RenderPassActive)
-            {
-                _passWritesDepthStencil = false;
-            }
-
-            // Stencil test being enabled doesn't necessarily mean a write, but it's not critical to check.
-            _passWritesDepthStencil |= (_newState.DepthTestEnable && _newState.DepthWriteEnable) || _newState.StencilTestEnable;
         }
 
         private bool RecreateGraphicsPipelineIfNeeded()
@@ -1603,7 +1507,7 @@ namespace Ryujinx.Graphics.Vulkan
                 Gd.FlushAllCommands();
             }
 
-            DynamicState.ReplayIfDirty(Gd, CommandBuffer);
+            DynamicState.ReplayIfDirty(Gd.Api, CommandBuffer);
 
             if (_needsIndexBufferRebind && _indexBufferPattern == null)
             {
@@ -1637,15 +1541,7 @@ namespace Ryujinx.Graphics.Vulkan
                 _vertexBufferUpdater.Commit(Cbs);
             }
 
-            if (_bindingBarriersDirty)
-            {
-                // Stale barriers may have been activated by switching program. Emit any that are relevant.
-                _descriptorSetUpdater.InsertBindingBarriers(Cbs);
-
-                _bindingBarriersDirty = false;
-            }
-
-            if (UpdateFeedbackLoop() || _graphicsStateDirty || Pbp != PipelineBindPoint.Graphics)
+            if (_graphicsStateDirty || Pbp != PipelineBindPoint.Graphics)
             {
                 if (!CreatePipeline(PipelineBindPoint.Graphics))
                 {
@@ -1654,9 +1550,17 @@ namespace Ryujinx.Graphics.Vulkan
 
                 _graphicsStateDirty = false;
                 Pbp = PipelineBindPoint.Graphics;
+
+                if (_bindingBarriersDirty)
+                {
+                    // Stale barriers may have been activated by switching program. Emit any that are relevant.
+                    _descriptorSetUpdater.InsertBindingBarriers(Cbs);
+
+                    _bindingBarriersDirty = false;
+                }
             }
 
-            Gd.Barriers.Flush(Cbs, _program, _feedbackLoop != 0, RenderPassActive, _rpHolder, EndRenderPassDelegate);
+            Gd.Barriers.Flush(Cbs, _program, RenderPassActive, _rpHolder, EndRenderPassDelegate);
 
             _descriptorSetUpdater.UpdateAndBindDescriptorSets(Cbs, PipelineBindPoint.Graphics);
 

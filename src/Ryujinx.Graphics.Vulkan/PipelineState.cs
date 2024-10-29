@@ -8,7 +8,6 @@ namespace Ryujinx.Graphics.Vulkan
     struct PipelineState : IDisposable
     {
         private const int RequiredSubgroupSize = 32;
-        private const int MaxDynamicStatesCount = 9;
 
         public PipelineUid Internal;
 
@@ -300,12 +299,6 @@ namespace Ryujinx.Graphics.Vulkan
             set => Internal.Id8 = (Internal.Id8 & 0xFFFFFFFFFFFFFFBF) | ((value ? 1UL : 0UL) << 6);
         }
 
-        public FeedbackLoopAspects FeedbackLoopAspects
-        {
-            readonly get => (FeedbackLoopAspects)((Internal.Id8 >> 7) & 0x3);
-            set => Internal.Id8 = (Internal.Id8 & 0xFFFFFFFFFFFFFE7F) | (((ulong)value) << 7);
-        }
-
         public bool HasTessellationControlShader;
         public NativeArray<PipelineShaderStageCreateInfo> Stages;
         public PipelineLayout PipelineLayout;
@@ -571,11 +564,9 @@ namespace Ryujinx.Graphics.Vulkan
                 }
 
                 bool supportsExtDynamicState = gd.Capabilities.SupportsExtendedDynamicState;
-                bool supportsFeedbackLoopDynamicState = gd.Capabilities.SupportsDynamicAttachmentFeedbackLoop;
+                int dynamicStatesCount = supportsExtDynamicState ? 8 : 7;
 
-                DynamicState* dynamicStates = stackalloc DynamicState[MaxDynamicStatesCount];
-
-                int dynamicStatesCount = 7;
+                DynamicState* dynamicStates = stackalloc DynamicState[dynamicStatesCount];
 
                 dynamicStates[0] = DynamicState.Viewport;
                 dynamicStates[1] = DynamicState.Scissor;
@@ -587,12 +578,7 @@ namespace Ryujinx.Graphics.Vulkan
 
                 if (supportsExtDynamicState)
                 {
-                    dynamicStates[dynamicStatesCount++] = DynamicState.VertexInputBindingStrideExt;
-                }
-
-                if (supportsFeedbackLoopDynamicState)
-                {
-                    dynamicStates[dynamicStatesCount++] = DynamicState.AttachmentFeedbackLoopEnableExt;
+                    dynamicStates[7] = DynamicState.VertexInputBindingStrideExt;
                 }
 
                 PipelineDynamicStateCreateInfo pipelineDynamicStateCreateInfo = new()
@@ -602,27 +588,9 @@ namespace Ryujinx.Graphics.Vulkan
                     PDynamicStates = dynamicStates,
                 };
 
-                PipelineCreateFlags flags = 0;
-
-                if (gd.Capabilities.SupportsAttachmentFeedbackLoop)
-                {
-                    FeedbackLoopAspects aspects = FeedbackLoopAspects;
-
-                    if ((aspects & FeedbackLoopAspects.Color) != 0)
-                    {
-                        flags |= PipelineCreateFlags.CreateColorAttachmentFeedbackLoopBitExt;
-                    }
-
-                    if ((aspects & FeedbackLoopAspects.Depth) != 0)
-                    {
-                        flags |= PipelineCreateFlags.CreateDepthStencilAttachmentFeedbackLoopBitExt;
-                    }
-                }
-
                 GraphicsPipelineCreateInfo pipelineCreateInfo = new()
                 {
                     SType = StructureType.GraphicsPipelineCreateInfo,
-                    Flags = flags,
                     StageCount = StagesCount,
                     PStages = Stages.Pointer,
                     PVertexInputState = &vertexInputState,
