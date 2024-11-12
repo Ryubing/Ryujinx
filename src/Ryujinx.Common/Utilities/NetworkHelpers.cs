@@ -1,6 +1,7 @@
 using System.Buffers.Binary;
 using System.Net;
 using System.Net.NetworkInformation;
+using System.Runtime.InteropServices;
 
 namespace Ryujinx.Common.Utilities
 {
@@ -63,6 +64,11 @@ namespace Ryujinx.Common.Utilities
             }
 
             return (targetProperties, targetAddressInfo);
+        }
+
+        public static bool SupportsDynamicDns()
+        {
+            return RuntimeInformation.IsOSPlatform(OSPlatform.Windows);
         }
 
         public static uint ConvertIpv4Address(IPAddress ipAddress)

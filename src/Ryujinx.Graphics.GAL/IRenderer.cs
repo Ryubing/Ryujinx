@@ -13,7 +13,7 @@ namespace Ryujinx.Graphics.GAL
         IPipeline Pipeline { get; }
 
         IWindow Window { get; }
-        
+
         uint ProgramCount { get; }
 
         void BackgroundContextAction(Action action, bool alwaysBackground = false);

@@ -99,7 +99,7 @@ namespace Ryujinx.Ava.Common.Locale
                 _ => false
             };
 
-        public static string FormatDynamicValue(LocaleKeys key, params object[] values) 
+        public static string FormatDynamicValue(LocaleKeys key, params object[] values)
             => Instance.UpdateAndGetDynamicValue(key, values);
 
         public string UpdateAndGetDynamicValue(LocaleKeys key, params object[] values)

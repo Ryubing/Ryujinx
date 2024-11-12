@@ -43,8 +43,8 @@ namespace Ryujinx.UI.Common.Models
         {
             if (obj == null)
                 return false;
-            else
-                return this.Path == obj.Path;            
+            
+            return this.Path == obj.Path;
         }
         
         public override int GetHashCode()

@@ -146,7 +146,7 @@ namespace Ryujinx.Ava.Common
             var cancellationToken = new CancellationTokenSource();
 
             UpdateWaitWindow waitingDialog = new(
-                LocaleManager.Instance[LocaleKeys.DialogNcaExtractionTitle],
+                App.FormatTitle(LocaleKeys.DialogNcaExtractionTitle),
                 LocaleManager.Instance.UpdateAndGetDynamicValue(LocaleKeys.DialogNcaExtractionMessage, ncaSectionType, Path.GetFileName(titleFilePath)),
                 cancellationToken);
 
@@ -269,7 +269,7 @@ namespace Ryujinx.Ava.Common
                             Dispatcher.UIThread.Post(waitingDialog.Close);
 
                             NotificationHelper.Show(
-                                LocaleManager.Instance[LocaleKeys.DialogNcaExtractionTitle],
+                                App.FormatTitle(LocaleKeys.DialogNcaExtractionTitle),
                                 $"{titleName}\n\n{LocaleManager.Instance[LocaleKeys.DialogNcaExtractionSuccessMessage]}",
                                 NotificationType.Information);
                         }

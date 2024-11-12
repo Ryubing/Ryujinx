@@ -77,7 +77,7 @@ namespace ARMeilleure.Translation
                 {
                     continue;
                 }
-
+                
                 for (int pBlkIndex = 0; pBlkIndex < block.Predecessors.Count; pBlkIndex++)
                 {
                     BasicBlock current = block.Predecessors[pBlkIndex];

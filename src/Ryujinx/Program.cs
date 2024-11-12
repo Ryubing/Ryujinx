@@ -30,7 +30,6 @@ namespace Ryujinx.Ava
 {
     internal partial class Program
     {
-        //
         public static double WindowScaleFactor { get; set; }
         public static double DesktopScaleFactor { get; set; } = 1.0;
         public static string Version { get; private set; }
@@ -101,10 +100,10 @@ namespace Ryujinx.Ava
             // Delete backup files after updating.
             Task.Run(Updater.CleanupUpdate);
 
-            Console.Title = $"Ryujinx Console {Version}";
+            Console.Title = $"{App.FullAppName} Console {Version}";
 
             // Hook unhandled exception and process exit events.
-            AppDomain.CurrentDomain.UnhandledException += (sender, e) 
+            AppDomain.CurrentDomain.UnhandledException += (sender, e)
                 => ProcessUnhandledException(sender, e.ExceptionObject as Exception, e.IsTerminating);
             AppDomain.CurrentDomain.ProcessExit += (_, _) => Exit();
 
@@ -225,16 +224,14 @@ namespace Ryujinx.Ava
 
         private static void PrintSystemInfo()
         {
-            Logger.Notice.Print(LogClass.Application, $"Ryujinx Version: {Version}");
+            Logger.Notice.Print(LogClass.Application, $"{App.FullAppName} Version: {Version}");
             SystemInfo.Gather().Print();
 
             var enabledLogLevels = Logger.GetEnabledLevels().ToArray();
 
-            Logger.Notice.Print(LogClass.Application, $"Logs Enabled: {
-                (enabledLogLevels.Length is 0
+            Logger.Notice.Print(LogClass.Application, $"Logs Enabled: {(enabledLogLevels.Length is 0
                     ? "<None>"
-                    : enabledLogLevels.JoinToString(", "))
-            }");
+                    : enabledLogLevels.JoinToString(", "))}");
 
             Logger.Notice.Print(LogClass.Application,
                 AppDataManager.Mode == AppDataManager.LaunchMode.Custom
@@ -246,13 +243,13 @@ namespace Ryujinx.Ava
         {
             Logger.Log log = Logger.Error ?? Logger.Notice;
             string message = $"Unhandled exception caught: {ex}";
-            
+
             // ReSharper disable once ConstantConditionalAccessQualifier
-            if (sender?.GetType()?.AsPrettyString() is {} senderName)
+            if (sender?.GetType()?.AsPrettyString() is { } senderName)
                 log.Print(LogClass.Application, message, senderName);
             else
                 log.PrintMsg(LogClass.Application, message);
-            
+
             if (isTerminating)
                 Exit();
         }

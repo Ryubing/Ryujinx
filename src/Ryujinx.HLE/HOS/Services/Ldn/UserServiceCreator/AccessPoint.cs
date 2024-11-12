@@ -15,6 +15,8 @@ namespace Ryujinx.HLE.HOS.Services.Ldn.UserServiceCreator
         public Array8<NodeLatestUpdate> LatestUpdates = new();
         public bool Connected { get; private set; }
 
+        public ProxyConfig Config => _parent.NetworkClient.Config;
+
         public AccessPoint(IUserLocalCommunicationService parent)
         {
             _parent = parent;
@@ -24,9 +26,12 @@ namespace Ryujinx.HLE.HOS.Services.Ldn.UserServiceCreator
 
         public void Dispose()
         {
-            _parent.NetworkClient.DisconnectNetwork();
+            if (_parent?.NetworkClient != null)
+            {
+                _parent.NetworkClient.DisconnectNetwork();
 
-            _parent.NetworkClient.NetworkChange -= NetworkChanged;
+                _parent.NetworkClient.NetworkChange -= NetworkChanged;
+            }
         }
 
         private void NetworkChanged(object sender, NetworkChangeEventArgs e)

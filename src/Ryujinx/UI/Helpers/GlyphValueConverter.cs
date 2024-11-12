@@ -22,9 +22,9 @@ namespace Ryujinx.Ava.UI.Helpers
             _key = key;
         }
 
-        public string this[string key] => 
+        public string this[string key] =>
             _glyphs.TryGetValue(Enum.Parse<Glyph>(key), out var val)
-                ? val 
+                ? val
                 : string.Empty;
 
         public override object ProvideValue(IServiceProvider serviceProvider) => this[_key];

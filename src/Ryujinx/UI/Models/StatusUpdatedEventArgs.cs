@@ -10,7 +10,7 @@ namespace Ryujinx.Ava.UI.Models
         public string DockedMode { get; }
         public string FifoStatus { get; }
         public string GameStatus { get; }
-        
+
         public uint ShaderCount { get; }
 
         public StatusUpdatedEventArgs(bool vSyncEnabled, string volumeStatus, string dockedMode, string aspectRatio, string gameStatus, string fifoStatus, uint shaderCount)

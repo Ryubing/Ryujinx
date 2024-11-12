@@ -6,6 +6,7 @@ namespace Ryujinx.HLE.HOS.Services.Ldn.UserServiceCreator
 {
     interface INetworkClient : IDisposable
     {
+        ProxyConfig Config { get; }
         bool NeedsRealId { get; }
 
         event EventHandler<NetworkChangeEventArgs> NetworkChange;

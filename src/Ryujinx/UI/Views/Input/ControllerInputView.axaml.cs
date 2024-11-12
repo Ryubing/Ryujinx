@@ -26,19 +26,17 @@ namespace Ryujinx.Ava.UI.Views.Input
 
             foreach (ILogical visual in SettingButtons.GetLogicalDescendants())
             {
-                if (visual is ToggleButton button and not CheckBox)
+                switch (visual)
                 {
-                    button.IsCheckedChanged += Button_IsCheckedChanged;
-                }
-
-                if (visual is CheckBox check)
-                {
-                    check.IsCheckedChanged += CheckBox_IsCheckedChanged;
-                }
-
-                if (visual is Slider slider)
-                {
-                    slider.PropertyChanged += Slider_IsCheckedChanged;
+                    case ToggleButton button and not CheckBox:
+                        button.IsCheckedChanged += Button_IsCheckedChanged;
+                        break;
+                    case CheckBox check:
+                        check.IsCheckedChanged += CheckBox_IsCheckedChanged;
+                        break;
+                    case Slider slider:
+                        slider.PropertyChanged += Slider_ValueChanged;
+                        break;
                 }
             }
         }
@@ -47,33 +45,28 @@ namespace Ryujinx.Ava.UI.Views.Input
         {
             base.OnPointerReleased(e);
 
-            if (_currentAssigner != null && _currentAssigner.ToggledButton != null && !_currentAssigner.ToggledButton.IsPointerOver)
+            if (_currentAssigner is { ToggledButton.IsPointerOver: false })
             {
                 _currentAssigner.Cancel();
             }
         }
 
-        private float _changeSlider = -1.0f;
+        private float _changeSlider = float.NaN;
 
-        private void Slider_IsCheckedChanged(object sender, AvaloniaPropertyChangedEventArgs e)
+        private void Slider_ValueChanged(object sender, AvaloniaPropertyChangedEventArgs e)
         {
             if (sender is Slider check)
             {
-                if ((bool)check.IsPointerOver && _changeSlider == -1.0f)
+                _changeSlider = check.IsPointerOver switch
                 {
-                    _changeSlider = (float)check.Value;
-                    
-                }
-                else if (!(bool)check.IsPointerOver)
-                {
-                    _changeSlider = -1.0f;
-                }
+                    true when float.IsNaN(_changeSlider) => (float)check.Value,
+                    false => float.NaN,
+                    _ => _changeSlider
+                };
 
-                if (_changeSlider != -1.0f && _changeSlider != (float)check.Value)
+                if (!float.IsNaN(_changeSlider) && _changeSlider != (float)check.Value)
                 {
-
-                     var viewModel = (DataContext as ControllerInputViewModel);
-                     viewModel.ParentModel.IsModified = true;
+                    (DataContext as ControllerInputViewModel)!.ParentModel.IsModified = true;
                     _changeSlider = (float)check.Value;
                 }
             }
@@ -81,25 +74,20 @@ namespace Ryujinx.Ava.UI.Views.Input
 
         private void CheckBox_IsCheckedChanged(object sender, RoutedEventArgs e)
         {
-            if (sender is CheckBox check)
+            if (sender is CheckBox { IsPointerOver: true })
             {
-                if ((bool)check.IsPointerOver)
-                {
-
-                    var viewModel = (DataContext as ControllerInputViewModel);
-                    viewModel.ParentModel.IsModified = true;
-                    _currentAssigner?.Cancel();
-                    _currentAssigner = null;
-                }
+                (DataContext as ControllerInputViewModel)!.ParentModel.IsModified = true;
+                _currentAssigner?.Cancel();
+                _currentAssigner = null;
             }
         }
 
 
         private void Button_IsCheckedChanged(object sender, RoutedEventArgs e)
         {
-            if (sender is ToggleButton button ) 
+            if (sender is ToggleButton button) 
             {
-                if ((bool)button.IsChecked)
+                if (button.IsChecked is true)
                 {
                     if (_currentAssigner != null && button == _currentAssigner.ToggledButton)
                     {
@@ -204,7 +192,7 @@ namespace Ryujinx.Ava.UI.Views.Input
                     }
                     else
                     {
-                        if (_currentAssigner != null )
+                        if (_currentAssigner != null)
                         {
                             _currentAssigner.Cancel();
                             _currentAssigner = null;

@@ -1,4 +1,5 @@
 using Ryujinx.HLE.HOS.Services.Ldn.Types;
+using Ryujinx.HLE.HOS.Services.Ldn.UserServiceCreator.LdnRyu.Types;
 using System.Runtime.InteropServices;
 
 namespace Ryujinx.HLE.HOS.Services.Ldn.UserServiceCreator.Types
@@ -14,5 +15,7 @@ namespace Ryujinx.HLE.HOS.Services.Ldn.UserServiceCreator.Types
         public UserConfig UserConfig;
         public NetworkConfig NetworkConfig;
         public AddressList AddressList;
+
+        public RyuNetworkConfig RyuNetworkConfig;
     }
 }

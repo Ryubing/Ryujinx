@@ -80,6 +80,7 @@ namespace Ryujinx.Ava.UI.Windows
                         NavPanel.Content = AudioPage;
                         break;
                     case "NetworkPage":
+                        NetworkPage.ViewModel = ViewModel;
                         NavPanel.Content = NetworkPage;
                         break;
                     case "LoggingPage":

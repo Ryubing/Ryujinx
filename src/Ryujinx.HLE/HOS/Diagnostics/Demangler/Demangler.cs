@@ -2463,7 +2463,7 @@ namespace Ryujinx.HLE.HOS.Diagnostics.Demangler
                     return ParseIntegerLiteral("unsigned short");
                 case 'i':
                     _position++;
-                    return ParseIntegerLiteral("");
+                    return ParseIntegerLiteral(string.Empty);
                 case 'j':
                     _position++;
                     return ParseIntegerLiteral("u");

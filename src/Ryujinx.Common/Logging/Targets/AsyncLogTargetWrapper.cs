@@ -30,10 +30,10 @@ namespace Ryujinx.Common.Logging.Targets
         string ILogTarget.Name { get => _target.Name; }
 
         public AsyncLogTargetWrapper(ILogTarget target)
-            : this(target, -1, AsyncLogTargetOverflowAction.Block)
+            : this(target, -1)
         { }
 
-        public AsyncLogTargetWrapper(ILogTarget target, int queueLimit, AsyncLogTargetOverflowAction overflowAction)
+        public AsyncLogTargetWrapper(ILogTarget target, int queueLimit = -1, AsyncLogTargetOverflowAction overflowAction = AsyncLogTargetOverflowAction.Block)
         {
             _target = target;
             _messageQueue = new BlockingCollection<LogEventArgs>(queueLimit);

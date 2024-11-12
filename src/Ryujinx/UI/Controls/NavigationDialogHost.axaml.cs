@@ -48,7 +48,7 @@ namespace Ryujinx.Ava.UI.Controls
 
             if (contentManager.GetCurrentFirmwareVersion() != null)
                 Task.Run(() => UserFirmwareAvatarSelectorViewModel.PreloadAvatars(contentManager, virtualFileSystem));
-            
+
             InitializeComponent();
         }
 
@@ -60,13 +60,13 @@ namespace Ryujinx.Ava.UI.Controls
             LoadProfiles();
         }
 
-        public void Navigate(Type sourcePageType, object parameter) 
+        public void Navigate(Type sourcePageType, object parameter)
             => ContentFrame.Navigate(sourcePageType, parameter);
 
         public static async Task Show(
-            AccountManager ownerAccountManager, 
+            AccountManager ownerAccountManager,
             ContentManager ownerContentManager,
-            VirtualFileSystem ownerVirtualFileSystem, 
+            VirtualFileSystem ownerVirtualFileSystem,
             HorizonClient ownerHorizonClient)
         {
             var content = new NavigationDialogHost(ownerAccountManager, ownerContentManager, ownerVirtualFileSystem, ownerHorizonClient);
@@ -158,9 +158,9 @@ namespace Ryujinx.Ava.UI.Controls
                     _ = Dispatcher.UIThread.InvokeAsync(async () 
                         => await ContentDialogHelper.CreateErrorDialog(
                             LocaleManager.Instance[LocaleKeys.DialogUserProfileDeletionWarningMessage]));
-                    
+
                     return;
-                }
+                    }
 
                 AccountManager.OpenUser(profile.UserId);
             }

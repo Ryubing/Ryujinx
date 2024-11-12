@@ -97,7 +97,7 @@ namespace Ryujinx.Graphics.OpenGL
         public IProgram CreateProgram(ShaderSource[] shaders, ShaderInfo info)
         {
             ProgramCount++;
-            
+
             return new Program(shaders, info.FragmentOutputMap);
         }
 

@@ -1,4 +1,4 @@
-﻿<UserControl
+<UserControl
     x:Class="Ryujinx.Ava.UI.Views.Settings.SettingsNetworkView"
     xmlns="https://github.com/avaloniaui"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
@@ -37,10 +37,56 @@
                             <TextBlock Text="{ext:Locale MultiplayerModeDisabled}" />
                         </ComboBoxItem>
                         <ComboBoxItem>
+                            <TextBlock Text="{ext:Locale MultiplayerModeLdnRyu}" />
+                        </ComboBoxItem>
+                        <ComboBoxItem>
                             <TextBlock Text="{ext:Locale MultiplayerModeLdnMitm}" />
                         </ComboBoxItem>
                     </ComboBox>
+                    <CheckBox Margin="10,0,0,0" IsChecked="{Binding DisableP2P}">
+                        <TextBlock Text="{ext:Locale MultiplayerDisableP2P}"
+                            ToolTip.Tip="{ext:Locale MultiplayerDisableP2PTooltip}" />
+                    </CheckBox>
                 </StackPanel>
+                <StackPanel Margin="10,0,0,0" Orientation="Horizontal">
+                    <TextBlock VerticalAlignment="Center"
+                        Text="{ext:Locale LdnPassphrase}"
+                        ToolTip.Tip="{ext:Locale LdnPassphraseTooltip}"
+                        Width="200" />
+                    <TextBox Name="LdnPassphrase"
+                        Text="{Binding LdnPassphrase}"
+                        Width="250"
+                        MaxLength="16"
+                        ToolTip.Tip="{ext:Locale LdnPassphraseInputTooltip}"
+                        Watermark="{ext:Locale LdnPassphraseInputPublic}" />
+                    <Button
+                        Name="GenLdnPassButton"
+                        Grid.Column="1"
+                        MinWidth="90"
+                        Margin="10,0,0,0"
+                        ToolTip.Tip="{ext:Locale GenLdnPassTooltip}"
+                        Click="GenLdnPassButton_OnClick">
+                        <TextBlock HorizontalAlignment="Center"
+                                    Text="{ext:Locale GenLdnPass}" />
+                    </Button>
+                    <Button
+                        Name="ClearLdnPassButton"
+                        Grid.Column="1"
+                        MinWidth="90"
+                        Margin="10,0,0,0"
+                        ToolTip.Tip="{ext:Locale ClearLdnPassTooltip}"
+                        Click="ClearLdnPassButton_OnClick">
+                        <TextBlock HorizontalAlignment="Center"
+                                    Text="{ext:Locale ClearLdnPass}" />
+                    </Button>
+                </StackPanel>
+                <TextBlock  Margin="10,0,0,0"
+                    VerticalAlignment="Center"
+                    Name="InvalidLdnPassphraseBlock"
+                    FontStyle="Italic"
+                    IsVisible="{Binding IsInvalidLdnPassphraseVisible}"
+                    Focusable="False"
+                    Text="{ext:Locale InvalidLdnPassphrase}" />
                 <Separator Height="1" />
                 <TextBlock Classes="h1" Text="{ext:Locale SettingsTabNetworkConnection}" />
                 <CheckBox Margin="10,0,0,0" IsChecked="{Binding EnableInternetAccess}">

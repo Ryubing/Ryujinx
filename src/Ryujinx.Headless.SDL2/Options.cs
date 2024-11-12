@@ -225,6 +225,9 @@ namespace Ryujinx.Headless.SDL2
 
         [Option("ignore-missing-services", Required = false, Default = false, HelpText = "Enable ignoring missing services.")]
         public bool IgnoreMissingServices { get; set; }
+        
+        [Option("ignore-controller-applet", Required = false, Default = false, HelpText = "Enable ignoring the controller applet when your game loses connection to your controller.")]
+        public bool IgnoreControllerApplet { get; set; }
 
         // Values
 

@@ -85,8 +85,8 @@ namespace Ryujinx.HLE.Loaders.Processes
             }
 
             // TODO: LibHac npdm currently doesn't support version field.
-            string version = ProgramId > 0x0100000000007FFF 
-                ? DisplayVersion 
+            string version = ProgramId > 0x0100000000007FFF
+                ? DisplayVersion
                 : device.System.ContentManager.GetCurrentFirmwareVersion()?.VersionString ?? "?";
 
             Logger.Info?.Print(LogClass.Loader, $"Application Loaded: {Name} v{version} [{ProgramIdText}] [{(Is64Bit ? "64-bit" : "32-bit")}]");

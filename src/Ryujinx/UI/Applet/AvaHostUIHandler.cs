@@ -31,7 +31,7 @@ namespace Ryujinx.Ava.UI.Applet
         public bool DisplayMessageDialog(ControllerAppletUIArgs args)
         {
             ManualResetEvent dialogCloseEvent = new(false);
-            
+
             bool okPressed = false;
 
             if (ConfigurationState.Instance.IgnoreApplet)

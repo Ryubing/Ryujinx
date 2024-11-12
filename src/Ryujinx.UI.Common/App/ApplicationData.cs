@@ -27,6 +27,8 @@ namespace Ryujinx.UI.App.Common
         public ulong Id { get; set; }
         public string Developer { get; set; } = "Unknown";
         public string Version { get; set; } = "0";
+        public int PlayerCount { get; set; }
+        public int GameCount { get; set; }
         public TimeSpan TimePlayed { get; set; }
         public DateTime? LastPlayed { get; set; }
         public string FileExtension { get; set; }

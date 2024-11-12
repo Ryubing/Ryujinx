@@ -24,7 +24,7 @@ namespace Ryujinx.Ava.UI.Applet
         public AvaloniaDynamicTextInputHandler(MainWindow parent)
         {
             _parent = parent;
-            
+
             if (_parent.InputManager.KeyboardDriver is AvaloniaKeyboardDriver avaloniaKeyboardDriver)
             {
                 avaloniaKeyboardDriver.KeyPressed += AvaloniaDynamicTextInputHandler_KeyPressed;
@@ -121,7 +121,7 @@ namespace Ryujinx.Ava.UI.Applet
                 avaloniaKeyboardDriver.KeyRelease -= AvaloniaDynamicTextInputHandler_KeyRelease;
                 avaloniaKeyboardDriver.TextInput -= AvaloniaDynamicTextInputHandler_TextInput;
             }
-            
+
             _textChangedSubscription?.Dispose();
             _selectionStartChangedSubscription?.Dispose();
             _selectionEndtextChangedSubscription?.Dispose();

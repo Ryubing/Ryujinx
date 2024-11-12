@@ -75,7 +75,7 @@ namespace Ryujinx.Ava.UI.Windows
                     string parentPath = currentCheatFile.Replace(titleModsPath, string.Empty);
 
                     buildId = Path.GetFileNameWithoutExtension(currentCheatFile).ToUpper();
-                    currentGroup = new CheatNode("", buildId, parentPath, true);
+                    currentGroup = new CheatNode(string.Empty, buildId, parentPath, true);
 
                     LoadedCheats.Add(currentGroup);
                 }

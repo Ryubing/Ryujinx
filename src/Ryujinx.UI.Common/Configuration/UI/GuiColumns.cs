@@ -7,6 +7,7 @@ namespace Ryujinx.UI.Common.Configuration.UI
         public bool AppColumn { get; set; }
         public bool DevColumn { get; set; }
         public bool VersionColumn { get; set; }
+        public bool LdnInfoColumn { get; set; }
         public bool TimePlayedColumn { get; set; }
         public bool LastPlayedColumn { get; set; }
         public bool FileExtColumn { get; set; }

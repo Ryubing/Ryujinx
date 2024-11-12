@@ -1,11 +1,10 @@
 using DiscordRPC;
 using Humanizer;
-using LibHac.Bcat;
+using Humanizer.Localisation;
 using Ryujinx.Common;
 using Ryujinx.HLE.Loaders.Processes;
 using Ryujinx.UI.App.Common;
 using Ryujinx.UI.Common.Configuration;
-using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 
@@ -15,9 +14,13 @@ namespace Ryujinx.UI.Common
     {
         public static Timestamps StartedAt { get; set; }
 
-        private static readonly string _description = ReleaseInformation.IsValid
-                ? $"v{ReleaseInformation.Version} {ReleaseInformation.ReleaseChannelOwner}/{ReleaseInformation.ReleaseChannelRepo}@{ReleaseInformation.BuildGitHash}"
-                : "dev build";
+        private static string VersionString
+            => (ReleaseInformation.IsCanaryBuild ? "Canary " : string.Empty) + $"v{ReleaseInformation.Version}"; 
+
+        private static readonly string _description = 
+            ReleaseInformation.IsValid 
+                    ? $"{VersionString} {ReleaseInformation.ReleaseChannelOwner}/{ReleaseInformation.ReleaseChannelSourceRepo}@{ReleaseInformation.BuildGitHash}" 
+                    : "dev build";
 
         private const string ApplicationId = "1293250299716173864";
 
@@ -74,13 +77,13 @@ namespace Ryujinx.UI.Common
                 Assets = new Assets
                 {
                     LargeImageKey = _discordGameAssetKeys.Contains(procRes.ProgramIdText) ? procRes.ProgramIdText : "game",
-                    LargeImageText = TruncateToByteLength($"{appMeta.Title} | {procRes.DisplayVersion}"),
+                    LargeImageText = TruncateToByteLength($"{appMeta.Title} (v{procRes.DisplayVersion})"),
                     SmallImageKey = "ryujinx",
                     SmallImageText = TruncateToByteLength(_description)
                 },
                 Details = TruncateToByteLength($"Playing {appMeta.Title}"),
                 State = appMeta.LastPlayed.HasValue && appMeta.TimePlayed.TotalSeconds > 5
-                    ? $"Total play time: {appMeta.TimePlayed.Humanize(2, false)}"
+                    ? $"Total play time: {appMeta.TimePlayed.Humanize(2, false, maxUnit: TimeUnit.Hour)}"
                     : "Never played",
                 Timestamps = Timestamps.Now
             });
@@ -163,6 +166,7 @@ namespace Ryujinx.UI.Common
             "010036b0034e4000", // Super Mario Party
             "01006fe013472000", // Mario Party Superstars
             "0100965017338000", // Super Mario Party Jamboree
+            "01006d0017f7a000", // Mario & Luigi: Brothership
             "010067300059a000", // Mario + Rabbids: Kingdom Battle
             "0100317013770000", // Mario + Rabbids: Sparks of Hope
             "0100a3900c3e2000", // Paper Mario: The Origami King

@@ -17,7 +17,7 @@ namespace Ryujinx.Ava.UI.Windows
 
             LocaleManager.Instance.LocaleChanged += LocaleChanged;
             LocaleChanged();
-            
+
             Icon = MainWindowViewModel.IconBitmap;
         }
 

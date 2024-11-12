@@ -116,18 +116,13 @@ namespace Ryujinx.HLE.HOS
         private readonly Dictionary<ulong, ModCache> _appMods; // key is ApplicationId
         private PatchCache _patches;
 
-        private static readonly EnumerationOptions _dirEnumOptions;
-
-        static ModLoader()
+        private static readonly EnumerationOptions _dirEnumOptions = new()
         {
-            _dirEnumOptions = new EnumerationOptions
-            {
-                MatchCasing = MatchCasing.CaseInsensitive,
-                MatchType = MatchType.Simple,
-                RecurseSubdirectories = false,
-                ReturnSpecialDirectories = false,
-            };
-        }
+            MatchCasing = MatchCasing.CaseInsensitive,
+            MatchType = MatchType.Simple,
+            RecurseSubdirectories = false,
+            ReturnSpecialDirectories = false,
+        };
 
         public ModLoader()
         {
@@ -169,7 +164,7 @@ namespace Ryujinx.HLE.HOS
             foreach (var modDir in dir.EnumerateDirectories())
             {
                 types.Clear();
-                Mod<DirectoryInfo> mod = new("", null, true);
+                Mod<DirectoryInfo> mod = new(string.Empty, null, true);
 
                 if (StrEquals(RomfsDir, modDir.Name))
                 {

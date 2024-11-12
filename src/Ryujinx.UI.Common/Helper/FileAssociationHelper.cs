@@ -4,6 +4,7 @@ using Ryujinx.Common.Logging;
 using System;
 using System.Diagnostics;
 using System.IO;
+using System.Linq;
 using System.Runtime.InteropServices;
 using System.Runtime.Versioning;
 
@@ -23,6 +24,26 @@ namespace Ryujinx.UI.Common.Helper
         public static partial void SHChangeNotify(uint wEventId, uint uFlags, nint dwItem1, nint dwItem2);
 
         public static bool IsTypeAssociationSupported => (OperatingSystem.IsLinux() || OperatingSystem.IsWindows()) && !ReleaseInformation.IsFlatHubBuild;
+        
+        public static bool AreMimeTypesRegistered
+        {
+            get
+            {
+                if (OperatingSystem.IsLinux())
+                {
+                    return AreMimeTypesRegisteredLinux();
+                }
+
+                if (OperatingSystem.IsWindows())
+                {
+                    return AreMimeTypesRegisteredWindows();
+                }
+
+                // TODO: Add macOS support.
+
+                return false;
+            }
+        }
 
         [SupportedOSPlatform("linux")]
         private static bool AreMimeTypesRegisteredLinux() => File.Exists(Path.Combine(_mimeDbPath, "packages", "Ryujinx.xml"));
@@ -72,6 +93,10 @@ namespace Ryujinx.UI.Common.Helper
         [SupportedOSPlatform("windows")]
         private static bool AreMimeTypesRegisteredWindows()
         {
+            return _fileExtensions.Aggregate(false, 
+                (current, ext) => current | CheckRegistering(ext)
+            );
+            
             static bool CheckRegistering(string ext)
             {
                 RegistryKey key = Registry.CurrentUser.OpenSubKey(@$"Software\Classes\{ext}");
@@ -87,20 +112,20 @@ namespace Ryujinx.UI.Common.Helper
 
                 return keyValue is not null && (keyValue.Contains("Ryujinx") || keyValue.Contains(AppDomain.CurrentDomain.FriendlyName));
             }
-
-            bool registered = false;
-
-            foreach (string ext in _fileExtensions)
-            {
-                registered |= CheckRegistering(ext);
-            }
-
-            return registered;
         }
 
         [SupportedOSPlatform("windows")]
         private static bool InstallWindowsMimeTypes(bool uninstall = false)
         {
+            bool registered = _fileExtensions.Aggregate(false, 
+                (current, ext) => current | RegisterExtension(ext, uninstall)
+            );
+
+            // Notify Explorer the file association has been changed.
+            SHChangeNotify(SHCNE_ASSOCCHANGED, SHCNF_FLUSH, nint.Zero, nint.Zero);
+
+            return registered;
+            
             static bool RegisterExtension(string ext, bool uninstall = false)
             {
                 string keyString = @$"Software\Classes\{ext}";
@@ -127,42 +152,13 @@ namespace Ryujinx.UI.Common.Helper
 
                     Logger.Debug?.Print(LogClass.Application, $"Adding type association {ext}");
                     using var openCmd = key.CreateSubKey(@"shell\open\command");
-                    openCmd.SetValue("", $"\"{Environment.ProcessPath}\" \"%1\"");
+                    openCmd.SetValue(string.Empty, $"\"{Environment.ProcessPath}\" \"%1\"");
                     Logger.Debug?.Print(LogClass.Application, $"Added type association {ext}");
 
                 }
 
                 return true;
             }
-
-            bool registered = false;
-
-            foreach (string ext in _fileExtensions)
-            {
-                registered |= RegisterExtension(ext, uninstall);
-            }
-
-            // Notify Explorer the file association has been changed.
-            SHChangeNotify(SHCNE_ASSOCCHANGED, SHCNF_FLUSH, nint.Zero, nint.Zero);
-
-            return registered;
-        }
-
-        public static bool AreMimeTypesRegistered()
-        {
-            if (OperatingSystem.IsLinux())
-            {
-                return AreMimeTypesRegisteredLinux();
-            }
-
-            if (OperatingSystem.IsWindows())
-            {
-                return AreMimeTypesRegisteredWindows();
-            }
-
-            // TODO: Add macOS support.
-
-            return false;
         }
 
         public static bool Install()

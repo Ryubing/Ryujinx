@@ -292,7 +292,7 @@ namespace Ryujinx.HLE.HOS.Services.Sockets.Sfdnsres
         {
             string host = MemoryHelper.ReadAsciiString(context.Memory, inputBufferPosition, (int)inputBufferSize);
 
-            if (!context.Device.Configuration.EnableInternetAccess)
+            if (host != "localhost" && !context.Device.Configuration.EnableInternetAccess)
             {
                 Logger.Info?.Print(LogClass.ServiceSfdnsres, $"Guest network access disabled, DNS Blocked: {host}");
 

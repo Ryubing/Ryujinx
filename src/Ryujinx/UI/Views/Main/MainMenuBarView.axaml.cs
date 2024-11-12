@@ -40,8 +40,8 @@ namespace Ryujinx.Ava.UI.Views.Main
         private CheckBox[] GenerateToggleFileTypeItems() =>
             Enum.GetValues<FileTypes>()
                 .Select(it => (FileName: Enum.GetName(it)!, FileType: it))
-                .Select(it => 
-                    new CheckBox 
+                .Select(it =>
+                    new CheckBox
                     {
                         Content = $".{it.FileName}",
                         IsChecked = it.FileType.GetConfigValue(ConfigurationState.Instance.UI.ShownFileTypes),

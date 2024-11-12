@@ -37,7 +37,7 @@ namespace Ryujinx.Ava.UI.Views.Input
             {
                 _dialogOpen = true;
 
-                var result = await ContentDialogHelper.CreateConfirmationDialogExtended(
+                var result = await ContentDialogHelper.CreateDeniableConfirmationDialog(
                     LocaleManager.Instance[LocaleKeys.DialogControllerSettingsModifiedConfirmMessage],
                     LocaleManager.Instance[LocaleKeys.DialogControllerSettingsModifiedConfirmSubMessage],
                     LocaleManager.Instance[LocaleKeys.InputDialogYes],
@@ -55,26 +55,17 @@ namespace Ryujinx.Ava.UI.Views.Input
 
                 if (result == UserResult.Cancel)
                 {
-                 
-                    return;
-                }
-
-                ViewModel.IsModified = false;
-
-                if (result != UserResult.Cancel)
-                {
-                    ViewModel.PlayerId = ViewModel.PlayerIdChoose;
-                }
-
-                if (result == UserResult.Cancel)
-                {
                     if (e.AddedItems.Count > 0)
                     {
                         ViewModel.IsModified = true;
-                        var player = (PlayerModel)e.AddedItems[0];
-                        ViewModel.PlayerId = player.Id;
+                        ViewModel.PlayerId = ((PlayerModel)e.AddedItems[0])!.Id;
                     }
+                    return;
                 }
+                
+                ViewModel.PlayerId = ViewModel.PlayerIdChoose;
+
+                ViewModel.IsModified = false;
             }
             
         }
