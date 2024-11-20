@@ -116,7 +116,7 @@ jobs:
 
           pushd publish_sdl2_headless
           rm publish/libarmeilleure-jitsupport.dylib
-          7z a ../release_output/sdl2-ryujinx-headless-${{ steps.version_info.outputs.build_version }}-${{ matrix.platform.zip_os_name }}.zip publish
+          7z a ../release_output/nogui-ryujinx-${{ steps.version_info.outputs.build_version }}-${{ matrix.platform.zip_os_name }}.zip publish
           popd
         shell: bash
 
@@ -132,7 +132,7 @@ jobs:
           pushd publish_sdl2_headless
           rm publish/libarmeilleure-jitsupport.dylib
           chmod +x publish/Ryujinx.sh publish/Ryujinx.Headless.SDL2
-          tar -czvf ../release_output/sdl2-ryujinx-headless-${{ steps.version_info.outputs.build_version }}-${{ matrix.platform.zip_os_name }}.tar.gz publish
+          tar -czvf ../release_output/nogui-ryujinx-${{ steps.version_info.outputs.build_version }}-${{ matrix.platform.zip_os_name }}.tar.gz publish
           popd
         shell: bash
       

@@ -74,7 +74,7 @@ We use and recommend the following workflow:
 3. In your fork, create a branch off of main (`git checkout -b mybranch`).
     - Branches are useful since they isolate your changes from incoming changes from upstream. They also enable you to create multiple PRs from the same fork.
 4. Make and commit your changes to your branch.
-    - [Build Instructions](https://github.com/GreemDev/Ryujinx#building) explains how to build and test.
+    - [Build Instructions](https://github.com/GreemDev/Ryujinx/blob/master/COMPILING.md) explains how to build and test.
     - Commit messages should be clear statements of action and intent.
 6. Build the repository with your changes.
     - Make sure that the builds are clean.
@@ -83,7 +83,7 @@ We use and recommend the following workflow:
     - State in the description what issue or improvement your change is addressing.
     - Check if all the Continuous Integration checks are passing. Refer to [Actions](https://github.com/GreemDev/Ryujinx/actions) to check for outstanding errors.
 8. Wait for feedback or approval of your changes from the core development team
-    - Details about the pull request [review procedure](docs/workflow/ci/pr-guide.md).
+    - Details about the pull request [review procedure](docs/workflow/pr-guide.md).
 9. When the team members have signed off, and all checks are green, your PR will be merged.
     - The next official build will automatically include your change.
     - You can delete the branch you used for making the change.

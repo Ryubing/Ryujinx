@@ -248,7 +248,7 @@ namespace Ryujinx.UI.Common
             "0100744001588000", // Cars 3: Driven to Win
             "0100b41013c82000", // Cruis'n Blast
             "01008c8012920000", // Dying Light Platinum Edition
-            "01000a10041ea000", // The Elder Scrolls V: Skyrim
+            "010073c01af34000", // LEGO Horizon Adventures
             "0100770008dd8000", // Monster Hunter Generations Ultimate
             "0100b04011742000", // Monster Hunter Rise
             "0100853015e86000", // No Man's Sky
@@ -263,6 +263,7 @@ namespace Ryujinx.UI.Common
             "0100d7a01b7a2000", // Star Wars: Bounty Hunter
             "0100800015926000", // Suika Game
             "0100e46006708000", // Terraria
+            "01000a10041ea000", // The Elder Scrolls V: Skyrim
             "010080b00ad66000", // Undertale
         ];
     }

@@ -9,7 +9,7 @@ To merge pull requests, you must have write permissions in the repository.
 ## Quick Code Review Rules
 
 * Do not mix unrelated changes in one pull request. For example, a code style change should never be mixed with a bug fix.
-* All changes should follow the existing code style. You can read more about our code style at [docs/coding-guidelines](../coding-guidelines/coding-style.md).
+* All changes should follow the existing code style. You can read more about our code style at [docs/coding-style](../coding-guidelines/coding-style.md).
 * Adding external dependencies is to be avoided unless not doing so would introduce _significant_ complexity. Any dependency addition should be justified and discussed before merge.
 * Use Draft pull requests for changes you are still working on but want early CI loop feedback. When you think your changes are ready for review, [change the status](https://help.github.com/en/github/collaborating-with-issues-and-pull-requests/changing-the-stage-of-a-pull-request) of your pull request.
 * Rebase your changes when required or directly requested. Changes should always be commited on top of the upstream branch, not the other way around.

@@ -33,3 +33,11 @@ kernel:
 infra:
 - changed-files:
   - any-glob-to-any-file: ['.github/**', 'distribution/**', 'Directory.Packages.props']
+
+documentation:
+- changed-files:
+  - any-glob-to-any-file: 'docs/**'
+
+ldn:
+- changed-files:
+  - any-glob-to-any-file: 'src/Ryujinx.HLE/HOS/Services/Ldn/**'

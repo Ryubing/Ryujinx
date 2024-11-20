@@ -22,9 +22,9 @@ EXTRA_ARGS=$8
 
 if [ "$VERSION" == "1.1.0" ];
 then
-  RELEASE_TAR_FILE_NAME=sdl2-ryujinx-headless-$CONFIGURATION-$VERSION+$SOURCE_REVISION_ID-macos_universal.tar
+  RELEASE_TAR_FILE_NAME=nogui-ryujinx-$CONFIGURATION-$VERSION+$SOURCE_REVISION_ID-macos_universal.tar
 else
-  RELEASE_TAR_FILE_NAME=sdl2-ryujinx-headless-$VERSION-macos_universal.tar
+  RELEASE_TAR_FILE_NAME=nogui-ryujinx-$VERSION-macos_universal.tar
 fi
 
 ARM64_OUTPUT="$TEMP_DIRECTORY/publish_arm64"

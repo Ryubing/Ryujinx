@@ -165,7 +165,8 @@ namespace Ryujinx.Ava.UI.Views.Main
 
         private async void InstallFileTypes_Click(object sender, RoutedEventArgs e)
         {
-            if (FileAssociationHelper.Install())
+            ViewModel.AreMimeTypesRegistered = FileAssociationHelper.Install();
+            if (ViewModel.AreMimeTypesRegistered)
                 await ContentDialogHelper.CreateInfoDialog(LocaleManager.Instance[LocaleKeys.DialogInstallFileTypesSuccessMessage], string.Empty, LocaleManager.Instance[LocaleKeys.InputDialogOk], string.Empty, string.Empty);
             else
                 await ContentDialogHelper.CreateErrorDialog(LocaleManager.Instance[LocaleKeys.DialogInstallFileTypesErrorMessage]);
@@ -173,7 +174,8 @@ namespace Ryujinx.Ava.UI.Views.Main
 
         private async void UninstallFileTypes_Click(object sender, RoutedEventArgs e)
         {
-            if (FileAssociationHelper.Uninstall())
+            ViewModel.AreMimeTypesRegistered = !FileAssociationHelper.Uninstall();
+            if (!ViewModel.AreMimeTypesRegistered)
                 await ContentDialogHelper.CreateInfoDialog(LocaleManager.Instance[LocaleKeys.DialogUninstallFileTypesSuccessMessage], string.Empty, LocaleManager.Instance[LocaleKeys.InputDialogOk], string.Empty, string.Empty);
             else
                 await ContentDialogHelper.CreateErrorDialog(LocaleManager.Instance[LocaleKeys.DialogUninstallFileTypesErrorMessage]);
@@ -184,18 +186,24 @@ namespace Ryujinx.Ava.UI.Views.Main
             if (sender is not MenuItem { Tag: string resolution })
                 return;
 
-            (int width, int height) = resolution.Split(' ', 2)
+            (int resolutionWidth, int resolutionHeight) = resolution.Split(' ', 2)
                 .Into(parts => 
                     (int.Parse(parts[0]), int.Parse(parts[1]))
                 );
 
+            // Correctly size window when 'TitleBar' is enabled (Nov. 14, 2024)
+            double barsHeight = ((Window.StatusBarHeight + Window.MenuBarHeight) +
+                (ConfigurationState.Instance.ShowTitleBar ? (int)Window.TitleBar.Height : 0));
+
+            double windowWidthScaled = (resolutionWidth * Program.WindowScaleFactor);
+            double windowHeightScaled = ((resolutionHeight + barsHeight) * Program.WindowScaleFactor);
+
             await Dispatcher.UIThread.InvokeAsync(() =>
             {
+                
                 ViewModel.WindowState = WindowState.Normal;
 
-                height += (int)Window.StatusBarHeight + (int)Window.MenuBarHeight;
-
-                Window.Arrange(new Rect(Window.Position.X, Window.Position.Y, width, height));
+                Window.Arrange(new Rect(Window.Position.X, Window.Position.Y, windowWidthScaled, windowHeightScaled));
             });
         }
 

@@ -102,6 +102,7 @@ namespace Ryujinx.Ava.UI.ViewModels
         private float _volumeBeforeMute;
         private string _backendText;
 
+        private bool _areMimeTypesRegistered = FileAssociationHelper.AreMimeTypesRegistered;
         private bool _canUpdate = true;
         private Cursor _cursor;
         private string _title;
@@ -804,10 +805,15 @@ namespace Ryujinx.Ava.UI.ViewModels
         {
             get => FileAssociationHelper.IsTypeAssociationSupported;
         }
-        
+
         public bool AreMimeTypesRegistered
         {
-            get => FileAssociationHelper.AreMimeTypesRegistered;
+            get => _areMimeTypesRegistered;
+            set {
+                _areMimeTypesRegistered = value;
+
+                OnPropertyChanged();
+            }
         }
 
         public ObservableCollectionExtended<ApplicationData> Applications
