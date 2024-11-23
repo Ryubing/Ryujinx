@@ -352,11 +352,7 @@ namespace Ryujinx.Ava
 
                         string filename = $"{sanitizedApplicationName}_{currentTime.Year}-{currentTime.Month:D2}-{currentTime.Day:D2}_{currentTime.Hour:D2}-{currentTime.Minute:D2}-{currentTime.Second:D2}.png";
 
-                        string directory = AppDataManager.Mode switch
-                        {
-                            AppDataManager.LaunchMode.Portable or AppDataManager.LaunchMode.Custom => Path.Combine(AppDataManager.BaseDirPath, "screenshots"),
-                            _ => Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.MyPictures), "Ryujinx"),
-                        };
+                        string directory = Path.Combine(AppDataManager.BaseDirPath, "screenshots");
 
                         string path = Path.Combine(directory, filename);
 

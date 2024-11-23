@@ -23,7 +23,7 @@ namespace Ryujinx.Cpu.LightningJit
 
         private bool _disposed;
 
-        private readonly AddressTable<ulong> _functionTable;
+        private readonly IAddressTable<ulong> _functionTable;
         private readonly NoWxCache _noWxCache;
         private readonly GetFunctionAddressDelegate _getFunctionAddressRef;
         private readonly nint _getFunctionAddress;
@@ -79,7 +79,7 @@ namespace Ryujinx.Cpu.LightningJit
         /// <param name="functionTable">Function table used to store pointers to the functions that the guest code will call</param>
         /// <param name="noWxCache">Cache used on platforms that enforce W^X, otherwise should be null</param>
         /// <exception cref="ArgumentNullException"><paramref name="translator"/> is null</exception>
-        public TranslatorStubs(AddressTable<ulong> functionTable, NoWxCache noWxCache)
+        public TranslatorStubs(IAddressTable<ulong> functionTable, NoWxCache noWxCache)
         {
             ArgumentNullException.ThrowIfNull(functionTable);
 

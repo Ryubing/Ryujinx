@@ -13,7 +13,8 @@ namespace Ryujinx.HLE.HOS
             string displayVersion,
             bool diskCacheEnabled,
             ulong codeAddress,
-            ulong codeSize);
+            ulong codeSize,
+            string cacheSelector);
     }
 
     class ArmProcessContext<T> : IArmProcessContext where T : class, IVirtualMemoryManagerTracked, IMemoryManager
@@ -67,10 +68,11 @@ namespace Ryujinx.HLE.HOS
             string displayVersion,
             bool diskCacheEnabled,
             ulong codeAddress,
-            ulong codeSize)
+            ulong codeSize,
+            string cacheSelector)
         {
             _cpuContext.PrepareCodeRange(codeAddress, codeSize);
-            return _cpuContext.LoadDiskCache(titleIdText, displayVersion, diskCacheEnabled);
+            return _cpuContext.LoadDiskCache(titleIdText, displayVersion, diskCacheEnabled, cacheSelector);
         }
 
         public void InvalidateCacheRegion(ulong address, ulong size)

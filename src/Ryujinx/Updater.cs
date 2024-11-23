@@ -114,9 +114,14 @@ namespace Ryujinx.Ava
                         {
                             if (showVersionUpToDate)
                             {
-                                await ContentDialogHelper.CreateUpdaterInfoDialog(
+                                UserResult userResult = await ContentDialogHelper.CreateUpdaterUpToDateInfoDialog(
                                     LocaleManager.Instance[LocaleKeys.DialogUpdaterAlreadyOnLatestVersionMessage],
                                     string.Empty);
+
+                                if (userResult is UserResult.Ok)
+                                {
+                                    OpenHelper.OpenUrl(ReleaseInformation.GetChangelogForVersion(currentVersion));
+                                }
                             }
 
                             _running = false;
@@ -133,9 +138,14 @@ namespace Ryujinx.Ava
                 {
                     if (showVersionUpToDate)
                     {
-                        await ContentDialogHelper.CreateUpdaterInfoDialog(
+                        UserResult userResult = await ContentDialogHelper.CreateUpdaterUpToDateInfoDialog(
                             LocaleManager.Instance[LocaleKeys.DialogUpdaterAlreadyOnLatestVersionMessage],
                             string.Empty);
+
+                        if (userResult is UserResult.Ok)
+                        {
+                            OpenHelper.OpenUrl(ReleaseInformation.GetChangelogForVersion(currentVersion));
+                        }
                     }
 
                     _running = false;
@@ -176,9 +186,14 @@ namespace Ryujinx.Ava
             {
                 if (showVersionUpToDate)
                 {
-                    await ContentDialogHelper.CreateUpdaterInfoDialog(
+                    UserResult userResult = await ContentDialogHelper.CreateUpdaterUpToDateInfoDialog(
                         LocaleManager.Instance[LocaleKeys.DialogUpdaterAlreadyOnLatestVersionMessage],
                         string.Empty);
+
+                    if (userResult is UserResult.Ok)
+                    {
+                        OpenHelper.OpenUrl(ReleaseInformation.GetChangelogForVersion(currentVersion));
+                    }
                 }
 
                 _running = false;
@@ -206,19 +221,29 @@ namespace Ryujinx.Ava
 
             await Dispatcher.UIThread.InvokeAsync(async () =>
             {
+                string newVersionString = ReleaseInformation.IsCanaryBuild
+                    ? $"Canary {currentVersion} -> Canary {newVersion}"
+                    : $"{currentVersion} -> {newVersion}";
+                
+                RequestUserToUpdate:
                 // Show a message asking the user if they want to update
-                var shouldUpdate = await ContentDialogHelper.CreateChoiceDialog(
+                UserResult shouldUpdate = await ContentDialogHelper.CreateUpdaterChoiceDialog(
                     LocaleManager.Instance[LocaleKeys.RyujinxUpdater],
                     LocaleManager.Instance[LocaleKeys.RyujinxUpdaterMessage],
-                    $"{Program.Version} -> {newVersion}");
+                    newVersionString);
 
-                if (shouldUpdate)
+                switch (shouldUpdate)
                 {
-                    await UpdateRyujinx(mainWindow, _buildUrl);
-                }
-                else
-                {
-                    _running = false;
+                    case UserResult.Yes:
+                        await UpdateRyujinx(mainWindow, _buildUrl);
+                        break;
+                    // Secondary button maps to no, which in this case is the show changelog button.
+                    case UserResult.No:
+                        OpenHelper.OpenUrl(ReleaseInformation.GetChangelogUrl(currentVersion, newVersion));
+                        goto RequestUserToUpdate;
+                    default:
+                        _running = false;
+                        break;
                 }
             });
         }

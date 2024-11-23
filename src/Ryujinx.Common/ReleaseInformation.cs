@@ -1,3 +1,4 @@
+using System;
 using System.Reflection;
 
 namespace Ryujinx.Common
@@ -35,5 +36,13 @@ namespace Ryujinx.Common
         public static bool IsReleaseBuild => IsValid && ReleaseChannelName.Equals(ReleaseChannel);
 
         public static string Version => IsValid ? BuildVersion : Assembly.GetEntryAssembly()!.GetCustomAttribute<AssemblyInformationalVersionAttribute>()?.InformationalVersion;
+
+        public static string GetChangelogUrl(Version currentVersion, Version newVersion) =>
+            IsCanaryBuild 
+                ? $"https://github.com/{ReleaseChannelOwner}/{ReleaseChannelSourceRepo}/compare/Canary-{currentVersion}...Canary-{newVersion}" 
+                : $"https://github.com/{ReleaseChannelOwner}/{ReleaseChannelSourceRepo}/releases/tag/{newVersion}";
+        
+        public static string GetChangelogForVersion(Version version) =>
+            $"https://github.com/{ReleaseChannelOwner}/{ReleaseChannelRepo}/releases/tag/{version}";
     }
 }

@@ -261,6 +261,16 @@ namespace Ryujinx.Ava.UI.Helpers
                 string.Empty,
                 LocaleManager.Instance[LocaleKeys.InputDialogOk],
                 (int)Symbol.Important);
+        
+        internal static async Task<UserResult> CreateUpdaterUpToDateInfoDialog(string primary, string secondaryText)
+            => await ShowTextDialog(
+                LocaleManager.Instance[LocaleKeys.DialogUpdaterTitle],
+                primary,
+                secondaryText,
+                LocaleManager.Instance[LocaleKeys.DialogUpdaterShowChangelogMessage],
+                string.Empty,
+                LocaleManager.Instance[LocaleKeys.InputDialogOk],
+                (int)Symbol.Important);
 
         internal static async Task CreateWarningDialog(string primary, string secondaryText)
             => await ShowTextDialog(
@@ -308,6 +318,30 @@ namespace Ryujinx.Ava.UI.Helpers
             _isChoiceDialogOpen = false;
 
             return response == UserResult.Yes;
+        }
+        
+        internal static async Task<UserResult> CreateUpdaterChoiceDialog(string title, string primary, string secondaryText)
+        {
+            if (_isChoiceDialogOpen)
+            {
+                return UserResult.Cancel;
+            }
+
+            _isChoiceDialogOpen = true;
+
+            UserResult response = await ShowTextDialog(
+                title,
+                primary,
+                secondaryText,
+                LocaleManager.Instance[LocaleKeys.InputDialogYes],
+                LocaleManager.Instance[LocaleKeys.DialogUpdaterShowChangelogMessage],
+                LocaleManager.Instance[LocaleKeys.InputDialogNo],
+                (int)Symbol.Help,
+                UserResult.Yes);
+
+            _isChoiceDialogOpen = false;
+
+            return response;
         }
 
         internal static async Task<bool> CreateExitDialog()

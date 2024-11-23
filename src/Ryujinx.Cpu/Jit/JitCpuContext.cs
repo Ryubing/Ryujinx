@@ -1,3 +1,4 @@
+using ARMeilleure.Common;
 using ARMeilleure.Memory;
 using ARMeilleure.Translation;
 using Ryujinx.Cpu.Signal;
@@ -9,11 +10,13 @@ namespace Ryujinx.Cpu.Jit
     {
         private readonly ITickSource _tickSource;
         private readonly Translator _translator;
+        private readonly AddressTable<ulong> _functionTable;
 
         public JitCpuContext(ITickSource tickSource, IMemoryManager memory, bool for64Bit)
         {
             _tickSource = tickSource;
-            _translator = new Translator(new JitMemoryAllocator(forJit: true), memory, for64Bit);
+            _functionTable = AddressTable<ulong>.CreateForArm(for64Bit, memory.Type);
+            _translator = new Translator(new JitMemoryAllocator(forJit: true), memory, _functionTable);
 
             if (memory.Type.IsHostMappedOrTracked())
             {
@@ -47,14 +50,15 @@ namespace Ryujinx.Cpu.Jit
         }
 
         /// <inheritdoc/>
-        public IDiskCacheLoadState LoadDiskCache(string titleIdText, string displayVersion, bool enabled)
+        public IDiskCacheLoadState LoadDiskCache(string titleIdText, string displayVersion, bool enabled, string cacheSelector)
         {
-            return new JitDiskCacheLoadState(_translator.LoadDiskCache(titleIdText, displayVersion, enabled));
+            return new JitDiskCacheLoadState(_translator.LoadDiskCache(titleIdText, displayVersion, enabled, cacheSelector));
         }
 
         /// <inheritdoc/>
         public void PrepareCodeRange(ulong address, ulong size)
         {
+            _functionTable.SignalCodeRange(address, size);
             _translator.PrepareCodeRange(address, size);
         }
 

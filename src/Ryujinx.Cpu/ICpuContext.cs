@@ -48,7 +48,7 @@ namespace Ryujinx.Cpu
         /// <param name="displayVersion">Version of the application</param>
         /// <param name="enabled">True if the cache should be loaded from disk if it exists, false otherwise</param>
         /// <returns>Disk cache load progress reporter and manager</returns>
-        IDiskCacheLoadState LoadDiskCache(string titleIdText, string displayVersion, bool enabled);
+        IDiskCacheLoadState LoadDiskCache(string titleIdText, string displayVersion, bool enabled, string cacheSelector);
 
         /// <summary>
         /// Indicates that code has been loaded into guest memory, and that it might be executed in the future.

@@ -457,6 +457,7 @@
   "DialogUpdaterExtractionMessage": "Estrazione dell'aggiornamento...",
   "DialogUpdaterRenamingMessage": "Rinominazione dell'aggiornamento...",
   "DialogUpdaterAddingFilesMessage": "Aggiunta del nuovo aggiornamento...",
+  "DialogUpdaterShowChangelogMessage": "Show Changelog",
   "DialogUpdaterCompleteMessage": "Aggiornamento completato!",
   "DialogUpdaterRestartMessage": "Vuoi riavviare Ryujinx adesso?",
   "DialogUpdaterNoInternetMessage": "Non sei connesso ad Internet!",
@@ -850,5 +851,17 @@
   "MultiplayerMode": "Modalità:",
   "MultiplayerModeTooltip": "Cambia la modalità multigiocatore LDN.\n\nLdnMitm modificherà la funzionalità locale wireless/local play nei giochi per funzionare come se fosse in modalità LAN, consentendo connessioni locali sulla stessa rete con altre istanze di Ryujinx e console Nintendo Switch modificate che hanno il modulo ldn_mitm installato.\n\nLa modalità multigiocatore richiede che tutti i giocatori usino la stessa versione del gioco (es. Super Smash Bros. Ultimate v13.0.1 non può connettersi con la v13.0.0).\n\nNel dubbio, lascia l'opzione su Disabilitato.",
   "MultiplayerModeDisabled": "Disabilitato",
-  "MultiplayerModeLdnMitm": "ldn_mitm"
+  "MultiplayerModeLdnMitm": "ldn_mitm",
+  "MultiplayerModeLdnRyu": "RyuLDN",
+  "MultiplayerDisableP2P": "Disable P2P Network Hosting (may increase latency)",
+  "MultiplayerDisableP2PTooltip": "Disable P2P network hosting, peers will proxy through the master server instead of connecting to you directly.",
+  "LdnPassphrase": "Network Passphrase:",
+  "LdnPassphraseTooltip": "You will only be able to see hosted games with the same passphrase as you.",
+  "LdnPassphraseInputTooltip": "Enter a passphrase in the format Ryujinx-<8 hex chars>. You will only be able to see hosted games with the same passphrase as you.",
+  "LdnPassphraseInputPublic": "(public)",
+  "GenLdnPass": "Generate Random",
+  "GenLdnPassTooltip": "Generates a new passphrase, which can be shared with other players.",
+  "ClearLdnPass": "Clear",
+  "ClearLdnPassTooltip": "Clears the current passphrase, returning to the public network.",
+  "InvalidLdnPassphrase": "Invalid Passphrase! Must be in the format \"Ryujinx-<8 hex chars>\""
 }

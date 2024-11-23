@@ -49,7 +49,7 @@ namespace Ryujinx.Ava.UI.ViewModels
 
         public AboutWindowViewModel()
         {
-            Version = Program.Version;
+            Version = App.FullAppName + "\n" + Program.Version;
             UpdateLogoTheme(ConfigurationState.Instance.UI.BaseStyle.Value);
 
             ThemeManager.ThemeChanged += ThemeManager_ThemeChanged;

@@ -2,8 +2,8 @@
 
 set -e
 
-if [ "$#" -lt 7 ]; then
-    echo "usage <BASE_DIR> <TEMP_DIRECTORY> <OUTPUT_DIRECTORY> <ENTITLEMENTS_FILE_PATH> <VERSION> <SOURCE_REVISION_ID> <CONFIGURATION> <EXTRA_ARGS>"
+if [ "$#" -lt 8 ]; then
+    echo "usage <BASE_DIR> <TEMP_DIRECTORY> <OUTPUT_DIRECTORY> <ENTITLEMENTS_FILE_PATH> <VERSION> <SOURCE_REVISION_ID> <CONFIGURATION> <CANARY>"
     exit 1
 fi
 
@@ -18,10 +18,11 @@ ENTITLEMENTS_FILE_PATH=$(readlink -f "$4")
 VERSION=$5
 SOURCE_REVISION_ID=$6
 CONFIGURATION=$7
-EXTRA_ARGS=$8
+CANARY=$8
 
-if [ "$VERSION" == "1.1.0" ];
-then
+if [ "$CANARY" == "1" ]; then
+  RELEASE_TAR_FILE_NAME=nogui-ryujinx-canary-$VERSION-macos_universal.tar
+elif [ "$VERSION" == "1.1.0" ]; then
   RELEASE_TAR_FILE_NAME=nogui-ryujinx-$CONFIGURATION-$VERSION+$SOURCE_REVISION_ID-macos_universal.tar
 else
   RELEASE_TAR_FILE_NAME=nogui-ryujinx-$VERSION-macos_universal.tar
@@ -56,7 +57,7 @@ mkdir -p "$OUTPUT_DIRECTORY"
 cp -R "$ARM64_OUTPUT/" "$UNIVERSAL_OUTPUT"
 rm "$UNIVERSAL_OUTPUT/$EXECUTABLE_SUB_PATH"
 
-# Make it libraries universal
+# Make its libraries universal
 python3 "$BASE_DIR/distribution/macos/construct_universal_dylib.py" "$ARM64_OUTPUT" "$X64_OUTPUT" "$UNIVERSAL_OUTPUT" "**/*.dylib"
 
 if ! [ -x "$(command -v lipo)" ];
