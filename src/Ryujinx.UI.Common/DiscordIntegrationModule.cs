@@ -264,6 +264,7 @@ namespace Ryujinx.UI.Common
             "0100800015926000", // Suika Game
             "0100e46006708000", // Terraria
             "01000a10041ea000", // The Elder Scrolls V: Skyrim
+            "010057a01e4d4000", // TSUKIHIME -A piece of blue glass moon-
             "010080b00ad66000", // Undertale
         ];
     }

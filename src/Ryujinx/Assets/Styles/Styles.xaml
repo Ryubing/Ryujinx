@@ -1,7 +1,8 @@
 ﻿<Styles
     xmlns="https://github.com/avaloniaui"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-    xmlns:ui="clr-namespace:FluentAvalonia.UI.Controls;assembly=FluentAvalonia">
+    xmlns:ui="clr-namespace:FluentAvalonia.UI.Controls;assembly=FluentAvalonia"
+    xmlns:windowing="clr-namespace:FluentAvalonia.UI.Windowing;assembly=FluentAvalonia">
     <Design.PreviewWith>
         <Border Height="2000"
                 Padding="20">
@@ -231,7 +232,7 @@
         <Setter Property="BorderBrush"
                 Value="{DynamicResource HighlightBrush}" />
     </Style>
-    <Style Selector="Button">
+    <Style Selector="Button:not(windowing|MinMaxCloseControl Button)">
         <Setter Property="MinWidth"
                 Value="80" />
     </Style>
