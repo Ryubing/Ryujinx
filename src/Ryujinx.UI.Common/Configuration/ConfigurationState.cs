@@ -64,7 +64,9 @@ namespace Ryujinx.UI.Common.Configuration
                 ShowTitleBar = ShowTitleBar,
                 EnableHardwareAcceleration = EnableHardwareAcceleration,
                 HideCursor = HideCursor,
-                EnableVsync = Graphics.EnableVsync,
+                VSyncMode = Graphics.VSyncMode,
+                EnableCustomVSyncInterval = Graphics.EnableCustomVSyncInterval,
+                CustomVSyncInterval = Graphics.CustomVSyncInterval,
                 EnableShaderCache = Graphics.EnableShaderCache,
                 EnableTextureRecompression = Graphics.EnableTextureRecompression,
                 EnableMacroHLE = Graphics.EnableMacroHLE,
@@ -179,7 +181,9 @@ namespace Ryujinx.UI.Common.Configuration
             ShowTitleBar.Value = !OperatingSystem.IsWindows();
             EnableHardwareAcceleration.Value = true;
             HideCursor.Value = HideCursorMode.OnIdle;
-            Graphics.EnableVsync.Value = true;
+            Graphics.VSyncMode.Value = VSyncMode.Switch;
+            Graphics.CustomVSyncInterval.Value = 120;
+            Graphics.EnableCustomVSyncInterval.Value = false;
             Graphics.EnableShaderCache.Value = true;
             Graphics.EnableTextureRecompression.Value = false;
             Graphics.EnableMacroHLE.Value = true;
@@ -240,7 +244,7 @@ namespace Ryujinx.UI.Common.Configuration
             Hid.EnableMouse.Value = false;
             Hid.Hotkeys.Value = new KeyboardHotkeys
             {
-                ToggleVsync = Key.F1,
+                ToggleVSyncMode = Key.F1,
                 ToggleMute = Key.F2,
                 Screenshot = Key.F8,
                 ShowUI = Key.F4,

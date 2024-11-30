@@ -247,6 +247,7 @@ namespace Ryujinx.UI.Common
             "0100dbf01000a000", // Burnout Paradise Remastered
             "0100744001588000", // Cars 3: Driven to Win
             "0100b41013c82000", // Cruis'n Blast
+            "01001b300b9be000", // Diablo III: Eternal Collection
             "01008c8012920000", // Dying Light Platinum Edition
             "010073c01af34000", // LEGO Horizon Adventures
             "0100770008dd8000", // Monster Hunter Generations Ultimate

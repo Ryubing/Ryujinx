@@ -47,7 +47,7 @@ namespace Ryujinx.Ava.UI.Models
             TitleId = info.ProgramId;
             UserId = info.UserId;
 
-            var appData = App.MainWindow.ViewModel.Applications.FirstOrDefault(x => x.IdString.Equals(TitleIdString, StringComparison.OrdinalIgnoreCase));
+            var appData = MainWindow.MainWindowViewModel.Applications.FirstOrDefault(x => x.IdString.Equals(TitleIdString, StringComparison.OrdinalIgnoreCase));
 
             InGameList = appData != null;
 

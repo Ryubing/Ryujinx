@@ -238,7 +238,7 @@ namespace ARMeilleure.Common
             {
                 TEntry* page = GetPage(address);
 
-                int index = Levels[^1].GetValue(address);
+                long index = Levels[^1].GetValue(address);
 
                 EnsureMapped((IntPtr)(page + index));
 

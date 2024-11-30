@@ -82,7 +82,7 @@ namespace Ryujinx.UI.Common.Configuration
 
                 configurationFileFormat.Hotkeys = new KeyboardHotkeys
                 {
-                    ToggleVsync = Key.F1,
+                    ToggleVSyncMode = Key.F1,
                 };
 
                 configurationFileUpdated = true;
@@ -276,7 +276,7 @@ namespace Ryujinx.UI.Common.Configuration
 
                 configurationFileFormat.Hotkeys = new KeyboardHotkeys
                 {
-                    ToggleVsync = Key.F1,
+                    ToggleVSyncMode = Key.F1,
                     Screenshot = Key.F8,
                 };
 
@@ -289,7 +289,7 @@ namespace Ryujinx.UI.Common.Configuration
 
                 configurationFileFormat.Hotkeys = new KeyboardHotkeys
                 {
-                    ToggleVsync = Key.F1,
+                    ToggleVSyncMode = Key.F1,
                     Screenshot = Key.F8,
                     ShowUI = Key.F4,
                 };
@@ -332,7 +332,7 @@ namespace Ryujinx.UI.Common.Configuration
 
                 configurationFileFormat.Hotkeys = new KeyboardHotkeys
                 {
-                    ToggleVsync = configurationFileFormat.Hotkeys.ToggleVsync,
+                    ToggleVSyncMode = configurationFileFormat.Hotkeys.ToggleVSyncMode,
                     Screenshot = configurationFileFormat.Hotkeys.Screenshot,
                     ShowUI = configurationFileFormat.Hotkeys.ShowUI,
                     Pause = Key.F5,
@@ -347,7 +347,7 @@ namespace Ryujinx.UI.Common.Configuration
 
                 configurationFileFormat.Hotkeys = new KeyboardHotkeys
                 {
-                    ToggleVsync = configurationFileFormat.Hotkeys.ToggleVsync,
+                    ToggleVSyncMode = configurationFileFormat.Hotkeys.ToggleVSyncMode,
                     Screenshot = configurationFileFormat.Hotkeys.Screenshot,
                     ShowUI = configurationFileFormat.Hotkeys.ShowUI,
                     Pause = configurationFileFormat.Hotkeys.Pause,
@@ -421,7 +421,7 @@ namespace Ryujinx.UI.Common.Configuration
 
                 configurationFileFormat.Hotkeys = new KeyboardHotkeys
                 {
-                    ToggleVsync = configurationFileFormat.Hotkeys.ToggleVsync,
+                    ToggleVSyncMode = configurationFileFormat.Hotkeys.ToggleVSyncMode,
                     Screenshot = configurationFileFormat.Hotkeys.Screenshot,
                     ShowUI = configurationFileFormat.Hotkeys.ShowUI,
                     Pause = configurationFileFormat.Hotkeys.Pause,
@@ -448,7 +448,7 @@ namespace Ryujinx.UI.Common.Configuration
 
                 configurationFileFormat.Hotkeys = new KeyboardHotkeys
                 {
-                    ToggleVsync = configurationFileFormat.Hotkeys.ToggleVsync,
+                    ToggleVSyncMode = configurationFileFormat.Hotkeys.ToggleVSyncMode,
                     Screenshot = configurationFileFormat.Hotkeys.Screenshot,
                     ShowUI = configurationFileFormat.Hotkeys.ShowUI,
                     Pause = configurationFileFormat.Hotkeys.Pause,
@@ -611,6 +611,33 @@ namespace Ryujinx.UI.Common.Configuration
                 configurationFileUpdated = true;
             }
 
+            if (configurationFileFormat.Version < 57)
+            {
+                Ryujinx.Common.Logging.Logger.Warning?.Print(LogClass.Application, $"Outdated configuration version {configurationFileFormat.Version}, migrating to version 57.");
+
+                configurationFileFormat.VSyncMode = VSyncMode.Switch;
+                configurationFileFormat.EnableCustomVSyncInterval = false;
+
+                configurationFileFormat.Hotkeys = new KeyboardHotkeys
+                {
+                    ToggleVSyncMode = Key.F1,
+                    Screenshot = configurationFileFormat.Hotkeys.Screenshot,
+                    ShowUI = configurationFileFormat.Hotkeys.ShowUI,
+                    Pause = configurationFileFormat.Hotkeys.Pause,
+                    ToggleMute = configurationFileFormat.Hotkeys.ToggleMute,
+                    ResScaleUp = configurationFileFormat.Hotkeys.ResScaleUp,
+                    ResScaleDown = configurationFileFormat.Hotkeys.ResScaleDown,
+                    VolumeUp = configurationFileFormat.Hotkeys.VolumeUp,
+                    VolumeDown = configurationFileFormat.Hotkeys.VolumeDown,
+                    CustomVSyncIntervalIncrement = Key.Unbound,
+                    CustomVSyncIntervalDecrement = Key.Unbound,
+                };
+
+                configurationFileFormat.CustomVSyncInterval = 120;
+
+                configurationFileUpdated = true;
+            }
+
             Logger.EnableFileLog.Value = configurationFileFormat.EnableFileLog;
             Graphics.ResScale.Value = configurationFileFormat.ResScale;
             Graphics.ResScaleCustom.Value = configurationFileFormat.ResScaleCustom;
@@ -646,7 +673,9 @@ namespace Ryujinx.UI.Common.Configuration
             ShowTitleBar.Value = configurationFileFormat.ShowTitleBar;
             EnableHardwareAcceleration.Value = configurationFileFormat.EnableHardwareAcceleration;
             HideCursor.Value = configurationFileFormat.HideCursor;
-            Graphics.EnableVsync.Value = configurationFileFormat.EnableVsync;
+            Graphics.VSyncMode.Value = configurationFileFormat.VSyncMode;
+            Graphics.EnableCustomVSyncInterval.Value = configurationFileFormat.EnableCustomVSyncInterval;
+            Graphics.CustomVSyncInterval.Value = configurationFileFormat.CustomVSyncInterval;
             Graphics.EnableShaderCache.Value = configurationFileFormat.EnableShaderCache;
             Graphics.EnableTextureRecompression.Value = configurationFileFormat.EnableTextureRecompression;
             Graphics.EnableMacroHLE.Value = configurationFileFormat.EnableMacroHLE;

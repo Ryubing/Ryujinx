@@ -182,6 +182,16 @@ namespace Ryujinx.Graphics.Vulkan
                     return false;
                 }
             }
+            
+            //Prevent the sum of descriptors from exceeding MaxPushDescriptors
+            int totalDescriptors = 0;
+            foreach (ResourceDescriptor desc in layout.Sets.First().Descriptors)
+            {
+                if (!reserved.Contains(desc.Binding))
+                    totalDescriptors += desc.Count;
+            }
+            if (totalDescriptors > gd.Capabilities.MaxPushDescriptors)
+                return false;
 
             return true;
         }

@@ -36,9 +36,9 @@ namespace ARMeilleure.Common
         /// </summary>
         /// <param name="address">Guest address</param>
         /// <returns>Value of the <see cref="AddressTableLevel"/> from the specified guest <paramref name="address"/></returns>
-        public int GetValue(ulong address)
+        public long GetValue(ulong address)
         {
-            return (int)((address & Mask) >> Index);
+            return (long)((address & Mask) >> Index);
         }
     }
 }

@@ -175,3 +175,6 @@ PublishProfiles/
 
 # Glade backup files
 *.glade~
+
+# Ignore MacOS Attribute Files
+._*

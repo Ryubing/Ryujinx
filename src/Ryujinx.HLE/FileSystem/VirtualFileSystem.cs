@@ -223,9 +223,10 @@ namespace Ryujinx.HLE.FileSystem
         {
             KeySet ??= KeySet.CreateDefaultKeySet();
 
-            string keyFile = null;
+            string prodKeyFile = null;
             string titleKeyFile = null;
             string consoleKeyFile = null;
+            string devKeyFile = null;
 
             if (AppDataManager.Mode == AppDataManager.LaunchMode.UserProfile)
             {
@@ -236,13 +237,14 @@ namespace Ryujinx.HLE.FileSystem
 
             void LoadSetAtPath(string basePath)
             {
-                string localKeyFile = Path.Combine(basePath, "prod.keys");
+                string localProdKeyFile = Path.Combine(basePath, "prod.keys");
                 string localTitleKeyFile = Path.Combine(basePath, "title.keys");
                 string localConsoleKeyFile = Path.Combine(basePath, "console.keys");
+                string localDevKeyFile = Path.Combine(basePath, "dev.keys");
 
-                if (File.Exists(localKeyFile))
+                if (File.Exists(localProdKeyFile))
                 {
-                    keyFile = localKeyFile;
+                    prodKeyFile = localProdKeyFile;
                 }
 
                 if (File.Exists(localTitleKeyFile))
@@ -254,9 +256,14 @@ namespace Ryujinx.HLE.FileSystem
                 {
                     consoleKeyFile = localConsoleKeyFile;
                 }
+
+                if (File.Exists(localDevKeyFile))
+                {
+                    devKeyFile = localDevKeyFile;
+                }
             }
 
-            ExternalKeyReader.ReadKeyFile(KeySet, keyFile, titleKeyFile, consoleKeyFile, null);
+            ExternalKeyReader.ReadKeyFile(KeySet, prodKeyFile, devKeyFile, titleKeyFile, consoleKeyFile, null);
         }
 
         public void ImportTickets(IFileSystem fs)

@@ -3,7 +3,7 @@ using System;
 namespace Ryujinx.Headless.SDL2
 {
     class StatusUpdatedEventArgs(
-        bool vSyncEnabled,
+        string vSyncMode,
         string dockedMode,
         string aspectRatio,
         string gameStatus,
@@ -11,7 +11,7 @@ namespace Ryujinx.Headless.SDL2
         string gpuName)
         : EventArgs
     {
-        public bool VSyncEnabled = vSyncEnabled;
+        public string VSyncMode = vSyncMode;
         public string DockedMode = dockedMode;
         public string AspectRatio = aspectRatio;
         public string GameStatus = gameStatus;

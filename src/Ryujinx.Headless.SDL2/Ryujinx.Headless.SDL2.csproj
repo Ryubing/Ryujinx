@@ -9,6 +9,7 @@
     <DefineConstants Condition=" '$(ExtraDefineConstants)' != '' ">$(DefineConstants);$(ExtraDefineConstants)</DefineConstants>
     <SigningCertificate Condition=" '$(SigningCertificate)' == '' ">-</SigningCertificate>
     <TieredPGO>true</TieredPGO>
+    <DefaultItemExcludes>$(DefaultItemExcludes);._*</DefaultItemExcludes>
   </PropertyGroup>
 
   <ItemGroup>

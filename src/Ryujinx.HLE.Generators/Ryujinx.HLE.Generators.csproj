@@ -6,6 +6,7 @@
         <EmitCompilerGeneratedFiles>true</EmitCompilerGeneratedFiles>
         <CompilerGeneratedFilesOutputPath>Generated</CompilerGeneratedFilesOutputPath>
         <IsRoslynComponent>true</IsRoslynComponent>
+        <DefaultItemExcludes>$(DefaultItemExcludes);._*</DefaultItemExcludes>
     </PropertyGroup>
 
     <ItemGroup>

@@ -58,7 +58,7 @@
                 <MenuItem Header="{ext:Locale MenuBarFileOpenApplet}" IsEnabled="{Binding IsAppletMenuActive}" Icon="{ext:Icon mdi-launch}">
                     <MenuItem
                         Click="OpenMiiApplet"
-                        Header="Mii Edit Applet"
+                        Header="{ext:Locale MenuBarFileOpenAppletOpenMiiApplet}"
                         Icon="{ext:Icon fa-solid fa-person}"
                         ToolTip.Tip="{ext:Locale MenuBarFileOpenAppletOpenMiiAppletToolTip}" />
                 </MenuItem>
@@ -260,6 +260,10 @@
                     IsEnabled="{Binding IsGameRunning}" />
             </MenuItem>
             <MenuItem VerticalAlignment="Center" Header="{ext:Locale MenuBarTools}">
+                <MenuItem Header="{ext:Locale MenuBarToolsInstallKeys}" Icon="{ext:Icon fa-solid fa-key}" IsEnabled="{Binding EnableNonGameRunningControls}">
+                    <MenuItem Command="{Binding InstallKeysFromFile}" Header="{ext:Locale MenuBarFileToolsInstallKeysFromFile}" Icon="{ext:Icon mdi-file-cog}" />
+                    <MenuItem Command="{Binding InstallKeysFromFolder}" Header="{ext:Locale MenuBarFileToolsInstallKeysFromFolder}" Icon="{ext:Icon mdi-folder-cog}" />
+                </MenuItem>
                 <MenuItem Header="{ext:Locale MenuBarToolsInstallFirmware}" Icon="{ext:Icon fa-solid fa-download}" IsEnabled="{Binding EnableNonGameRunningControls}">
                     <MenuItem Command="{Binding InstallFirmwareFromFile}" Header="{ext:Locale MenuBarFileToolsInstallFirmwareFromFile}" Icon="{ext:Icon mdi-file-cog}" />
                     <MenuItem Command="{Binding InstallFirmwareFromFolder}" Header="{ext:Locale MenuBarFileToolsInstallFirmwareFromDirectory}" Icon="{ext:Icon mdi-folder-cog}" />
