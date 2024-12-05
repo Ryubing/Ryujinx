@@ -6,6 +6,7 @@ using LibHac.Loader;
 using LibHac.Tools.Fs;
 using LibHac.Tools.FsSystem;
 using LibHac.Tools.FsSystem.RomFs;
+using LibHac.Util;
 using Ryujinx.Common.Configuration;
 using Ryujinx.Common.Logging;
 using Ryujinx.Common.Utilities;
@@ -19,6 +20,7 @@ using System.Collections.Specialized;
 using System.Globalization;
 using System.IO;
 using System.Linq;
+using System.Security.Cryptography;
 using LazyFile = Ryujinx.HLE.HOS.Services.Fs.FileSystemProxy.LazyFile;
 using Path = System.IO.Path;
 
@@ -581,6 +583,7 @@ namespace Ryujinx.HLE.HOS
             public BitVector32 Stubs;
             public BitVector32 Replaces;
             public MetaLoader Npdm;
+            public string Hash;
 
             public bool Modified => (Stubs.Data | Replaces.Data) != 0;
         }
@@ -591,7 +594,10 @@ namespace Ryujinx.HLE.HOS
             {
                 Stubs = new BitVector32(),
                 Replaces = new BitVector32(),
+                Hash = null,
             };
+
+            string tempHash = string.Empty;
 
             if (!_appMods.TryGetValue(applicationId, out ModCache mods) || mods.ExefsDirs.Count == 0)
             {
@@ -628,8 +634,15 @@ namespace Ryujinx.HLE.HOS
 
                         modLoadResult.Replaces[1 << i] = true;
 
-                        nsos[i] = new NsoExecutable(nsoFile.OpenRead().AsStorage(), nsoName);
-                        Logger.Info?.Print(LogClass.ModLoader, $"NSO '{nsoName}' replaced");
+                        using (FileStream stream = nsoFile.OpenRead())
+                        {
+                            nsos[i] = new NsoExecutable(stream.AsStorage(), nsoName);
+                            Logger.Info?.Print(LogClass.ModLoader, $"NSO '{nsoName}' replaced");
+                            using (MD5 md5 = MD5.Create())
+                            {
+                                tempHash += BitConverter.ToString(md5.ComputeHash(stream)).Replace("-", "").ToLowerInvariant();
+                            }
+                        }
                     }
 
                     modLoadResult.Stubs[1 << i] |= File.Exists(Path.Combine(mod.Path.FullName, nsoName + StubExtension));
@@ -658,6 +671,14 @@ namespace Ryujinx.HLE.HOS
                 {
                     Logger.Info?.Print(LogClass.ModLoader, $"    NSO '{nsos[i].Name}' stubbed");
                     nsos[i] = null;
+                }
+            }
+
+            if (!string.IsNullOrEmpty(tempHash))
+            {
+                using (MD5 md5 = MD5.Create())
+                {
+                    modLoadResult.Hash += BitConverter.ToString(md5.ComputeHash(tempHash.ToBytes())).Replace("-", "").ToLowerInvariant();
                 }
             }
 

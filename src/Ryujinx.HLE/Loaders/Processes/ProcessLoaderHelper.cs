@@ -186,6 +186,7 @@ namespace Ryujinx.HLE.Loaders.Processes
                 string.Empty,
                 string.Empty,
                 false,
+                string.Empty,
                 codeAddress,
                 codeSize);
 
@@ -226,6 +227,7 @@ namespace Ryujinx.HLE.Loaders.Processes
             MetaLoader metaLoader,
             BlitStruct<ApplicationControlProperty> applicationControlProperties,
             bool diskCacheEnabled,
+            string diskCacheSelector,
             bool allowCodeMemoryForJit,
             string name,
             ulong programId,
@@ -379,6 +381,7 @@ namespace Ryujinx.HLE.Loaders.Processes
                 $"{programId:x16}",
                 displayVersion,
                 diskCacheEnabled,
+                diskCacheSelector,
                 codeStart,
                 codeSize);
 
