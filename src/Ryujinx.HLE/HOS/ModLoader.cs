@@ -640,6 +640,7 @@ namespace Ryujinx.HLE.HOS
                             Logger.Info?.Print(LogClass.ModLoader, $"NSO '{nsoName}' replaced");
                             using (MD5 md5 = MD5.Create())
                             {
+                                stream.Seek(0, SeekOrigin.Begin);
                                 tempHash += BitConverter.ToString(md5.ComputeHash(stream)).Replace("-", "").ToLowerInvariant();
                             }
                         }
