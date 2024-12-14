@@ -235,7 +235,7 @@ namespace Ryujinx.HLE.Loaders.Processes
                                                                        dummyExeFs.GetNpdm(),
                                                                        nacpData,
                                                                        diskCacheEnabled: false,
-                                                                       diskCacheSelector: string.Empty,
+                                                                       diskCacheSelector: null,
                                                                        allowCodeMemoryForJit: true,
                                                                        programName,
                                                                        programId,

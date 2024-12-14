@@ -186,7 +186,7 @@ namespace Ryujinx.HLE.Loaders.Processes
                 string.Empty,
                 string.Empty,
                 false,
-                string.Empty,
+                null,
                 codeAddress,
                 codeSize);
 
