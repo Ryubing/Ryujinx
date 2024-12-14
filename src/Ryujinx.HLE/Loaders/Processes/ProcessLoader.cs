@@ -98,12 +98,12 @@ namespace Ryujinx.HLE.Loaders.Processes
             return false;
         }
 
-        public bool LoadNca(string path)
+        public bool LoadNca(string path, BlitStruct<ApplicationControlProperty>? customNacpData = null)
         {
             FileStream file = new(path, FileMode.Open, FileAccess.Read);
             Nca nca = new(_device.Configuration.VirtualFileSystem.KeySet, file.AsStorage(false));
 
-            ProcessResult processResult = nca.Load(_device, null, null);
+            ProcessResult processResult = nca.Load(_device, null, null, customNacpData);
 
             if (processResult.ProcessId != 0 && _processesByPid.TryAdd(processResult.ProcessId, processResult))
             {

@@ -11,7 +11,7 @@
         </ResourceDictionary>
     </Application.Resources>
     <Application.Styles>
-        <sty:FluentAvaloniaTheme PreferSystemTheme="False" />
+        <sty:FluentAvaloniaTheme PreferUserAccentColor="True" PreferSystemTheme="False" />
         <StyleInclude Source="/Assets/Styles/Styles.xaml" />
     </Application.Styles>
 </Application>

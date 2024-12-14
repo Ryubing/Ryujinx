@@ -33,7 +33,7 @@ namespace Ryujinx.Ava.UI.ViewModels
         private const string _FileExtXCI = "XCI";
 
         private readonly Ryujinx.Common.Logging.XCIFileTrimmerLog _logger;
-        private readonly ApplicationLibrary _applicationLibrary;
+        private ApplicationLibrary ApplicationLibrary => _mainWindowViewModel.ApplicationLibrary;
         private Optional<XCITrimmerFileModel> _processingApplication = null;
         private AvaloniaList<XCITrimmerFileModel> _allXCIFiles = new();
         private AvaloniaList<XCITrimmerFileModel> _selectedXCIFiles = new();
@@ -47,15 +47,14 @@ namespace Ryujinx.Ava.UI.ViewModels
 
         public XCITrimmerViewModel(MainWindowViewModel mainWindowViewModel)
         {
-            _logger = new XCIFileTrimmerWindowLog(this);
+            _logger = new XCITrimmerLog.TrimmerWindow(this);
             _mainWindowViewModel = mainWindowViewModel;
-            _applicationLibrary = _mainWindowViewModel.ApplicationLibrary;
             LoadXCIApplications();
         }
 
         private void LoadXCIApplications()
         {
-            var apps = _applicationLibrary.Applications.Items
+            var apps = ApplicationLibrary.Applications.Items
                 .Where(app => app.FileExtension == _FileExtXCI);
 
             foreach (var xciApp in apps)
@@ -68,7 +67,7 @@ namespace Ryujinx.Ava.UI.ViewModels
             string path,
             OperationOutcome operationOutcome = OperationOutcome.Undetermined)
         {
-            var xciApp = _applicationLibrary.Applications.Items.First(app => app.FileExtension == _FileExtXCI && app.Path == path);
+            var xciApp = ApplicationLibrary.Applications.Items.First(app => app.FileExtension == _FileExtXCI && app.Path == path);
             return XCITrimmerFileModel.FromApplicationData(xciApp, _logger) with { ProcessingOutcome = operationOutcome };
         }
 

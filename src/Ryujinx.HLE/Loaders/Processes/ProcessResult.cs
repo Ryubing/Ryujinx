@@ -84,12 +84,19 @@ namespace Ryujinx.HLE.Loaders.Processes
                 return false;
             }
 
+            bool isFirmware = ProgramId is >= 0x0100000000000819 and <= 0x010000000000081C;
+            bool isFirmwareApplication = ProgramId <= 0x0100000000007FFF;
+
+            string name = !isFirmware
+                ? (isFirmwareApplication ? "Firmware Application " : "") + (!string.IsNullOrWhiteSpace(Name) ? Name : "<Unknown Name>")
+                : "Firmware";
+
             // TODO: LibHac npdm currently doesn't support version field.
-            string version = ProgramId > 0x0100000000007FFF
-                ? DisplayVersion
+            string version = !isFirmware
+                ? (!string.IsNullOrWhiteSpace(DisplayVersion) ? DisplayVersion : "<Unknown Version>")
                 : device.System.ContentManager.GetCurrentFirmwareVersion()?.VersionString ?? "?";
 
-            Logger.Info?.Print(LogClass.Loader, $"Application Loaded: {Name} v{version} [{ProgramIdText}] [{(Is64Bit ? "64-bit" : "32-bit")}]");
+            Logger.Info?.Print(LogClass.Loader, $"Application Loaded: {name} v{version} [{ProgramIdText}] [{(Is64Bit ? "64-bit" : "32-bit")}]");
 
             return true;
         }

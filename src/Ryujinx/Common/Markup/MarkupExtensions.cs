@@ -6,17 +6,17 @@ namespace Ryujinx.Ava.Common.Markup
 {
     internal class IconExtension(string iconString) : BasicMarkupExtension<Icon>
     {
-        protected override Icon GetValue() => new() { Value = iconString };
+        protected override Icon Value => new() { Value = iconString };
     }
     
     internal class SpinningIconExtension(string iconString) : BasicMarkupExtension<Icon>
     {
-        protected override Icon GetValue() => new() { Value = iconString, Animation = IconAnimation.Spin };
+        protected override Icon Value => new() { Value = iconString, Animation = IconAnimation.Spin };
     }
     
     internal class LocaleExtension(LocaleKeys key) : BasicMarkupExtension<string>
     {
-        protected override string GetValue() => LocaleManager.Instance[key];
+        protected override string Value => LocaleManager.Instance[key];
 
         protected override void ConfigureBindingExtension(CompiledBindingExtension bindingExtension) 
             => bindingExtension.Source = LocaleManager.Instance;

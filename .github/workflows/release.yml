@@ -53,7 +53,16 @@ jobs:
         with:
           name: ${{ steps.version_info.outputs.build_version }}
           tag: ${{ steps.version_info.outputs.build_version }}
-          body: "**Full Changelog**: https://github.com/${{ github.repository }}/compare/${{ steps.version_info.outputs.prev_build_version }}...${{ steps.version_info.outputs.build_version }}"
+          body: |
+            # Regular builds:
+            | Platform | Artifact |
+            |--|--|
+            | Windows 64 bit | [Release Windows Artifact](https://github.com/${{ env.RYUJINX_TARGET_RELEASE_CHANNEL_OWNER }}/${{ env.RYUJINX_TARGET_RELEASE_CHANNEL_REPO }}/releases/download/${{ steps.version_info.outputs.build_version }}/ryujinx-${{ steps.version_info.outputs.build_version }}-win_x64.zip) |
+            | Linux 64 bit | [Release Linux Artifact](https://github.com/${{ env.RYUJINX_TARGET_RELEASE_CHANNEL_OWNER }}/${{ env.RYUJINX_TARGET_RELEASE_CHANNEL_REPO }}/releases/download/${{ steps.version_info.outputs.build_version }}/ryujinx-${{ steps.version_info.outputs.build_version }}-linux_x64.tar.gz) |
+            | Linux arm 64 bit | [Release Linux arm Artifact](https://github.com/${{ env.RYUJINX_TARGET_RELEASE_CHANNEL_OWNER }}/${{ env.RYUJINX_TARGET_RELEASE_CHANNEL_REPO }}/releases/download/${{ steps.version_info.outputs.build_version }}/ryujinx-${{ steps.version_info.outputs.build_version }}-linux_arm64.tar.gz) |
+            | macOS | [Release macOS Artifact](https://github.com/${{ env.RYUJINX_TARGET_RELEASE_CHANNEL_OWNER }}/${{ env.RYUJINX_TARGET_RELEASE_CHANNEL_REPO }}/releases/download/${{ steps.version_info.outputs.build_version }}/ryujinx-${{ steps.version_info.outputs.build_version }}-macos_universal.app.tar.gz) |
+            
+            **Full Changelog**: https://github.com/${{ env.RYUJINX_TARGET_RELEASE_CHANNEL_OWNER }}/${{ env.RYUJINX_TARGET_RELEASE_CHANNEL_REPO }}/compare/${{ steps.version_info.outputs.prev_build_version }}...${{ steps.version_info.outputs.build_version }}
           omitBodyDuringUpdate: true
           owner: ${{ env.RYUJINX_TARGET_RELEASE_CHANNEL_OWNER }}
           repo: ${{ env.RYUJINX_TARGET_RELEASE_CHANNEL_REPO }}
@@ -176,7 +185,16 @@ jobs:
           name: ${{ steps.version_info.outputs.build_version }}
           artifacts: "release_output/*.tar.gz,release_output/*.zip,release_output/*AppImage*"
           tag: ${{ steps.version_info.outputs.build_version }}
-          body: "**Full Changelog**: https://github.com/${{ github.repository }}/compare/${{ steps.version_info.outputs.prev_build_version }}...${{ steps.version_info.outputs.build_version }}"
+          body: |
+            # Regular builds:
+            | Platform | Artifact |
+            |--|--|
+            | Windows 64 bit | https://github.com/${{ github.repository }}/releases/download/${{ steps.version_info.outputs.build_version }}/ryujinx-${{ steps.version_info.outputs.build_version }}-win_x64.zip |
+            | Linux 64 bit | https://github.com/${{ github.repository }}/releases/download/${{ steps.version_info.outputs.build_version }}/ryujinx-${{ steps.version_info.outputs.build_version }}-linux_x64.tar.gz |
+            | Linux arm 64 bit | https://github.com/${{ github.repository }}/releases/download/${{ steps.version_info.outputs.build_version }}/ryujinx-${{ steps.version_info.outputs.build_version }}-linux_arm64.tar.gz |
+            | Macos | https://github.com/${{ github.repository }}/releases/download/${{ steps.version_info.outputs.build_version }}/ryujinx-${{ steps.version_info.outputs.build_version }}-macos_universal.app.tar.gz |
+          
+            "**Full Changelog**: https://github.com/${{ github.repository }}/compare/${{ steps.version_info.outputs.prev_build_version }}...${{ steps.version_info.outputs.build_version }}"
           omitBodyDuringUpdate: true
           allowUpdates: true
           replacesArtifacts: true
@@ -243,7 +261,16 @@ jobs:
           name: ${{ steps.version_info.outputs.build_version }}
           artifacts: "publish/*.tar.gz, publish_headless/*.tar.gz"
           tag: ${{ steps.version_info.outputs.build_version }}
-          body: "**Full Changelog**: https://github.com/${{ github.repository }}/compare/${{ steps.version_info.outputs.prev_build_version }}...${{ steps.version_info.outputs.build_version }}"
+          body: |
+            # Regular builds:
+            | Platform | Artifact |
+            |--|--|
+            | Windows 64 bit | https://github.com/${{ github.repository }}/releases/download/${{ steps.version_info.outputs.build_version }}/ryujinx-${{ steps.version_info.outputs.build_version }}-win_x64.zip |
+            | Linux 64 bit | https://github.com/${{ github.repository }}/releases/download/${{ steps.version_info.outputs.build_version }}/ryujinx-${{ steps.version_info.outputs.build_version }}-linux_x64.tar.gz |
+            | Linux arm 64 bit | https://github.com/${{ github.repository }}/releases/download/${{ steps.version_info.outputs.build_version }}/ryujinx-${{ steps.version_info.outputs.build_version }}-linux_arm64.tar.gz |
+            | Macos | https://github.com/${{ github.repository }}/releases/download/${{ steps.version_info.outputs.build_version }}/ryujinx-${{ steps.version_info.outputs.build_version }}-macos_universal.app.tar.gz |
+            
+            "**Full Changelog**: https://github.com/${{ github.repository }}/compare/${{ steps.version_info.outputs.prev_build_version }}...${{ steps.version_info.outputs.build_version }}"
           omitBodyDuringUpdate: true
           allowUpdates: true
           replacesArtifacts: true

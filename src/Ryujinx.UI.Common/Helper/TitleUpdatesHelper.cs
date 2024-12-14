@@ -28,7 +28,7 @@ namespace Ryujinx.UI.Common.Helper
     {
         private static readonly TitleUpdateMetadataJsonSerializerContext _serializerContext = new(JsonHelper.GetDefaultSerializerOptions());
 
-        public static List<(TitleUpdateModel, bool IsSelected)> LoadTitleUpdatesJson(VirtualFileSystem vfs, ulong applicationIdBase)
+        public static List<(TitleUpdateModel Update, bool IsSelected)> LoadTitleUpdatesJson(VirtualFileSystem vfs, ulong applicationIdBase)
         {
             var titleUpdatesJsonPath = PathToGameUpdatesJson(applicationIdBase);
 
@@ -49,7 +49,7 @@ namespace Ryujinx.UI.Common.Helper
             }
         }
 
-        public static void SaveTitleUpdatesJson(VirtualFileSystem vfs, ulong applicationIdBase, List<(TitleUpdateModel, bool IsSelected)> updates)
+        public static void SaveTitleUpdatesJson(ulong applicationIdBase, List<(TitleUpdateModel, bool IsSelected)> updates)
         {
             var titleUpdateWindowData = new TitleUpdateMetadata
             {
@@ -77,7 +77,7 @@ namespace Ryujinx.UI.Common.Helper
             JsonHelper.SerializeToFile(titleUpdatesJsonPath, titleUpdateWindowData, _serializerContext.TitleUpdateMetadata);
         }
 
-        private static List<(TitleUpdateModel, bool IsSelected)> LoadTitleUpdates(VirtualFileSystem vfs, TitleUpdateMetadata titleUpdateMetadata, ulong applicationIdBase)
+        private static List<(TitleUpdateModel Update, bool IsSelected)> LoadTitleUpdates(VirtualFileSystem vfs, TitleUpdateMetadata titleUpdateMetadata, ulong applicationIdBase)
         {
             var result = new List<(TitleUpdateModel, bool IsSelected)>();
 

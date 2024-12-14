@@ -1,5 +1,4 @@
 using DynamicData;
-using DynamicData.Kernel;
 using Gommon;
 using LibHac;
 using LibHac.Common;
@@ -37,14 +36,13 @@ using System.Threading.Tasks;
 using ContentType = LibHac.Ncm.ContentType;
 using MissingKeyException = LibHac.Common.Keys.MissingKeyException;
 using Path = System.IO.Path;
-using SpanHelpers = LibHac.Common.SpanHelpers;
 using TimeSpan = System.TimeSpan;
 
 namespace Ryujinx.UI.App.Common
 {
     public class ApplicationLibrary
     {
-        public static string DefaultLanPlayWebHost = "ryuldnweb.vudjun.com";
+        public const string DefaultLanPlayWebHost = "ryuldnweb.vudjun.com";
         public Language DesiredLanguage { get; set; }
         public event EventHandler<ApplicationCountUpdatedEventArgs> ApplicationCountUpdated;
         public event EventHandler<LdnGameDataReceivedEventArgs> LdnGameDataReceived;
@@ -191,12 +189,9 @@ namespace Ryujinx.UI.App.Common
                 }
             }
 
-            if (isExeFs)
-            {
-                return GetApplicationFromExeFs(pfs, filePath);
-            }
-
-            return null;
+            return isExeFs 
+                ? GetApplicationFromExeFs(pfs, filePath) 
+                : null;
         }
 
         /// <exception cref="LibHac.Common.Keys.MissingKeyException">The configured key set is missing a key.</exception>
@@ -512,10 +507,6 @@ namespace Ryujinx.UI.App.Common
                     case ".xci":
                     case ".nsp":
                         {
-                            IntegrityCheckLevel checkLevel = ConfigurationState.Instance.System.EnableFsIntegrityChecks
-                                ? IntegrityCheckLevel.ErrorOnInvalid
-                                : IntegrityCheckLevel.None;
-
                             using IFileSystem pfs = PartitionFileSystemUtils.OpenApplicationFileSystem(filePath, _virtualFileSystem);
 
                             foreach (DirectoryEntryEx fileEntry in pfs.EnumerateEntries("/", "*.nca"))
@@ -604,7 +595,7 @@ namespace Ryujinx.UI.App.Common
                                     controlNca.OpenFileSystem(NcaSectionType.Data, IntegrityCheckLevel.None)
                                         .OpenFile(ref nacpFile.Ref, "/control.nacp".ToU8Span(), OpenMode.Read)
                                         .ThrowIfFailure();
-                                    nacpFile.Get.Read(out _, 0, SpanHelpers.AsByteSpan(ref controlData),
+                                    nacpFile.Get.Read(out _, 0, LibHac.Common.SpanHelpers.AsByteSpan(ref controlData),
                                         ReadOption.None).ThrowIfFailure();
 
                                     var displayVersion = controlData.DisplayVersionString.ToString();
@@ -827,7 +818,7 @@ namespace Ryujinx.UI.App.Common
         {
             _downloadableContents.Edit(it =>
             {
-                DownloadableContentsHelper.SaveDownloadableContentsJson(_virtualFileSystem, application.IdBase, dlcs);
+                DownloadableContentsHelper.SaveDownloadableContentsJson(application.IdBase, dlcs);
 
                 it.Remove(it.Items.Where(item => item.Dlc.TitleIdBase == application.IdBase));
                 it.AddOrUpdate(dlcs);
@@ -839,7 +830,7 @@ namespace Ryujinx.UI.App.Common
         {
             _titleUpdates.Edit(it =>
             {
-                TitleUpdatesHelper.SaveTitleUpdatesJson(_virtualFileSystem, application.IdBase, updates);
+                TitleUpdatesHelper.SaveTitleUpdatesJson(application.IdBase, updates);
 
                 it.Remove(it.Items.Where(item => item.TitleUpdate.TitleIdBase == application.IdBase));
                 it.AddOrUpdate(updates);
@@ -1088,14 +1079,15 @@ namespace Ryujinx.UI.App.Common
 
         private bool AddAndAutoSelectUpdate(TitleUpdateModel update)
         {
-            var currentlySelected = TitleUpdates.Items.FirstOrOptional(it =>
+            if (update == null) return false;
+            
+            var currentlySelected = TitleUpdates.Items.FindFirst(it =>
                 it.TitleUpdate.TitleIdBase == update.TitleIdBase && it.IsSelected);
 
-            var shouldSelect = !currentlySelected.HasValue ||
-                               currentlySelected.Value.TitleUpdate.Version < update.Version;
+            var shouldSelect = currentlySelected.Check(curr => curr.TitleUpdate?.Version < update.Version);
 
             _titleUpdates.AddOrUpdate((update, shouldSelect));
-
+            
             if (currentlySelected.HasValue && shouldSelect)
             {
                 _titleUpdates.AddOrUpdate((currentlySelected.Value.TitleUpdate, false));
@@ -1464,7 +1456,7 @@ namespace Ryujinx.UI.App.Common
                     if (addedNewDlc)
                     {
                         var gameDlcs = it.Items.Where(dlc => dlc.Dlc.TitleIdBase == application.IdBase).ToList();
-                        DownloadableContentsHelper.SaveDownloadableContentsJson(_virtualFileSystem, application.IdBase,
+                        DownloadableContentsHelper.SaveDownloadableContentsJson(application.IdBase,
                             gameDlcs);
                     }
                 }
@@ -1483,11 +1475,11 @@ namespace Ryujinx.UI.App.Common
                     TitleUpdatesHelper.LoadTitleUpdatesJson(_virtualFileSystem, application.IdBase);
                 it.AddOrUpdate(savedUpdates);
 
-                var selectedUpdate = savedUpdates.FirstOrOptional(update => update.IsSelected);
+                var selectedUpdate = savedUpdates.FindFirst(update => update.IsSelected);
 
                 if (TryGetTitleUpdatesFromFile(application.Path, out var bundledUpdates))
                 {
-                    var savedUpdateLookup = savedUpdates.Select(update => update.Item1).ToHashSet();
+                    var savedUpdateLookup = savedUpdates.Select(update => update.Update).ToHashSet();
                     bool updatesChanged = false;
 
                     foreach (var update in bundledUpdates.OrderByDescending(bundled => bundled.Version))
@@ -1495,12 +1487,11 @@ namespace Ryujinx.UI.App.Common
                         if (!savedUpdateLookup.Contains(update))
                         {
                             bool shouldSelect = false;
-                            if (!selectedUpdate.HasValue || selectedUpdate.Value.Item1.Version < update.Version)
+                            if (selectedUpdate.Check(su => su.Update?.Version < update.Version))
                             {
                                 shouldSelect = true;
-                                if (selectedUpdate.HasValue)
-                                    _titleUpdates.AddOrUpdate((selectedUpdate.Value.Item1, false));
-                                selectedUpdate = DynamicData.Kernel.Optional<(TitleUpdateModel, bool IsSelected)>.Create((update, true));
+                                _titleUpdates.AddOrUpdate((selectedUpdate.Value.Update, false));
+                                selectedUpdate = (update, true);
                             }
 
                             modifiedVersion = modifiedVersion || shouldSelect;
@@ -1513,7 +1504,7 @@ namespace Ryujinx.UI.App.Common
                     if (updatesChanged)
                     {
                         var gameUpdates = it.Items.Where(update => update.TitleUpdate.TitleIdBase == application.IdBase).ToList();
-                        TitleUpdatesHelper.SaveTitleUpdatesJson(_virtualFileSystem, application.IdBase, gameUpdates);
+                        TitleUpdatesHelper.SaveTitleUpdatesJson(application.IdBase, gameUpdates);
                     }
                 }
             });
@@ -1525,14 +1516,14 @@ namespace Ryujinx.UI.App.Common
         private void SaveDownloadableContentsForGame(ulong titleIdBase)
         {
             var dlcs = DownloadableContents.Items.Where(dlc => dlc.Dlc.TitleIdBase == titleIdBase).ToList();
-            DownloadableContentsHelper.SaveDownloadableContentsJson(_virtualFileSystem, titleIdBase, dlcs);
+            DownloadableContentsHelper.SaveDownloadableContentsJson(titleIdBase, dlcs);
         }
 
         // Save the _currently tracked_ update state for the game
         private void SaveTitleUpdatesForGame(ulong titleIdBase)
         {
             var updates = TitleUpdates.Items.Where(update => update.TitleUpdate.TitleIdBase == titleIdBase).ToList();
-            TitleUpdatesHelper.SaveTitleUpdatesJson(_virtualFileSystem, titleIdBase, updates);
+            TitleUpdatesHelper.SaveTitleUpdatesJson(titleIdBase, updates);
         }
 
         // ApplicationData isnt live-updating (e.g. when an update gets applied) and so this is meant to trigger a refresh

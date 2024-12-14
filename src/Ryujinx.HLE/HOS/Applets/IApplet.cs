@@ -13,7 +13,7 @@ namespace Ryujinx.HLE.HOS.Applets
         ResultCode Start(AppletSession normalSession,
                          AppletSession interactiveSession);
 
-        ResultCode GetResult();
+        ResultCode GetResult() => ResultCode.Success;
 
         bool DrawTo(RenderingSurfaceInfo surfaceInfo, IVirtualMemoryManager destination, ulong position) => false;
 

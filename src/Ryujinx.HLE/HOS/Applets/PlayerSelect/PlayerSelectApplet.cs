@@ -37,11 +37,6 @@ namespace Ryujinx.HLE.HOS.Applets
             return ResultCode.Success;
         }
 
-        public ResultCode GetResult()
-        {
-            return ResultCode.Success;
-        }
-
         private byte[] BuildResponse()
         {
             UserProfile currentUser = _system.AccountManager.LastOpenedUser;

@@ -23,7 +23,7 @@
         Background="{DynamicResource ThemeContentBackgroundColor}"
         DockPanel.Dock="Bottom"
         IsVisible="{Binding ShowMenuAndStatusBar}"
-        ColumnDefinitions="Auto,Auto,*,Auto">
+        ColumnDefinitions="Auto,Auto,*,Auto,Auto">
         <StackPanel
             Grid.Column="0"
             Margin="5"
@@ -284,14 +284,27 @@
                 IsVisible="{Binding !ShowLoadProgress}"
                 Text="{Binding FifoStatusText}"
                 TextAlignment="Start" />
+        </StackPanel>
+        <StackPanel
+            Grid.Column="3"
+            Margin="0, 0, 5, 0"
+            IsVisible="{Binding IsGameRunning}"
+            VerticalAlignment="Center"
+            Orientation="Horizontal">
+            <TextBlock
+                Name="ShaderCount"
+                Margin="5,0,5,0"
+                HorizontalAlignment="Left"
+                VerticalAlignment="Center"
+                IsVisible="{Binding ShowShaderCompilationHint}"
+                Text="{Binding ShaderCountText}" />
             <Border
                 Width="2"
                 Height="12"
                 Margin="0"
                 BorderBrush="Gray"
-                Background="Gray"
                 BorderThickness="1"
-                IsVisible="{Binding !ShowLoadProgress}" />
+                IsVisible="{Binding ShowShaderCompilationHint}" />
             <TextBlock
                 Margin="5,0,5,0"
                 HorizontalAlignment="Left"
@@ -308,35 +321,29 @@
                 BorderThickness="1"
                 IsVisible="{Binding !ShowLoadProgress}" />
             <TextBlock
-                Margin="5,0,5,0"
+                Margin="5,0,0,0"
                 HorizontalAlignment="Left"
                 VerticalAlignment="Center"
                 IsVisible="{Binding !ShowLoadProgress}"
                 Text="{Binding GpuNameText}"
                 TextAlignment="Start" />
+        </StackPanel>
+        <StackPanel
+            Grid.Column="4"
+            Margin="0,0,5,0"
+            VerticalAlignment="Center"
+            IsVisible="{Binding ShowFirmwareStatus}"
+            Orientation="Horizontal">
             <Border
                 Width="2"
                 Height="12"
                 Margin="0"
                 BorderBrush="Gray"
                 BorderThickness="1"
-                IsVisible="{Binding ShowRightmostSeparator}" />
-            <TextBlock
-                Name="ShaderCount"
-                Margin="5,0,5,0"
-                HorizontalAlignment="Left"
-                VerticalAlignment="Center"
-                Text="{Binding ShaderCountText}" />
-        </StackPanel>
-        <StackPanel
-            Grid.Column="3"
-            Margin="0,0,5,0"
-            VerticalAlignment="Center"
-            IsVisible="{Binding ShowFirmwareStatus}"
-            Orientation="Horizontal">
+                IsVisible="{Binding IsGameRunning}" />
             <TextBlock
                 Name="FirmwareStatus"
-                Margin="0"
+                Margin="5, 0, 0, 0"
                 HorizontalAlignment="Right"
                 VerticalAlignment="Center"
                 Text="{ext:Locale StatusBarSystemVersion}" />

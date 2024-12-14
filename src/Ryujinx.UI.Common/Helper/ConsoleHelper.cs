@@ -7,6 +7,24 @@ namespace Ryujinx.UI.Common.Helper
 {
     public static partial class ConsoleHelper
     {
+        [SupportedOSPlatform("windows")]
+        [LibraryImport("kernel32")]
+        private static partial nint GetConsoleWindow();
+
+        [SupportedOSPlatform("windows")]
+        [LibraryImport("user32")]
+        [return: MarshalAs(UnmanagedType.Bool)]
+        private static partial bool ShowWindow(nint hWnd, int nCmdShow);
+
+        [SupportedOSPlatform("windows")]
+        [LibraryImport("user32")]
+        private static partial nint GetForegroundWindow();
+        
+        [SupportedOSPlatform("windows")]
+        [LibraryImport("user32")]
+        [return: MarshalAs(UnmanagedType.Bool)]
+        private static partial bool SetForegroundWindow(nint hWnd);
+
         public static bool SetConsoleWindowStateSupported => OperatingSystem.IsWindows();
 
         public static void SetConsoleWindowState(bool show)
@@ -35,16 +53,11 @@ namespace Ryujinx.UI.Common.Helper
                 return;
             }
 
+            SetForegroundWindow(hWnd);
+
+            hWnd = GetForegroundWindow();
+
             ShowWindow(hWnd, show ? SW_SHOW : SW_HIDE);
         }
-
-        [SupportedOSPlatform("windows")]
-        [LibraryImport("kernel32")]
-        private static partial nint GetConsoleWindow();
-
-        [SupportedOSPlatform("windows")]
-        [LibraryImport("user32")]
-        [return: MarshalAs(UnmanagedType.Bool)]
-        private static partial bool ShowWindow(nint hWnd, int nCmdShow);
     }
 }

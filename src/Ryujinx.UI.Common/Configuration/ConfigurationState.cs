@@ -1,16 +1,12 @@
-using ARMeilleure;
 using Ryujinx.Common.Configuration;
 using Ryujinx.Common.Configuration.Hid;
-using Ryujinx.Common.Configuration.Hid.Controller;
 using Ryujinx.Common.Configuration.Hid.Keyboard;
 using Ryujinx.Common.Configuration.Multiplayer;
-using Ryujinx.Common.Logging;
 using Ryujinx.Graphics.Vulkan;
 using Ryujinx.HLE;
 using Ryujinx.UI.Common.Configuration.System;
 using Ryujinx.UI.Common.Configuration.UI;
 using System;
-using System.Collections.Generic;
 
 namespace Ryujinx.UI.Common.Configuration
 {
@@ -21,10 +17,10 @@ namespace Ryujinx.UI.Common.Configuration
             if (Instance != null)
             {
                 throw new InvalidOperationException("Configuration is already initialized");
-                }
+            }
 
             Instance = new ConfigurationState();
-                }
+        }
 
         public ConfigurationFileFormat ToFileFormat()
         {

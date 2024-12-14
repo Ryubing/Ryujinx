@@ -14,9 +14,9 @@
     <DockPanel HorizontalAlignment="Stretch">
         <Image
             Name="RyuLogo"
-            Margin="7,0"
-            Height="25"
-            Width="25"
+            Margin="2, 1,-1, 0"
+            Height="36"
+            Width="36"
             ToolTip.Tip="{Binding Title}"
             Source="resm:Ryujinx.UI.Common.Resources.Logo_Ryujinx.png?assembly=Ryujinx.UI.Common" />
         <Menu

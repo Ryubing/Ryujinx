@@ -203,10 +203,5 @@ namespace Ryujinx.HLE.HOS.Applets.Error
                 _horizon.Device.UIHandler.DisplayErrorAppletDialog($"Error Number: {applicationErrorArg.ErrorNumber} (Details)", "\n" + detailsText, buttons.ToArray());
             }
         }
-
-        public ResultCode GetResult()
-        {
-            return ResultCode.Success;
-        }
     }
 }

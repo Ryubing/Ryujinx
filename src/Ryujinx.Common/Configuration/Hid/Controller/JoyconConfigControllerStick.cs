@@ -1,6 +1,8 @@
 namespace Ryujinx.Common.Configuration.Hid.Controller
 {
-    public class JoyconConfigControllerStick<TButton, TStick> where TButton : unmanaged where TStick : unmanaged
+    public class JoyconConfigControllerStick<TButton, TStick> 
+        where TButton : unmanaged 
+        where TStick : unmanaged
     {
         public TStick Joystick { get; set; }
         public bool InvertStickX { get; set; }

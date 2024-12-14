@@ -17,7 +17,7 @@ error_handler() {
     set the button_pressed to the button returned of the result
 
     if the button_pressed is \"Open Download Page\" then
-        open location \"https://ryujinx.org/download\"
+        open location \"https://ryujinx.app/download\"
     end if
     """
 

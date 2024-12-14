@@ -3,6 +3,8 @@ using Avalonia.Controls;
 using Avalonia.Controls.ApplicationLifetimes;
 using Avalonia.Input;
 using Avalonia.Threading;
+using LibHac.Common;
+using LibHac.Ns;
 using LibHac.Tools.FsSystem;
 using Ryujinx.Audio.Backends.Dummy;
 using Ryujinx.Audio.Backends.OpenAL;
@@ -670,7 +672,7 @@ namespace Ryujinx.Ava
             _cursorState = CursorStates.ForceChangeCursor;
         }
 
-        public async Task<bool> LoadGuestApplication()
+        public async Task<bool> LoadGuestApplication(BlitStruct<ApplicationControlProperty>? customNacpData = null)
         {
             InitializeSwitchInstance();
             MainWindow.UpdateGraphicsConfig();
@@ -740,7 +742,7 @@ namespace Ryujinx.Ava
             {
                 Logger.Info?.Print(LogClass.Application, "Loading as Firmware Title (NCA).");
 
-                if (!Device.LoadNca(ApplicationPath))
+                if (!Device.LoadNca(ApplicationPath, customNacpData))
                 {
                     Device.Dispose();
 
@@ -1137,7 +1139,7 @@ namespace Ryujinx.Ava
                 LocaleManager.Instance[LocaleKeys.VolumeShort] + $": {(int)(Device.GetVolume() * 100)}%",
                 dockedMode,
                 ConfigurationState.Instance.Graphics.AspectRatio.Value.ToText(),
-                LocaleManager.Instance[LocaleKeys.Game] + $": {Device.Statistics.GetGameFrameRate():00.00} FPS ({Device.Statistics.GetGameFrameTime():00.00} ms)",
+                $"{Device.Statistics.GetGameFrameRate():00.00} FPS ({Device.Statistics.GetGameFrameTime():00.00} ms)",
                 $"FIFO: {Device.Statistics.GetFifoPercent():00.00} %",
                 _displayCount));
         }

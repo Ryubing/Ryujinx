@@ -10,6 +10,7 @@ using DynamicData;
 using DynamicData.Binding;
 using FluentAvalonia.UI.Controls;
 using LibHac.Common;
+using LibHac.Ns;
 using Ryujinx.Ava.Common;
 using Ryujinx.Ava.Common.Locale;
 using Ryujinx.Ava.Input;
@@ -70,7 +71,7 @@ namespace Ryujinx.Ava.UI.ViewModels
         private string _gpuStatusText;
         private string _shaderCountText;
         private bool _isAmiiboRequested;
-        private bool _showRightmostSeparator;
+        private bool _showShaderCompilationHint;
         private bool _isGameRunning;
         private bool _isFullScreen;
         private int _progressMaximum;
@@ -275,12 +276,12 @@ namespace Ryujinx.Ava.UI.ViewModels
 
         public bool ShowFirmwareStatus => !ShowLoadProgress;
 
-        public bool ShowRightmostSeparator
+        public bool ShowShaderCompilationHint
         {
-            get => _showRightmostSeparator;
+            get => _showShaderCompilationHint;
             set
             {
-                _showRightmostSeparator = value;
+                _showShaderCompilationHint = value;
 
                 OnPropertyChanged();
             }
@@ -401,7 +402,7 @@ namespace Ryujinx.Ava.UI.ViewModels
 
         public bool OpenDeviceSaveDirectoryEnabled => !SelectedApplication.ControlHolder.ByteSpan.IsZeros() && SelectedApplication.ControlHolder.Value.DeviceSaveDataSize > 0;
 
-        public bool TrimXCIEnabled => Ryujinx.Common.Utilities.XCIFileTrimmer.CanTrim(SelectedApplication.Path, new Common.XCIFileTrimmerMainWindowLog(this));
+        public bool TrimXCIEnabled => XCIFileTrimmer.CanTrim(SelectedApplication.Path, new XCITrimmerLog.MainWindow(this));
 
         public bool OpenBcatSaveDirectoryEnabled => !SelectedApplication.ControlHolder.ByteSpan.IsZeros() && SelectedApplication.ControlHolder.Value.BcatDeliveryCacheStorageSize > 0;
 
@@ -1497,7 +1498,7 @@ namespace Ryujinx.Ava.UI.ViewModels
                     VolumeStatusText = args.VolumeStatus;
                     FifoStatusText = args.FifoStatus;
 
-                    ShaderCountText = (ShowRightmostSeparator = args.ShaderCount > 0)
+                    ShaderCountText = (ShowShaderCompilationHint = args.ShaderCount > 0)
                         ? $"{LocaleManager.Instance[LocaleKeys.CompilingShaders]}: {args.ShaderCount}"
                         : string.Empty;
 
@@ -1897,7 +1898,7 @@ namespace Ryujinx.Ava.UI.ViewModels
             }
         }
 
-        public async Task LoadApplication(ApplicationData application, bool startFullscreen = false)
+        public async Task LoadApplication(ApplicationData application, bool startFullscreen = false, BlitStruct<ApplicationControlProperty>? customNacpData = null)
         {
             if (AppHost != null)
             {
@@ -1935,7 +1936,7 @@ namespace Ryujinx.Ava.UI.ViewModels
                 this,
                 TopLevel);
 
-            if (!await AppHost.LoadGuestApplication())
+            if (!await AppHost.LoadGuestApplication(customNacpData))
             {
                 AppHost.DisposeContext();
                 AppHost = null;
@@ -2164,7 +2165,7 @@ namespace Ryujinx.Ava.UI.ViewModels
                 return;
             }
 
-            var trimmer = new XCIFileTrimmer(filename, new Common.XCIFileTrimmerMainWindowLog(this));
+            var trimmer = new XCIFileTrimmer(filename, new XCITrimmerLog.MainWindow(this));
 
             if (trimmer.CanBeTrimmed)
             {

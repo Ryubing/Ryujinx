@@ -17,13 +17,13 @@ namespace Ryujinx.Ava.Common.Markup
         public virtual string Name => "Item";
         public virtual Action<object, T?>? Setter => null;
 
-        protected abstract T? GetValue();
+        protected abstract T? Value { get; }
 
         protected virtual void ConfigureBindingExtension(CompiledBindingExtension _) { }
 
         private ClrPropertyInfo PropertyInfo =>
             new(Name,
-                _ => GetValue(),
+                _ => Value,
                 Setter as Action<object, object?>,
                 typeof(T));
 

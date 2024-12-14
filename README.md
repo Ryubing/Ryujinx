@@ -1,35 +1,26 @@
-<h1 align="center">
+<table align="center">
+    <tr>
+        <td align="center" width="25%">
+            <img src="https://raw.githubusercontent.com/GreemDev/ryuassets/refs/heads/main/RyujinxApp_1024.png" alt="Ryujinx" >
+        </td>
+        <td align="center" width="75%">
+          
+# Ryujinx
+          
+[![Release workflow](https://github.com/GreemDev/Ryujinx/actions/workflows/release.yml/badge.svg)](https://github.com/GreemDev/Ryujinx/actions/workflows/release.yml)
+[![Latest release](https://img.shields.io/github/v/release/GreemDev/Ryujinx)](https://github.com/GreemDev/Ryujinx/releases/latest)
   <br>
-  <img src="https://raw.githubusercontent.com/GreemDev/Ryujinx/master/distribution/misc/Logo.svg" alt="Ryujinx" width="150"></a>
-  <br>
-  <b>Ryujinx</b>
-  <br>
-  <sub><sup><b>(REE-YOU-JINX)</b></sup></sub>
-  <br>
-    <a href="https://github.com/GreemDev/Ryujinx/actions/workflows/release.yml">
-        <img src="https://github.com/GreemDev/Ryujinx/actions/workflows/release.yml/badge.svg"
-            alt="">
-    </a>
-    <a href="https://github.com/GreemDev/Ryujinx/releases/latest">
-        <img src="https://img.shields.io/github/v/release/GreemDev/Ryujinx"
-            alt="Latest Release">
-    </a>
-  <br>
-    <a href="https://github.com/GreemDev/Ryujinx/actions/workflows/canary.yml">
-        <img src="https://github.com/GreemDev/Ryujinx/actions/workflows/canary.yml/badge.svg"
-            alt="">
-    </a>
-    <a href="https://github.com/GreemDev/Ryujinx-Canary/releases/latest">
-        <img src="https://img.shields.io/github/v/release/GreemDev/Ryujinx-Canary?label=canary"
-            alt="Latest Canary Release">
-    </a>
-</h1>
+[![Canary workflow](https://github.com/GreemDev/Ryujinx/actions/workflows/canary.yml/badge.svg)](https://github.com/GreemDev/Ryujinx/actions/workflows/canary.yml)
+[![Latest canary release](https://img.shields.io/github/v/release/GreemDev/Ryujinx-Canary?label=canary)](https://github.com/GreemDev/Ryujinx-Canary/releases/latest)
+        </td>
+    </tr>
+</table>
 
 <p align="center">
   Ryujinx is an open-source Nintendo Switch emulator, originally created by gdkchan, written in C#.
   This emulator aims at providing excellent accuracy and performance, a user-friendly interface and consistent builds.
   It was written from scratch and development on the project began in September 2017.
-  Ryujinx is available on Github under the <a href="https://github.com/GreemDev/Ryujinx/blob/master/LICENSE.txt" target="_blank">MIT license</a>.
+  Ryujinx is available on GitHub under the <a href="https://github.com/GreemDev/Ryujinx/blob/master/LICENSE.txt" target="_blank">MIT license</a>.
   <br />
 </p>
 <p align="center">

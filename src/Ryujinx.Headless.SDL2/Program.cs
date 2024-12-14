@@ -1,4 +1,5 @@
 using CommandLine;
+using Gommon;
 using LibHac.Tools.FsSystem;
 using Ryujinx.Audio.Backends.SDL2;
 using Ryujinx.Common;
@@ -96,8 +97,13 @@ namespace Ryujinx.Headless.SDL2
             }
 
             Parser.Default.ParseArguments<Options>(args)
-            .WithParsed(Load)
-            .WithNotParsed(errors => errors.Output());
+                .WithParsed(Load)
+                .WithNotParsed(errors =>
+                {
+                    Logger.Error?.PrintMsg(LogClass.Application, "Error parsing command-line arguments:");
+                    
+                    errors.ForEach(err => Logger.Error?.PrintMsg(LogClass.Application, $" - {err.Tag}"));
+                });
         }
 
         private static InputConfig HandlePlayerConfiguration(string inputProfileName, string inputId, PlayerIndex index)
@@ -579,8 +585,8 @@ namespace Ryujinx.Headless.SDL2
                 options.MultiplayerLanInterfaceId,
                 Common.Configuration.Multiplayer.MultiplayerMode.Disabled,
                 false,
-                "",
-                "",
+                string.Empty,
+                string.Empty,
                 options.CustomVSyncInterval);
 
             return new Switch(configuration);

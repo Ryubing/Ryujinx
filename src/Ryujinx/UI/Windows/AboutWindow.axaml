@@ -36,7 +36,8 @@
                         HorizontalAlignment="Center"
                         Spacing="10">
                         <Image
-                            Height="80"
+                            Height="90"
+                            Width="90"
                             Source="resm:Ryujinx.UI.Common.Resources.Logo_Ryujinx.png?assembly=Ryujinx.UI.Common"
                             HorizontalAlignment="Center"
                             IsHitTestVisible="True" />
@@ -165,7 +166,16 @@
                     Text="{ext:Locale AboutRyujinxMaintainersTitle}" />
                 <TextBlock
                     FontSize="10"
-                    Text="{Binding Developers}"
+                    Margin="0, 0, 0, 5"
+                    TextWrapping="Wrap"
+                    Text="{Binding Developers}"/>
+                <TextBlock
+                    FontSize="15"
+                    FontWeight="Bold"
+                    Text="{ext:Locale AboutRyujinxFormerMaintainersTitle}" />
+                <TextBlock
+                    FontSize="10"
+                    Text="{Binding FormerDevelopers}"
                     TextWrapping="Wrap" />
                 <Button
                     Padding="5"

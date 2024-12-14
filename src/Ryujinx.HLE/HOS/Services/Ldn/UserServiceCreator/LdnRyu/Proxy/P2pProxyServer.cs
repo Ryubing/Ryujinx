@@ -1,3 +1,5 @@
+using Gommon;
+using Humanizer;
 using NetCoreServer;
 using Open.Nat;
 using Ryujinx.Common.Logging;
@@ -153,7 +155,10 @@ namespace Ryujinx.HLE.HOS.Services.Ldn.UserServiceCreator.LdnRyu.Proxy
 
             if (_publicPort != 0)
             {
-                _ = Task.Delay(PortLeaseRenew * 1000, _disposedCancellation.Token).ContinueWith((task) => Task.Run(RefreshLease));
+                _ = Executor.ExecuteAfterDelayAsync(
+                    PortLeaseRenew.Seconds(), 
+                    _disposedCancellation.Token,
+                    RefreshLease);
             }
 
             _natDevice = device;
@@ -257,7 +262,10 @@ namespace Ryujinx.HLE.HOS.Services.Ldn.UserServiceCreator.LdnRyu.Proxy
 
             }
 
-            _ = Task.Delay(PortLeaseRenew, _disposedCancellation.Token).ContinueWith((task) => Task.Run(RefreshLease));
+            _ = Executor.ExecuteAfterDelayAsync(
+                PortLeaseRenew.Milliseconds(),
+                _disposedCancellation.Token,
+                RefreshLease);
         }
 
         public bool TryRegisterUser(P2pProxySession session, ExternalProxyConfig config)

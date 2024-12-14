@@ -18,13 +18,6 @@ namespace Ryujinx.HLE.HOS.Applets.Browser
         private List<BrowserArgument> _arguments;
         private ShimKind _shimKind;
 
-        public BrowserApplet(Horizon system) { }
-
-        public ResultCode GetResult()
-        {
-            return ResultCode.Success;
-        }
-
         public ResultCode Start(AppletSession normalSession, AppletSession interactiveSession)
         {
             _normalSession = normalSession;

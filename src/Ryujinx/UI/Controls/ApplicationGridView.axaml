@@ -91,7 +91,7 @@
                             HorizontalAlignment="Left"
                             VerticalAlignment="Top"
                             FontSize="16"
-                            Foreground="{DynamicResource SystemAccentColor}"
+                            Foreground="{DynamicResource FavoriteApplicationIconColor}"
                             IsVisible="{Binding Favorite}"
                             Symbol="StarFilled" />
                     </Grid>

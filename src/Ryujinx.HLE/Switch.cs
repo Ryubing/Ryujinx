@@ -1,3 +1,5 @@
+using LibHac.Common;
+using LibHac.Ns;
 using Ryujinx.Audio.Backends.CompatLayer;
 using Ryujinx.Audio.Integration;
 using Ryujinx.Common.Configuration;
@@ -111,7 +113,7 @@ namespace Ryujinx.HLE
 
         public bool LoadCart(string exeFsDir, string romFsFile = null) => Processes.LoadUnpackedNca(exeFsDir, romFsFile);
         public bool LoadXci(string xciFile, ulong applicationId = 0) => Processes.LoadXci(xciFile, applicationId);
-        public bool LoadNca(string ncaFile) => Processes.LoadNca(ncaFile);
+        public bool LoadNca(string ncaFile, BlitStruct<ApplicationControlProperty>? customNacpData = null) => Processes.LoadNca(ncaFile, customNacpData);
         public bool LoadNsp(string nspFile, ulong applicationId = 0) => Processes.LoadNsp(nspFile, applicationId);
         public bool LoadProgram(string fileName) => Processes.LoadNxo(fileName);
 

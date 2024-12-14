@@ -144,11 +144,6 @@ namespace Ryujinx.HLE.HOS.Applets
             }
         }
 
-        public ResultCode GetResult()
-        {
-            return ResultCode.Success;
-        }
-
         private bool IsKeyboardActive()
         {
             return _backgroundState >= InlineKeyboardState.Appearing && _backgroundState < InlineKeyboardState.Disappearing;

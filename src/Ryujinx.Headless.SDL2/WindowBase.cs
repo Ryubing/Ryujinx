@@ -1,4 +1,5 @@
 using Humanizer;
+using LibHac.Tools.Fs;
 using Ryujinx.Common.Configuration;
 using Ryujinx.Common.Configuration.Hid;
 using Ryujinx.Common.Logging;
@@ -483,6 +484,19 @@ namespace Ryujinx.Headless.SDL2
             SDL_ShowSimpleMessageBox(SDL_MessageBoxFlags.SDL_MESSAGEBOX_INFORMATION, title, message, WindowHandle);
 
             return true;
+        }
+
+        public bool DisplayCabinetDialog(out string userText)
+        {
+            // SDL2 doesn't support input dialogs
+            userText = "Ryujinx";
+
+            return true;
+        }
+
+        public void DisplayCabinetMessageDialog()
+        {
+            SDL_ShowSimpleMessageBox(SDL_MessageBoxFlags.SDL_MESSAGEBOX_INFORMATION, "Cabinet Dialog", "Please scan your Amiibo now.", WindowHandle);
         }
 
         public bool DisplayMessageDialog(ControllerAppletUIArgs args)

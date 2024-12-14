@@ -117,11 +117,6 @@ namespace Ryujinx.HLE.HOS.Applets
             return ResultCode.Success;
         }
 
-        public ResultCode GetResult()
-        {
-            return ResultCode.Success;
-        }
-
         private static byte[] BuildResponse(ControllerSupportResultInfo result)
         {
             using MemoryStream stream = MemoryStreamManager.Shared.GetStream();

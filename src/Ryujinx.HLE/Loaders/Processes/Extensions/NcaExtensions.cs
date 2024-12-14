@@ -26,7 +26,7 @@ namespace Ryujinx.HLE.Loaders.Processes.Extensions
     {
         private static readonly TitleUpdateMetadataJsonSerializerContext _applicationSerializerContext = new(JsonHelper.GetDefaultSerializerOptions());
 
-        public static ProcessResult Load(this Nca nca, Switch device, Nca patchNca, Nca controlNca)
+        public static ProcessResult Load(this Nca nca, Switch device, Nca patchNca, Nca controlNca, BlitStruct<ApplicationControlProperty>? customNacpData = null)
         {
             // Extract RomFs and ExeFs from NCA.
             IStorage romFs = nca.GetRomFs(device, patchNca);
@@ -54,6 +54,10 @@ namespace Ryujinx.HLE.Loaders.Processes.Extensions
             if (controlNca != null)
             {
                 nacpData = controlNca.GetNacp(device);
+            }
+            else if (customNacpData != null) // if the Application doesn't provide a nacp file but the Application provides an override, use the provided nacp override
+            {
+                nacpData = (BlitStruct<ApplicationControlProperty>)customNacpData;
             }
 
             /* TODO: Rework this since it's wrong and doesn't work as it takes the DisplayVersion from a "potential" non-existent update.
