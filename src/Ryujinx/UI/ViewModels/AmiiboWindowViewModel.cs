@@ -332,7 +332,7 @@ namespace Ryujinx.Ava.UI.ViewModels
 
         private void SelectLastScannedAmiibo()
         {
-            AmiiboApi scanned = _amiiboList.Find(amiibo => amiibo.GetId() == LastScannedAmiiboId);
+            AmiiboApi scanned = _amiiboList.FirstOrDefault(amiibo => amiibo.GetId() == LastScannedAmiiboId);
 
             SeriesSelectedIndex = AmiiboSeries.IndexOf(scanned.AmiiboSeries);
             AmiiboSelectedIndex = AmiiboList.IndexOf(scanned);
@@ -393,7 +393,7 @@ namespace Ryujinx.Ava.UI.ViewModels
 
             AmiiboApi selected = _amiibos[_amiiboSelectedIndex];
 
-            string imageUrl = _amiiboList.Find(amiibo => amiibo.Equals(selected)).Image;
+            string imageUrl = _amiiboList.FirstOrDefault(amiibo => amiibo.Equals(selected)).Image;
 
             StringBuilder usageStringBuilder = new();
 

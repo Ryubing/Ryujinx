@@ -1,4 +1,5 @@
 using Ryujinx.Common;
+using System.Threading;
 using System.Timers;
 
 namespace Ryujinx.HLE
@@ -20,12 +21,12 @@ namespace Ryujinx.HLE
         private readonly long[] _framesRendered;
         private readonly double[] _percentTime;
 
-        private readonly object[] _frameLock;
-        private readonly object[] _percentLock;
+        private readonly Lock[] _frameLock = [new()];
+        private readonly Lock[] _percentLock = [new()];
 
         private readonly double _ticksToSeconds;
 
-        private readonly Timer _resetTimer;
+        private readonly System.Timers.Timer _resetTimer;
 
         public PerformanceStatistics()
         {
@@ -41,10 +42,7 @@ namespace Ryujinx.HLE
             _framesRendered = new long[1];
             _percentTime = new double[1];
 
-            _frameLock = new[] { new object() };
-            _percentLock = new[] { new object() };
-
-            _resetTimer = new Timer(750);
+            _resetTimer = new(750);
 
             _resetTimer.Elapsed += ResetTimerElapsed;
             _resetTimer.AutoReset = true;

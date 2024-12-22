@@ -200,7 +200,7 @@ namespace Ryujinx.HLE.HOS.Kernel.Threading
 
             WakeThreads(_condVarThreads, count, TryAcquireMutex, x => x.CondVarAddress == address);
 
-            if (!_condVarThreads.Exists(x => x.CondVarAddress == address))
+            if (!_condVarThreads.Any(x => x.CondVarAddress == address))
             {
                 KernelTransfer.KernelToUser(address, 0);
             }

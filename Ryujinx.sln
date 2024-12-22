@@ -84,11 +84,13 @@ EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{36F870C1-3E5F-485F-B426-F0645AF78751}"
 	ProjectSection(SolutionItems) = preProject
 		.editorconfig = .editorconfig
+		.github\workflows\build.yml = .github\workflows\build.yml
+		.github\workflows\canary.yml = .github\workflows\canary.yml
 		Directory.Packages.props = Directory.Packages.props
-		.github/workflows/release.yml = .github/workflows/release.yml
-		.github/workflows/canary.yml = .github/workflows/canary.yml
-		.github/workflows/build.yml = .github/workflows/build.yml
+		.github\workflows\release.yml = .github\workflows\release.yml
 	EndProjectSection
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Ryujinx.BuildValidationTasks", "src\Ryujinx.BuildValidationTasks\Ryujinx.BuildValidationTasks.csproj", "{4A89A234-4F19-497D-A576-DDE8CDFC5B22}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -252,6 +254,9 @@ Global
 		{B575BCDE-2FD8-4A5D-8756-31CDD7FE81F0}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{B575BCDE-2FD8-4A5D-8756-31CDD7FE81F0}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{B575BCDE-2FD8-4A5D-8756-31CDD7FE81F0}.Release|Any CPU.Build.0 = Release|Any CPU
+		{4A89A234-4F19-497D-A576-DDE8CDFC5B22}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{4A89A234-4F19-497D-A576-DDE8CDFC5B22}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{4A89A234-4F19-497D-A576-DDE8CDFC5B22}.Release|Any CPU.ActiveCfg = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

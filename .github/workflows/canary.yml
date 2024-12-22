@@ -61,9 +61,9 @@ jobs:
             
             | Platform | Artifact |
             |--|--|
-            | Windows 64 bit | [Canary Windows Artifact](https://github.com/${{ env.RYUJINX_TARGET_RELEASE_CHANNEL_OWNER }}/${{ env.RYUJINX_TARGET_RELEASE_CHANNEL_REPO }}/releases/download/${{ steps.version_info.outputs.build_version }}/ryujinx-canary-${{ steps.version_info.outputs.build_version }}-win_x64.zip) |
-            | Linux 64 bit | [Canary Linux Artifact](https://github.com/${{ env.RYUJINX_TARGET_RELEASE_CHANNEL_OWNER }}/${{ env.RYUJINX_TARGET_RELEASE_CHANNEL_REPO }}/releases/download/${{ steps.version_info.outputs.build_version }}/ryujinx-canary-${{ steps.version_info.outputs.build_version }}-linux_x64.tar.gz) |
-            | Linux arm 64 bit | [Canary Linux arm Artifact](https://github.com/${{ env.RYUJINX_TARGET_RELEASE_CHANNEL_OWNER }}/${{ env.RYUJINX_TARGET_RELEASE_CHANNEL_REPO }}/releases/download/${{ steps.version_info.outputs.build_version }}/ryujinx-canary-${{ steps.version_info.outputs.build_version }}-linux_arm64.tar.gz) |
+            | Windows 64-bit | [Canary Windows Artifact](https://github.com/${{ env.RYUJINX_TARGET_RELEASE_CHANNEL_OWNER }}/${{ env.RYUJINX_TARGET_RELEASE_CHANNEL_REPO }}/releases/download/${{ steps.version_info.outputs.build_version }}/ryujinx-canary-${{ steps.version_info.outputs.build_version }}-win_x64.zip) |
+            | Linux 64-bit | [Canary Linux Artifact](https://github.com/${{ env.RYUJINX_TARGET_RELEASE_CHANNEL_OWNER }}/${{ env.RYUJINX_TARGET_RELEASE_CHANNEL_REPO }}/releases/download/${{ steps.version_info.outputs.build_version }}/ryujinx-canary-${{ steps.version_info.outputs.build_version }}-linux_x64.tar.gz) |
+            | Linux ARM 64-bit | [Canary Linux ARM Artifact](https://github.com/${{ env.RYUJINX_TARGET_RELEASE_CHANNEL_OWNER }}/${{ env.RYUJINX_TARGET_RELEASE_CHANNEL_REPO }}/releases/download/${{ steps.version_info.outputs.build_version }}/ryujinx-canary-${{ steps.version_info.outputs.build_version }}-linux_arm64.tar.gz) |
             | macOS | [Canary macOS artifact](https://github.com/${{ env.RYUJINX_TARGET_RELEASE_CHANNEL_OWNER }}/${{ env.RYUJINX_TARGET_RELEASE_CHANNEL_REPO }}/releases/download/${{ steps.version_info.outputs.build_version }}/ryujinx-canary-${{ steps.version_info.outputs.build_version }}-macos_universal.app.tar.gz) |
             
             **Full Changelog**: https://github.com/${{ env.RYUJINX_TARGET_RELEASE_CHANNEL_OWNER }}/${{ env.RYUJINX_TARGET_RELEASE_CHANNEL_SOURCE_REPO }}/compare/Canary-${{ steps.version_info.outputs.prev_build_version }}...Canary-${{ steps.version_info.outputs.build_version }}
@@ -200,10 +200,10 @@ jobs:
 
             | Platform | Artifact |
             |--|--|
-            | Windows 64 bit | https://github.com/${{ github.repository }}/releases/download/${{ steps.version_info.outputs.build_version }}/ryujinx-canary-${{ steps.version_info.outputs.build_version }}-win_x64.zip |
-            | Linux 64 bit | https://github.com/${{ github.repository }}/releases/download/${{ steps.version_info.outputs.build_version }}/ryujinx-canary-${{ steps.version_info.outputs.build_version }}-linux_x64.tar.gz |
-            | Linux arm 64 bit | https://github.com/${{ github.repository }}/releases/download/${{ steps.version_info.outputs.build_version }}/ryujinx-canary-${{ steps.version_info.outputs.build_version }}-linux_arm64.tar.gz |
-            | Macos | https://github.com/${{ github.repository }}/releases/download/${{ steps.version_info.outputs.build_version }}/ryujinx-canary-${{ steps.version_info.outputs.build_version }}-macos_universal.app.tar.gz |
+            | Windows 64-bit | https://github.com/${{ github.repository }}/releases/download/${{ steps.version_info.outputs.build_version }}/ryujinx-canary-${{ steps.version_info.outputs.build_version }}-win_x64.zip |
+            | Linux 64-bit | https://github.com/${{ github.repository }}/releases/download/${{ steps.version_info.outputs.build_version }}/ryujinx-canary-${{ steps.version_info.outputs.build_version }}-linux_x64.tar.gz |
+            | Linux ARM 64-bit | https://github.com/${{ github.repository }}/releases/download/${{ steps.version_info.outputs.build_version }}/ryujinx-canary-${{ steps.version_info.outputs.build_version }}-linux_arm64.tar.gz |
+            | macOS | https://github.com/${{ github.repository }}/releases/download/${{ steps.version_info.outputs.build_version }}/ryujinx-canary-${{ steps.version_info.outputs.build_version }}-macos_universal.app.tar.gz |
             
             "**Full Changelog**: https://github.com/${{ env.RYUJINX_TARGET_RELEASE_CHANNEL_OWNER }}/${{ env.RYUJINX_TARGET_RELEASE_CHANNEL_SOURCE_REPO }}/compare/Canary-${{ steps.version_info.outputs.prev_build_version }}...Canary-${{ steps.version_info.outputs.build_version }}"
           omitBodyDuringUpdate: true
@@ -272,19 +272,7 @@ jobs:
           name: "Canary ${{ steps.version_info.outputs.build_version }}"
           artifacts: "publish_ava/*.tar.gz, publish_headless/*.tar.gz"
           tag: ${{ steps.version_info.outputs.build_version }}
-          body: |
-            # Canary builds:
-            
-            These builds are experimental and may sometimes not work, use [regular builds](https://github.com/GreemDev/Ryujinx/releases/latest) instead if that sounds like something you don't want to deal with.
-            
-            | Platform | Artifact |
-            |--|--|
-            | Windows 64 bit | https://github.com/${{ github.repository }}/releases/download/${{ steps.version_info.outputs.build_version }}/ryujinx-canary-${{ steps.version_info.outputs.build_version }}-win_x64.zip |
-            | Linux 64 bit | https://github.com/${{ github.repository }}/releases/download/${{ steps.version_info.outputs.build_version }}/ryujinx-canary-${{ steps.version_info.outputs.build_version }}-linux_x64.tar.gz |
-            | Linux arm 64 bit | https://github.com/${{ github.repository }}/releases/download/${{ steps.version_info.outputs.build_version }}/ryujinx-canary-${{ steps.version_info.outputs.build_version }}-linux_arm64.tar.gz |
-            | Macos | https://github.com/${{ github.repository }}/releases/download/${{ steps.version_info.outputs.build_version }}/ryujinx-canary-${{ steps.version_info.outputs.build_version }}-macos_universal.app.tar.gz |
-            
-            "**Full Changelog**: https://github.com/${{ github.repository }}/compare/Canary-${{ steps.version_info.outputs.prev_build_version }}...Canary-${{ steps.version_info.outputs.build_version }}"
+          body: ""
           omitBodyDuringUpdate: true
           allowUpdates: true
           replacesArtifacts: true

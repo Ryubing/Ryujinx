@@ -8,6 +8,7 @@ using Ryujinx.Graphics.Texture;
 using Ryujinx.Memory.Range;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Threading;
 
 namespace Ryujinx.Graphics.Gpu.Image
@@ -998,7 +999,7 @@ namespace Ryujinx.Graphics.Gpu.Image
                     {
                         bool dataOverlaps = texture.DataOverlaps(overlap, compatibility);
 
-                        if (!overlap.IsView && dataOverlaps && !incompatibleOverlaps.Exists(incompatible => incompatible.Group == overlap.Group))
+                        if (!overlap.IsView && dataOverlaps && !incompatibleOverlaps.Any(incompatible => incompatible.Group == overlap.Group))
                         {
                             incompatibleOverlaps.Add(new TextureIncompatibleOverlap(overlap.Group, compatibility));
                         }

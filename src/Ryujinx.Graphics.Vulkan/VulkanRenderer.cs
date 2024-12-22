@@ -11,6 +11,7 @@ using Silk.NET.Vulkan.Extensions.KHR;
 using System;
 using System.Collections.Generic;
 using System.Runtime.InteropServices;
+using System.Threading;
 using Format = Ryujinx.Graphics.GAL.Format;
 using PrimitiveTopology = Ryujinx.Graphics.GAL.PrimitiveTopology;
 using SamplerCreateInfo = Ryujinx.Graphics.GAL.SamplerCreateInfo;
@@ -45,8 +46,8 @@ namespace Ryujinx.Graphics.Vulkan
         internal uint QueueFamilyIndex { get; private set; }
         internal Queue Queue { get; private set; }
         internal Queue BackgroundQueue { get; private set; }
-        internal object BackgroundQueueLock { get; private set; }
-        internal object QueueLock { get; private set; }
+        internal Lock BackgroundQueueLock { get; private set; }
+        internal Lock QueueLock { get; private set; }
 
         internal MemoryAllocator MemoryAllocator { get; private set; }
         internal HostMemoryAllocator HostMemoryAllocator { get; private set; }
@@ -120,7 +121,7 @@ namespace Ryujinx.Graphics.Vulkan
         }
 
         public static VulkanRenderer Create(
-            string preferredGpuId, 
+            string preferredGpuId,
             Func<Instance, Vk, SurfaceKHR> getSurface,
             Func<string[]> getRequiredExtensions
         ) => new(Vk.GetApi(), getSurface, getRequiredExtensions, preferredGpuId);
@@ -163,7 +164,7 @@ namespace Ryujinx.Graphics.Vulkan
             {
                 Api.GetDeviceQueue(_device, queueFamilyIndex, 1, out var backgroundQueue);
                 BackgroundQueue = backgroundQueue;
-                BackgroundQueueLock = new object();
+                BackgroundQueueLock = new();
             }
 
             PhysicalDeviceProperties2 properties2 = new()
@@ -496,7 +497,7 @@ namespace Ryujinx.Graphics.Vulkan
 
             Api.GetDeviceQueue(_device, queueFamilyIndex, 0, out var queue);
             Queue = queue;
-            QueueLock = new object();
+            QueueLock = new();
 
             LoadFeatures(maxQueueCount, queueFamilyIndex);
 

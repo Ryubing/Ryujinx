@@ -51,7 +51,7 @@ namespace Ryujinx.Memory.Tracking
 
         private event Action OnDirty;
 
-        private readonly object _preActionLock = new();
+        private readonly Lock _preActionLock = new();
         private RegionSignal _preAction; // Action to perform before a read or write. This will block the memory access.
         private PreciseRegionSignal _preciseAction; // Action to perform on a precise read or write.
         private readonly List<VirtualRegion> _regions;

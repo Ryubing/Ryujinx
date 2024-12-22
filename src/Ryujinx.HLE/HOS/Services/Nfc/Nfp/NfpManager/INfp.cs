@@ -78,7 +78,6 @@ namespace Ryujinx.HLE.HOS.Services.Nfc.Nfp
             if (_state == State.Initialized)
             {
                 _cancelTokenSource?.Cancel();
-
                 // NOTE: All events are destroyed here.
                 context.Device.System.NfpDevices.Clear();
 
@@ -146,9 +145,7 @@ namespace Ryujinx.HLE.HOS.Services.Nfc.Nfp
                     break;
                 }
             }
-
             _cancelTokenSource = new CancellationTokenSource();
-
             Task.Run(() =>
             {
                 while (true)
@@ -199,7 +196,6 @@ namespace Ryujinx.HLE.HOS.Services.Nfc.Nfp
                     break;
                 }
             }
-
             return ResultCode.Success;
         }
 
@@ -229,7 +225,6 @@ namespace Ryujinx.HLE.HOS.Services.Nfc.Nfp
             }
 
             // TODO: Found how the MountTarget is handled.
-
             for (int i = 0; i < context.Device.System.NfpDevices.Count; i++)
             {
                 if (context.Device.System.NfpDevices[i].Handle == (PlayerIndex)deviceHandle)
@@ -488,14 +483,12 @@ namespace Ryujinx.HLE.HOS.Services.Nfc.Nfp
 #pragma warning disable IDE0059 // Remove unnecessary value assignment
             uint deviceHandle = (uint)context.RequestData.ReadUInt64();
 #pragma warning restore IDE0059
-
             if (context.Device.System.NfpDevices.Count == 0)
             {
                 return ResultCode.DeviceNotFound;
             }
 
             // NOTE: Since we handle amiibo through VirtualAmiibo, we don't have to flush anything in our case.
-
             return ResultCode.Success;
         }
 
@@ -884,7 +877,6 @@ namespace Ryujinx.HLE.HOS.Services.Nfc.Nfp
                     return ResultCode.Success;
                 }
             }
-
             return ResultCode.DeviceNotFound;
         }
 

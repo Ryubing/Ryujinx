@@ -182,7 +182,20 @@
                             Width="350"
                             ToolTip.Tip="{ext:Locale TimeTooltip}" />
                     </StackPanel>
-                    <StackPanel Margin="0,0,0,10"
+                    <StackPanel
+                        Margin="350,0,0,10"
+                        Orientation="Horizontal">
+                        <Button
+                            VerticalAlignment="Center"
+                            Click="MatchSystemTime_OnClick"
+                            Background="{DynamicResource SystemAccentColor}"
+                            Width="150"
+                            ToolTip.Tip="{ext:Locale MatchTimeTooltip}">
+                            <TextBlock Text="{ext:Locale SettingsTabSystemSystemTimeMatch}" />
+                        </Button>
+                    </StackPanel>
+                    <Separator />
+                    <StackPanel Margin="0,10,0,10"
                                 Orientation="Horizontal">
                         <TextBlock
                             VerticalAlignment="Center"

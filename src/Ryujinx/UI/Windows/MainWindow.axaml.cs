@@ -354,7 +354,7 @@ namespace Ryujinx.Ava.UI.Windows
 
                         if (_launchApplicationId != null)
                         {
-                            applicationData = applications.Find(application => application.IdString == _launchApplicationId);
+                            applicationData = applications.FirstOrDefault(application => application.IdString == _launchApplicationId);
 
                             if (applicationData != null)
                             {

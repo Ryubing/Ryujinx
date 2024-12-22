@@ -1,3 +1,4 @@
+using Gommon;
 using Ryujinx.Common.Logging;
 using System;
 using System.Diagnostics;
@@ -33,6 +34,8 @@ namespace Ryujinx.UI.Common.Helper
                 Logger.Notice.Print(LogClass.Application, $"Directory \"{path}\" doesn't exist!");
             }
         }
+
+        public static void OpenFolder(FilePath path) => OpenFolder(path.Path);
 
         public static void LocateFile(string path)
         {

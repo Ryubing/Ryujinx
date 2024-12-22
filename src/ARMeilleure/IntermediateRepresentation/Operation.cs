@@ -337,7 +337,7 @@ namespace ARMeilleure.IntermediateRepresentation
                 return result;
             }
 
-            public static Operation Operation(Intrinsic intrin, Operand dest, params Operand[] srcs)
+            public static Operation Operation(Intrinsic intrin, Operand dest, params ReadOnlySpan<Operand> srcs)
             {
                 Operation result = Make(Instruction.Extended, 0, srcs.Length);
 

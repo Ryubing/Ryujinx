@@ -14,14 +14,14 @@
     <DockPanel HorizontalAlignment="Stretch">
         <Image
             Name="RyuLogo"
-            Margin="2, 1,-1, 0"
-            Height="36"
-            Width="36"
+            Margin="7, 0"
+            Height="25"
+            Width="25"
             ToolTip.Tip="{Binding Title}"
-            Source="resm:Ryujinx.UI.Common.Resources.Logo_Ryujinx.png?assembly=Ryujinx.UI.Common" />
+            Source="resm:Ryujinx.UI.Common.Resources.Logo_Thiccjinx.png?assembly=Ryujinx.UI.Common" />
         <Menu
             Name="Menu"
-            Height="35"
+            Height="32"
             Margin="0"
             HorizontalAlignment="Left"
             IsOpen="{Binding IsSubMenuOpen, Mode=OneWayToSource}">
@@ -242,6 +242,14 @@
                     InputGesture="Ctrl + A"
                     IsEnabled="{Binding IsAmiiboRequested}" />
                 <MenuItem
+                    Name="ScanAmiiboMenuItemFromBin"
+                    AttachedToVisualTree="ScanBinAmiiboMenuItem_AttachedToVisualTree"
+                    Click="OpenBinFile"
+                    Header="{ext:Locale MenuBarActionsScanAmiiboBin}"
+                    Icon="{ext:Icon mdi-cube-scan}"
+                    IsVisible="{Binding CanScanAmiiboBinaries}"
+                    IsEnabled="{Binding IsAmiiboBinRequested}" />
+                <MenuItem
                     Command="{Binding TakeScreenshot}"
                     Header="{ext:Locale MenuBarFileToolsTakeScreenshot}"
                     Icon="{ext:Icon mdi-monitor-screenshot}"
@@ -289,6 +297,25 @@
                     Header="{ext:Locale MenuBarHelpCheckForUpdates}"
                     Icon="{ext:Icon mdi-update}"
                     ToolTip.Tip="{ext:Locale CheckUpdatesTooltip}" />
+                <Separator />
+                <MenuItem
+                    Click="MenuItem_OnClick"
+                    Header="{ext:Locale MenuBarHelpFaq}"
+                    Icon="{ext:Icon fa-github}"
+                    Tag="https://github.com/GreemDev/Ryujinx/wiki/FAQ-and-Troubleshooting"
+                    ToolTip.Tip="{ext:Locale MenuBarHelpFaqTooltip}" />
+                <MenuItem
+                    Click="MenuItem_OnClick"
+                    Header="{ext:Locale MenuBarHelpSetup}"
+                    Icon="{ext:Icon fa-github}"
+                    Tag="https://github.com/GreemDev/Ryujinx/wiki/Ryujinx-Setup-&amp;-Configuration-Guide"
+                    ToolTip.Tip="{ext:Locale MenuBarHelpSetupTooltip}" />
+                <MenuItem
+                    Click="MenuItem_OnClick"
+                    Header="{ext:Locale MenuBarHelpMultiplayer}"
+                    Icon="{ext:Icon fa-github}"
+                    Tag="https://github.com/GreemDev/Ryujinx/wiki/Multiplayer%E2%80%90(LDN%E2%80%90Local%E2%80%90Wireless)%E2%80%90Guide"
+                    ToolTip.Tip="{ext:Locale MenuBarHelpMultiplayerTooltip}" />
                 <Separator />
                 <MenuItem
                     Click="OpenAboutWindow"

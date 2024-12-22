@@ -1,11 +1,14 @@
+using Gommon;
 using Ryujinx.Ava.UI.ViewModels;
 using Ryujinx.Common;
+using Ryujinx.Common.Logging;
 using Ryujinx.Common.Utilities;
 using Ryujinx.UI.Common.Configuration;
 using System;
 using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.Globalization;
+using System.Text.Json.Serialization;
 
 namespace Ryujinx.Ava.Common.Locale
 {
@@ -140,28 +143,52 @@ namespace Ryujinx.Ava.Common.Locale
             LocaleChanged?.Invoke();
         }
 
+        #nullable enable
+
+        private static LocalesJson? _localeData;
+        
+        #nullable disable
+
         private static Dictionary<LocaleKeys, string> LoadJsonLanguage(string languageCode)
         {
             var localeStrings = new Dictionary<LocaleKeys, string>();
-            string languageJson = EmbeddedResources.ReadAllText($"Ryujinx/Assets/Locales/{languageCode}.json");
 
-            if (languageJson == null)
+            _localeData ??= EmbeddedResources.ReadAllText("Ryujinx/Assets/locales.json")
+                .Into(it => JsonHelper.Deserialize(it, LocalesJsonContext.Default.LocalesJson));
+
+            foreach (LocalesEntry locale in _localeData.Value.Locales)
             {
-                // We were unable to find file for that language code.
-                return null;
-            }
-
-            var strings = JsonHelper.Deserialize(languageJson, CommonJsonContext.Default.StringDictionary);
-
-            foreach ((string key, string val) in strings)
-            {
-                if (Enum.TryParse<LocaleKeys>(key, out var localeKey))
+                if (locale.Translations.Count != _localeData.Value.Languages.Count)
                 {
-                    localeStrings[localeKey] = val;
+                    throw new Exception($"Locale key {{{locale.ID}}} is missing languages! Has {locale.Translations.Count} translations, expected {_localeData.Value.Languages.Count}!");
                 }
+
+                if (!Enum.TryParse<LocaleKeys>(locale.ID, out var localeKey))
+                    continue;
+
+                localeStrings[localeKey] =
+                    locale.Translations.TryGetValue(languageCode, out string val) && val != string.Empty
+                        ? val
+                        : locale.Translations[DefaultLanguageCode];
             }
 
             return localeStrings;
         }
     }
+
+    public struct LocalesJson
+    {
+        public List<string> Languages { get; set; }
+        public List<LocalesEntry> Locales { get; set; }
+    }
+
+    public struct LocalesEntry
+    {
+        public string ID { get; set; }
+        public Dictionary<string, string> Translations { get; set; }
+    }
+
+    [JsonSourceGenerationOptions(WriteIndented = true)]
+    [JsonSerializable(typeof(LocalesJson))]
+    internal partial class LocalesJsonContext : JsonSerializerContext;
 }

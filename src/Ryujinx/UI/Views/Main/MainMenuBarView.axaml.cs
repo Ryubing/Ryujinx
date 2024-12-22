@@ -3,9 +3,7 @@ using Avalonia.Controls;
 using Avalonia.Interactivity;
 using Avalonia.Threading;
 using Gommon;
-using LibHac.Common;
 using LibHac.Ncm;
-using LibHac.Ns;
 using LibHac.Tools.FsSystem.NcaUtils;
 using Ryujinx.Ava.Common.Locale;
 using Ryujinx.Ava.UI.Helpers;
@@ -13,6 +11,7 @@ using Ryujinx.Ava.UI.ViewModels;
 using Ryujinx.Ava.UI.Windows;
 using Ryujinx.Common;
 using Ryujinx.Common.Utilities;
+using Ryujinx.HLE.HOS.Services.Nfc.AmiiboDecryption;
 using Ryujinx.HLE;
 using Ryujinx.UI.App.Common;
 using Ryujinx.UI.Common;
@@ -20,9 +19,7 @@ using Ryujinx.UI.Common.Configuration;
 using Ryujinx.UI.Common.Helper;
 using System;
 using System.Collections.Generic;
-using System.IO;
 using System.Linq;
-using System.Text;
 
 namespace Ryujinx.Ava.UI.Views.Main
 {
@@ -57,29 +54,31 @@ namespace Ryujinx.Ava.UI.Views.Main
         {
             List<MenuItem> menuItems = new();
 
-            string localePath = "Ryujinx/Assets/Locales";
-            string localeExt = ".json";
+            string localePath = "Ryujinx/Assets/locales.json";
 
-            string[] localesPath = EmbeddedResources.GetAllAvailableResources(localePath, localeExt);
+            string languageJson = EmbeddedResources.ReadAllText(localePath);
 
-            Array.Sort(localesPath);
+            LocalesJson locales = JsonHelper.Deserialize(languageJson, LocalesJsonContext.Default.LocalesJson);
 
-            foreach (string locale in localesPath)
+            foreach (string language in locales.Languages)
             {
-                string languageCode = Path.GetFileNameWithoutExtension(locale).Split('.').Last();
-                string languageJson = EmbeddedResources.ReadAllText($"{localePath}/{languageCode}{localeExt}");
-                var strings = JsonHelper.Deserialize(languageJson, CommonJsonContext.Default.StringDictionary);
+                int index = locales.Locales.FindIndex(x => x.ID == "Language");
+                string languageName;
 
-                if (!strings.TryGetValue("Language", out string languageName))
+                if (index == -1)
                 {
-                    languageName = languageCode;
+                    languageName = language;
+                }
+                else
+                {
+                    languageName = locales.Locales[index].Translations[language] == "" ? language : locales.Locales[index].Translations[language];
                 }
 
                 MenuItem menuItem = new()
                 {
                     Padding = new Thickness(10, 0, 0, 0),
                     Header = " " + languageName,
-                    Command = MiniCommand.Create(() => MainWindowViewModel.ChangeLanguage(languageCode))
+                    Command = MiniCommand.Create(() => MainWindowViewModel.ChangeLanguage(language))
                 };
 
                 menuItems.Add(menuItem);
@@ -151,6 +150,9 @@ namespace Ryujinx.Ava.UI.Views.Main
         public async void OpenAmiiboWindow(object sender, RoutedEventArgs e)
             => await ViewModel.OpenAmiiboWindow();
 
+        public async void OpenBinFile(object sender, RoutedEventArgs e)
+            => await ViewModel.OpenBinFile();
+
         public async void OpenCheatManagerForCurrentApp(object sender, RoutedEventArgs e)
         {
             if (!ViewModel.IsGameRunning)
@@ -171,6 +173,12 @@ namespace Ryujinx.Ava.UI.Views.Main
         {
             if (sender is MenuItem)
                 ViewModel.IsAmiiboRequested = ViewModel.AppHost.Device.System.SearchingForAmiibo(out _);
+        }
+
+        private void ScanBinAmiiboMenuItem_AttachedToVisualTree(object sender, VisualTreeAttachmentEventArgs e)
+        {
+            if (sender is MenuItem)
+                ViewModel.IsAmiiboBinRequested = ViewModel.IsAmiiboRequested && AmiiboBinReader.HasAmiiboKeyFile;
         }
 
         private async void InstallFileTypes_Click(object sender, RoutedEventArgs e)
@@ -220,6 +228,12 @@ namespace Ryujinx.Ava.UI.Views.Main
         {
             if (Updater.CanUpdate(true))
                 await Updater.BeginUpdateAsync(true);
+        }
+
+        private void MenuItem_OnClick(object sender, RoutedEventArgs e)
+        {
+            if (sender is MenuItem { Tag: string url })
+                OpenHelper.OpenUrl(url);
         }
 
         public async void OpenXCITrimmerWindow(object sender, RoutedEventArgs e) => await XCITrimmerWindow.Show(ViewModel);

@@ -264,7 +264,7 @@ namespace ARMeilleure.Instructions
             return TblOrTbx(dest, vector, bytes, tb0, tb1, tb2, tb3);
         }
 
-        private static V128 TblOrTbx(V128 dest, V128 vector, int bytes, params V128[] tb)
+        private static V128 TblOrTbx(V128 dest, V128 vector, int bytes, params ReadOnlySpan<V128> tb)
         {
             byte[] res = new byte[16];
 

@@ -3,7 +3,7 @@ using System.Collections.Generic;
 
 namespace Ryujinx.HLE.HOS.Services.Nfc.Nfp.NfpManager
 {
-    struct VirtualAmiiboFile
+    public struct VirtualAmiiboFile
     {
         public uint FileVersion { get; set; }
         public byte[] TagUuid { get; set; }
@@ -15,7 +15,7 @@ namespace Ryujinx.HLE.HOS.Services.Nfc.Nfp.NfpManager
         public List<VirtualAmiiboApplicationArea> ApplicationAreas { get; set; }
     }
 
-    struct VirtualAmiiboApplicationArea
+    public struct VirtualAmiiboApplicationArea
     {
         public uint ApplicationAreaId { get; set; }
         public byte[] ApplicationArea { get; set; }

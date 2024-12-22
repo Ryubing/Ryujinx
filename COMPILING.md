@@ -5,7 +5,7 @@ If you wish to build the emulator yourself, follow these steps:
 
 ### Step 1
 
-Install the [.NET 8.0 (or higher) SDK](https://dotnet.microsoft.com/download/dotnet/8.0).
+Install the [.NET 9.0 (or higher) SDK](https://dotnet.microsoft.com/download/dotnet/9.0).
 Make sure your SDK version is higher or equal to the required version specified in [global.json](global.json).
 
 ### Step 2

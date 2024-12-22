@@ -115,6 +115,9 @@ namespace Ryujinx.Cpu.Jit.HostTracked
             }
 
             private readonly AddressIntrusiveRedBlackTree<Mapping> _mappingTree;
+            
+            // type is not Lock due to the unique usage of this mechanism,
+            // an arbitrary object is used as the lock passed in by constructor.
             private readonly object _lock;
 
             public Block(MemoryTracking tracking, Func<ulong, ulong> readPtCallback, MemoryBlock memory, ulong size, object locker) : base(memory, size)
@@ -174,6 +177,9 @@ namespace Ryujinx.Cpu.Jit.HostTracked
 
         private readonly MemoryTracking _tracking;
         private readonly Func<ulong, ulong> _readPtCallback;
+        
+        // type is not Lock due to the unique usage of this mechanism,
+        // an arbitrary object is used as the lock passed in by constructor.
         private readonly object _lock;
 
         public AddressSpacePartitionAllocator(

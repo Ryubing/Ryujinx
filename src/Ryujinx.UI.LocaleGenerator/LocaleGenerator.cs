@@ -9,13 +9,14 @@ namespace Ryujinx.UI.LocaleGenerator
     {
         public void Initialize(IncrementalGeneratorInitializationContext context)
         {
-            var englishLocaleFile = context.AdditionalTextsProvider.Where(static x => x.Path.EndsWith("en_US.json"));
+            var localeFile = context.AdditionalTextsProvider.Where(static x => x.Path.EndsWith("locales.json"));
 
-            IncrementalValuesProvider<string> contents = englishLocaleFile.Select((text, cancellationToken) => text.GetText(cancellationToken)!.ToString());
+            IncrementalValuesProvider<string> contents = localeFile.Select((text, cancellationToken) => text.GetText(cancellationToken)!.ToString());
 
             context.RegisterSourceOutput(contents, (spc, content) =>
             {
-                var lines = content.Split('\n').Where(x => x.Trim().StartsWith("\"")).Select(x => x.Split(':')[0].Trim().Replace("\"", string.Empty));
+                var lines = content.Split('\n').Where(x => x.Trim().StartsWith("\"ID\":")).Select(x => x.Split(':')[1].Trim().Replace("\"", string.Empty).Replace(",", string.Empty));
+
                 StringBuilder enumSourceBuilder = new();
                 enumSourceBuilder.AppendLine("namespace Ryujinx.Ava.Common.Locale;");
                 enumSourceBuilder.AppendLine("internal enum LocaleKeys");

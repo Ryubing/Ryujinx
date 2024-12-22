@@ -686,22 +686,11 @@ namespace Ryujinx.Ava
 #else
             if (showWarnings)
             {
-                if (ReleaseInformation.IsFlatHubBuild)
-                {
-                    Dispatcher.UIThread.InvokeAsync(() =>
-                        ContentDialogHelper.CreateWarningDialog(
-                            LocaleManager.Instance[LocaleKeys.UpdaterDisabledWarningTitle],
-                            LocaleManager.Instance[LocaleKeys.DialogUpdaterFlatpakNotSupportedMessage])
+                Dispatcher.UIThread.InvokeAsync(() =>
+                    ContentDialogHelper.CreateWarningDialog(
+                        LocaleManager.Instance[LocaleKeys.UpdaterDisabledWarningTitle],
+                        LocaleManager.Instance[LocaleKeys.DialogUpdaterDirtyBuildSubMessage])
                     );
-                }
-                else
-                {
-                    Dispatcher.UIThread.InvokeAsync(() =>
-                        ContentDialogHelper.CreateWarningDialog(
-                            LocaleManager.Instance[LocaleKeys.UpdaterDisabledWarningTitle],
-                            LocaleManager.Instance[LocaleKeys.DialogUpdaterDirtyBuildSubMessage])
-                    );
-                }
             }
 
             return false;

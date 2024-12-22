@@ -4,6 +4,7 @@ using Ryujinx.HLE.HOS.Kernel.Process;
 using Ryujinx.Horizon.Common;
 using System;
 using System.Diagnostics;
+using System.Threading;
 
 namespace Ryujinx.HLE.HOS.Kernel.Memory
 {
@@ -11,7 +12,7 @@ namespace Ryujinx.HLE.HOS.Kernel.Memory
     {
         public KProcess Owner { get; private set; }
         private readonly KPageList _pageList;
-        private readonly object _lock;
+        private readonly Lock _lock = new();
         private ulong _address;
         private bool _isOwnerMapped;
         private bool _isMapped;
@@ -19,7 +20,6 @@ namespace Ryujinx.HLE.HOS.Kernel.Memory
         public KCodeMemory(KernelContext context) : base(context)
         {
             _pageList = new KPageList();
-            _lock = new object();
         }
 
         public Result Initialize(ulong address, ulong size)

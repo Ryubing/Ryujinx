@@ -37,7 +37,7 @@ namespace Ryujinx.HLE.HOS.Services.SurfaceFlinger
         private int _swapInterval;
         private int _swapIntervalDelay;
 
-        private readonly object _lock = new();
+        private readonly Lock _lock = new();
 
         public long RenderLayerId { get; private set; }
 

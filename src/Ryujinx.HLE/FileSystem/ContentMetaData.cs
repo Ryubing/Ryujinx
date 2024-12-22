@@ -46,7 +46,7 @@ namespace Ryujinx.HLE.FileSystem
                     continue;
                 }
 
-                string ncaId = BitConverter.ToString(entry.NcaId).Replace("-", null).ToLower();
+                string ncaId = Convert.ToHexStringLower(entry.NcaId).Replace("-", null);
                 Nca nca = _pfs.GetNca(keySet, $"/{ncaId}.nca");
 
                 if (nca.GetProgramIndex() == programIndex)

@@ -1,7 +1,6 @@
 <Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
-    <TargetFramework>net8.0</TargetFramework>
     <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
     <DefaultItemExcludes>$(DefaultItemExcludes);._*</DefaultItemExcludes>
   </PropertyGroup>
@@ -34,6 +33,7 @@
     <EmbeddedResource Include="Resources\Icon_XCI.png" />
     <EmbeddedResource Include="Resources\Logo_Amiibo.png" />
     <EmbeddedResource Include="Resources\Logo_Ryujinx.png" />
+    <EmbeddedResource Include="Resources\Logo_Thiccjinx.png" />
     <EmbeddedResource Include="Resources\Logo_Discord_Dark.png" />
     <EmbeddedResource Include="Resources\Logo_Discord_Light.png" />
     <EmbeddedResource Include="Resources\Logo_GitHub_Dark.png" />

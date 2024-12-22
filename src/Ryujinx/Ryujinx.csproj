@@ -1,6 +1,5 @@
 <Project Sdk="Microsoft.NET.Sdk">
   <PropertyGroup>
-    <TargetFramework>net8.0</TargetFramework>
     <RuntimeIdentifiers>win-x64;osx-x64;linux-x64</RuntimeIdentifiers>
     <OutputType>Exe</OutputType>
     <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
@@ -13,6 +12,11 @@
     <ApplicationManifest>app.manifest</ApplicationManifest>
     <DefaultItemExcludes>$(DefaultItemExcludes);._*</DefaultItemExcludes>
   </PropertyGroup>
+
+  <Target Name="BuildValidationProj" BeforeTargets="BeforeRebuild">
+    <MSBuild Projects="..\Ryujinx.BuildValidationTasks\Ryujinx.BuildValidationTasks.csproj" Targets="Rebuild">
+    </MSBuild>
+  </Target>
 
   <Target Name="PostBuild" AfterTargets="PostBuildEvent" Condition="$([MSBuild]::IsOSPlatform('OSX'))">
     <Exec Command="codesign --entitlements '$(ProjectDir)..\..\distribution\macos\entitlements.xml' -f -s $(SigningCertificate) '$(TargetDir)$(TargetName)'" />
@@ -112,24 +116,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <None Remove="Assets\Locales\ar_SA.json" />
-    <None Remove="Assets\Locales\el_GR.json" />
-    <None Remove="Assets\Locales\en_US.json" />
-    <None Remove="Assets\Locales\es_ES.json" />
-    <None Remove="Assets\Locales\fr_FR.json" />
-    <None Remove="Assets\Locales\he_IL.json" />
-    <None Remove="Assets\Locales\de_DE.json" />
-    <None Remove="Assets\Locales\it_IT.json" />
-    <None Remove="Assets\Locales\ja_JP.json" />
-    <None Remove="Assets\Locales\ko_KR.json" />
-    <None Remove="Assets\Locales\pl_PL.json" />
-    <None Remove="Assets\Locales\pt_BR.json" />
-    <None Remove="Assets\Locales\ru_RU.json" />
-    <None Remove="Assets\Locales\th_TH.json" />
-    <None Remove="Assets\Locales\tr_TR.json" />
-    <None Remove="Assets\Locales\uk_UA.json" />
-    <None Remove="Assets\Locales\zh_CN.json" />
-    <None Remove="Assets\Locales\zh_TW.json" />
+    <None Remove="Assets\locales.json" />
     <None Remove="Assets\Styles\Styles.xaml" />
     <None Remove="Assets\Styles\Themes.xaml" />
     <None Remove="Assets\Icons\Controller_JoyConLeft.svg" />
@@ -139,24 +126,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <EmbeddedResource Include="Assets\Locales\ar_SA.json" />
-    <EmbeddedResource Include="Assets\Locales\el_GR.json" />
-    <EmbeddedResource Include="Assets\Locales\en_US.json" />
-    <EmbeddedResource Include="Assets\Locales\es_ES.json" />
-    <EmbeddedResource Include="Assets\Locales\fr_FR.json" />
-    <EmbeddedResource Include="Assets\Locales\he_IL.json" />
-    <EmbeddedResource Include="Assets\Locales\de_DE.json" />
-    <EmbeddedResource Include="Assets\Locales\it_IT.json" />
-    <EmbeddedResource Include="Assets\Locales\ja_JP.json" />
-    <EmbeddedResource Include="Assets\Locales\ko_KR.json" />
-    <EmbeddedResource Include="Assets\Locales\pl_PL.json" />
-    <EmbeddedResource Include="Assets\Locales\pt_BR.json" />
-    <EmbeddedResource Include="Assets\Locales\ru_RU.json" />
-    <EmbeddedResource Include="Assets\Locales\th_TH.json" />
-    <EmbeddedResource Include="Assets\Locales\tr_TR.json" />
-    <EmbeddedResource Include="Assets\Locales\uk_UA.json" />
-    <EmbeddedResource Include="Assets\Locales\zh_CN.json" />
-    <EmbeddedResource Include="Assets\Locales\zh_TW.json" />
+    <EmbeddedResource Include="Assets\locales.json" />
     <EmbeddedResource Include="Assets\Styles\Styles.xaml" />
     <EmbeddedResource Include="Assets\Icons\Controller_JoyConLeft.svg" />
     <EmbeddedResource Include="Assets\Icons\Controller_JoyConPair.svg" />
@@ -164,6 +134,6 @@
     <EmbeddedResource Include="Assets\Icons\Controller_ProCon.svg" />
   </ItemGroup>
   <ItemGroup>
-    <AdditionalFiles Include="Assets\Locales\en_US.json" />
+    <AdditionalFiles Include="Assets\locales.json" />
   </ItemGroup>
 </Project>

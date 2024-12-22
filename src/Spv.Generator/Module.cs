@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
@@ -132,7 +133,7 @@ namespace Spv.Generator
             _typeDeclarationsList.Add(instruction);
         }
 
-        public void AddEntryPoint(ExecutionModel executionModel, Instruction function, string name, params Instruction[] interfaces)
+        public void AddEntryPoint(ExecutionModel executionModel, Instruction function, string name, params ReadOnlySpan<Instruction> interfaces)
         {
             Debug.Assert(function.Opcode == Op.OpFunction);
 
@@ -146,7 +147,7 @@ namespace Spv.Generator
             _entrypoints.Add(entryPoint);
         }
 
-        public void AddExecutionMode(Instruction function, ExecutionMode mode, params IOperand[] parameters)
+        public void AddExecutionMode(Instruction function, ExecutionMode mode, params ReadOnlySpan<IOperand> parameters)
         {
             Debug.Assert(function.Opcode == Op.OpFunction);
 
@@ -228,7 +229,7 @@ namespace Spv.Generator
             _constants.Add(key, constant);
         }
 
-        public Instruction ExtInst(Instruction resultType, Instruction set, LiteralInteger instruction, params IOperand[] parameters)
+        public Instruction ExtInst(Instruction resultType, Instruction set, LiteralInteger instruction, params ReadOnlySpan<IOperand> parameters)
         {
             Instruction result = NewInstruction(Op.OpExtInst, GetNewId(), resultType);
 
@@ -247,7 +248,7 @@ namespace Spv.Generator
         }
 
         // TODO: Find a way to make the auto generate one used.
-        public Instruction OpenClPrintf(Instruction resultType, Instruction format, params Instruction[] additionalarguments)
+        public Instruction OpenClPrintf(Instruction resultType, Instruction format, params ReadOnlySpan<Instruction> additionalarguments)
         {
             Instruction result = NewInstruction(Op.OpExtInst, GetNewId(), resultType);
 

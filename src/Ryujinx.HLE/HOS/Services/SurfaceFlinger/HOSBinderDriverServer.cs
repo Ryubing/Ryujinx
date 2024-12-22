@@ -2,6 +2,7 @@ using Ryujinx.Common.Logging;
 using Ryujinx.HLE.HOS.Kernel.Threading;
 using System;
 using System.Collections.Generic;
+using System.Threading;
 
 namespace Ryujinx.HLE.HOS.Services.SurfaceFlinger
 {
@@ -11,7 +12,7 @@ namespace Ryujinx.HLE.HOS.Services.SurfaceFlinger
 
         private static int _lastBinderId = 0;
 
-        private static readonly object _lock = new();
+        private static readonly Lock _lock = new();
 
         public static int RegisterBinderObject(IBinder binder)
         {

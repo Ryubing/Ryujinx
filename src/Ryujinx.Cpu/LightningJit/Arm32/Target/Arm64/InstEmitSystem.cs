@@ -478,7 +478,7 @@ namespace Ryujinx.Cpu.LightningJit.Arm32.Target.Arm64
             bool skipContext,
             int spillBaseOffset,
             int? resultRegister,
-            params ulong[] callArgs)
+            params ReadOnlySpan<ulong> callArgs)
         {
             uint resultMask = 0u;
 

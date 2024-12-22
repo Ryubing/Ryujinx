@@ -22,6 +22,7 @@ using System.IO.Compression;
 using System.Linq;
 using System.Text;
 using System.Text.RegularExpressions;
+using System.Threading;
 using Path = System.IO.Path;
 
 namespace Ryujinx.HLE.FileSystem
@@ -55,7 +56,7 @@ namespace Ryujinx.HLE.FileSystem
 
         private readonly VirtualFileSystem _virtualFileSystem;
 
-        private readonly object _lock = new();
+        private readonly Lock _lock = new();
 
         public ContentManager(VirtualFileSystem virtualFileSystem)
         {
@@ -396,7 +397,7 @@ namespace Ryujinx.HLE.FileSystem
             if (locationList != null)
             {
                 LocationEntry entry =
-                    locationList.ToList().Find(x => x.TitleId == titleId && x.ContentType == contentType);
+                    locationList.ToList().FirstOrDefault(x => x.TitleId == titleId && x.ContentType == contentType);
 
                 if (entry.ContentPath != null)
                 {
@@ -424,7 +425,7 @@ namespace Ryujinx.HLE.FileSystem
         {
             LinkedList<LocationEntry> locationList = _locationEntries[storageId];
 
-            return locationList.ToList().Find(x => x.TitleId == titleId && x.ContentType == contentType);
+            return locationList.ToList().FirstOrDefault(x => x.TitleId == titleId && x.ContentType == contentType);
         }
 
         public void InstallFirmware(string firmwareSource)
@@ -719,7 +720,7 @@ namespace Ryujinx.HLE.FileSystem
 
                 if (updateNcas.TryGetValue(SystemUpdateTitleId, out var ncaEntry))
                 {
-                    string metaPath = ncaEntry.Find(x => x.type == NcaContentType.Meta).path;
+                    string metaPath = ncaEntry.FirstOrDefault(x => x.type == NcaContentType.Meta).path;
 
                     CnmtContentMetaEntry[] metaEntries = null;
 
@@ -755,7 +756,7 @@ namespace Ryujinx.HLE.FileSystem
 
                     if (updateNcas.TryGetValue(SystemVersionTitleId, out var updateNcasItem))
                     {
-                        string versionEntry = updateNcasItem.Find(x => x.type != NcaContentType.Meta).path;
+                        string versionEntry = updateNcasItem.FirstOrDefault(x => x.type != NcaContentType.Meta).path;
 
                         using Stream ncaStream = GetZipStream(archive.GetEntry(versionEntry));
                         Nca nca = new(_virtualFileSystem.KeySet, ncaStream.AsStorage());
@@ -774,9 +775,9 @@ namespace Ryujinx.HLE.FileSystem
                     {
                         if (updateNcas.TryGetValue(metaEntry.TitleId, out ncaEntry))
                         {
-                            metaPath = ncaEntry.Find(x => x.type == NcaContentType.Meta).path;
+                            metaPath = ncaEntry.FirstOrDefault(x => x.type == NcaContentType.Meta).path;
 
-                            string contentPath = ncaEntry.Find(x => x.type != NcaContentType.Meta).path;
+                            string contentPath = ncaEntry.FirstOrDefault(x => x.type != NcaContentType.Meta).path;
 
                             // Nintendo in 9.0.0, removed PPC and only kept the meta nca of it.
                             // This is a perfect valid case, so we should just ignore the missing content nca and continue.
@@ -915,8 +916,8 @@ namespace Ryujinx.HLE.FileSystem
                 {
                     if (updateNcas.TryGetValue(metaEntry.TitleId, out var ncaEntry))
                     {
-                        string metaNcaPath = ncaEntry.Find(x => x.type == NcaContentType.Meta).path;
-                        string contentPath = ncaEntry.Find(x => x.type != NcaContentType.Meta).path;
+                        string metaNcaPath = ncaEntry.FirstOrDefault(x => x.type == NcaContentType.Meta).path;
+                        string contentPath = ncaEntry.FirstOrDefault(x => x.type != NcaContentType.Meta).path;
 
                         // Nintendo in 9.0.0, removed PPC and only kept the meta nca of it.
                         // This is a perfect valid case, so we should just ignore the missing content nca and continue.
@@ -1076,7 +1077,7 @@ namespace Ryujinx.HLE.FileSystem
             {
                 if (File.Exists(Path.Combine(pathToCheck, file)))
                 {
-                    return true;                    
+                    return true;
                 }
             }
             return false;

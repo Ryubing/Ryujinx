@@ -23,7 +23,7 @@ namespace Ryujinx.UI.Common.Helper
         [LibraryImport("shell32.dll", SetLastError = true)]
         public static partial void SHChangeNotify(uint wEventId, uint uFlags, nint dwItem1, nint dwItem2);
 
-        public static bool IsTypeAssociationSupported => (OperatingSystem.IsLinux() || OperatingSystem.IsWindows()) && !ReleaseInformation.IsFlatHubBuild;
+        public static bool IsTypeAssociationSupported => (OperatingSystem.IsLinux() || OperatingSystem.IsWindows());
         
         public static bool AreMimeTypesRegistered
         {

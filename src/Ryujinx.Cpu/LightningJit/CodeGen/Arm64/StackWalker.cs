@@ -8,8 +8,6 @@ namespace Ryujinx.Cpu.LightningJit.CodeGen.Arm64
     {
         public IEnumerable<ulong> GetCallStack(nint framePointer, nint codeRegionStart, int codeRegionSize, nint codeRegion2Start, int codeRegion2Size)
         {
-            List<ulong> functionPointers = new();
-
             while (true)
             {
                 nint functionPointer = Marshal.ReadIntPtr(framePointer, nint.Size);
@@ -20,11 +18,9 @@ namespace Ryujinx.Cpu.LightningJit.CodeGen.Arm64
                     break;
                 }
 
-                functionPointers.Add((ulong)functionPointer - 4);
+                yield return (ulong)functionPointer - 4;
                 framePointer = Marshal.ReadIntPtr(framePointer);
             }
-
-            return functionPointers;
         }
     }
 }
