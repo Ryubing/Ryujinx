@@ -1938,7 +1938,7 @@ namespace Ryujinx.Ava.UI.ViewModels
 
             PrepareLoadScreen();
 
-            RendererHostControl = new RendererHost();
+            RendererHostControl = new RendererHost(application.Id.ToString("X16"));
 
             AppHost = new AppHost(
                 RendererHostControl,

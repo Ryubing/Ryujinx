@@ -38,7 +38,7 @@ namespace Ryujinx.UI.App.Common
 
         public string TimePlayedString => ValueFormatUtils.FormatTimeSpan(TimePlayed);
 
-        public string LastPlayedString => ValueFormatUtils.FormatDateTime(LastPlayed) ?? LocalizedNever();
+        public string LastPlayedString => ValueFormatUtils.FormatDateTime(LastPlayed)?.Replace(" ", "\n") ?? LocalizedNever();
 
         public string FileSizeString => ValueFormatUtils.FormatFileSize(FileSize);
 

@@ -287,9 +287,16 @@
                 <MenuItem VerticalAlignment="Center" Header="{ext:Locale MenuBarViewWindow}">
                     <MenuItem Header="{ext:Locale MenuBarViewWindow720}" Tag="1280 720" Click="ChangeWindowSize_Click" />
                     <MenuItem Header="{ext:Locale MenuBarViewWindow1080}" Tag="1920 1080" Click="ChangeWindowSize_Click" />
+                    <MenuItem Header="{ext:Locale MenuBarViewWindow1440}" Tag="2560 1440" Click="ChangeWindowSize_Click" />
+                    <MenuItem Header="{ext:Locale MenuBarViewWindow2160}" Tag="3840 2160" Click="ChangeWindowSize_Click" />
                 </MenuItem>
             </MenuItem>
             <MenuItem VerticalAlignment="Center" Header="{ext:Locale MenuBarHelp}">
+                <MenuItem
+                    Click="OpenAboutWindow"
+                    Header="{ext:Locale MenuBarHelpAbout}"
+                    Icon="{ext:Icon fa-solid fa-circle-info}"
+                    ToolTip.Tip="{ext:Locale OpenAboutTooltip}" />
                 <MenuItem
                     Name="UpdateMenuItem"
                     IsEnabled="{Binding CanUpdate}"
@@ -298,30 +305,26 @@
                     Icon="{ext:Icon mdi-update}"
                     ToolTip.Tip="{ext:Locale CheckUpdatesTooltip}" />
                 <Separator />
-                <MenuItem
-                    Click="MenuItem_OnClick"
-                    Header="{ext:Locale MenuBarHelpFaq}"
-                    Icon="{ext:Icon fa-github}"
-                    Tag="https://github.com/GreemDev/Ryujinx/wiki/FAQ-and-Troubleshooting"
-                    ToolTip.Tip="{ext:Locale MenuBarHelpFaqTooltip}" />
-                <MenuItem
-                    Click="MenuItem_OnClick"
-                    Header="{ext:Locale MenuBarHelpSetup}"
-                    Icon="{ext:Icon fa-github}"
-                    Tag="https://github.com/GreemDev/Ryujinx/wiki/Ryujinx-Setup-&amp;-Configuration-Guide"
-                    ToolTip.Tip="{ext:Locale MenuBarHelpSetupTooltip}" />
-                <MenuItem
-                    Click="MenuItem_OnClick"
-                    Header="{ext:Locale MenuBarHelpMultiplayer}"
-                    Icon="{ext:Icon fa-github}"
-                    Tag="https://github.com/GreemDev/Ryujinx/wiki/Multiplayer%E2%80%90(LDN%E2%80%90Local%E2%80%90Wireless)%E2%80%90Guide"
-                    ToolTip.Tip="{ext:Locale MenuBarHelpMultiplayerTooltip}" />
-                <Separator />
-                <MenuItem
-                    Click="OpenAboutWindow"
-                    Header="{ext:Locale MenuBarHelpAbout}"
-                    Icon="{ext:Icon fa-solid fa-circle-info}"
-                    ToolTip.Tip="{ext:Locale OpenAboutTooltip}" />
+                <MenuItem VerticalAlignment="Center" Header="{ext:Locale MenuBarHelpFaqAndGuides}" Icon="{ext:Icon fa-solid fa-question}" >
+                    <MenuItem
+                        Click="MenuItem_OnClick"
+                        Header="{ext:Locale MenuBarHelpFaq}"
+                        Icon="{ext:Icon fa-github}"
+                        Tag="https://github.com/GreemDev/Ryujinx/wiki/FAQ-and-Troubleshooting"
+                        ToolTip.Tip="{ext:Locale MenuBarHelpFaqTooltip}" />
+                    <MenuItem
+                        Click="MenuItem_OnClick"
+                        Header="{ext:Locale MenuBarHelpSetup}"
+                        Icon="{ext:Icon fa-github}"
+                        Tag="https://github.com/GreemDev/Ryujinx/wiki/Ryujinx-Setup-&amp;-Configuration-Guide"
+                        ToolTip.Tip="{ext:Locale MenuBarHelpSetupTooltip}" />
+                    <MenuItem
+                        Click="MenuItem_OnClick"
+                        Header="{ext:Locale MenuBarHelpMultiplayer}"
+                        Icon="{ext:Icon fa-github}"
+                        Tag="https://github.com/GreemDev/Ryujinx/wiki/Multiplayer%E2%80%90(LDN%E2%80%90Local%E2%80%90Wireless)%E2%80%90Guide"
+                        ToolTip.Tip="{ext:Locale MenuBarHelpMultiplayerTooltip}" />
+                </MenuItem>
             </MenuItem>
         </Menu>
     </DockPanel>

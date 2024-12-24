@@ -6,7 +6,9 @@ namespace Ryujinx.Common.Configuration
     [JsonConverter(typeof(TypedStringEnumConverter<GraphicsBackend>))]
     public enum GraphicsBackend
     {
+        Auto,
         Vulkan,
         OpenGl,
+        Metal
     }
 }

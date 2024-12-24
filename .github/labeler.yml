@@ -32,7 +32,7 @@ kernel:
 
 infra:
 - changed-files:
-  - any-glob-to-any-file: ['.github/**', 'distribution/**', 'Directory.Packages.props']
+  - any-glob-to-any-file: ['.github/**', 'distribution/**', 'Directory.Packages.props', 'src/Ryujinx.BuildValidationTasks/**']
 
 documentation:
 - changed-files:

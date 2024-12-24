@@ -97,7 +97,7 @@ namespace Ryujinx.Ava.UI.ViewModels.Input
             {
                 if (IsModified)
                 {
-                    
+
                     _playerIdChoose = value;
                     return;
                 }
@@ -105,7 +105,7 @@ namespace Ryujinx.Ava.UI.ViewModels.Input
                 IsModified = false;
                 _playerId = value;
 
-                if (!Enum.IsDefined(typeof(PlayerIndex), _playerId))
+                if (!Enum.IsDefined<PlayerIndex>(_playerId))
                 {
                     _playerId = PlayerIndex.Player1;
 

@@ -94,7 +94,7 @@ namespace Ryujinx.HLE.HOS.Services.Sm
             {
                 if (_services.TryGetValue(name, out Type type))
                 {
-                    ServiceAttribute serviceAttribute = (ServiceAttribute)type.GetCustomAttributes(typeof(ServiceAttribute)).First(service => ((ServiceAttribute)service).Name == name);
+                    ServiceAttribute serviceAttribute = type.GetCustomAttributes<ServiceAttribute>().First(service => service.Name == name);
 
                     IpcService service = GetServiceInstance(type, context, serviceAttribute.Parameter);
 

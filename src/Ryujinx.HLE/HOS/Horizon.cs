@@ -341,7 +341,7 @@ namespace Ryujinx.HLE.HOS
         {
             if (VirtualAmiibo.ApplicationBytes.Length > 0)
             {
-                VirtualAmiibo.ApplicationBytes = new byte[0];
+                VirtualAmiibo.ApplicationBytes = Array.Empty<byte>();
                 VirtualAmiibo.InputBin = string.Empty;
             }
             if (NfpDevices[nfpDeviceId].State == NfpDeviceState.SearchingForTag)
@@ -356,7 +356,7 @@ namespace Ryujinx.HLE.HOS
             VirtualAmiibo.InputBin = path;
             if (VirtualAmiibo.ApplicationBytes.Length > 0)
             {
-                VirtualAmiibo.ApplicationBytes = new byte[0];
+                VirtualAmiibo.ApplicationBytes = Array.Empty<byte>();
             }
             byte[] encryptedData = File.ReadAllBytes(path);
             VirtualAmiiboFile newFile = AmiiboBinReader.ReadBinFile(encryptedData);

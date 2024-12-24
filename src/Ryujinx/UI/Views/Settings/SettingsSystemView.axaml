@@ -181,15 +181,11 @@
                             SelectedTime="{Binding CurrentTime}"
                             Width="350"
                             ToolTip.Tip="{ext:Locale TimeTooltip}" />
-                    </StackPanel>
-                    <StackPanel
-                        Margin="350,0,0,10"
-                        Orientation="Horizontal">
                         <Button
+                            Margin="10, 0, 0, 0"
                             VerticalAlignment="Center"
                             Click="MatchSystemTime_OnClick"
                             Background="{DynamicResource SystemAccentColor}"
-                            Width="150"
                             ToolTip.Tip="{ext:Locale MatchTimeTooltip}">
                             <TextBlock Text="{ext:Locale SettingsTabSystemSystemTimeMatch}" />
                         </Button>

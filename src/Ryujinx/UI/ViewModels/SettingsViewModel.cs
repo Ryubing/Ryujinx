@@ -122,7 +122,7 @@ namespace Ryujinx.Ava.UI.ViewModels
 
         public bool IsOpenGLAvailable => !OperatingSystem.IsMacOS();
 
-        public bool IsHypervisorAvailable => OperatingSystem.IsMacOS() && RuntimeInformation.ProcessArchitecture == Architecture.Arm64;
+        public bool IsAppleSiliconMac => OperatingSystem.IsMacOS() && RuntimeInformation.ProcessArchitecture == Architecture.Arm64;
 
         public bool GameDirectoryChanged
         {
@@ -252,7 +252,8 @@ namespace Ryujinx.Ava.UI.ViewModels
         public bool IsCustomResolutionScaleActive => _resolutionScale == 4;
         public bool IsScalingFilterActive => _scalingFilter == (int)Ryujinx.Common.Configuration.ScalingFilter.Fsr;
 
-        public bool IsVulkanSelected => GraphicsBackendIndex == 0;
+        public bool IsVulkanSelected =>
+            GraphicsBackendIndex == 1 || (GraphicsBackendIndex == 0 && !OperatingSystem.IsMacOS());
         public bool UseHypervisor { get; set; }
         public bool DisableP2P { get; set; }
 
@@ -432,7 +433,7 @@ namespace Ryujinx.Ava.UI.ViewModels
             if (devices.Length == 0)
             {
                 IsVulkanAvailable = false;
-                GraphicsBackendIndex = 1;
+                GraphicsBackendIndex = 2;
             }
             else
             {

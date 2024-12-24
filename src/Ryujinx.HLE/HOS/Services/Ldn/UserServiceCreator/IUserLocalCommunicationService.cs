@@ -444,7 +444,7 @@ namespace Ryujinx.HLE.HOS.Services.Ldn.UserServiceCreator
 
         private ResultCode ScanInternal(IVirtualMemoryManager memory, ushort channel, ScanFilter scanFilter, ulong bufferPosition, ulong bufferSize, out ulong counter)
         {
-            ulong networkInfoSize = (ulong)Marshal.SizeOf(typeof(NetworkInfo));
+            ulong networkInfoSize = (ulong)Marshal.SizeOf<NetworkInfo>();
             ulong maxGames = bufferSize / networkInfoSize;
 
             MemoryHelper.FillWithZeros(memory, bufferPosition, (int)bufferSize);

@@ -1,8 +1,11 @@
 using Avalonia;
 using Avalonia.Controls;
+using Gommon;
 using Ryujinx.Common.Configuration;
+using Ryujinx.Common.Logging;
 using Ryujinx.UI.Common.Configuration;
 using System;
+using System.Runtime.InteropServices;
 
 namespace Ryujinx.Ava.UI.Renderer
 {
@@ -17,18 +20,74 @@ namespace Ryujinx.Ava.UI.Renderer
         {
             InitializeComponent();
 
-            if (ConfigurationState.Instance.Graphics.GraphicsBackend.Value == GraphicsBackend.OpenGl)
+            EmbeddedWindow = ConfigurationState.Instance.Graphics.GraphicsBackend.Value switch
             {
-                EmbeddedWindow = new EmbeddedWindowOpenGL();
-            }
-            else
-            {
-                EmbeddedWindow = new EmbeddedWindowVulkan();
-            }
+                GraphicsBackend.OpenGl => new EmbeddedWindowOpenGL(),
+                GraphicsBackend.Metal => new EmbeddedWindowMetal(),
+                GraphicsBackend.Vulkan or GraphicsBackend.Auto => new EmbeddedWindowVulkan(),
+                _ => throw new NotSupportedException()
+            };
 
             Initialize();
         }
 
+        public static readonly string[] KnownGreatMetalTitles =
+        [
+            "01006A800016E000", // Smash Ultimate
+            "0100000000010000", // Super Mario Odyessy
+            "01008C0016544000", // Sea of Stars
+            "01005CA01580E000", // Persona 5
+            "010028600EBDA000", // Mario 3D World
+        ];
+
+        public GraphicsBackend Backend =>
+            EmbeddedWindow switch
+            {
+                EmbeddedWindowVulkan => GraphicsBackend.Vulkan,
+                EmbeddedWindowOpenGL => GraphicsBackend.OpenGl,
+                EmbeddedWindowMetal => GraphicsBackend.Metal,
+                _ => throw new NotImplementedException()
+            };
+
+        public RendererHost(string titleId)
+        {
+            InitializeComponent();
+
+            switch (ConfigurationState.Instance.Graphics.GraphicsBackend.Value)
+            {
+                case GraphicsBackend.Auto:
+                    EmbeddedWindow = 
+                        OperatingSystem.IsMacOS() && 
+                        RuntimeInformation.ProcessArchitecture == Architecture.Arm64 && 
+                        KnownGreatMetalTitles.ContainsIgnoreCase(titleId) 
+                            ? new EmbeddedWindowMetal() 
+                            : new EmbeddedWindowVulkan();
+                    break;
+                case GraphicsBackend.OpenGl:
+                    EmbeddedWindow = new EmbeddedWindowOpenGL();
+                    break;
+                case GraphicsBackend.Metal:
+                    EmbeddedWindow = new EmbeddedWindowMetal();
+                    break;
+                case GraphicsBackend.Vulkan: 
+                    EmbeddedWindow = new EmbeddedWindowVulkan(); 
+                    break;
+            }
+            
+            string backendText = EmbeddedWindow switch
+            {
+                EmbeddedWindowVulkan => "Vulkan",
+                EmbeddedWindowOpenGL => "OpenGL",
+                EmbeddedWindowMetal => "Metal",
+                _ => throw new NotImplementedException()
+            };
+                    
+            Logger.Info?.PrintMsg(LogClass.Gpu, $"Backend ({ConfigurationState.Instance.Graphics.GraphicsBackend.Value}): {backendText}");
+
+            Initialize();
+        }
+        
+        
         private void Initialize()
         {
             EmbeddedWindow.WindowCreated += CurrentWindow_WindowCreated;

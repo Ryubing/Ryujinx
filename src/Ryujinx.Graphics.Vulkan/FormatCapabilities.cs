@@ -62,7 +62,7 @@ namespace Ryujinx.Graphics.Vulkan
             _api = api;
             _physicalDevice = physicalDevice;
 
-            int totalFormats = Enum.GetNames(typeof(Format)).Length;
+            int totalFormats = Enum.GetNames<Format>().Length;
 
             _bufferTable = new FormatFeatureFlags[totalFormats];
             _optimalTable = new FormatFeatureFlags[totalFormats];
