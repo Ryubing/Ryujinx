@@ -9,6 +9,7 @@ using Avalonia.Threading;
 using DynamicData;
 using DynamicData.Binding;
 using FluentAvalonia.UI.Controls;
+using Gommon;
 using LibHac.Common;
 using LibHac.Ns;
 using Ryujinx.Ava.Common;
@@ -20,9 +21,13 @@ using Ryujinx.Ava.UI.Models;
 using Ryujinx.Ava.UI.Models.Generic;
 using Ryujinx.Ava.UI.Renderer;
 using Ryujinx.Ava.UI.Windows;
+using Ryujinx.Ava.Utilities.AppLibrary;
+using Ryujinx.Ava.Utilities.Configuration;
 using Ryujinx.Common;
 using Ryujinx.Common.Configuration;
+using Ryujinx.Common.Helper;
 using Ryujinx.Common.Logging;
+using Ryujinx.Common.UI;
 using Ryujinx.Common.Utilities;
 using Ryujinx.Cpu;
 using Ryujinx.HLE;
@@ -32,10 +37,6 @@ using Ryujinx.HLE.HOS.Services.Account.Acc;
 using Ryujinx.HLE.HOS.Services.Nfc.AmiiboDecryption;
 using Ryujinx.HLE.UI;
 using Ryujinx.Input.HLE;
-using Ryujinx.UI.App.Common;
-using Ryujinx.UI.Common;
-using Ryujinx.UI.Common.Configuration;
-using Ryujinx.UI.Common.Helper;
 using Silk.NET.Vulkan;
 using SkiaSharp;
 using System;
@@ -124,14 +125,15 @@ namespace Ryujinx.Ava.UI.ViewModels
 
         public ApplicationData ListSelectedApplication;
         public ApplicationData GridSelectedApplication;
-
-        public IEnumerable<LdnGameData> LastLdnGameData;
+        
+        // Key is Title ID
+        public SafeDictionary<string, LdnGameData.Array> LdnData = [];
 
         // The UI specifically uses a thicker bordered variant of the icon to avoid crunching out the border at lower resolutions.
         // For an example of this, download canary 1.2.95, then open the settings menu, and look at the icon in the top-left.
         // The border gets reduced to colored pixels in the 4 corners.
         public static readonly Bitmap IconBitmap =
-            new(Assembly.GetAssembly(typeof(ConfigurationState))!.GetManifestResourceStream("Ryujinx.UI.Common.Resources.Logo_Thiccjinx.png")!);
+            new(Assembly.GetAssembly(typeof(MainWindowViewModel))!.GetManifestResourceStream("Ryujinx.Assets.UIImages.Logo_Ryujinx_AntiAlias.png")!);
 
         public MainWindow Window { get; init; }
 
@@ -2051,7 +2053,7 @@ namespace Ryujinx.Ava.UI.ViewModels
 
             Dispatcher.UIThread.InvokeAsync(() =>
             {
-                Title = App.FormatTitle();
+                Title = RyujinxApp.FormatTitle();
             });
         }
 

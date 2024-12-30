@@ -4,6 +4,7 @@ using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
+using System.Linq;
 using System.Runtime.CompilerServices;
 using System.Threading;
 
@@ -157,21 +158,16 @@ namespace Ryujinx.Common.Logging
             _time.Restart();
         }
 
-        private static ILogTarget GetTarget(string targetName)
-        {
-            foreach (var target in _logTargets)
-            {
-                if (target.Name.Equals(targetName))
-                {
-                    return target;
-                }
-            }
-
-            return null;
-        }
+        private static ILogTarget GetTarget(string targetName) 
+            => _logTargets.FirstOrDefault(target => target.Name.Equals(targetName));
 
         public static void AddTarget(ILogTarget target)
         {
+            if (_logTargets.Any(t => t.Name == target.Name))
+            {
+                return;
+            }
+
             _logTargets.Add(target);
 
             Updated += target.Log;

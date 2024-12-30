@@ -8,10 +8,10 @@ namespace Ryujinx.Common
     public static class StreamExtensions
     {
         /// <summary>
-        /// Writes a <see cref="ReadOnlySpan{int}" /> to this stream.
+        /// Writes an int span to this stream.
         ///
         /// This default implementation converts each buffer value to a stack-allocated
-        /// byte array, then writes it to the Stream using <cref="System.Stream.Write(byte[])" />.
+        /// byte array, then writes it to the Stream using <see cref="Stream.Write(ReadOnlySpan{byte})" />.
         /// </summary>
         /// <param name="stream">The stream to be written to</param>
         /// <param name="buffer">The buffer of values to be written</param>

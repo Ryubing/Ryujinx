@@ -17,8 +17,7 @@
             Margin="7, 0"
             Height="25"
             Width="25"
-            ToolTip.Tip="{Binding Title}"
-            Source="resm:Ryujinx.UI.Common.Resources.Logo_Thiccjinx.png?assembly=Ryujinx.UI.Common" />
+            ToolTip.Tip="{Binding Title}" />
         <Menu
             Name="Menu"
             Height="32"

@@ -14,7 +14,7 @@ namespace Ryujinx.Ava.UI.Windows
 
         public SettingsWindow(VirtualFileSystem virtualFileSystem, ContentManager contentManager)
         {
-            Title = App.FormatTitle(LocaleKeys.Settings);
+            Title = RyujinxApp.FormatTitle(LocaleKeys.Settings);
 
             DataContext = ViewModel = new SettingsViewModel(virtualFileSystem, contentManager);
 
@@ -85,6 +85,10 @@ namespace Ryujinx.Ava.UI.Windows
                         break;
                     case nameof(LoggingPage):
                         NavPanel.Content = LoggingPage;
+                        break;
+                    case nameof(HacksPage):
+                        HacksPage.ViewModel = ViewModel;
+                        NavPanel.Content = HacksPage;
                         break;
                     default:
                         throw new NotImplementedException();

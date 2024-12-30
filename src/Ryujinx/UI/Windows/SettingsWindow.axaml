@@ -37,6 +37,7 @@
             <settings:SettingsAudioView Name="AudioPage" />
             <settings:SettingsNetworkView Name="NetworkPage" />
             <settings:SettingsLoggingView Name="LoggingPage" />
+            <settings:SettingsHacksView Name="HacksPage" />
         </Grid>
         <ui:NavigationView
             Grid.Row="1"
@@ -91,6 +92,11 @@
                     Content="{ext:Locale SettingsTabLogging}"
                     Tag="LoggingPage"
                     IconSource="Document" />
+                <ui:NavigationViewItem
+                    IsVisible="{Binding ShowDirtyHacks}"
+                    Content="Dirty Hacks"
+                    Tag="HacksPage"
+                    IconSource="Code" />
             </ui:NavigationView.MenuItems>
             <ui:NavigationView.Styles>
                 <Style Selector="Grid#PlaceholderGrid">

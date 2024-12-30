@@ -52,7 +52,7 @@ namespace Ryujinx.Graphics.Vulkan.Queries
 
             _current = new CounterQueueEvent(this, type, 0);
 
-            _consumerThread = new Thread(EventConsumer);
+            _consumerThread = new Thread(EventConsumer) { Name = "CPU.CounterQueue." + (int)type };
             _consumerThread.Start();
         }
 

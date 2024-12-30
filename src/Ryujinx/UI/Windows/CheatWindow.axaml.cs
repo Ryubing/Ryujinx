@@ -2,10 +2,10 @@ using Avalonia.Collections;
 using LibHac.Tools.FsSystem;
 using Ryujinx.Ava.Common.Locale;
 using Ryujinx.Ava.UI.Models;
+using Ryujinx.Ava.Utilities.AppLibrary;
+using Ryujinx.Ava.Utilities.Configuration;
 using Ryujinx.HLE.FileSystem;
 using Ryujinx.HLE.HOS;
-using Ryujinx.UI.App.Common;
-using Ryujinx.UI.Common.Configuration;
 using System.Globalization;
 using System.IO;
 using System.Linq;
@@ -28,7 +28,7 @@ namespace Ryujinx.Ava.UI.Windows
 
             InitializeComponent();
 
-            Title = App.FormatTitle(LocaleKeys.CheatWindowTitle);
+            Title = RyujinxApp.FormatTitle(LocaleKeys.CheatWindowTitle);
         }
 
         public CheatWindow(VirtualFileSystem virtualFileSystem, string titleId, string titleName, string titlePath)
@@ -93,7 +93,7 @@ namespace Ryujinx.Ava.UI.Windows
 
             DataContext = this;
 
-            Title = App.FormatTitle(LocaleKeys.CheatWindowTitle);
+            Title = RyujinxApp.FormatTitle(LocaleKeys.CheatWindowTitle);
         }
 
         public void Save()

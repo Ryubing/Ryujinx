@@ -1,6 +1,7 @@
 using Avalonia.Collections;
 using Avalonia.Controls;
 using Avalonia.Threading;
+using Gommon;
 using LibHac.Tools.FsSystem;
 using Ryujinx.Audio.Backends.OpenAL;
 using Ryujinx.Audio.Backends.SDL2;
@@ -9,6 +10,8 @@ using Ryujinx.Ava.Common.Locale;
 using Ryujinx.Ava.UI.Helpers;
 using Ryujinx.Ava.UI.Models.Input;
 using Ryujinx.Ava.UI.Windows;
+using Ryujinx.Ava.Utilities.Configuration;
+using Ryujinx.Ava.Utilities.Configuration.System;
 using Ryujinx.Common.Configuration;
 using Ryujinx.Common.Configuration.Multiplayer;
 using Ryujinx.Common.GraphicsDriver;
@@ -17,8 +20,6 @@ using Ryujinx.Graphics.Vulkan;
 using Ryujinx.HLE;
 using Ryujinx.HLE.FileSystem;
 using Ryujinx.HLE.HOS.Services.Time.TimeZone;
-using Ryujinx.UI.Common.Configuration;
-using Ryujinx.UI.Common.Configuration.System;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
@@ -62,7 +63,11 @@ namespace Ryujinx.Ava.UI.ViewModels
         private int _networkInterfaceIndex;
         private int _multiplayerModeIndex;
         private string _ldnPassphrase;
-        private string _LdnServer;
+        private string _ldnServer;
+
+        private bool _xc2MenuSoftlockFix = ConfigurationState.Instance.Hacks.Xc2MenuSoftlockFix;
+        private bool _shaderTranslationThreadSleep = ConfigurationState.Instance.Hacks.EnableShaderCompilationThreadSleep;
+        private int _shaderTranslationSleepDelay = ConfigurationState.Instance.Hacks.ShaderCompilationThreadSleepDelay;
 
         public int ResolutionScale
         {
@@ -71,8 +76,7 @@ namespace Ryujinx.Ava.UI.ViewModels
             {
                 _resolutionScale = value;
 
-                OnPropertyChanged(nameof(CustomResolutionScale));
-                OnPropertyChanged(nameof(IsCustomResolutionScaleActive));
+                OnPropertiesChanged(nameof(CustomResolutionScale), nameof(IsCustomResolutionScaleActive));
             }
         }
 
@@ -163,9 +167,7 @@ namespace Ryujinx.Ava.UI.ViewModels
             get => _vSyncMode;
             set
             {
-                if (value == VSyncMode.Custom ||
-                    value == VSyncMode.Switch ||
-                    value == VSyncMode.Unbounded)
+                if (value is VSyncMode.Custom or VSyncMode.Switch or VSyncMode.Unbounded)
                 {
                     _vSyncMode = value;
                     OnPropertyChanged();
@@ -181,8 +183,9 @@ namespace Ryujinx.Ava.UI.ViewModels
                 int newInterval = (int)((value / 100f) * 60);
                 _customVSyncInterval = newInterval;
                 _customVSyncIntervalPercentageProxy = value;
-                OnPropertyChanged((nameof(CustomVSyncInterval)));
-                OnPropertyChanged((nameof(CustomVSyncIntervalPercentageText)));
+                OnPropertiesChanged(
+                    nameof(CustomVSyncInterval), 
+                    nameof(CustomVSyncIntervalPercentageText));
             }
         }
 
@@ -190,7 +193,7 @@ namespace Ryujinx.Ava.UI.ViewModels
         {
             get
             {
-                string text = CustomVSyncIntervalPercentageProxy.ToString() + "%";
+                string text = CustomVSyncIntervalPercentageProxy + "%";
                 return text;
             }
         }
@@ -221,8 +224,9 @@ namespace Ryujinx.Ava.UI.ViewModels
                 _customVSyncInterval = value;
                 int newPercent = (int)((value / 60f) * 100);
                 _customVSyncIntervalPercentageProxy = newPercent;
-                OnPropertyChanged(nameof(CustomVSyncIntervalPercentageProxy));
-                OnPropertyChanged(nameof(CustomVSyncIntervalPercentageText));
+                OnPropertiesChanged(
+                    nameof(CustomVSyncIntervalPercentageProxy), 
+                    nameof(CustomVSyncIntervalPercentageText));
                 OnPropertyChanged();
             }
         }
@@ -257,6 +261,8 @@ namespace Ryujinx.Ava.UI.ViewModels
         public bool UseHypervisor { get; set; }
         public bool DisableP2P { get; set; }
 
+        public bool ShowDirtyHacks => ConfigurationState.Instance.Hacks.ShowDirtyHacks;
+
         public string TimeZone { get; set; }
         public string ShaderDumpPath { get; set; }
 
@@ -270,6 +276,39 @@ namespace Ryujinx.Ava.UI.ViewModels
 
                 OnPropertyChanged();
                 OnPropertyChanged(nameof(IsInvalidLdnPassphraseVisible));
+            }
+        }
+
+        public bool Xc2MenuSoftlockFixEnabled
+        {
+            get => _xc2MenuSoftlockFix;
+            set
+            {
+                _xc2MenuSoftlockFix = value;
+                
+                OnPropertyChanged();
+            }
+        }
+        
+        public bool ShaderTranslationDelayEnabled
+        {
+            get => _shaderTranslationThreadSleep;
+            set
+            {
+                _shaderTranslationThreadSleep = value;
+                
+                OnPropertyChanged();
+            }
+        }
+        
+        public int ShaderTranslationDelay
+        {
+            get => _shaderTranslationSleepDelay;
+            set
+            {
+                _shaderTranslationSleepDelay = value;
+                
+                OnPropertyChanged();
             }
         }
 
@@ -373,10 +412,10 @@ namespace Ryujinx.Ava.UI.ViewModels
 
         public string LdnServer
         {
-            get => _LdnServer;
+            get => _ldnServer;
             set
             {
-                _LdnServer = value;
+                _ldnServer = value;
                 OnPropertyChanged();
             }
         }
@@ -745,11 +784,16 @@ namespace Ryujinx.Ava.UI.ViewModels
             config.Multiplayer.DisableP2p.Value = DisableP2P;
             config.Multiplayer.LdnPassphrase.Value = LdnPassphrase;
             config.Multiplayer.LdnServer.Value = LdnServer;
+            
+            // Dirty Hacks
+            config.Hacks.Xc2MenuSoftlockFix.Value = Xc2MenuSoftlockFixEnabled;
+            config.Hacks.EnableShaderCompilationThreadSleep.Value = ShaderTranslationDelayEnabled;
+            config.Hacks.ShaderCompilationThreadSleepDelay.Value = ShaderTranslationDelay;
 
             config.ToFileFormat().SaveConfig(Program.ConfigurationPath);
 
             MainWindow.UpdateGraphicsConfig();
-            MainWindow.MainWindowViewModel.VSyncModeSettingChanged();
+            RyujinxApp.MainWindow.ViewModel.VSyncModeSettingChanged();
 
             SaveSettingsEvent?.Invoke();
 
@@ -778,5 +822,24 @@ namespace Ryujinx.Ava.UI.ViewModels
             RevertIfNotSaved();
             CloseWindow?.Invoke();
         }
+
+        public static string Xc2MenuFixTooltip { get; } = Lambda.String(sb =>
+        {
+            sb.AppendLine(
+                "This fix applies a 2ms delay (via 'Thread.Sleep(2)') every time the game tries to read data from the emulated Switch filesystem.")
+                .AppendLine();
+            
+            sb.AppendLine("From the issue on GitHub:").AppendLine();
+            sb.Append(
+                "When clicking very fast from game main menu to 2nd submenu, " +
+                "there is a low chance that the game will softlock, " +
+                "the submenu won't show up, while background music is still there.");
+        });
+        
+        public static string ShaderTranslationDelayTooltip { get; } = Lambda.String(sb =>
+        {
+            sb.Append(
+                "This hack applies the delay you specify every time shaders are attempted to be translated.");
+        });
     }
 }

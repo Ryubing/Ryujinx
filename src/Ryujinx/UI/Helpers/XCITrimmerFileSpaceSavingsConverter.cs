@@ -1,8 +1,9 @@
 using Avalonia;
 using Avalonia.Data;
 using Avalonia.Data.Converters;
+using Gommon;
 using Ryujinx.Ava.Common.Locale;
-using Ryujinx.UI.Common.Models;
+using Ryujinx.Ava.Common.Models;
 using System;
 using System.Globalization;
 
@@ -32,11 +33,11 @@ namespace Ryujinx.Ava.UI.Helpers
 
             if (app.CurrentSavingsB < app.PotentialSavingsB)
             {
-                return LocaleManager.Instance.UpdateAndGetDynamicValue(LocaleKeys.TitleXCICanSaveLabel, (app.PotentialSavingsB - app.CurrentSavingsB) / _bytesPerMB);
+                return LocaleManager.Instance.UpdateAndGetDynamicValue(LocaleKeys.TitleXCICanSaveLabel, ((app.PotentialSavingsB - app.CurrentSavingsB) / _bytesPerMB).CoerceAtLeast(0));
             }
             else
             {
-                return LocaleManager.Instance.UpdateAndGetDynamicValue(LocaleKeys.TitleXCISavingLabel, app.CurrentSavingsB / _bytesPerMB);
+                return LocaleManager.Instance.UpdateAndGetDynamicValue(LocaleKeys.TitleXCISavingLabel, (app.CurrentSavingsB / _bytesPerMB).CoerceAtLeast(0));
             }
         }
 

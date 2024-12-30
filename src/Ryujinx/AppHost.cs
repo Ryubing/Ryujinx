@@ -20,11 +20,15 @@ using Ryujinx.Ava.UI.Models;
 using Ryujinx.Ava.UI.Renderer;
 using Ryujinx.Ava.UI.ViewModels;
 using Ryujinx.Ava.UI.Windows;
+using Ryujinx.Ava.Utilities;
+using Ryujinx.Ava.Utilities.AppLibrary;
+using Ryujinx.Ava.Utilities.Configuration;
 using Ryujinx.Common;
 using Ryujinx.Common.Configuration;
 using Ryujinx.Common.Configuration.Multiplayer;
 using Ryujinx.Common.Logging;
 using Ryujinx.Common.SystemInterop;
+using Ryujinx.Common.UI;
 using Ryujinx.Common.Utilities;
 using Ryujinx.Graphics.GAL;
 using Ryujinx.Graphics.GAL.Multithreading;
@@ -39,10 +43,6 @@ using Ryujinx.HLE.HOS.Services.Account.Acc;
 using Ryujinx.HLE.HOS.SystemState;
 using Ryujinx.Input;
 using Ryujinx.Input.HLE;
-using Ryujinx.UI.App.Common;
-using Ryujinx.UI.Common;
-using Ryujinx.UI.Common.Configuration;
-using Ryujinx.UI.Common.Helper;
 using Silk.NET.Vulkan;
 using SkiaSharp;
 using SPB.Graphics.Vulkan;
@@ -142,23 +142,6 @@ namespace Ryujinx.Ava
         public string ApplicationPath { get; private set; }
         public ulong ApplicationId { get; private set; }
         public bool ScreenshotRequested { get; set; }
-
-        public bool ShouldInitMetal
-        {
-            get
-            {
-                return OperatingSystem.IsMacOS() && RuntimeInformation.ProcessArchitecture == Architecture.Arm64 && 
-                    (
-                        (
-                            (
-                                ConfigurationState.Instance.Graphics.GraphicsBackend.Value == GraphicsBackend.Auto &&
-                                RendererHost.KnownGreatMetalTitles.ContainsIgnoreCase(ApplicationId.ToString("X16"))
-                            ) || 
-                            ConfigurationState.Instance.Graphics.GraphicsBackend.Value == GraphicsBackend.Metal
-                        )
-                     );
-            }
-        }
 
         public AppHost(
             RendererHost renderer,
@@ -306,19 +289,19 @@ namespace Ryujinx.Ava
 
         private void UpdateScalingFilterLevel(object sender, ReactiveEventArgs<int> e)
         {
-            _renderer.Window?.SetScalingFilter((Graphics.GAL.ScalingFilter)ConfigurationState.Instance.Graphics.ScalingFilter.Value);
-            _renderer.Window?.SetScalingFilterLevel(ConfigurationState.Instance.Graphics.ScalingFilterLevel.Value);
+            _renderer.Window?.SetScalingFilter(ConfigurationState.Instance.Graphics.ScalingFilter);
+            _renderer.Window?.SetScalingFilterLevel(ConfigurationState.Instance.Graphics.ScalingFilterLevel);
         }
 
         private void UpdateScalingFilter(object sender, ReactiveEventArgs<ScalingFilter> e)
         {
-            _renderer.Window?.SetScalingFilter((Graphics.GAL.ScalingFilter)ConfigurationState.Instance.Graphics.ScalingFilter.Value);
-            _renderer.Window?.SetScalingFilterLevel(ConfigurationState.Instance.Graphics.ScalingFilterLevel.Value);
+            _renderer.Window?.SetScalingFilter(ConfigurationState.Instance.Graphics.ScalingFilter);
+            _renderer.Window?.SetScalingFilterLevel(ConfigurationState.Instance.Graphics.ScalingFilterLevel);
         }
 
         private void UpdateColorSpacePassthrough(object sender, ReactiveEventArgs<bool> e)
         {
-            _renderer.Window?.SetColorSpacePassthrough((bool)ConfigurationState.Instance.Graphics.EnableColorSpacePassthrough.Value);
+            _renderer.Window?.SetColorSpacePassthrough(ConfigurationState.Instance.Graphics.EnableColorSpacePassthrough);
         }
 
         public void UpdateVSyncMode(object sender, ReactiveEventArgs<VSyncMode> e)
@@ -328,7 +311,8 @@ namespace Ryujinx.Ava
                 Device.VSyncMode = e.NewValue;
                 Device.UpdateVSyncInterval();
             }
-            _renderer.Window?.ChangeVSyncMode((Ryujinx.Graphics.GAL.VSyncMode)e.NewValue);
+            
+            _renderer.Window?.ChangeVSyncMode(e.NewValue);
 
             _viewModel.ShowCustomVSyncIntervalPicker = (e.NewValue == VSyncMode.Custom);
         }
@@ -543,7 +527,7 @@ namespace Ryujinx.Ava
 
         private void UpdateAntiAliasing(object sender, ReactiveEventArgs<AntiAliasing> e)
         {
-            _renderer?.Window?.SetAntiAliasing((Graphics.GAL.AntiAliasing)e.NewValue);
+            _renderer?.Window?.SetAntiAliasing(e.NewValue);
         }
 
         private void UpdateDockedModeState(object sender, ReactiveEventArgs<bool> e)
@@ -594,7 +578,6 @@ namespace Ryujinx.Ava
         public void Stop()
         {
             _isActive = false;
-            DiscordIntegrationModule.SwitchToMainState();
         }
 
         private void Exit()
@@ -878,12 +861,10 @@ namespace Ryujinx.Ava
 
                 return false;
             }
-
-            ApplicationMetadata appMeta = ApplicationLibrary.LoadAndSaveMetaData(Device.Processes.ActiveApplication.ProgramIdText,
+            
+            ApplicationLibrary.LoadAndSaveMetaData(Device.Processes.ActiveApplication.ProgramIdText,
                 appMetadata => appMetadata.UpdatePreGame()
             );
-
-            DiscordIntegrationModule.SwitchToPlayingState(appMeta, Device.Processes.ActiveApplication);
 
             return true;
         }
@@ -912,27 +893,20 @@ namespace Ryujinx.Ava
             VirtualFileSystem.ReloadKeySet();
 
             // Initialize Renderer.
-            IRenderer renderer;
-            GraphicsBackend backend = ConfigurationState.Instance.Graphics.GraphicsBackend;
+            GraphicsBackend backend = TitleIDs.SelectGraphicsBackend(ApplicationId.ToString("X16"), ConfigurationState.Instance.Graphics.GraphicsBackend);
 
-            if (ShouldInitMetal)
+            IRenderer renderer = backend switch
             {
 #pragma warning disable CA1416 // This call site is reachable on all platforms
-                // The condition does a check for Mac, on top of checking if it's an ARM Mac. This isn't a problem.
-                renderer = new MetalRenderer((RendererHost.EmbeddedWindow as EmbeddedWindowMetal)!.CreateSurface);
+                // SelectGraphicsBackend does a check for Mac, on top of checking if it's an ARM Mac. This isn't a problem.
+                GraphicsBackend.Metal => new MetalRenderer((RendererHost.EmbeddedWindow as EmbeddedWindowMetal)!.CreateSurface),
 #pragma warning restore CA1416
-            }
-            else if (backend == GraphicsBackend.Vulkan || (backend == GraphicsBackend.Auto && !ShouldInitMetal))
-            {
-                renderer = VulkanRenderer.Create(
+                GraphicsBackend.Vulkan => VulkanRenderer.Create(
                     ConfigurationState.Instance.Graphics.PreferredGpu,
                     (RendererHost.EmbeddedWindow as EmbeddedWindowVulkan)!.CreateSurface,
-                    VulkanHelper.GetRequiredInstanceExtensions);
-            }
-            else
-            {
-                renderer = new OpenGLRenderer();
-            }
+                    VulkanHelper.GetRequiredInstanceExtensions),
+                _ => new OpenGLRenderer()
+            };
 
             BackendThreading threadingMode = ConfigurationState.Instance.Graphics.BackendThreading;
 
@@ -947,7 +921,7 @@ namespace Ryujinx.Ava
             // Initialize Configuration.
             var memoryConfiguration = ConfigurationState.Instance.System.DramSize.Value;
 
-            Device = new HLE.Switch(new HLEConfiguration(
+            Device = new Switch(new HLEConfiguration(
                 VirtualFileSystem,
                 _viewModel.LibHacHorizonManager,
                 ContentManager,
@@ -977,7 +951,8 @@ namespace Ryujinx.Ava
                 ConfigurationState.Instance.Multiplayer.DisableP2p,
                 ConfigurationState.Instance.Multiplayer.LdnPassphrase,
                 ConfigurationState.Instance.Multiplayer.LdnServer,
-                ConfigurationState.Instance.Graphics.CustomVSyncInterval.Value));
+                ConfigurationState.Instance.Graphics.CustomVSyncInterval.Value,
+                ConfigurationState.Instance.Hacks.ShowDirtyHacks ? ConfigurationState.Instance.Hacks.EnabledHacks : null));
         }
 
         private static IHardwareDeviceDriver InitializeAudio()
@@ -1081,10 +1056,10 @@ namespace Ryujinx.Ava
 
             Device.Gpu.Renderer.Initialize(_glLogLevel);
 
-            _renderer?.Window?.SetAntiAliasing((Graphics.GAL.AntiAliasing)ConfigurationState.Instance.Graphics.AntiAliasing.Value);
-            _renderer?.Window?.SetScalingFilter((Graphics.GAL.ScalingFilter)ConfigurationState.Instance.Graphics.ScalingFilter.Value);
-            _renderer?.Window?.SetScalingFilterLevel(ConfigurationState.Instance.Graphics.ScalingFilterLevel.Value);
-            _renderer?.Window?.SetColorSpacePassthrough(ConfigurationState.Instance.Graphics.EnableColorSpacePassthrough.Value);
+            _renderer?.Window?.SetAntiAliasing(ConfigurationState.Instance.Graphics.AntiAliasing);
+            _renderer?.Window?.SetScalingFilter(ConfigurationState.Instance.Graphics.ScalingFilter);
+            _renderer?.Window?.SetScalingFilterLevel(ConfigurationState.Instance.Graphics.ScalingFilterLevel);
+            _renderer?.Window?.SetColorSpacePassthrough(ConfigurationState.Instance.Graphics.EnableColorSpacePassthrough);
 
             Width = (int)RendererHost.Bounds.Width;
             Height = (int)RendererHost.Bounds.Height;
@@ -1098,7 +1073,7 @@ namespace Ryujinx.Ava
                 Device.Gpu.SetGpuThread();
                 Device.Gpu.InitializeShaderCache(_gpuCancellationTokenSource.Token);
 
-                _renderer.Window.ChangeVSyncMode((Ryujinx.Graphics.GAL.VSyncMode)Device.VSyncMode);
+                _renderer.Window.ChangeVSyncMode(Device.VSyncMode);
 
                 while (_isActive)
                 {

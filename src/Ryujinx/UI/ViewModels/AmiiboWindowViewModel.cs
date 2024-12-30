@@ -3,13 +3,13 @@ using Avalonia.Collections;
 using Avalonia.Media.Imaging;
 using Avalonia.Threading;
 using Ryujinx.Ava.Common.Locale;
+using Ryujinx.Ava.Common.Models.Amiibo;
 using Ryujinx.Ava.UI.Helpers;
 using Ryujinx.Ava.UI.Windows;
 using Ryujinx.Common;
 using Ryujinx.Common.Configuration;
 using Ryujinx.Common.Logging;
 using Ryujinx.Common.Utilities;
-using Ryujinx.UI.Common.Models.Amiibo;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
@@ -68,7 +68,7 @@ namespace Ryujinx.Ava.UI.ViewModels
             _amiiboSeries = new ObservableCollection<string>();
             _amiibos = new AvaloniaList<AmiiboApi>();
 
-            _amiiboLogoBytes = EmbeddedResources.Read("Ryujinx.UI.Common/Resources/Logo_Amiibo.png");
+            _amiiboLogoBytes = EmbeddedResources.Read("Ryujinx/Assets/UIImages/Logo_Amiibo.png");
 
             _ = LoadContentAsync();
         }

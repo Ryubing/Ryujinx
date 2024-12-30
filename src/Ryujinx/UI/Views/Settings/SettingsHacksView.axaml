@@ -1,0 +1,75 @@
+<UserControl
+    x:Class="Ryujinx.Ava.UI.Views.Settings.SettingsHacksView"
+    xmlns="https://github.com/avaloniaui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:viewModels="clr-namespace:Ryujinx.Ava.UI.ViewModels"
+    mc:Ignorable="d"
+    x:DataType="viewModels:SettingsViewModel">
+    <Design.DataContext>
+        <viewModels:SettingsViewModel />
+    </Design.DataContext>
+    <ScrollViewer
+        Name="HacksPage"
+        HorizontalAlignment="Stretch"
+        VerticalAlignment="Stretch"
+        HorizontalScrollBarVisibility="Disabled"
+        VerticalScrollBarVisibility="Auto">
+        <Border Classes="settings">
+            <StackPanel
+                Margin="10"
+                HorizontalAlignment="Center"
+                Orientation="Vertical"
+                Spacing="5">
+                <TextBlock
+                    HorizontalAlignment="Center"
+                    Classes="h1"
+                    Text="Dirty Hacks" />
+                <TextBlock
+                    Foreground="{DynamicResource SecondaryTextColor}"
+                    TextDecorations="Underline"
+                    Text="Game-specific hacks &amp; tricks to alleviate performance issues or crashing. May cause issues." />
+                <StackPanel
+                    Margin="0,10,0,0"
+                    Orientation="Horizontal"
+                    HorizontalAlignment="Center"
+                    ToolTip.Tip="{Binding Xc2MenuFixTooltip}">
+                    <CheckBox
+                        Margin="0"
+                        IsChecked="{Binding Xc2MenuSoftlockFixEnabled}"/>
+                    <TextBlock
+                        VerticalAlignment="Center"
+                        Text="Xenoblade Chronicles 2 Menu Softlock Fix" />
+                </StackPanel>
+                <Separator/>
+                <StackPanel
+                    Margin="0,10,0,0"
+                    Orientation="Horizontal"
+                    HorizontalAlignment="Center"
+                    ToolTip.Tip="{Binding ShaderTranslationDelayTooltip}">
+                    <CheckBox
+                        Margin="0"
+                        IsChecked="{Binding ShaderTranslationDelayEnabled}"/>
+                    <TextBlock VerticalAlignment="Center"
+                               Text="Arbitrary Delay on Shader Translation"/>
+                </StackPanel>
+                <Slider HorizontalAlignment="Center" 
+                        Value="{Binding ShaderTranslationDelay}"
+                        ToolTip.Tip="{Binding ShaderTranslationDelay}"
+                        Width="175"
+                        Margin="0,-3,0,0"
+                        Height="32"
+                        Padding="0,-5"
+                        TickFrequency="1"
+                        IsSnapToTickEnabled="True"
+                        LargeChange="10"
+                        SmallChange="1"
+                        VerticalAlignment="Center"
+                        Minimum="1"
+                        Maximum="1000" />
+                <Separator/>
+            </StackPanel>
+        </Border>
+    </ScrollViewer>
+</UserControl>

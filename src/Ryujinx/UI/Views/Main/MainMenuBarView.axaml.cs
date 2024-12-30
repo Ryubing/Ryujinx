@@ -3,20 +3,16 @@ using Avalonia.Controls;
 using Avalonia.Interactivity;
 using Avalonia.Threading;
 using Gommon;
-using LibHac.Ncm;
-using LibHac.Tools.FsSystem.NcaUtils;
 using Ryujinx.Ava.Common.Locale;
 using Ryujinx.Ava.UI.Helpers;
 using Ryujinx.Ava.UI.ViewModels;
 using Ryujinx.Ava.UI.Windows;
+using Ryujinx.Ava.Utilities;
+using Ryujinx.Ava.Utilities.Configuration;
 using Ryujinx.Common;
+using Ryujinx.Common.Helper;
 using Ryujinx.Common.Utilities;
 using Ryujinx.HLE.HOS.Services.Nfc.AmiiboDecryption;
-using Ryujinx.HLE;
-using Ryujinx.UI.App.Common;
-using Ryujinx.UI.Common;
-using Ryujinx.UI.Common.Configuration;
-using Ryujinx.UI.Common.Helper;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -33,6 +29,7 @@ namespace Ryujinx.Ava.UI.Views.Main
             InitializeComponent();
 
             RyuLogo.IsVisible = !ConfigurationState.Instance.ShowTitleBar;
+            RyuLogo.Source = MainWindowViewModel.IconBitmap;
 
             ToggleFileTypesMenuItem.ItemsSource = GenerateToggleFileTypeItems();
             ChangeLanguageMenuItem.ItemsSource = GenerateLanguageMenuItems();
@@ -124,26 +121,13 @@ namespace Ryujinx.Ava.UI.Views.Main
             ViewModel.LoadConfigurableHotKeys();
         }
 
+        public static readonly AppletMetadata MiiApplet = new("miiEdit", 0x0100000000001009);
+
         public async void OpenMiiApplet(object sender, RoutedEventArgs e)
         {
-            const string AppletName = "miiEdit";
-            const ulong AppletProgramId = 0x0100000000001009;
-            const string AppletVersion = "1.0.0";
-            
-            string contentPath = ViewModel.ContentManager.GetInstalledContentPath(AppletProgramId, StorageId.BuiltInSystem, NcaContentType.Program);
-
-            if (!string.IsNullOrEmpty(contentPath))
+            if (MiiApplet.CanStart(ViewModel.ContentManager, out var appData, out var nacpData))
             {
-                ApplicationData applicationData = new()
-                {
-                    Name = AppletName,
-                    Id = AppletProgramId,
-                    Path = contentPath
-                };
-                
-                var nacpData = StructHelpers.CreateCustomNacpData(AppletName, AppletVersion);
-
-                await ViewModel.LoadApplication(applicationData, ViewModel.IsFullScreen || ViewModel.StartGamesInFullscreen, nacpData);
+                await ViewModel.LoadApplication(appData, ViewModel.IsFullScreen || ViewModel.StartGamesInFullscreen, nacpData);
             }
         }
 

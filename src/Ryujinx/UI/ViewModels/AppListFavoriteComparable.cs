@@ -1,4 +1,4 @@
-using Ryujinx.UI.App.Common;
+using Ryujinx.Ava.Utilities.AppLibrary;
 using System;
 
 namespace Ryujinx.Ava.UI.ViewModels

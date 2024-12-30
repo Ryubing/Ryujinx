@@ -1,7 +1,7 @@
 using Avalonia;
 using Avalonia.Data;
 using Avalonia.Data.Converters;
-using Ryujinx.UI.Common.Models;
+using Ryujinx.Ava.Common.Models;
 using System;
 using System.Globalization;
 using static Ryujinx.Common.Utilities.XCIFileTrimmer;

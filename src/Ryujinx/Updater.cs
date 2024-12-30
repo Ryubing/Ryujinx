@@ -5,12 +5,13 @@ using ICSharpCode.SharpZipLib.GZip;
 using ICSharpCode.SharpZipLib.Tar;
 using ICSharpCode.SharpZipLib.Zip;
 using Ryujinx.Ava.Common.Locale;
+using Ryujinx.Ava.Common.Models.Github;
 using Ryujinx.Ava.UI.Helpers;
+using Ryujinx.Ava.Utilities;
 using Ryujinx.Common;
+using Ryujinx.Common.Helper;
 using Ryujinx.Common.Logging;
 using Ryujinx.Common.Utilities;
-using Ryujinx.UI.Common.Helper;
-using Ryujinx.UI.Common.Models.Github;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
@@ -76,7 +77,7 @@ namespace Ryujinx.Ava
 
             if (!Version.TryParse(Program.Version, out Version currentVersion))
             {
-                Logger.Error?.Print(LogClass.Application, $"Failed to convert the current {App.FullAppName} version!");
+                Logger.Error?.Print(LogClass.Application, $"Failed to convert the current {RyujinxApp.FullAppName} version!");
 
                 await ContentDialogHelper.CreateWarningDialog(
                     LocaleManager.Instance[LocaleKeys.DialogUpdaterConvertFailedMessage],
@@ -159,7 +160,7 @@ namespace Ryujinx.Ava
 
             if (!Version.TryParse(_buildVer, out Version newVersion))
             {
-                Logger.Error?.Print(LogClass.Application, $"Failed to convert the received {App.FullAppName} version from GitHub!");
+                Logger.Error?.Print(LogClass.Application, $"Failed to convert the received {RyujinxApp.FullAppName} version from GitHub!");
 
                 await ContentDialogHelper.CreateWarningDialog(
                     LocaleManager.Instance[LocaleKeys.DialogUpdaterConvertFailedGithubMessage],
@@ -266,7 +267,7 @@ namespace Ryujinx.Ava
                 SubHeader = LocaleManager.Instance[LocaleKeys.UpdaterDownloading],
                 IconSource = new SymbolIconSource { Symbol = Symbol.Download },
                 ShowProgressBar = true,
-                XamlRoot = App.MainWindow,
+                XamlRoot = RyujinxApp.MainWindow,
             };
 
             taskDialog.Opened += (s, e) =>
@@ -490,7 +491,7 @@ namespace Ryujinx.Ava
                 bytesWritten += readSize;
 
                 taskDialog.SetProgressBarState(GetPercentage(bytesWritten, totalBytes), TaskDialogProgressState.Normal);
-                App.SetTaskbarProgressValue(bytesWritten, totalBytes);
+                RyujinxApp.SetTaskbarProgressValue(bytesWritten, totalBytes);
 
                 updateFileStream.Write(buffer, 0, readSize);
             }

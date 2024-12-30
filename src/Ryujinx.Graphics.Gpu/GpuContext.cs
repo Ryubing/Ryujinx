@@ -1,4 +1,5 @@
 using Ryujinx.Common;
+using Ryujinx.Common.Configuration;
 using Ryujinx.Graphics.Device;
 using Ryujinx.Graphics.GAL;
 using Ryujinx.Graphics.Gpu.Engine.GPFifo;
@@ -90,6 +91,9 @@ namespace Ryujinx.Graphics.Gpu
         /// Support buffer updater.
         /// </summary>
         internal SupportBufferUpdater SupportBufferUpdater { get; }
+        
+        internal DirtyHackCollection DirtyHacks { get; }
+        
 
         /// <summary>
         /// Host hardware capabilities.
@@ -113,7 +117,7 @@ namespace Ryujinx.Graphics.Gpu
         /// Creates a new instance of the GPU emulation context.
         /// </summary>
         /// <param name="renderer">Host renderer</param>
-        public GpuContext(IRenderer renderer)
+        public GpuContext(IRenderer renderer, DirtyHackCollection hackCollection)
         {
             Renderer = renderer;
 
@@ -135,6 +139,8 @@ namespace Ryujinx.Graphics.Gpu
             PhysicalMemoryRegistry = new ConcurrentDictionary<ulong, PhysicalMemory>();
 
             SupportBufferUpdater = new SupportBufferUpdater(renderer);
+
+            DirtyHacks = hackCollection;
 
             _firstTimestamp = ConvertNanosecondsToTicks((ulong)PerformanceCounter.ElapsedNanoseconds);
         }

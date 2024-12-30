@@ -101,11 +101,21 @@
                                     VerticalAlignment="Top"
                                     Orientation="Vertical"
                                     Spacing="5">
-                                    <TextBlock
-                                        HorizontalAlignment="Stretch"
-                                        Text="{Binding IdString}"
-                                        TextAlignment="Start"
-                                        TextWrapping="Wrap" />
+                                    <Button 
+                                        Click="IdString_OnClick" 
+                                        HorizontalContentAlignment="Left" 
+                                        VerticalAlignment="Center"
+                                        Background="{DynamicResource AppListBackgroundColor}"
+                                        Margin="-1, 0, 0, 0"
+                                        Padding="0" >
+                                        <TextBlock
+                                            Margin="1.5"
+                                            HorizontalAlignment="Stretch"
+                                            Text="{Binding IdString}"
+                                            Tag="{Binding Id}"
+                                            TextAlignment="Start"
+                                            TextWrapping="Wrap" />
+                                    </Button>
                                     <TextBlock
                                         HorizontalAlignment="Stretch"
                                         Text="{Binding FileExtension}"

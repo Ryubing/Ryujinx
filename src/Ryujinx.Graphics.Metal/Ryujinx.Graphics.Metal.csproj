@@ -5,12 +5,9 @@
     </PropertyGroup>
 
     <ItemGroup>
-        <ProjectReference Include="..\Ryujinx.Common\Ryujinx.Common.csproj" />
-        <ProjectReference Include="..\Ryujinx.Graphics.GAL\Ryujinx.Graphics.GAL.csproj" />
-    </ItemGroup>
-
-    <ItemGroup>
-      <PackageReference Include="SharpMetal" />
+      <ProjectReference Include="..\Ryujinx.Common\Ryujinx.Common.csproj" />
+      <ProjectReference Include="..\Ryujinx.Graphics.GAL\Ryujinx.Graphics.GAL.csproj" />
+      <ProjectReference Include="..\Ryujinx.Graphics.Metal.SharpMetalExtensions\Ryujinx.Graphics.Metal.SharpMetalExtensions.csproj" />
     </ItemGroup>
 
     <ItemGroup>
