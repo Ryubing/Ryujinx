@@ -333,7 +333,7 @@ namespace ARMeilleure.Instructions
             }
             else
             {
-                EmitFcvt_s_Gp(context, (op1) => EmitUnaryMathCall(context, nameof(Math.Floor), op1));
+                EmitFcvt_s_Gp(context, (op1) => EmitUnaryMathCall(context, nameof(MathHelper.Floor), op1));
             }
         }
 
@@ -349,7 +349,7 @@ namespace ARMeilleure.Instructions
             }
             else
             {
-                EmitFcvt(context, (op1) => EmitUnaryMathCall(context, nameof(Math.Floor), op1), signed: true, scalar: false);
+                EmitFcvt(context, (op1) => EmitUnaryMathCall(context, nameof(MathHelper.Floor), op1), signed: true, scalar: false);
             }
         }
 
@@ -365,7 +365,7 @@ namespace ARMeilleure.Instructions
             }
             else
             {
-                EmitFcvt_u_Gp(context, (op1) => EmitUnaryMathCall(context, nameof(Math.Floor), op1));
+                EmitFcvt_u_Gp(context, (op1) => EmitUnaryMathCall(context, nameof(MathHelper.Floor), op1));
             }
         }
 
@@ -538,7 +538,7 @@ namespace ARMeilleure.Instructions
             }
             else
             {
-                EmitFcvt_s_Gp(context, (op1) => EmitUnaryMathCall(context, nameof(Math.Ceiling), op1));
+                EmitFcvt_s_Gp(context, (op1) => EmitUnaryMathCall(context, nameof(MathHelper.Ceiling), op1));
             }
         }
 
@@ -554,7 +554,7 @@ namespace ARMeilleure.Instructions
             }
             else
             {
-                EmitFcvt_u_Gp(context, (op1) => EmitUnaryMathCall(context, nameof(Math.Ceiling), op1));
+                EmitFcvt_u_Gp(context, (op1) => EmitUnaryMathCall(context, nameof(MathHelper.Ceiling), op1));
             }
         }
 

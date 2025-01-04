@@ -52,7 +52,7 @@ namespace Ryujinx.Headless
             // Make process DPI aware for proper window sizing on high-res screens.
             ForceDpiAware.Windows();
 
-            Console.Title = $"Ryujinx Console {Program.Version} (Headless)";
+            Console.Title = $"HeadlessRyujinx Console {Program.Version}";
 
             if (OperatingSystem.IsMacOS() || OperatingSystem.IsLinux())
             {
@@ -162,6 +162,11 @@ namespace Ryujinx.Headless
             }
             
             ReloadConfig();
+
+            if (option.InheritConfig)
+            {
+                option.InheritMainConfigInput(originalArgs, ConfigurationState.Instance);
+            }
             
             _virtualFileSystem = VirtualFileSystem.CreateInstance();
             _libHacHorizonManager = new LibHacHorizonManager();
@@ -224,15 +229,7 @@ namespace Ryujinx.Headless
             _enableKeyboard = option.EnableKeyboard;
             _enableMouse = option.EnableMouse;
 
-            static void LoadPlayerConfiguration(string inputProfileName, string inputId, PlayerIndex index)
-            {
-                InputConfig inputConfig = HandlePlayerConfiguration(inputProfileName, inputId, index);
 
-                if (inputConfig != null)
-                {
-                    _inputConfiguration.Add(inputConfig);
-                }
-            }
             
             LoadPlayerConfiguration(option.InputProfile1Name, option.InputId1, PlayerIndex.Player1);
             LoadPlayerConfiguration(option.InputProfile2Name, option.InputId2, PlayerIndex.Player2); 
@@ -244,7 +241,6 @@ namespace Ryujinx.Headless
             LoadPlayerConfiguration(option.InputProfile8Name, option.InputId8, PlayerIndex.Player8);
             LoadPlayerConfiguration(option.InputProfileHandheldName, option.InputIdHandheld, PlayerIndex.Handheld);
             
-
             if (_inputConfiguration.Count == 0)
             {
                 return;
@@ -306,6 +302,24 @@ namespace Ryujinx.Headless
             }
 
             _inputManager.Dispose();
+
+            return;
+            
+            void LoadPlayerConfiguration(string inputProfileName, string inputId, PlayerIndex index)
+            {
+                if (index == PlayerIndex.Handheld && _inputConfiguration.Count > 0)
+                {
+                    Logger.Info?.Print(LogClass.Configuration, "Skipping handheld configuration as there are already other players configured.");
+                    return;
+                }
+                
+                InputConfig inputConfig = option.InheritedInputConfigs[index] ?? HandlePlayerConfiguration(inputProfileName, inputId, index);
+
+                if (inputConfig != null)
+                {
+                    _inputConfiguration.Add(inputConfig);
+                }
+            }
         }
 
         private static void SetupProgressHandler()

@@ -247,6 +247,7 @@
                     Header="{ext:Locale MenuBarActionsScanAmiiboBin}"
                     Icon="{ext:Icon mdi-cube-scan}"
                     IsVisible="{Binding CanScanAmiiboBinaries}"
+                    InputGesture="Ctrl + B"
                     IsEnabled="{Binding IsAmiiboBinRequested}" />
                 <MenuItem
                     Command="{Binding TakeScreenshot}"

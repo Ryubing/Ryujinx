@@ -80,7 +80,9 @@ namespace Ryujinx.Ava.UI.ViewModels
         [ObservableProperty] private Brush _progressBarForegroundColor;
         [ObservableProperty] private Brush _progressBarBackgroundColor;
         [ObservableProperty] private Brush _vSyncModeColor;
-        [ObservableProperty] private byte[] _selectedIcon;
+        #nullable enable
+        [ObservableProperty] private byte[]? _selectedIcon;
+        #nullable disable
         [ObservableProperty] private int _statusBarProgressMaximum;
         [ObservableProperty] private int _statusBarProgressValue;
         [ObservableProperty] private string _statusBarProgressStatusText;
@@ -125,43 +127,6 @@ namespace Ryujinx.Ava.UI.ViewModels
         private ApplicationData _listSelectedApplication;
         private ApplicationData _gridSelectedApplication;
         
-        public ApplicationData ListSelectedApplication
-        {
-            get => _listSelectedApplication;
-            set
-            {
-                _listSelectedApplication = value;
-
-#pragma warning disable MVVMTK0034
-                if (_listSelectedApplication != null && _listAppContextMenu == null)
-
-                    ListAppContextMenu = new ApplicationContextMenu();
-                else if (_listSelectedApplication == null && _listAppContextMenu != null)
-                    ListAppContextMenu = null!;
-#pragma warning restore MVVMTK0034
-
-                OnPropertyChanged();
-            }
-        }
-
-        public ApplicationData GridSelectedApplication
-        {
-            get => _gridSelectedApplication;
-            set
-            {
-                _gridSelectedApplication = value;
-
-#pragma warning disable MVVMTK0034
-                if (_gridSelectedApplication != null && _gridAppContextMenu == null)
-                    GridAppContextMenu = new ApplicationContextMenu();
-                else if (_gridSelectedApplication == null && _gridAppContextMenu != null)
-                    GridAppContextMenu = null!;
-#pragma warning restore MVVMTK0034
-                
-                OnPropertyChanged();
-            }
-        }
-        
         // Key is Title ID
         public SafeDictionary<string, LdnGameData.Array> LdnData = [];
 
@@ -182,8 +147,11 @@ namespace Ryujinx.Ava.UI.ViewModels
             Applications.ToObservableChangeSet()
                 .Filter(Filter)
                 .Sort(GetComparer())
-                .Bind(out _appsObservableList)
-                .AsObservableList();
+                .OnItemAdded(_ => OnPropertyChanged(nameof(AppsObservableList)))
+                .OnItemRemoved(_ => OnPropertyChanged(nameof(AppsObservableList)))
+#pragma warning disable MVVMTK0034 // Event to update is fired below
+                .Bind(out _appsObservableList);
+#pragma warning restore MVVMTK0034
 
             _rendererWaitEvent = new AutoResetEvent(false);
 
@@ -192,8 +160,8 @@ namespace Ryujinx.Ava.UI.ViewModels
                 LoadConfigurableHotKeys();
 
                 Volume = ConfigurationState.Instance.System.AudioVolume;
+                CustomVSyncInterval = ConfigurationState.Instance.Graphics.CustomVSyncInterval.Value;
             }
-            CustomVSyncInterval = ConfigurationState.Instance.Graphics.CustomVSyncInterval.Value;
         }
 
         public void Initialize(
@@ -329,6 +297,43 @@ namespace Ryujinx.Ava.UI.ViewModels
 
                 OnPropertyChanged();
                 OnPropertyChanged(nameof(ShowFirmwareStatus));
+            }
+        }
+        
+        public ApplicationData ListSelectedApplication
+        {
+            get => _listSelectedApplication;
+            set
+            {
+                _listSelectedApplication = value;
+
+#pragma warning disable MVVMTK0034
+                if (_listSelectedApplication != null && _listAppContextMenu == null)
+
+                    ListAppContextMenu = new ApplicationContextMenu();
+                else if (_listSelectedApplication == null && _listAppContextMenu != null)
+                    ListAppContextMenu = null!;
+#pragma warning restore MVVMTK0034
+
+                OnPropertyChanged();
+            }
+        }
+
+        public ApplicationData GridSelectedApplication
+        {
+            get => _gridSelectedApplication;
+            set
+            {
+                _gridSelectedApplication = value;
+
+#pragma warning disable MVVMTK0034
+                if (_gridSelectedApplication != null && _gridAppContextMenu == null)
+                    GridAppContextMenu = new ApplicationContextMenu();
+                else if (_gridSelectedApplication == null && _gridAppContextMenu != null)
+                    GridAppContextMenu = null!;
+#pragma warning restore MVVMTK0034
+                
+                OnPropertyChanged();
             }
         }
 
@@ -1751,7 +1756,7 @@ namespace Ryujinx.Ava.UI.ViewModels
             }
         }
 
-        public async void ProcessTrimResult(String filename, Ryujinx.Common.Utilities.XCIFileTrimmer.OperationOutcome operationOutcome)
+        public async void ProcessTrimResult(String filename, XCIFileTrimmer.OperationOutcome operationOutcome)
         {
             string notifyUser = operationOutcome.ToLocalisedText();
 
@@ -1766,12 +1771,8 @@ namespace Ryujinx.Ava.UI.ViewModels
             {
                 switch (operationOutcome)
                 {
-                    case Ryujinx.Common.Utilities.XCIFileTrimmer.OperationOutcome.Successful:
-                        if (Avalonia.Application.Current.ApplicationLifetime is IClassicDesktopStyleApplicationLifetime desktop)
-                        {
-                            if (desktop.MainWindow is MainWindow mainWindow)
-                                mainWindow.LoadApplications();
-                        }
+                    case XCIFileTrimmer.OperationOutcome.Successful:
+                        RyujinxApp.MainWindow.LoadApplications();
                         break;
                 }
             }
