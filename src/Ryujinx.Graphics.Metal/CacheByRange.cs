@@ -149,7 +149,7 @@ namespace Ryujinx.Graphics.Metal
                 {
                     if (entry.DependencyList == null)
                     {
-                        entry.DependencyList = new List<Dependency>();
+                        entry.DependencyList = [];
                         entries[i] = entry;
                     }
 
@@ -240,7 +240,7 @@ namespace Ryujinx.Graphics.Metal
                             DestroyEntry(entry);
                         }
 
-                        (toRemove ??= new List<ulong>()).Add(range.Key);
+                        (toRemove ??= []).Add(range.Key);
                     }
                 }
 
@@ -256,13 +256,13 @@ namespace Ryujinx.Graphics.Metal
 
         private List<Entry> GetEntries(int offset, int size)
         {
-            _ranges ??= new Dictionary<ulong, List<Entry>>();
+            _ranges ??= [];
 
             ulong key = PackRange(offset, size);
 
             if (!_ranges.TryGetValue(key, out List<Entry> value))
             {
-                value = new List<Entry>();
+                value = [];
                 _ranges.Add(key, value);
             }
 

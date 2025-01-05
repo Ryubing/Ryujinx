@@ -83,7 +83,7 @@ namespace Ryujinx.Common.Utilities
 
         public static IPAddress ConvertUint(uint ipAddress)
         {
-            return new IPAddress(new byte[] { (byte)((ipAddress >> 24) & 0xFF), (byte)((ipAddress >> 16) & 0xFF), (byte)((ipAddress >> 8) & 0xFF), (byte)(ipAddress & 0xFF) });
+            return new IPAddress([(byte)((ipAddress >> 24) & 0xFF), (byte)((ipAddress >> 16) & 0xFF), (byte)((ipAddress >> 8) & 0xFF), (byte)(ipAddress & 0xFF)]);
         }
     }
 }

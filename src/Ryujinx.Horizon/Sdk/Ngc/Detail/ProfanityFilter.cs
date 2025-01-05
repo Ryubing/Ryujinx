@@ -364,7 +364,7 @@ namespace Ryujinx.Horizon.Sdk.Ngc.Detail
                 return NgcResult.InvalidUtf8Encoding;
             }
 
-            ReadOnlySpan<byte> prevCharacter = ReadOnlySpan<byte>.Empty;
+            ReadOnlySpan<byte> prevCharacter = [];
 
             int charStartIndex = 0;
 
@@ -372,7 +372,7 @@ namespace Ryujinx.Horizon.Sdk.Ngc.Detail
             {
                 ReadOnlySpan<byte> nextCharacter = charEndIndex < inputText.CharacterCount
                     ? inputText.AsSubstring(charEndIndex, charEndIndex + 1)
-                    : ReadOnlySpan<byte>.Empty;
+                    : [];
 
                 Result result = CheckProfanityWordsInTextCanonicalized(
                     out bool matched,
@@ -489,7 +489,7 @@ namespace Ryujinx.Horizon.Sdk.Ngc.Detail
                 }
 
                 // Convert to lower case.
-                ConvertUserInputForText(convertedText, Span<sbyte>.Empty, convertedText);
+                ConvertUserInputForText(convertedText, [], convertedText);
 
                 // If requested, also try to replace similar characters with their canonical form.
                 // For example, vv is similar to w, and 1 or | is similar to i.

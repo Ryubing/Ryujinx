@@ -49,7 +49,7 @@ namespace Ryujinx.Ava.UI.Views.Main
 
         private static MenuItem[] GenerateLanguageMenuItems()
         {
-            List<MenuItem> menuItems = new();
+            List<MenuItem> menuItems = [];
 
             string localePath = "Ryujinx/Assets/locales.json";
 
@@ -81,7 +81,7 @@ namespace Ryujinx.Ava.UI.Views.Main
                 menuItems.Add(menuItem);
             }
 
-            return menuItems.ToArray();
+            return [.. menuItems];
         }
 
         protected override void OnAttachedToVisualTree(VisualTreeAttachmentEventArgs e)
@@ -189,7 +189,7 @@ namespace Ryujinx.Ava.UI.Views.Main
                 return;
 
             (int resolutionWidth, int resolutionHeight) = resolution.Split(' ', 2)
-                .Into(parts => 
+                .Into(parts =>
                     (int.Parse(parts[0]), int.Parse(parts[1]))
                 );
 

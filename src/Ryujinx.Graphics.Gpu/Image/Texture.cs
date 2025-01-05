@@ -260,8 +260,8 @@ namespace Ryujinx.Graphics.Gpu.Image
 
             _viewStorage = this;
 
-            _views = new List<Texture>();
-            _poolOwners = new List<TexturePoolOwner>();
+            _views = [];
+            _poolOwners = [];
         }
 
         /// <summary>
@@ -1413,7 +1413,7 @@ namespace Ryujinx.Graphics.Gpu.Image
             // If this texture has views, they must be given to the new parent.
             if (_views.Count > 0)
             {
-                Texture[] viewCopy = _views.ToArray();
+                Texture[] viewCopy = [.. _views];
 
                 foreach (Texture view in viewCopy)
                 {

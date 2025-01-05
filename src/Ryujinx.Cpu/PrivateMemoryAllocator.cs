@@ -38,10 +38,10 @@ namespace Ryujinx.Cpu
             {
                 Memory = memory;
                 Size = size;
-                _freeRanges = new List<Range>
-                {
-                    new Range(0, size),
-                };
+                _freeRanges =
+                [
+                    new(0, size),
+                ];
             }
 
             public ulong Allocate(ulong size, ulong alignment)
@@ -185,7 +185,7 @@ namespace Ryujinx.Cpu
 
         public PrivateMemoryAllocatorImpl(ulong blockAlignment, MemoryAllocationFlags allocationFlags)
         {
-            _blocks = new List<T>();
+            _blocks = [];
             _blockAlignment = blockAlignment;
             _allocationFlags = allocationFlags;
         }

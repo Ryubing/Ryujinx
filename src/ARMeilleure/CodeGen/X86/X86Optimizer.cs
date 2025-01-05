@@ -13,7 +13,7 @@ namespace ARMeilleure.CodeGen.X86
 
         public static void RunPass(ControlFlowGraph cfg)
         {
-            var constants = new Dictionary<ulong, Operand>();
+            Dictionary<ulong, Operand> constants = [];
 
             Operand GetConstantCopy(BasicBlock block, Operation operation, Operand source)
             {

@@ -32,7 +32,7 @@ namespace Ryujinx.HLE.Utilities
 
                 Array.Resize(ref output, size - nullSize);
 
-                output = output.Concat(encoding.GetBytes("\0")).ToArray();
+                output = [.. output, .. encoding.GetBytes("\0")];
             }
 
             return output;

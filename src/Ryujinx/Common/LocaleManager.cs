@@ -24,7 +24,7 @@ namespace Ryujinx.Ava.Common.Locale
 
         public LocaleManager()
         {
-            _localeStrings = new Dictionary<LocaleKeys, string>();
+            _localeStrings = [];
             _dynamicValues = new ConcurrentDictionary<LocaleKeys, object[]>();
 
             Load();
@@ -34,7 +34,7 @@ namespace Ryujinx.Ava.Common.Locale
         {
             var localeLanguageCode = !string.IsNullOrEmpty(ConfigurationState.Instance.UI.LanguageCode.Value) ?
                 ConfigurationState.Instance.UI.LanguageCode.Value : CultureInfo.CurrentCulture.Name.Replace('-', '_');
-            
+
             LoadLanguage(localeLanguageCode);
 
             // Save whatever we ended up with.
@@ -67,7 +67,7 @@ namespace Ryujinx.Ava.Common.Locale
 
                     return value;
                 }
-                
+
                 return key.ToString(); // If the locale text doesn't exist return the key.
             }
             set
@@ -125,7 +125,7 @@ namespace Ryujinx.Ava.Common.Locale
 
         private static Dictionary<LocaleKeys, string> LoadJsonLanguage(string languageCode)
         {
-            var localeStrings = new Dictionary<LocaleKeys, string>();
+            Dictionary<LocaleKeys, string> localeStrings = [];
 
             _localeData ??= EmbeddedResources.ReadAllText("Ryujinx/Assets/locales.json")
                 .Into(it => JsonHelper.Deserialize(it, LocalesJsonContext.Default.LocalesJson));
@@ -135,8 +135,8 @@ namespace Ryujinx.Ava.Common.Locale
                 if (locale.Translations.Count < _localeData.Value.Languages.Count)
                 {
                     throw new Exception($"Locale key {{{locale.ID}}} is missing languages! Has {locale.Translations.Count} translations, expected {_localeData.Value.Languages.Count}!");
-                } 
-                
+                }
+
                 if (locale.Translations.Count > _localeData.Value.Languages.Count)
                 {
                     throw new Exception($"Locale key {{{locale.ID}}} has too many languages! Has {locale.Translations.Count} translations, expected {_localeData.Value.Languages.Count}!");
@@ -148,7 +148,7 @@ namespace Ryujinx.Ava.Common.Locale
                 var str = locale.Translations.TryGetValue(languageCode, out string val) && !string.IsNullOrEmpty(val)
                     ? val
                     : locale.Translations[DefaultLanguageCode];
-                
+
                 if (string.IsNullOrEmpty(str))
                 {
                     throw new Exception($"Locale key '{locale.ID}' has no valid translations for desired language {languageCode}! {DefaultLanguageCode} is an empty string or null");

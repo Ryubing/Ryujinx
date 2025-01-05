@@ -115,7 +115,7 @@ namespace Ryujinx.HLE.HOS.Services.Ssl
         {
             lock (_lock)
             {
-                _certificates = new Dictionary<CaCertificateId, CertStoreEntry>();
+                _certificates = [];
                 _initialized = false;
                 _contentManager = device.System.ContentManager;
                 _virtualFileSystem = device.FileSystem;

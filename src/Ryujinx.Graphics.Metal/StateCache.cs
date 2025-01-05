@@ -7,7 +7,7 @@ namespace Ryujinx.Graphics.Metal
     [SupportedOSPlatform("macos")]
     abstract class StateCache<T, TDescriptor, THash> : IDisposable where T : IDisposable
     {
-        private readonly Dictionary<THash, T> _cache = new();
+        private readonly Dictionary<THash, T> _cache = [];
 
         protected abstract THash GetHash(TDescriptor descriptor);
 

@@ -30,8 +30,8 @@ namespace Ryujinx.Input.SDL2
 
         public SDL2GamepadDriver()
         {
-            _gamepadsInstanceIdsMapping = new Dictionary<int, string>();
-            _gamepadsIds = new List<string>();
+            _gamepadsInstanceIdsMapping = [];
+            _gamepadsIds = [];
 
             SDL2Driver.Instance.Initialize();
             SDL2Driver.Instance.OnJoyStickConnected += HandleJoyStickConnected;

@@ -36,7 +36,7 @@ namespace Ryujinx.Cpu.LightningJit.Arm32
             RegisterAllocator = registerAllocator;
             MemoryManagerType = mmType;
             _itConditions = new ArmCondition[4];
-            _pendingBranches = new();
+            _pendingBranches = [];
             IsThumb = isThumb;
         }
 

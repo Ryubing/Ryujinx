@@ -16,7 +16,7 @@ namespace ARMeilleure.CodeGen.Arm64
 
             public ConstantDict()
             {
-                _constants = new Dictionary<(ulong, OperandType), Operand>();
+                _constants = [];
             }
 
             public void Add(ulong value, OperandType type, Operand local)
@@ -261,10 +261,10 @@ namespace ARMeilleure.CodeGen.Arm64
 
             Operand dest = operation.Destination;
 
-            List<Operand> sources = new()
-            {
+            List<Operand> sources =
+            [
                 operation.GetSource(0),
-            };
+            ];
 
             int argsCount = operation.SourcesCount - 1;
 
@@ -357,7 +357,7 @@ namespace ARMeilleure.CodeGen.Arm64
                 }
             }
 
-            operation.SetSources(sources.ToArray());
+            operation.SetSources([.. sources]);
         }
 
         private static void InsertTailcallCopies(ConstantDict constants,
@@ -365,10 +365,10 @@ namespace ARMeilleure.CodeGen.Arm64
             Operation node,
             Operation operation)
         {
-            List<Operand> sources = new()
-            {
+            List<Operand> sources =
+            [
                 operation.GetSource(0),
-            };
+            ];
 
             int argsCount = operation.SourcesCount - 1;
 
@@ -435,7 +435,7 @@ namespace ARMeilleure.CodeGen.Arm64
 
             sources[0] = tcAddress;
 
-            operation.SetSources(sources.ToArray());
+            operation.SetSources([.. sources]);
         }
 
         private static Operation GenerateCompareAndSwap(IntrusiveList<Operation> nodes, Operation node)
@@ -468,8 +468,8 @@ namespace ARMeilleure.CodeGen.Arm64
 
                 // Update the sources and destinations with split 64-bit halfs of the whole 128-bit values.
                 // We also need a additional registers that will be used to store temporary information.
-                operation.SetDestinations(new[] { actualLow, actualHigh, Local(OperandType.I64), Local(OperandType.I64) });
-                operation.SetSources(new[] { address, expectedLow, expectedHigh, desiredLow, desiredHigh });
+                operation.SetDestinations([actualLow, actualHigh, Local(OperandType.I64), Local(OperandType.I64)]);
+                operation.SetSources([address, expectedLow, expectedHigh, desiredLow, desiredHigh]);
 
                 // Add some dummy uses of the input operands, as the CAS operation will be a loop,
                 // so they can't be used as destination operand.
@@ -486,7 +486,7 @@ namespace ARMeilleure.CodeGen.Arm64
             else
             {
                 // We need a additional register where the store result will be written to.
-                node.SetDestinations(new[] { node.Destination, Local(OperandType.I32) });
+                node.SetDestinations([node.Destination, Local(OperandType.I32)]);
 
                 // Add some dummy uses of the input operands, as the CAS operation will be a loop,
                 // so they can't be used as destination operand.

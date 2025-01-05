@@ -17,7 +17,7 @@ namespace ARMeilleure.Translation
 
             public DefMap()
             {
-                _map = new Dictionary<int, Operand>();
+                _map = [];
                 _phiMasks = new BitMap(Allocators.Default, RegisterConsts.TotalCount);
             }
 

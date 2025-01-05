@@ -24,14 +24,14 @@ namespace Ryujinx.HLE.HOS.Services
         // not large enough.
         private const int PointerBufferSize = 0x8000;
 
-        private readonly static uint[] _defaultCapabilities = {
+        private readonly static uint[] _defaultCapabilities = [
             0x030363F7,
             0x1FFFFFCF,
             0x207FFFEF,
             0x47E0060F,
             0x0048BFFF,
             0x01007FFF,
-        };
+        ];
 
         // The amount of time Dispose() will wait to Join() the thread executing the ServerLoop()
         private static readonly TimeSpan _threadJoinTimeout = TimeSpan.FromSeconds(3);
@@ -43,8 +43,8 @@ namespace Ryujinx.HLE.HOS.Services
         private int _wakeHandle = 0;
 
         private readonly ReaderWriterLockSlim _handleLock = new();
-        private readonly Dictionary<int, IpcService> _sessions = new();
-        private readonly Dictionary<int, Func<IpcService>> _ports = new();
+        private readonly Dictionary<int, IpcService> _sessions = [];
+        private readonly Dictionary<int, Func<IpcService>> _ports = [];
 
         private readonly MemoryStream _requestDataStream;
         private readonly BinaryReader _requestDataReader;
@@ -487,7 +487,7 @@ namespace Ryujinx.HLE.HOS.Services
 
         private void FillHipcResponse(IpcMessage response, long result)
         {
-            FillHipcResponse(response, result, ReadOnlySpan<byte>.Empty);
+            FillHipcResponse(response, result, []);
         }
 
         private void FillHipcResponse(IpcMessage response, long result, int value)

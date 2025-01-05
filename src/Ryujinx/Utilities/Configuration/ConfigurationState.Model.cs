@@ -382,7 +382,7 @@ namespace Ryujinx.Ava.Utilities.Configuration
                 EnablePtc.LogChangesToValue(nameof(EnablePtc));
                 EnableLowPowerPtc = new ReactiveObject<bool>();
                 EnableLowPowerPtc.LogChangesToValue(nameof(EnableLowPowerPtc));
-                EnableLowPowerPtc.Event += (_, evnt) 
+                EnableLowPowerPtc.Event += (_, evnt)
                     => Optimizations.LowPower = evnt.NewValue;
                 EnableInternetAccess = new ReactiveObject<bool>();
                 EnableInternetAccess.LogChangesToValue(nameof(EnableInternetAccess));
@@ -626,11 +626,11 @@ namespace Ryujinx.Ava.Utilities.Configuration
             /// Show toggles for dirty hacks in the UI.
             /// </summary>
             public ReactiveObject<bool> ShowDirtyHacks { get; private set; }
-            
+
             public ReactiveObject<bool> Xc2MenuSoftlockFix { get; private set; }
-            
+
             public ReactiveObject<bool> EnableShaderTranslationDelay { get; private set; }
-            
+
             public ReactiveObject<int> ShaderTranslationDelay { get; private set; }
 
             public HacksSection()
@@ -645,15 +645,15 @@ namespace Ryujinx.Ava.Utilities.Configuration
 
             private void HackChanged(object sender, ReactiveEventArgs<bool> rxe)
             {
-                if (!ShowDirtyHacks) 
+                if (!ShowDirtyHacks)
                     return;
-                
+
                 var newHacks = EnabledHacks.Select(x => x.Hack)
                     .JoinToString(", ");
 
                 if (newHacks != _lastHackCollection)
                 {
-                    RyuLogger.Info?.Print(LogClass.Configuration, 
+                    RyuLogger.Info?.Print(LogClass.Configuration,
                         $"EnabledDirtyHacks set to: [{newHacks}]", "LogValueChange");
 
                     _lastHackCollection = newHacks;
@@ -667,14 +667,14 @@ namespace Ryujinx.Ava.Utilities.Configuration
                 get
                 {
                     List<EnabledDirtyHack> enabledHacks = [];
-                    
+
                     if (Xc2MenuSoftlockFix)
                         Apply(DirtyHack.Xc2MenuSoftlockFix);
-                    
+
                     if (EnableShaderTranslationDelay)
                         Apply(DirtyHack.ShaderTranslationDelay, ShaderTranslationDelay);
-                    
-                    return enabledHacks.ToArray();
+
+                    return [.. enabledHacks];
 
                     void Apply(DirtyHack hack, int value = 0)
                     {
@@ -718,7 +718,7 @@ namespace Ryujinx.Ava.Utilities.Configuration
         /// The Multiplayer section
         /// </summary>
         public MultiplayerSection Multiplayer { get; private set; }
-        
+
         /// <summary>
         ///     The Dirty Hacks section
         /// </summary>

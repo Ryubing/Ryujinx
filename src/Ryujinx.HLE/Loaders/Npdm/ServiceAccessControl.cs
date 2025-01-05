@@ -22,7 +22,7 @@ namespace Ryujinx.HLE.Loaders.Npdm
 
             int bytesRead = 0;
 
-            Dictionary<string, bool> services = new();
+            Dictionary<string, bool> services = [];
 
             while (bytesRead != size)
             {

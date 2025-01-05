@@ -14,8 +14,8 @@ namespace Ryujinx.Ava.UI.ViewModels
         [ObservableProperty] private int _sortIndex;
         [ObservableProperty] private int _orderIndex;
         [ObservableProperty] private string _search;
-        [ObservableProperty] private ObservableCollection<SaveModel> _saves = new();
-        [ObservableProperty] private ObservableCollection<SaveModel> _views = new();
+        [ObservableProperty] private ObservableCollection<SaveModel> _saves = [];
+        [ObservableProperty] private ObservableCollection<SaveModel> _views = [];
         private readonly AccountManager _accountManager;
 
         public string SaveManagerHeading => LocaleManager.Instance.UpdateAndGetDynamicValue(LocaleKeys.SaveManagerHeading, _accountManager.LastOpenedUser.Name, _accountManager.LastOpenedUser.UserId);

@@ -10,7 +10,7 @@ namespace Ryujinx.Tests.Collections
         [Test]
         public void EnsureAddIntegrity()
         {
-            TreeDictionary<int, int> dictionary = new();
+            TreeDictionary<int, int> dictionary = [];
 
             Assert.AreEqual(dictionary.Count, 0);
 
@@ -28,12 +28,12 @@ namespace Ryujinx.Tests.Collections
 
             /*
              *  Tree Should Look as Follows After Rotations
-             *  
+             *
              *        2
              *    1        4
              *           3    10
              *              5    11
-             *  
+             *
              */
 
             Assert.AreEqual(list.Count, dictionary.Count);
@@ -49,7 +49,7 @@ namespace Ryujinx.Tests.Collections
         [Test]
         public void EnsureRemoveIntegrity()
         {
-            TreeDictionary<int, int> dictionary = new();
+            TreeDictionary<int, int> dictionary = [];
 
             Assert.AreEqual(dictionary.Count, 0);
 
@@ -72,12 +72,12 @@ namespace Ryujinx.Tests.Collections
 
             /*
              *  Tree Should Look as Follows After Rotations
-             *  
+             *
              *              4
              *      2               10
              *  1      3       7         13
              *              5      9  11    24
-             *                6  8 
+             *                6  8
              */
 
             foreach (KeyValuePair<int, int> node in list)
@@ -105,12 +105,12 @@ namespace Ryujinx.Tests.Collections
 
             /*
              *  Tree Should Look as Follows After Removal
-             *  
+             *
              *              4
              *      2               10
              *  1      3       6         13
              *              5      9  11    24
-             *                  8 
+             *                  8
              */
 
             list = dictionary.AsLevelOrderList();
@@ -138,12 +138,12 @@ namespace Ryujinx.Tests.Collections
             list = dictionary.AsLevelOrderList();
             /*
              *  Tree Should Look as Follows After Removal
-             *  
+             *
              *              4
              *      2               9
              *  1      3       6         13
              *              5      8  11    24
-             *                   
+             *
              */
             foreach (KeyValuePair<int, int> node in list)
             {
@@ -165,7 +165,7 @@ namespace Ryujinx.Tests.Collections
         [Test]
         public void EnsureOverwriteIntegrity()
         {
-            TreeDictionary<int, int> dictionary = new();
+            TreeDictionary<int, int> dictionary = [];
 
             Assert.AreEqual(dictionary.Count, 0);
 
@@ -193,12 +193,12 @@ namespace Ryujinx.Tests.Collections
 
             /*
              *  Tree Should Look as Follows After Rotations
-             *  
+             *
              *              4
              *      2               10
              *  1      3       7         13
              *              5      9  11    24
-             *                6  8 
+             *                6  8
              */
 
             Assert.AreEqual(list.Count, dictionary.Count);

@@ -20,7 +20,7 @@ namespace Ryujinx.Graphics.Shader.IntermediateRepresentation
 
         private Operand()
         {
-            UseOps = new HashSet<INode>();
+            UseOps = [];
         }
 
         public Operand(OperandType type) : this()

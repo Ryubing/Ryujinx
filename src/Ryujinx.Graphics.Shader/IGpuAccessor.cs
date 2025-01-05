@@ -472,7 +472,7 @@ namespace Ryujinx.Graphics.Shader
         /// <returns>Varying locations for the specified buffer</returns>
         ReadOnlySpan<byte> QueryTransformFeedbackVaryingLocations(int bufferIndex)
         {
-            return ReadOnlySpan<byte>.Empty;
+            return [];
         }
 
         /// <summary>

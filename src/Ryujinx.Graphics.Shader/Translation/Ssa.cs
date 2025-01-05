@@ -17,7 +17,7 @@ namespace Ryujinx.Graphics.Shader.Translation
 
             public DefMap()
             {
-                _map = new Dictionary<Register, Operand>();
+                _map = [];
 
                 _phiMasks = new long[(RegisterConsts.TotalCount + 63) / 64];
             }

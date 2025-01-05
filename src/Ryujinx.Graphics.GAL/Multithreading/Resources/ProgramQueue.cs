@@ -22,7 +22,7 @@ namespace Ryujinx.Graphics.GAL.Multithreading.Resources
             _renderer = renderer;
 
             _toCompile = new Queue<IProgramRequest>();
-            _inProgress = new List<ThreadedProgram>();
+            _inProgress = [];
         }
 
         public void Add(IProgramRequest request)

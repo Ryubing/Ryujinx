@@ -64,7 +64,7 @@ namespace Ryujinx.HLE.HOS.Services.Ro
                 return ResultCode.InvalidSize;
             }
 
-            List<byte[]> hashes = new();
+            List<byte[]> hashes = [];
 
             for (int i = 0; i < header.HashesCount; i++)
             {

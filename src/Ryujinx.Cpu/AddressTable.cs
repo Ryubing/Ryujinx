@@ -164,7 +164,7 @@ namespace ARMeilleure.Common
                 _fillBottomLevel = new SparseMemoryBlock(bottomLevelSize, null, _sparseFill);
                 _fillBottomLevelPtr = (TEntry*)_fillBottomLevel.Block.Pointer;
 
-                _sparseReserved = new List<TableSparseBlock>();
+                _sparseReserved = [];
                 _sparseLock = new ReaderWriterLockSlim();
 
                 _sparseBlockSize = bottomLevelSize;

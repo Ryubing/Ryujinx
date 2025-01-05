@@ -5,7 +5,7 @@ namespace Ryujinx.HLE.HOS.Services.Nifm.StaticService.GeneralService
 {
     static class GeneralServiceManager
     {
-        private static readonly List<GeneralServiceDetail> _generalServices = new();
+        private static readonly List<GeneralServiceDetail> _generalServices = [];
 
         public static int Count
         {

@@ -126,7 +126,7 @@ namespace Ryujinx.Horizon.Sdk.Sf.Hipc
 
         private static HipcMessageData CreateMessageData(HipcMetadata meta, Span<byte> data, int initialLength)
         {
-            Span<int> copyHandles = Span<int>.Empty;
+            Span<int> copyHandles = [];
 
             if (meta.CopyHandlesCount != 0)
             {
@@ -135,7 +135,7 @@ namespace Ryujinx.Horizon.Sdk.Sf.Hipc
                 data = data[(meta.CopyHandlesCount * sizeof(int))..];
             }
 
-            Span<int> moveHandles = Span<int>.Empty;
+            Span<int> moveHandles = [];
 
             if (meta.MoveHandlesCount != 0)
             {
@@ -144,7 +144,7 @@ namespace Ryujinx.Horizon.Sdk.Sf.Hipc
                 data = data[(meta.MoveHandlesCount * sizeof(int))..];
             }
 
-            Span<HipcStaticDescriptor> sendStatics = Span<HipcStaticDescriptor>.Empty;
+            Span<HipcStaticDescriptor> sendStatics = [];
 
             if (meta.SendStaticsCount != 0)
             {
@@ -153,7 +153,7 @@ namespace Ryujinx.Horizon.Sdk.Sf.Hipc
                 data = data[(meta.SendStaticsCount * Unsafe.SizeOf<HipcStaticDescriptor>())..];
             }
 
-            Span<HipcBufferDescriptor> sendBuffers = Span<HipcBufferDescriptor>.Empty;
+            Span<HipcBufferDescriptor> sendBuffers = [];
 
             if (meta.SendBuffersCount != 0)
             {
@@ -162,7 +162,7 @@ namespace Ryujinx.Horizon.Sdk.Sf.Hipc
                 data = data[(meta.SendBuffersCount * Unsafe.SizeOf<HipcBufferDescriptor>())..];
             }
 
-            Span<HipcBufferDescriptor> receiveBuffers = Span<HipcBufferDescriptor>.Empty;
+            Span<HipcBufferDescriptor> receiveBuffers = [];
 
             if (meta.ReceiveBuffersCount != 0)
             {
@@ -171,7 +171,7 @@ namespace Ryujinx.Horizon.Sdk.Sf.Hipc
                 data = data[(meta.ReceiveBuffersCount * Unsafe.SizeOf<HipcBufferDescriptor>())..];
             }
 
-            Span<HipcBufferDescriptor> exchangeBuffers = Span<HipcBufferDescriptor>.Empty;
+            Span<HipcBufferDescriptor> exchangeBuffers = [];
 
             if (meta.ExchangeBuffersCount != 0)
             {
@@ -180,8 +180,8 @@ namespace Ryujinx.Horizon.Sdk.Sf.Hipc
                 data = data[(meta.ExchangeBuffersCount * Unsafe.SizeOf<HipcBufferDescriptor>())..];
             }
 
-            Span<uint> dataWords = Span<uint>.Empty;
-            Span<uint> dataWordsPadded = Span<uint>.Empty;
+            Span<uint> dataWords = [];
+            Span<uint> dataWordsPadded = [];
 
             if (meta.DataWordsCount != 0)
             {
@@ -195,7 +195,7 @@ namespace Ryujinx.Horizon.Sdk.Sf.Hipc
                 data = data[(meta.DataWordsCount * sizeof(uint))..];
             }
 
-            Span<HipcReceiveListEntry> receiveList = Span<HipcReceiveListEntry>.Empty;
+            Span<HipcReceiveListEntry> receiveList = [];
 
             if (meta.ReceiveStaticsCount != 0)
             {

@@ -16,9 +16,9 @@ namespace Ryujinx.HLE.HOS.Services.Ldn.UserServiceCreator.LdnRyu.Proxy
 
         private readonly RyuLdnProtocol _protocol;
 
-        private readonly ManualResetEvent _connected = new ManualResetEvent(false);
-        private readonly ManualResetEvent _ready = new ManualResetEvent(false);
-        private readonly AutoResetEvent _error = new AutoResetEvent(false);
+        private readonly ManualResetEvent _connected = new(false);
+        private readonly ManualResetEvent _ready = new(false);
+        private readonly AutoResetEvent _error = new(false);
 
         public P2pProxyClient(string address, int port) : base(address, port)
         {

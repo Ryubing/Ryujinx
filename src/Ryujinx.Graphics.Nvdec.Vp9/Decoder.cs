@@ -14,13 +14,13 @@ namespace Ryujinx.Graphics.Nvdec.Vp9
 
         public ISurface CreateSurface(int width, int height) => new Surface(width, height);
 
-        private static ReadOnlySpan<byte> LiteralToFilter => new byte[]
-        {
+        private static ReadOnlySpan<byte> LiteralToFilter =>
+        [
             Constants.EightTapSmooth,
             Constants.EightTap,
             Constants.EightTapSharp,
             Constants.Bilinear,
-        };
+        ];
 
         public unsafe bool Decode(
             ref Vp9PictureInfo pictureInfo,

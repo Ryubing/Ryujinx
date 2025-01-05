@@ -34,8 +34,8 @@ namespace Ryujinx.HLE.HOS.Services.Vi.RootService
         public IApplicationDisplayService(ViServiceType serviceType)
         {
             _serviceType = serviceType;
-            _displayInfo = new List<DisplayInfo>();
-            _openDisplays = new Dictionary<ulong, DisplayState>();
+            _displayInfo = [];
+            _openDisplays = [];
 
             void AddDisplayInfo(string name, bool layerLimitEnabled, ulong layerLimitMax, ulong width, ulong height)
             {

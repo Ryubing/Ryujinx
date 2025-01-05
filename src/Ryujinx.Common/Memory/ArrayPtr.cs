@@ -87,7 +87,7 @@ namespace Ryujinx.Common.Memory
         /// Gets a span from the array.
         /// </summary>
         /// <returns>Span of the array</returns>
-        public Span<T> AsSpan() => Length == 0 ? Span<T>.Empty : MemoryMarshal.CreateSpan(ref this[0], Length);
+        public Span<T> AsSpan() => Length == 0 ? [] : MemoryMarshal.CreateSpan(ref this[0], Length);
 
         /// <summary>
         /// Gets the array base pointer.

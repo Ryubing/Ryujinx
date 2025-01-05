@@ -60,8 +60,8 @@ namespace Ryujinx.HLE.FileSystem
 
         public ContentManager(VirtualFileSystem virtualFileSystem)
         {
-            _contentDictionary = new SortedDictionary<(ulong, NcaContentType), string>();
-            _locationEntries = new Dictionary<StorageId, LinkedList<LocationEntry>>();
+            _contentDictionary = [];
+            _locationEntries = [];
 
             _sharedFontTitleDictionary = new Dictionary<string, ulong>
             {
@@ -95,15 +95,15 @@ namespace Ryujinx.HLE.FileSystem
 
             _virtualFileSystem = virtualFileSystem;
 
-            AocData = new SortedList<ulong, AocItem>();
+            AocData = [];
         }
 
         public void LoadEntries(Switch device = null)
         {
             lock (_lock)
             {
-                _contentDictionary = new SortedDictionary<(ulong, NcaContentType), string>();
-                _locationEntries = new Dictionary<StorageId, LinkedList<LocationEntry>>();
+                _contentDictionary = [];
+                _locationEntries = [];
 
                 foreach (StorageId storageId in Enum.GetValues<StorageId>())
                 {
@@ -660,7 +660,7 @@ namespace Ryujinx.HLE.FileSystem
             if (_virtualFileSystem.KeySet.HeaderKey.IsZeros())
                 throw new MissingKeyException("HeaderKey is empty. Cannot decrypt NCA headers.");
 
-            Dictionary<ulong, List<(NcaContentType type, string path)>> updateNcas = new();
+            Dictionary<ulong, List<(NcaContentType type, string path)>> updateNcas = [];
 
             if (Directory.Exists(firmwarePackage))
                 return VerifyAndGetVersionDirectory(firmwarePackage);
@@ -712,7 +712,7 @@ namespace Ryujinx.HLE.FileSystem
                         }
                         else
                         {
-                            updateNcas.Add(nca.Header.TitleId, new List<(NcaContentType, string)>());
+                            updateNcas.Add(nca.Header.TitleId, []);
                             updateNcas[nca.Header.TitleId].Add((nca.Header.ContentType, entry.FullName));
                         }
                     }
@@ -900,7 +900,7 @@ namespace Ryujinx.HLE.FileSystem
                     }
                     else
                     {
-                        updateNcas.Add(nca.Header.TitleId, new List<(NcaContentType, string)>());
+                        updateNcas.Add(nca.Header.TitleId, []);
                         updateNcas[nca.Header.TitleId].Add((nca.Header.ContentType, entry.FullPath));
                     }
 
@@ -1058,7 +1058,7 @@ namespace Ryujinx.HLE.FileSystem
             }
 
             return;
-            
+
             bool VerifyKeys(string[] lines, string regex)
             {
                 foreach (string line in lines)
@@ -1071,10 +1071,10 @@ namespace Ryujinx.HLE.FileSystem
                 return true;
             }
         }
-        
+
         public bool AreKeysAlredyPresent(string pathToCheck)
         {
-            string[] fileNames = { "prod.keys", "title.keys", "console.keys", "dev.keys" };
+            string[] fileNames = ["prod.keys", "title.keys", "console.keys", "dev.keys"];
             foreach (var file in fileNames)
             {
                 if (File.Exists(Path.Combine(pathToCheck, file)))

@@ -18,7 +18,7 @@ namespace Ryujinx.Graphics.Vulkan
 
         public void Dispose()
         {
-            _api.FreeMemory(_device, _memory, Span<AllocationCallbacks>.Empty);
+            _api.FreeMemory(_device, _memory, []);
         }
     }
 }

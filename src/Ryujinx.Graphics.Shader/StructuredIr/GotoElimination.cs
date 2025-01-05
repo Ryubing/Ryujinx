@@ -429,7 +429,7 @@ namespace Ryujinx.Graphics.Shader.StructuredIr
         {
             AstBlock block = bottom;
 
-            List<AstBlock> path = new();
+            List<AstBlock> path = [];
 
             while (block != top)
             {
@@ -438,7 +438,7 @@ namespace Ryujinx.Graphics.Shader.StructuredIr
                 block = block.Parent;
             }
 
-            return path.ToArray();
+            return [.. path];
         }
 
         private static int Level(IAstNode node)

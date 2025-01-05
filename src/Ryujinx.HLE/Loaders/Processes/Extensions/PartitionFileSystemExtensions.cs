@@ -28,7 +28,7 @@ namespace Ryujinx.HLE.Loaders.Processes.Extensions
         {
             fileSystem.ImportTickets(partitionFileSystem);
 
-            var programs = new Dictionary<ulong, ContentMetaData>();
+            Dictionary<ulong, ContentMetaData> programs = [];
 
             foreach (DirectoryEntryEx fileEntry in partitionFileSystem.EnumerateEntries("/", "*.cnmt.nca"))
             {

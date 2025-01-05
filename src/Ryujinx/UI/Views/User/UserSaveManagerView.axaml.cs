@@ -67,7 +67,7 @@ namespace Ryujinx.Ava.UI.Views.User
         public void LoadSaves()
         {
             ViewModel.Saves.Clear();
-            var saves = new ObservableCollection<SaveModel>();
+            ObservableCollection<SaveModel> saves = [];
             var saveDataFilter = SaveDataFilter.Make(
                 programId: default,
                 saveType: SaveDataType.Account,

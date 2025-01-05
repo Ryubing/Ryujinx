@@ -130,7 +130,7 @@ namespace Ryujinx.HLE.HOS.Services.Hid
 
             return ResultCode.Success;
         }
-        
+
         [CommandCmif(26)]
         // ActivateDebugMouse(nn::applet::AppletResourceUserId)
         public ResultCode ActivateDebugMouse(ServiceCtx context)
@@ -860,8 +860,8 @@ namespace Ryujinx.HLE.HOS.Services.Hid
 
             // Initialize entries to avoid issues with some games.
 
-            List<GamepadInput> emptyGamepadInputs = new();
-            List<SixAxisInput> emptySixAxisInputs = new();
+            List<GamepadInput> emptyGamepadInputs = [];
+            List<SixAxisInput> emptySixAxisInputs = [];
 
             for (int player = 0; player < NpadDevices.MaxControllers; player++)
             {
@@ -1314,7 +1314,7 @@ namespace Ryujinx.HLE.HOS.Services.Hid
 
             if (!deviceHandles.IsEmpty && vibrationValues.Length == deviceHandles.Length)
             {
-                Dictionary<byte, VibrationValue> dualVibrationValues = new();
+                Dictionary<byte, VibrationValue> dualVibrationValues = [];
                 PlayerIndex currentIndex = (PlayerIndex)deviceHandles[0].PlayerId;
 
                 for (int deviceCounter = 0; deviceCounter < deviceHandles.Length; deviceCounter++)
@@ -1325,7 +1325,7 @@ namespace Ryujinx.HLE.HOS.Services.Hid
                     if (index != currentIndex || dualVibrationValues.Count == 2)
                     {
                         context.Device.Hid.Npads.UpdateRumbleQueue(currentIndex, dualVibrationValues);
-                        dualVibrationValues = new Dictionary<byte, VibrationValue>();
+                        dualVibrationValues = [];
                     }
 
                     dualVibrationValues[position] = vibrationValues[deviceCounter];

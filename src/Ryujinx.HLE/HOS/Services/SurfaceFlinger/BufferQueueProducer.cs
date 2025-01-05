@@ -850,7 +850,7 @@ namespace Ryujinx.HLE.HOS.Services.SurfaceFlinger
         {
             if (bufferHistoryCount <= 0)
             {
-                bufferInfos = Span<BufferInfo>.Empty;
+                bufferInfos = [];
 
                 return Status.BadValue;
             }

@@ -464,10 +464,7 @@ namespace Ryujinx.Graphics.Shader.Instructions
             int rd,
             bool boolFloat)
         {
-            Operand[] res = new Operand[2];
-
-            res[0] = GetFPComparison(context, cmpOp, srcA[0], srcB[0]);
-            res[1] = GetFPComparison(context, cmpOp, srcA[1], srcB[1]);
+            Operand[] res = [GetFPComparison(context, cmpOp, srcA[0], srcB[0]), GetFPComparison(context, cmpOp, srcA[1], srcB[1])];
 
             Operand pred = GetPredicate(context, srcPred, srcPredInv);
 

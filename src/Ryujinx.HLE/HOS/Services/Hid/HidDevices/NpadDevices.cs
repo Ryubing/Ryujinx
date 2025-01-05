@@ -33,8 +33,8 @@ namespace Ryujinx.HLE.HOS.Services.Hid
         internal bool SixAxisActive = false; // TODO: link to hidserver when implemented
         internal ControllerType SupportedStyleSets { get; set; }
 
-        public Dictionary<PlayerIndex, ConcurrentQueue<(VibrationValue, VibrationValue)>> RumbleQueues = new();
-        public Dictionary<PlayerIndex, (VibrationValue, VibrationValue)> LastVibrationValues = new();
+        public Dictionary<PlayerIndex, ConcurrentQueue<(VibrationValue, VibrationValue)>> RumbleQueues = [];
+        public Dictionary<PlayerIndex, (VibrationValue, VibrationValue)> LastVibrationValues = [];
 
         public NpadDevices(Switch device, bool active = true) : base(device, active)
         {

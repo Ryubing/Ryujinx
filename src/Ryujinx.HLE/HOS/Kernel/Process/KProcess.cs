@@ -94,8 +94,8 @@ namespace Ryujinx.HLE.HOS.Kernel.Process
         {
             AddressArbiter = new KAddressArbiter(context);
 
-            _fullTlsPages = new SortedDictionary<ulong, KTlsPageInfo>();
-            _freeTlsPages = new SortedDictionary<ulong, KTlsPageInfo>();
+            _fullTlsPages = [];
+            _freeTlsPages = [];
 
             Capabilities = new KProcessCapabilities();
 

@@ -56,8 +56,8 @@ namespace Ryujinx.Tests.Memory
         {
             // Create a translator, as one is needed to register the signal handler or emit methods.
             _translator ??= new Translator(
-                new JitMemoryAllocator(), 
-                new MockMemoryManager(), 
+                new JitMemoryAllocator(),
+                new MockMemoryManager(),
                 AddressTable<ulong>.CreateForArm(true, MemoryManagerType.SoftwarePageTable));
         }
 
@@ -376,7 +376,7 @@ namespace Ryujinx.Tests.Memory
         public void NativeReaderWriterLock()
         {
             var rwLock = new NativeReaderWriterLock();
-            var threads = new List<Thread>();
+            List<Thread> threads = [];
 
             int value = 0;
 

@@ -4,7 +4,7 @@ namespace Ryujinx.Graphics.Vic.Image
 {
     ref struct RentedBuffer
     {
-        public static RentedBuffer Empty => new(Span<byte>.Empty, -1);
+        public static RentedBuffer Empty => new([], -1);
 
         public Span<byte> Data;
         public int Index;

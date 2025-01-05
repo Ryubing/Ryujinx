@@ -59,7 +59,7 @@ namespace Ryujinx.HLE.HOS.Services.SurfaceFlinger
         public SurfaceFlinger(Switch device)
         {
             _device = device;
-            _layers = new Dictionary<long, Layer>();
+            _layers = [];
             RenderLayerId = 0;
 
             _composerThread = new Thread(HandleComposition)

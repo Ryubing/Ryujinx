@@ -35,9 +35,9 @@ namespace Ryujinx.Ava.UI.ViewModels
         private readonly Ryujinx.Common.Logging.XCIFileTrimmerLog _logger;
         private ApplicationLibrary ApplicationLibrary => _mainWindowViewModel.ApplicationLibrary;
         private Optional<XCITrimmerFileModel> _processingApplication = null;
-        private AvaloniaList<XCITrimmerFileModel> _allXCIFiles = new();
-        private AvaloniaList<XCITrimmerFileModel> _selectedXCIFiles = new();
-        private AvaloniaList<XCITrimmerFileModel> _displayedXCIFiles = new();
+        private AvaloniaList<XCITrimmerFileModel> _allXCIFiles = [];
+        private AvaloniaList<XCITrimmerFileModel> _selectedXCIFiles = [];
+        private AvaloniaList<XCITrimmerFileModel> _displayedXCIFiles = [];
         private MainWindowViewModel _mainWindowViewModel;
         private CancellationTokenSource _cancellationTokenSource;
         private string _search;
@@ -92,12 +92,12 @@ namespace Ryujinx.Ava.UI.ViewModels
         private void SortingChanged()
         {
             OnPropertiesChanged(
-                nameof(IsSortedByName), 
-                nameof(IsSortedBySaved), 
-                nameof(SortingAscending), 
-                nameof(SortingField), 
+                nameof(IsSortedByName),
+                nameof(IsSortedBySaved),
+                nameof(SortingAscending),
+                nameof(SortingField),
                 nameof(SortingFieldName));
-            
+
             SortAndFilter();
         }
 
@@ -109,13 +109,13 @@ namespace Ryujinx.Ava.UI.ViewModels
         private void ApplicationsChanged()
         {
             OnPropertiesChanged(
-                nameof(AllXCIFiles), 
-                nameof(Status), 
-                nameof(PotentialSavings), 
-                nameof(ActualSavings), 
-                nameof(CanTrim), 
+                nameof(AllXCIFiles),
+                nameof(Status),
+                nameof(PotentialSavings),
+                nameof(ActualSavings),
+                nameof(CanTrim),
                 nameof(CanUntrim));
-            
+
             DisplayedChanged();
             SortAndFilter();
         }
@@ -123,9 +123,9 @@ namespace Ryujinx.Ava.UI.ViewModels
         private void SelectionChanged(bool displayedChanged = true)
         {
             OnPropertiesChanged(
-                nameof(Status), 
-                nameof(CanTrim), 
-                nameof(CanUntrim), 
+                nameof(Status),
+                nameof(CanTrim),
+                nameof(CanUntrim),
                 nameof(SelectedXCIFiles));
 
             if (displayedChanged)
@@ -135,10 +135,10 @@ namespace Ryujinx.Ava.UI.ViewModels
         private void ProcessingChanged()
         {
             OnPropertiesChanged(
-                nameof(Processing), 
-                nameof(Cancel), 
-                nameof(Status), 
-                nameof(CanTrim), 
+                nameof(Processing),
+                nameof(Cancel),
+                nameof(Status),
+                nameof(CanTrim),
                 nameof(CanUntrim));
         }
 
@@ -160,13 +160,13 @@ namespace Ryujinx.Ava.UI.ViewModels
 
             Thread XCIFileTrimThread = new(() =>
             {
-                var toProcess = Sort(SelectedXCIFiles
+                List<XCITrimmerFileModel> toProcess = [.. Sort(SelectedXCIFiles
                     .Where(xci =>
                         (processingMode == ProcessingMode.Untrimming && xci.Untrimmable) ||
                         (processingMode == ProcessingMode.Trimming && xci.Trimmable)
-                    )).ToList();
+                    ))];
 
-                var viewsSaved = DisplayedXCIFiles.ToList();
+                List<XCITrimmerFileModel> viewsSaved = [.. DisplayedXCIFiles];
 
                 Dispatcher.UIThread.Post(() =>
                 {

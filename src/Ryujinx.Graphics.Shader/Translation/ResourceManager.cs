@@ -14,7 +14,7 @@ namespace Ryujinx.Graphics.Shader.Translation
         private const int DefaultLocalMemorySize = 128;
         private const int DefaultSharedMemorySize = 4096;
 
-        private static readonly string[] _stagePrefixes = new string[] { "cp", "vp", "tcp", "tep", "gp", "fp" };
+        private static readonly string[] _stagePrefixes = ["cp", "vp", "tcp", "tep", "gp", "fp"];
 
         private readonly IGpuAccessor _gpuAccessor;
         private readonly ShaderStage _stage;
@@ -75,18 +75,18 @@ namespace Ryujinx.Graphics.Shader.Translation
             _cbSlotToBindingMap.AsSpan().Fill(new(-1, -1));
             _sbSlotToBindingMap.AsSpan().Fill(new(-1, -1));
 
-            _sbSlots = new();
-            _sbSlotsReverse = new();
+            _sbSlots = [];
+            _sbSlotsReverse = [];
 
-            _usedConstantBufferBindings = new();
+            _usedConstantBufferBindings = [];
 
-            _usedTextures = new();
-            _usedImages = new();
+            _usedTextures = [];
+            _usedImages = [];
 
-            _vacConstantBuffers = new();
-            _vacStorageBuffers = new();
-            _vacTextures = new();
-            _vacImages = new();
+            _vacConstantBuffers = [];
+            _vacStorageBuffers = [];
+            _vacTextures = [];
+            _vacImages = [];
 
             Properties.AddOrUpdateConstantBuffer(new(BufferLayout.Std140, 0, SupportBuffer.Binding, "support_buffer", SupportBuffer.GetStructureType()));
 
@@ -524,7 +524,7 @@ namespace Ryujinx.Graphics.Shader.Translation
 
         private static TextureDescriptor[] GetDescriptors(IReadOnlyDictionary<TextureInfo, TextureMeta> usedResources, bool includeArrays)
         {
-            List<TextureDescriptor> descriptors = new();
+            List<TextureDescriptor> descriptors = [];
 
             bool hasAnyArray = false;
 
@@ -570,7 +570,7 @@ namespace Ryujinx.Graphics.Shader.Translation
                 }
             }
 
-            return descriptors.ToArray();
+            return [.. descriptors];
         }
 
         public ShaderProgramInfo GetVertexAsComputeInfo(bool isVertex = false)
@@ -690,20 +690,20 @@ namespace Ryujinx.Graphics.Shader.Translation
 
         private void AddNewConstantBuffer(int setIndex, int binding, string name)
         {
-            StructureType type = new(new[]
-            {
+            StructureType type = new(
+            [
                 new StructureField(AggregateType.Array | AggregateType.Vector4 | AggregateType.FP32, "data", Constants.ConstantBufferSize / 16),
-            });
+            ]);
 
             Properties.AddOrUpdateConstantBuffer(new(BufferLayout.Std140, setIndex, binding, name, type));
         }
 
         private void AddNewStorageBuffer(int setIndex, int binding, string name)
         {
-            StructureType type = new(new[]
-            {
+            StructureType type = new(
+            [
                 new StructureField(AggregateType.Array | AggregateType.U32, "data", 0),
-            });
+            ]);
 
             Properties.AddOrUpdateStorageBuffer(new(BufferLayout.Std430, setIndex, binding, name, type));
         }

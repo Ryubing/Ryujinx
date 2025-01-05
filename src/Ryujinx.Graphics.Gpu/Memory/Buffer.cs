@@ -799,7 +799,7 @@ namespace Ryujinx.Graphics.Gpu.Memory
 
             try
             {
-                (_virtualDependencies ??= new()).Add(virtualBuffer);
+                (_virtualDependencies ??= []).Add(virtualBuffer);
             }
             finally
             {

@@ -41,7 +41,7 @@ namespace ARMeilleure.Common
             }
 
             _allocated = new BitMap(NativeAllocator.Instance);
-            _pages = new Dictionary<int, nint>();
+            _pages = [];
             _pageLogCapacity = BitOperations.Log2((uint)(pageSize / sizeof(TEntry)));
             _pageCapacity = 1 << _pageLogCapacity;
         }

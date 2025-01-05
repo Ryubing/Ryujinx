@@ -397,7 +397,7 @@ namespace Ryujinx.Graphics.Gpu.Image
         {
             int spanEndIndex = -1;
             int spanBase = 0;
-            ReadOnlySpan<byte> dataSpan = ReadOnlySpan<byte>.Empty;
+            ReadOnlySpan<byte> dataSpan = [];
 
             for (int i = 0; i < regionCount; i++)
             {
@@ -1019,7 +1019,7 @@ namespace Ryujinx.Graphics.Gpu.Image
             int endOffset = _allOffsets[viewEnd] + _sliceSizes[lastLevel];
             int size = endOffset - offset;
 
-            var result = new List<RegionHandle>();
+            List<RegionHandle> result = [];
 
             for (int i = 0; i < TextureRange.Count; i++)
             {
@@ -1062,7 +1062,7 @@ namespace Ryujinx.Graphics.Gpu.Image
                 firstLevel,
                 viewStart,
                 views,
-                result.ToArray());
+                [.. result]);
 
             return groupHandle;
         }
@@ -1075,7 +1075,7 @@ namespace Ryujinx.Graphics.Gpu.Image
         public void UpdateViews(List<Texture> views, Texture texture)
         {
             // This is saved to calculate overlapping views for each handle.
-            _views = views.ToArray();
+            _views = [.. views];
 
             bool layerViews = _hasLayerViews;
             bool mipViews = _hasMipViews;
@@ -1142,7 +1142,7 @@ namespace Ryujinx.Graphics.Gpu.Image
         public void RemoveView(List<Texture> views, Texture view)
         {
             // This is saved to calculate overlapping views for each handle.
-            _views = views.ToArray();
+            _views = [.. views];
 
             int offset = FindOffset(view);
 
@@ -1315,7 +1315,7 @@ namespace Ryujinx.Graphics.Gpu.Image
 
             if (_isBuffer)
             {
-                handles = Array.Empty<TextureGroupHandle>();
+                handles = [];
             }
             else if (!(_hasMipViews || _hasLayerViews))
             {
@@ -1339,7 +1339,7 @@ namespace Ryujinx.Graphics.Gpu.Image
 
                 var groupHandle = new TextureGroupHandle(this, 0, Storage.Size, _views, 0, 0, 0, _allOffsets.Length, cpuRegionHandles);
 
-                handles = new TextureGroupHandle[] { groupHandle };
+                handles = [groupHandle];
             }
             else
             {
@@ -1355,7 +1355,7 @@ namespace Ryujinx.Graphics.Gpu.Image
 
                 if (_is3D)
                 {
-                    var handlesList = new List<TextureGroupHandle>();
+                    List<TextureGroupHandle> handlesList = [];
 
                     for (int i = 0; i < levelHandles; i++)
                     {
@@ -1371,7 +1371,7 @@ namespace Ryujinx.Graphics.Gpu.Image
                         layerHandles = Math.Max(1, layerHandles >> 1);
                     }
 
-                    handles = handlesList.ToArray();
+                    handles = [.. handlesList];
                 }
                 else
                 {
@@ -1438,8 +1438,8 @@ namespace Ryujinx.Graphics.Gpu.Image
             // Get the location of each texture within its storage, so we can find the handles to apply the dependency to.
             // This can consist of multiple disjoint regions, for example if this is a mip slice of an array texture.
 
-            var targetRange = new List<(int BaseHandle, int RegionCount)>();
-            var otherRange = new List<(int BaseHandle, int RegionCount)>();
+            List<(int BaseHandle, int RegionCount)> targetRange = [];
+            List<(int BaseHandle, int RegionCount)> otherRange = [];
 
             EvaluateRelevantHandles(firstLayer, firstLevel, other.Info.GetSlices(), other.Info.Levels, (baseHandle, regionCount, split) => targetRange.Add((baseHandle, regionCount)));
             otherGroup.EvaluateRelevantHandles(other, (baseHandle, regionCount, split) => otherRange.Add((baseHandle, regionCount)));

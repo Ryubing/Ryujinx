@@ -1079,7 +1079,7 @@ namespace ARMeilleure.CodeGen.Arm64
 
         private static UnwindInfo WritePrologue(CodeGenContext context)
         {
-            List<UnwindPushEntry> pushEntries = new();
+            List<UnwindPushEntry> pushEntries = [];
 
             Operand rsp = Register(SpRegister);
 
@@ -1141,7 +1141,7 @@ namespace ARMeilleure.CodeGen.Arm64
                 }
             }
 
-            return new UnwindInfo(pushEntries.ToArray(), context.StreamOffset);
+            return new UnwindInfo([.. pushEntries], context.StreamOffset);
         }
 
         private static void WritePrologueCalleeSavesPreIndexed(

@@ -173,7 +173,7 @@ namespace Ryujinx.Memory.Range
         private List<T> GetList()
         {
             var items = _items.AsList();
-            var result = new List<T>();
+            List<T> result = [];
 
             foreach (RangeNode<ulong, T> item in items)
             {

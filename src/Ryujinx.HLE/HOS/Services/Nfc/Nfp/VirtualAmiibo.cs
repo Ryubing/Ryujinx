@@ -16,7 +16,7 @@ namespace Ryujinx.HLE.HOS.Services.Nfc.Nfp
     static class VirtualAmiibo
     {
         public static uint OpenedApplicationAreaId;
-        public static byte[] ApplicationBytes = Array.Empty<byte>();
+        public static byte[] ApplicationBytes = [];
         public static string InputBin = string.Empty;
         public static string NickName = string.Empty;
         private static readonly AmiiboJsonSerializerContext _serializerContext = AmiiboJsonSerializerContext.Default;
@@ -137,7 +137,7 @@ namespace Ryujinx.HLE.HOS.Services.Nfc.Nfp
             if (ApplicationBytes.Length > 0)
             {
                 byte[] bytes = ApplicationBytes;
-                ApplicationBytes = Array.Empty<byte>();
+                ApplicationBytes = [];
                 return bytes;
             }
             VirtualAmiiboFile virtualAmiiboFile = LoadAmiiboFile(amiiboId);
@@ -150,7 +150,7 @@ namespace Ryujinx.HLE.HOS.Services.Nfc.Nfp
                 }
             }
 
-            return Array.Empty<byte>();
+            return [];
         }
 
         public static bool CreateApplicationArea(string amiiboId, uint applicationAreaId, byte[] applicationAreaData)
@@ -219,12 +219,12 @@ namespace Ryujinx.HLE.HOS.Services.Nfc.Nfp
                 virtualAmiiboFile = new VirtualAmiiboFile()
                 {
                     FileVersion = 0,
-                    TagUuid = Array.Empty<byte>(),
+                    TagUuid = [],
                     AmiiboId = amiiboId,
                     FirstWriteDate = DateTime.Now,
                     LastWriteDate = DateTime.Now,
                     WriteCounter = 0,
-                    ApplicationAreas = new List<VirtualAmiiboApplicationArea>(),
+                    ApplicationAreas = [],
                 };
 
                 SaveAmiiboFile(virtualAmiiboFile);

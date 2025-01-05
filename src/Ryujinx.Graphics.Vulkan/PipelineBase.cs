@@ -133,8 +133,8 @@ namespace Ryujinx.Graphics.Vulkan
         {
             _descriptorSetUpdater.Initialize(IsMainPipeline);
 
-            QuadsToTrisPattern = new IndexBufferPattern(Gd, 4, 6, 0, new[] { 0, 1, 2, 0, 2, 3 }, 4, false);
-            TriFanToTrisPattern = new IndexBufferPattern(Gd, 3, 3, 2, new[] { int.MinValue, -1, 0 }, 1, true);
+            QuadsToTrisPattern = new IndexBufferPattern(Gd, 4, 6, 0, [0, 1, 2, 0, 2, 3], 4, false);
+            TriFanToTrisPattern = new IndexBufferPattern(Gd, 3, 3, 2, [int.MinValue, -1, 0], 1, true);
         }
 
         public unsafe void Barrier()
@@ -159,9 +159,9 @@ namespace Ryujinx.Graphics.Vulkan
                 1,
                 new ReadOnlySpan<MemoryBarrier>(in memoryBarrier),
                 0,
-                ReadOnlySpan<BufferMemoryBarrier>.Empty,
+                [],
                 0,
-                ReadOnlySpan<ImageMemoryBarrier>.Empty);
+                []);
         }
 
         public void BeginTransformFeedback(PrimitiveTopology topology)
@@ -1393,7 +1393,7 @@ namespace Ryujinx.Graphics.Vulkan
                 {
                     if (!_framebufferUsingColorWriteMask)
                     {
-                        _preMaskColors = colors.ToArray();
+                        _preMaskColors = [.. colors];
                         _preMaskDepthStencil = depthStencil;
                     }
 

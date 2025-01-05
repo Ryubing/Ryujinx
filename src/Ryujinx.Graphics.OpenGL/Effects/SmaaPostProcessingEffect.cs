@@ -43,11 +43,11 @@ namespace Ryujinx.Graphics.OpenGL.Effects.Smaa
         {
             _renderer = renderer;
 
-            _edgeShaderPrograms = Array.Empty<int>();
-            _blendShaderPrograms = Array.Empty<int>();
-            _neighbourShaderPrograms = Array.Empty<int>();
+            _edgeShaderPrograms = [];
+            _blendShaderPrograms = [];
+            _neighbourShaderPrograms = [];
 
-            _qualities = new string[] { "SMAA_PRESET_LOW", "SMAA_PRESET_MEDIUM", "SMAA_PRESET_HIGH", "SMAA_PRESET_ULTRA" };
+            _qualities = ["SMAA_PRESET_LOW", "SMAA_PRESET_MEDIUM", "SMAA_PRESET_HIGH", "SMAA_PRESET_ULTRA"];
 
             Quality = quality;
 
@@ -92,7 +92,7 @@ namespace Ryujinx.Graphics.OpenGL.Effects.Smaa
                 var blendShaderData = EmbeddedResources.ReadAllText("Ryujinx.Graphics.OpenGL/Effects/Shaders/smaa_blend.glsl");
                 var neighbourShaderData = EmbeddedResources.ReadAllText("Ryujinx.Graphics.OpenGL/Effects/Shaders/smaa_neighbour.glsl");
 
-                var shaders = new string[] { presets, edgeShaderData };
+                string[] shaders = [ presets, edgeShaderData ];
                 var edgeProgram = ShaderHelper.CompileProgram(shaders, ShaderType.ComputeShader);
 
                 shaders[1] = blendShaderData;

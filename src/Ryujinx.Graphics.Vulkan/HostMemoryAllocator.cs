@@ -44,7 +44,7 @@ namespace Ryujinx.Graphics.Vulkan
             _hostMemoryApi = hostMemoryApi;
             _device = device;
 
-            _allocations = new List<HostMemoryAllocation>();
+            _allocations = [];
             _allocationTree = new IntervalTree<ulong, HostMemoryAllocation>();
         }
 
@@ -183,7 +183,7 @@ namespace Ryujinx.Graphics.Vulkan
                 });
             }
 
-            _api.FreeMemory(_device, memory, ReadOnlySpan<AllocationCallbacks>.Empty);
+            _api.FreeMemory(_device, memory, []);
         }
     }
 }

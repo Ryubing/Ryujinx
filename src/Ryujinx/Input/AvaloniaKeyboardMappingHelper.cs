@@ -7,7 +7,7 @@ namespace Ryujinx.Ava.Input
 {
     internal static class AvaloniaKeyboardMappingHelper
     {
-        private static readonly AvaKey[] _keyMapping = {
+        private static readonly AvaKey[] _keyMapping = [
             // NOTE: Invalid
             AvaKey.None,
 
@@ -144,7 +144,7 @@ namespace Ryujinx.Ava.Input
 
             // NOTE: invalid
             AvaKey.None,
-        };
+        ];
 
         private static readonly Dictionary<AvaKey, Key> _avaKeyMapping;
 
@@ -153,7 +153,7 @@ namespace Ryujinx.Ava.Input
             var inputKeys = Enum.GetValues<Key>();
 
             // NOTE: Avalonia.Input.Key is not contiguous and quite large, so use a dictionary instead of an array.
-            _avaKeyMapping = new Dictionary<AvaKey, Key>();
+            _avaKeyMapping = [];
 
             foreach (var key in inputKeys)
             {

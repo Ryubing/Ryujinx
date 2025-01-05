@@ -73,7 +73,7 @@ namespace Ryujinx.Memory.Range
             }
             else
             {
-                var ranges = new List<MemoryRange>();
+                List<MemoryRange> ranges = [];
 
                 foreach (MemoryRange range in _ranges)
                 {
@@ -106,7 +106,7 @@ namespace Ryujinx.Memory.Range
                     offset -= range.Size;
                 }
 
-                return ranges.Count == 1 ? new MultiRange(ranges[0].Address, ranges[0].Size) : new MultiRange(ranges.ToArray());
+                return ranges.Count == 1 ? new MultiRange(ranges[0].Address, ranges[0].Size) : new MultiRange([.. ranges]);
             }
         }
 

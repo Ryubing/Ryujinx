@@ -76,7 +76,7 @@ namespace Ryujinx.Graphics.Vulkan
 
                 DebugUtilsMessengerEXT messengerHandle = default;
 
-                Result result = _debugUtils.CreateDebugUtilsMessenger(_instance, SpanHelpers.AsReadOnlySpan(ref debugUtilsMessengerCreateInfo), ReadOnlySpan<AllocationCallbacks>.Empty, SpanHelpers.AsSpan(ref messengerHandle));
+                Result result = _debugUtils.CreateDebugUtilsMessenger(_instance, SpanHelpers.AsReadOnlySpan(ref debugUtilsMessengerCreateInfo), [], SpanHelpers.AsSpan(ref messengerHandle));
 
                 if (result == Result.Success)
                 {
@@ -123,7 +123,7 @@ namespace Ryujinx.Graphics.Vulkan
             {
                 if (_debugUtilsMessenger.HasValue)
                 {
-                    _debugUtils.DestroyDebugUtilsMessenger(_instance, _debugUtilsMessenger.Value, Span<AllocationCallbacks>.Empty);
+                    _debugUtils.DestroyDebugUtilsMessenger(_instance, _debugUtilsMessenger.Value, []);
                 }
 
                 _disposed = true;

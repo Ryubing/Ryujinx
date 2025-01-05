@@ -100,8 +100,8 @@ namespace Ryujinx.Horizon.Sdk.Arp
                 1,
                 sendPid: false,
                 data,
-                stackalloc[] { HipcBufferFlags.Out | HipcBufferFlags.MapAlias | HipcBufferFlags.FixedSize },
-                stackalloc[] { new PointerAndSize(bufferAddress, bufferSize) });
+                [HipcBufferFlags.Out | HipcBufferFlags.MapAlias | HipcBufferFlags.FixedSize],
+                [new PointerAndSize(bufferAddress, bufferSize)]);
 
             if (result.IsFailure)
             {

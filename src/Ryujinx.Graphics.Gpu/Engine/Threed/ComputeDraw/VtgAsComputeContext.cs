@@ -25,7 +25,7 @@ namespace Ryujinx.Graphics.Gpu.Engine.Threed.ComputeDraw
             /// </summary>
             public BufferTextureCache()
             {
-                _cache = new();
+                _cache = [];
             }
 
             /// <summary>
@@ -178,7 +178,7 @@ namespace Ryujinx.Graphics.Gpu.Engine.Threed.ComputeDraw
         {
             _context = context;
             _bufferTextures = new BufferTextureCache[Constants.TotalVertexBuffers + 2];
-            _topologyRemapBuffers = new();
+            _topologyRemapBuffers = [];
             VertexInfoBufferUpdater = new(context.Renderer);
         }
 

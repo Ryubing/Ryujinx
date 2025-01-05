@@ -26,9 +26,9 @@ namespace ARMeilleure.Translation.PTC
 
         private const uint InternalVersion = 5518; //! Not to be incremented manually for each change to the ARMeilleure project.
 
-        private static readonly uint[] _migrateInternalVersions = {
+        private static readonly uint[] _migrateInternalVersions = [
             1866,
-        };
+        ];
 
         private const int SaveInterval = 30; // Seconds.
 
@@ -68,12 +68,12 @@ namespace ARMeilleure.Translation.PTC
 
             _disposed = false;
 
-            ProfiledFuncs = new Dictionary<ulong, FuncProfile>();
+            ProfiledFuncs = [];
 
             Enabled = false;
         }
 
-        private void TimerElapsed(object _, ElapsedEventArgs __) 
+        private void TimerElapsed(object _, ElapsedEventArgs __)
             => new Thread(PreSave) { Name = "Ptc.DiskWriter" }.Start();
 
         public void AddEntry(ulong address, ExecutionMode mode, bool highCq)

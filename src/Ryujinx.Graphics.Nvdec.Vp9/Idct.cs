@@ -32,12 +32,12 @@ namespace Ryujinx.Graphics.Nvdec.Vp9
             }
         }
 
-        private static readonly Transform2D[] _iht4 = {
+        private static readonly Transform2D[] _iht4 = [
             new(Idct4, Idct4), // DCT_DCT  = 0
             new(Iadst4, Idct4), // ADST_DCT = 1
             new(Idct4, Iadst4), // DCT_ADST = 2
             new(Iadst4, Iadst4), // ADST_ADST = 3
-        };
+        ];
 
         public static void Iht4x416Add(ReadOnlySpan<int> input, Span<byte> dest, int stride, int txType)
         {
@@ -71,12 +71,12 @@ namespace Ryujinx.Graphics.Nvdec.Vp9
             }
         }
 
-        private static readonly Transform2D[] _iht8 = {
+        private static readonly Transform2D[] _iht8 = [
             new(Idct8, Idct8), // DCT_DCT  = 0
             new(Iadst8, Idct8), // ADST_DCT = 1
             new(Idct8, Iadst8), // DCT_ADST = 2
             new(Iadst8, Iadst8), // ADST_ADST = 3
-        };
+        ];
 
         public static void Iht8x864Add(ReadOnlySpan<int> input, Span<byte> dest, int stride, int txType)
         {
@@ -111,12 +111,12 @@ namespace Ryujinx.Graphics.Nvdec.Vp9
             }
         }
 
-        private static readonly Transform2D[] _iht16 = {
+        private static readonly Transform2D[] _iht16 = [
             new(Idct16, Idct16), // DCT_DCT  = 0
             new(Iadst16, Idct16), // ADST_DCT = 1
             new(Idct16, Iadst16), // DCT_ADST = 2
             new(Iadst16, Iadst16), // ADST_ADST = 3
-        };
+        ];
 
         public static void Iht16x16256Add(ReadOnlySpan<int> input, Span<byte> dest, int stride, int txType)
         {
@@ -280,12 +280,12 @@ namespace Ryujinx.Graphics.Nvdec.Vp9
             }
         }
 
-        private static readonly HighbdTransform2D[] _highbdIht4 = {
+        private static readonly HighbdTransform2D[] _highbdIht4 = [
             new(HighbdIdct4, HighbdIdct4), // DCT_DCT  = 0
             new(HighbdIadst4, HighbdIdct4), // ADST_DCT = 1
             new(HighbdIdct4, HighbdIadst4), // DCT_ADST = 2
             new(HighbdIadst4, HighbdIadst4), // ADST_ADST = 3
-        };
+        ];
 
         public static void HighbdIht4x416Add(ReadOnlySpan<int> input, Span<ushort> dest, int stride, int txType, int bd)
         {
@@ -319,12 +319,12 @@ namespace Ryujinx.Graphics.Nvdec.Vp9
             }
         }
 
-        private static readonly HighbdTransform2D[] _highIht8 = {
+        private static readonly HighbdTransform2D[] _highIht8 = [
             new(HighbdIdct8, HighbdIdct8), // DCT_DCT  = 0
             new(HighbdIadst8, HighbdIdct8), // ADST_DCT = 1
             new(HighbdIdct8, HighbdIadst8), // DCT_ADST = 2
             new(HighbdIadst8, HighbdIadst8), // ADST_ADST = 3
-        };
+        ];
 
         public static void HighbdIht8x864Add(ReadOnlySpan<int> input, Span<ushort> dest, int stride, int txType, int bd)
         {
@@ -359,12 +359,12 @@ namespace Ryujinx.Graphics.Nvdec.Vp9
             }
         }
 
-        private static readonly HighbdTransform2D[] _highIht16 = {
+        private static readonly HighbdTransform2D[] _highIht16 = [
             new(HighbdIdct16, HighbdIdct16), // DCT_DCT  = 0
             new(HighbdIadst16, HighbdIdct16), // ADST_DCT = 1
             new(HighbdIdct16, HighbdIadst16), // DCT_ADST = 2
             new(HighbdIadst16, HighbdIadst16), // ADST_ADST = 3
-        };
+        ];
 
         public static void HighbdIht16x16256Add(ReadOnlySpan<int> input, Span<ushort> dest, int stride, int txType, int bd)
         {

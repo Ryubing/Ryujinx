@@ -79,7 +79,7 @@ namespace Ryujinx.Graphics.Vulkan
         {
             if (Interlocked.Decrement(ref _referenceCount) == 0)
             {
-                _api.DestroyFence(_device, _fence, Span<AllocationCallbacks>.Empty);
+                _api.DestroyFence(_device, _fence, []);
                 _fence = default;
             }
         }
@@ -110,7 +110,7 @@ namespace Ryujinx.Graphics.Vulkan
 
                 try
                 {
-                    FenceHelper.WaitAllIndefinitely(_api, _device, stackalloc Fence[] { _fence });
+                    FenceHelper.WaitAllIndefinitely(_api, _device, [_fence]);
                 }
                 finally
                 {
@@ -119,7 +119,7 @@ namespace Ryujinx.Graphics.Vulkan
             }
             else
             {
-                FenceHelper.WaitAllIndefinitely(_api, _device, stackalloc Fence[] { _fence });
+                FenceHelper.WaitAllIndefinitely(_api, _device, [_fence]);
             }
         }
 
@@ -134,7 +134,7 @@ namespace Ryujinx.Graphics.Vulkan
 
                 try
                 {
-                    return FenceHelper.AllSignaled(_api, _device, stackalloc Fence[] { _fence });
+                    return FenceHelper.AllSignaled(_api, _device, [_fence]);
                 }
                 finally
                 {
@@ -143,7 +143,7 @@ namespace Ryujinx.Graphics.Vulkan
             }
             else
             {
-                return FenceHelper.AllSignaled(_api, _device, stackalloc Fence[] { _fence });
+                return FenceHelper.AllSignaled(_api, _device, [_fence]);
             }
         }
 

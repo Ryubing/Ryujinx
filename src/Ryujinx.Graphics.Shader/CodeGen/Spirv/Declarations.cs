@@ -81,7 +81,7 @@ namespace Ryujinx.Graphics.Shader.CodeGen.Spirv
 
         private static void DeclareBuffers(CodeGenContext context, IEnumerable<BufferDefinition> buffers, bool isBuffer)
         {
-            HashSet<SpvInstruction> decoratedTypes = new();
+            HashSet<SpvInstruction> decoratedTypes = [];
 
             foreach (BufferDefinition buffer in buffers)
             {

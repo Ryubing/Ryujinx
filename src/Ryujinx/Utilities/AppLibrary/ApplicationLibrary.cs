@@ -178,8 +178,8 @@ namespace Ryujinx.Ava.Utilities.AppLibrary
                 }
             }
 
-            return isExeFs 
-                ? GetApplicationFromExeFs(pfs, filePath) 
+            return isExeFs
+                ? GetApplicationFromExeFs(pfs, filePath)
                 : null;
         }
 
@@ -189,7 +189,7 @@ namespace Ryujinx.Ava.Utilities.AppLibrary
         /// <exception cref="HorizonResultException">An error occured while reading PFS data.</exception>
         private List<ApplicationData> GetApplicationsFromPfs(IFileSystem pfs, string filePath)
         {
-            var applications = new List<ApplicationData>();
+            List<ApplicationData> applications = [];
             string extension = Path.GetExtension(filePath).ToLower();
 
             foreach ((ulong titleId, ContentMetaData content) in pfs.GetContentData(ContentMetaType.Application, _virtualFileSystem, _checkLevel))
@@ -641,7 +641,7 @@ namespace Ryujinx.Ava.Utilities.AppLibrary
             _applications.Clear();
 
             // Builds the applications list with paths to found applications
-            List<string> applicationPaths = new();
+            List<string> applicationPaths = [];
 
             try
             {
@@ -775,7 +775,7 @@ namespace Ryujinx.Ava.Utilities.AppLibrary
                         ldnWebHost = DefaultLanPlayWebHost;
                     }
                     IEnumerable<LdnGameData> ldnGameDataArray = Array.Empty<LdnGameData>();
-                    using HttpClient httpClient = new HttpClient();
+                    using HttpClient httpClient = new();
                     string ldnGameDataArrayString = await httpClient.GetStringAsync($"https://{ldnWebHost}/api/public_games");
                     ldnGameDataArray = JsonHelper.Deserialize(ldnGameDataArrayString, _ldnDataSerializerContext.IEnumerableLdnGameData);
                     LdnGameDataReceived?.Invoke(null, new LdnGameDataReceivedEventArgs
@@ -832,7 +832,7 @@ namespace Ryujinx.Ava.Utilities.AppLibrary
         {
             _cancellationToken = new CancellationTokenSource();
 
-            List<string> dlcPaths = new();
+            List<string> dlcPaths = [];
             int newDlcLoaded = 0;
             numDlcRemoved = 0;
 
@@ -945,14 +945,14 @@ namespace Ryujinx.Ava.Utilities.AppLibrary
         {
             _cancellationToken = new CancellationTokenSource();
 
-            List<string> updatePaths = new();
+            List<string> updatePaths = [];
             int numUpdatesLoaded = 0;
             numUpdatesRemoved = 0;
 
             try
             {
-                var titleIdsToSave = new HashSet<ulong>();
-                var titleIdsToRefresh = new HashSet<ulong>();
+                HashSet<ulong> titleIdsToSave = [];
+                HashSet<ulong> titleIdsToRefresh = [];
 
                 // Remove any updates which can no longer be located on disk
                 Logger.Notice.Print(LogClass.Application, $"Removing non-existing Title Updates");
@@ -1068,14 +1068,14 @@ namespace Ryujinx.Ava.Utilities.AppLibrary
         private bool AddAndAutoSelectUpdate(TitleUpdateModel update)
         {
             if (update == null) return false;
-            
+
             var currentlySelected = TitleUpdates.Items.FindFirst(it =>
                 it.TitleUpdate.TitleIdBase == update.TitleIdBase && it.IsSelected);
 
             var shouldSelect = currentlySelected.Check(curr => curr.TitleUpdate?.Version < update.Version);
 
             _titleUpdates.AddOrUpdate((update, shouldSelect));
-            
+
             if (currentlySelected.HasValue && shouldSelect)
             {
                 _titleUpdates.AddOrUpdate((currentlySelected.Value.TitleUpdate, false));

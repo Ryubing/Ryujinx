@@ -134,8 +134,8 @@ namespace Ryujinx.Graphics.Gpu.Image
 
             Offset = offset;
             Size = (int)size;
-            Overlaps = new List<Texture>();
-            Dependencies = new List<TextureDependency>();
+            Overlaps = [];
+            Dependencies = [];
 
             BaseSlice = baseSlice;
             SliceCount = sliceCount;

@@ -75,8 +75,8 @@ namespace Ryujinx.Graphics.Shader.CodeGen.Msl
             context.AppendLine();
             DeclareOutputAttributes(context, info.IoDefinitions.Where(x => x.StorageKind == StorageKind.Output));
             context.AppendLine();
-            DeclareBufferStructures(context, context.Properties.ConstantBuffers.Values.OrderBy(x => x.Binding).ToArray(), true, fsi);
-            DeclareBufferStructures(context, context.Properties.StorageBuffers.Values.OrderBy(x => x.Binding).ToArray(), false, fsi);
+            DeclareBufferStructures(context, [.. context.Properties.ConstantBuffers.Values.OrderBy(x => x.Binding)], true, fsi);
+            DeclareBufferStructures(context, [.. context.Properties.StorageBuffers.Values.OrderBy(x => x.Binding)], false, fsi);
 
             // We need to declare each set as a new struct
             var textureDefinitions = context.Properties.Textures.Values
@@ -87,8 +87,8 @@ namespace Ryujinx.Graphics.Shader.CodeGen.Msl
                 .GroupBy(x => x.Set)
                 .ToDictionary(x => x.Key, x => x.OrderBy(y => y.Binding).ToArray());
 
-            var textureSets = textureDefinitions.Keys.ToArray();
-            var imageSets = imageDefinitions.Keys.ToArray();
+            int[] textureSets = [.. textureDefinitions.Keys];
+            int[] imageSets = [.. imageDefinitions.Keys];
 
             var sets = textureSets.Union(imageSets).ToArray();
 

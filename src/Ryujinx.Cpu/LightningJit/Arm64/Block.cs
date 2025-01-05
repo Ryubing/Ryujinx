@@ -25,8 +25,8 @@ namespace Ryujinx.Cpu.LightningJit.Arm64
         {
             Debug.Assert((int)((endAddress - address) / 4) == instructions.Count);
 
-            _predecessors = new();
-            _successors = new();
+            _predecessors = [];
+            _successors = [];
             Address = address;
             EndAddress = endAddress;
             Instructions = instructions;

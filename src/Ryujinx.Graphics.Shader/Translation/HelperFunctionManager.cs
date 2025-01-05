@@ -14,7 +14,7 @@ namespace Ryujinx.Graphics.Shader.Translation
         public HelperFunctionManager(List<Function> functionList, ShaderStage stage)
         {
             _functionList = functionList;
-            _functionIds = new Dictionary<int, int>();
+            _functionIds = [];
             _stage = stage;
         }
 

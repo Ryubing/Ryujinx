@@ -76,7 +76,7 @@ namespace ARMeilleure
             sb.AppendLine(" Function address   | Time");
             sb.AppendLine("--------------------------");
 
-            KeyValuePair<ulong, long>[] funcTable = _ticksPerFunction.ToArray();
+            KeyValuePair<ulong, long>[] funcTable = [.. _ticksPerFunction];
 
             foreach (KeyValuePair<ulong, long> kv in funcTable.OrderByDescending(x => x.Value))
             {

@@ -2840,7 +2840,7 @@ namespace Ryujinx.HLE.HOS.Kernel.SupervisorCall
                 return WaitSynchronization(out handleIndex, handles, timeout);
             }
 
-            return WaitSynchronization(out handleIndex, ReadOnlySpan<int>.Empty, timeout);
+            return WaitSynchronization(out handleIndex, [], timeout);
         }
 
         public Result WaitSynchronization(out int handleIndex, ReadOnlySpan<int> handles, long timeout)

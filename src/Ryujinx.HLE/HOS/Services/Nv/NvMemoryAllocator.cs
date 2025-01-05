@@ -20,9 +20,9 @@ namespace Ryujinx.HLE.HOS.Services.Nv
 
         // Key   --> Start Address of Region
         // Value --> End Address of Region
-        private readonly TreeDictionary<ulong, ulong> _tree = new();
+        private readonly TreeDictionary<ulong, ulong> _tree = [];
 
-        private readonly Dictionary<ulong, LinkedListNode<ulong>> _dictionary = new();
+        private readonly Dictionary<ulong, LinkedListNode<ulong>> _dictionary = [];
         private readonly LinkedList<ulong> _list = new();
 
         public NvMemoryAllocator()

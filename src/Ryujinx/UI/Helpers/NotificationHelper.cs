@@ -17,7 +17,7 @@ namespace Ryujinx.Ava.UI.Helpers
 
         private static WindowNotificationManager _notificationManager;
 
-        private static readonly BlockingCollection<Notification> _notifications = new();
+        private static readonly BlockingCollection<Notification> _notifications = [];
 
         public static void SetNotificationManager(Window host)
         {
@@ -64,7 +64,7 @@ namespace Ryujinx.Ava.UI.Helpers
 
         public static void ShowError(string message) =>
             ShowError(
-                LocaleManager.Instance[LocaleKeys.DialogErrorTitle], 
+                LocaleManager.Instance[LocaleKeys.DialogErrorTitle],
                 $"{LocaleManager.Instance[LocaleKeys.DialogErrorMessage]}\n\n{message}"
             );
 
@@ -73,8 +73,8 @@ namespace Ryujinx.Ava.UI.Helpers
                 title,
                 text,
                 NotificationType.Information,
-                waitingExit, 
-                onClick, 
+                waitingExit,
+                onClick,
                 onClose);
 
         public static void ShowSuccess(string title, string text, bool waitingExit = false, Action onClick = null, Action onClose = null) =>
@@ -82,8 +82,8 @@ namespace Ryujinx.Ava.UI.Helpers
                 title,
                 text,
                 NotificationType.Success,
-                waitingExit, 
-                onClick, 
+                waitingExit,
+                onClick,
                 onClose);
 
         public static void ShowWarning(string title, string text, bool waitingExit = false, Action onClick = null, Action onClose = null) =>
@@ -91,8 +91,8 @@ namespace Ryujinx.Ava.UI.Helpers
                 title,
                 text,
                 NotificationType.Warning,
-                waitingExit, 
-                onClick, 
+                waitingExit,
+                onClick,
                 onClose);
 
         public static void ShowError(string title, string text, bool waitingExit = false, Action onClick = null, Action onClose = null) =>
@@ -100,8 +100,8 @@ namespace Ryujinx.Ava.UI.Helpers
                 title,
                 text,
                 NotificationType.Error,
-                waitingExit, 
-                onClick, 
+                waitingExit,
+                onClick,
                 onClose);
     }
 }

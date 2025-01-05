@@ -20,8 +20,8 @@ namespace Ryujinx.HLE.HOS.Services.Ldn.UserServiceCreator.LdnMitm.Proxy
 
         private readonly Lock _scanLock = new();
 
-        private Dictionary<ulong, NetworkInfo> _scanResultsLast = new();
-        private Dictionary<ulong, NetworkInfo> _scanResults = new();
+        private Dictionary<ulong, NetworkInfo> _scanResultsLast = [];
+        private Dictionary<ulong, NetworkInfo> _scanResults = [];
         private readonly AutoResetEvent _scanResponse = new(false);
         private long _lastScanTime;
 
@@ -138,7 +138,7 @@ namespace Ryujinx.HLE.HOS.Services.Ldn.UserServiceCreator.LdnMitm.Proxy
 
             lock (_scanLock)
             {
-                var results = new Dictionary<ulong, NetworkInfo>();
+                Dictionary<ulong, NetworkInfo> results = [];
 
                 foreach (KeyValuePair<ulong, NetworkInfo> last in _scanResultsLast)
                 {

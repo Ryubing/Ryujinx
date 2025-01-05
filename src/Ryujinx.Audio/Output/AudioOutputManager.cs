@@ -167,7 +167,7 @@ namespace Ryujinx.Audio.Output
         /// <returns>The list of all audio outputs name</returns>
         public string[] ListAudioOuts()
         {
-            return new[] { Constants.DefaultDeviceOutputName };
+            return [Constants.DefaultDeviceOutputName];
         }
 
         /// <summary>
@@ -245,7 +245,7 @@ namespace Ryujinx.Audio.Output
 
                 lock (_sessionLock)
                 {
-                    sessions = _sessions.ToArray();
+                    sessions = [.. _sessions];
                 }
 
                 foreach (AudioOutputSystem output in sessions)

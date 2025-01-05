@@ -73,7 +73,7 @@ namespace Ryujinx.Graphics.Gpu.Image
         /// </summary>
         /// <remarks>
         /// If the backend GPU has 0 memory capacity, the cache size defaults to `DefaultTextureSizeCapacity`.
-        /// 
+        ///
         /// Reads the current Device total CPU Memory, to determine the maximum amount of Vram available. Capped to 50% of Current GPU Memory.
         /// </remarks>
         /// <param name="context">The GPU context that the cache belongs to</param>
@@ -114,10 +114,10 @@ namespace Ryujinx.Graphics.Gpu.Image
         {
             _textures = new LinkedList<Texture>();
 
-            _shortCacheBuilder = new HashSet<ShortTextureCacheEntry>();
-            _shortCache = new HashSet<ShortTextureCacheEntry>();
+            _shortCacheBuilder = [];
+            _shortCache = [];
 
-            _shortCacheLookup = new Dictionary<TextureDescriptor, ShortTextureCacheEntry>();
+            _shortCacheLookup = [];
         }
 
         /// <summary>

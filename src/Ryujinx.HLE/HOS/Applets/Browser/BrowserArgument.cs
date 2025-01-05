@@ -64,7 +64,7 @@ namespace Ryujinx.HLE.HOS.Applets.Browser
 
         public static (ShimKind, List<BrowserArgument>) ParseArguments(ReadOnlySpan<byte> data)
         {
-            List<BrowserArgument> browserArguments = new();
+            List<BrowserArgument> browserArguments = [];
 
             WebArgHeader header = IApplet.ReadStruct<WebArgHeader>(data[..8]);
 

@@ -20,11 +20,11 @@ namespace ARMeilleure.Decoders
 
         public static Block[] Decode(IMemoryManager memory, ulong address, ExecutionMode mode, bool highCq, DecoderMode dMode)
         {
-            List<Block> blocks = new();
+            List<Block> blocks = [];
 
             Queue<Block> workQueue = new();
 
-            Dictionary<ulong, Block> visited = new();
+            Dictionary<ulong, Block> visited = [];
 
             Debug.Assert(MaxInstsPerFunctionLowCq <= MaxInstsPerFunction);
 
@@ -157,7 +157,7 @@ namespace ARMeilleure.Decoders
             }
             else
             {
-                return blocks.ToArray();
+                return [.. blocks];
             }
         }
 

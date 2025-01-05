@@ -66,6 +66,7 @@ dotnet_style_prefer_inferred_anonymous_type_member_names = true:suggestion
 dotnet_style_prefer_inferred_tuple_names = true:suggestion
 dotnet_style_prefer_is_null_check_over_reference_equality_method = true:suggestion
 dotnet_style_prefer_simplified_interpolation = true:suggestion
+dotnet_style_prefer_collection_expression = true:error
 
 # Field preferences
 dotnet_style_readonly_field = true:suggestion
@@ -122,7 +123,7 @@ csharp_style_prefer_range_operator = true:suggestion
 csharp_style_throw_expression = true:suggestion
 csharp_style_unused_value_assignment_preference = discard_variable:suggestion
 csharp_style_unused_value_expression_statement_preference = discard_variable:silent
-csharp_style_implicit_object_creation_when_type_is_apparent = true
+csharp_style_implicit_object_creation_when_type_is_apparent = true:error
 
 # 'using' directive preferences
 csharp_using_directive_placement = outside_namespace:silent
@@ -235,38 +236,3 @@ dotnet_naming_style.IPascalCase.required_prefix = I
 dotnet_naming_style.IPascalCase.required_suffix =
 dotnet_naming_style.IPascalCase.word_separator =
 dotnet_naming_style.IPascalCase.capitalization = pascal_case
-
-# TODO:
-# .NET 8 migration (new warnings are caused by the NET 8 C# compiler and analyzer)
-# The following info messages might need to be fixed in the source code instead of hiding the actual message
-# Without the following lines, dotnet format would fail
-# Disable "Collection initialization can be simplified"
-dotnet_diagnostic.IDE0028.severity = none
-dotnet_diagnostic.IDE0300.severity = none
-dotnet_diagnostic.IDE0301.severity = none
-dotnet_diagnostic.IDE0302.severity = none
-dotnet_diagnostic.IDE0305.severity = none
-# Disable "'new' expression can be simplified"
-dotnet_diagnostic.IDE0090.severity = none
-# Disable "Use primary constructor"
-dotnet_diagnostic.IDE0290.severity = none
-# Disable "Member '' does not access instance data and can be marked as static"
-dotnet_diagnostic.CA1822.severity = none
-# Disable "Change type of field '' from '' to '' for improved performance"
-dotnet_diagnostic.CA1859.severity = none
-# Disable "Prefer 'static readonly' fields over constant array arguments if the called method is called repeatedly and is not mutating the passed array"
-dotnet_diagnostic.CA1861.severity = none
-# Disable "Prefer using 'string.Equals(string, StringComparison)' to perform a case-insensitive comparison, but keep in mind that this might cause subtle changes in behavior, so make sure to conduct thorough testing after applying the suggestion, or if culturally sensitive comparison is not required, consider using 'StringComparison.OrdinalIgnoreCase'"
-dotnet_diagnostic.CA1862.severity = none
-
-[src/Ryujinx/UI/ViewModels/**.cs]
-# Disable "mark members as static" rule for ViewModels
-dotnet_diagnostic.CA1822.severity = none
-
-[src/Ryujinx.HLE/HOS/Services/**.cs]
-# Disable "mark members as static" rule for services
-dotnet_diagnostic.CA1822.severity = none
-
-[src/Ryujinx.Tests/Cpu/*.cs]
-# Disable naming rules for CPU tests
-dotnet_diagnostic.IDE1006.severity = none

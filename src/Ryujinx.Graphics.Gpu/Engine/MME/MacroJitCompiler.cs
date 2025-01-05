@@ -22,7 +22,7 @@ namespace Ryujinx.Graphics.Gpu.Engine.MME
         /// </summary>
         public MacroJitCompiler()
         {
-            _meth = new DynamicMethod("Macro", typeof(void), new Type[] { typeof(MacroJitContext), typeof(IDeviceState), typeof(int) });
+            _meth = new DynamicMethod("Macro", typeof(void), [typeof(MacroJitContext), typeof(IDeviceState), typeof(int)]);
             _ilGen = _meth.GetILGenerator();
             _gprs = new LocalBuilder[8];
 
@@ -48,7 +48,7 @@ namespace Ryujinx.Graphics.Gpu.Engine.MME
         /// <returns>Delegate of the host compiled code</returns>
         public MacroExecute Compile(ReadOnlySpan<int> code)
         {
-            Dictionary<int, Label> labels = new();
+            Dictionary<int, Label> labels = [];
 
             int lastTarget = 0;
             int i;

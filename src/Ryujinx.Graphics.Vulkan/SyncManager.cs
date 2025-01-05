@@ -33,7 +33,7 @@ namespace Ryujinx.Graphics.Vulkan
         {
             _gd = gd;
             _device = device;
-            _handles = new List<SyncHandle>();
+            _handles = [];
         }
 
         public void RegisterFlush()

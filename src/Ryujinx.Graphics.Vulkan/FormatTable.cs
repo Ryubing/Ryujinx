@@ -13,7 +13,7 @@ namespace Ryujinx.Graphics.Vulkan
         static FormatTable()
         {
             _table = new VkFormat[Enum.GetNames<Format>().Length];
-            _reverseMap = new Dictionary<VkFormat, Format>();
+            _reverseMap = [];
 
 #pragma warning disable IDE0055 // Disable formatting
             Add(Format.R8Unorm,             VkFormat.R8Unorm);

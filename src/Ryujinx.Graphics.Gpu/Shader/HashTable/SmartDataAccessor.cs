@@ -19,8 +19,8 @@ namespace Ryujinx.Graphics.Gpu.Shader.HashTable
         public SmartDataAccessor(IDataAccessor dataAccessor)
         {
             _dataAccessor = dataAccessor;
-            _data = ReadOnlySpan<byte>.Empty;
-            _cachedHashes = new SortedList<int, HashState>();
+            _data = [];
+            _cachedHashes = [];
         }
 
         /// <summary>

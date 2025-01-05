@@ -31,7 +31,7 @@ namespace Ryujinx.Horizon
 
         public HeapAllocator()
         {
-            _freeRanges = new List<Range>();
+            _freeRanges = [];
             _currentHeapSize = 0;
         }
 

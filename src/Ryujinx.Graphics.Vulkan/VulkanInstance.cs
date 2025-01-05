@@ -45,7 +45,7 @@ namespace Ryujinx.Graphics.Vulkan
 
             Instance rawInstance = default;
 
-            Result result = api.CreateInstance(SpanHelpers.AsReadOnlySpan(ref createInfo), ReadOnlySpan<AllocationCallbacks>.Empty, SpanHelpers.AsSpan(ref rawInstance));
+            Result result = api.CreateInstance(SpanHelpers.AsReadOnlySpan(ref createInfo), [], SpanHelpers.AsSpan(ref rawInstance));
 
             if (result == Result.Success)
             {
@@ -61,7 +61,7 @@ namespace Ryujinx.Graphics.Vulkan
 
             uint physicalDeviceCount = 0;
 
-            Result result = _api.EnumeratePhysicalDevices(Instance, SpanHelpers.AsSpan(ref physicalDeviceCount), Span<PhysicalDevice>.Empty);
+            Result result = _api.EnumeratePhysicalDevices(Instance, SpanHelpers.AsSpan(ref physicalDeviceCount), []);
 
             if (result != Result.Success)
             {
@@ -86,11 +86,11 @@ namespace Ryujinx.Graphics.Vulkan
         {
             uint propertiesCount = 0;
 
-            api.EnumerateInstanceExtensionProperties(ReadOnlySpan<byte>.Empty, SpanHelpers.AsSpan(ref propertiesCount), Span<ExtensionProperties>.Empty).ThrowOnError();
+            api.EnumerateInstanceExtensionProperties([], SpanHelpers.AsSpan(ref propertiesCount), []).ThrowOnError();
 
             ExtensionProperties[] extensionProperties = new ExtensionProperties[propertiesCount];
 
-            api.EnumerateInstanceExtensionProperties(ReadOnlySpan<byte>.Empty, SpanHelpers.AsSpan(ref propertiesCount), extensionProperties).ThrowOnError();
+            api.EnumerateInstanceExtensionProperties([], SpanHelpers.AsSpan(ref propertiesCount), extensionProperties).ThrowOnError();
 
             unsafe
             {
@@ -102,7 +102,7 @@ namespace Ryujinx.Graphics.Vulkan
         {
             uint propertiesCount = 0;
 
-            api.EnumerateInstanceLayerProperties(SpanHelpers.AsSpan(ref propertiesCount), Span<LayerProperties>.Empty).ThrowOnError();
+            api.EnumerateInstanceLayerProperties(SpanHelpers.AsSpan(ref propertiesCount), []).ThrowOnError();
 
             LayerProperties[] layerProperties = new LayerProperties[propertiesCount];
 
@@ -118,7 +118,7 @@ namespace Ryujinx.Graphics.Vulkan
         {
             if (!_disposed)
             {
-                _api.DestroyInstance(Instance, ReadOnlySpan<AllocationCallbacks>.Empty);
+                _api.DestroyInstance(Instance, []);
 
                 _disposed = true;
             }

@@ -65,7 +65,7 @@ namespace ARMeilleure.Translation
 
         static Delegates()
         {
-            _delegates = new SortedList<string, DelegateInfo>();
+            _delegates = [];
 
             SetDelegateInfo(typeof(MathHelper).GetMethod(nameof(MathHelper.Abs)));
             SetDelegateInfo(typeof(MathHelper).GetMethod(nameof(MathHelper.Ceiling)));

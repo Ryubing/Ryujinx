@@ -594,7 +594,7 @@ namespace Ryujinx.Graphics.Vulkan
                 Info.SwizzleB,
                 Info.SwizzleA), 0, 0);
 
-            (_selfManagedViews ??= new Dictionary<Format, TextureView>()).Add(format, view);
+            (_selfManagedViews ??= []).Add(format, view);
 
             return view;
         }
@@ -624,7 +624,7 @@ namespace Ryujinx.Graphics.Vulkan
 
             bufferHolder.WaitForFences();
             byte[] bitmap = new byte[size];
-            GetDataFromBuffer(bufferHolder.GetDataStorage(0, size), size, Span<byte>.Empty).CopyTo(bitmap);
+            GetDataFromBuffer(bufferHolder.GetDataStorage(0, size), size, []).CopyTo(bitmap);
             return bitmap;
         }
 

@@ -230,7 +230,7 @@ namespace Ryujinx.Cpu.LightningJit.Arm32.Target.Arm64
         {
             MultiBlock multiBlock = Decoder<InstEmit>.DecodeMulti(cpuPreset, memoryManager, address, isThumb);
 
-            Dictionary<ulong, int> targets = new();
+            Dictionary<ulong, int> targets = [];
 
             CodeWriter writer = new();
             RegisterAllocator regAlloc = new();

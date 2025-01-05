@@ -50,7 +50,7 @@ namespace Ryujinx.Ava.UI.ViewModels
         [ObservableProperty] private bool _isVulkanAvailable = true;
         [ObservableProperty] private bool _gameDirectoryChanged;
         [ObservableProperty] private bool _autoloadDirectoryChanged;
-        private readonly List<string> _gpuIds = new();
+        private readonly List<string> _gpuIds = [];
         private int _graphicsBackendIndex;
         private int _scalingFilter;
         private int _scalingFilterLevel;
@@ -184,7 +184,7 @@ namespace Ryujinx.Ava.UI.ViewModels
                 int newPercent = (int)((value / 60f) * 100);
                 _customVSyncIntervalPercentageProxy = newPercent;
                 OnPropertiesChanged(
-                    nameof(CustomVSyncIntervalPercentageProxy), 
+                    nameof(CustomVSyncIntervalPercentageProxy),
                     nameof(CustomVSyncIntervalPercentageText));
                 OnPropertyChanged();
             }
@@ -306,7 +306,7 @@ namespace Ryujinx.Ava.UI.ViewModels
 
         public AvaloniaList<string> NetworkInterfaceList
         {
-            get => new(_networkInterfaces.Keys);
+            get => [.. _networkInterfaces.Keys];
         }
 
         public HotkeyConfig KeyboardHotkey { get; set; }
@@ -338,11 +338,11 @@ namespace Ryujinx.Ava.UI.ViewModels
         {
             _virtualFileSystem = virtualFileSystem;
             _contentManager = contentManager;
-            
+
             if (Program.PreviewerDetached)
             {
                 Task.Run(LoadTimeZones);
-                
+
                 DirtyHacks = new SettingsHacksViewModel(this);
             }
         }
@@ -354,7 +354,7 @@ namespace Ryujinx.Ava.UI.ViewModels
             TimeZones = [];
             AvailableGpus = [];
             _validTzRegions = [];
-            _networkInterfaces = new Dictionary<string, string>();
+            _networkInterfaces = [];
 
             Task.Run(CheckSoundBackends);
             Task.Run(PopulateNetworkInterfaces);
@@ -416,10 +416,10 @@ namespace Ryujinx.Ava.UI.ViewModels
         public void MatchSystemTime()
         {
             (DateTimeOffset dto, TimeSpan timeOfDay) = DateTimeOffset.Now.Extract();
-            
+
             CurrentDate = dto;
             CurrentTime = timeOfDay;
-            
+
             OnPropertyChanged(nameof(CurrentDate));
             OnPropertyChanged(nameof(CurrentTime));
         }
@@ -700,7 +700,7 @@ namespace Ryujinx.Ava.UI.ViewModels
             config.Multiplayer.DisableP2p.Value = DisableP2P;
             config.Multiplayer.LdnPassphrase.Value = LdnPassphrase;
             config.Multiplayer.LdnServer.Value = LdnServer;
-            
+
             // Dirty Hacks
             config.Hacks.Xc2MenuSoftlockFix.Value = DirtyHacks.Xc2MenuSoftlockFix;
             config.Hacks.EnableShaderTranslationDelay.Value = DirtyHacks.ShaderTranslationDelayEnabled;

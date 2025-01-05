@@ -45,7 +45,7 @@ namespace Ryujinx.Input.HLE
             _keyboardDriver = keyboardDriver;
             _gamepadDriver = gamepadDriver;
             _mouseDriver = mouseDriver;
-            _inputConfig = new List<InputConfig>();
+            _inputConfig = [];
 
             _gamepadDriver.OnGamepadConnected += HandleOnGamepadConnected;
             _gamepadDriver.OnGamepadDisconnected += HandleOnGamepadDisconnected;
@@ -55,7 +55,7 @@ namespace Ryujinx.Input.HLE
         {
             lock (_lock)
             {
-                List<InputConfig> validInputs = new();
+                List<InputConfig> validInputs = [];
                 foreach (var inputConfigEntry in _inputConfig)
                 {
                     if (_controllers[(int)inputConfigEntry.PlayerIndex] != null)
@@ -121,9 +121,9 @@ namespace Ryujinx.Input.HLE
         {
             lock (_lock)
             {
-                NpadController[] oldControllers = _controllers.ToArray();
+                NpadController[] oldControllers = [.. _controllers];
 
-                List<InputConfig> validInputs = new();
+                List<InputConfig> validInputs = [];
 
                 foreach (InputConfig inputConfigEntry in inputConfig)
                 {
@@ -204,7 +204,7 @@ namespace Ryujinx.Input.HLE
         {
             lock (_lock)
             {
-                List<GamepadInput> hleInputStates = new();
+                List<GamepadInput> hleInputStates = [];
                 List<SixAxisInput> hleMotionStates = new(NpadDevices.MaxControllers);
 
                 KeyboardInput? hleKeyboardInput = null;

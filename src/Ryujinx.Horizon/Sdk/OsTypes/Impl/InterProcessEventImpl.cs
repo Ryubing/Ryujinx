@@ -39,9 +39,7 @@ namespace Ryujinx.Horizon.Sdk.OsTypes.Impl
 
         public static void Wait(int handle, bool autoClear)
         {
-            Span<int> handles = stackalloc int[1];
-
-            handles[0] = handle;
+            Span<int> handles = [handle];
 
             while (true)
             {
@@ -75,9 +73,7 @@ namespace Ryujinx.Horizon.Sdk.OsTypes.Impl
                 return HorizonStatic.Syscall.ResetSignal(handle) == Result.Success;
             }
 
-            Span<int> handles = stackalloc int[1];
-
-            handles[0] = handle;
+            Span<int> handles = [handle];
 
             while (true)
             {
@@ -98,9 +94,7 @@ namespace Ryujinx.Horizon.Sdk.OsTypes.Impl
 
         public static bool TimedWait(int handle, bool autoClear, TimeSpan timeout)
         {
-            Span<int> handles = stackalloc int[1];
-
-            handles[0] = handle;
+            Span<int> handles = [handle];
 
             long timeoutNs = timeout.Milliseconds * 1000000L;
 

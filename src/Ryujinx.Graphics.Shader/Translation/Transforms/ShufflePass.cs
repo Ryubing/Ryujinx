@@ -40,7 +40,7 @@ namespace Ryujinx.Graphics.Shader.Translation.Transforms
 
             operation.Dest = null;
 
-            Operand[] callArgs = new Operand[] { Const(functionId), value, index, mask, valid };
+            Operand[] callArgs = [Const(functionId), value, index, mask, valid];
 
             LinkedListNode<INode> newNode = node.List.AddBefore(node, new Operation(Instruction.Call, 0, result, callArgs));
 

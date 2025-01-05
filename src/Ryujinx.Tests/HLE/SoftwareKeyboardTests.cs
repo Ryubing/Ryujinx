@@ -21,7 +21,7 @@ namespace Ryujinx.Tests.HLE
         [Test]
         public void StripUnicodeControlCodes_Passthrough()
         {
-            string[] prompts = {
+            string[] prompts = [
                 "Please name him.",
                 "Name her, too.",
                 "Name your friend.",
@@ -30,7 +30,7 @@ namespace Ryujinx.Tests.HLE
                 "Favorite homemade food?",
                 "What’s your favorite thing?",
                 "Are you sure?",
-            };
+            ];
 
             foreach (string prompt in prompts)
             {
@@ -48,14 +48,14 @@ namespace Ryujinx.Tests.HLE
         public void StripUnicodeControlCodes_StripsDeviceControls()
         {
             // 0x13 is control code DC3 used by some games
-            string specialInput = Encoding.UTF8.GetString(new byte[] { 0x13, 0x53, 0x68, 0x69, 0x6E, 0x65, 0x13 });
+            string specialInput = Encoding.UTF8.GetString([0x13, 0x53, 0x68, 0x69, 0x6E, 0x65, 0x13]);
             Assert.AreEqual("Shine", SoftwareKeyboardApplet.StripUnicodeControlCodes(specialInput));
         }
 
         [Test]
         public void StripUnicodeControlCodes_StripsToEmptyString()
         {
-            string specialInput = Encoding.UTF8.GetString(new byte[] { 17, 18, 19, 20 }); // DC1 - DC4 special codes
+            string specialInput = Encoding.UTF8.GetString([17, 18, 19, 20]); // DC1 - DC4 special codes
             Assert.AreEqual(string.Empty, SoftwareKeyboardApplet.StripUnicodeControlCodes(specialInput));
         }
 

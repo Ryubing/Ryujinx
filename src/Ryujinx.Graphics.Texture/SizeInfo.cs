@@ -19,10 +19,10 @@ namespace Ryujinx.Graphics.Texture
 
         public SizeInfo(int size)
         {
-            _mipOffsets = new int[] { 0 };
-            AllOffsets = new int[] { 0 };
-            SliceSizes = new int[] { size };
-            LevelSizes = new int[] { size };
+            _mipOffsets = [0];
+            AllOffsets = [0];
+            SliceSizes = [size];
+            LevelSizes = [size];
             _depth = 1;
             _levels = 1;
             LayerSize = size;

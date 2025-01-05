@@ -34,7 +34,7 @@ namespace Ryujinx.Cpu.LightningJit.Table
                 {
                     int splitIndex = (int)((insts[index].Encoding >> _shift) & _mask);
 
-                    (splitList[splitIndex] ??= new()).Add(insts[index]);
+                    (splitList[splitIndex] ??= []).Add(insts[index]);
                 }
 
                 for (int index = 0; index < count; index++)

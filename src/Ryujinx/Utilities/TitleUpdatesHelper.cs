@@ -79,7 +79,7 @@ namespace Ryujinx.Ava.Utilities
 
         private static List<(TitleUpdateModel Update, bool IsSelected)> LoadTitleUpdates(VirtualFileSystem vfs, TitleUpdateMetadata titleUpdateMetadata, ulong applicationIdBase)
         {
-            var result = new List<(TitleUpdateModel, bool IsSelected)>();
+            List<(TitleUpdateModel, bool IsSelected)> result = [];
 
             IntegrityCheckLevel checkLevel = ConfigurationState.Instance.System.EnableFsIntegrityChecks
                 ? IntegrityCheckLevel.ErrorOnInvalid

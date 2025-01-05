@@ -100,7 +100,7 @@ namespace Ryujinx.HLE.HOS.Services.Time.TimeZone
 
                 StreamReader reader = new(binaryListFile.Get.AsStream());
 
-                List<string> locationNameList = new();
+                List<string> locationNameList = [];
 
                 string locationName;
                 while ((locationName = reader.ReadLine()) != null)
@@ -108,11 +108,11 @@ namespace Ryujinx.HLE.HOS.Services.Time.TimeZone
                     locationNameList.Add(locationName);
                 }
 
-                LocationNameCache = locationNameList.ToArray();
+                LocationNameCache = [.. locationNameList];
             }
             else
             {
-                LocationNameCache = new[] { "UTC" };
+                LocationNameCache = ["UTC"];
 
                 Logger.Error?.Print(LogClass.ServiceTime, TimeZoneSystemTitleMissingErrorMessage);
             }
@@ -127,7 +127,7 @@ namespace Ryujinx.HLE.HOS.Services.Time.TimeZone
                 return new[] { (0, "UTC", "UTC") };
             }
 
-            List<(int Offset, string Location, string Abbr)> outList = new();
+            List<(int Offset, string Location, string Abbr)> outList = [];
             var now = DateTimeOffset.Now.ToUnixTimeSeconds();
             using (IStorage ncaStorage = new LocalStorage(VirtualFileSystem.SwitchPathToSystemPath(tzBinaryContentPath), FileAccess.Read, FileMode.Open))
             using (IFileSystem romfs = new Nca(_virtualFileSystem.KeySet, ncaStorage).OpenFileSystem(NcaSectionType.Data, _fsIntegrityCheckLevel))
@@ -217,7 +217,7 @@ namespace Ryujinx.HLE.HOS.Services.Time.TimeZone
 
         public ResultCode LoadLocationNameList(uint index, out string[] outLocationNameArray, uint maxLength)
         {
-            List<string> locationNameList = new();
+            List<string> locationNameList = [];
 
             for (int i = 0; i < LocationNameCache.Length && i < maxLength; i++)
             {
@@ -231,7 +231,7 @@ namespace Ryujinx.HLE.HOS.Services.Time.TimeZone
                 // If the location name is too long, error out.
                 if (locationName.Length > 0x24)
                 {
-                    outLocationNameArray = Array.Empty<string>();
+                    outLocationNameArray = [];
 
                     return ResultCode.LocationNameTooLong;
                 }
@@ -239,7 +239,7 @@ namespace Ryujinx.HLE.HOS.Services.Time.TimeZone
                 locationNameList.Add(locationName);
             }
 
-            outLocationNameArray = locationNameList.ToArray();
+            outLocationNameArray = [.. locationNameList];
 
             return ResultCode.Success;
         }

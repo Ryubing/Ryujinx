@@ -49,7 +49,7 @@ namespace Ryujinx.Graphics.Shader.Decoders
         {
             Context context = new(gpuAccessor);
             Queue<DecodedFunction> functionsQueue = new();
-            Dictionary<ulong, DecodedFunction> functionsVisited = new();
+            Dictionary<ulong, DecodedFunction> functionsVisited = [];
 
             DecodedFunction EnqueueFunction(ulong address)
             {
@@ -66,9 +66,9 @@ namespace Ryujinx.Graphics.Shader.Decoders
 
             while (functionsQueue.TryDequeue(out DecodedFunction currentFunction))
             {
-                List<Block> blocks = new();
+                List<Block> blocks = [];
                 Queue<Block> workQueue = new();
-                Dictionary<ulong, Block> visited = new();
+                Dictionary<ulong, Block> visited = [];
 
                 Block GetBlock(ulong blkAddress)
                 {
@@ -194,7 +194,7 @@ namespace Ryujinx.Graphics.Shader.Decoders
                 }
                 while (hasNewTarget);
 
-                currentFunction.SetBlocks(blocks.ToArray());
+                currentFunction.SetBlocks([.. blocks]);
             }
 
             return new DecodedProgram(
@@ -251,7 +251,7 @@ namespace Ryujinx.Graphics.Shader.Decoders
         {
             ulong address = block.Address;
             int bufferOffset = 0;
-            ReadOnlySpan<ulong> buffer = ReadOnlySpan<ulong>.Empty;
+            ReadOnlySpan<ulong> buffer = [];
 
             InstOp op = default;
 
@@ -520,7 +520,7 @@ namespace Ryujinx.Graphics.Shader.Decoders
 
                 if (lastOp.Name == InstName.Brx && block.Successors.Count == (hasNext ? 1 : 0))
                 {
-                    HashSet<ulong> visited = new();
+                    HashSet<ulong> visited = [];
 
                     InstBrx opBrx = new(lastOp.RawOpCode);
                     ulong baseOffset = lastOp.GetAbsoluteAddress();
@@ -566,7 +566,7 @@ namespace Ryujinx.Graphics.Shader.Decoders
             // On a successful match, "BaseOffset" is the offset in bytes where the jump offsets are
             // located on the constant buffer, and "UpperBound" is the total number of offsets for the BRX, minus 1.
 
-            HashSet<Block> visited = new();
+            HashSet<Block> visited = [];
 
             var ldcLocation = FindFirstRegWrite(visited, new BlockLocation(block, block.OpCodes.Count - 1), brxReg);
             if (ldcLocation.Block == null || ldcLocation.Block.OpCodes[ldcLocation.Index].Name != InstName.Ldc)
@@ -752,7 +752,7 @@ namespace Ryujinx.Graphics.Shader.Decoders
             Block target = blocks[pushOp.GetAbsoluteAddress()];
 
             Stack<PathBlockState> workQueue = new();
-            HashSet<Block> visited = new();
+            HashSet<Block> visited = [];
             Stack<(ulong, MergeType)> branchStack = new();
 
             void Push(PathBlockState pbs)

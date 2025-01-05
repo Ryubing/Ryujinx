@@ -17,7 +17,7 @@ namespace Ryujinx.HLE.HOS.Services.Sockets.Bsd
 
         private BsdContext()
         {
-            _fds = new List<IFileDescriptor>();
+            _fds = [];
         }
 
         public ISocket RetrieveSocket(int socketFd)
@@ -47,7 +47,7 @@ namespace Ryujinx.HLE.HOS.Services.Sockets.Bsd
 
         public List<IFileDescriptor> RetrieveFileDescriptorsFromMask(ReadOnlySpan<byte> mask)
         {
-            List<IFileDescriptor> fds = new();
+            List<IFileDescriptor> fds = [];
 
             for (int i = 0; i < mask.Length; i++)
             {

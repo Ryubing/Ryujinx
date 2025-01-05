@@ -22,10 +22,10 @@ namespace Ryujinx.Graphics.Vulkan
 
         public PipelineFull(VulkanRenderer gd, Device device) : base(gd, device)
         {
-            _activeQueries = new List<(QueryPool, bool)>();
-            _pendingQueryCopies = new();
-            _backingSwaps = new();
-            _activeBufferMirrors = new();
+            _activeQueries = [];
+            _pendingQueryCopies = [];
+            _backingSwaps = [];
+            _activeBufferMirrors = [];
 
             CommandBuffer = (Cbs = gd.CommandBufferPool.Rent()).CommandBuffer;
 
@@ -60,11 +60,7 @@ namespace Ryujinx.Graphics.Vulkan
                     return;
                 }
 
-                Span<float> clearColor = stackalloc float[4];
-                clearColor[0] = color.Red;
-                clearColor[1] = color.Green;
-                clearColor[2] = color.Blue;
-                clearColor[3] = color.Alpha;
+                Span<float> clearColor = [color.Red, color.Green, color.Blue, color.Alpha];
 
                 // TODO: Clear only the specified layer.
                 Gd.HelperShader.Clear(

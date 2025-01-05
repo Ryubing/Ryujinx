@@ -114,7 +114,7 @@ namespace Ryujinx.Ava.UI.Controls
 
             Span<SaveDataInfo> saveDataInfo = stackalloc SaveDataInfo[10];
 
-            HashSet<UserId> lostAccounts = new();
+            HashSet<UserId> lostAccounts = [];
 
             while (true)
             {
@@ -155,7 +155,7 @@ namespace Ryujinx.Ava.UI.Controls
 
                 if (profile == null)
                 {
-                    _ = Dispatcher.UIThread.InvokeAsync(async () 
+                    _ = Dispatcher.UIThread.InvokeAsync(async ()
                         => await ContentDialogHelper.CreateErrorDialog(
                             LocaleManager.Instance[LocaleKeys.DialogUserProfileDeletionWarningMessage]));
 

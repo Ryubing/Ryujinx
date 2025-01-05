@@ -94,7 +94,7 @@ namespace Ryujinx.HLE.HOS.Services.Am.AppletAE
 
         public T[] ToArray()
         {
-            return _dataQueue.ToArray();
+            return [.. _dataQueue];
         }
 
         public void CopyTo(T[] array, int arrayIndex)

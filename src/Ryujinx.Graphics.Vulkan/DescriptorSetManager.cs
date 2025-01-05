@@ -167,8 +167,7 @@ namespace Ryujinx.Graphics.Vulkan
             int consumedDescriptors,
             bool updateAfterBind)
         {
-            Span<DescriptorSetLayout> layouts = stackalloc DescriptorSetLayout[1];
-            layouts[0] = layout;
+            Span<DescriptorSetLayout> layouts = [layout];
             return AllocateDescriptorSets(api, layouts, poolSizes, poolIndex, consumedDescriptors, updateAfterBind);
         }
 

@@ -486,7 +486,7 @@ namespace Ryujinx.Graphics.Vulkan
                 (int keyOffset, int keySize) = FromMirrorKey(key);
                 if (!(offset + size <= keyOffset || offset >= keyOffset + keySize))
                 {
-                    toRemove ??= new List<ulong>();
+                    toRemove ??= [];
 
                     toRemove.Add(key);
                 }
@@ -551,7 +551,7 @@ namespace Ryujinx.Graphics.Vulkan
                 if (_pendingData == null)
                 {
                     _pendingData = new byte[Size];
-                    _mirrors = new Dictionary<ulong, StagingBufferReserved>();
+                    _mirrors = [];
                 }
 
                 data[..dataSize].CopyTo(_pendingData.AsSpan(offset, dataSize));

@@ -78,8 +78,8 @@ namespace Ryujinx.Graphics.Shader.Translation.Transforms
                     Operand isCurrentIndex = Local();
                     Operand selection = Local();
 
-                    Operation compareOp = new(Instruction.CompareEqual, isCurrentIndex, new Operand[] { elemIndex, Const(i) });
-                    Operation selectOp = new(Instruction.ConditionalSelect, selection, new Operand[] { isCurrentIndex, value, result });
+                    Operation compareOp = new(Instruction.CompareEqual, isCurrentIndex, [elemIndex, Const(i)]);
+                    Operation selectOp = new(Instruction.ConditionalSelect, selection, [isCurrentIndex, value, result]);
 
                     node.List.AddBefore(node, compareOp);
                     node.List.AddBefore(node, selectOp);

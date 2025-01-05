@@ -66,8 +66,8 @@ namespace Ryujinx.Graphics.Shader.Translation.Transforms
                                 setAndBinding.SetIndex,
                                 setAndBinding.Binding,
                                 1 << component,
-                                new[] { temp },
-                                new[] { vertexElemOffset }));
+                                [temp],
+                                [vertexElemOffset]));
 
                             if (needsSextNorm)
                             {
@@ -89,8 +89,8 @@ namespace Ryujinx.Graphics.Shader.Translation.Transforms
                                 setAndBinding.SetIndex,
                                 setAndBinding.Binding,
                                 1,
-                                new[] { temp },
-                                new[] { vertexElemOffset }));
+                                [temp],
+                                [vertexElemOffset]));
 
                             if (component > 0)
                             {
@@ -120,7 +120,7 @@ namespace Ryujinx.Graphics.Shader.Translation.Transforms
                         Instruction.Load,
                         StorageKind.LocalMemory,
                         operation.Dest,
-                        new[] { Const(context.ResourceManager.LocalVertexDataMemoryId), Const(outputOffset) }));
+                        [Const(context.ResourceManager.LocalVertexDataMemoryId), Const(outputOffset)]));
                 }
                 else
                 {
@@ -137,7 +137,7 @@ namespace Ryujinx.Graphics.Shader.Translation.Transforms
                         Instruction.Store,
                         StorageKind.LocalMemory,
                         (Operand)null,
-                        new[] { Const(context.ResourceManager.LocalVertexDataMemoryId), Const(outputOffset), value }));
+                        [Const(context.ResourceManager.LocalVertexDataMemoryId), Const(outputOffset), value]));
                 }
                 else
                 {
@@ -168,33 +168,33 @@ namespace Ryujinx.Graphics.Shader.Translation.Transforms
                 Instruction.Load,
                 StorageKind.ConstantBuffer,
                 attributeOffset,
-                new[] { Const(vertexInfoCbBinding), Const((int)VertexInfoBufferField.VertexOffsets), Const(location), Const(0) }));
+                [Const(vertexInfoCbBinding), Const((int)VertexInfoBufferField.VertexOffsets), Const(location), Const(0)]));
 
             Operand isInstanceRate = Local();
             node.List.AddBefore(node, new Operation(
                 Instruction.Load,
                 StorageKind.ConstantBuffer,
                 isInstanceRate,
-                new[] { Const(vertexInfoCbBinding), Const((int)VertexInfoBufferField.VertexOffsets), Const(location), Const(1) }));
+                [Const(vertexInfoCbBinding), Const((int)VertexInfoBufferField.VertexOffsets), Const(location), Const(1)]));
 
             Operand vertexId = Local();
             node.List.AddBefore(node, new Operation(
                 Instruction.ConditionalSelect,
                 vertexId,
-                new[] { isInstanceRate, vertexIdIr, vertexIdVr }));
+                [isInstanceRate, vertexIdIr, vertexIdVr]));
 
             Operand vertexStride = Local();
             node.List.AddBefore(node, new Operation(
                 Instruction.Load,
                 StorageKind.ConstantBuffer,
                 vertexStride,
-                new[] { Const(vertexInfoCbBinding), Const((int)VertexInfoBufferField.VertexStrides), Const(location), Const(0) }));
+                [Const(vertexInfoCbBinding), Const((int)VertexInfoBufferField.VertexStrides), Const(location), Const(0)]));
 
             Operand vertexBaseOffset = Local();
-            node.List.AddBefore(node, new Operation(Instruction.Multiply, vertexBaseOffset, new[] { vertexId, vertexStride }));
+            node.List.AddBefore(node, new Operation(Instruction.Multiply, vertexBaseOffset, [vertexId, vertexStride]));
 
             Operand vertexOffset = Local();
-            node.List.AddBefore(node, new Operation(Instruction.Add, vertexOffset, new[] { attributeOffset, vertexBaseOffset }));
+            node.List.AddBefore(node, new Operation(Instruction.Add, vertexOffset, [attributeOffset, vertexBaseOffset]));
 
             Operand vertexElemOffset;
 
@@ -202,7 +202,7 @@ namespace Ryujinx.Graphics.Shader.Translation.Transforms
             {
                 vertexElemOffset = Local();
 
-                node.List.AddBefore(node, new Operation(Instruction.Add, vertexElemOffset, new[] { vertexOffset, Const(component) }));
+                node.List.AddBefore(node, new Operation(Instruction.Add, vertexElemOffset, [vertexOffset, Const(component)]));
             }
             else
             {
@@ -218,22 +218,22 @@ namespace Ryujinx.Graphics.Shader.Translation.Transforms
             node = node.List.AddAfter(node, new Operation(
                 Instruction.ShiftLeft,
                 leftShifted,
-                new[] { src, Const(32 - bits) }));
+                [src, Const(32 - bits)]));
 
             Operand rightShifted = normalize ? Local() : dest;
             node = node.List.AddAfter(node, new Operation(
                 Instruction.ShiftRightS32,
                 rightShifted,
-                new[] { leftShifted, Const(32 - bits) }));
+                [leftShifted, Const(32 - bits)]));
 
             if (normalize)
             {
                 Operand asFloat = Local();
-                node = node.List.AddAfter(node, new Operation(Instruction.ConvertS32ToFP32, asFloat, new[] { rightShifted }));
+                node = node.List.AddAfter(node, new Operation(Instruction.ConvertS32ToFP32, asFloat, [rightShifted]));
                 node = node.List.AddAfter(node, new Operation(
                     Instruction.FP32 | Instruction.Multiply,
                     dest,
-                    new[] { asFloat, ConstF(1f / (1 << (bits - 1))) }));
+                    [asFloat, ConstF(1f / (1 << (bits - 1)))]));
             }
 
             return node;
@@ -253,12 +253,12 @@ namespace Ryujinx.Graphics.Shader.Translation.Transforms
                 Instruction.Load,
                 StorageKind.ConstantBuffer,
                 componentExists,
-                new[] { Const(vertexInfoCbBinding), Const((int)VertexInfoBufferField.VertexStrides), Const(location), Const(component) }));
+                [Const(vertexInfoCbBinding), Const((int)VertexInfoBufferField.VertexStrides), Const(location), Const(component)]));
 
             return node.List.AddAfter(node, new Operation(
                 Instruction.ConditionalSelect,
                 dest,
-                new[] { componentExists, src, ConstF(component == 3 ? 1f : 0f) }));
+                [componentExists, src, ConstF(component == 3 ? 1f : 0f)]));
         }
 
         private static LinkedListNode<INode> GenerateBaseVertexLoad(ResourceManager resourceManager, LinkedListNode<INode> node, Operand dest)
@@ -269,7 +269,7 @@ namespace Ryujinx.Graphics.Shader.Translation.Transforms
                 Instruction.Load,
                 StorageKind.ConstantBuffer,
                 dest,
-                new[] { Const(vertexInfoCbBinding), Const((int)VertexInfoBufferField.VertexCounts), Const(2) }));
+                [Const(vertexInfoCbBinding), Const((int)VertexInfoBufferField.VertexCounts), Const(2)]));
         }
 
         private static LinkedListNode<INode> GenerateBaseInstanceLoad(ResourceManager resourceManager, LinkedListNode<INode> node, Operand dest)
@@ -280,7 +280,7 @@ namespace Ryujinx.Graphics.Shader.Translation.Transforms
                 Instruction.Load,
                 StorageKind.ConstantBuffer,
                 dest,
-                new[] { Const(vertexInfoCbBinding), Const((int)VertexInfoBufferField.VertexCounts), Const(3) }));
+                [Const(vertexInfoCbBinding), Const((int)VertexInfoBufferField.VertexCounts), Const(3)]));
         }
 
         private static LinkedListNode<INode> GenerateVertexIndexLoad(ResourceManager resourceManager, LinkedListNode<INode> node, Operand dest)
@@ -291,7 +291,7 @@ namespace Ryujinx.Graphics.Shader.Translation.Transforms
             GenerateBaseVertexLoad(resourceManager, node, baseVertex);
             GenerateVertexIdVertexRateLoad(resourceManager, node, vertexId);
 
-            return node.List.AddBefore(node, new Operation(Instruction.Add, dest, new[] { baseVertex, vertexId }));
+            return node.List.AddBefore(node, new Operation(Instruction.Add, dest, [baseVertex, vertexId]));
         }
 
         private static LinkedListNode<INode> GenerateInstanceIndexLoad(ResourceManager resourceManager, LinkedListNode<INode> node, Operand dest)
@@ -305,28 +305,28 @@ namespace Ryujinx.Graphics.Shader.Translation.Transforms
                 Instruction.Load,
                 StorageKind.Input,
                 instanceId,
-                new[] { Const((int)IoVariable.GlobalId), Const(1) }));
+                [Const((int)IoVariable.GlobalId), Const(1)]));
 
-            return node.List.AddBefore(node, new Operation(Instruction.Add, dest, new[] { baseInstance, instanceId }));
+            return node.List.AddBefore(node, new Operation(Instruction.Add, dest, [baseInstance, instanceId]));
         }
 
         private static LinkedListNode<INode> GenerateVertexIdVertexRateLoad(ResourceManager resourceManager, LinkedListNode<INode> node, Operand dest)
         {
-            Operand[] sources = new Operand[] { Const(resourceManager.LocalVertexIndexVertexRateMemoryId) };
+            Operand[] sources = [Const(resourceManager.LocalVertexIndexVertexRateMemoryId)];
 
             return node.List.AddBefore(node, new Operation(Instruction.Load, StorageKind.LocalMemory, dest, sources));
         }
 
         private static LinkedListNode<INode> GenerateVertexIdInstanceRateLoad(ResourceManager resourceManager, LinkedListNode<INode> node, Operand dest)
         {
-            Operand[] sources = new Operand[] { Const(resourceManager.LocalVertexIndexInstanceRateMemoryId) };
+            Operand[] sources = [Const(resourceManager.LocalVertexIndexInstanceRateMemoryId)];
 
             return node.List.AddBefore(node, new Operation(Instruction.Load, StorageKind.LocalMemory, dest, sources));
         }
 
         private static LinkedListNode<INode> GenerateInstanceIdLoad(LinkedListNode<INode> node, Operand dest)
         {
-            Operand[] sources = new Operand[] { Const((int)IoVariable.GlobalId), Const(1) };
+            Operand[] sources = [Const((int)IoVariable.GlobalId), Const(1)];
 
             return node.List.AddBefore(node, new Operation(Instruction.Load, StorageKind.Input, dest, sources));
         }

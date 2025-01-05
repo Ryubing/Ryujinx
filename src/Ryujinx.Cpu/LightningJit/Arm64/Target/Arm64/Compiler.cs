@@ -308,8 +308,8 @@ namespace Ryujinx.Cpu.LightningJit.Arm64.Target.Arm64
         {
             MultiBlock multiBlock = Decoder.DecodeMulti(cpuPreset, memoryManager, address);
 
-            Dictionary<ulong, int> targets = new();
-            List<PendingBranch> pendingBranches = new();
+            Dictionary<ulong, int> targets = [];
+            List<PendingBranch> pendingBranches = [];
 
             uint gprUseMask = multiBlock.GlobalUseMask.GprMask;
             uint fpSimdUseMask = multiBlock.GlobalUseMask.FpSimdMask;

@@ -80,7 +80,7 @@ namespace Ryujinx.Graphics.Shader.Translation
         {
             if (vertexAsCompute)
             {
-                _offsets = new();
+                _offsets = [];
 
                 if (vacInput.HasValue)
                 {

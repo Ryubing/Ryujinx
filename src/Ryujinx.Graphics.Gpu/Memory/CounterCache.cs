@@ -27,7 +27,7 @@ namespace Ryujinx.Graphics.Gpu.Memory
         /// </summary>
         public CounterCache()
         {
-            _items = new List<CounterEntry>();
+            _items = [];
         }
 
         /// <summary>

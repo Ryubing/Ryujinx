@@ -36,17 +36,17 @@ namespace Ryujinx.Graphics.Vulkan
 
             uint propertiesCount = 0;
 
-            api.GetPhysicalDeviceQueueFamilyProperties(physicalDevice, SpanHelpers.AsSpan(ref propertiesCount), Span<QueueFamilyProperties>.Empty);
+            api.GetPhysicalDeviceQueueFamilyProperties(physicalDevice, SpanHelpers.AsSpan(ref propertiesCount), []);
 
             QueueFamilyProperties = new QueueFamilyProperties[propertiesCount];
 
             api.GetPhysicalDeviceQueueFamilyProperties(physicalDevice, SpanHelpers.AsSpan(ref propertiesCount), QueueFamilyProperties);
 
-            api.EnumerateDeviceExtensionProperties(PhysicalDevice, Span<byte>.Empty, SpanHelpers.AsSpan(ref propertiesCount), Span<ExtensionProperties>.Empty).ThrowOnError();
+            api.EnumerateDeviceExtensionProperties(PhysicalDevice, [], SpanHelpers.AsSpan(ref propertiesCount), []).ThrowOnError();
 
             ExtensionProperties[] extensionProperties = new ExtensionProperties[propertiesCount];
 
-            api.EnumerateDeviceExtensionProperties(PhysicalDevice, Span<byte>.Empty, SpanHelpers.AsSpan(ref propertiesCount), extensionProperties).ThrowOnError();
+            api.EnumerateDeviceExtensionProperties(PhysicalDevice, [], SpanHelpers.AsSpan(ref propertiesCount), extensionProperties).ThrowOnError();
 
             unsafe
             {

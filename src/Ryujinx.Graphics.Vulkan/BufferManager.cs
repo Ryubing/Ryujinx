@@ -207,14 +207,14 @@ namespace Ryujinx.Graphics.Vulkan
 
             fixed (SparseMemoryBind* pMemoryBinds = memoryBinds)
             {
-                SparseBufferMemoryBindInfo bufferBind = new SparseBufferMemoryBindInfo()
+                SparseBufferMemoryBindInfo bufferBind = new()
                 {
                     Buffer = buffer,
                     BindCount = (uint)memoryBinds.Length,
                     PBinds = pMemoryBinds
                 };
 
-                BindSparseInfo bindSparseInfo = new BindSparseInfo()
+                BindSparseInfo bindSparseInfo = new()
                 {
                     SType = StructureType.BindSparseInfo,
                     BufferBindCount = 1,

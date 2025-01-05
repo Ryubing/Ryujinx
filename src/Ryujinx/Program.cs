@@ -231,7 +231,7 @@ namespace Ryujinx.Ava
             Logger.Notice.Print(LogClass.Application, $"{RyujinxApp.FullAppName} Version: {Version}");
             SystemInfo.Gather().Print();
 
-            var enabledLogLevels = Logger.GetEnabledLevels().ToArray();
+            LogLevel[] enabledLogLevels = [.. Logger.GetEnabledLevels()];
 
             Logger.Notice.Print(LogClass.Application, $"Logs Enabled: {(enabledLogLevels.Length is 0
                     ? "<None>"

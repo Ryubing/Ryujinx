@@ -12,7 +12,7 @@ namespace ARMeilleure.Translation.PTC
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static Dictionary<TKey, TValue> DeserializeDictionary<TKey, TValue>(Stream stream, Func<Stream, TValue> valueFunc) where TKey : struct
         {
-            Dictionary<TKey, TValue> dictionary = new();
+            Dictionary<TKey, TValue> dictionary = [];
 
             int count = DeserializeStructure<int>(stream);
 
@@ -30,7 +30,7 @@ namespace ARMeilleure.Translation.PTC
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static Dictionary<TKey, TValue> DeserializeAndUpdateDictionary<TKey, TValue>(Stream stream, Func<Stream, TValue> valueFunc, Func<TKey, TValue, (TKey, TValue)> updateFunc) where TKey : struct
         {
-            Dictionary<TKey, TValue> dictionary = new();
+            Dictionary<TKey, TValue> dictionary = [];
 
             int count = DeserializeStructure<int>(stream);
 
@@ -50,7 +50,7 @@ namespace ARMeilleure.Translation.PTC
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static List<T> DeserializeList<T>(Stream stream) where T : struct
         {
-            List<T> list = new();
+            List<T> list = [];
 
             int count = DeserializeStructure<int>(stream);
 

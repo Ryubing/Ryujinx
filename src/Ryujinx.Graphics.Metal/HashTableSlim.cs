@@ -29,7 +29,7 @@ namespace Ryujinx.Graphics.Metal
             [MethodImpl(MethodImplOptions.AggressiveInlining)]
             public readonly Span<Entry> AsSpan()
             {
-                return Entries == null ? Span<Entry>.Empty : Entries.AsSpan(0, Length);
+                return Entries == null ? [] : Entries.AsSpan(0, Length);
             }
         }
 
@@ -89,10 +89,10 @@ namespace Ryujinx.Graphics.Metal
             }
             else
             {
-                bucket.Entries = new[]
-                {
+                bucket.Entries =
+                [
                     entry,
-                };
+                ];
             }
 
             bucket.Length++;

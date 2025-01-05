@@ -64,9 +64,9 @@ namespace Ryujinx.Ava.UI.ViewModels
             Directory.CreateDirectory(Path.Join(AppDataManager.BaseDirPath, "system", "amiibo"));
 
             _amiiboJsonPath = Path.Join(AppDataManager.BaseDirPath, "system", "amiibo", "Amiibo.json");
-            _amiiboList = new List<AmiiboApi>();
-            _amiiboSeries = new ObservableCollection<string>();
-            _amiibos = new AvaloniaList<AmiiboApi>();
+            _amiiboList = [];
+            _amiiboSeries = [];
+            _amiibos = [];
 
             _amiiboLogoBytes = EmbeddedResources.Read("Ryujinx/Assets/UIImages/Logo_Amiibo.png");
 
@@ -284,7 +284,7 @@ namespace Ryujinx.Ava.UI.ViewModels
         {
             AmiiboJson amiiboJson = await GetMostRecentAmiiboListOrDefaultJson();
 
-            _amiiboList = amiiboJson.Amiibo.OrderBy(amiibo => amiibo.AmiiboSeries).ToList();
+            _amiiboList = [.. amiiboJson.Amiibo.OrderBy(amiibo => amiibo.AmiiboSeries)];
 
             ParseAmiiboData();
         }
@@ -347,9 +347,9 @@ namespace Ryujinx.Ava.UI.ViewModels
                 return;
             }
 
-            List<AmiiboApi> amiiboSortedList = _amiiboList
+            List<AmiiboApi> amiiboSortedList = [.. _amiiboList
                 .Where(amiibo => amiibo.AmiiboSeries == _amiiboSeries[SeriesSelectedIndex])
-                .OrderBy(amiibo => amiibo.Name).ToList();
+                .OrderBy(amiibo => amiibo.Name)];
 
             for (int i = 0; i < amiiboSortedList.Count; i++)
             {

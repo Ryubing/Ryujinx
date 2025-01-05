@@ -38,237 +38,189 @@ namespace Ryujinx.Graphics.Nvdec.Vp9.Types
             int h,
             int bd);
 
-        private static readonly unsafe ConvolveFn[][][] _predictX16Y16 = {
-            new[]
-            {
-                new ConvolveFn[]
-                {
+        private static readonly unsafe ConvolveFn[][][] _predictX16Y16 = [
+            [
+                [
                     ConvolveCopy,
                     ConvolveAvg,
-                },
-                new ConvolveFn[]
-                {
+                ],
+                [
                     Convolve8Vert,
                     Convolve8AvgVert,
-                },
-            },
-            new[]
-            {
-                new ConvolveFn[]
-                {
+                ],
+            ],
+            [
+                [
                     Convolve8Horiz,
                     Convolve8AvgHoriz,
-                },
-                new ConvolveFn[]
-                {
+                ],
+                [
                     Convolve8,
                     Convolve8Avg,
-                },
-            },
-        };
+                ],
+            ],
+        ];
 
-        private static readonly unsafe ConvolveFn[][][] _predictX16 = {
-            new[]
-            {
-                new ConvolveFn[]
-                {
+        private static readonly unsafe ConvolveFn[][][] _predictX16 = [
+            [
+                [
                     ScaledVert,
                     ScaledAvgVert,
-                },
-                new ConvolveFn[]
-                {
+                ],
+                [
                     ScaledVert,
                     ScaledAvgVert,
-                },
-            },
-            new[]
-            {
-                new ConvolveFn[]
-                {
+                ],
+            ],
+            [
+                [
                     Scaled2D,
                     ScaledAvg2D,
-                },
-                new ConvolveFn[]
-                {
+                ],
+                [
                     Scaled2D,
                     ScaledAvg2D,
-                },
-            },
-        };
+                ],
+            ],
+        ];
 
-        private static readonly unsafe ConvolveFn[][][] _predictY16 = {
-            new[]
-            {
-                new ConvolveFn[]
-                {
+        private static readonly unsafe ConvolveFn[][][] _predictY16 = [
+            [
+                [
                     ScaledHoriz,
                     ScaledAvgHoriz,
-                },
-                new ConvolveFn[]
-                {
+                ],
+                [
                     Scaled2D,
                     ScaledAvg2D,
-                },
-            },
-            new[]
-            {
-                new ConvolveFn[]
-                {
+                ],
+            ],
+            [
+                [
                     ScaledHoriz,
                     ScaledAvgHoriz,
-                },
-                new ConvolveFn[]
-                {
+                ],
+                [
                     Scaled2D,
                     ScaledAvg2D,
-                },
-            },
-        };
+                ],
+            ],
+        ];
 
-        private static readonly unsafe ConvolveFn[][][] _predict = {
-            new[]
-            {
-                new ConvolveFn[]
-                {
+        private static readonly unsafe ConvolveFn[][][] _predict = [
+            [
+                [
                     Scaled2D,
                     ScaledAvg2D,
-                },
-                new ConvolveFn[]
-                {
+                ],
+                [
                     Scaled2D,
                     ScaledAvg2D,
-                },
-            },
-            new[]
-            {
-                new ConvolveFn[]
-                {
+                ],
+            ],
+            [
+                [
                     Scaled2D,
                     ScaledAvg2D,
-                },
-                new ConvolveFn[]
-                {
+                ],
+                [
                     Scaled2D,
                     ScaledAvg2D,
-                },
-            },
-        };
+                ],
+            ],
+        ];
 
-        private static readonly unsafe HighbdConvolveFn[][][] _highbdPredictX16Y16 = {
-            new[]
-            {
-                new HighbdConvolveFn[]
-                {
+        private static readonly unsafe HighbdConvolveFn[][][] _highbdPredictX16Y16 = [
+            [
+                [
                     HighbdConvolveCopy,
                     HighbdConvolveAvg,
-                },
-                new HighbdConvolveFn[]
-                {
+                ],
+                [
                     HighbdConvolve8Vert,
                     HighbdConvolve8AvgVert,
-                },
-            },
-            new[]
-            {
-                new HighbdConvolveFn[]
-                {
+                ],
+            ],
+            [
+                [
                     HighbdConvolve8Horiz,
                     HighbdConvolve8AvgHoriz,
-                },
-                new HighbdConvolveFn[]
-                {
+                ],
+                [
                     HighbdConvolve8,
                     HighbdConvolve8Avg,
-                },
-            },
-        };
+                ],
+            ],
+        ];
 
-        private static readonly unsafe HighbdConvolveFn[][][] _highbdPredictX16 = {
-            new[]
-            {
-                new HighbdConvolveFn[]
-                {
+        private static readonly unsafe HighbdConvolveFn[][][] _highbdPredictX16 = [
+            [
+                [
                     HighbdConvolve8Vert,
                     HighbdConvolve8AvgVert,
-                },
-                new HighbdConvolveFn[]
-                {
+                ],
+                [
                     HighbdConvolve8Vert,
                     HighbdConvolve8AvgVert,
-                },
-            },
-            new[]
-            {
-                new HighbdConvolveFn[]
-                {
+                ],
+            ],
+            [
+                [
                     HighbdConvolve8,
                     HighbdConvolve8Avg,
-                },
-                new HighbdConvolveFn[]
-                {
+                ],
+                [
                     HighbdConvolve8,
                     HighbdConvolve8Avg,
-                },
-            },
-        };
+                ],
+            ],
+        ];
 
-        private static readonly unsafe HighbdConvolveFn[][][] _highbdPredictY16 = {
-            new[]
-            {
-                new HighbdConvolveFn[]
-                {
+        private static readonly unsafe HighbdConvolveFn[][][] _highbdPredictY16 = [
+            [
+                [
                     HighbdConvolve8Horiz,
                     HighbdConvolve8AvgHoriz,
-                },
-                new HighbdConvolveFn[]
-                {
+                ],
+                [
                     HighbdConvolve8,
                     HighbdConvolve8Avg,
-                },
-            },
-            new[]
-            {
-                new HighbdConvolveFn[]
-                {
+                ],
+            ],
+            [
+                [
                     HighbdConvolve8Horiz,
                     HighbdConvolve8AvgHoriz,
-                },
-                new HighbdConvolveFn[]
-                {
+                ],
+                [
                     HighbdConvolve8,
                     HighbdConvolve8Avg,
-                },
-            },
-        };
+                ],
+            ],
+        ];
 
-        private static readonly unsafe HighbdConvolveFn[][][] _highbdPredict = {
-            new[]
-            {
-                new HighbdConvolveFn[]
-                {
+        private static readonly unsafe HighbdConvolveFn[][][] _highbdPredict = [
+            [
+                [
                     HighbdConvolve8,
                     HighbdConvolve8Avg,
-                },
-                new HighbdConvolveFn[]
-                {
+                ],
+                [
                     HighbdConvolve8,
                     HighbdConvolve8Avg,
-                },
-            },
-            new[]
-            {
-                new HighbdConvolveFn[]
-                {
+                ],
+            ],
+            [
+                [
                     HighbdConvolve8,
                     HighbdConvolve8Avg,
-                },
-                new HighbdConvolveFn[]
-                {
+                ],
+                [
                     HighbdConvolve8,
                     HighbdConvolve8Avg,
-                },
-            },
-        };
+                ],
+            ],
+        ];
 
         public int XScaleFP; // Horizontal fixed point scale factor
         public int YScaleFP; // Vertical fixed point scale factor

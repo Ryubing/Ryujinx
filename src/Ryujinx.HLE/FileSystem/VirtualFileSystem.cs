@@ -439,7 +439,7 @@ namespace Ryujinx.HLE.FileSystem
 
             var mountName = "system".ToU8Span();
             DirectoryHandle handle = default;
-            List<ulong> localList = new();
+            List<ulong> localList = [];
 
             try
             {

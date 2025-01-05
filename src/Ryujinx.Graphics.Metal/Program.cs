@@ -118,7 +118,7 @@ namespace Ryujinx.Graphics.Metal
 
             for (int setIndex = 0; setIndex < setUsages.Count; setIndex++)
             {
-                List<ResourceBindingSegment> currentSegments = new();
+                List<ResourceBindingSegment> currentSegments = [];
 
                 ResourceUsage currentUsage = default;
                 int currentCount = 0;
@@ -186,7 +186,7 @@ namespace Ryujinx.Graphics.Metal
                     }
                 }
 
-                segments[setIndex] = currentSegments.ToArray();
+                segments[setIndex] = [.. currentSegments];
             }
 
             return (segments, argBufferSizes, fragArgBufferSizes);

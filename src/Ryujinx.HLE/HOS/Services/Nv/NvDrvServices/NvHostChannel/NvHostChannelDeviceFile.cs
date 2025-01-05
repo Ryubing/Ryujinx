@@ -491,15 +491,15 @@ namespace Ryujinx.HLE.HOS.Services.Nv.NvDrvServices.NvHostChannel
 
         private static int[] CreateWaitCommandBuffer(NvFence fence)
         {
-            int[] commandBuffer = new int[4];
-
-            // SyncpointValue = fence.Value;
-            commandBuffer[0] = 0x2001001C;
-            commandBuffer[1] = (int)fence.Value;
-
-            // SyncpointAction(fence.id, increment: false, switch_en: true);
-            commandBuffer[2] = 0x2001001D;
-            commandBuffer[3] = (((int)fence.Id << 8) | (0 << 0) | (1 << 4));
+            int[] commandBuffer =
+            [
+                // SyncpointValue = fence.Value;
+                0x2001001C,
+                (int)fence.Value,
+                // SyncpointAction(fence.id, increment: false, switch_en: true);
+                0x2001001D,
+                (((int)fence.Id << 8) | (0 << 0) | (1 << 4)),
+            ];
 
             return commandBuffer;
         }

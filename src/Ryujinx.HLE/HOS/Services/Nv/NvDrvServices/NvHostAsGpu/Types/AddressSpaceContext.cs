@@ -38,8 +38,8 @@ namespace Ryujinx.HLE.HOS.Services.Nv.NvDrvServices.NvHostAsGpu.Types
         {
             Gmm = gmm;
 
-            _maps = new SortedList<ulong, Range>();
-            _reservations = new SortedList<ulong, Range>();
+            _maps = [];
+            _reservations = [];
         }
 
         public bool ValidateFixedBuffer(ulong address, ulong size, ulong alignment)

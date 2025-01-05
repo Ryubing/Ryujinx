@@ -44,8 +44,8 @@ namespace Ryujinx.Graphics.Gpu.Engine.MME
             }
         }
 
-        private static readonly TableEntry[] _table = new TableEntry[]
-        {
+        private static readonly TableEntry[] _table =
+        [
             new(MacroHLEFunctionName.BindShaderProgram, new Hash128(0x5d5efb912369f60b, 0x69131ed5019f08ef), 0x68),
             new(MacroHLEFunctionName.ClearColor, new Hash128(0xA9FB28D1DC43645A, 0xB177E5D2EAE67FB0), 0x28),
             new(MacroHLEFunctionName.ClearDepthStencil, new Hash128(0x1B96CB77D4879F4F, 0x8557032FE0C965FB), 0x24),
@@ -59,7 +59,7 @@ namespace Ryujinx.Graphics.Gpu.Engine.MME
             new(MacroHLEFunctionName.UpdateUniformBufferState, new Hash128(0x8EE66706049CB0B0, 0x51C1CF906EC86F7C), 0x20),
             new(MacroHLEFunctionName.UpdateUniformBufferStateCbu, new Hash128(0xA4592676A3E581A0, 0xA39E77FE19FE04AC), 0x18),
             new(MacroHLEFunctionName.UpdateUniformBufferStateCbuV2, new Hash128(0x392FA750489983D4, 0x35BACE455155D2C3), 0x18)
-        };
+        ];
 
         /// <summary>
         /// Checks if the host supports all features required by the HLE macro.

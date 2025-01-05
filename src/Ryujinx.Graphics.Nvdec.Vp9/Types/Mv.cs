@@ -10,8 +10,8 @@ namespace Ryujinx.Graphics.Nvdec.Vp9.Types
         public short Row;
         public short Col;
 
-        private static ReadOnlySpan<byte> LogInBase2 => new byte[]
-        {
+        private static ReadOnlySpan<byte> LogInBase2 =>
+        [
             0, 0, 1, 1, 2, 2, 2, 2, 3, 3, 3, 3, 3, 3, 3, 3, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4,
             4, 4, 4, 4, 4, 4, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5,
             5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6,
@@ -52,7 +52,7 @@ namespace Ryujinx.Graphics.Nvdec.Vp9.Types
             9, 9, 9, 9, 9, 9, 9, 9, 9, 9, 9, 9, 9, 9, 9, 9, 9, 9, 9, 9, 9, 9, 9, 9, 9, 9,
             9, 9, 9, 9, 9, 9, 9, 9, 9, 9, 9, 9, 9, 9, 9, 9, 9, 9, 9, 9, 9, 9, 9, 9, 9, 9,
             9, 9, 9, 9, 9, 9, 9, 9, 9, 9, 10,
-        };
+        ];
 
         public readonly bool UseMvHp()
         {

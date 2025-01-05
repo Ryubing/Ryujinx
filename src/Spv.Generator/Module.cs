@@ -46,21 +46,21 @@ namespace Spv.Generator
         {
             _version = version;
             _bound = 1;
-            _capabilities = new List<Capability>();
-            _extensions = new List<string>();
-            _extInstImports = new Dictionary<DeterministicStringKey, Instruction>();
+            _capabilities = [];
+            _extensions = [];
+            _extInstImports = [];
             _addressingModel = AddressingModel.Logical;
             _memoryModel = MemoryModel.Simple;
-            _entrypoints = new List<Instruction>();
-            _executionModes = new List<Instruction>();
-            _debug = new List<Instruction>();
-            _annotations = new List<Instruction>();
-            _typeDeclarations = new Dictionary<TypeDeclarationKey, Instruction>();
-            _typeDeclarationsList = new List<Instruction>();
-            _constants = new Dictionary<ConstantKey, Instruction>();
-            _globals = new List<Instruction>();
-            _functionsDeclarations = new List<Instruction>();
-            _functionsDefinitions = new List<Instruction>();
+            _entrypoints = [];
+            _executionModes = [];
+            _debug = [];
+            _annotations = [];
+            _typeDeclarations = [];
+            _typeDeclarationsList = [];
+            _constants = [];
+            _globals = [];
+            _functionsDeclarations = [];
+            _functionsDefinitions = [];
 
             _instPool = instPool ?? new GeneratorPool<Instruction>();
             _integerPool = integerPool ?? new GeneratorPool<LiteralInteger>();
@@ -333,10 +333,7 @@ namespace Spv.Generator
             }
 
             // Ensure that everything is in the right order in the declarations section.
-            List<Instruction> declarations = new();
-            declarations.AddRange(_typeDeclarationsList);
-            declarations.AddRange(_globals);
-            declarations.AddRange(_constants.Values);
+            List<Instruction> declarations = [.. _typeDeclarationsList, .. _globals, .. _constants.Values];
             declarations.Sort((Instruction x, Instruction y) => x.Id.CompareTo(y.Id));
 
             // 9.

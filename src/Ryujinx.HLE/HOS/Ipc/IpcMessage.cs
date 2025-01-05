@@ -26,13 +26,13 @@ namespace Ryujinx.HLE.HOS.Ipc
 
         public IpcMessage()
         {
-            PtrBuff = new List<IpcPtrBuffDesc>(0);
-            SendBuff = new List<IpcBuffDesc>(0);
-            ReceiveBuff = new List<IpcBuffDesc>(0);
-            ExchangeBuff = new List<IpcBuffDesc>(0);
-            RecvListBuff = new List<IpcRecvListBuffDesc>(0);
+            PtrBuff = [];
+            SendBuff = [];
+            ReceiveBuff = [];
+            ExchangeBuff = [];
+            RecvListBuff = [];
 
-            ObjectIds = new List<int>(0);
+            ObjectIds = [];
         }
 
         public IpcMessage(ReadOnlySpan<byte> data, long cmdPtr)
@@ -122,7 +122,7 @@ namespace Ryujinx.HLE.HOS.Ipc
                 RecvListBuff.Add(new IpcRecvListBuffDesc(reader.ReadUInt64()));
             }
 
-            ObjectIds = new List<int>(0);
+            ObjectIds = [];
         }
 
         public RecyclableMemoryStream GetStream(long cmdPtr, ulong recvListAddr)

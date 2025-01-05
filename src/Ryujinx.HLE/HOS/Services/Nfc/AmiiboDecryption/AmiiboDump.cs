@@ -72,7 +72,7 @@ namespace Ryujinx.HLE.HOS.Services.Nfc.AmiiboDecryption
             }
             seed.AddRange(paddedUser);
 
-            byte[] seedBytes = seed.ToArray();
+            byte[] seedBytes = [.. seed];
             if (seedBytes.Length != 78)
             {
                 throw new Exception("Size check for key derived seed failed");

@@ -50,9 +50,9 @@ namespace Ryujinx.Graphics.Nvdec.Vp9.Types
             return RefFrame[1] > Constants.IntraFrame;
         }
 
-        private static readonly int[][] _idxNColumnToSubblock = {
-            new[] { 1, 2 }, new[] { 1, 3 }, new[] { 3, 2 }, new[] { 3, 3 },
-        };
+        private static readonly int[][] _idxNColumnToSubblock = [
+            [1, 2], [1, 3], [3, 2], [3, 3],
+        ];
 
         // This function returns either the appropriate sub block or block's mv
         // on whether the block_size < 8x8 and we have check_sub_blocks set.

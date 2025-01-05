@@ -128,8 +128,8 @@ namespace Ryujinx.Graphics.Shader.Translation
 
         public static FunctionRegisterUsage RunPass(ControlFlowGraph cfg)
         {
-            List<Register> inArguments = new();
-            List<Register> outArguments = new();
+            List<Register> inArguments = [];
+            List<Register> outArguments = [];
 
             // Compute local register inputs and outputs used inside blocks.
             RegisterMask[] localInputs = new RegisterMask[cfg.Blocks.Length];
@@ -285,7 +285,7 @@ namespace Ryujinx.Graphics.Shader.Translation
                 }
             }
 
-            return new FunctionRegisterUsage(inArguments.ToArray(), outArguments.ToArray());
+            return new FunctionRegisterUsage([.. inArguments], [.. outArguments]);
         }
 
         public static void FixupCalls(BasicBlock[] blocks, FunctionRegisterUsage[] frus)

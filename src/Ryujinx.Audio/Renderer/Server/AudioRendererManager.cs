@@ -368,7 +368,7 @@ namespace Ryujinx.Audio.Renderer.Server
 
                 lock (_sessionLock)
                 {
-                    sessions = _sessions.ToArray();
+                    sessions = [.. _sessions];
                 }
 
                 foreach (AudioRenderSystem renderer in sessions)

@@ -6,7 +6,7 @@ namespace Ryujinx.Graphics.Host1x
 {
     class Devices : IDisposable
     {
-        private readonly Dictionary<ClassId, IDeviceState> _devices = new();
+        private readonly Dictionary<ClassId, IDeviceState> _devices = [];
 
         public void RegisterDevice(ClassId classId, IDeviceState device)
         {

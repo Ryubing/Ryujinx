@@ -69,7 +69,7 @@ namespace Ryujinx.Graphics.Vulkan
             _gd = gd;
             _device = device;
 
-            _resources = new Dictionary<Thread, BackgroundResource>();
+            _resources = [];
         }
 
         private void Cleanup()

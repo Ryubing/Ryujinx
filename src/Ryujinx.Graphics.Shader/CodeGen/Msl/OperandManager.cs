@@ -15,7 +15,7 @@ namespace Ryujinx.Graphics.Shader.CodeGen.Msl
 
         public OperandManager()
         {
-            _locals = new Dictionary<AstOperand, string>();
+            _locals = [];
         }
 
         public string DeclareLocal(AstOperand operand)

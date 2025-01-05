@@ -364,7 +364,7 @@ namespace Ryujinx.HLE.HOS.Kernel.Threading
 
             if (state != ThreadSchedState.TerminationPending)
             {
-                KernelContext.Synchronization.WaitFor(new KSynchronizationObject[] { this }, -1, out _);
+                KernelContext.Synchronization.WaitFor([this], -1, out _);
             }
         }
 

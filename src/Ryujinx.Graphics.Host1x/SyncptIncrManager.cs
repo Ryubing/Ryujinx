@@ -23,7 +23,7 @@ namespace Ryujinx.Graphics.Host1x
             }
         }
 
-        private readonly List<SyncptIncr> _incrs = new();
+        private readonly List<SyncptIncr> _incrs = [];
 
         private uint _currentId;
 

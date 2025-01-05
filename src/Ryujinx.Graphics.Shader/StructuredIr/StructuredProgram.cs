@@ -354,7 +354,7 @@ namespace Ryujinx.Graphics.Shader.StructuredIr
 
         private static AggregateType GetVarTypeFromUses(Operand dest)
         {
-            HashSet<Operand> visited = new();
+            HashSet<Operand> visited = [];
 
             Queue<Operand> pending = new();
 

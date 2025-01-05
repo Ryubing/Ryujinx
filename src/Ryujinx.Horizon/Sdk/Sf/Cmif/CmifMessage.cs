@@ -97,7 +97,7 @@ namespace Ryujinx.Horizon.Sdk.Sf.Cmif
             HipcMessage responseMessage = new(input);
 
             Span<byte> data = MemoryMarshal.Cast<uint, byte>(responseMessage.Data.DataWords);
-            Span<uint> objects = Span<uint>.Empty;
+            Span<uint> objects = [];
 
             if (isDomain)
             {

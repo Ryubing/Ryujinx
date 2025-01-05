@@ -221,7 +221,7 @@ namespace Ryujinx.Graphics.Shader.Instructions
 
             Operand d = Register(dest, RegisterType.Gpr);
 
-            List<Operand> sourcesList = new();
+            List<Operand> sourcesList = [];
 
             if (isBindless)
             {
@@ -269,7 +269,7 @@ namespace Ryujinx.Graphics.Shader.Instructions
 
             sourcesList.Add(Rb());
 
-            Operand[] sources = sourcesList.ToArray();
+            Operand[] sources = [.. sourcesList];
 
             TextureFlags flags = compareAndSwap ? TextureFlags.CAS : GetAtomicOpFlags(atomicOp);
 
@@ -328,7 +328,7 @@ namespace Ryujinx.Graphics.Shader.Instructions
                 return context.Copy(Register(srcA++, RegisterType.Gpr));
             }
 
-            List<Operand> sourcesList = new();
+            List<Operand> sourcesList = [];
 
             if (isBindless)
             {
@@ -355,7 +355,7 @@ namespace Ryujinx.Graphics.Shader.Instructions
                 sourcesList.Add(Ra());
             }
 
-            Operand[] sources = sourcesList.ToArray();
+            Operand[] sources = [.. sourcesList];
 
             int handle = imm;
 
@@ -500,7 +500,7 @@ namespace Ryujinx.Graphics.Shader.Instructions
                 return context.Copy(Register(srcB++, RegisterType.Gpr));
             }
 
-            List<Operand> sourcesList = new();
+            List<Operand> sourcesList = [];
 
             if (isBindless)
             {
@@ -543,7 +543,7 @@ namespace Ryujinx.Graphics.Shader.Instructions
 
             sourcesList.Add(Rb());
 
-            Operand[] sources = sourcesList.ToArray();
+            Operand[] sources = [.. sourcesList];
 
             TextureFlags flags = GetAtomicOpFlags((SuatomOp)atomicOp);
 
@@ -605,7 +605,7 @@ namespace Ryujinx.Graphics.Shader.Instructions
                 return context.Copy(Register(srcB++, RegisterType.Gpr));
             }
 
-            List<Operand> sourcesList = new();
+            List<Operand> sourcesList = [];
 
             if (isBindless)
             {
@@ -668,7 +668,7 @@ namespace Ryujinx.Graphics.Shader.Instructions
                 format = GetTextureFormat(size);
             }
 
-            Operand[] sources = sourcesList.ToArray();
+            Operand[] sources = [.. sourcesList];
 
             int handle = imm;
 

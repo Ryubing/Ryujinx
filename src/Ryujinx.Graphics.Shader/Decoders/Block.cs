@@ -13,7 +13,7 @@ namespace Ryujinx.Graphics.Shader.Decoders
         public PushOpInfo(InstOp op)
         {
             Op = op;
-            Consumers = new Dictionary<Block, Operand>();
+            Consumers = [];
         }
     }
 
@@ -45,12 +45,12 @@ namespace Ryujinx.Graphics.Shader.Decoders
         {
             Address = address;
 
-            Predecessors = new List<Block>();
-            Successors = new List<Block>();
+            Predecessors = [];
+            Successors = [];
 
-            OpCodes = new List<InstOp>();
-            PushOpCodes = new List<PushOpInfo>();
-            SyncTargets = new Dictionary<ulong, SyncTarget>();
+            OpCodes = [];
+            PushOpCodes = [];
+            SyncTargets = [];
         }
 
         public void Split(Block rightBlock)

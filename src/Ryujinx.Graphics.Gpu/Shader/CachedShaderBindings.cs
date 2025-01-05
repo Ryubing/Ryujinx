@@ -48,10 +48,10 @@ namespace Ryujinx.Graphics.Gpu.Shader
 
                 if (stage == null)
                 {
-                    TextureBindings[i] = Array.Empty<TextureBindingInfo>();
-                    ImageBindings[i] = Array.Empty<TextureBindingInfo>();
-                    ConstantBufferBindings[i] = Array.Empty<BufferDescriptor>();
-                    StorageBufferBindings[i] = Array.Empty<BufferDescriptor>();
+                    TextureBindings[i] = [];
+                    ImageBindings[i] = [];
+                    ConstantBufferBindings[i] = [];
+                    StorageBufferBindings[i] = [];
 
                     continue;
                 }
@@ -106,8 +106,8 @@ namespace Ryujinx.Graphics.Gpu.Shader
                     return result;
                 }).ToArray();
 
-                ConstantBufferBindings[i] = stage.Info.CBuffers.ToArray();
-                StorageBufferBindings[i] = stage.Info.SBuffers.ToArray();
+                ConstantBufferBindings[i] = [.. stage.Info.CBuffers];
+                StorageBufferBindings[i] = [.. stage.Info.SBuffers];
             }
 
             MaxTextureBinding = maxTextureBinding;

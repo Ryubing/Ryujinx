@@ -11,7 +11,7 @@ namespace Ryujinx.Audio.Renderer.Device
         /// <summary>
         /// The session registry, used to store the sessions of a given AppletResourceId.
         /// </summary>
-        private readonly Dictionary<ulong, VirtualDeviceSession[]> _sessionsRegistry = new();
+        private readonly Dictionary<ulong, VirtualDeviceSession[]> _sessionsRegistry = [];
 
         /// <summary>
         /// The default <see cref="VirtualDevice"/>.

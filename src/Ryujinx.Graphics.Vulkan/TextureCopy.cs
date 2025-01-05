@@ -379,33 +379,33 @@ namespace Ryujinx.Graphics.Vulkan
                 PNext = &subpassDsResolve,
             };
 
-            AttachmentDescription2[] attachmentDescs = new AttachmentDescription2[2];
-
-            attachmentDescs[0] = new AttachmentDescription2(
-                StructureType.AttachmentDescription2,
-                null,
-                0,
-                src.VkFormat,
-                TextureStorage.ConvertToSampleCountFlags(gd.Capabilities.SupportedSampleCounts, (uint)src.Info.Samples),
-                AttachmentLoadOp.Load,
-                AttachmentStoreOp.Store,
-                AttachmentLoadOp.Load,
-                AttachmentStoreOp.Store,
-                ImageLayout.General,
-                ImageLayout.General);
-
-            attachmentDescs[1] = new AttachmentDescription2(
-                StructureType.AttachmentDescription2,
-                null,
-                0,
-                dst.VkFormat,
-                TextureStorage.ConvertToSampleCountFlags(gd.Capabilities.SupportedSampleCounts, (uint)dst.Info.Samples),
-                AttachmentLoadOp.Load,
-                AttachmentStoreOp.Store,
-                AttachmentLoadOp.Load,
-                AttachmentStoreOp.Store,
-                ImageLayout.General,
-                ImageLayout.General);
+            AttachmentDescription2[] attachmentDescs =
+            [
+                new AttachmentDescription2(
+                    StructureType.AttachmentDescription2,
+                    null,
+                    0,
+                    src.VkFormat,
+                    TextureStorage.ConvertToSampleCountFlags(gd.Capabilities.SupportedSampleCounts, (uint)src.Info.Samples),
+                    AttachmentLoadOp.Load,
+                    AttachmentStoreOp.Store,
+                    AttachmentLoadOp.Load,
+                    AttachmentStoreOp.Store,
+                    ImageLayout.General,
+                    ImageLayout.General),
+                new AttachmentDescription2(
+                    StructureType.AttachmentDescription2,
+                    null,
+                    0,
+                    dst.VkFormat,
+                    TextureStorage.ConvertToSampleCountFlags(gd.Capabilities.SupportedSampleCounts, (uint)dst.Info.Samples),
+                    AttachmentLoadOp.Load,
+                    AttachmentStoreOp.Store,
+                    AttachmentLoadOp.Load,
+                    AttachmentStoreOp.Store,
+                    ImageLayout.General,
+                    ImageLayout.General),
+            ];
 
             var subpassDependency = PipelineConverter.CreateSubpassDependency2(gd);
 

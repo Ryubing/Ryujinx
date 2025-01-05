@@ -26,7 +26,7 @@ namespace Ryujinx.Horizon.Sdk.OsTypes.Impl
 
         public MultiWaitImpl()
         {
-            _multiWaits = new List<MultiWaitHolderBase>();
+            _multiWaits = [];
         }
 
         public void LinkMultiWaitHolder(MultiWaitHolderBase multiWaitHolder)

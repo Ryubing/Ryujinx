@@ -32,7 +32,7 @@ namespace Ryujinx.Graphics.Metal
         public SyncManager(MetalRenderer renderer)
         {
             _renderer = renderer;
-            _handles = new List<SyncHandle>();
+            _handles = [];
         }
 
         public void RegisterFlush()

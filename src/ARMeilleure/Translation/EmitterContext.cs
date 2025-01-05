@@ -25,7 +25,7 @@ namespace ARMeilleure.Translation
         {
             _localsCount = 0;
 
-            _irLabels = new Dictionary<Operand, BasicBlock>();
+            _irLabels = [];
             _irBlocks = new IntrusiveList<BasicBlock>();
 
             _needsNewBlock = true;

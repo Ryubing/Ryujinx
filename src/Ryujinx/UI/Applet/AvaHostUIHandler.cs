@@ -166,7 +166,7 @@ namespace Ryujinx.Ava.UI.Applet
                 try
                 {
                     _parent.ViewModel.AppHost.NpadManager.BlockInputUpdates();
-                    SoftwareKeyboardUIArgs args = new SoftwareKeyboardUIArgs();
+                    SoftwareKeyboardUIArgs args = new();
                     args.KeyboardMode = KeyboardMode.Default;
                     args.InitialText = "Ryujinx";
                     args.StringLengthMin = 1;

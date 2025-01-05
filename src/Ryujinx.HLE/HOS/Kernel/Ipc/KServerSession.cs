@@ -10,12 +10,12 @@ namespace Ryujinx.HLE.HOS.Kernel.Ipc
 {
     class KServerSession : KSynchronizationObject
     {
-        private static readonly MemoryState[] _ipcMemoryStates = {
+        private static readonly MemoryState[] _ipcMemoryStates = [
             MemoryState.IpcBuffer3,
             MemoryState.IpcBuffer0,
             MemoryState.IpcBuffer1,
             (MemoryState)0xfffce5d4, //This is invalid, shouldn't be accessed.
-        };
+        ];
 
         private readonly struct Message
         {

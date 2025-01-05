@@ -74,7 +74,7 @@ namespace Ryujinx.Graphics.Gpu.Memory
         public VirtualRangeCache(MemoryManager memoryManager)
         {
             _memoryManager = memoryManager;
-            _virtualRanges = new RangeList<VirtualRange>();
+            _virtualRanges = [];
             _virtualRangeOverlaps = new VirtualRange[BufferCache.OverlapsBufferInitialCapacity];
             _deferredUnmaps = new ConcurrentQueue<VirtualRange>();
         }

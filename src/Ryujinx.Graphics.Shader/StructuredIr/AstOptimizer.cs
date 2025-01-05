@@ -60,7 +60,7 @@ namespace Ryujinx.Graphics.Shader.StructuredIr
 
         private static void PropagateExpression(AstOperand propVar, IAstNode source)
         {
-            IAstNode[] uses = propVar.Uses.ToArray();
+            IAstNode[] uses = [.. propVar.Uses];
 
             foreach (IAstNode useNode in uses)
             {

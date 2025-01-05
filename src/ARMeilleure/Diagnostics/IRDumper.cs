@@ -24,8 +24,8 @@ namespace ARMeilleure.Diagnostics
 
             _builder = new StringBuilder();
 
-            _localNames = new Dictionary<Operand, string>();
-            _symbolNames = new Dictionary<ulong, string>();
+            _localNames = [];
+            _symbolNames = [];
         }
 
         private void Indent()

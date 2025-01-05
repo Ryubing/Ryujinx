@@ -20,7 +20,7 @@ namespace Ryujinx.HLE.HOS.Services.Olsc
             // NOTE: Service call arp:r GetApplicationInstanceUnregistrationNotifier with the pid and initialize some internal struct.
             //       Since we will not support online savedata backup, it's fine to stub it for now.
 
-            _saveDataBackupSettingDatabase = new Dictionary<UserId, bool>();
+            _saveDataBackupSettingDatabase = [];
 
             _initialized = true;
 

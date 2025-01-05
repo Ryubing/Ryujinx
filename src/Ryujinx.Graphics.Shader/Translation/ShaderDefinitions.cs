@@ -104,7 +104,7 @@ namespace Ryujinx.Graphics.Shader.Translation
             Stage = stage;
             TransformFeedbackEnabled = transformFeedbackOutputs != null;
             _transformFeedbackOutputs = transformFeedbackOutputs;
-            _transformFeedbackDefinitions = new();
+            _transformFeedbackDefinitions = [];
 
             PopulateTransformFeedbackDefinitions(transformFeedbackVecMap, transformFeedbackOutputs);
         }
@@ -166,7 +166,7 @@ namespace Ryujinx.Graphics.Shader.Translation
             SupportsScaledVertexFormats = supportsScaledVertexFormats;
             TransformFeedbackEnabled = transformFeedbackOutputs != null;
             _transformFeedbackOutputs = transformFeedbackOutputs;
-            _transformFeedbackDefinitions = new();
+            _transformFeedbackDefinitions = [];
 
             PopulateTransformFeedbackDefinitions(transformFeedbackVecMap, transformFeedbackOutputs);
         }

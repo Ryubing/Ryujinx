@@ -8,7 +8,7 @@ namespace Ryujinx.Graphics.Gpu.Shader
     /// </summary>
     class ShaderSpecializationList : IEnumerable<CachedShaderProgram>
     {
-        private readonly List<CachedShaderProgram> _entries = new();
+        private readonly List<CachedShaderProgram> _entries = [];
 
         /// <summary>
         /// Adds a program to the list.

@@ -80,7 +80,7 @@ namespace Ryujinx.Audio.Renderer.Server.Splitter
                 {
                     if (Unsafe.IsNullRef(ref _v1))
                     {
-                        return Span<float>.Empty;
+                        return [];
                     }
                     else
                     {
@@ -106,7 +106,7 @@ namespace Ryujinx.Audio.Renderer.Server.Splitter
                 {
                     if (Unsafe.IsNullRef(ref _v1))
                     {
-                        return Span<float>.Empty;
+                        return [];
                     }
                     else
                     {

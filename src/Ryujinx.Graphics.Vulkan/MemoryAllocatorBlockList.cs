@@ -42,10 +42,10 @@ namespace Ryujinx.Graphics.Vulkan
                 Memory = memory;
                 HostPointer = hostPointer;
                 Size = size;
-                _freeRanges = new List<Range>
-                {
-                    new Range(0, size),
-                };
+                _freeRanges =
+                [
+                    new(0, size),
+                ];
             }
 
             public ulong Allocate(ulong size, ulong alignment)
@@ -171,7 +171,7 @@ namespace Ryujinx.Graphics.Vulkan
 
         public MemoryAllocatorBlockList(Vk api, Device device, int memoryTypeIndex, int blockAlignment, bool forBuffer)
         {
-            _blocks = new List<Block>();
+            _blocks = [];
             _api = api;
             _device = device;
             MemoryTypeIndex = memoryTypeIndex;

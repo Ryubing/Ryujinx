@@ -97,7 +97,7 @@ namespace Ryujinx.Graphics.Gpu.Image
             /// </summary>
             public TextureAliasList()
             {
-                _aliases = new List<Alias>();
+                _aliases = [];
             }
 
             /// <summary>
@@ -165,7 +165,7 @@ namespace Ryujinx.Graphics.Gpu.Image
         public TexturePool(GpuContext context, GpuChannel channel, ulong address, int maximumId) : base(context, channel.MemoryManager.Physical, address, maximumId)
         {
             _channel = channel;
-            _aliasLists = new Dictionary<Texture, TextureAliasList>();
+            _aliasLists = [];
         }
 
         /// <summary>

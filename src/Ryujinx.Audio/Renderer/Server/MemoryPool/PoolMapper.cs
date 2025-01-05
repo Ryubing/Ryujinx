@@ -190,7 +190,7 @@ namespace Ryujinx.Audio.Renderer.Server.MemoryPool
                 }
             }
 
-            return Span<MemoryPoolState>.Empty;
+            return [];
         }
 
         /// <summary>

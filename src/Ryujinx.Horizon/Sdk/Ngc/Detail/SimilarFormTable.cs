@@ -51,7 +51,7 @@ namespace Ryujinx.Horizon.Sdk.Ngc.Detail
                 int newLowerBound = GetLowerBound(character, charIndex, lowerBound - 1, upperBound - 1);
                 if (newLowerBound < 0 || _similarTable[newLowerBound][charIndex] != character)
                 {
-                    return ReadOnlySpan<byte>.Empty;
+                    return [];
                 }
 
                 int newUpperBound = GetUpperBound(character, charIndex, lowerBound - 1, upperBound - 1);

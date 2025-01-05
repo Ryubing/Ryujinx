@@ -955,13 +955,13 @@ namespace Ryujinx.Ava
 
         private static IHardwareDeviceDriver InitializeAudio()
         {
-            var availableBackends = new List<AudioBackend>
-            {
+            List<AudioBackend> availableBackends =
+            [
                 AudioBackend.SDL2,
                 AudioBackend.SoundIo,
                 AudioBackend.OpenAl,
                 AudioBackend.Dummy,
-            };
+            ];
 
             AudioBackend preferredBackend = ConfigurationState.Instance.System.AudioBackend.Value;
 

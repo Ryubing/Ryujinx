@@ -28,7 +28,7 @@ namespace Ryujinx.Graphics.Device
 
             if (debugLogCallback != null)
             {
-                _fieldNamesForDebug = new Dictionary<uint, string>();
+                _fieldNamesForDebug = [];
                 _debugLogCallback = debugLogCallback;
             }
 

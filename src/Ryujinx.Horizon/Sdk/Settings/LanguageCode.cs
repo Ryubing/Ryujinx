@@ -8,8 +8,8 @@ namespace Ryujinx.Horizon.Sdk.Settings
     [StructLayout(LayoutKind.Sequential, Size = 0x8, Pack = 0x1)]
     struct LanguageCode
     {
-        private static readonly string[] _languageCodes = new string[]
-        {
+        private static readonly string[] _languageCodes =
+        [
             "ja",
             "en-US",
             "fr",
@@ -28,7 +28,7 @@ namespace Ryujinx.Horizon.Sdk.Settings
             "zh-Hans",
             "zh-Hant",
             "pt-BR"
-        };
+        ];
 
         public Array8<byte> Value;
 

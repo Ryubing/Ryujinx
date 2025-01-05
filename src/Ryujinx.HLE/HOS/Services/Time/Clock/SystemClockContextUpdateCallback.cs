@@ -12,7 +12,7 @@ namespace Ryujinx.HLE.HOS.Services.Time.Clock
 
         public SystemClockContextUpdateCallback()
         {
-            _operationEventList = new List<KWritableEvent>();
+            _operationEventList = [];
             Context = new SystemClockContext();
             _hasContext = false;
         }

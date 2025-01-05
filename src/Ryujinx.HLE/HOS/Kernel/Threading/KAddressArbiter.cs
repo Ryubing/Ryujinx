@@ -21,8 +21,8 @@ namespace Ryujinx.HLE.HOS.Kernel.Threading
         {
             _context = context;
 
-            _condVarThreads = new List<KThread>();
-            _arbiterThreads = new List<KThread>();
+            _condVarThreads = [];
+            _arbiterThreads = [];
         }
 
         public Result ArbitrateLock(int ownerHandle, ulong mutexAddress, int requesterHandle)

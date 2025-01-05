@@ -198,7 +198,7 @@ namespace Ryujinx.Graphics.Gpu.Shader.DiskCache
         {
             if (_cache == null || index >= _cache.Length)
             {
-                _cache = new (byte[], byte[])[Math.Max(index + 1, GetShadersCountFromLength(tocFileStream.Length))];
+                _cache = new(byte[], byte[])[Math.Max(index + 1, GetShadersCountFromLength(tocFileStream.Length))];
             }
 
             (byte[] guestCode, byte[] cb1Data) = _cache[index];
@@ -350,7 +350,7 @@ namespace Ryujinx.Graphics.Gpu.Shader.DiskCache
         /// <returns>True if the operation was successful, false otherwise</returns>
         private bool LoadTocEntries(Stream tocFileStream, ref BinarySerializer reader)
         {
-            _toc = new Dictionary<uint, List<TocMemoryEntry>>();
+            _toc = [];
 
             TocEntry entry = new();
             int index = 0;
@@ -429,7 +429,7 @@ namespace Ryujinx.Graphics.Gpu.Shader.DiskCache
         {
             if (!_toc.TryGetValue(hash, out var list))
             {
-                _toc.Add(hash, list = new List<TocMemoryEntry>());
+                _toc.Add(hash, list = []);
             }
 
             list.Add(new TocMemoryEntry(dataOffset, codeSize, cb1DataSize, index));

@@ -176,7 +176,7 @@ namespace Ryujinx.Graphics.Gpu.Memory
             }
             else
             {
-                return ReadOnlySpan<byte>.Empty;
+                return [];
             }
 
             if (isContiguous)
@@ -458,7 +458,7 @@ namespace Ryujinx.Graphics.Gpu.Memory
 
             int pages = (int)((endVaRounded - va) / PageSize);
 
-            var regions = new List<MemoryRange>();
+            List<MemoryRange> regions = [];
 
             for (int page = 0; page < pages - 1; page++)
             {
@@ -483,7 +483,7 @@ namespace Ryujinx.Graphics.Gpu.Memory
 
             regions.Add(new MemoryRange(regionStart, regionSize));
 
-            return new MultiRange(regions.ToArray());
+            return new MultiRange([.. regions]);
         }
 
         /// <summary>

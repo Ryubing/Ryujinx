@@ -32,9 +32,9 @@ namespace Ryujinx.Ava
     internal static class Updater
     {
         private const string GitHubApiUrl = "https://api.github.com";
-        private const string LatestReleaseUrl = 
+        private const string LatestReleaseUrl =
             $"{GitHubApiUrl}/repos/{ReleaseInformation.ReleaseChannelOwner}/{ReleaseInformation.ReleaseChannelRepo}/releases/latest";
-        
+
         private static readonly GithubReleasesJsonSerializerContext _serializerContext = new(JsonHelper.GetDefaultSerializerOptions());
 
         private static readonly string _homeDir = AppDomain.CurrentDomain.BaseDirectory;
@@ -92,7 +92,7 @@ namespace Ryujinx.Ava
             try
             {
                 using HttpClient jsonClient = ConstructHttpClient();
-                
+
                 string fetchedJson = await jsonClient.GetStringAsync(LatestReleaseUrl);
                 var fetched = JsonHelper.Deserialize(fetchedJson, _serializerContext.GithubReleasesJsonResponse);
                 _buildVer = fetched.TagName;
@@ -213,7 +213,7 @@ namespace Ryujinx.Ava
                 string newVersionString = ReleaseInformation.IsCanaryBuild
                     ? $"Canary {currentVersion} -> Canary {newVersion}"
                     : $"{currentVersion} -> {newVersion}";
-                
+
             RequestUserToUpdate:
                 // Show a message asking the user if they want to update
                 UserResult shouldUpdate = await ContentDialogHelper.CreateUpdaterChoiceDialog(
@@ -297,7 +297,7 @@ namespace Ryujinx.Ava
 
                 if (shouldRestart)
                 {
-                    List<string> arguments = CommandLineState.Arguments.ToList();
+                    List<string> arguments = [.. CommandLineState.Arguments];
                     string executableDirectory = AppDomain.CurrentDomain.BaseDirectory;
 
                     // On macOS we perform the update at relaunch.
@@ -362,7 +362,7 @@ namespace Ryujinx.Ava
 
             for (int i = 0; i < ConnectionCount; i++)
             {
-                list.Add(Array.Empty<byte>());
+                list.Add([]);
             }
 
             for (int i = 0; i < ConnectionCount; i++)

@@ -56,7 +56,7 @@ namespace Ryujinx.Graphics.Metal
         {
             _renderer = renderer;
 
-            _resources = new Dictionary<Thread, BackgroundResource>();
+            _resources = [];
         }
 
         private void Cleanup()

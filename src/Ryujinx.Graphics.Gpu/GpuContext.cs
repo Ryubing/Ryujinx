@@ -134,9 +134,9 @@ namespace Ryujinx.Graphics.Gpu
             HostInitalized = new ManualResetEvent(false);
             _gpuReadyEvent = new ManualResetEvent(false);
 
-            SyncActions = new List<ISyncActionHandler>();
-            SyncpointActions = new List<ISyncActionHandler>();
-            BufferMigrations = new List<BufferMigration>();
+            SyncActions = [];
+            SyncpointActions = [];
+            BufferMigrations = [];
 
             DeferredActions = new Queue<Action>();
 

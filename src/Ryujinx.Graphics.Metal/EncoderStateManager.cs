@@ -92,7 +92,7 @@ namespace Ryujinx.Graphics.Metal
                 CullMode = _currentState.CullMode,
                 DepthStencilUid = _currentState.DepthStencilUid,
                 Topology = _currentState.Topology,
-                Viewports = _currentState.Viewports.ToArray(),
+                Viewports = [.. _currentState.Viewports],
             };
         }
 

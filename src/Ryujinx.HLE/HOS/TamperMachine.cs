@@ -19,7 +19,7 @@ namespace Ryujinx.HLE.HOS
         private Thread _tamperThread = null;
         private readonly ConcurrentQueue<ITamperProgram> _programs = new();
         private long _pressedKeys = 0;
-        private readonly Dictionary<string, ITamperProgram> _programDictionary = new();
+        private readonly Dictionary<string, ITamperProgram> _programDictionary = [];
 
         private void Activate()
         {

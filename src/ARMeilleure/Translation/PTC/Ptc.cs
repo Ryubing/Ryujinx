@@ -153,7 +153,7 @@ namespace ARMeilleure.Translation.PTC
         private void InitializeCarriers()
         {
             _infosStream = MemoryStreamManager.Shared.GetStream();
-            _codesList = new List<byte[]>();
+            _codesList = [];
             _relocsStream = MemoryStreamManager.Shared.GetStream();
             _unwindInfosStream = MemoryStreamManager.Shared.GetStream();
         }
@@ -320,7 +320,7 @@ namespace ARMeilleure.Translation.PTC
                         return false;
                     }
 
-                    ReadOnlySpan<byte> codesBytes = (int)innerHeader.CodesLength > 0 ? new(stream.PositionPointer, (int)innerHeader.CodesLength) : ReadOnlySpan<byte>.Empty;
+                    ReadOnlySpan<byte> codesBytes = (int)innerHeader.CodesLength > 0 ? new(stream.PositionPointer, (int)innerHeader.CodesLength) : [];
                     stream.Seek(innerHeader.CodesLength, SeekOrigin.Current);
 
                     Hash128 codesHash = Hash128.ComputeHash(codesBytes);
@@ -469,7 +469,7 @@ namespace ARMeilleure.Translation.PTC
                 ReadOnlySpan<byte> infosBytes = new(stream.PositionPointer, innerHeader.InfosLength);
                 _infosStream.WriteTo(stream);
 
-                ReadOnlySpan<byte> codesBytes = (int)innerHeader.CodesLength > 0 ? new(stream.PositionPointer, (int)innerHeader.CodesLength) : ReadOnlySpan<byte>.Empty;
+                ReadOnlySpan<byte> codesBytes = (int)innerHeader.CodesLength > 0 ? new(stream.PositionPointer, (int)innerHeader.CodesLength) : [];
                 _codesList.WriteTo(stream);
 
                 ReadOnlySpan<byte> relocsBytes = new(stream.PositionPointer, innerHeader.RelocsLength);
@@ -764,7 +764,7 @@ namespace ARMeilleure.Translation.PTC
 
         private void StubCode(int index)
         {
-            _codesList[index] = Array.Empty<byte>();
+            _codesList[index] = [];
         }
 
         private void StubReloc(int relocEntriesCount)
@@ -856,11 +856,11 @@ namespace ARMeilleure.Translation.PTC
 
 
             List<Thread> threads = Enumerable.Range(0, degreeOfParallelism)
-                .Select(idx => 
+                .Select(idx =>
                     new Thread(TranslateFuncs)
                     {
-                        IsBackground = true, 
-                        Name = "Ptc.TranslateThread." + idx 
+                        IsBackground = true,
+                        Name = "Ptc.TranslateThread." + idx
                     }
                 ).ToList();
 

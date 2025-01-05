@@ -141,11 +141,11 @@ namespace Ryujinx.Graphics.Vulkan
             _bufferTextureRefs = new TextureBuffer[Constants.MaxTextureBindings * 2];
             _bufferImageRefs = new TextureBuffer[Constants.MaxImageBindings * 2];
 
-            _textureArrayRefs = Array.Empty<ArrayRef<TextureArray>>();
-            _imageArrayRefs = Array.Empty<ArrayRef<ImageArray>>();
+            _textureArrayRefs = [];
+            _imageArrayRefs = [];
 
-            _textureArrayExtraRefs = Array.Empty<ArrayRef<TextureArray>>();
-            _imageArrayExtraRefs = Array.Empty<ArrayRef<ImageArray>>();
+            _textureArrayExtraRefs = [];
+            _imageArrayExtraRefs = [];
 
             _uniformBuffers = new DescriptorBufferInfo[Constants.MaxUniformBufferBindings];
             _storageBuffers = new DescriptorBufferInfo[Constants.MaxStorageBufferBindings];
@@ -217,7 +217,7 @@ namespace Ryujinx.Graphics.Vulkan
 
             if (isMainPipeline)
             {
-                FeedbackLoopHazards = new();
+                FeedbackLoopHazards = [];
             }
         }
 
@@ -937,7 +937,7 @@ namespace Ryujinx.Graphics.Vulkan
             var sets = dsc.GetSets();
             _templateUpdater.Commit(_gd, _device, sets[0]);
 
-            _gd.Api.CmdBindDescriptorSets(cbs.CommandBuffer, pbp, _program.PipelineLayout, (uint)setIndex, 1, sets, 0, ReadOnlySpan<uint>.Empty);
+            _gd.Api.CmdBindDescriptorSets(cbs.CommandBuffer, pbp, _program.PipelineLayout, (uint)setIndex, 1, sets, 0, []);
         }
 
         private void UpdateAndBindTexturesWithoutTemplate(CommandBufferScoped cbs, ShaderCollection program, PipelineBindPoint pbp)
@@ -1017,7 +1017,7 @@ namespace Ryujinx.Graphics.Vulkan
 
             var sets = dsc.GetSets();
 
-            _gd.Api.CmdBindDescriptorSets(cbs.CommandBuffer, pbp, _program.PipelineLayout, (uint)setIndex, 1, sets, 0, ReadOnlySpan<uint>.Empty);
+            _gd.Api.CmdBindDescriptorSets(cbs.CommandBuffer, pbp, _program.PipelineLayout, (uint)setIndex, 1, sets, 0, []);
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
@@ -1129,7 +1129,7 @@ namespace Ryujinx.Graphics.Vulkan
 
                     if (sets != null)
                     {
-                        _gd.Api.CmdBindDescriptorSets(cbs.CommandBuffer, pbp, _program.PipelineLayout, (uint)setIndex, 1, sets, 0, ReadOnlySpan<uint>.Empty);
+                        _gd.Api.CmdBindDescriptorSets(cbs.CommandBuffer, pbp, _program.PipelineLayout, (uint)setIndex, 1, sets, 0, []);
                     }
                 }
             }

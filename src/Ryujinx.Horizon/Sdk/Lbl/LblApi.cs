@@ -20,12 +20,12 @@ namespace Ryujinx.Horizon.Sdk.Lbl
 
         public Result EnableVrMode()
         {
-            return ServiceUtil.SendRequest(out _, _sessionHandle, 26, sendPid: false, ReadOnlySpan<byte>.Empty);
+            return ServiceUtil.SendRequest(out _, _sessionHandle, 26, sendPid: false, []);
         }
 
         public Result DisableVrMode()
         {
-            return ServiceUtil.SendRequest(out _, _sessionHandle, 27, sendPid: false, ReadOnlySpan<byte>.Empty);
+            return ServiceUtil.SendRequest(out _, _sessionHandle, 27, sendPid: false, []);
         }
 
         public void Dispose()

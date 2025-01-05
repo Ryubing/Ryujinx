@@ -16,11 +16,11 @@ namespace Ryujinx.HLE.HOS.Services.Sockets.Bsd
     [Service("bsd:u", false)]
     class IClient : IpcService
     {
-        private static readonly List<IPollManager> _pollManagers = new()
-        {
+        private static readonly List<IPollManager> _pollManagers =
+        [
             EventFileDescriptorPollManager.Instance,
             ManagedSocketPollManager.Instance,
-        };
+        ];
 
         private BsdContext _context;
         private readonly bool _isPrivileged;
@@ -265,7 +265,7 @@ namespace Ryujinx.HLE.HOS.Services.Sockets.Bsd
 
             for (int i = 0; i < eventsByPollManager.Length; i++)
             {
-                eventsByPollManager[i] = new List<PollEvent>();
+                eventsByPollManager[i] = [];
 
                 foreach (PollEvent evnt in events)
                 {
@@ -361,12 +361,12 @@ namespace Ryujinx.HLE.HOS.Services.Sockets.Bsd
                 events[i] = new PollEvent(pollEventData, fileDescriptor);
             }
 
-            List<PollEvent> discoveredEvents = new();
+            List<PollEvent> discoveredEvents = [];
             List<PollEvent>[] eventsByPollManager = new List<PollEvent>[_pollManagers.Count];
 
             for (int i = 0; i < eventsByPollManager.Length; i++)
             {
-                eventsByPollManager[i] = new List<PollEvent>();
+                eventsByPollManager[i] = [];
 
                 foreach (PollEvent evnt in events)
                 {

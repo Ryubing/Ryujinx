@@ -13,7 +13,7 @@ namespace Ryujinx.Graphics.Shader.Translation
         {
             Blocks = blocks;
 
-            HashSet<BasicBlock> visited = new();
+            HashSet<BasicBlock> visited = [];
 
             Stack<BasicBlock> blockStack = new();
 
@@ -45,14 +45,14 @@ namespace Ryujinx.Graphics.Shader.Translation
                 }
             }
 
-            PostOrderBlocks = postOrderBlocks.ToArray();
+            PostOrderBlocks = [.. postOrderBlocks];
         }
 
         public static ControlFlowGraph Create(Operation[] operations)
         {
-            Dictionary<Operand, BasicBlock> labels = new();
+            Dictionary<Operand, BasicBlock> labels = [];
 
-            List<BasicBlock> blocks = new();
+            List<BasicBlock> blocks = [];
 
             BasicBlock currentBlock = null;
 
@@ -154,7 +154,7 @@ namespace Ryujinx.Graphics.Shader.Translation
                 }
             } while (hasUnreachable);
 
-            return new ControlFlowGraph(blocks.ToArray());
+            return new ControlFlowGraph([.. blocks]);
         }
 
         private static bool EndsWithUnconditionalInst(INode node)

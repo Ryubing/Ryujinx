@@ -14,10 +14,10 @@ namespace ARMeilleure.CodeGen.X86
         {
             Operand dest = node.Destination;
 
-            List<Operand> sources = new()
-            {
+            List<Operand> sources =
+            [
                 node.GetSource(0),
-            };
+            ];
 
             int argsCount = node.SourcesCount - 1;
 
@@ -84,7 +84,7 @@ namespace ARMeilleure.CodeGen.X86
                 }
             }
 
-            node.SetSources(sources.ToArray());
+            node.SetSources([.. sources]);
 
             if (dest != default)
             {
@@ -117,10 +117,10 @@ namespace ARMeilleure.CodeGen.X86
 
         public static void InsertTailcallCopies(IntrusiveList<Operation> nodes, Operation node)
         {
-            List<Operand> sources = new()
-            {
+            List<Operand> sources =
+            [
                 node.GetSource(0),
-            };
+            ];
 
             int argsCount = node.SourcesCount - 1;
 
@@ -187,7 +187,7 @@ namespace ARMeilleure.CodeGen.X86
 
             sources[0] = retReg;
 
-            node.SetSources(sources.ToArray());
+            node.SetSources([.. sources]);
         }
 
         public static Operation InsertLoadArgumentCopy(

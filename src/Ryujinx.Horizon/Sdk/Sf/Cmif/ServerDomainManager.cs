@@ -217,7 +217,7 @@ namespace Ryujinx.Horizon.Sdk.Sf.Cmif
         public ServerDomainManager(int entryCount, int maxDomains)
         {
             _entryManager = new EntryManager(entryCount);
-            _domains = new HashSet<Domain>();
+            _domains = [];
             _maxDomains = maxDomains;
         }
 

@@ -31,9 +31,7 @@ namespace Ryujinx.Horizon.Sdk.Sf.Hipc
 
         private static Result ReceiveImpl(int sessionHandle, Span<byte> messageBuffer)
         {
-            Span<int> handles = stackalloc int[1];
-
-            handles[0] = sessionHandle;
+            Span<int> handles = [sessionHandle];
 
             var tlsSpan = HorizonStatic.AddressSpace.GetSpan(HorizonStatic.ThreadContext.TlsAddress, TlsMessageBufferSize);
 
@@ -60,7 +58,7 @@ namespace Ryujinx.Horizon.Sdk.Sf.Hipc
 
             if (messageBuffer == tlsSpan)
             {
-                return HorizonStatic.Syscall.ReplyAndReceive(out _, ReadOnlySpan<int>.Empty, sessionHandle, 0);
+                return HorizonStatic.Syscall.ReplyAndReceive(out _, [], sessionHandle, 0);
             }
 
             throw new NotImplementedException();

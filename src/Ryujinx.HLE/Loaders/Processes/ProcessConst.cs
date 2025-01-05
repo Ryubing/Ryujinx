@@ -4,7 +4,7 @@ namespace Ryujinx.HLE.Loaders.Processes
     {
         // Binaries from exefs are loaded into mem in this order. Do not change.
         public static readonly string[] ExeFsPrefixes =
-        {
+        [
             "rtld",
             "main",
             "subsdk0",
@@ -18,7 +18,7 @@ namespace Ryujinx.HLE.Loaders.Processes
             "subsdk8",
             "subsdk9",
             "sdk",
-        };
+        ];
 
         public const string MainNpdmPath = "/main.npdm";
 

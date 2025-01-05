@@ -85,7 +85,7 @@ namespace Ryujinx.HLE.HOS.Services.Hid.Types.SharedMemory.Common
 
             if (countAvailaible == 0)
             {
-                return ReadOnlySpan<AtomicStorage<T>>.Empty;
+                return [];
             }
 
             ulong index = ReadCurrentIndex();

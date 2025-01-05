@@ -53,7 +53,7 @@ namespace Spv.Generator
         }
 
         private readonly IEnumerable<IOperand> AllOperands => new[] { Operand1, Operand2, Operand3, Operand4, Operand5 }
-            .Concat(Overflow ?? Array.Empty<IOperand>())
+            .Concat(Overflow ?? [])
             .Take(Count);
 
         public readonly override string ToString()

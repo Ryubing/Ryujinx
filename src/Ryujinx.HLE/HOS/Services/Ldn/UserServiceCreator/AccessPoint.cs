@@ -84,7 +84,7 @@ namespace Ryujinx.HLE.HOS.Services.Ldn.UserServiceCreator
                 NetworkConfig = networkConfig,
             };
 
-            bool success = _parent.NetworkClient.CreateNetwork(request, _advertiseData ?? Array.Empty<byte>());
+            bool success = _parent.NetworkClient.CreateNetwork(request, _advertiseData ?? []);
 
             return success ? ResultCode.Success : ResultCode.InvalidState;
         }

@@ -144,7 +144,7 @@ namespace Ryujinx.Graphics.Vulkan
             _textures = textures;
             _key = key;
 
-            _forcedFences = new List<ForcedFence>();
+            _forcedFences = [];
         }
 
         public Auto<DisposableFramebuffer> GetFramebuffer(VulkanRenderer gd, CommandBufferScoped cbs, FramebufferParams fb)

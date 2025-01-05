@@ -24,9 +24,9 @@ namespace Ryujinx.HLE.HOS.Tamper
             Process = process;
             PressedKeys = new Parameter<long>(0);
             BlockStack = new Stack<OperationBlock>();
-            Registers = new Dictionary<byte, Register>();
-            SavedRegisters = new Dictionary<byte, Register>();
-            StaticRegisters = new Dictionary<byte, Register>();
+            Registers = [];
+            SavedRegisters = [];
+            StaticRegisters = [];
             ExeAddress = exeAddress;
             HeapAddress = heapAddress;
             AliasAddress = aliasAddress;

@@ -73,10 +73,10 @@ namespace ARMeilleure.CodeGen.X86
         public Assembler(Stream stream, bool relocatable)
         {
             _stream = stream;
-            _labels = new Dictionary<Operand, long>();
-            _jumps = new List<Jump>();
+            _labels = [];
+            _jumps = [];
 
-            _relocs = relocatable ? new List<Reloc>() : null;
+            _relocs = relocatable ? [] : null;
         }
 
         public void MarkLabel(Operand label)
@@ -1418,7 +1418,7 @@ namespace ARMeilleure.CodeGen.X86
             int relocOffset = 0;
             var relocEntries = hasRelocs
                 ? new RelocEntry[relocs.Length]
-                : Array.Empty<RelocEntry>();
+                : [];
 
             for (int i = 0; i < jumps.Length; i++)
             {

@@ -187,7 +187,7 @@ namespace ARMeilleure.Translation
 
             var cfg = context.GetControlFlowGraph();
             var retType = OperandType.I64;
-            var argTypes = new[] { OperandType.I64 };
+            OperandType[] argTypes = [OperandType.I64];
 
             var func = Compiler.Compile(cfg, argTypes, retType, CompilerOptions.HighCq, RuntimeInformation.ProcessArchitecture).Map<GuestFunction>();
 
@@ -212,7 +212,7 @@ namespace ARMeilleure.Translation
 
             var cfg = context.GetControlFlowGraph();
             var retType = OperandType.I64;
-            var argTypes = new[] { OperandType.I64 };
+            OperandType[] argTypes = [OperandType.I64];
 
             var func = Compiler.Compile(cfg, argTypes, retType, CompilerOptions.HighCq, RuntimeInformation.ProcessArchitecture).Map<GuestFunction>();
 
@@ -281,7 +281,7 @@ namespace ARMeilleure.Translation
 
             var cfg = context.GetControlFlowGraph();
             var retType = OperandType.None;
-            var argTypes = new[] { OperandType.I64, OperandType.I64 };
+            OperandType[] argTypes = [OperandType.I64, OperandType.I64];
 
             return Compiler.Compile(cfg, argTypes, retType, CompilerOptions.HighCq, RuntimeInformation.ProcessArchitecture).Map<DispatcherFunction>();
         }
@@ -305,7 +305,7 @@ namespace ARMeilleure.Translation
 
             var cfg = context.GetControlFlowGraph();
             var retType = OperandType.I64;
-            var argTypes = new[] { OperandType.I64, OperandType.I64 };
+            OperandType[] argTypes = [OperandType.I64, OperandType.I64];
 
             return Compiler.Compile(cfg, argTypes, retType, CompilerOptions.HighCq, RuntimeInformation.ProcessArchitecture).Map<WrapperFunction>();
         }

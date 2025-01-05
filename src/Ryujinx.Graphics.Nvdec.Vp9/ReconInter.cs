@@ -195,14 +195,8 @@ namespace Ryujinx.Graphics.Nvdec.Vp9
             int miRow,
             int miCol)
         {
-            Span<ArrayPtr<byte>> buffers = stackalloc ArrayPtr<byte>[Constants.MaxMbPlane];
-            buffers[0] = src.YBuffer;
-            buffers[1] = src.UBuffer;
-            buffers[2] = src.VBuffer;
-            Span<int> strides = stackalloc int[Constants.MaxMbPlane];
-            strides[0] = src.Stride;
-            strides[1] = src.UvStride;
-            strides[2] = src.UvStride;
+            Span<ArrayPtr<byte>> buffers = [src.YBuffer, src.UBuffer, src.VBuffer];
+            Span<int> strides = [src.Stride, src.UvStride, src.UvStride];
             int i;
 
             for (i = 0; i < Constants.MaxMbPlane; ++i)
@@ -222,14 +216,8 @@ namespace Ryujinx.Graphics.Nvdec.Vp9
         {
             if (!src.YBuffer.IsNull && !src.UBuffer.IsNull && !src.VBuffer.IsNull)
             {
-                Span<ArrayPtr<byte>> buffers = stackalloc ArrayPtr<byte>[Constants.MaxMbPlane];
-                buffers[0] = src.YBuffer;
-                buffers[1] = src.UBuffer;
-                buffers[2] = src.VBuffer;
-                Span<int> strides = stackalloc int[Constants.MaxMbPlane];
-                strides[0] = src.Stride;
-                strides[1] = src.UvStride;
-                strides[2] = src.UvStride;
+                Span<ArrayPtr<byte>> buffers = [src.YBuffer, src.UBuffer, src.VBuffer];
+                Span<int> strides = [src.Stride, src.UvStride, src.UvStride];
                 int i;
 
                 for (i = 0; i < Constants.MaxMbPlane; ++i)

@@ -33,7 +33,7 @@ namespace Ryujinx.HLE.HOS.Services.Account.Acc
             _horizonClient = horizonClient;
 
             _profiles = new ConcurrentDictionary<string, UserProfile>();
-            _storedOpenedUsers = Array.Empty<UserProfile>();
+            _storedOpenedUsers = [];
 
             _accountSaveDataManager = new AccountSaveDataManager(_profiles);
 

@@ -173,7 +173,7 @@ namespace Ryujinx.Audio.Input
                 // TODO: Detect if the driver supports audio input
             }
 
-            return new[] { Constants.DefaultDeviceInputName };
+            return [Constants.DefaultDeviceInputName];
         }
 
         /// <summary>
@@ -251,7 +251,7 @@ namespace Ryujinx.Audio.Input
 
                 lock (_sessionLock)
                 {
-                    sessions = _sessions.ToArray();
+                    sessions = [.. _sessions];
                 }
 
                 foreach (AudioInputSystem input in sessions)

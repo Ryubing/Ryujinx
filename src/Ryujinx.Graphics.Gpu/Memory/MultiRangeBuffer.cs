@@ -128,7 +128,7 @@ namespace Ryujinx.Graphics.Gpu.Memory
         /// <param name="rangeSize">Size of the range in bytes</param>
         public void AddPhysicalDependency(Buffer buffer, ulong rangeAddress, ulong dstOffset, ulong rangeSize)
         {
-            (_dependencies ??= new()).Add(new(buffer, rangeAddress - buffer.Address, dstOffset, rangeSize));
+            (_dependencies ??= []).Add(new(buffer, rangeAddress - buffer.Address, dstOffset, rangeSize));
             buffer.AddVirtualDependency(this);
         }
 

@@ -20,13 +20,13 @@ namespace Ryujinx.Graphics.Metal
 
         private Pipeline _pipeline;
         private Window _window;
-        
+
         public uint ProgramCount { get; set; }
 
 #pragma warning disable CS0067 // The event is never used
         public event EventHandler<ScreenCaptureImageInfo> ScreenCaptured;
 #pragma warning restore CS0067
-        
+
         public bool PreferThreading => true;
         public IPipeline Pipeline => _pipeline;
         public IWindow Window => _window;
@@ -45,8 +45,8 @@ namespace Ryujinx.Graphics.Metal
         public MetalRenderer(Func<CAMetalLayer> metalLayer)
         {
             _device = MTLDevice.CreateSystemDefaultDevice();
-            Programs = new HashSet<Program>();
-            Samplers = new HashSet<SamplerHolder>();
+            Programs = [];
+            Samplers = [];
 
             if (_device.ArgumentBuffersSupport != MTLArgumentBuffersTier.Tier2)
             {

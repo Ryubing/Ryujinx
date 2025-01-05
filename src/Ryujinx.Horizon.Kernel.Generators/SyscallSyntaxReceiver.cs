@@ -11,7 +11,7 @@ namespace Ryujinx.Horizon.Kernel.Generators
 
         public SyscallSyntaxReceiver()
         {
-            SvcImplementations = new List<MethodDeclarationSyntax>();
+            SvcImplementations = [];
         }
 
         public void OnVisitSyntaxNode(SyntaxNode syntaxNode)

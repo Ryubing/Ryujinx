@@ -40,7 +40,7 @@ namespace Ryujinx.Graphics.Nvdec
 
             ReadOnlySpan<byte> bitstream = rm.MemoryManager.DeviceGetSpan(state.SetInBufBaseOffset, (int)pictureInfo.BitstreamSize);
 
-            ReadOnlySpan<Vp9MvRef> mvsIn = ReadOnlySpan<Vp9MvRef>.Empty;
+            ReadOnlySpan<Vp9MvRef> mvsIn = [];
 
             if (info.UsePrevInFindMvRefs)
             {

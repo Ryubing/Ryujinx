@@ -27,9 +27,9 @@ namespace Ryujinx.Graphics.Metal
         private readonly IProgram _programColorBlitMsF;
         private readonly IProgram _programColorBlitMsI;
         private readonly IProgram _programColorBlitMsU;
-        private readonly List<IProgram> _programsColorClearF = new();
-        private readonly List<IProgram> _programsColorClearI = new();
-        private readonly List<IProgram> _programsColorClearU = new();
+        private readonly List<IProgram> _programsColorClearF = [];
+        private readonly List<IProgram> _programsColorClearI = [];
+        private readonly List<IProgram> _programsColorClearU = [];
         private readonly IProgram _programDepthStencilClear;
         private readonly IProgram _programStrideChange;
         private readonly IProgram _programConvertD32S8ToD24S8;
@@ -218,12 +218,13 @@ namespace Ryujinx.Graphics.Metal
 
             _pipeline.SetTextureAndSampler(ShaderStage.Fragment, 0, src, sampler);
 
-            Span<float> region = stackalloc float[RegionBufferSize / sizeof(float)];
-
-            region[0] = srcRegion.X1 / (float)src.Width;
-            region[1] = srcRegion.X2 / (float)src.Width;
-            region[2] = srcRegion.Y1 / (float)src.Height;
-            region[3] = srcRegion.Y2 / (float)src.Height;
+            Span<float> region =
+            [
+                srcRegion.X1 / (float)src.Width,
+                srcRegion.X2 / (float)src.Width,
+                srcRegion.Y1 / (float)src.Height,
+                srcRegion.Y2 / (float)src.Height,
+            ];
 
             if (dstRegion.X1 > dstRegion.X2)
             {
@@ -342,12 +343,13 @@ namespace Ryujinx.Graphics.Metal
 
             const int RegionBufferSize = 16;
 
-            Span<float> region = stackalloc float[RegionBufferSize / sizeof(float)];
-
-            region[0] = srcRegion.X1 / (float)src.Width;
-            region[1] = srcRegion.X2 / (float)src.Width;
-            region[2] = srcRegion.Y1 / (float)src.Height;
-            region[3] = srcRegion.Y2 / (float)src.Height;
+            Span<float> region =
+            [
+                srcRegion.X1 / (float)src.Width,
+                srcRegion.X2 / (float)src.Width,
+                srcRegion.Y1 / (float)src.Height,
+                srcRegion.Y2 / (float)src.Height,
+            ];
 
             if (dstRegion.X1 > dstRegion.X2)
             {
@@ -504,12 +506,13 @@ namespace Ryujinx.Graphics.Metal
 
             _pipeline.SetTextureAndSampler(ShaderStage.Fragment, 0, src, srcSampler);
 
-            Span<float> region = stackalloc float[RegionBufferSize / sizeof(float)];
-
-            region[0] = srcRegion.X1 / src.Width;
-            region[1] = srcRegion.X2 / src.Width;
-            region[2] = srcRegion.Y1 / src.Height;
-            region[3] = srcRegion.Y2 / src.Height;
+            Span<float> region =
+            [
+                srcRegion.X1 / src.Width,
+                srcRegion.X2 / src.Width,
+                srcRegion.Y1 / src.Height,
+                srcRegion.Y2 / src.Height,
+            ];
 
             if (dstRegion.X1 > dstRegion.X2)
             {
@@ -577,12 +580,7 @@ namespace Ryujinx.Graphics.Metal
             // Save current state
             _pipeline.SwapState(_helperShaderState);
 
-            Span<int> shaderParams = stackalloc int[ParamsBufferSize / sizeof(int)];
-
-            shaderParams[0] = stride;
-            shaderParams[1] = newStride;
-            shaderParams[2] = size;
-            shaderParams[3] = srcOffset;
+            Span<int> shaderParams = [stride, newStride, size, srcOffset];
 
             using var buffer = _renderer.BufferManager.ReserveOrCreate(cbs, ParamsBufferSize);
             buffer.Holder.SetDataUnchecked<int>(buffer.Offset, shaderParams);
@@ -612,10 +610,7 @@ namespace Ryujinx.Graphics.Metal
             // Save current state
             _pipeline.SwapState(_helperShaderState);
 
-            Span<int> shaderParams = stackalloc int[2];
-
-            shaderParams[0] = pixelCount;
-            shaderParams[1] = dstOffset;
+            Span<int> shaderParams = [pixelCount, dstOffset];
 
             using var buffer = _renderer.BufferManager.ReserveOrCreate(cbs, ParamsBufferSize);
             buffer.Holder.SetDataUnchecked<int>(buffer.Offset, shaderParams);
@@ -782,16 +777,17 @@ namespace Ryujinx.Graphics.Metal
             buffer.Holder.SetDataUnchecked(buffer.Offset, new ReadOnlySpan<float>(ref depthValue));
             _pipeline.SetUniformBuffers([new BufferAssignment(0, buffer.Range)]);
 
-            Span<Viewport> viewports = stackalloc Viewport[1];
-
-            viewports[0] = new Viewport(
-                new Rectangle<float>(0, 0, dstWidth, dstHeight),
-                ViewportSwizzle.PositiveX,
-                ViewportSwizzle.PositiveY,
-                ViewportSwizzle.PositiveZ,
-                ViewportSwizzle.PositiveW,
-                0f,
-                1f);
+            Span<Viewport> viewports =
+            [
+                new Viewport(
+                    new Rectangle<float>(0, 0, dstWidth, dstHeight),
+                    ViewportSwizzle.PositiveX,
+                    ViewportSwizzle.PositiveY,
+                    ViewportSwizzle.PositiveZ,
+                    ViewportSwizzle.PositiveW,
+                    0f,
+                    1f),
+            ];
 
             _pipeline.SetProgram(_programDepthStencilClear);
             _pipeline.SetFaceCulling(false, Face.Front);

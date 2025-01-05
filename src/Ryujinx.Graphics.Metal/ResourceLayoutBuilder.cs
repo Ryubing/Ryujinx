@@ -20,8 +20,8 @@ namespace Ryujinx.Graphics.Metal
 
             for (int index = 0; index < TotalSets; index++)
             {
-                _resourceDescriptors[index] = new();
-                _resourceUsages[index] = new();
+                _resourceDescriptors[index] = [];
+                _resourceUsages[index] = [];
             }
         }
 

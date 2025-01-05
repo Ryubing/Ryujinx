@@ -1748,7 +1748,7 @@ namespace ARMeilleure.CodeGen.X86
 
         private static UnwindInfo WritePrologue(CodeGenContext context)
         {
-            List<UnwindPushEntry> pushEntries = new();
+            List<UnwindPushEntry> pushEntries = [];
 
             Operand rsp = Register(X86Register.Rsp);
 
@@ -1800,7 +1800,7 @@ namespace ARMeilleure.CodeGen.X86
                 mask &= ~(1 << bit);
             }
 
-            return new UnwindInfo(pushEntries.ToArray(), context.StreamOffset);
+            return new UnwindInfo([.. pushEntries], context.StreamOffset);
         }
 
         private static void WriteEpilogue(CodeGenContext context)

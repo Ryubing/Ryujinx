@@ -235,7 +235,7 @@ namespace Ryujinx.Memory
             => new NativeMemoryManager<byte>((byte*)pa, size).Memory;
 
         protected override unsafe Span<byte> GetPhysicalAddressSpan(nuint pa, int size)
-            => new Span<byte>((void*)pa, size);
+            => new((void*)pa, size);
 
         protected override nuint TranslateVirtualAddressChecked(ulong va)
             => GetHostAddress(va);

@@ -35,9 +35,9 @@ namespace Ryujinx.Input.Motion.CemuHook
         public Client(NpadManager npadManager)
         {
             _npadManager = npadManager;
-            _hosts = new Dictionary<int, IPEndPoint>();
-            _motionData = new Dictionary<int, Dictionary<int, MotionInput>>();
-            _clients = new Dictionary<int, UdpClient>();
+            _hosts = [];
+            _motionData = [];
+            _clients = [];
 
             CloseClients();
         }

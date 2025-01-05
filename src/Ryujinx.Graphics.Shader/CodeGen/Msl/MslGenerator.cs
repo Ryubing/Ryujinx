@@ -152,26 +152,26 @@ namespace Ryujinx.Graphics.Shader.CodeGen.Msl
                 // TODO: add these only if they are used
                 if (stage == ShaderStage.Vertex)
                 {
-                    args = args.Append("uint vertex_id [[vertex_id]]").ToArray();
-                    args = args.Append("uint instance_id [[instance_id]]").ToArray();
-                    args = args.Append("uint base_instance [[base_instance]]").ToArray();
-                    args = args.Append("uint base_vertex [[base_vertex]]").ToArray();
+                    args = [.. args, "uint vertex_id [[vertex_id]]"];
+                    args = [.. args, "uint instance_id [[instance_id]]"];
+                    args = [.. args, "uint base_instance [[base_instance]]"];
+                    args = [.. args, "uint base_vertex [[base_vertex]]"];
                 }
                 else if (stage == ShaderStage.Compute)
                 {
-                    args = args.Append("uint3 threadgroup_position_in_grid [[threadgroup_position_in_grid]]").ToArray();
-                    args = args.Append("uint3 thread_position_in_grid [[thread_position_in_grid]]").ToArray();
-                    args = args.Append("uint3 thread_position_in_threadgroup [[thread_position_in_threadgroup]]").ToArray();
-                    args = args.Append("uint thread_index_in_simdgroup [[thread_index_in_simdgroup]]").ToArray();
+                    args = [.. args, "uint3 threadgroup_position_in_grid [[threadgroup_position_in_grid]]"];
+                    args = [.. args, "uint3 thread_position_in_grid [[thread_position_in_grid]]"];
+                    args = [.. args, "uint3 thread_position_in_threadgroup [[thread_position_in_threadgroup]]"];
+                    args = [.. args, "uint thread_index_in_simdgroup [[thread_index_in_simdgroup]]"];
                 }
 
-                args = args.Append($"constant ConstantBuffers &constant_buffers [[buffer({Defaults.ConstantBuffersIndex})]]").ToArray();
-                args = args.Append($"device StorageBuffers &storage_buffers [[buffer({Defaults.StorageBuffersIndex})]]").ToArray();
+                args = [.. args, $"constant ConstantBuffers &constant_buffers [[buffer({Defaults.ConstantBuffersIndex})]]"];
+                args = [.. args, $"device StorageBuffers &storage_buffers [[buffer({Defaults.StorageBuffersIndex})]]"];
 
                 foreach (var set in sets)
                 {
                     var bindingIndex = set + Defaults.BaseSetIndex;
-                    args = args.Append($"constant {Declarations.GetNameForSet(set)} &{Declarations.GetNameForSet(set, true)} [[buffer({bindingIndex})]]").ToArray();
+                    args = [.. args, $"constant {Declarations.GetNameForSet(set)} &{Declarations.GetNameForSet(set, true)} [[buffer({bindingIndex})]]"];
                 }
             }
 

@@ -130,7 +130,7 @@ namespace Ryujinx.Audio.Renderer.Dsp
                         switch (info.SampleFormat)
                         {
                             case SampleFormat.Adpcm:
-                                ReadOnlySpan<byte> waveBufferAdpcm = ReadOnlySpan<byte>.Empty;
+                                ReadOnlySpan<byte> waveBufferAdpcm = [];
 
                                 if (waveBuffer.Buffer != 0 && waveBuffer.BufferSize != 0)
                                 {
@@ -142,7 +142,7 @@ namespace Ryujinx.Audio.Renderer.Dsp
                                 decodedSampleCount = AdpcmHelper.Decode(tempSpan, waveBufferAdpcm, targetSampleStartOffset, targetSampleEndOffset, offset, sampleCountToDecode - y, coefficients, ref voiceState.LoopContext);
                                 break;
                             case SampleFormat.PcmInt16:
-                                ReadOnlySpan<short> waveBufferPcm16 = ReadOnlySpan<short>.Empty;
+                                ReadOnlySpan<short> waveBufferPcm16 = [];
 
                                 if (waveBuffer.Buffer != 0 && waveBuffer.BufferSize != 0)
                                 {
@@ -155,7 +155,7 @@ namespace Ryujinx.Audio.Renderer.Dsp
                                 decodedSampleCount = PcmHelper.Decode(tempSpan, waveBufferPcm16, targetSampleStartOffset, targetSampleEndOffset, info.ChannelIndex, info.ChannelCount);
                                 break;
                             case SampleFormat.PcmFloat:
-                                ReadOnlySpan<float> waveBufferPcmFloat = ReadOnlySpan<float>.Empty;
+                                ReadOnlySpan<float> waveBufferPcmFloat = [];
 
                                 if (waveBuffer.Buffer != 0 && waveBuffer.BufferSize != 0)
                                 {

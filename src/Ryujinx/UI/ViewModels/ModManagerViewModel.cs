@@ -21,9 +21,9 @@ namespace Ryujinx.Ava.UI.ViewModels
     {
         private readonly string _modJsonPath;
 
-        private AvaloniaList<ModModel> _mods = new();
-        [ObservableProperty] private AvaloniaList<ModModel> _views = new();
-        [ObservableProperty] private AvaloniaList<ModModel> _selectedMods = new();
+        private AvaloniaList<ModModel> _mods = [];
+        [ObservableProperty] private AvaloniaList<ModModel> _views = [];
+        [ObservableProperty] private AvaloniaList<ModModel> _selectedMods = [];
 
         private string _search;
         private readonly ulong _applicationId;
@@ -127,7 +127,7 @@ namespace Ryujinx.Ava.UI.ViewModels
             _views.AddRange(view);
 #pragma warning restore MVVMTK0034
 
-            SelectedMods = new(Views.Where(x => x.Enabled));
+            SelectedMods = [.. Views.Where(x => x.Enabled)];
 
             OnPropertyChanged(nameof(ModCount));
             OnPropertyChanged(nameof(Views));
@@ -303,7 +303,7 @@ namespace Ryujinx.Ava.UI.ViewModels
 
         public void EnableAll()
         {
-            SelectedMods = new(Mods);
+            SelectedMods = [.. Mods];
         }
 
         public void DisableAll()

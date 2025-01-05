@@ -11,7 +11,7 @@ namespace Ryujinx.HLE.Generators
         public void Execute(GeneratorExecutionContext context)
         {
             var syntaxReceiver = (ServiceSyntaxReceiver)context.SyntaxReceiver;
-            CodeGenerator generator = new CodeGenerator();
+            CodeGenerator generator = new();
 
             generator.AppendLine("#nullable enable");
             generator.AppendLine("using System;");
@@ -59,7 +59,7 @@ namespace Ryujinx.HLE.Generators
 
             generator.LeaveScope();
             generator.LeaveScope();
-            generator.AppendLine("#nullable disable");            
+            generator.AppendLine("#nullable disable");
             context.AddSource($"IUserInterface.g.cs", generator.ToString());
         }
 

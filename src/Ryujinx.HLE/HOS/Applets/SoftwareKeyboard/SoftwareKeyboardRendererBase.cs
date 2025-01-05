@@ -122,13 +122,13 @@ namespace Ryujinx.HLE.HOS.Applets.SoftwareKeyboard
         {
             // Try a list of fonts in case any of them is not available in the system.
 
-            string[] availableFonts = {
+            string[] availableFonts = [
                 uiThemeFontFamily,
                 "Liberation Sans",
                 "FreeSans",
                 "DejaVu Sans",
                 "Lucida Grande",
-            };
+            ];
 
             foreach (string fontFamily in availableFonts)
             {

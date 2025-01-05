@@ -55,7 +55,7 @@ namespace ARMeilleure.Decoders.Optimizations
 
             if (startBlockIndex == 0 && endBlockIndex == blocks.Count - 1)
             {
-                return blocks.ToArray(); // Nothing to do here.
+                return [.. blocks]; // Nothing to do here.
             }
 
             // Mark branches whose target is outside of the contiguous region as an exit block.
@@ -69,7 +69,7 @@ namespace ARMeilleure.Decoders.Optimizations
                 }
             }
 
-            var newBlocks = new List<Block>(blocks.Count);
+            List<Block> newBlocks = new(blocks.Count);
 
             // Finally, rebuild decoded block list, ignoring blocks outside the contiguous range.
             for (int i = 0; i < blocks.Count; i++)
@@ -82,7 +82,7 @@ namespace ARMeilleure.Decoders.Optimizations
                 }
             }
 
-            return newBlocks.ToArray();
+            return [.. newBlocks];
         }
     }
 }

@@ -12,7 +12,7 @@ namespace Ryujinx.Cpu.LightningJit
 
         public CodeWriter()
         {
-            _instructions = new();
+            _instructions = [];
         }
 
         public void WriteInstruction(uint instruction)

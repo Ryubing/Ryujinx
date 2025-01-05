@@ -35,7 +35,7 @@ namespace Ryujinx.Horizon.Sdk.Sf.Cmif
             ReadOnlySpan<byte> inMessageRawData = inRawData[Unsafe.SizeOf<CmifInHeader>()..];
             uint commandId = inHeader.CommandId;
 
-            var outHeader = Span<CmifOutHeader>.Empty;
+            Span<CmifOutHeader> outHeader = [];
 
             if (!entries.TryGetValue((int)commandId, out var commandHandler))
             {

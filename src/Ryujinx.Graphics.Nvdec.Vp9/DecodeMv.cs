@@ -68,7 +68,7 @@ namespace Ryujinx.Graphics.Nvdec.Vp9
                 default:
                     Debug.Assert(false, "Invalid maxTxSize.");
 
-                    return ReadOnlySpan<byte>.Empty;
+                    return [];
             }
         }
 
@@ -85,7 +85,7 @@ namespace Ryujinx.Graphics.Nvdec.Vp9
                 default:
                     Debug.Assert(false, "Invalid maxTxSize.");
 
-                    return Span<uint>.Empty;
+                    return [];
             }
         }
 
@@ -846,11 +846,7 @@ namespace Ryujinx.Graphics.Nvdec.Vp9
                     }
                     else
                     {
-                        Span<Mv> candidates = stackalloc Mv[2 + Constants.MaxMvRefCandidates];
-                        candidates[0] = bmi[1].Mv[refr];
-                        candidates[1] = bmi[0].Mv[refr];
-                        candidates[2] = mvList[0];
-                        candidates[3] = mvList[1];
+                        Span<Mv> candidates = [bmi[1].Mv[refr], bmi[0].Mv[refr], mvList[0], mvList[1]];
                         bestSub8x8 = new Mv();
                         for (n = 0; n < 2 + Constants.MaxMvRefCandidates; ++n)
                         {

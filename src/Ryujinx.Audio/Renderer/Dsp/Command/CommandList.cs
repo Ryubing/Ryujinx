@@ -46,7 +46,7 @@ namespace Ryujinx.Audio.Renderer.Dsp.Command
             SampleRate = sampleRate;
             BufferCount = mixBufferCount + voiceChannelCountMax;
             Buffers = mixBuffer;
-            Commands = new List<ICommand>();
+            Commands = [];
             MemoryManager = memoryManager;
 
             _buffersEntryCount = Buffers.Length;
@@ -97,7 +97,7 @@ namespace Ryujinx.Audio.Renderer.Dsp.Command
         {
             if (index < 0 || index >= _buffersEntryCount)
             {
-                return Span<float>.Empty;
+                return [];
             }
 
             unsafe

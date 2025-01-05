@@ -10,8 +10,8 @@ namespace Ryujinx.Cpu.LightningJit.Arm32
     {
         public static MultiBlock DecodeMulti(CpuPreset cpuPreset, IMemoryManager memoryManager, ulong address, bool isThumb)
         {
-            List<Block> blocks = new();
-            List<ulong> branchTargets = new();
+            List<Block> blocks = [];
+            List<ulong> branchTargets = [];
 
             while (true)
             {
@@ -202,7 +202,7 @@ namespace Ryujinx.Cpu.LightningJit.Arm32
         {
             ulong startAddress = address;
 
-            List<InstInfo> insts = new();
+            List<InstInfo> insts = [];
 
             uint encoding;
             InstMeta meta;
