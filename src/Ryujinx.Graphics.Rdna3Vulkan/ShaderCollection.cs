@@ -23,8 +23,6 @@ namespace Ryujinx.Graphics.Rdna3Vulkan
         public bool IsCompute { get; }
         public bool HasTessellationControlShader => (Stages & (1u << 3)) != 0;
 
-        public bool UpdateTexturesWithoutTemplate { get; }
-
         public uint Stages { get; }
 
         public PipelineStageFlags IncoherentBufferWriteStages { get; }
@@ -118,7 +116,6 @@ namespace Ryujinx.Graphics.Rdna3Vulkan
                 VulkanConfiguration.UsePushDescriptors &&
                 _gd.Capabilities.SupportsPushDescriptors &&
                 !IsCompute &&
-                !HasPushDescriptorsBug(gd) &&
                 CanUsePushDescriptors(gd, resourceLayout, IsCompute);
 
             ReadOnlyCollection<ResourceDescriptorCollection> sets = usePushDescriptors ?
@@ -136,9 +133,6 @@ namespace Ryujinx.Graphics.Rdna3Vulkan
             Templates = BuildTemplates(usePushDescriptors);
             (IncoherentBufferWriteStages, IncoherentTextureWriteStages) = BuildIncoherentStages(resourceLayout.SetUsages);
 
-            // Updating buffer texture bindings using template updates crashes the Adreno driver on Windows.
-            UpdateTexturesWithoutTemplate = gd.IsQualcommProprietary && usesBufferTextures;
-
             _compileTask = Task.CompletedTask;
             _firstBackgroundUse = false;
         }
@@ -155,12 +149,6 @@ namespace Ryujinx.Graphics.Rdna3Vulkan
 
             _compileTask = BackgroundCompilation();
             _firstBackgroundUse = !fromCache;
-        }
-
-        private static bool HasPushDescriptorsBug(VulkanRenderer gd)
-        {
-            // Those GPUs/drivers do not work properly with push descriptors, so we must force disable them.
-            return gd.IsNvidiaPreTuring || (gd.IsIntelArc && gd.IsIntelWindows);
         }
 
         private static bool CanUsePushDescriptors(VulkanRenderer gd, ResourceLayout layout, bool isCompute)

@@ -325,25 +325,20 @@ namespace Ryujinx.Graphics.Rdna3Vulkan
 
                     if (_gd.IsTBDR)
                     {
-                        if (!_gd.IsMoltenVk)
+                        if (!anyIsNonAttachment)
                         {
-                            if (!anyIsNonAttachment)
-                            {
-                                // This case is a feedback loop. To prevent this from causing an absolute performance disaster,
-                                // remove the barriers entirely.
-                                // If this is not here, there will be a lot of single draw render passes.
-                                // TODO: explicit handling for feedback loops, likely outside this class.
-
-                                _queuedBarrierCount -= _imageBarriers.Count;
-                                _imageBarriers.Clear();
-                            }
-                            else
-                            {
-                                // TBDR GPUs are sensitive to barriers, so we need to end the pass to ensure the data is available.
-                                // Metal already has hazard tracking so MVK doesn't need this.
-                                endRenderPass();
-                                inRenderPass = false;
-                            }
+                            // This case is a feedback loop. To prevent this from causing an absolute performance disaster,
+                            // remove the barriers entirely.
+                            // If this is not here, there will be a lot of single draw render passes.
+                            _queuedBarrierCount -= _imageBarriers.Count;
+                            _imageBarriers.Clear();
+                        }
+                        else
+                        {
+                            // TBDR GPUs are sensitive to barriers, so we need to end the pass to ensure the data is available.
+                            // Metal already has hazard tracking so MVK doesn't need this.
+                            endRenderPass();
+                            inRenderPass = false;
                         }
                     }
                     else
@@ -354,7 +349,7 @@ namespace Ryujinx.Graphics.Rdna3Vulkan
                         {
                             _memoryBarriers.Add(new BarrierWithStageFlags<MemoryBarrier, int>(
                                 barrier.Flags,
-                                new MemoryBarrier()
+                                new MemoryBarrier
                                 {
                                     SType = StructureType.MemoryBarrier,
                                     SrcAccessMask = barrier.Barrier.SrcAccessMask,
@@ -375,7 +370,7 @@ namespace Ryujinx.Graphics.Rdna3Vulkan
                         allFlags |= barrier.Flags.Dest;
                     }
 
-                    if (allFlags.HasFlag(PipelineStageFlags.DrawIndirectBit) || !_gd.SupportsRenderPassBarrier(allFlags))
+                    if (allFlags.HasFlag(PipelineStageFlags.DrawIndirectBit))
                     {
                         endRenderPass();
                         inRenderPass = false;

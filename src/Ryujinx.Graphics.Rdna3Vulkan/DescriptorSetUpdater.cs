@@ -699,14 +699,7 @@ namespace Ryujinx.Graphics.Rdna3Vulkan
 
             if (_dirty.HasFlag(DirtyFlags.Texture))
             {
-                if (program.UpdateTexturesWithoutTemplate)
-                {
-                    UpdateAndBindTexturesWithoutTemplate(cbs, program, pbp);
-                }
-                else
-                {
-                    UpdateAndBind(cbs, program, PipelineBase.TextureSetIndex, pbp);
-                }
+                UpdateAndBind(cbs, program, PipelineBase.TextureSetIndex, pbp);
             }
 
             if (_dirty.HasFlag(DirtyFlags.Image))
@@ -936,86 +929,6 @@ namespace Ryujinx.Graphics.Rdna3Vulkan
 
             var sets = dsc.GetSets();
             _templateUpdater.Commit(_gd, _device, sets[0]);
-
-            _gd.Api.CmdBindDescriptorSets(cbs.CommandBuffer, pbp, _program.PipelineLayout, (uint)setIndex, 1, sets, 0, ReadOnlySpan<uint>.Empty);
-        }
-
-        private void UpdateAndBindTexturesWithoutTemplate(CommandBufferScoped cbs, ShaderCollection program, PipelineBindPoint pbp)
-        {
-            int setIndex = PipelineBase.TextureSetIndex;
-            var bindingSegments = program.BindingSegments[setIndex];
-
-            if (bindingSegments.Length == 0)
-            {
-                return;
-            }
-
-            if (_updateDescriptorCacheCbIndex)
-            {
-                _updateDescriptorCacheCbIndex = false;
-                program.UpdateDescriptorCacheCommandBufferIndex(cbs.CommandBufferIndex);
-            }
-
-            var dsc = program.GetNewDescriptorSetCollection(setIndex, out _).Get(cbs);
-
-            foreach (ResourceBindingSegment segment in bindingSegments)
-            {
-                int binding = segment.Binding;
-                int count = segment.Count;
-
-                if (!segment.IsArray)
-                {
-                    if (segment.Type != ResourceType.BufferTexture)
-                    {
-                        Span<DescriptorImageInfo> textures = _textures;
-
-                        for (int i = 0; i < count; i++)
-                        {
-                            ref var texture = ref textures[i];
-                            ref var refs = ref _textureRefs[binding + i];
-
-                            texture.ImageView = refs.ImageView?.Get(cbs).Value ?? default;
-                            texture.Sampler = refs.Sampler?.Get(cbs).Value ?? default;
-
-                            if (texture.ImageView.Handle == 0)
-                            {
-                                texture.ImageView = _dummyTexture.GetImageView().Get(cbs).Value;
-                            }
-
-                            if (texture.Sampler.Handle == 0)
-                            {
-                                texture.Sampler = _dummySampler.GetSampler().Get(cbs).Value;
-                            }
-                        }
-
-                        dsc.UpdateImages(0, binding, textures[..count], DescriptorType.CombinedImageSampler);
-                    }
-                    else
-                    {
-                        Span<BufferView> bufferTextures = _bufferTextures;
-
-                        for (int i = 0; i < count; i++)
-                        {
-                            bufferTextures[i] = _bufferTextureRefs[binding + i]?.GetBufferView(cbs, false) ?? default;
-                        }
-
-                        dsc.UpdateBufferImages(0, binding, bufferTextures[..count], DescriptorType.UniformTexelBuffer);
-                    }
-                }
-                else
-                {
-                    if (segment.Type != ResourceType.BufferTexture)
-                    {
-                        dsc.UpdateImages(0, binding, _textureArrayRefs[binding].Array.GetImageInfos(_gd, cbs, _dummyTexture, _dummySampler), DescriptorType.CombinedImageSampler);
-                    }
-                    else
-                    {
-                        dsc.UpdateBufferImages(0, binding, _textureArrayRefs[binding].Array.GetBufferViews(cbs), DescriptorType.UniformTexelBuffer);
-                    }
-                }
-            }
-
-            var sets = dsc.GetSets();
 
             _gd.Api.CmdBindDescriptorSets(cbs.CommandBuffer, pbp, _program.PipelineLayout, (uint)setIndex, 1, sets, 0, ReadOnlySpan<uint>.Empty);
         }

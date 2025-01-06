@@ -87,12 +87,6 @@ namespace Ryujinx.Graphics.Rdna3Vulkan
 
         internal Vendor Vendor { get; private set; }
         internal bool IsAmdWindows { get; private set; }
-        internal bool IsIntelWindows { get; private set; }
-        internal bool IsAmdGcn { get; private set; }
-        internal bool IsNvidiaPreTuring { get; private set; }
-        internal bool IsIntelArc { get; private set; }
-        internal bool IsQualcommProprietary { get; private set; }
-        internal bool IsMoltenVk { get; private set; }
         internal bool IsTBDR { get; private set; }
         internal bool IsSharedMemory { get; private set; }
 
@@ -350,7 +344,6 @@ namespace Ryujinx.Graphics.Rdna3Vulkan
             Vendor = VendorUtils.FromId(properties.VendorID);
 
             IsAmdWindows = Vendor == Vendor.Amd && OperatingSystem.IsWindows();
-            IsIntelWindows = Vendor == Vendor.Intel && OperatingSystem.IsWindows();
             IsTBDR =
                 Vendor == Vendor.Apple ||
                 Vendor == Vendor.Qualcomm ||
@@ -368,28 +361,6 @@ namespace Ryujinx.Graphics.Rdna3Vulkan
             }
 
             GpuVersion = $"Vulkan v{ParseStandardVulkanVersion(properties.ApiVersion)}, Driver v{ParseDriverVersion(ref properties)}";
-
-            IsAmdGcn = !IsMoltenVk && Vendor == Vendor.Amd && VendorUtils.AmdGcnRegex().IsMatch(GpuRenderer);
-
-            if (Vendor == Vendor.Nvidia)
-            {
-                var match = VendorUtils.NvidiaConsumerClassRegex().Match(GpuRenderer);
-
-                if (match != null && int.TryParse(match.Groups[2].Value, out int gpuNumber))
-                {
-                    IsNvidiaPreTuring = gpuNumber < 2000;
-                }
-                else if (GpuRenderer.Contains("TITAN") && !GpuRenderer.Contains("RTX"))
-                {
-                    IsNvidiaPreTuring = true;
-                }
-            }
-            else if (Vendor == Vendor.Intel)
-            {
-                IsIntelArc = GpuRenderer.StartsWith("Intel(R) Arc(TM)");
-            }
-
-            IsQualcommProprietary = hasDriverProperties && driverProperties.DriverID == DriverId.QualcommProprietary;
 
             ulong minResourceAlignment = Math.Max(
                 Math.Max(
@@ -419,9 +390,9 @@ namespace Ryujinx.Graphics.Rdna3Vulkan
                 features2.Features.ShaderStorageImageMultisample,
                 _physicalDevice.IsDeviceExtensionPresent(ExtConditionalRendering.ExtensionName),
                 _physicalDevice.IsDeviceExtensionPresent(ExtExtendedDynamicState.ExtensionName),
-                features2.Features.MultiViewport && !(IsMoltenVk && Vendor == Vendor.Amd), // Workaround for AMD on MoltenVK issue
-                featuresRobustness2.NullDescriptor || IsMoltenVk,
-                supportsPushDescriptors && !IsMoltenVk,
+                features2.Features.MultiViewport, // Workaround for AMD on MoltenVK issue
+                featuresRobustness2.NullDescriptor,
+                supportsPushDescriptors,
                 propertiesPushDescriptor.MaxPushDescriptors,
                 featuresPrimitiveTopologyListRestart.PrimitiveTopologyListRestart,
                 featuresPrimitiveTopologyListRestart.PrimitiveTopologyPatchListRestart,
@@ -450,7 +421,7 @@ namespace Ryujinx.Graphics.Rdna3Vulkan
             Api.TryGetDeviceExtension(_instance.Instance, _device, out ExtExternalMemoryHost hostMemoryApi);
             HostMemoryAllocator = new HostMemoryAllocator(MemoryAllocator, Api, hostMemoryApi, _device);
 
-            CommandBufferPool = new CommandBufferPool(Api, _device, Queue, QueueLock, queueFamilyIndex, IsQualcommProprietary);
+            CommandBufferPool = new CommandBufferPool(Api, _device, Queue, QueueLock, queueFamilyIndex, false);
 
             PipelineLayoutCache = new PipelineLayoutCache();
 
@@ -728,10 +699,10 @@ namespace Ryujinx.Graphics.Rdna3Vulkan
                 api: TargetApi.Vulkan,
                 GpuVendor,
                 memoryType: memoryType,
-                hasFrontFacingBug: IsIntelWindows,
-                hasVectorIndexingBug: IsQualcommProprietary,
-                needsFragmentOutputSpecialization: IsMoltenVk,
-                reduceShaderPrecision: IsMoltenVk,
+                hasFrontFacingBug: false,
+                hasVectorIndexingBug: false,
+                needsFragmentOutputSpecialization: false,
+                reduceShaderPrecision: false,
                 supportsAstcCompression: features2.Features.TextureCompressionAstcLdr && supportsAstcFormats,
                 supportsBc123Compression: supportsBc123CompressionFormat,
                 supportsBc45Compression: supportsBc45CompressionFormat,
@@ -754,14 +725,14 @@ namespace Ryujinx.Graphics.Rdna3Vulkan
                 supportsImageLoadFormatted: features2.Features.ShaderStorageImageReadWithoutFormat,
                 supportsLayerVertexTessellation: featuresVk12.ShaderOutputLayer,
                 supportsMismatchingViewFormat: true,
-                supportsCubemapView: !IsAmdGcn,
+                supportsCubemapView: true,
                 supportsNonConstantTextureOffset: false,
                 supportsQuads: false,
                 supportsSeparateSampler: true,
                 supportsShaderBallot: false,
                 supportsShaderBarrierDivergence: Vendor != Vendor.Intel,
                 supportsShaderFloat64: Capabilities.SupportsShaderFloat64,
-                supportsTextureGatherOffsets: features2.Features.ShaderImageGatherExtended && !IsMoltenVk,
+                supportsTextureGatherOffsets: features2.Features.ShaderImageGatherExtended,
                 supportsTextureShadowLod: false,
                 supportsVertexStoreAndAtomics: features2.Features.VertexPipelineStoresAndAtomics,
                 supportsViewportIndexVertexTessellation: featuresVk12.ShaderOutputViewportIndex,
@@ -784,7 +755,7 @@ namespace Ryujinx.Graphics.Rdna3Vulkan
                 shaderSubgroupSize: (int)Capabilities.SubgroupSize,
                 storageBufferOffsetAlignment: (int)limits.MinStorageBufferOffsetAlignment,
                 textureBufferOffsetAlignment: (int)limits.MinTexelBufferOffsetAlignment,
-                gatherBiasPrecision: IsIntelWindows || IsAmdWindows ? (int)Capabilities.SubTexelPrecisionBits : 0,
+                gatherBiasPrecision: IsAmdWindows ? (int)Capabilities.SubTexelPrecisionBits : 0,
                 maximumGpuMemory: GetTotalGPUMemory());
         }
 
@@ -910,20 +881,14 @@ namespace Ryujinx.Graphics.Rdna3Vulkan
 
                 return true;
             }
-            else if (Vendor != Vendor.Nvidia)
-            {
-                // Vulkan requires that vertex attributes are globally aligned by their component size,
-                // so buffer strides that don't divide by the largest scalar element are invalid.
-                // Guest applications do this, NVIDIA GPUs are OK with it, others are not.
+            
+            // Vulkan requires that vertex attributes are globally aligned by their component size,
+            // so buffer strides that don't divide by the largest scalar element are invalid.
+            // Guest applications do this, NVIDIA GPUs are OK with it, others are not.
 
-                alignment = attrScalarAlignment;
+            alignment = attrScalarAlignment;
 
-                return true;
-            }
-
-            alignment = 1;
-
-            return false;
+            return true;
         }
 
         public void PreFrame()
@@ -999,11 +964,6 @@ namespace Ryujinx.Graphics.Rdna3Vulkan
         public void OnScreenCaptured(ScreenCaptureImageInfo bitmap)
         {
             ScreenCaptured?.Invoke(this, bitmap);
-        }
-
-        public bool SupportsRenderPassBarrier(PipelineStageFlags flags)
-        {
-            return !(IsMoltenVk || IsQualcommProprietary);
         }
 
         public unsafe void Dispose()

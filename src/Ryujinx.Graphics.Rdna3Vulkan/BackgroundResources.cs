@@ -35,7 +35,7 @@ namespace Ryujinx.Graphics.Rdna3Vulkan
                         queue,
                         queueLock,
                         _gd.QueueFamilyIndex,
-                        _gd.IsQualcommProprietary,
+                        concurrentFenceWaitUnsupported: false,
                         isLight: true);
                 }
             }

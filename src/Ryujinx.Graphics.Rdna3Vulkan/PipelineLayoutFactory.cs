@@ -19,21 +19,9 @@ namespace Ryujinx.Graphics.Rdna3Vulkan
             DescriptorSetLayout[] layouts = new DescriptorSetLayout[setDescriptors.Count];
             bool[] updateAfterBindFlags = new bool[setDescriptors.Count];
 
-            bool isMoltenVk = gd.IsMoltenVk;
-
             for (int setIndex = 0; setIndex < setDescriptors.Count; setIndex++)
             {
                 ResourceDescriptorCollection rdc = setDescriptors[setIndex];
-
-                ResourceStages activeStages = ResourceStages.None;
-
-                if (isMoltenVk)
-                {
-                    for (int descIndex = 0; descIndex < rdc.Descriptors.Count; descIndex++)
-                    {
-                        activeStages |= rdc.Descriptors[descIndex].Stages;
-                    }
-                }
 
                 DescriptorSetLayoutBinding[] layoutBindings = new DescriptorSetLayoutBinding[rdc.Descriptors.Count];
 
@@ -43,13 +31,6 @@ namespace Ryujinx.Graphics.Rdna3Vulkan
                 {
                     ResourceDescriptor descriptor = rdc.Descriptors[descIndex];
                     ResourceStages stages = descriptor.Stages;
-
-                    if (descriptor.Type == ResourceType.StorageBuffer && isMoltenVk)
-                    {
-                        // There's a bug on MoltenVK where using the same buffer across different stages
-                        // causes invalid resource errors, allow the binding on all active stages as workaround.
-                        stages = activeStages;
-                    }
 
                     layoutBindings[descIndex] = new DescriptorSetLayoutBinding
                     {
@@ -72,15 +53,6 @@ namespace Ryujinx.Graphics.Rdna3Vulkan
                     if (usePushDescriptors && setIndex == 0)
                     {
                         flags = DescriptorSetLayoutCreateFlags.PushDescriptorBitKhr;
-                    }
-
-                    if (gd.Vendor == Vendor.Intel && hasArray)
-                    {
-                        // Some vendors (like Intel) have low per-stage limits.
-                        // We must set the flag if we exceed those limits.
-                        flags |= DescriptorSetLayoutCreateFlags.UpdateAfterBindPoolBit;
-
-                        updateAfterBindFlags[setIndex] = true;
                     }
 
                     var descriptorSetLayoutCreateInfo = new DescriptorSetLayoutCreateInfo

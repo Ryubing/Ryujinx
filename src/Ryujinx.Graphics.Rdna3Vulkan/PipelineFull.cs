@@ -49,7 +49,7 @@ namespace Ryujinx.Graphics.Rdna3Vulkan
                 return;
             }
 
-            if (componentMask != 0xf || Gd.IsQualcommProprietary)
+            if (componentMask != 0xf)
             {
                 // We can't use CmdClearAttachments if not writing all components,
                 // because on Vulkan, the pipeline state does not affect clears.
@@ -90,7 +90,7 @@ namespace Ryujinx.Graphics.Rdna3Vulkan
                 return;
             }
 
-            if ((stencilMask != 0 && stencilMask != 0xff) || Gd.IsQualcommProprietary)
+            if (stencilMask != 0 && stencilMask != 0xff)
             {
                 // We can't use CmdClearAttachments if not clearing all (mask is all ones, 0xFF) or none (mask is 0) of the stencil bits,
                 // because on Vulkan, the pipeline state does not affect clears.

@@ -970,13 +970,6 @@ namespace Ryujinx.Graphics.Rdna3Vulkan
         {
             _newState.RasterizerDiscardEnable = discard;
             SignalStateChange();
-
-            if (!discard && Gd.IsQualcommProprietary)
-            {
-                // On Adreno, enabling rasterizer discard somehow corrupts the viewport state.
-                // Force it to be updated on next use to work around this bug.
-                DynamicState.ForceAllDirty();
-            }
         }
 
         public void SetRenderTargetColorMasks(ReadOnlySpan<uint> componentMask)
@@ -1241,7 +1234,7 @@ namespace Ryujinx.Graphics.Rdna3Vulkan
 
                         int vbSize = vertexBuffer.Buffer.Size;
 
-                        if (Gd.Vendor == Vendor.Amd && !Gd.IsMoltenVk && vertexBuffer.Stride > 0)
+                        if (vertexBuffer.Stride > 0)
                         {
                             // AMD has a bug where if offset + stride * count is greater than
                             // the size, then the last attribute will have the wrong value.

@@ -393,15 +393,7 @@ namespace Ryujinx.Graphics.Rdna3Vulkan
 
             Pipeline pipelineHandle = default;
 
-            bool isMoltenVk = gd.IsMoltenVk;
-
-            if (isMoltenVk)
-            {
-                UpdateVertexAttributeDescriptions(gd);
-            }
-
             fixed (VertexInputAttributeDescription* pVertexAttributeDescriptions = &Internal.VertexAttributeDescriptions[0])
-            fixed (VertexInputAttributeDescription* pVertexAttributeDescriptions2 = &_vertexAttributeDescriptions2[0])
             fixed (VertexInputBindingDescription* pVertexBindingDescriptions = &Internal.VertexBindingDescriptions[0])
             fixed (PipelineColorBlendAttachmentState* pColorBlendAttachmentState = &Internal.ColorBlendAttachmentState[0])
             {
@@ -409,7 +401,7 @@ namespace Ryujinx.Graphics.Rdna3Vulkan
                 {
                     SType = StructureType.PipelineVertexInputStateCreateInfo,
                     VertexAttributeDescriptionCount = VertexAttributeDescriptionsCount,
-                    PVertexAttributeDescriptions = isMoltenVk ? pVertexAttributeDescriptions2 : pVertexAttributeDescriptions,
+                    PVertexAttributeDescriptions = pVertexAttributeDescriptions,
                     VertexBindingDescriptionCount = VertexBindingDescriptionsCount,
                     PVertexBindingDescriptions = pVertexBindingDescriptions,
                 };
@@ -518,27 +510,6 @@ namespace Ryujinx.Graphics.Rdna3Vulkan
                     Front = stencilFront,
                     Back = stencilBack,
                 };
-
-                uint blendEnables = 0;
-
-                if (gd.IsMoltenVk && Internal.AttachmentIntegerFormatMask != 0)
-                {
-                    // Blend can't be enabled for integer formats, so let's make sure it is disabled.
-                    uint attachmentIntegerFormatMask = Internal.AttachmentIntegerFormatMask;
-
-                    while (attachmentIntegerFormatMask != 0)
-                    {
-                        int i = BitOperations.TrailingZeroCount(attachmentIntegerFormatMask);
-
-                        if (Internal.ColorBlendAttachmentState[i].BlendEnable)
-                        {
-                            blendEnables |= 1u << i;
-                        }
-
-                        Internal.ColorBlendAttachmentState[i].BlendEnable = false;
-                        attachmentIntegerFormatMask &= ~(1u << i);
-                    }
-                }
 
                 // Vendors other than NVIDIA have a bug where it enables logical operations even for float formats,
                 // so we need to force disable them here.
@@ -649,15 +620,6 @@ namespace Ryujinx.Graphics.Rdna3Vulkan
                     program.AddGraphicsPipeline(ref Internal, null);
 
                     return null;
-                }
-
-                // Restore previous blend enable values if we changed it.
-                while (blendEnables != 0)
-                {
-                    int i = BitOperations.TrailingZeroCount(blendEnables);
-
-                    Internal.ColorBlendAttachmentState[i].BlendEnable = true;
-                    blendEnables &= ~(1u << i);
                 }
             }
 
