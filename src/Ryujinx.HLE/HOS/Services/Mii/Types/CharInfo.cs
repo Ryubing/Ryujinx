@@ -335,6 +335,70 @@ namespace Ryujinx.HLE.HOS.Services.Mii.Types
             MoleY = storeData.CoreData.MoleY;
             Reserved = 0;
         }
+        public static StoreData BuildFromCharInfo(UtilityImpl utilImpl, CharInfo charInfo)
+        {
+            StoreData result = new()
+            {
+                CoreData = new CoreData
+                {
+                    Nickname = charInfo.Nickname,
+                    FontRegion = charInfo.FontRegion,
+                    FavoriteColor = charInfo.FavoriteColor,
+                    Gender = charInfo.Gender,
+                    Height = charInfo.Height,
+                    Build = charInfo.Build,
+                    Type = charInfo.Type,
+                    RegionMove = charInfo.RegionMove,
+                    FacelineType = charInfo.FacelineType,
+                    FacelineColor = charInfo.FacelineColor,
+                    FacelineWrinkle = charInfo.FacelineWrinkle,
+                    FacelineMake = charInfo.FacelineMake,
+                    HairType = charInfo.HairType,
+                    HairColor = charInfo.HairColor,
+                    HairFlip = charInfo.HairFlip,
+                    EyeType = charInfo.EyeType,
+                    EyeColor = charInfo.EyeColor,
+                    EyeScale = charInfo.EyeScale,
+                    EyeAspect = charInfo.EyeAspect,
+                    EyeRotate = charInfo.EyeRotate,
+                    EyeX = charInfo.EyeX,
+                    EyeY = charInfo.EyeY,
+                    EyebrowType = charInfo.EyebrowType,
+                    EyebrowColor = charInfo.EyebrowColor,
+                    EyebrowScale = charInfo.EyebrowScale,
+                    EyebrowAspect = charInfo.EyebrowAspect,
+                    EyebrowRotate = charInfo.EyebrowRotate,
+                    EyebrowX = charInfo.EyebrowX,
+                    EyebrowY = charInfo.EyebrowY,
+                    NoseType = charInfo.NoseType,
+                    NoseScale = charInfo.NoseScale,
+                    NoseY = charInfo.NoseY,
+                    MouthType = charInfo.MouthType,
+                    MouthColor = charInfo.MouthColor,
+                    MouthScale = charInfo.MouthScale,
+                    MouthAspect = charInfo.MouthAspect,
+                    MouthY = charInfo.MouthY,
+                    BeardColor = charInfo.BeardColor,
+                    BeardType = charInfo.BeardType,
+                    MustacheType = charInfo.MustacheType,
+                    MustacheScale = charInfo.MustacheScale,
+                    MustacheY = charInfo.MustacheY,
+                    GlassType = charInfo.GlassType,
+                    GlassColor = charInfo.GlassColor,
+                    GlassScale = charInfo.GlassScale,
+                    GlassY = charInfo.GlassY,
+                    MoleType = charInfo.MoleType,
+                    MoleScale = charInfo.MoleScale,
+                    MoleX = charInfo.MoleX,
+                    MoleY = charInfo.MoleY
+                }
+            };
+            
+            result.UpdateCreateID(utilImpl);
+            result.UpdateCrc();
+
+            return result;
+        }
 
         public readonly void SetSource(Source source)
         {

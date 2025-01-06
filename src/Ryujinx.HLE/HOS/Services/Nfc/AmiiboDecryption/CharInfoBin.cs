@@ -1,3 +1,5 @@
+using Humanizer;
+using Ryujinx.HLE.HOS.Services.Mii;
 using Ryujinx.HLE.HOS.Services.Mii.Types;
 using System;
 using System.Text;
@@ -7,7 +9,6 @@ namespace Ryujinx.HLE.HOS.Services.Nfc.AmiiboDecryption
     internal class CharInfoBin
     {
         public byte MiiVersion { get; private set; }
-        public byte[] CreateID { get; private set; }
         public bool AllowCopying { get; private set; }
         public bool ProfanityFlag { get; private set; }
         public int RegionLock { get; private set; }
@@ -84,8 +85,6 @@ namespace Ryujinx.HLE.HOS.Services.Nfc.AmiiboDecryption
             mii.ProfanityFlag = (flags1 & 0x2) != 0;
             mii.RegionLock = (flags1 >> 2) & 0x3;
             mii.CharacterSet = (flags1 >> 4) & 0x3;
-            // add the first 0x10 bytes to the create id
-            mii.CreateID = data[0x0..0x10];
             byte position = data[0x2];
             mii.PageIndex = position & 0xF;
             mii.SlotIndex = (position >> 4) & 0xF;
@@ -201,10 +200,9 @@ namespace Ryujinx.HLE.HOS.Services.Nfc.AmiiboDecryption
             return Encoding.Unicode.GetString(data, offset, length * 2);
         }
 
-        public CharInfo ConvertToCharInfo(CharInfo Info)
+        public CharInfo ConvertToCharInfo(UtilityImpl utilImpl, CharInfo Info)
         {
-            //UInt128 CreateId = BitConverter.ToUInt128(CreateID, 0);
-            //Info.CreateId = new CreateId(CreateId);
+            Info.CreateId = utilImpl.MakeCreateId();
             Info.Nickname = Nickname.FromString(MiiName);
             Info.FavoriteColor = (byte)FavoriteColor;
             Info.Gender = IsMale ? Gender.Male : Gender.Female;

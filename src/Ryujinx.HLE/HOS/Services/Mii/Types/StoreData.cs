@@ -30,6 +30,11 @@ namespace Ryujinx.HLE.HOS.Services.Mii.Types
             DeviceCrc = CalculateDeviceCrc();
         }
 
+        public void UpdateCreateID(UtilityImpl impl)
+        {
+            _createId = impl.MakeCreateId();
+        }
+
         public void UpdateCrc()
         {
             UpdateDataCrc();

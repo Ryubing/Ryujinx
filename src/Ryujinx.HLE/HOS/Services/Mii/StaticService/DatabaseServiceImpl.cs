@@ -1,4 +1,5 @@
 using Ryujinx.HLE.HOS.Services.Mii.Types;
+using Ryujinx.HLE.HOS.Services.Nfc.Nfp;
 using Ryujinx.HLE.HOS.Services.Settings;
 using System;
 
@@ -154,6 +155,10 @@ namespace Ryujinx.HLE.HOS.Services.Mii.StaticService
 
         protected override ResultCode AddOrReplace(StoreData storeData)
         {
+            if (VirtualAmiibo.VirtualAmiiboBinFile != null)
+            {
+                storeData = VirtualAmiibo.VirtualAmiiboBinFile.StoreData;
+            }
             if (!_isSystem)
             {
                 return ResultCode.PermissionDenied;

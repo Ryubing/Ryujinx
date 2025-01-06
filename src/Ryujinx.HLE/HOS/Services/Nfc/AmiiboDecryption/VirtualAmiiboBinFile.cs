@@ -18,6 +18,7 @@ namespace Ryujinx.HLE.HOS.Services.Nfc.AmiiboDecryption
         public int WriteCounter { get; set; }
         public DateTime LastWriteDate { get; set; }
         public byte[] TagUuid { get; set; }
+        internal StoreData StoreData { get; set; }
 
         internal RegisterInfo GetRegisterInfo(ITickSource tickSource)
         {
@@ -33,8 +34,9 @@ namespace Ryujinx.HLE.HOS.Services.Nfc.AmiiboDecryption
             UtilityImpl utilityImpl = new UtilityImpl(tickSource);
             CharInfo Info = new();
             Info.SetFromStoreData(StoreData.BuildDefault(utilityImpl, 0));
-            CharInfo charInfo = charInfoBin.ConvertToCharInfo(Info);
+            CharInfo charInfo = charInfoBin.ConvertToCharInfo(utilityImpl,Info);
             info.MiiCharInfo = charInfo;
+            StoreData = CharInfo.BuildFromCharInfo(utilityImpl, charInfo);
             return info;
         }
         public void UpdateApplicationArea(byte[] applicationAreaData)
