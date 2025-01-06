@@ -6,6 +6,7 @@ namespace Ryujinx.Ava.Utilities
     public static class CommandLineState
     {
         public static string[] Arguments { get; private set; }
+        public static string[] Mods { get; private set; }
 
         public static bool? OverrideDockedMode { get; private set; }
         public static bool? OverrideHardwareAcceleration { get; private set; }
@@ -21,6 +22,7 @@ namespace Ryujinx.Ava.Utilities
         public static void ParseArguments(string[] args)
         {
             List<string> arguments = new();
+            List<string> mods = new();
 
             // Parse Arguments.
             for (int i = 0; i < args.Length; ++i)
@@ -78,6 +80,39 @@ namespace Ryujinx.Ava.Utilities
                     case "--application-id":
                         LaunchApplicationId = args[++i];
                         break;
+                    case "-m":
+                    case "--mod":
+                        int numMods;
+                        if (i + 1 >= args.Length)
+                        {
+                            Logger.Error?.Print(LogClass.Application, $"Argument '{arg}' expects a number of mods as next argument");
+
+                            continue;
+                        }
+                        if (!int.TryParse(args[++i], out numMods))
+                        {
+                            i--;
+                            Logger.Error?.Print(LogClass.Application, $"Expected number of mods, got '{arg}'");
+
+                            continue;
+                        }
+
+                        if (i + numMods >= args.Length)
+                        {
+                            Logger.Error?.Print(LogClass.Application, $"The number of expected mods exceeds the number of command line arguments left");
+
+                            continue;
+                        }
+
+                        for (int j = i + 1; j <= i + numMods; j++)
+                        {
+                            mods.Add(args[j]);
+
+                            Logger.Info?.Print(LogClass.Application, $"Enabled mod '{args[j]}' through cli");
+                        }
+
+                        i += numMods;
+                        break;
                     case "--docked-mode":
                         OverrideDockedMode = true;
                         break;
@@ -107,6 +142,7 @@ namespace Ryujinx.Ava.Utilities
             }
 
             Arguments = arguments.ToArray();
+            Mods = mods.ToArray();
         }
     }
 }

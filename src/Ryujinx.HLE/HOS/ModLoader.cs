@@ -41,11 +41,11 @@ namespace Ryujinx.HLE.HOS
 
         private static readonly ModMetadataJsonSerializerContext _serializerContext = new(JsonHelper.GetDefaultSerializerOptions());
 
-        public readonly struct Mod<T> where T : FileSystemInfo
+        public struct Mod<T> where T : FileSystemInfo
         {
             public readonly string Name;
             public readonly T Path;
-            public readonly bool Enabled;
+            public bool Enabled;
 
             public Mod(string name, T path, bool enabled)
             {
@@ -169,7 +169,16 @@ namespace Ryujinx.HLE.HOS
                 if (StrEquals(RomfsDir, modDir.Name))
                 {
                     var modData = modMetadata.Mods.FirstOrDefault(x => modDir.FullName.Contains(x.Path));
-                    var enabled = modData?.Enabled ?? true;
+
+                    bool enabled;
+                    if (AppDataManager.CommandLineArgMods.Length == 0)
+                    {
+                        enabled = modData?.Enabled ?? true;
+                    }
+                    else
+                    {
+                        enabled = AppDataManager.CommandLineArgMods.Contains(modData.Name);
+                    }
 
                     mods.RomfsDirs.Add(mod = new Mod<DirectoryInfo>(dir.Name, modDir, enabled));
                     types.Append('R');
@@ -177,7 +186,16 @@ namespace Ryujinx.HLE.HOS
                 else if (StrEquals(ExefsDir, modDir.Name))
                 {
                     var modData = modMetadata.Mods.FirstOrDefault(x => modDir.FullName.Contains(x.Path));
-                    var enabled = modData?.Enabled ?? true;
+
+                    bool enabled;
+                    if (AppDataManager.CommandLineArgMods.Length == 0)
+                    {
+                        enabled = modData?.Enabled ?? true;
+                    }
+                    else
+                    {
+                        enabled = AppDataManager.CommandLineArgMods.Contains(modData.Name);
+                    }
 
                     mods.ExefsDirs.Add(mod = new Mod<DirectoryInfo>(dir.Name, modDir, enabled));
                     types.Append('E');

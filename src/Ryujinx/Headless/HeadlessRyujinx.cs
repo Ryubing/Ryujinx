@@ -147,7 +147,7 @@ namespace Ryujinx.Headless
                 option.InheritMainConfig(originalArgs, ConfigurationState.Instance, out useLastUsedProfile);
             }
 
-            AppDataManager.Initialize(option.BaseDataDir);
+            AppDataManager.Initialize(option.BaseDataDir, []);
             
             if (useLastUsedProfile && AccountSaveDataManager.GetLastUsedUser().TryGet(out var profile))
                 option.UserProfile = profile.Name;
