@@ -1,6 +1,7 @@
 using CommandLine;
 using Gommon;
 using Ryujinx.Ava;
+using Ryujinx.Ava.Utilities;
 using Ryujinx.Ava.Utilities.Configuration;
 using Ryujinx.Common;
 using Ryujinx.Common.Configuration;
@@ -84,23 +85,23 @@ namespace Ryujinx.Headless
                 .WithNotParsed(errors =>
                 {
                     Logger.Error?.PrintMsg(LogClass.Application, "Error parsing command-line arguments:");
-                    
+
                     errors.ForEach(err => Logger.Error?.PrintMsg(LogClass.Application, $" - {err.Tag}"));
                 });
         }
-        
+
         public static void ReloadConfig(string customConfigPath = null)
         {
             string localConfigurationPath = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, ReleaseInformation.ConfigName);
             string appDataConfigurationPath = Path.Combine(AppDataManager.BaseDirPath, ReleaseInformation.ConfigName);
 
             string configurationPath = null;
-            
+
             // Now load the configuration as the other subsystems are now registered
             if (customConfigPath != null && File.Exists(customConfigPath))
             {
                 configurationPath = customConfigPath;
-            } 
+            }
             else if (File.Exists(localConfigurationPath))
             {
                 configurationPath = localConfigurationPath;
@@ -147,11 +148,11 @@ namespace Ryujinx.Headless
                 option.InheritMainConfig(originalArgs, ConfigurationState.Instance, out useLastUsedProfile);
             }
 
-            AppDataManager.Initialize(option.BaseDataDir, []);
-            
+            AppDataManager.Initialize(option.BaseDataDir, option.OverrideMods.Split(","));
+
             if (useLastUsedProfile && AccountSaveDataManager.GetLastUsedUser().TryGet(out var profile))
                 option.UserProfile = profile.Name;
-            
+
             // Check if keys exists.
             if (!File.Exists(Path.Combine(AppDataManager.KeysDirPath, "prod.keys")))
             {
@@ -160,14 +161,14 @@ namespace Ryujinx.Headless
                     Logger.Error?.Print(LogClass.Application, "Keys not found");
                 }
             }
-            
+
             ReloadConfig();
 
             if (option.InheritConfig)
             {
                 option.InheritMainConfigInput(originalArgs, ConfigurationState.Instance);
             }
-            
+
             _virtualFileSystem = VirtualFileSystem.CreateInstance();
             _libHacHorizonManager = new LibHacHorizonManager();
 
@@ -230,9 +231,9 @@ namespace Ryujinx.Headless
             _enableMouse = option.EnableMouse;
 
 
-            
+
             LoadPlayerConfiguration(option.InputProfile1Name, option.InputId1, PlayerIndex.Player1);
-            LoadPlayerConfiguration(option.InputProfile2Name, option.InputId2, PlayerIndex.Player2); 
+            LoadPlayerConfiguration(option.InputProfile2Name, option.InputId2, PlayerIndex.Player2);
             LoadPlayerConfiguration(option.InputProfile3Name, option.InputId3, PlayerIndex.Player3);
             LoadPlayerConfiguration(option.InputProfile4Name, option.InputId4, PlayerIndex.Player4);
             LoadPlayerConfiguration(option.InputProfile5Name, option.InputId5, PlayerIndex.Player5);
@@ -240,7 +241,7 @@ namespace Ryujinx.Headless
             LoadPlayerConfiguration(option.InputProfile7Name, option.InputId7, PlayerIndex.Player7);
             LoadPlayerConfiguration(option.InputProfile8Name, option.InputId8, PlayerIndex.Player8);
             LoadPlayerConfiguration(option.InputProfileHandheldName, option.InputIdHandheld, PlayerIndex.Handheld);
-            
+
             if (_inputConfiguration.Count == 0)
             {
                 return;
@@ -304,7 +305,7 @@ namespace Ryujinx.Headless
             _inputManager.Dispose();
 
             return;
-            
+
             void LoadPlayerConfiguration(string inputProfileName, string inputId, PlayerIndex index)
             {
                 if (index == PlayerIndex.Handheld && _inputConfiguration.Count > 0)
@@ -312,7 +313,7 @@ namespace Ryujinx.Headless
                     Logger.Info?.Print(LogClass.Configuration, "Skipping handheld configuration as there are already other players configured.");
                     return;
                 }
-                
+
                 InputConfig inputConfig = option.InheritedInputConfigs[index] ?? HandlePlayerConfiguration(inputProfileName, inputId, index);
 
                 if (inputConfig != null)
