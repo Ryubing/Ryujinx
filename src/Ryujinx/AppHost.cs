@@ -892,10 +892,6 @@ namespace Ryujinx.Ava
         {
             var physicalDevices = VulkanRenderer.GetPhysicalDevices();
             var selectedDevice = physicalDevices.First(d => d.Id == ConfigurationState.Instance.Graphics.PreferredGpu);
-
-            var isRdna3 = VendorUtils.AmdRdna3Pattern.IsMatch(selectedDevice.Name);
-            
-            Logger.Info?.Print(LogClass.Gpu, $"{selectedDevice.Name}: {(isRdna3 ? "RDNA" : "NOT RDNA3")}");
             
             if (VendorUtils.AmdRdna3Pattern.IsMatch(selectedDevice.Name))
                 return Rdna3VulkanRenderer.Create(
