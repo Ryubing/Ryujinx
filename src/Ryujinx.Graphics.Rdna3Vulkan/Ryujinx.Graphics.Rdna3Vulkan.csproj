@@ -1,5 +1,4 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
-
     <PropertyGroup>
         <DefaultItemExcludes>$(DefaultItemExcludes);._*</DefaultItemExcludes>
     </PropertyGroup>
@@ -24,5 +23,4 @@
         <ProjectReference Include="..\Ryujinx.Common\Ryujinx.Common.csproj" />
         <ProjectReference Include="..\Ryujinx.Graphics.GAL\Ryujinx.Graphics.GAL.csproj" />
     </ItemGroup>
-
 </Project>

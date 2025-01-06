@@ -27,7 +27,7 @@ namespace Ryujinx.Graphics.Rdna3Vulkan
     {
         private const int UniformBufferAlignment = 256;
         private const int ConvertElementsPerWorkgroup = 32 * 100; // Work group size of 32 times 100 elements.
-        private const string ShaderBinariesPath = "Ryujinx.Graphics.Rdna3Vulkan/Shaders/SpirvBinaries";
+        private const string ShaderBinariesPath = "Ryujinx.Graphics.Vulkan/Shaders/SpirvBinaries";
 
         private readonly PipelineHelperShader _pipeline;
         private readonly ISampler _samplerLinear;

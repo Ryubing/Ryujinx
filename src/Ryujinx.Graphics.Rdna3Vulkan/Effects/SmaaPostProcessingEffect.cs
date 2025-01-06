@@ -74,9 +74,9 @@ namespace Ryujinx.Graphics.Rdna3Vulkan.Effects
 
             _pipeline.Initialize();
 
-            var edgeShader = EmbeddedResources.Read("Ryujinx.Graphics.Rdna3Vulkan/Effects/Shaders/SmaaEdge.spv");
-            var blendShader = EmbeddedResources.Read("Ryujinx.Graphics.Rdna3Vulkan/Effects/Shaders/SmaaBlend.spv");
-            var neighbourShader = EmbeddedResources.Read("Ryujinx.Graphics.Rdna3Vulkan/Effects/Shaders/SmaaNeighbour.spv");
+            var edgeShader = EmbeddedResources.Read("Ryujinx.Graphics.Vulkan/Effects/Shaders/SmaaEdge.spv");
+            var blendShader = EmbeddedResources.Read("Ryujinx.Graphics.Vulkan/Effects/Shaders/SmaaBlend.spv");
+            var neighbourShader = EmbeddedResources.Read("Ryujinx.Graphics.Vulkan/Effects/Shaders/SmaaNeighbour.spv");
 
             var edgeResourceLayout = new ResourceLayoutBuilder()
                 .Add(ResourceStages.Compute, ResourceType.UniformBuffer, 2)
@@ -174,8 +174,8 @@ namespace Ryujinx.Graphics.Rdna3Vulkan.Effects
                 SwizzleComponent.Blue,
                 SwizzleComponent.Alpha);
 
-            var areaTexture = EmbeddedResources.ReadFileToRentedMemory("Ryujinx.Graphics.Rdna3Vulkan/Effects/Textures/SmaaAreaTexture.bin");
-            var searchTexture = EmbeddedResources.ReadFileToRentedMemory("Ryujinx.Graphics.Rdna3Vulkan/Effects/Textures/SmaaSearchTexture.bin");
+            var areaTexture = EmbeddedResources.ReadFileToRentedMemory("Ryujinx.Graphics.Vulkan/Effects/Textures/SmaaAreaTexture.bin");
+            var searchTexture = EmbeddedResources.ReadFileToRentedMemory("Ryujinx.Graphics.Vulkan/Effects/Textures/SmaaSearchTexture.bin");
 
             _areaTexture = _renderer.CreateTexture(areaInfo) as TextureView;
             _searchTexture = _renderer.CreateTexture(searchInfo) as TextureView;
