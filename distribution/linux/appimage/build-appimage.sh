@@ -6,7 +6,7 @@ cd "$ROOTDIR"
 
 BUILDDIR=${BUILDDIR:-publish}
 OUTDIR=${OUTDIR:-publish_appimage}
-UFLAG=${UFLAG:-"gh-releases-zsync|GreemDev|ryujinx|latest|*-x64.AppImage.zsync"}
+UFLAG=${UFLAG:-"gh-releases-zsync|Ryubing|ryujinx|latest|*-x64.AppImage.zsync"}
 
 rm -rf AppDir
 mkdir -p AppDir/usr/bin
