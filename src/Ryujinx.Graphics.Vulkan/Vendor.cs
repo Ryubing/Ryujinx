@@ -3,7 +3,7 @@ using System.Text.RegularExpressions;
 
 namespace Ryujinx.Graphics.Vulkan
 {
-    enum Vendor
+    public enum Vendor
     {
         Amd,
         ImgTec,
@@ -16,13 +16,21 @@ namespace Ryujinx.Graphics.Vulkan
         Unknown,
     }
 
-    static partial class VendorUtils
+    public static partial class VendorUtils
     {
+        public static readonly Regex AmdGcnPattern = AmdGcnRegex();
+        public static readonly Regex NvidiaConsumerClassPattern = NvidiaConsumerClassRegex();
+        public static readonly Regex AmdRdna3Pattern = AmdRdna3Regex();
+        
+        
         [GeneratedRegex("Radeon (((HD|R(5|7|9|X)) )?((M?[2-6]\\d{2}(\\D|$))|([7-8]\\d{3}(\\D|$))|Fury|Nano))|(Pro Duo)")]
-        public static partial Regex AmdGcnRegex();
+        private static partial Regex AmdGcnRegex();
 
         [GeneratedRegex("NVIDIA GeForce (R|G)?TX? (\\d{3}\\d?)M?")]
-        public static partial Regex NvidiaConsumerClassRegex();
+        private static partial Regex NvidiaConsumerClassRegex();
+        
+        [GeneratedRegex("(AMD )?Radeon (RX |Pro W)7(6|7|8|9)00 ?(XT|XTX|GRE|Dual Slot)?")]
+        private static partial Regex AmdRdna3Regex();
 
         public static Vendor FromId(uint id)
         {

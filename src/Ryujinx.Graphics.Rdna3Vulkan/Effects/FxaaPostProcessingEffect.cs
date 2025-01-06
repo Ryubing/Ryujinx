@@ -37,7 +37,7 @@ namespace Ryujinx.Graphics.Rdna3Vulkan.Effects
         {
             _pipeline.Initialize();
 
-            var shader = EmbeddedResources.Read("Ryujinx.Graphics.Rdna3Vulkan/Effects/Shaders/Fxaa.spv");
+            var shader = EmbeddedResources.Read("Ryujinx.Graphics.Vulkan/Effects/Shaders/Fxaa.spv");
 
             var resourceLayout = new ResourceLayoutBuilder()
                 .Add(ResourceStages.Compute, ResourceType.UniformBuffer, 2)

@@ -342,11 +342,11 @@ namespace Ryujinx.Graphics.Vulkan
 
             GpuVersion = $"Vulkan v{ParseStandardVulkanVersion(properties.ApiVersion)}, Driver v{ParseDriverVersion(ref properties)}";
 
-            IsAmdGcn = !IsMoltenVk && Vendor == Vendor.Amd && VendorUtils.AmdGcnRegex().IsMatch(GpuRenderer);
+            IsAmdGcn = !IsMoltenVk && Vendor == Vendor.Amd && VendorUtils.AmdGcnPattern.IsMatch(GpuRenderer);
 
             if (Vendor == Vendor.Nvidia)
             {
-                var match = VendorUtils.NvidiaConsumerClassRegex().Match(GpuRenderer);
+                var match = VendorUtils.NvidiaConsumerClassPattern.Match(GpuRenderer);
 
                 if (match != null && int.TryParse(match.Groups[2].Value, out int gpuNumber))
                 {

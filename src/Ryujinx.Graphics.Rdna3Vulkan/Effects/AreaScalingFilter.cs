@@ -41,7 +41,7 @@ namespace Ryujinx.Graphics.Rdna3Vulkan.Effects
 
             _pipeline.Initialize();
 
-            var scalingShader = EmbeddedResources.Read("Ryujinx.Graphics.Rdna3Vulkan/Effects/Shaders/AreaScaling.spv");
+            var scalingShader = EmbeddedResources.Read("Ryujinx.Graphics.Vulkan/Effects/Shaders/AreaScaling.spv");
 
             var scalingResourceLayout = new ResourceLayoutBuilder()
                 .Add(ResourceStages.Compute, ResourceType.UniformBuffer, 2)

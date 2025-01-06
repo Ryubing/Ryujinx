@@ -48,6 +48,7 @@ using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
+using System.Linq;
 using System.Runtime.InteropServices;
 using System.Threading;
 using System.Threading.Tasks;
@@ -61,6 +62,8 @@ using ScalingFilter = Ryujinx.Common.Configuration.ScalingFilter;
 using Size = Avalonia.Size;
 using Switch = Ryujinx.HLE.Switch;
 using VSyncMode = Ryujinx.Common.Configuration.VSyncMode;
+
+using Rdna3VulkanRenderer = Ryujinx.Graphics.Rdna3Vulkan.VulkanRenderer;
 
 namespace Ryujinx.Ava
 {
@@ -885,6 +888,28 @@ namespace Ryujinx.Ava
             Logger.Info?.Print(LogClass.Emulation, "Emulation was paused");
         }
 
+        private IRenderer CreateVulkanRenderer()
+        {
+            var physicalDevices = VulkanRenderer.GetPhysicalDevices();
+            var selectedDevice = physicalDevices.First(d => d.Id == ConfigurationState.Instance.Graphics.PreferredGpu);
+
+            var isRdna3 = VendorUtils.AmdRdna3Pattern.IsMatch(selectedDevice.Name);
+            
+            Logger.Info?.Print(LogClass.Gpu, $"{selectedDevice.Name}: {(isRdna3 ? "RDNA" : "NOT RDNA3")}");
+            
+            if (VendorUtils.AmdRdna3Pattern.IsMatch(selectedDevice.Name))
+                return Rdna3VulkanRenderer.Create(
+                    ConfigurationState.Instance.Graphics.PreferredGpu,
+                    (RendererHost.EmbeddedWindow as EmbeddedWindowVulkan)!.CreateSurface,
+                    VulkanHelper.GetRequiredInstanceExtensions);
+            
+            return VulkanRenderer.Create(
+                ConfigurationState.Instance.Graphics.PreferredGpu,
+                (RendererHost.EmbeddedWindow as EmbeddedWindowVulkan)!.CreateSurface,
+                VulkanHelper.GetRequiredInstanceExtensions);
+        }
+        
+
         private void InitializeSwitchInstance()
         {
             // Initialize KeySet.
@@ -899,10 +924,7 @@ namespace Ryujinx.Ava
                 // SelectGraphicsBackend does a check for Mac, on top of checking if it's an ARM Mac. This isn't a problem.
                 GraphicsBackend.Metal => new MetalRenderer((RendererHost.EmbeddedWindow as EmbeddedWindowMetal)!.CreateSurface),
 #pragma warning restore CA1416
-                GraphicsBackend.Vulkan => VulkanRenderer.Create(
-                    ConfigurationState.Instance.Graphics.PreferredGpu,
-                    (RendererHost.EmbeddedWindow as EmbeddedWindowVulkan)!.CreateSurface,
-                    VulkanHelper.GetRequiredInstanceExtensions),
+                GraphicsBackend.Vulkan => CreateVulkanRenderer(),
                 _ => new OpenGLRenderer()
             };
 
