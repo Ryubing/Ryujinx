@@ -171,13 +171,13 @@ namespace Ryujinx.HLE.HOS
                     var modData = modMetadata.Mods.FirstOrDefault(x => modDir.FullName.Contains(x.Path));
 
                     bool enabled;
-                    if (AppDataManager.CommandLineArgMods.Length == 0)
+                    if (AppDataManager.OverrideMods.Length == 0)
                     {
                         enabled = modData?.Enabled ?? true;
                     }
                     else
                     {
-                        enabled = AppDataManager.CommandLineArgMods.Contains(modData.Name);
+                        enabled = AppDataManager.OverrideMods.Contains(modData.Name);
                     }
 
                     mods.RomfsDirs.Add(mod = new Mod<DirectoryInfo>(dir.Name, modDir, enabled));
@@ -188,13 +188,13 @@ namespace Ryujinx.HLE.HOS
                     var modData = modMetadata.Mods.FirstOrDefault(x => modDir.FullName.Contains(x.Path));
 
                     bool enabled;
-                    if (AppDataManager.CommandLineArgMods.Length == 0)
+                    if (AppDataManager.OverrideMods.Length == 0)
                     {
                         enabled = modData?.Enabled ?? true;
                     }
                     else
                     {
-                        enabled = AppDataManager.CommandLineArgMods.Contains(modData.Name);
+                        enabled = AppDataManager.OverrideMods.Contains(modData.Name);
                     }
 
                     mods.ExefsDirs.Add(mod = new Mod<DirectoryInfo>(dir.Name, modDir, enabled));

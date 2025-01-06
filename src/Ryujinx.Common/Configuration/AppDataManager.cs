@@ -32,7 +32,7 @@ namespace Ryujinx.Common.Configuration
         public static string KeysDirPathUser { get; }
 
         public static string LogsDirPath { get; private set; }
-        public static string[] CommandLineArgMods { get; private set; }
+        public static string[] OverrideMods { get; private set; }
 
         public const string DefaultNandDir = "bis";
         public const string DefaultSdcardDir = "sdcard";
@@ -50,7 +50,7 @@ namespace Ryujinx.Common.Configuration
 
         public static void Initialize(string baseDirPath, string[] commandLineArgMods)
         {
-            CommandLineArgMods = commandLineArgMods;
+            OverrideMods = commandLineArgMods;
             string appDataPath = Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData);
 
             if (appDataPath.Length == 0)
