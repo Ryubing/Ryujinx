@@ -1,0 +1,28 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+    <PropertyGroup>
+        <DefaultItemExcludes>$(DefaultItemExcludes);._*</DefaultItemExcludes>
+    </PropertyGroup>
+
+    <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">
+        <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
+    </PropertyGroup>
+
+    <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
+        <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
+    </PropertyGroup>
+
+    <ItemGroup>
+        <PackageReference Include="OpenTK.Windowing.GraphicsLibraryFramework" />
+        <PackageReference Include="shaderc.net" />
+        <PackageReference Include="Silk.NET.Vulkan" />
+        <PackageReference Include="Silk.NET.Vulkan.Extensions.EXT" />
+        <PackageReference Include="Silk.NET.Vulkan.Extensions.KHR" />
+    </ItemGroup>
+
+    <ItemGroup>
+        <ProjectReference Include="..\Ryujinx.Common\Ryujinx.Common.csproj" />
+        <ProjectReference Include="..\Ryujinx.Graphics.GAL\Ryujinx.Graphics.GAL.csproj" />
+    </ItemGroup>
+
+</Project>
