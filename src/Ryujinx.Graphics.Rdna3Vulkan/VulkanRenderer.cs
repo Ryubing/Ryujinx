@@ -390,7 +390,7 @@ namespace Ryujinx.Graphics.Rdna3Vulkan
                 features2.Features.ShaderStorageImageMultisample,
                 _physicalDevice.IsDeviceExtensionPresent(ExtConditionalRendering.ExtensionName),
                 _physicalDevice.IsDeviceExtensionPresent(ExtExtendedDynamicState.ExtensionName),
-                features2.Features.MultiViewport, // Workaround for AMD on MoltenVK issue
+                features2.Features.MultiViewport,
                 featuresRobustness2.NullDescriptor,
                 supportsPushDescriptors,
                 propertiesPushDescriptor.MaxPushDescriptors,
