@@ -40,6 +40,7 @@
         <KeyBinding Gesture="F9" Command="{Binding ToggleDockMode}" />
         <KeyBinding Gesture="Escape" Command="{Binding ExitCurrentState}" />
         <KeyBinding Gesture="Ctrl+A" Command="{Binding OpenAmiiboWindow}" />
+        <KeyBinding Gesture="Ctrl+B" Command="{Binding OpenBinFile}" />
     </Window.KeyBindings>
     <Grid HorizontalAlignment="Stretch" VerticalAlignment="Stretch" RowDefinitions="*">
         <helpers:OffscreenTextBox IsEnabled="False" Opacity="0" Name="HiddenTextBox" IsHitTestVisible="False" IsTabStop="False" />

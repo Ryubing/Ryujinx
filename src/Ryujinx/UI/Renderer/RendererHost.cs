@@ -1,16 +1,15 @@
-using Avalonia;
+﻿using Avalonia;
 using Avalonia.Controls;
-using Gommon;
+using Avalonia.Media;
 using Ryujinx.Ava.Utilities.Configuration;
 using Ryujinx.Common;
 using Ryujinx.Common.Configuration;
 using Ryujinx.Common.Logging;
 using System;
-using System.Runtime.InteropServices;
 
 namespace Ryujinx.Ava.UI.Renderer
 {
-    public partial class RendererHost : UserControl, IDisposable
+    public class RendererHost : UserControl, IDisposable
     {
         public readonly EmbeddedWindow EmbeddedWindow;
 
@@ -19,7 +18,8 @@ namespace Ryujinx.Ava.UI.Renderer
 
         public RendererHost()
         {
-            InitializeComponent();
+            Focusable = true;
+            FlowDirection = FlowDirection.LeftToRight;
 
             EmbeddedWindow = ConfigurationState.Instance.Graphics.GraphicsBackend.Value switch
             {
@@ -43,8 +43,6 @@ namespace Ryujinx.Ava.UI.Renderer
 
         public RendererHost(string titleId)
         {
-            InitializeComponent();
-
             switch (TitleIDs.SelectGraphicsBackend(titleId, ConfigurationState.Instance.Graphics.GraphicsBackend))
             {
                 case GraphicsBackend.OpenGl:
@@ -109,3 +107,4 @@ namespace Ryujinx.Ava.UI.Renderer
         }
     }
 }
+

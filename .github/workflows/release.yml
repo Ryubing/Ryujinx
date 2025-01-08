@@ -121,6 +121,15 @@ jobs:
           7z a ../release_output/ryujinx-${{ steps.version_info.outputs.build_version }}-${{ matrix.platform.zip_os_name }}.zip ../publish
           popd
         shell: bash
+
+      - name: Packing Linux builds
+        if: matrix.platform.os == 'ubuntu-latest'
+        run: |
+          pushd publish
+          chmod +x Ryujinx.sh Ryujinx
+          tar -czvf ../release_output/ryujinx-${{ steps.version_info.outputs.build_version }}-${{ matrix.platform.zip_os_name }}.tar.gz ../publish
+          popd
+        shell: bash
       
       - name: Build AppImage (Linux)
         if: matrix.platform.os == 'ubuntu-latest'
@@ -156,15 +165,6 @@ jobs:
           pushd publish_appimage
           mv Ryujinx.AppImage ../release_output/ryujinx-$BUILD_VERSION-$ARCH_NAME.AppImage
           mv Ryujinx.AppImage.zsync ../release_output/ryujinx-$BUILD_VERSION-$ARCH_NAME.AppImage.zsync
-          popd
-        shell: bash        
-
-      - name: Packing Linux builds
-        if: matrix.platform.os == 'ubuntu-latest'
-        run: |
-          pushd publish
-          chmod +x Ryujinx.sh Ryujinx
-          tar -czvf ../release_output/ryujinx-${{ steps.version_info.outputs.build_version }}-${{ matrix.platform.zip_os_name }}.tar.gz ../publish
           popd
         shell: bash
 

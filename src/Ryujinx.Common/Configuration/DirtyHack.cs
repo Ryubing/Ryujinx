@@ -25,7 +25,7 @@ namespace Ryujinx.Common.Configuration
         {
             var unpackedFields = packedHack.UnpackBitFields(PackedFormat);
             if (unpackedFields is not [var hack, var value])
-                throw new ArgumentException(nameof(packedHack));
+                throw new Exception("The unpack operation on the integer resulted in an invalid unpacked result.");
             
             return new EnabledDirtyHack((DirtyHack)hack, (int)value);
         }

@@ -154,10 +154,37 @@ namespace Ryujinx.Headless
             return;
             
             bool NeedsOverride(string argKey) => originalArgs.None(arg => arg.TrimStart('-').EqualsIgnoreCase(OptionName(argKey)));
-
-            string OptionName(string propertyName) =>
-                typeof(Options)!.GetProperty(propertyName)!.GetCustomAttribute<OptionAttribute>()!.LongName;
         }
+
+        public void InheritMainConfigInput(string[] originalArgs, ConfigurationState configurationState)
+        {
+            Dictionary<PlayerIndex, (string InputId, string InputProfileName)> indicesToProperties = new()
+            {
+                { PlayerIndex.Handheld, (nameof(InputIdHandheld), nameof(InputProfileHandheldName)) },
+                { PlayerIndex.Player1, (nameof(InputId1), nameof(InputProfile1Name)) },
+                { PlayerIndex.Player2, (nameof(InputId2), nameof(InputProfile2Name)) },
+                { PlayerIndex.Player3, (nameof(InputId3), nameof(InputProfile3Name)) },
+                { PlayerIndex.Player4, (nameof(InputId4), nameof(InputProfile4Name)) },
+                { PlayerIndex.Player5, (nameof(InputId5), nameof(InputProfile5Name)) },
+                { PlayerIndex.Player6, (nameof(InputId6), nameof(InputProfile6Name)) },
+                { PlayerIndex.Player7, (nameof(InputId7), nameof(InputProfile7Name)) },
+                { PlayerIndex.Player8, (nameof(InputId8), nameof(InputProfile8Name)) }
+            };
+
+            foreach ((PlayerIndex playerIndex, _) in indicesToProperties
+                         .Where(it => NeedsOverride(it.Value.InputId) && NeedsOverride(it.Value.InputProfileName)))
+            {
+                configurationState.Hid.InputConfig.Value.FindFirst(x => x.PlayerIndex == playerIndex)
+                    .IfPresent(ic => InheritedInputConfigs[playerIndex] = ic);
+            }
+
+            return;
+            
+            bool NeedsOverride(string argKey) => originalArgs.None(arg => arg.TrimStart('-').EqualsIgnoreCase(OptionName(argKey)));
+        }
+
+        private static string OptionName(string propertyName) =>
+            typeof(Options)!.GetProperty(propertyName)!.GetCustomAttribute<OptionAttribute>()!.LongName;
         
         // General
         
@@ -391,5 +418,7 @@ namespace Ryujinx.Headless
 
         [Value(0, MetaName = "input", HelpText = "Input to load.", Required = true)]
         public string InputPath { get; set; }
+
+        public SafeDictionary<PlayerIndex, InputConfig> InheritedInputConfigs = new();
     }
 }

@@ -645,6 +645,9 @@ namespace Ryujinx.Ava.Utilities.Configuration
 
             private void HackChanged(object sender, ReactiveEventArgs<bool> rxe)
             {
+                if (!ShowDirtyHacks) 
+                    return;
+                
                 var newHacks = EnabledHacks.Select(x => x.Hack)
                     .JoinToString(", ");
 

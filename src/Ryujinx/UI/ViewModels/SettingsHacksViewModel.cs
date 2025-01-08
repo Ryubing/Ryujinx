@@ -1,9 +1,10 @@
-﻿using Gommon;
+﻿using CommunityToolkit.Mvvm.ComponentModel;
+using Gommon;
 using Ryujinx.Ava.Utilities.Configuration;
 
 namespace Ryujinx.Ava.UI.ViewModels
 {
-    public class SettingsHacksViewModel : BaseModel
+    public partial class SettingsHacksViewModel : BaseModel
     {
         private readonly SettingsViewModel _baseViewModel;
 
@@ -14,33 +15,11 @@ namespace Ryujinx.Ava.UI.ViewModels
             _baseViewModel = settingsVm;
         }
 
-        private bool _xc2MenuSoftlockFix = ConfigurationState.Instance.Hacks.Xc2MenuSoftlockFix;
-        private bool _shaderTranslationThreadSleep = ConfigurationState.Instance.Hacks.EnableShaderTranslationDelay;
+        [ObservableProperty] private bool _xc2MenuSoftlockFix = ConfigurationState.Instance.Hacks.Xc2MenuSoftlockFix;
+        [ObservableProperty] private bool _shaderTranslationDelayEnabled = ConfigurationState.Instance.Hacks.EnableShaderTranslationDelay;
         private int _shaderTranslationSleepDelay = ConfigurationState.Instance.Hacks.ShaderTranslationDelay;
-        
-        public bool Xc2MenuSoftlockFixEnabled
-        {
-            get => _xc2MenuSoftlockFix;
-            set
-            {
-                _xc2MenuSoftlockFix = value;
-                
-                OnPropertyChanged();
-            }
-        }
-        
-        public bool ShaderTranslationDelayEnabled
-        {
-            get => _shaderTranslationThreadSleep;
-            set
-            {
-                _shaderTranslationThreadSleep = value;
-                
-                OnPropertyChanged();
-            }
-        }
 
-        public string ShaderTranslationDelayTooltipText => $"Current value: {ShaderTranslationDelay}"; 
+        public string ShaderTranslationDelayValueText => $"{ShaderTranslationDelay}ms"; 
         
         public int ShaderTranslationDelay
         {
@@ -49,7 +28,7 @@ namespace Ryujinx.Ava.UI.ViewModels
             {
                 _shaderTranslationSleepDelay = value;
                 
-                OnPropertiesChanged(nameof(ShaderTranslationDelay), nameof(ShaderTranslationDelayTooltipText));
+                OnPropertiesChanged(nameof(ShaderTranslationDelay), nameof(ShaderTranslationDelayValueText));
             }
         }
         
