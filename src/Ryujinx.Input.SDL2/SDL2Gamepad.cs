@@ -254,16 +254,16 @@ namespace Ryujinx.Input.SDL2
         }
 
         private static bool hotButtonMinus = false;
-        private static bool HotExit = false;
+        private static bool hotExit = false;
 
-        public bool spetialExit()
+        public bool SpecialExit()
         {
             if (hotButtonMinus)
             {
                 hotButtonMinus = false;
-                return HotExit;
+                return hotExit;
             }
-            return HotExit = false;
+            return hotExit = false;
         }
 
         public GamepadStateSnapshot GetMappedStateSnapshot()
@@ -299,7 +299,7 @@ namespace Ryujinx.Input.SDL2
                         if (rawState.IsPressed(entry.To) && hotButtonMinus)
                         {
                           
-                           HotExit = true;
+                           hotExit = true;
                         }
 
                     }

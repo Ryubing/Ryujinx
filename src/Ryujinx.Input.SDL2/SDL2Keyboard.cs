@@ -329,7 +329,7 @@ namespace Ryujinx.Input.SDL2
             return result;
         }
 
-        public bool spetialExit()
+        public bool SpecialExit()
         {
             return false;
         }

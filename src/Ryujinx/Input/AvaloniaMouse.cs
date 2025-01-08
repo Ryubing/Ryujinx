@@ -13,7 +13,7 @@ namespace Ryujinx.Ava.Input
         public string Id => "0";
         public string Name => "AvaloniaMouse";
 
-        public bool spetialExit() 
+        public bool SpecialExit() 
         {
             return false;
         }

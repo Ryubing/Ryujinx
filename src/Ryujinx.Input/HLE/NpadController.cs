@@ -284,7 +284,7 @@ namespace Ryujinx.Input.HLE
             {
                 State = gamepad.GetMappedStateSnapshot();
 
-                if (gamepad.spetialExit())
+                if (gamepad.SpecialExit())
                 {
                     return true;
                 }

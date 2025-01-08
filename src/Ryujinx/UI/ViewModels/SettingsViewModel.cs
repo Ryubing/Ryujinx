@@ -128,7 +128,7 @@ namespace Ryujinx.Ava.UI.ViewModels
         public bool EnableDockedMode { get; set; }
         public bool EnableKeyboard { get; set; }
         public bool EnableMouse { get; set; }
-        public int EnableSpetialExit { get; set; }
+        public int EnableSpecialExit { get; set; }
         public VSyncMode VSyncMode
         {
             get => _vSyncMode;
@@ -514,12 +514,12 @@ namespace Ryujinx.Ava.UI.ViewModels
             EnableDockedMode = config.System.EnableDockedMode;
             EnableKeyboard = config.Hid.EnableKeyboard;
             EnableMouse = config.Hid.EnableMouse;
-            EnableSpetialExit = config.Hid.SpetialExitEmulator.Value switch
+            EnableSpecialExit = config.Hid.specialExitEmulator.Value switch
             {
-                0=> 0,  //"Hotkey 'Exit' is Disabled"
-                1=> 1,  //"Close app. by hotkey"
-                2=> 2,  //  "Close game by hotkey" 
-                _ => 0 //"Hotkey 'Exit' is Disabled"
+                0=> 0,  // "Hotkey 'Exit' is Disabled"
+                1=> 1,  // "Close app. by hotkey"
+                2=> 2,  // "Close game by hotkey" 
+                _ => 0  // "Hotkey 'Exit' is Disabled"
             };
 
             // Keyboard Hotkeys
@@ -628,12 +628,12 @@ namespace Ryujinx.Ava.UI.ViewModels
             config.System.EnableDockedMode.Value = EnableDockedMode;
             config.Hid.EnableKeyboard.Value = EnableKeyboard;
             config.Hid.EnableMouse.Value = EnableMouse;
-            config.Hid.SpetialExitEmulator.Value = EnableSpetialExit switch
+            config.Hid.specialExitEmulator.Value = EnableSpecialExit switch
             {
-                0 => 0,  //"Hotkey 'Exit' is Disabled",
-                1 => 1, //"Close app. by hotkey",
-                2 => 2, //"Close game by hotkey",
-                _ => 0, //"Hotkey 'Exit' is Disabled"
+                0 => 0, // "Hotkey 'Exit' is Disabled",
+                1 => 1, // "Close app. by hotkey",
+                2 => 2, // "Close game by hotkey",
+                _ => 0, // "Hotkey 'Exit' is Disabled"
             };
 
             // Keyboard Hotkeys

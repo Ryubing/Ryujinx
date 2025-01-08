@@ -15248,7 +15248,7 @@
       }
     },
     {
-      "ID": "spetialExitTooltip",
+      "ID": "SpecialExitTooltip",
       "Translations": {
         "ar_SA": "يقوم بتفعيل مفاتيح الاختصار 'زائد' و 'ناقص'.\nاضغط على زرّي زائد وناقص في نفس الوقت لتنفيذ إحدى العمليات:\n\n1) إغلاق التطبيق باستخدام مفاتيح الاختصار.\n2) الخروج من اللعبة دون إغلاق التطبيق.\n\nيعمل فقط مع أذرع التحكم.",
         "de_DE": "Aktiviert die Hotkeys 'Plus' und 'Minus'.\nDrücken Sie gleichzeitig die Plus- und Minus-Tasten, um eine der folgenden Aktionen auszuführen:\n\n1) Schließt die Anwendung durch Drücken der Hotkeys.\n2) Beendet das Spiel, ohne die Anwendung zu schließen.\n\nFunktioniert nur mit Gamepads.",

@@ -30,7 +30,7 @@ namespace Ryujinx.Ava.Input
             public readonly Key From = from;
         }
 
-        public bool spetialExit()
+        public bool SpecialExit()
         {
             return false;
         }

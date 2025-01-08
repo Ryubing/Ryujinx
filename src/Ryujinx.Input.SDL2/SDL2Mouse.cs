@@ -25,7 +25,7 @@ namespace Ryujinx.Input.SDL2
         {
             _driver = driver;
         }
-        public bool spetialExit()
+        public bool SpecialExit()
         {
             return false;
         }

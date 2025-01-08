@@ -136,7 +136,7 @@ namespace Ryujinx.Ava.Utilities.Configuration
             
             Hid.EnableKeyboard.Value = cff.EnableKeyboard;
             Hid.EnableMouse.Value = cff.EnableMouse;
-            Hid.SpetialExitEmulator.Value = cff.SpetialExitEmulator;
+            Hid.specialExitEmulator.Value = cff.specialExitEmulator;
             Hid.Hotkeys.Value = cff.Hotkeys;
             Hid.InputConfig.Value = cff.InputConfig ?? [];
 
@@ -418,7 +418,7 @@ namespace Ryujinx.Ava.Utilities.Configuration
                 }),
                 (60, static cff =>
                 {
-                    cff.SpetialExitEmulator = 1;
+                    cff.specialExitEmulator = 0;
                 })
             );
     }

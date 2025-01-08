@@ -24,8 +24,8 @@ namespace Ryujinx.Headless
             bool enableMouse,
             HideCursorMode hideCursorMode, 
             bool ignoreControllerApplet,
-            int SpetialExitEmulator)
-            : base(inputManager, glLogLevel, aspectRatio, enableMouse, hideCursorMode, ignoreControllerApplet, SpetialExitEmulator) { }
+            int specialExitEmulator)
+            : base(inputManager, glLogLevel, aspectRatio, enableMouse, hideCursorMode, ignoreControllerApplet, specialExitEmulator) { }
 
         public override SDL_WindowFlags GetWindowFlags() => SDL_WindowFlags.SDL_WINDOW_METAL;
 

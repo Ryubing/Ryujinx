@@ -369,7 +369,7 @@ namespace Ryujinx.Ava.Utilities.Configuration
         /// <summary>
         /// Allows you to choose from three options: do nothing, exit the application, exit the emulator
         /// </summary>
-        public int SpetialExitEmulator { get; set; }
+        public int specialExitEmulator { get; set; }
 
         /// <summary>
         /// Hotkey Keyboard Bindings

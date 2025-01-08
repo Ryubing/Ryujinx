@@ -19,8 +19,8 @@ namespace Ryujinx.Headless
             bool enableMouse,
             HideCursorMode hideCursorMode,
             bool ignoreControllerApplet,
-            int SpetialExitEmulator)
-            : base(inputManager, glLogLevel, aspectRatio, enableMouse, hideCursorMode, ignoreControllerApplet, SpetialExitEmulator)
+            int specialExitEmulator)
+            : base(inputManager, glLogLevel, aspectRatio, enableMouse, hideCursorMode, ignoreControllerApplet, specialExitEmulator)
         {
             _glLogLevel = glLogLevel;
         }

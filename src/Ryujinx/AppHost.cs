@@ -71,7 +71,7 @@ namespace Ryujinx.Ava
         private const float MaxResolutionScale = 4.0f; // Max resolution hotkeys can scale to before wrapping.
         private const int TargetFps = 60;
         private const float VolumeDelta = 0.05f;
-        static bool spetialExit = false;
+        static bool SpecialExit = false;
 
         private static readonly Cursor _invisibleCursor = new(StandardCursorType.None);
         private readonly nint _invisibleCursorWin;
@@ -512,7 +512,7 @@ namespace Ryujinx.Ava
 
         public bool IsSpecialExit()
         {
-            return spetialExit;
+            return SpecialExit;
         }
 
         private void UpdateIgnoreMissingServicesState(object sender, ReactiveEventArgs<bool> args)
@@ -1212,9 +1212,9 @@ namespace Ryujinx.Ava
 
             if (NpadManager.Update(ConfigurationState.Instance.Graphics.AspectRatio.Value.ToFloat()))
             {
-                if (ConfigurationState.Instance.Hid.SpetialExitEmulator.Value == 1)
+                if (ConfigurationState.Instance.Hid.specialExitEmulator.Value == 1)
                 {
-                    spetialExit = true;
+                    SpecialExit = true;
                 }
                
 
@@ -1223,11 +1223,11 @@ namespace Ryujinx.Ava
 
             if (NpadManager.Update(ConfigurationState.Instance.Graphics.AspectRatio.Value.ToFloat()))
             {
-                if (ConfigurationState.Instance.Hid.SpetialExitEmulator.Value == 1)
+                if (ConfigurationState.Instance.Hid.specialExitEmulator.Value == 1)
                 {
-                    spetialExit = true; // close App
+                    SpecialExit = true; // close App
                 }
-                if (ConfigurationState.Instance.Hid.SpetialExitEmulator.Value > 0)
+                if (ConfigurationState.Instance.Hid.specialExitEmulator.Value > 0)
                 {
 
                     _isActive = false; //close game

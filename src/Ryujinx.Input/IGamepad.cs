@@ -83,7 +83,7 @@ namespace Ryujinx.Input
         /// Gets the state if the minus and plus buttons were pressed on the gamepad.
         /// </summary>
         /// <returns>returns true if the buttons were pressed.</returns>
-        bool spetialExit();
+        bool SpecialExit();
 
         /// <summary>
         /// Get a snaphost of the state of the gamepad.

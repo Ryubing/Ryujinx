@@ -202,7 +202,7 @@ namespace Ryujinx.Input.HLE
 
         public bool Update(float aspectRatio = 1)
         {
-            bool spetialExit = false;
+            bool specialExit = false;
 
             lock (_lock)
             {
@@ -227,7 +227,9 @@ namespace Ryujinx.Input.HLE
                         DriverConfigurationUpdate(ref controller, inputConfig);
 
                         controller.UpdateUserConfiguration(inputConfig);
-                        spetialExit = controller.Update();  //hotkey press check
+
+                        specialExit = controller.Update();  //hotkey press check
+
                         controller.UpdateRumble(_device.Hid.Npads.GetRumbleQueue(playerIndex));
                         
                         inputState = controller.GetHLEInputState();
@@ -318,7 +320,7 @@ namespace Ryujinx.Input.HLE
                 _device.TamperMachine.UpdateInput(hleInputStates);
             }
 
-            return spetialExit;
+            return specialExit;
         }
 
         internal InputConfig GetPlayerInputConfigByIndex(int index)

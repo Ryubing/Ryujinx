@@ -58,8 +58,8 @@
                                 <TextBlock
                                     Text="{ext:Locale SettingsTabInputDirectMouseAccess}" />
                             </CheckBox>
-                            <ComboBox SelectedIndex="{Binding EnableSpetialExit}"
-                                ToolTip.Tip="{ext:Locale spetialExitTooltip}"
+                            <ComboBox SelectedIndex="{Binding EnableSpecialExit}"
+                                ToolTip.Tip="{ext:Locale SpecialExitTooltip}"
                                 HorizontalContentAlignment="Left"
                                 MinWidth="160">
                                 <ComboBoxItem>
