@@ -516,10 +516,10 @@ namespace Ryujinx.Ava.UI.ViewModels
             EnableMouse = config.Hid.EnableMouse;
             EnableSpecialExit = config.Hid.specialExitEmulator.Value switch
             {
-                0=> 0, // "Hotkey 'Exit' is Disabled"
-                1=> 1, // "Close app. by hotkey"
-                2=> 2, // "Close game by hotkey" 
-                _=> 0  // "Hotkey 'Exit' is Disabled"
+                0 => 0, // "Hotkey 'Exit' is Disabled"
+                1 => 1, // "Close app. by hotkey"
+                2 => 2, // "Close game by hotkey" 
+                _ => 0  // "Hotkey 'Exit' is Disabled"
             };
 
             // Keyboard Hotkeys
