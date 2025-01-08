@@ -36,19 +36,15 @@ namespace Ryujinx.Ava.Utilities.Compat
             if (row.ColCount != header.ColNames.Count)
                 throw new InvalidDataException($"CSV row {row.RowIndex} ({row.ToString()}) has mismatched column count");
             
-            var titleIdRow = ColStr(row[header.IndexOf("\"extracted_game_id\"")]);
+            var titleIdRow = ColStr(row[header.IndexOf("\"title_id\"")]);
             TitleId = !string.IsNullOrEmpty(titleIdRow) 
                 ? titleIdRow 
                 : default(Optional<string>);
+            
+            GameName = ColStr(row[header.IndexOf("\"game_name\"")]).Trim().Trim('"');
 
-            var issueTitleRow = ColStr(row[header.IndexOf("\"issue_title\"")]);
-            if (TitleId.HasValue)
-                issueTitleRow = issueTitleRow.ReplaceIgnoreCase($" - {TitleId}", string.Empty);
-
-            GameName = issueTitleRow.Trim().Trim('"');
-
-            IssueLabels = ColStr(row[header.IndexOf("\"issue_labels\"")]).Split(';');
-            Status = ColStr(row[header.IndexOf("\"extracted_status\"")]).ToLower() switch
+            IssueLabels = ColStr(row[header.IndexOf("\"labels\"")]).Split(';');
+            Status = ColStr(row[header.IndexOf("\"status\"")]).ToLower() switch
             {
                 "playable" => LocaleKeys.CompatibilityListPlayable,
                 "ingame" => LocaleKeys.CompatibilityListIngame,
@@ -58,7 +54,7 @@ namespace Ryujinx.Ava.Utilities.Compat
                 _ => null
             };
 
-            if (DateTime.TryParse(ColStr(row[header.IndexOf("\"last_event_date\"")]), out var dt))
+            if (DateTime.TryParse(ColStr(row[header.IndexOf("\"last_updated\"")]), out var dt))
                 LastEvent = dt;
 
             return;
