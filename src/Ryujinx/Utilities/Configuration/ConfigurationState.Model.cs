@@ -421,6 +421,11 @@ namespace Ryujinx.Ava.Utilities.Configuration
             public ReactiveObject<bool> EnableMouse { get; private set; }
 
             /// <summary>
+            /// Allows you to choose from three options: do nothing, exit the application, exit the emulator
+            /// </summary>
+            public ReactiveObject<int> SpetialExitEmulator { get; private set; }
+
+            /// <summary>
             /// Hotkey Keyboard Bindings
             /// </summary>
             public ReactiveObject<KeyboardHotkeys> Hotkeys { get; private set; }
@@ -436,6 +441,7 @@ namespace Ryujinx.Ava.Utilities.Configuration
             {
                 EnableKeyboard = new ReactiveObject<bool>();
                 EnableMouse = new ReactiveObject<bool>();
+                SpetialExitEmulator = new ReactiveObject<int>();
                 Hotkeys = new ReactiveObject<KeyboardHotkeys>();
                 InputConfig = new ReactiveObject<List<InputConfig>>();
             }

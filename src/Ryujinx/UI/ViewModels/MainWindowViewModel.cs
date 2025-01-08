@@ -1046,6 +1046,7 @@ namespace Ryujinx.Ava.UI.ViewModels
 
         private void InitializeGame()
         {
+            
             RendererHostControl.WindowCreated += RendererHost_Created;
 
             AppHost.StatusUpdatedEvent += Update_StatusBar;
@@ -1055,7 +1056,13 @@ namespace Ryujinx.Ava.UI.ViewModels
 
             AppHost?.Start();
 
+            if (AppHost?.IsSpecialExit() == true)
+            {
+                Window.ForceExit();
+            }
+
             AppHost?.DisposeContext();
+
         }
 
         private async Task HandleRelaunch()

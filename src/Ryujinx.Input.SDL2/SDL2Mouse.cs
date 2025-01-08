@@ -25,6 +25,10 @@ namespace Ryujinx.Input.SDL2
         {
             _driver = driver;
         }
+        public bool spetialExit()
+        {
+            return false;
+        }
 
         public Vector2 GetPosition()
         {

@@ -253,11 +253,23 @@ namespace Ryujinx.Input.SDL2
             return IGamepad.GetStateSnapshot(this);
         }
 
+        private static bool hotButtonMinus = false;
+        private static bool HotExit = false;
+
+        public bool spetialExit()
+        {
+            if (hotButtonMinus)
+            {
+                hotButtonMinus = false;
+                return HotExit;
+            }
+            return HotExit = false;
+        }
+
         public GamepadStateSnapshot GetMappedStateSnapshot()
         {
             GamepadStateSnapshot rawState = GetStateSnapshot();
             GamepadStateSnapshot result = default;
-
             lock (_userMappingLock)
             {
                 if (_buttonsUserMapping.Count == 0)
@@ -269,6 +281,28 @@ namespace Ryujinx.Input.SDL2
                 {
                     if (!entry.IsValid)
                         continue;
+
+                    if (GamepadButtonInputId.Minus == entry.To)
+                    {                      
+                        if (rawState.IsPressed(entry.From) && !hotButtonMinus)
+                        {
+                            hotButtonMinus = true;
+                        }
+                        else if (!result.IsPressed(entry.From) && hotButtonMinus)
+                        {
+                            hotButtonMinus = false;
+                        }
+                    }
+
+                    if (GamepadButtonInputId.Plus == entry.To)
+                    {
+                        if (rawState.IsPressed(entry.To) && hotButtonMinus)
+                        {
+                          
+                           HotExit = true;
+                        }
+
+                    }
 
                     // Do not touch state of button already pressed
                     if (!result.IsPressed(entry.To))
@@ -376,5 +410,7 @@ namespace Ryujinx.Input.SDL2
 
             return SDL_GameControllerGetButton(_gamepadHandle, _buttonsDriverMapping[(int)inputId]) == 1;
         }
+
+
     }
 }

@@ -17,7 +17,7 @@ namespace Ryujinx.Ava.Utilities.Configuration
         /// <summary>
         /// The current version of the file format
         /// </summary>
-        public const int CurrentVersion = 59;
+        public const int CurrentVersion = 60;
 
         /// <summary>
         /// Version of the configuration file format
@@ -365,6 +365,11 @@ namespace Ryujinx.Ava.Utilities.Configuration
         /// Enable or disable mouse support (Independent from controllers binding)
         /// </summary>
         public bool EnableMouse { get; set; }
+
+        /// <summary>
+        /// Allows you to choose from three options: do nothing, exit the application, exit the emulator
+        /// </summary>
+        public int SpetialExitEmulator { get; set; }
 
         /// <summary>
         /// Hotkey Keyboard Bindings

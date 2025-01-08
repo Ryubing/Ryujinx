@@ -80,6 +80,12 @@ namespace Ryujinx.Input
         GamepadStateSnapshot GetMappedStateSnapshot();
 
         /// <summary>
+        /// Gets the state if the minus and plus buttons were pressed on the gamepad.
+        /// </summary>
+        /// <returns>returns true if the buttons were pressed.</returns>
+        bool spetialExit();
+
+        /// <summary>
         /// Get a snaphost of the state of the gamepad.
         /// </summary>
         /// <returns>A snaphost of the state of the gamepad.</returns>

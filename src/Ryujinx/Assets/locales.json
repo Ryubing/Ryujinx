@@ -148,6 +148,31 @@
       }
     },
     {
+      "ID": "SettingsExtraCloseApp",
+      "Translations": {
+        "ar_SA": "خروج سريع من التطبيق",
+        "de_DE": "Schneller Ausstieg aus der Anwendung",
+        "el_GR": "Γρήγορη έξοδος από την εφαρμογή",
+        "en_US": "Quick Exit from Application",
+        "es_ES": "Salida rápida de la aplicación",
+        "fr_FR": "Sortie rapide de l'application",
+        "he_IL": "יציאה מהירה מהאפליקציה",
+        "it_IT": "Uscita rapida dall'applicazione",
+        "ja_JP": "アプリケーションからの迅速な終了",
+        "ko_KR": "애플리케이션에서 빠른 종료",
+        "no_NO": "Rask avslutning av applikasjonen",
+        "pl_PL": "Szybkie wyjście z aplikacji",
+        "pt_BR": "Saída rápida do aplicativo",
+        "ru_RU": "Быстрый выход из приложения",
+        "sv_SE": "Snabb avslutning från applikationen",
+        "th_TH": "ออกจากแอปพลิเคชันอย่างรวดเร็ว",
+        "tr_TR": "Uygulamadan Hızlı Çıkış",
+        "uk_UA": "Швидкий вихід з програми",
+        "zh_CN": "快速退出应用程序",
+        "zh_TW": "快速退出應用程式"
+      }
+    },
+    {
       "ID": "SettingsTabSystemMemoryManagerMode",
       "Translations": {
         "ar_SA": "وضع إدارة الذاكرة:",
@@ -11048,6 +11073,81 @@
       }
     },
     {
+      "ID": "SettingsTabInputDisableExitHotKey",
+      "Translations": {
+        "ar_SA": "الخروج السريع معطل",
+        "de_DE": "Schneller Ausstieg deaktiviert",
+        "el_GR": "Η γρήγορη έξοδος είναι απενεργοποιημένη",
+        "en_US": "Quick exit disabled",
+        "es_ES": "Salida rápida desactivada",
+        "fr_FR": "Sortie rapide désactivée",
+        "he_IL": "יציאה מהירה מושבתת",
+        "it_IT": "Uscita rapida disabilitata",
+        "ja_JP": "クイック終了が無効です",
+        "ko_KR": "빠른 종료 비활성화됨",
+        "no_NO": "Rask avslutning er deaktivert",
+        "pl_PL": "Szybkie wyjście wyłączone",
+        "pt_BR": "Saída rápida desativada",
+        "ru_RU": "Быстрый выход выключен",
+        "sv_SE": "Snabb avslutning inaktiverad",
+        "th_TH": "ปิดใช้งานออกอย่างรวดเร็ว",
+        "tr_TR": "Hızlı çıkış devre dışı bırakıldı",
+        "uk_UA": "Швидкий вихід вимкнено",
+        "zh_CN": "快速退出已禁用",
+        "zh_TW": "快速退出已停用"
+      }
+    },
+    {
+      "ID": "SettingsTabInputHotkeyIsCloseApp",
+      "Translations": {
+        "ar_SA": "إغلاق التطبيق بالضغط على الزرين '+' و '-'.",
+        "de_DE": "App schließen mit den '+' und '-' Tasten.",
+        "el_GR": "Κλείσιμο της εφαρμογής με τα κουμπιά '+' και '-'.",
+        "en_US": "Close app by '+' and '-' buttons.",
+        "es_ES": "Cerrar la aplicación pulsando los botones '+' y '-'.",
+        "fr_FR": "Fermer l'application avec les boutons '+' et '-'.",
+        "he_IL": "סגור את האפליקציה בלחיצה על '+' ו-'-'.",
+        "it_IT": "Chiudi l'app premendo i pulsanti '+' e '-'.",
+        "ja_JP": "「+」と「-」ボタンを押してアプリを終了します。",
+        "ko_KR": "'+' 및 '-' 버튼을 눌러 앱을 종료합니다.",
+        "no_NO": "Lukk appen med '+' og '-' knappene.",
+        "pl_PL": "Zamknij aplikację przyciskiem '+' i '-'.",
+        "pt_BR": "Fechar o aplicativo pressionando os botões '+' e '-'.",
+        "ru_RU": "Закрыть приложение нажатием '+' и '-'.",
+        "sv_SE": "Stäng appen med '+' och '-' knapparna.",
+        "th_TH": "ปิดแอปโดยกดปุ่ม '+' และ '-'.",
+        "tr_TR": "'+' ve '-' düğmelerine basarak uygulamayı kapatın.",
+        "uk_UA": "Закрити додаток натисканням '+' та '-'.",
+        "zh_CN": "",
+        "zh_TW": ""
+      }
+    },
+    {
+      "ID": "SettingsTabInputHotkeyIsCloseGame",
+      "Translations": {
+        "ar_SA": "الخروج من اللعبة بالضغط على الزرين '+' و '-'.",
+        "de_DE": "Spiel beenden mit den '+' und '-' Tasten.",
+        "el_GR": "Έξοδος από το παιχνίδι με τα κουμπιά '+' και '-'.",
+        "en_US": "Exit game by '+' and '-' buttons.",
+        "es_ES": "Salir del juego pulsando los botones '+' y '-'.",
+        "fr_FR": "Quitter le jeu avec les boutons '+' et '-'.",
+        "he_IL": "יציאה מהמשחק בלחיצה על '+' ו-'-'.",
+        "it_IT": "Esci dal gioco premendo i pulsanti '+' e '-'.",
+        "ja_JP": "「+」と「-」ボタンを押してゲームを終了します。",
+        "ko_KR": "'+' 및 '-' 버튼을 눌러 게임을 종료합니다.",
+        "no_NO": "Avslutt spillet med '+' og '-' knappene.",
+        "pl_PL": "Wyjście z gry przyciskiem '+' i '-'.",
+        "pt_BR": "Sair do jogo pressionando os botões '+' e '-'.",
+        "ru_RU": "Выйти из игры нажатием '+' и '-'.",
+        "sv_SE": "Avsluta spelet med '+' och '-' knapparna.",
+        "th_TH": "ออกจากเกมโดยกดปุ่ม '+' และ '-'.",
+        "tr_TR": "'+' ve '-' düğmelerine basarak oyundan çıkın.",
+        "uk_UA": "Вийти з гри натисканням '+' та '-'.",
+        "zh_CN": "",
+        "zh_TW": ""
+      }
+    },
+    {
       "ID": "ControllerSettingsConfigureGeneral",
       "Translations": {
         "ar_SA": "ضبط",
@@ -15145,6 +15245,31 @@
         "uk_UA": "Підтримка прямого доступу до миші (HID). Надає іграм доступ до миші, як пристрій вказування.\n\nПрацює тільки з іграми, які підтримують мишу на обладнанні Switch, їх небагато.\n\nФункціонал сенсорного екрана може не працювати, якщо функція ввімкнена.\n\nЗалиште вимкненим, якщо не впевнені.",
         "zh_CN": "直接鼠标访问(HID)支持，游戏可以直接访问鼠标作为指针输入设备。\n\n只适用于在 Switch 硬件上原生支持鼠标控制的游戏，这种游戏很少。\n\n启用后，触屏功能可能无法正常工作。\n\n如果不确定，请保持关闭状态。",
         "zh_TW": "支援滑鼠直接存取 (HID)。遊戲可將滑鼠作為指向裝置使用。\n\n僅適用於在 Switch 硬體上原生支援滑鼠控制的遊戲，這類遊戲很少。\n\n啟用後，觸控螢幕功能可能無法使用。\n\n如果不確定，請保持關閉狀態。"
+      }
+    },
+    {
+      "ID": "spetialExitTooltip",
+      "Translations": {
+        "ar_SA": "يقوم بتفعيل مفاتيح الاختصار 'زائد' و 'ناقص'.\nاضغط على زرّي زائد وناقص في نفس الوقت لتنفيذ إحدى العمليات:\n\n1) إغلاق التطبيق باستخدام مفاتيح الاختصار.\n2) الخروج من اللعبة دون إغلاق التطبيق.\n\nيعمل فقط مع أذرع التحكم.",
+        "de_DE": "Aktiviert die Hotkeys 'Plus' und 'Minus'.\nDrücken Sie gleichzeitig die Plus- und Minus-Tasten, um eine der folgenden Aktionen auszuführen:\n\n1) Schließt die Anwendung durch Drücken der Hotkeys.\n2) Beendet das Spiel, ohne die Anwendung zu schließen.\n\nFunktioniert nur mit Gamepads.",
+        "el_GR": "Ενεργοποιεί τα πλήκτρα πρόσβασης 'συν' και 'πλην'.\nΠατήστε ταυτόχρονα τα κουμπιά συν και πλην για μία από τις ενέργειες:\n\n1) Κλείνει την εφαρμογή πατώντας τα πλήκτρα πρόσβασης.\n2) Εξέρχεται από το παιχνίδι χωρίς να κλείσει η εφαρμογή.\n\nΛειτουργεί μόνο με gamepads.",
+        "en_US": "Activates the hot keys 'plus' and 'minus'.\nPress buttons plus and minus at the same time to get one of the actions:\n\n1) Closes the application by pressing the hot keys.\n2) Exits the game without closing the application.\n\nWorks only with gamepads.",
+        "es_ES": "Activa las teclas rápidas 'más' y 'menos'.\nPresiona los botones más y menos al mismo tiempo para realizar una de las siguientes acciones:\n\n1) Cierra la aplicación presionando las teclas rápidas.\n2) Salir del juego sin cerrar la aplicación.\n\nFunciona solo con mandos.",
+        "fr_FR": "Active les raccourcis 'plus' et 'moins'.\nAppuyez simultanément sur les boutons plus et moins pour effectuer l'une des actions suivantes :\n\n1) Ferme l'application en appuyant sur les raccourcis.\n2) Quitte le jeu sans fermer l'application.\n\nFonctionne uniquement avec les manettes.",
+        "he_IL": "מפעיל את המקשים הקצרים 'פלוס' ו-'מינוס'.\nלחץ על הכפתורים פלוס ומינוס בו זמנית כדי לבצע אחת מהפעולות:\n\n1) סוגר את היישום באמצעות המקשים הקצרים.\n2) יוצא מהמשחק מבלי לסגור את היישום.\n\nפועל רק עם בקרי משחק.",
+        "it_IT": "Attiva i tasti rapidi 'più' e 'meno'.\nPremere i pulsanti più e meno contemporaneamente per eseguire una delle seguenti azioni:\n\n1) Chiude l'applicazione premendo i tasti rapidi.\n2) Esce dal gioco senza chiudere l'applicazione.\n\nFunziona solo con i gamepad.",
+        "ja_JP": "ホットキー「プラス」と「マイナス」を有効化します。\nプラスとマイナスのボタンを同時に押して、次のいずれかの操作を実行します:\n\n1) ホットキーを押すことでアプリを閉じます。\n2) アプリを閉じずにゲームを終了します。\n\nゲームパッドでのみ動作します。",
+        "ko_KR": "'플러스' 및 '마이너스' 단축키를 활성화합니다.\n플러스 및 마이너스 버튼을 동시에 눌러 다음 작업 중 하나를 수행합니다:\n\n1) 단축키를 눌러 애플리케이션을 닫습니다.\n2) 애플리케이션을 닫지 않고 게임을 종료합니다.\n\n게임패드에서만 작동합니다.",
+        "no_NO": "Aktiverer hurtigtastene 'pluss' og 'minus'.\nTrykk på knappene pluss og minus samtidig for å utføre en av følgende handlinger:\n\n1) Lukker applikasjonen ved å trykke på hurtigtastene.\n2) Avslutter spillet uten å lukke applikasjonen.\n\nFungerer kun med spillkontroller.",
+        "pl_PL": "Aktywuje klawisze skrótu 'plus' i 'minus'.\nNaciśnij jednocześnie przyciski plus i minus, aby wykonać jedną z akcji:\n\n1) Zamknij aplikację, naciskając klawisze skrótu.\n2) Wyjdź z gry bez zamykania aplikacji.\n\nDziała tylko z gamepadami.",
+        "pt_BR": "Ativa as teclas de atalho 'mais' e 'menos'.\nPressione os botões mais e menos ao mesmo tempo para realizar uma das ações:\n\n1) Fecha o aplicativo pressionando as teclas de atalho.\n2) Sai do jogo sem fechar o aplicativo.\n\nFunciona apenas com gamepads.",
+        "ru_RU": "Активирует горячие клавиши 'плюс' и 'минус'.\nНажмите одновременно кнопки плюс и минус чтобы получить одно из действий:\n\n1) Закрывает приложение по нажатию горячих кнопок.\n2) Выходит из игры без закрытия приложения.\n\nРаботает только с геймпадами.",
+        "sv_SE": "Aktiverar snabbtangenterna 'plus' och 'minus'.\nTryck samtidigt på plus- och minusknapparna för att utföra en av följande åtgärder:\n\n1) Stänger applikationen med snabbtangenterna.\n2) Avslutar spelet utan att stänga applikationen.\n\nFungerar bara med spelkontroller.",
+        "th_TH": "เปิดใช้งานปุ่มลัด '+' และ '-'.\nกดปุ่ม '+' และ '-' พร้อมกันเพื่อทำการอย่างใดอย่างหนึ่ง:\n\n1) ปิดแอปพลิเคชันด้วยการกดปุ่มลัด\n2) ออกจากเกมโดยไม่ปิดแอปพลิเคชัน\n\nใช้งานได้เฉพาะกับจอยเกม",
+        "tr_TR": "'Artı' ve 'eksi' kısayol tuşlarını etkinleştirir.\nArtı ve eksi tuşlarına aynı anda basarak aşağıdaki işlemlerden birini gerçekleştirin:\n\n1) Kısayol tuşlarına basarak uygulamayı kapatır.\n2) Uygulamayı kapatmadan oyundan çıkar.\n\nYalnızca gamepad'lerle çalışır.",
+        "uk_UA": "Активує гарячі клавіші '+' та '-'.\nНатисніть одночасно кнопки плюс та мінус для виконання однієї з дій:\n\n1) Закриває додаток за допомогою гарячих клавіш.\n2) Виходить із гри без закриття додатка.\n\nПрацює лише з геймпадами.",
+        "zh_CN": "激活快捷键“加号”和“减号”。\n同时按下加号和减号按钮以执行以下操作之一：\n\n1) 按快捷键关闭应用程序。\n2) 退出游戏而不关闭应用程序。\n\n仅适用于游戏手柄。",
+        "zh_TW": "啟用快捷鍵「加號」和「減號」。\n同時按下加號和減號按鈕以執行以下其中一項操作：\n\n1) 按快捷鍵關閉應用程式。\n2) 離開遊戲而不關閉應用程式。\n\n僅適用於遊戲手柄。"
       }
     },
     {

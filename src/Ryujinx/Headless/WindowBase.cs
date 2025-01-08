@@ -88,6 +88,7 @@ namespace Ryujinx.Headless
 
         private readonly AspectRatio _aspectRatio;
         private readonly bool _enableMouse;
+        private readonly int _SpetialExitEmulator;
         private readonly bool _ignoreControllerApplet;
 
         public WindowBase(
@@ -96,7 +97,8 @@ namespace Ryujinx.Headless
             AspectRatio aspectRatio,
             bool enableMouse,
             HideCursorMode hideCursorMode,
-            bool ignoreControllerApplet)
+            bool ignoreControllerApplet,
+            int SpetialExitEmulator)
         {
             MouseDriver = new SDL2MouseDriver(hideCursorMode);
             _inputManager = inputManager;
@@ -112,6 +114,7 @@ namespace Ryujinx.Headless
             _gpuDoneEvent = new ManualResetEvent(false);
             _aspectRatio = aspectRatio;
             _enableMouse = enableMouse;
+            _SpetialExitEmulator = SpetialExitEmulator;
             _ignoreControllerApplet = ignoreControllerApplet;
             HostUITheme = new HeadlessHostUiTheme();
 

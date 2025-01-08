@@ -45,6 +45,7 @@ namespace Ryujinx.Ava.UI.Windows
         internal readonly AvaHostUIHandler UiHandler;
 
         private bool _isLoading;
+        private bool _isExitWithoutConfirm = false;
         private bool _applicationsLoadedOnce;
 
         private UserChannelPersistence _userChannelPersistence;
@@ -574,11 +575,11 @@ namespace Ryujinx.Ava.UI.Windows
 
         protected override void OnClosing(WindowClosingEventArgs e)
         {
-            if (!ViewModel.IsClosing && ViewModel.AppHost != null && ConfigurationState.Instance.ShowConfirmExit)
+            if (!ViewModel.IsClosing && ViewModel.AppHost != null && ConfigurationState.Instance.ShowConfirmExit && !_isExitWithoutConfirm)
             {
                 e.Cancel = true;
 
-                ConfirmExit();
+                ConfirmExit(); 
 
                 return;
             }
@@ -617,6 +618,12 @@ namespace Ryujinx.Ava.UI.Windows
             Program.Exit();
 
             base.OnClosing(e);
+        }
+
+        public void ForceExit() {
+
+            _isExitWithoutConfirm = true;
+             Close();
         }
 
         private void ConfirmExit()
