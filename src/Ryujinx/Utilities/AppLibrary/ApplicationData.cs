@@ -33,7 +33,7 @@ namespace Ryujinx.Ava.Utilities.AppLibrary
         public string Path { get; set; }
         public BlitStruct<ApplicationControlProperty> ControlHolder { get; set; }
 
-        public bool HasControlHolder => ControlHolder.ByteSpan.Length > 0;
+        public bool HasControlHolder => ControlHolder.ByteSpan.Length > 0 && !ControlHolder.ByteSpan.IsZeros();
 
         public string TimePlayedString => ValueFormatUtils.FormatTimeSpan(TimePlayed);
 

@@ -3,7 +3,6 @@ using Avalonia.Controls;
 using Avalonia.Controls.ApplicationLifetimes;
 using Avalonia.Input;
 using Avalonia.Threading;
-using Gommon;
 using LibHac.Common;
 using LibHac.Ns;
 using LibHac.Tools.FsSystem;
@@ -43,7 +42,6 @@ using Ryujinx.HLE.HOS.Services.Account.Acc;
 using Ryujinx.HLE.HOS.SystemState;
 using Ryujinx.Input;
 using Ryujinx.Input.HLE;
-using Silk.NET.Vulkan;
 using SkiaSharp;
 using SPB.Graphics.Vulkan;
 using System;
@@ -314,7 +312,7 @@ namespace Ryujinx.Ava
             
             _renderer.Window?.ChangeVSyncMode(e.NewValue);
 
-            _viewModel.ShowCustomVSyncIntervalPicker = (e.NewValue == VSyncMode.Custom);
+            _viewModel.UpdateVSyncIntervalPicker();
         }
 
         public void VSyncModeToggle()

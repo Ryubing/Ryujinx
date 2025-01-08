@@ -114,10 +114,10 @@ namespace Ryujinx.HLE.HOS.Services.Nfc.AmiiboDecryption
                 }
             }
 
-            string usedCharacterStr = BitConverter.ToString(usedCharacter).Replace("-", "");
-            string variationStr = BitConverter.ToString(variation).Replace("-", "");
-            string amiiboIDStr = BitConverter.ToString(amiiboID).Replace("-", "");
-            string setIDStr = BitConverter.ToString(setID).Replace("-", "");
+            string usedCharacterStr = Convert.ToHexString(usedCharacter);
+            string variationStr = Convert.ToHexString(variation);
+            string amiiboIDStr = Convert.ToHexString(amiiboID);
+            string setIDStr = Convert.ToHexString(setID);
             string head = usedCharacterStr + variationStr;
             string tail = amiiboIDStr + setIDStr + "02";
             string finalID = head + tail;
@@ -289,8 +289,8 @@ namespace Ryujinx.HLE.HOS.Services.Nfc.AmiiboDecryption
 
         private static void LogFinalData(byte[] titleId, byte[] appId, string head, string tail, string finalID, string nickName, DateTime initDateTime, DateTime writeDateTime, ushort settingsValue, ushort writeCounterValue, byte[] applicationAreas)
         {
-            Logger.Debug?.Print(LogClass.ServiceNfp, $"Title ID: 0x{BitConverter.ToString(titleId).Replace("-", "")}");
-            Logger.Debug?.Print(LogClass.ServiceNfp, $"Application Program ID: 0x{BitConverter.ToString(appId).Replace("-", "")}");
+            Logger.Debug?.Print(LogClass.ServiceNfp, $"Title ID: 0x{Convert.ToHexString(titleId)}");
+            Logger.Debug?.Print(LogClass.ServiceNfp, $"Application Program ID: 0x{Convert.ToHexString(appId)}");
             Logger.Debug?.Print(LogClass.ServiceNfp, $"Head: {head}");
             Logger.Debug?.Print(LogClass.ServiceNfp, $"Tail: {tail}");
             Logger.Debug?.Print(LogClass.ServiceNfp, $"Final ID: {finalID}");

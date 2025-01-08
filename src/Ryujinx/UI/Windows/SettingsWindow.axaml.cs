@@ -87,7 +87,7 @@ namespace Ryujinx.Ava.UI.Windows
                         NavPanel.Content = LoggingPage;
                         break;
                     case nameof(HacksPage):
-                        HacksPage.ViewModel = ViewModel;
+                        HacksPage.DataContext = ViewModel;
                         NavPanel.Content = HacksPage;
                         break;
                     default:

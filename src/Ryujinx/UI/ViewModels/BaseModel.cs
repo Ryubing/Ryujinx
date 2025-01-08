@@ -1,18 +1,10 @@
+using CommunityToolkit.Mvvm.ComponentModel;
 using System;
-using System.ComponentModel;
-using System.Runtime.CompilerServices;
 
 namespace Ryujinx.Ava.UI.ViewModels
 {
-    public class BaseModel : INotifyPropertyChanged
+    public class BaseModel : ObservableObject
     {
-        public event PropertyChangedEventHandler PropertyChanged;
-
-        protected void OnPropertyChanged([CallerMemberName] string propertyName = null)
-        {
-            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
-        }
-        
         protected void OnPropertiesChanged(string firstPropertyName, params ReadOnlySpan<string> propertyNames)
         {
             OnPropertyChanged(firstPropertyName);

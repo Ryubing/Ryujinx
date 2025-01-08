@@ -92,7 +92,11 @@ namespace Ryujinx.Graphics.Gpu
         /// </summary>
         internal SupportBufferUpdater SupportBufferUpdater { get; }
         
-        internal DirtyHackCollection DirtyHacks { get; }
+        /// <summary>
+        /// Enabled dirty hacks.
+        /// Used for workarounds to emulator bugs we can't fix/don't know how to fix yet.
+        /// </summary>
+        internal DirtyHacks DirtyHacks { get; }
         
 
         /// <summary>
@@ -117,7 +121,7 @@ namespace Ryujinx.Graphics.Gpu
         /// Creates a new instance of the GPU emulation context.
         /// </summary>
         /// <param name="renderer">Host renderer</param>
-        public GpuContext(IRenderer renderer, DirtyHackCollection hackCollection)
+        public GpuContext(IRenderer renderer, DirtyHacks hacks)
         {
             Renderer = renderer;
 
@@ -140,7 +144,7 @@ namespace Ryujinx.Graphics.Gpu
 
             SupportBufferUpdater = new SupportBufferUpdater(renderer);
 
-            DirtyHacks = hackCollection;
+            DirtyHacks = hacks;
 
             _firstTimestamp = ConvertNanosecondsToTicks((ulong)PerformanceCounter.ElapsedNanoseconds);
         }

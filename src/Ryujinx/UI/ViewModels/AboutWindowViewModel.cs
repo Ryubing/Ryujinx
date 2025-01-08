@@ -1,6 +1,7 @@
 using Avalonia.Media.Imaging;
 using Avalonia.Styling;
 using Avalonia.Threading;
+using CommunityToolkit.Mvvm.ComponentModel;
 using Ryujinx.Ava.Common;
 using Ryujinx.Ava.Common.Locale;
 using Ryujinx.Ava.Utilities.Configuration;
@@ -8,42 +9,11 @@ using System;
 
 namespace Ryujinx.Ava.UI.ViewModels
 {
-    public class AboutWindowViewModel : BaseModel, IDisposable
+    public partial class AboutWindowViewModel : BaseModel, IDisposable
     {
-        private Bitmap _githubLogo;
-        private Bitmap _discordLogo;
-
-        private string _version;
-
-        public Bitmap GithubLogo
-        {
-            get => _githubLogo;
-            set
-            {
-                _githubLogo = value;
-                OnPropertyChanged();
-            }
-        }
-
-        public Bitmap DiscordLogo
-        {
-            get => _discordLogo;
-            set
-            {
-                _discordLogo = value;
-                OnPropertyChanged();
-            }
-        }
-
-        public string Version
-        {
-            get => _version;
-            set
-            {
-                _version = value;
-                OnPropertyChanged();
-            }
-        }
+        [ObservableProperty] private Bitmap _githubLogo;
+        [ObservableProperty] private Bitmap _discordLogo;
+        [ObservableProperty] private string _version;
 
         public string Developers => "GreemDev";
 

@@ -95,7 +95,7 @@
                         </Panel>
                     </DataTemplate>
                     <DataTemplate
-                        DataType="viewModels:TitleUpdateViewNoUpdateSentinal">
+                        DataType="viewModels:TitleUpdateViewModelNoUpdate">
                         <Panel
                             Height="33"
                             Margin="10">

@@ -1,3 +1,4 @@
+using Gommon;
 using LibHac.Ns;
 using System;
 using System.Collections.Generic;
@@ -22,7 +23,7 @@ namespace Ryujinx.Ava.Utilities.AppLibrary
             LibHac.Common.FixedArrays.Array8<ulong> communicationId = acp.LocalCommunicationId;
 
             return new Array(receivedData.Where(game =>
-                communicationId.Items.Contains(Convert.ToUInt64(game.TitleId, 16))
+                communicationId.Items.Contains(game.TitleId.ToULong())
             ));
         }
 

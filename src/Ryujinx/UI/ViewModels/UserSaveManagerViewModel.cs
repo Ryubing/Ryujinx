@@ -1,3 +1,4 @@
+using CommunityToolkit.Mvvm.ComponentModel;
 using DynamicData;
 using DynamicData.Binding;
 using Ryujinx.Ava.Common.Locale;
@@ -8,74 +9,31 @@ using System.Collections.ObjectModel;
 
 namespace Ryujinx.Ava.UI.ViewModels
 {
-    public class UserSaveManagerViewModel : BaseModel
+    public partial class UserSaveManagerViewModel : BaseModel
     {
-        private int _sortIndex;
-        private int _orderIndex;
-        private string _search;
-        private ObservableCollection<SaveModel> _saves = new();
-        private ObservableCollection<SaveModel> _views = new();
+        [ObservableProperty] private int _sortIndex;
+        [ObservableProperty] private int _orderIndex;
+        [ObservableProperty] private string _search;
+        [ObservableProperty] private ObservableCollection<SaveModel> _saves = new();
+        [ObservableProperty] private ObservableCollection<SaveModel> _views = new();
         private readonly AccountManager _accountManager;
 
         public string SaveManagerHeading => LocaleManager.Instance.UpdateAndGetDynamicValue(LocaleKeys.SaveManagerHeading, _accountManager.LastOpenedUser.Name, _accountManager.LastOpenedUser.UserId);
 
-        public int SortIndex
-        {
-            get => _sortIndex;
-            set
-            {
-                _sortIndex = value;
-                OnPropertyChanged();
-                Sort();
-            }
-        }
-
-        public int OrderIndex
-        {
-            get => _orderIndex;
-            set
-            {
-                _orderIndex = value;
-                OnPropertyChanged();
-                Sort();
-            }
-        }
-
-        public string Search
-        {
-            get => _search;
-            set
-            {
-                _search = value;
-                OnPropertyChanged();
-                Sort();
-            }
-        }
-
-        public ObservableCollection<SaveModel> Saves
-        {
-            get => _saves;
-            set
-            {
-                _saves = value;
-                OnPropertyChanged();
-                Sort();
-            }
-        }
-
-        public ObservableCollection<SaveModel> Views
-        {
-            get => _views;
-            set
-            {
-                _views = value;
-                OnPropertyChanged();
-            }
-        }
-
         public UserSaveManagerViewModel(AccountManager accountManager)
         {
             _accountManager = accountManager;
+            PropertyChanged += (_, evt) =>
+            {
+                if (evt.PropertyName is
+                    nameof(SortIndex) or
+                    nameof(OrderIndex) or
+                    nameof(Search) or
+                    nameof(Saves))
+                {
+                    Sort();
+                }
+            };
         }
 
         public void Sort()
@@ -85,8 +43,10 @@ namespace Ryujinx.Ava.UI.ViewModels
                 .Sort(GetComparer())
                 .Bind(out var view).AsObservableList();
 
+#pragma warning disable MVVMTK0034
             _views.Clear();
             _views.AddRange(view);
+#pragma warning restore MVVMTK0034
             OnPropertyChanged(nameof(Views));
         }
 
@@ -94,7 +54,7 @@ namespace Ryujinx.Ava.UI.ViewModels
         {
             if (arg is SaveModel save)
             {
-                return string.IsNullOrWhiteSpace(_search) || save.Title.ToLower().Contains(_search.ToLower());
+                return string.IsNullOrWhiteSpace(Search) || save.Title.ToLower().Contains(Search.ToLower());
             }
 
             return false;

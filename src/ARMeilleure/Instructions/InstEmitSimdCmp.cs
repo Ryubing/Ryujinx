@@ -726,8 +726,8 @@ namespace ARMeilleure.Instructions
 
                 if (absolute)
                 {
-                    ne = EmitUnaryMathCall(context, nameof(Math.Abs), ne);
-                    me = EmitUnaryMathCall(context, nameof(Math.Abs), me);
+                    ne = EmitUnaryMathCall(context, nameof(MathHelper.Abs), ne);
+                    me = EmitUnaryMathCall(context, nameof(MathHelper.Abs), me);
                 }
 
                 Operand e = EmitSoftFloatCall(context, name, ne, me);

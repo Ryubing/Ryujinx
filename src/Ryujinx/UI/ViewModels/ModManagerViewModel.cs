@@ -1,8 +1,7 @@
-using Avalonia;
 using Avalonia.Collections;
-using Avalonia.Controls.ApplicationLifetimes;
 using Avalonia.Platform.Storage;
 using Avalonia.Threading;
+using CommunityToolkit.Mvvm.ComponentModel;
 using DynamicData;
 using Gommon;
 using Ryujinx.Ava.Common.Locale;
@@ -18,13 +17,13 @@ using System.Linq;
 
 namespace Ryujinx.Ava.UI.ViewModels
 {
-    public class ModManagerViewModel : BaseModel
+    public partial class ModManagerViewModel : BaseModel
     {
         private readonly string _modJsonPath;
 
         private AvaloniaList<ModModel> _mods = new();
-        private AvaloniaList<ModModel> _views = new();
-        private AvaloniaList<ModModel> _selectedMods = new();
+        [ObservableProperty] private AvaloniaList<ModModel> _views = new();
+        [ObservableProperty] private AvaloniaList<ModModel> _selectedMods = new();
 
         private string _search;
         private readonly ulong _applicationId;
@@ -41,26 +40,6 @@ namespace Ryujinx.Ava.UI.ViewModels
                 OnPropertyChanged();
                 OnPropertyChanged(nameof(ModCount));
                 Sort();
-            }
-        }
-
-        public AvaloniaList<ModModel> Views
-        {
-            get => _views;
-            set
-            {
-                _views = value;
-                OnPropertyChanged();
-            }
-        }
-
-        public AvaloniaList<ModModel> SelectedMods
-        {
-            get => _selectedMods;
-            set
-            {
-                _selectedMods = value;
-                OnPropertyChanged();
             }
         }
 
@@ -86,10 +65,7 @@ namespace Ryujinx.Ava.UI.ViewModels
 
             _modJsonPath = Path.Combine(AppDataManager.GamesDirPath, applicationId.ToString("x16"), "mods.json");
 
-            if (Application.Current.ApplicationLifetime is IClassicDesktopStyleApplicationLifetime desktop)
-            {
-                _storageProvider = desktop.MainWindow.StorageProvider;
-            }
+            _storageProvider = RyujinxApp.MainWindow.StorageProvider;
 
             LoadMods(applicationId);
         }
@@ -146,8 +122,10 @@ namespace Ryujinx.Ava.UI.ViewModels
                 .Filter(Filter)
                 .Bind(out var view).AsObservableList();
 
+#pragma warning disable MVVMTK0034 // Event to update is fired below
             _views.Clear();
             _views.AddRange(view);
+#pragma warning restore MVVMTK0034
 
             SelectedMods = new(Views.Where(x => x.Enabled));
 

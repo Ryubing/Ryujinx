@@ -1,74 +1,32 @@
 using Avalonia.Collections;
-using Avalonia.Controls.ApplicationLifetimes;
 using Avalonia.Platform.Storage;
 using Avalonia.Threading;
+using CommunityToolkit.Mvvm.ComponentModel;
 using FluentAvalonia.UI.Controls;
 using Ryujinx.Ava.Common.Locale;
 using Ryujinx.Ava.Common.Models;
 using Ryujinx.Ava.UI.Helpers;
 using Ryujinx.Ava.Utilities.AppLibrary;
-using Ryujinx.HLE.FileSystem;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
-using Application = Avalonia.Application;
 
 namespace Ryujinx.Ava.UI.ViewModels
 {
-    public record TitleUpdateViewNoUpdateSentinal();
+    public record TitleUpdateViewModelNoUpdate;
 
-    public class TitleUpdateViewModel : BaseModel
+    public partial class TitleUpdateViewModel : BaseModel
     {
         private ApplicationLibrary ApplicationLibrary { get; }
         private ApplicationData ApplicationData { get; }
 
-        private AvaloniaList<TitleUpdateModel> _titleUpdates = new();
-        private AvaloniaList<object> _views = new();
-        private object _selectedUpdate = new TitleUpdateViewNoUpdateSentinal();
-        private bool _showBundledContentNotice = false;
+        [ObservableProperty] private AvaloniaList<TitleUpdateModel> _titleUpdates = new();
+        [ObservableProperty] private AvaloniaList<object> _views = new();
+        [ObservableProperty] private object _selectedUpdate = new TitleUpdateViewModelNoUpdate();
+        [ObservableProperty] private bool _showBundledContentNotice;
 
-        public AvaloniaList<TitleUpdateModel> TitleUpdates
-        {
-            get => _titleUpdates;
-            set
-            {
-                _titleUpdates = value;
-                OnPropertyChanged();
-            }
-        }
-
-        public AvaloniaList<object> Views
-        {
-            get => _views;
-            set
-            {
-                _views = value;
-                OnPropertyChanged();
-            }
-        }
-
-        public object SelectedUpdate
-        {
-            get => _selectedUpdate;
-            set
-            {
-                _selectedUpdate = value;
-                OnPropertyChanged();
-            }
-        }
-
-        public bool ShowBundledContentNotice
-        {
-            get => _showBundledContentNotice;
-            set
-            {
-                _showBundledContentNotice = value;
-                OnPropertyChanged();
-            }
-        }
-
-        public IStorageProvider StorageProvider;
+        private readonly IStorageProvider _storageProvider;
 
         public TitleUpdateViewModel(ApplicationLibrary applicationLibrary, ApplicationData applicationData)
         {
@@ -76,10 +34,7 @@ namespace Ryujinx.Ava.UI.ViewModels
 
             ApplicationData = applicationData;
 
-            if (Application.Current.ApplicationLifetime is IClassicDesktopStyleApplicationLifetime desktop)
-            {
-                StorageProvider = desktop.MainWindow.StorageProvider;
-            }
+            _storageProvider = RyujinxApp.MainWindow.StorageProvider;
 
             LoadUpdates();
         }
@@ -90,7 +45,7 @@ namespace Ryujinx.Ava.UI.ViewModels
                 .Where(it => it.TitleUpdate.TitleIdBase == ApplicationData.IdBase);
 
             bool hasBundledContent = false;
-            SelectedUpdate = new TitleUpdateViewNoUpdateSentinal();
+            SelectedUpdate = new TitleUpdateViewModelNoUpdate();
             foreach ((TitleUpdateModel update, bool isSelected) in updates)
             {
                 TitleUpdates.Add(update);
@@ -116,12 +71,12 @@ namespace Ryujinx.Ava.UI.ViewModels
             var selected = SelectedUpdate;
 
             Views.Clear();
-            Views.Add(new TitleUpdateViewNoUpdateSentinal());
+            Views.Add(new TitleUpdateViewModelNoUpdate());
             Views.AddRange(sortedUpdates);
 
             SelectedUpdate = selected;
 
-            if (SelectedUpdate is TitleUpdateViewNoUpdateSentinal)
+            if (SelectedUpdate is TitleUpdateViewModelNoUpdate)
             {
                 SelectedUpdate = Views[0];
             }
@@ -179,7 +134,7 @@ namespace Ryujinx.Ava.UI.ViewModels
             }
             else if (update == SelectedUpdate as TitleUpdateModel)
             {
-                SelectedUpdate = new TitleUpdateViewNoUpdateSentinal();
+                SelectedUpdate = new TitleUpdateViewModelNoUpdate();
             }
 
             SortUpdates();
@@ -187,7 +142,7 @@ namespace Ryujinx.Ava.UI.ViewModels
 
         public async Task Add()
         {
-            var result = await StorageProvider.OpenFilePickerAsync(new FilePickerOpenOptions
+            var result = await _storageProvider.OpenFilePickerAsync(new FilePickerOpenOptions
             {
                 AllowMultiple = true,
                 FileTypeFilter = new List<FilePickerFileType>

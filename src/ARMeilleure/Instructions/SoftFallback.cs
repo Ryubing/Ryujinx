@@ -1,11 +1,13 @@
 using ARMeilleure.State;
 using System;
+using System.Runtime.InteropServices;
 
 namespace ARMeilleure.Instructions
 {
     static class SoftFallback
     {
         #region "ShrImm64"
+        [UnmanagedCallersOnly]
         public static long SignedShrImm64(long value, long roundConst, int shift)
         {
             if (roundConst == 0L)
@@ -48,6 +50,7 @@ namespace ARMeilleure.Instructions
             }
         }
 
+        [UnmanagedCallersOnly]
         public static ulong UnsignedShrImm64(ulong value, long roundConst, int shift)
         {
             if (roundConst == 0L)
@@ -92,6 +95,7 @@ namespace ARMeilleure.Instructions
         #endregion
 
         #region "Saturation"
+        [UnmanagedCallersOnly]
         public static int SatF32ToS32(float value)
         {
             if (float.IsNaN(value))
@@ -103,6 +107,7 @@ namespace ARMeilleure.Instructions
                    value <= int.MinValue ? int.MinValue : (int)value;
         }
 
+        [UnmanagedCallersOnly]
         public static long SatF32ToS64(float value)
         {
             if (float.IsNaN(value))
@@ -114,6 +119,7 @@ namespace ARMeilleure.Instructions
                    value <= long.MinValue ? long.MinValue : (long)value;
         }
 
+        [UnmanagedCallersOnly]
         public static uint SatF32ToU32(float value)
         {
             if (float.IsNaN(value))
@@ -125,6 +131,7 @@ namespace ARMeilleure.Instructions
                    value <= uint.MinValue ? uint.MinValue : (uint)value;
         }
 
+        [UnmanagedCallersOnly]
         public static ulong SatF32ToU64(float value)
         {
             if (float.IsNaN(value))
@@ -136,6 +143,7 @@ namespace ARMeilleure.Instructions
                    value <= ulong.MinValue ? ulong.MinValue : (ulong)value;
         }
 
+        [UnmanagedCallersOnly]
         public static int SatF64ToS32(double value)
         {
             if (double.IsNaN(value))
@@ -147,6 +155,7 @@ namespace ARMeilleure.Instructions
                    value <= int.MinValue ? int.MinValue : (int)value;
         }
 
+        [UnmanagedCallersOnly]
         public static long SatF64ToS64(double value)
         {
             if (double.IsNaN(value))
@@ -158,6 +167,7 @@ namespace ARMeilleure.Instructions
                    value <= long.MinValue ? long.MinValue : (long)value;
         }
 
+        [UnmanagedCallersOnly]
         public static uint SatF64ToU32(double value)
         {
             if (double.IsNaN(value))
@@ -169,6 +179,7 @@ namespace ARMeilleure.Instructions
                    value <= uint.MinValue ? uint.MinValue : (uint)value;
         }
 
+        [UnmanagedCallersOnly]
         public static ulong SatF64ToU64(double value)
         {
             if (double.IsNaN(value))
@@ -182,6 +193,7 @@ namespace ARMeilleure.Instructions
         #endregion
 
         #region "Count"
+        [UnmanagedCallersOnly]
         public static ulong CountLeadingSigns(ulong value, int size) // size is 8, 16, 32 or 64 (SIMD&FP or Base Inst.).
         {
             value ^= value >> 1;
@@ -201,6 +213,7 @@ namespace ARMeilleure.Instructions
 
         private static ReadOnlySpan<byte> ClzNibbleTbl => new byte[] { 4, 3, 2, 2, 1, 1, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0 };
 
+        [UnmanagedCallersOnly]
         public static ulong CountLeadingZeros(ulong value, int size) // size is 8, 16, 32 or 64 (SIMD&FP or Base Inst.).
         {
             if (value == 0ul)
@@ -224,41 +237,49 @@ namespace ARMeilleure.Instructions
         #endregion
 
         #region "Table"
+        [UnmanagedCallersOnly]
         public static V128 Tbl1(V128 vector, int bytes, V128 tb0)
         {
             return TblOrTbx(default, vector, bytes, tb0);
         }
 
+        [UnmanagedCallersOnly]
         public static V128 Tbl2(V128 vector, int bytes, V128 tb0, V128 tb1)
         {
             return TblOrTbx(default, vector, bytes, tb0, tb1);
         }
 
+        [UnmanagedCallersOnly]
         public static V128 Tbl3(V128 vector, int bytes, V128 tb0, V128 tb1, V128 tb2)
         {
             return TblOrTbx(default, vector, bytes, tb0, tb1, tb2);
         }
 
+        [UnmanagedCallersOnly]
         public static V128 Tbl4(V128 vector, int bytes, V128 tb0, V128 tb1, V128 tb2, V128 tb3)
         {
             return TblOrTbx(default, vector, bytes, tb0, tb1, tb2, tb3);
         }
 
+        [UnmanagedCallersOnly]
         public static V128 Tbx1(V128 dest, V128 vector, int bytes, V128 tb0)
         {
             return TblOrTbx(dest, vector, bytes, tb0);
         }
 
+        [UnmanagedCallersOnly]
         public static V128 Tbx2(V128 dest, V128 vector, int bytes, V128 tb0, V128 tb1)
         {
             return TblOrTbx(dest, vector, bytes, tb0, tb1);
         }
 
+        [UnmanagedCallersOnly]
         public static V128 Tbx3(V128 dest, V128 vector, int bytes, V128 tb0, V128 tb1, V128 tb2)
         {
             return TblOrTbx(dest, vector, bytes, tb0, tb1, tb2);
         }
 
+        [UnmanagedCallersOnly]
         public static V128 Tbx4(V128 dest, V128 vector, int bytes, V128 tb0, V128 tb1, V128 tb2, V128 tb3)
         {
             return TblOrTbx(dest, vector, bytes, tb0, tb1, tb2, tb3);
@@ -300,14 +321,22 @@ namespace ARMeilleure.Instructions
         private const uint Crc32RevPoly = 0xedb88320;
         private const uint Crc32cRevPoly = 0x82f63b78;
 
+        [UnmanagedCallersOnly]
         public static uint Crc32b(uint crc, byte value) => Crc32(crc, Crc32RevPoly, value);
+        [UnmanagedCallersOnly]
         public static uint Crc32h(uint crc, ushort value) => Crc32h(crc, Crc32RevPoly, value);
+        [UnmanagedCallersOnly]
         public static uint Crc32w(uint crc, uint value) => Crc32w(crc, Crc32RevPoly, value);
+        [UnmanagedCallersOnly]
         public static uint Crc32x(uint crc, ulong value) => Crc32x(crc, Crc32RevPoly, value);
 
+        [UnmanagedCallersOnly]
         public static uint Crc32cb(uint crc, byte value) => Crc32(crc, Crc32cRevPoly, value);
+        [UnmanagedCallersOnly]
         public static uint Crc32ch(uint crc, ushort value) => Crc32h(crc, Crc32cRevPoly, value);
+        [UnmanagedCallersOnly]
         public static uint Crc32cw(uint crc, uint value) => Crc32w(crc, Crc32cRevPoly, value);
+        [UnmanagedCallersOnly]
         public static uint Crc32cx(uint crc, ulong value) => Crc32x(crc, Crc32cRevPoly, value);
 
         private static uint Crc32h(uint crc, uint poly, ushort val)
@@ -358,21 +387,25 @@ namespace ARMeilleure.Instructions
         #endregion
 
         #region "Aes"
+        [UnmanagedCallersOnly]
         public static V128 Decrypt(V128 value, V128 roundKey)
         {
             return CryptoHelper.AesInvSubBytes(CryptoHelper.AesInvShiftRows(value ^ roundKey));
         }
 
+        [UnmanagedCallersOnly]
         public static V128 Encrypt(V128 value, V128 roundKey)
         {
             return CryptoHelper.AesSubBytes(CryptoHelper.AesShiftRows(value ^ roundKey));
         }
 
+        [UnmanagedCallersOnly]
         public static V128 InverseMixColumns(V128 value)
         {
             return CryptoHelper.AesInvMixColumns(value);
         }
 
+        [UnmanagedCallersOnly]
         public static V128 MixColumns(V128 value)
         {
             return CryptoHelper.AesMixColumns(value);
@@ -380,6 +413,7 @@ namespace ARMeilleure.Instructions
         #endregion
 
         #region "Sha1"
+        [UnmanagedCallersOnly]
         public static V128 HashChoose(V128 hash_abcd, uint hash_e, V128 wk)
         {
             for (int e = 0; e <= 3; e++)
@@ -400,11 +434,13 @@ namespace ARMeilleure.Instructions
             return hash_abcd;
         }
 
+        [UnmanagedCallersOnly]
         public static uint FixedRotate(uint hash_e)
         {
             return hash_e.Rol(30);
         }
 
+        [UnmanagedCallersOnly]
         public static V128 HashMajority(V128 hash_abcd, uint hash_e, V128 wk)
         {
             for (int e = 0; e <= 3; e++)
@@ -425,6 +461,7 @@ namespace ARMeilleure.Instructions
             return hash_abcd;
         }
 
+        [UnmanagedCallersOnly]
         public static V128 HashParity(V128 hash_abcd, uint hash_e, V128 wk)
         {
             for (int e = 0; e <= 3; e++)
@@ -445,6 +482,7 @@ namespace ARMeilleure.Instructions
             return hash_abcd;
         }
 
+        [UnmanagedCallersOnly]
         public static V128 Sha1SchedulePart1(V128 w0_3, V128 w4_7, V128 w8_11)
         {
             ulong t2 = w4_7.Extract<ulong>(0);
@@ -455,6 +493,7 @@ namespace ARMeilleure.Instructions
             return result ^ (w0_3 ^ w8_11);
         }
 
+        [UnmanagedCallersOnly]
         public static V128 Sha1SchedulePart2(V128 tw0_3, V128 w12_15)
         {
             V128 t = tw0_3 ^ (w12_15 >> 32);
@@ -499,16 +538,19 @@ namespace ARMeilleure.Instructions
         #endregion
 
         #region "Sha256"
+        [UnmanagedCallersOnly]
         public static V128 HashLower(V128 hash_abcd, V128 hash_efgh, V128 wk)
         {
             return Sha256Hash(hash_abcd, hash_efgh, wk, part1: true);
         }
 
+        [UnmanagedCallersOnly]
         public static V128 HashUpper(V128 hash_abcd, V128 hash_efgh, V128 wk)
         {
             return Sha256Hash(hash_abcd, hash_efgh, wk, part1: false);
         }
 
+        [UnmanagedCallersOnly]
         public static V128 Sha256SchedulePart1(V128 w0_3, V128 w4_7)
         {
             V128 result = new();
@@ -527,6 +569,7 @@ namespace ARMeilleure.Instructions
             return result;
         }
 
+        [UnmanagedCallersOnly]
         public static V128 Sha256SchedulePart2(V128 w0_3, V128 w8_11, V128 w12_15)
         {
             V128 result = new();
@@ -628,6 +671,7 @@ namespace ARMeilleure.Instructions
         }
         #endregion
 
+        [UnmanagedCallersOnly]
         public static V128 PolynomialMult64_128(ulong op1, ulong op2)
         {
             V128 result = V128.Zero;

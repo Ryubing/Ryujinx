@@ -15,8 +15,10 @@ namespace Ryujinx.HLE.HOS.Services.Fs.FileSystemProxy
         {
             _baseStorage = SharedRef<LibHac.FsSrv.Sf.IStorage>.CreateMove(ref baseStorage);
         }
-
-        private const string Xc2TitleId = "0100e95004038000";
+        
+        private const string Xc2JpTitleId = "0100f3400332c000";
+        private const string Xc2GlobalTitleId = "0100e95004038000";
+        private static bool IsXc2 => TitleIDs.CurrentApplication.Value.OrDefault() is Xc2GlobalTitleId or Xc2JpTitleId;
 
         [CommandCmif(0)]
         // Read(u64 offset, u64 length) -> buffer<u8, 0x46, 0> buffer
@@ -39,7 +41,7 @@ namespace Ryujinx.HLE.HOS.Services.Fs.FileSystemProxy
                 using var region = context.Memory.GetWritableRegion(bufferAddress, (int)bufferLen, true);
                 Result result = _baseStorage.Get.Read((long)offset, new OutBuffer(region.Memory.Span), (long)size);
                 
-                if (context.Device.DirtyHacks.IsEnabled(DirtyHacks.Xc2MenuSoftlockFix) && TitleIDs.CurrentApplication.Value == Xc2TitleId)
+                if (context.Device.DirtyHacks.IsEnabled(DirtyHack.Xc2MenuSoftlockFix) && IsXc2)
                 {
                     // Add a load-bearing sleep to avoid XC2 softlock
                     // https://web.archive.org/web/20240728045136/https://github.com/Ryujinx/Ryujinx/issues/2357

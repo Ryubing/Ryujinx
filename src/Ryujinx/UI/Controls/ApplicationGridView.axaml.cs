@@ -26,11 +26,5 @@ namespace Ryujinx.Ava.UI.Controls
             if (sender is ListBox { SelectedItem: ApplicationData selected })
                 RaiseEvent(new ApplicationOpenedEventArgs(selected, ApplicationOpenedEvent));
         }
-
-        public void GameList_SelectionChanged(object sender, SelectionChangedEventArgs args)
-        {
-            if (DataContext is MainWindowViewModel viewModel && sender is ListBox { SelectedItem: ApplicationData selected })
-                viewModel.GridSelectedApplication = selected;
-        }
     }
 }

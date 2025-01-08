@@ -30,12 +30,6 @@ namespace Ryujinx.Ava.UI.Controls
                 RaiseEvent(new ApplicationOpenedEventArgs(selected, ApplicationOpenedEvent));
         }
 
-        public void GameList_SelectionChanged(object sender, SelectionChangedEventArgs args)
-        {
-            if (DataContext is MainWindowViewModel viewModel && sender is ListBox { SelectedItem: ApplicationData selected })
-                viewModel.ListSelectedApplication = selected;
-        }
-
         private async void IdString_OnClick(object sender, RoutedEventArgs e)
         {
             if (DataContext is not MainWindowViewModel mwvm)
