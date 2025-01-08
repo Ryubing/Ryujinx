@@ -61,6 +61,7 @@
     <PackageReference Include="Ryujinx.Graphics.Nvdec.Dependencies" />
     <PackageReference Include="Ryujinx.Graphics.Vulkan.Dependencies.MoltenVK" Condition="'$(RuntimeIdentifier)' != 'linux-x64' AND '$(RuntimeIdentifier)' != 'linux-arm64' AND '$(RuntimeIdentifier)' != 'win-x64'" />
     <PackageReference Include="securifybv.ShellLink" />
+    <PackageReference Include="Sep" />
     <PackageReference Include="Silk.NET.Vulkan" />
     <PackageReference Include="Silk.NET.Vulkan.Extensions.EXT" />
     <PackageReference Include="Silk.NET.Vulkan.Extensions.KHR" />
@@ -113,6 +114,10 @@
     <AvaloniaResource Include="UI\**\*.xaml">
       <SubType>Designer</SubType>
     </AvaloniaResource>
+    <AvaloniaResource Include="Assets\Fonts\Mono\JetBrainsMonoNL-Bold.ttf" />
+    <AvaloniaResource Include="Assets\Fonts\Mono\JetBrainsMonoNL-BoldItalic.ttf" />
+    <AvaloniaResource Include="Assets\Fonts\Mono\JetBrainsMonoNL-Italic.ttf" />
+    <AvaloniaResource Include="Assets\Fonts\Mono\JetBrainsMonoNL-Regular.ttf" />
     <AvaloniaResource Include="Assets\Fonts\SegoeFluentIcons.ttf" />
     <AvaloniaResource Include="Assets\Styles\Themes.xaml">
       <Generator>MSBuild:Compile</Generator>
@@ -140,6 +145,9 @@
     <EmbeddedResource Include="..\..\distribution\macos\shortcut-template.plist">
       <Link>Assets\ShortcutFiles\shortcut-template.plist</Link>
     </EmbeddedResource>
+    <EmbeddedResource Include="..\..\docs\compatibility.csv" LogicalName="RyujinxGameCompatibilityList">
+      <Link>Assets\RyujinxGameCompatibility.csv</Link>
+    </EmbeddedResource>
     <EmbeddedResource Include="Assets\locales.json" />
     <EmbeddedResource Include="Assets\Styles\Styles.xaml" />
     <EmbeddedResource Include="Assets\Icons\Controller_JoyConLeft.svg" />
@@ -162,5 +170,8 @@
   </ItemGroup>
   <ItemGroup>
     <AdditionalFiles Include="Assets\locales.json" />
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="Assets\Fonts\Mono\" />
   </ItemGroup>
 </Project>

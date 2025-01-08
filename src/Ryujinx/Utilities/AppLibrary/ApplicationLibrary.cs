@@ -1,4 +1,5 @@
 using DynamicData;
+using DynamicData.Kernel;
 using Gommon;
 using LibHac;
 using LibHac.Common;
@@ -1069,10 +1070,11 @@ namespace Ryujinx.Ava.Utilities.AppLibrary
         {
             if (update == null) return false;
             
-            var currentlySelected = TitleUpdates.Items.FindFirst(it =>
+            var currentlySelected = TitleUpdates.Items.FirstOrOptional(it =>
                 it.TitleUpdate.TitleIdBase == update.TitleIdBase && it.IsSelected);
 
-            var shouldSelect = currentlySelected.Check(curr => curr.TitleUpdate?.Version < update.Version);
+            var shouldSelect = !currentlySelected.HasValue ||
+                               currentlySelected.Value.TitleUpdate.Version < update.Version;
 
             _titleUpdates.AddOrUpdate((update, shouldSelect));
             
@@ -1463,7 +1465,7 @@ namespace Ryujinx.Ava.Utilities.AppLibrary
                     TitleUpdatesHelper.LoadTitleUpdatesJson(_virtualFileSystem, application.IdBase);
                 it.AddOrUpdate(savedUpdates);
 
-                var selectedUpdate = savedUpdates.FindFirst(update => update.IsSelected);
+                var selectedUpdate = savedUpdates.FirstOrOptional(update => update.IsSelected);
 
                 if (TryGetTitleUpdatesFromFile(application.Path, out var bundledUpdates))
                 {
@@ -1475,10 +1477,11 @@ namespace Ryujinx.Ava.Utilities.AppLibrary
                         if (!savedUpdateLookup.Contains(update))
                         {
                             bool shouldSelect = false;
-                            if (selectedUpdate.Check(su => su.Update?.Version < update.Version))
+                            if (!selectedUpdate.HasValue || selectedUpdate.Value.Item1.Version < update.Version)
                             {
                                 shouldSelect = true;
-                                _titleUpdates.AddOrUpdate((selectedUpdate.Value.Update, false));
+                                if (selectedUpdate.HasValue)
+                                    _titleUpdates.AddOrUpdate((selectedUpdate.Value.Update, false));
                                 selectedUpdate = (update, true);
                             }
 

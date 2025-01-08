@@ -19,7 +19,7 @@ namespace Ryujinx.UI.LocaleGenerator
 
                 StringBuilder enumSourceBuilder = new();
                 enumSourceBuilder.AppendLine("namespace Ryujinx.Ava.Common.Locale;");
-                enumSourceBuilder.AppendLine("internal enum LocaleKeys");
+                enumSourceBuilder.AppendLine("public enum LocaleKeys");
                 enumSourceBuilder.AppendLine("{");
                 foreach (var line in lines)
                 {
