@@ -229,7 +229,6 @@ namespace Ryujinx.Input.HLE
                         controller.UpdateUserConfiguration(inputConfig);
 
                         specialExit = controller.Update();  //hotkey press check
-
                         controller.UpdateRumble(_device.Hid.Npads.GetRumbleQueue(playerIndex));
                         
                         inputState = controller.GetHLEInputState();
