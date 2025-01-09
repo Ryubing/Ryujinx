@@ -104,11 +104,6 @@ namespace Ryujinx.HLE
         internal readonly bool EnablePtc;
 
         /// <summary>
-        /// The amount of cpu threads that should be used for emulation.
-        /// </summary>
-        internal readonly int CpuCoresCount;
-
-        /// <summary>
         /// Control if the guest application should be told that there is a Internet connection available.
         /// </summary>
         public bool EnableInternetAccess { internal get; set; }
@@ -213,7 +208,6 @@ namespace Ryujinx.HLE
                                 VSyncMode vSyncMode,
                                 bool enableDockedMode,
                                 bool enablePtc,
-                                int cpuCoresCount,
                                 bool enableInternetAccess,
                                 IntegrityCheckLevel fsIntegrityCheckLevel,
                                 int fsGlobalAccessLogMode,
@@ -247,7 +241,6 @@ namespace Ryujinx.HLE
             CustomVSyncInterval = customVSyncInterval;
             EnableDockedMode = enableDockedMode;
             EnablePtc = enablePtc;
-            CpuCoresCount = cpuCoresCount;
             EnableInternetAccess = enableInternetAccess;
             FsIntegrityCheckLevel = fsIntegrityCheckLevel;
             FsGlobalAccessLogMode = fsGlobalAccessLogMode;

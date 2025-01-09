@@ -123,7 +123,7 @@ namespace Ryujinx.HLE.HOS
                 device.Memory,
                 device.Configuration.MemoryConfiguration.ToKernelMemorySize(),
                 device.Configuration.MemoryConfiguration.ToKernelMemoryArrange(),
-                device.Configuration.CpuCoresCount);
+                device.CpuCoresCount);
 
             Device = device;
 

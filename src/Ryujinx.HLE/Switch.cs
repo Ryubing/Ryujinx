@@ -32,6 +32,8 @@ namespace Ryujinx.HLE
         public TamperMachine TamperMachine { get; }
         public IHostUIHandler UIHandler { get; }
 
+        public int CpuCoresCount = 4; //Switch 1 has 4 cores
+
         public VSyncMode VSyncMode { get; set; } = VSyncMode.Switch;
         public bool CustomVSyncIntervalEnabled { get; set; } = false;
         public int CustomVSyncInterval { get; set; }
