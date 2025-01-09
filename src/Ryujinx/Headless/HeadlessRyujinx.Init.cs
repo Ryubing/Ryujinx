@@ -1,4 +1,4 @@
-﻿using DiscordRPC;
+using DiscordRPC;
 using LibHac.Tools.FsSystem;
 using Ryujinx.Audio.Backends.SDL2;
 using Ryujinx.Ava;
@@ -329,6 +329,8 @@ namespace Ryujinx.Headless
                 renderer = new ThreadedRenderer(renderer);
             }
 
+            int cpuCoresCount = 4; //Switch 1 has 4 cores
+
             HLEConfiguration configuration = new(_virtualFileSystem,
                 _libHacHorizonManager,
                 _contentManager,
@@ -343,6 +345,7 @@ namespace Ryujinx.Headless
                 options.VSyncMode,
                 !options.DisableDockedMode,
                 !options.DisablePTC,
+                cpuCoresCount,
                 options.EnableInternetAccess,
                 !options.DisableFsIntegrityChecks ? IntegrityCheckLevel.ErrorOnInvalid : IntegrityCheckLevel.None,
                 options.FsGlobalAccessLogMode,

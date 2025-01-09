@@ -58,11 +58,13 @@ namespace Ryujinx.HLE.HOS.Kernel
             Switch device,
             MemoryBlock memory,
             MemorySize memorySize,
-            MemoryArrange memoryArrange)
+            MemoryArrange memoryArrange,
+            int cpuCoresCount)
         {
             TickSource = tickSource;
             Device = device;
             Memory = memory;
+            KScheduler.CpuCoresCount = cpuCoresCount;
 
             Running = true;
 

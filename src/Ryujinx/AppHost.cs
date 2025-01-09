@@ -918,6 +918,7 @@ namespace Ryujinx.Ava
 
             // Initialize Configuration.
             var memoryConfiguration = ConfigurationState.Instance.System.DramSize.Value;
+            int cpuCoresCount = 4; //Switch 1 has 4 cores
 
             Device = new Switch(new HLEConfiguration(
                 VirtualFileSystem,
@@ -934,6 +935,7 @@ namespace Ryujinx.Ava
                 ConfigurationState.Instance.Graphics.VSyncMode,
                 ConfigurationState.Instance.System.EnableDockedMode,
                 ConfigurationState.Instance.System.EnablePtc,
+                cpuCoresCount,
                 ConfigurationState.Instance.System.EnableInternetAccess,
                 ConfigurationState.Instance.System.EnableFsIntegrityChecks ? IntegrityCheckLevel.ErrorOnInvalid : IntegrityCheckLevel.None,
                 ConfigurationState.Instance.System.FsGlobalAccessLogMode,
