@@ -1,4 +1,4 @@
-title_id,game_name,labels,status,last_updated
+"title_id","game_name","labels","status","last_updated"
 010099F00EF3E000,"-KLAUS-",nvdec;status-playable,playable,2020-06-27 13:27:30.000
 0100BA9014A02000,".hack//G.U. Last Recode",deadlock;status-boots,boots,2022-03-12 19:15:47.000
 010098800C4B0000,"'n Verlore Verstand",slow;status-ingame,ingame,2020-12-10 18:00:28.000
