@@ -177,7 +177,7 @@ namespace Ryujinx.HLE.HOS.Kernel.Process
                         AllowedThreadPriosMask = GetMaskFromMinMax(lowestThreadPrio, highestThreadPrio);
 
                         if (isApplication && lowestCpuCore == 0 && highestCpuCore != 2)
-                            Ryujinx.Common.Logging.Logger.Error?.Print(Ryujinx.Common.Logging.LogClass.Application, $"Application requested cores with index range {lowestCpuCore} to {highestCpuCore}! Report this to @LotP on the Ryujinx/Ryubing discord server!");
+                            Ryujinx.Common.Logging.Logger.Error?.Print(Ryujinx.Common.Logging.LogClass.Application, $"Application requested cores with index range {lowestCpuCore} to {highestCpuCore}! Report this to @LotP on the Ryujinx/Ryubing discord server (discord.gg/ryujinx)!");
                         else if (isApplication)
                             Ryujinx.Common.Logging.Logger.Info?.Print(Ryujinx.Common.Logging.LogClass.Application, $"Application requested cores with index range {lowestCpuCore} to {highestCpuCore}");
 
