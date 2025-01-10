@@ -11,14 +11,13 @@ namespace Ryujinx.Ava.Utilities.Compat
     {
         [ObservableProperty] private bool _onlyShowOwnedGames = true;
 
-        private IEnumerable<CompatibilityEntry> _currentEntries = CompatibilityCsv.Shared.Entries;
+        private IEnumerable<CompatibilityEntry> _currentEntries = CompatibilityCsv.Entries;
         private readonly string[] _ownedGameTitleIds = [];
         private readonly ApplicationLibrary _appLibrary;
 
         public IEnumerable<CompatibilityEntry> CurrentEntries => OnlyShowOwnedGames
             ? _currentEntries.Where(x =>
-                x.TitleId.Check(tid => _ownedGameTitleIds.ContainsIgnoreCase(tid))
-                || _appLibrary.Applications.Items.Any(a => a.Name.EqualsIgnoreCase(x.GameName)))
+                x.TitleId.Check(tid => _ownedGameTitleIds.ContainsIgnoreCase(tid)))
             : _currentEntries;
 
         public CompatibilityViewModel() {}
@@ -39,11 +38,11 @@ namespace Ryujinx.Ava.Utilities.Compat
         {
             if (string.IsNullOrEmpty(searchTerm))
             {
-                SetEntries(CompatibilityCsv.Shared.Entries);
+                SetEntries(CompatibilityCsv.Entries);
                 return;
             }
 
-            SetEntries(CompatibilityCsv.Shared.Entries.Where(x =>
+            SetEntries(CompatibilityCsv.Entries.Where(x =>
                 x.GameName.ContainsIgnoreCase(searchTerm)
                 || x.TitleId.Check(tid => tid.ContainsIgnoreCase(searchTerm))));
         }
