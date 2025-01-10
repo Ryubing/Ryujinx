@@ -24,14 +24,14 @@ namespace Ryujinx.HLE.HOS.Services
         // not large enough.
         private const int PointerBufferSize = 0x8000;
 
-        private readonly static uint[] _defaultCapabilities = {
-            0x030363F7,
+        private static uint[] _defaultCapabilities => [
+            (((uint)KScheduler.CpuCoresCount - 1) << 24) + (((uint)KScheduler.CpuCoresCount - 1) << 16) + 0x63F7u,
             0x1FFFFFCF,
             0x207FFFEF,
             0x47E0060F,
             0x0048BFFF,
             0x01007FFF,
-        };
+        ];
 
         // The amount of time Dispose() will wait to Join() the thread executing the ServerLoop()
         private static readonly TimeSpan _threadJoinTimeout = TimeSpan.FromSeconds(3);

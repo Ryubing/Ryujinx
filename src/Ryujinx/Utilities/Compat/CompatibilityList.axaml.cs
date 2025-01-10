@@ -14,15 +14,6 @@ namespace Ryujinx.Ava.Utilities.Compat
     {
         public static async Task Show()
         {
-            if (CompatibilityCsv.Shared is null)
-            {
-                await using Stream csvStream = Assembly.GetExecutingAssembly()
-                    .GetManifestResourceStream("RyujinxGameCompatibilityList")!;
-                csvStream.Position = 0;
-
-                CompatibilityCsv.Shared = new CompatibilityCsv(Sep.Reader().From(csvStream));
-            }
-            
             ContentDialog contentDialog = new()
             {
                 PrimaryButtonText = string.Empty,
@@ -51,7 +42,7 @@ namespace Ryujinx.Ava.Utilities.Compat
             InitializeComponent();
         }
 
-        private void TextBox_OnTextChanged(object? sender, TextChangedEventArgs e)
+        private void TextBox_OnTextChanged(object sender, TextChangedEventArgs e)
         {
             if (DataContext is not CompatibilityViewModel cvm)
                 return;

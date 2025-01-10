@@ -2683,7 +2683,7 @@ namespace Ryujinx.HLE.HOS.Kernel.SupervisorCall
                     return KernelResult.InvalidCombination;
                 }
 
-                if ((uint)preferredCore > 3)
+                if ((uint)preferredCore > KScheduler.CpuCoresCount - 1)
                 {
                     if ((preferredCore | 2) != -1)
                     {

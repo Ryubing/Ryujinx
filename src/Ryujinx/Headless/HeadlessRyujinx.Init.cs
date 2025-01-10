@@ -1,4 +1,4 @@
-﻿using DiscordRPC;
+using DiscordRPC;
 using LibHac.Tools.FsSystem;
 using Ryujinx.Audio.Backends.SDL2;
 using Ryujinx.Ava;
