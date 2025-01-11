@@ -620,8 +620,8 @@ namespace Ryujinx.Ava.UI.Windows
             base.OnClosing(e);
         }
 
-        public void ForceExit() {
-
+        public void ForceExit() 
+        {
             _isExitWithoutConfirm = true;
              Close();
         }
