@@ -1,4 +1,5 @@
 using Ryujinx.Common.Logging;
+using System;
 using System.Collections.Generic;
 
 namespace Ryujinx.Ava.Utilities
@@ -6,6 +7,7 @@ namespace Ryujinx.Ava.Utilities
     public static class CommandLineState
     {
         public static string[] Arguments { get; private set; }
+        public static string[] OverrideMods { get; private set; }
 
         public static bool? OverrideDockedMode { get; private set; }
         public static bool? OverrideHardwareAcceleration { get; private set; }
@@ -77,6 +79,17 @@ namespace Ryujinx.Ava.Utilities
                     case "-i":
                     case "--application-id":
                         LaunchApplicationId = args[++i];
+                        break;
+                    case "-m":
+                    case "--mod":
+                        if (i + 1 >= args.Length)
+                        {
+                            Logger.Error?.Print(LogClass.Application, $"Invalid option '{arg}'");
+
+                            continue;
+                        }
+
+                        OverrideMods = args[++i].Split(',');
                         break;
                     case "--docked-mode":
                         OverrideDockedMode = true;
