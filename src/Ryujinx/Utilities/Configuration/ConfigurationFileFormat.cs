@@ -367,7 +367,8 @@ namespace Ryujinx.Ava.Utilities.Configuration
         public bool EnableMouse { get; set; }
 
         /// <summary>
-        /// Allows you to choose from three options: do nothing, exit the application, exit the emulator
+        /// Allows you to choose one of several behaviors when pressing hotkeys:
+        /// 0 - Do nothing, 1 - Close the emulator application, 2 - Exit the game.
         /// </summary>
         public int SpecialExitEmulator { get; set; }
 
