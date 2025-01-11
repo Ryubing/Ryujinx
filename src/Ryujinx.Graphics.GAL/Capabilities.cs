@@ -50,6 +50,10 @@ namespace Ryujinx.Graphics.GAL
         public readonly bool SupportsViewportSwizzle;
         public readonly bool SupportsIndirectParameters;
         public readonly bool SupportsDepthClipControl;
+        public readonly bool SupportsExtendedDynamicState;
+        public readonly bool SupportsExtendedDynamicState2;
+        public readonly bool SupportsLogicOpDynamicState;
+        public readonly bool SupportsPatchControlPointsDynamicState;
 
         public readonly int UniformBufferSetIndex;
         public readonly int StorageBufferSetIndex;
@@ -118,6 +122,10 @@ namespace Ryujinx.Graphics.GAL
             bool supportsViewportSwizzle,
             bool supportsIndirectParameters,
             bool supportsDepthClipControl,
+            bool supportsExtendedDynamicState,
+            bool supportsExtendedDynamicState2,
+            bool supportsLogicOpDynamicState,
+            bool supportsPatchControlPointsDynamicState,
             int uniformBufferSetIndex,
             int storageBufferSetIndex,
             int textureSetIndex,
@@ -180,6 +188,10 @@ namespace Ryujinx.Graphics.GAL
             SupportsViewportSwizzle = supportsViewportSwizzle;
             SupportsIndirectParameters = supportsIndirectParameters;
             SupportsDepthClipControl = supportsDepthClipControl;
+            SupportsExtendedDynamicState = supportsExtendedDynamicState;
+            SupportsExtendedDynamicState2 = supportsExtendedDynamicState2;
+            SupportsLogicOpDynamicState = supportsLogicOpDynamicState;
+            SupportsPatchControlPointsDynamicState = supportsPatchControlPointsDynamicState;
             UniformBufferSetIndex = uniformBufferSetIndex;
             StorageBufferSetIndex = storageBufferSetIndex;
             TextureSetIndex = textureSetIndex;

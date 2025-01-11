@@ -50,9 +50,9 @@ namespace Ryujinx.Graphics.GAL
         void SetDepthBias(PolygonModeMask enables, float factor, float units, float clamp);
         void SetDepthClamp(bool clamp);
         void SetDepthMode(DepthMode mode);
-        void SetDepthTest(DepthTestDescriptor depthTest);
+        void SetDepthTest(DepthTestDescriptor depthTest, bool signalChange = true);
 
-        void SetFaceCulling(bool enable, Face face);
+        void SetFaceCulling(Face face);
 
         void SetFrontFace(FrontFace frontFace);
 
@@ -75,16 +75,16 @@ namespace Ryujinx.Graphics.GAL
 
         void SetPrimitiveRestart(bool enable, int index);
 
-        void SetPrimitiveTopology(PrimitiveTopology topology);
+        void SetPrimitiveTopology(PrimitiveTopology topology, bool signalChange = true);
 
-        void SetProgram(IProgram program);
+        void SetProgram(IProgram program, bool signalChange = true);
 
         void SetRasterizerDiscard(bool discard);
 
-        void SetRenderTargetColorMasks(ReadOnlySpan<uint> componentMask);
+        void SetRenderTargetColorMasks(ReadOnlySpan<uint> componentMask, bool signalChange = true);
         void SetRenderTargets(ITexture[] colors, ITexture depthStencil);
 
-        void SetScissors(ReadOnlySpan<Rectangle<int>> regions);
+        void SetScissors(ReadOnlySpan<Rectangle<int>> regions, bool signalChange = true);
 
         void SetStencilTest(StencilTestDescriptor stencilTest);
 
@@ -102,7 +102,7 @@ namespace Ryujinx.Graphics.GAL
         void SetVertexAttribs(ReadOnlySpan<VertexAttribDescriptor> vertexAttribs);
         void SetVertexBuffers(ReadOnlySpan<VertexBufferDescriptor> vertexBuffers);
 
-        void SetViewports(ReadOnlySpan<Viewport> viewports);
+        void SetViewports(ReadOnlySpan<Viewport> viewports, bool signalChange = true);
 
         void TextureBarrier();
         void TextureBarrierTiled();

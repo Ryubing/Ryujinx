@@ -51,7 +51,7 @@ namespace Ryujinx.Graphics.Vulkan
         {
             if (_count != 0)
             {
-                if (_gd.Capabilities.SupportsExtendedDynamicState)
+                if (_gd.Capabilities.SupportsExtendedDynamicState && (_gd.SupportsMTL31 || !_gd.IsMoltenVk))
                 {
                     _gd.ExtendedDynamicStateApi.CmdBindVertexBuffers2(
                         cbs.CommandBuffer,
