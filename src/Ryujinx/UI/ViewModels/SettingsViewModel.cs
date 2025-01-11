@@ -519,7 +519,7 @@ namespace Ryujinx.Ava.UI.ViewModels
                 0 => 0, // "Hotkey 'Exit' is Disabled"
                 1 => 1, // "Close app. by hotkey"
                 2 => 2, // "Close game by hotkey" 
-                _ => 0  // "Hotkey 'Exit' is Disabled"
+                _ => 0
             };
 
             // Keyboard Hotkeys
@@ -633,7 +633,7 @@ namespace Ryujinx.Ava.UI.ViewModels
                 0 => 0, // "Hotkey 'Exit' is Disabled",
                 1 => 1, // "Close app. by hotkey",
                 2 => 2, // "Close game by hotkey",
-                _ => 0, // "Hotkey 'Exit' is Disabled"
+                _ => 0
             };
 
             // Keyboard Hotkeys
