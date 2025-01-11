@@ -136,7 +136,7 @@ namespace Ryujinx.Ava.Utilities.Configuration
             
             Hid.EnableKeyboard.Value = cff.EnableKeyboard;
             Hid.EnableMouse.Value = cff.EnableMouse;
-            Hid.specialExitEmulator.Value = cff.specialExitEmulator;
+            Hid.SpecialExitEmulator.Value = cff.SpecialExitEmulator;
             Hid.Hotkeys.Value = cff.Hotkeys;
             Hid.InputConfig.Value = cff.InputConfig ?? [];
 

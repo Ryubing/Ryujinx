@@ -1212,11 +1212,11 @@ namespace Ryujinx.Ava
 
             if (NpadManager.Update(ConfigurationState.Instance.Graphics.AspectRatio.Value.ToFloat()))
             {
-                if (ConfigurationState.Instance.Hid.specialExitEmulator.Value == 1)
+                if (ConfigurationState.Instance.Hid.SpecialExitEmulator.Value == 1)
                 {
                     SpecialExit = true; // close App
                 }
-                if (ConfigurationState.Instance.Hid.specialExitEmulator.Value > 0)
+                if (ConfigurationState.Instance.Hid.SpecialExitEmulator.Value > 0)
                 {
                     _isActive = false; //close game
                 }

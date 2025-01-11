@@ -514,7 +514,7 @@ namespace Ryujinx.Ava.UI.ViewModels
             EnableDockedMode = config.System.EnableDockedMode;
             EnableKeyboard = config.Hid.EnableKeyboard;
             EnableMouse = config.Hid.EnableMouse;
-            EnableSpecialExit = config.Hid.specialExitEmulator.Value switch
+            EnableSpecialExit = config.Hid.SpecialExitEmulator.Value switch
             {
                 0 => 0, // "Hotkey 'Exit' is Disabled"
                 1 => 1, // "Close app. by hotkey"
@@ -628,7 +628,7 @@ namespace Ryujinx.Ava.UI.ViewModels
             config.System.EnableDockedMode.Value = EnableDockedMode;
             config.Hid.EnableKeyboard.Value = EnableKeyboard;
             config.Hid.EnableMouse.Value = EnableMouse;
-            config.Hid.specialExitEmulator.Value = EnableSpecialExit switch
+            config.Hid.SpecialExitEmulator.Value = EnableSpecialExit switch
             {
                 0 => 0, // "Hotkey 'Exit' is Disabled",
                 1 => 1, // "Close app. by hotkey",

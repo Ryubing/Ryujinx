@@ -152,7 +152,7 @@ namespace Ryujinx.Headless
                 IgnoreControllerApplet = configurationState.IgnoreApplet;
 
             if (NeedsOverride(nameof(SpecialExit)))
-                SpecialExit = configurationState.Hid.specialExitEmulator;
+                SpecialExit = configurationState.Hid.SpecialExitEmulator;
 
             return;
             
