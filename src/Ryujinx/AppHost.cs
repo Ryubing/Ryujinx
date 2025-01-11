@@ -1032,12 +1032,12 @@ namespace Ryujinx.Ava
         }
 
         private void MainLoop()
-        {           
+        {
             while (UpdateFrame())
             {
+                // Polling becomes expensive if it's not slept.
                 Thread.Sleep(1);
             }
-
         }
 
         private void RenderLoop()
