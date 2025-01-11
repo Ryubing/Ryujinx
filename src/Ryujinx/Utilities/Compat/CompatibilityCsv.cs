@@ -57,7 +57,7 @@ namespace Ryujinx.Ava.Utilities.Compat
                 ? titleIdRow 
                 : default(Optional<string>);
             
-            GameName = ColStr(row[indices.GameName]).Trim().Trim('"');
+            GameName = ColStr(row[indices.GameName]);
 
             Labels = ColStr(row[indices.Labels]).Split(';');
             Status = ColStr(row[indices.Status]).ToLower() switch
@@ -92,7 +92,6 @@ namespace Ryujinx.Ava.Utilities.Compat
             .OrElse(new string(' ', 16));
 
         public string FormattedIssueLabels => Labels
-            .Where(it => !it.StartsWithIgnoreCase("status"))
             .Select(FormatLabelName)
             .JoinToString(", ");
 

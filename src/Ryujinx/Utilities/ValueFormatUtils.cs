@@ -1,3 +1,5 @@
+using Humanizer;
+using Humanizer.Localisation;
 using Ryujinx.Ava.Common.Locale;
 using System;
 using System.Globalization;
@@ -31,7 +33,7 @@ namespace Ryujinx.Ava.Utilities
             Gigabytes = 9,
             Terabytes = 10,
             Petabytes = 11,
-            Exabytes = 12,
+            Exabytes = 12
         }
 
         private const double SizeBase10 = 1000;
@@ -48,22 +50,24 @@ namespace Ryujinx.Ava.Utilities
         public static string FormatTimeSpan(TimeSpan? timeSpan)
         {
             if (!timeSpan.HasValue || timeSpan.Value.TotalSeconds < 1)
-            {
-                // Game was never played
-                return TimeSpan.Zero.ToString("c", CultureInfo.InvariantCulture);
-            }
+                return string.Empty;
+            
+            if (timeSpan.Value.TotalSeconds < 60)
+                return timeSpan.Value.Humanize(1, 
+                    countEmptyUnits: false, 
+                    maxUnit: TimeUnit.Second,
+                    minUnit: TimeUnit.Second);
 
-            if (timeSpan.Value.TotalDays < 1)
-            {
-                // Game was played for less than a day
-                return timeSpan.Value.ToString("c", CultureInfo.InvariantCulture);
-            }
-
-            // Game was played for more than a day
-            TimeSpan onlyTime = timeSpan.Value.Subtract(TimeSpan.FromDays(timeSpan.Value.Days));
-            string onlyTimeString = onlyTime.ToString("c", CultureInfo.InvariantCulture);
-
-            return $"{timeSpan.Value.Days}d, {onlyTimeString}";
+            if (timeSpan.Value.TotalMinutes < 60)
+                return timeSpan.Value.Humanize(1, 
+                    countEmptyUnits: false, 
+                    maxUnit: TimeUnit.Minute,
+                    minUnit: TimeUnit.Minute);
+            
+            return timeSpan.Value.Humanize(1, 
+                countEmptyUnits: false, 
+                maxUnit: TimeUnit.Hour, 
+                minUnit: TimeUnit.Hour);
         }
 
         /// <summary>
