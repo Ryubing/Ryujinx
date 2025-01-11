@@ -45,7 +45,7 @@ namespace Ryujinx.Graphics.Shader.Translation.Optimizations
             return x == y || x.Type == OperandType.Constant || x.Type == OperandType.ConstantBuffer;
         }
 
-        private static bool AreAllSourcesEqual(INode node, INode otherNode)
+        private static bool AreAllSourcesEqual(Operation node, Operation otherNode)
         {
             if (node.SourcesCount != otherNode.SourcesCount)
             {

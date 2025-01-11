@@ -415,7 +415,7 @@ namespace Ryujinx.HLE.HOS.Services.Sockets.Bsd.Impl
             return true;
         }
 
-        private static IList<ArraySegment<byte>> ConvertMessagesToBuffer(BsdMMsgHdr message)
+        private static ArraySegment<byte>[] ConvertMessagesToBuffer(BsdMMsgHdr message)
         {
             int segmentCount = 0;
             int index = 0;

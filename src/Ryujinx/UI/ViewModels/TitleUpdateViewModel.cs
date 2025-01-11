@@ -179,17 +179,17 @@ namespace Ryujinx.Ava.UI.ViewModels
             ApplicationLibrary.SaveTitleUpdatesForGame(ApplicationData, updates);
         }
 
-        private Task ShowNewUpdatesAddedDialog(int numAdded)
+        private Task<UserResult> ShowNewUpdatesAddedDialog(int numAdded)
         {
             var msg = string.Format(LocaleManager.Instance[LocaleKeys.UpdateWindowUpdateAddedMessage], numAdded);
-            return Dispatcher.UIThread.InvokeAsync(async () => 
+            return Dispatcher.UIThread.InvokeAsync(async () =>
                 await ContentDialogHelper.ShowTextDialog(
-                    LocaleManager.Instance[LocaleKeys.DialogConfirmationTitle], 
-                    msg, 
-                    string.Empty, 
-                    string.Empty, 
-                    string.Empty, 
-                    LocaleManager.Instance[LocaleKeys.InputDialogOk], 
+                    LocaleManager.Instance[LocaleKeys.DialogConfirmationTitle],
+                    msg,
+                    string.Empty,
+                    string.Empty,
+                    string.Empty,
+                    LocaleManager.Instance[LocaleKeys.InputDialogOk],
                     (int)Symbol.Checkmark
                 ));
         }

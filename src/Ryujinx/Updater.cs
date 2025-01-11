@@ -32,9 +32,9 @@ namespace Ryujinx.Ava
     internal static class Updater
     {
         private const string GitHubApiUrl = "https://api.github.com";
-        private const string LatestReleaseUrl = 
+        private const string LatestReleaseUrl =
             $"{GitHubApiUrl}/repos/{ReleaseInformation.ReleaseChannelOwner}/{ReleaseInformation.ReleaseChannelRepo}/releases/latest";
-        
+
         private static readonly GithubReleasesJsonSerializerContext _serializerContext = new(JsonHelper.GetDefaultSerializerOptions());
 
         private static readonly string _homeDir = AppDomain.CurrentDomain.BaseDirectory;
@@ -92,7 +92,7 @@ namespace Ryujinx.Ava
             try
             {
                 using HttpClient jsonClient = ConstructHttpClient();
-                
+
                 string fetchedJson = await jsonClient.GetStringAsync(LatestReleaseUrl);
                 var fetched = JsonHelper.Deserialize(fetchedJson, _serializerContext.GithubReleasesJsonResponse);
                 _buildVer = fetched.TagName;
@@ -213,7 +213,7 @@ namespace Ryujinx.Ava
                 string newVersionString = ReleaseInformation.IsCanaryBuild
                     ? $"Canary {currentVersion} -> Canary {newVersion}"
                     : $"{currentVersion} -> {newVersion}";
-                
+
             RequestUserToUpdate:
                 // Show a message asking the user if they want to update
                 UserResult shouldUpdate = await ContentDialogHelper.CreateUpdaterChoiceDialog(
@@ -472,7 +472,7 @@ namespace Ryujinx.Ava
 
             using HttpResponseMessage response = client.GetAsync(downloadUrl, HttpCompletionOption.ResponseHeadersRead).Result;
             using Stream remoteFileStream = response.Content.ReadAsStreamAsync().Result;
-            using Stream updateFileStream = File.Open(updateFile, FileMode.Create);
+            using FileStream updateFileStream = File.Open(updateFile, FileMode.Create);
 
             long totalBytes = response.Content.Headers.ContentLength.Value;
             long bytesWritten = 0;
@@ -519,7 +519,7 @@ namespace Ryujinx.Ava
         [SupportedOSPlatform("macos")]
         private static void ExtractTarGzipFile(TaskDialog taskDialog, string archivePath, string outputDirectoryPath)
         {
-            using Stream inStream = File.OpenRead(archivePath);
+            using FileStream inStream = File.OpenRead(archivePath);
             using GZipInputStream gzipStream = new(inStream);
             using TarInputStream tarStream = new(gzipStream, Encoding.ASCII);
 

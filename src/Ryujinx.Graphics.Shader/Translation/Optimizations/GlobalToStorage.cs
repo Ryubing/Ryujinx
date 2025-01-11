@@ -91,7 +91,7 @@ namespace Ryujinx.Graphics.Shader.Translation.Optimizations
                 return functionId;
             }
 
-            public bool TryGetFunctionId(Operation baseOp, bool isMultiTarget, IReadOnlyList<uint> targetCbs, out int functionId)
+            public bool TryGetFunctionId(Operation baseOp, bool isMultiTarget, List<uint> targetCbs, out int functionId)
             {
                 foreach (Entry entry in _entries)
                 {

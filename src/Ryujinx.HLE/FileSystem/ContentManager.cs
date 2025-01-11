@@ -641,7 +641,7 @@ namespace Ryujinx.HLE.FileSystem
             return file.Release();
         }
 
-        private static Stream GetZipStream(ZipArchiveEntry entry)
+        private static MemoryStream GetZipStream(ZipArchiveEntry entry)
         {
             MemoryStream dest = MemoryStreamManager.Shared.GetStream();
 
@@ -1058,7 +1058,7 @@ namespace Ryujinx.HLE.FileSystem
             }
 
             return;
-            
+
             bool VerifyKeys(string[] lines, string regex)
             {
                 foreach (string line in lines)
@@ -1071,7 +1071,7 @@ namespace Ryujinx.HLE.FileSystem
                 return true;
             }
         }
-        
+
         public bool AreKeysAlredyPresent(string pathToCheck)
         {
             string[] fileNames = { "prod.keys", "title.keys", "console.keys", "dev.keys" };

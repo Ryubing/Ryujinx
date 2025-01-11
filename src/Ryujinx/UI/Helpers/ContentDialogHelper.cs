@@ -261,7 +261,7 @@ namespace Ryujinx.Ava.UI.Helpers
                 string.Empty,
                 LocaleManager.Instance[LocaleKeys.InputDialogOk],
                 (int)Symbol.Important);
-        
+
         internal static async Task<UserResult> CreateUpdaterUpToDateInfoDialog(string primary, string secondaryText)
             => await ShowTextDialog(
                 LocaleManager.Instance[LocaleKeys.DialogUpdaterTitle],
@@ -319,7 +319,7 @@ namespace Ryujinx.Ava.UI.Helpers
 
             return response == UserResult.Yes;
         }
-        
+
         internal static async Task<UserResult> CreateUpdaterChoiceDialog(string title, string primary, string secondaryText)
         {
             if (_isChoiceDialogOpen)
@@ -456,7 +456,7 @@ namespace Ryujinx.Ava.UI.Helpers
             await dialogWindow.ShowDialog(_contentDialogOverlayWindow ?? mainWindow ?? GetMainWindow());
         }
 
-        private static Window GetMainWindow()
+        private static MainWindow GetMainWindow()
         {
             if (Application.Current?.ApplicationLifetime is IClassicDesktopStyleApplicationLifetime al)
             {

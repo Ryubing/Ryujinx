@@ -105,7 +105,7 @@ namespace Ryujinx.Ava.UI.ViewModels
         [ObservableProperty] private bool _isSubMenuOpen;
         [ObservableProperty] private ApplicationContextMenu _listAppContextMenu;
         [ObservableProperty] private ApplicationContextMenu _gridAppContextMenu;
-        
+
         private bool _showLoadProgress;
         private bool _isGameRunning;
         private bool _isAmiiboRequested;
@@ -126,7 +126,7 @@ namespace Ryujinx.Ava.UI.ViewModels
         private int _customVSyncIntervalPercentageProxy;
         private ApplicationData _listSelectedApplication;
         private ApplicationData _gridSelectedApplication;
-        
+
         // Key is Title ID
         public SafeDictionary<string, LdnGameData.Array> LdnData = [];
 
@@ -299,7 +299,7 @@ namespace Ryujinx.Ava.UI.ViewModels
                 OnPropertyChanged(nameof(ShowFirmwareStatus));
             }
         }
-        
+
         public ApplicationData ListSelectedApplication
         {
             get => _listSelectedApplication;
@@ -332,7 +332,7 @@ namespace Ryujinx.Ava.UI.ViewModels
                 else if (_gridSelectedApplication == null && _gridAppContextMenu != null)
                     GridAppContextMenu = null!;
 #pragma warning restore MVVMTK0034
-                
+
                 OnPropertyChanged();
             }
         }
@@ -358,7 +358,7 @@ namespace Ryujinx.Ava.UI.ViewModels
 
         public bool OpenBcatSaveDirectoryEnabled => SelectedApplication.HasControlHolder && SelectedApplication.ControlHolder.Value.BcatDeliveryCacheStorageSize > 0;
 
-        public bool ShowCustomVSyncIntervalPicker 
+        public bool ShowCustomVSyncIntervalPicker
             => _isGameRunning && AppHost.Device.VSyncMode == VSyncMode.Custom;
 
         public void UpdateVSyncIntervalPicker()
@@ -529,7 +529,7 @@ namespace Ryujinx.Ava.UI.ViewModels
 
         public bool ShowNames
         {
-            get => ConfigurationState.Instance.UI.ShowNames && ConfigurationState.Instance.UI.GridSize > 1; 
+            get => ConfigurationState.Instance.UI.ShowNames && ConfigurationState.Instance.UI.GridSize > 1;
             set
             {
                 ConfigurationState.Instance.UI.ShowNames.Value = value;
@@ -710,7 +710,7 @@ namespace Ryujinx.Ava.UI.ViewModels
 
         #region PrivateMethods
 
-        private static IComparer<ApplicationData> CreateComparer(bool ascending, Func<ApplicationData, IComparable> selector) =>
+        private static SortExpressionComparer<ApplicationData> CreateComparer(bool ascending, Func<ApplicationData, IComparable> selector) =>
             ascending
                 ? SortExpressionComparer<ApplicationData>.Ascending(selector)
                 : SortExpressionComparer<ApplicationData>.Descending(selector);
@@ -821,10 +821,10 @@ namespace Ryujinx.Ava.UI.ViewModels
                                 string message = LocaleManager.Instance.UpdateAndGetDynamicValue(LocaleKeys.DialogFirmwareInstallerFirmwareInstallSuccessMessage, firmwareVersion.VersionString);
 
                                 await ContentDialogHelper.CreateInfoDialog(
-                                    dialogTitle, 
-                                    message, 
-                                    LocaleManager.Instance[LocaleKeys.InputDialogOk], 
-                                    string.Empty, 
+                                    dialogTitle,
+                                    message,
+                                    LocaleManager.Instance[LocaleKeys.InputDialogOk],
+                                    string.Empty,
                                     LocaleManager.Instance[LocaleKeys.RyujinxInfo]);
 
                                 Logger.Info?.Print(LogClass.Application, message);
@@ -1137,11 +1137,11 @@ namespace Ryujinx.Ava.UI.ViewModels
                 {
                     await ContentDialogHelper.ShowTextDialog(
                         LocaleManager.Instance[numAdded > 0 || numRemoved > 0 ? LocaleKeys.RyujinxConfirm : LocaleKeys.RyujinxInfo],
-                        msg, 
-                        string.Empty, 
-                        string.Empty, 
-                        string.Empty, 
-                        LocaleManager.Instance[LocaleKeys.InputDialogOk], 
+                        msg,
+                        string.Empty,
+                        string.Empty,
+                        string.Empty,
+                        LocaleManager.Instance[LocaleKeys.InputDialogOk],
                         (int)Symbol.Checkmark);
                 });
             }

@@ -19,18 +19,18 @@ namespace Ryujinx.Graphics.Metal
         private readonly Pipeline _pipeline;
         private MTLDevice _device;
 
-        private readonly ISampler _samplerLinear;
-        private readonly ISampler _samplerNearest;
-        private readonly IProgram _programColorBlitF;
-        private readonly IProgram _programColorBlitI;
-        private readonly IProgram _programColorBlitU;
-        private readonly IProgram _programColorBlitMsF;
-        private readonly IProgram _programColorBlitMsI;
-        private readonly IProgram _programColorBlitMsU;
+        private readonly SamplerHolder _samplerLinear;
+        private readonly SamplerHolder _samplerNearest;
+        private readonly Program _programColorBlitF;
+        private readonly Program _programColorBlitI;
+        private readonly Program _programColorBlitU;
+        private readonly Program _programColorBlitMsF;
+        private readonly Program _programColorBlitMsI;
+        private readonly Program _programColorBlitMsU;
         private readonly List<IProgram> _programsColorClearF = new();
         private readonly List<IProgram> _programsColorClearI = new();
         private readonly List<IProgram> _programsColorClearU = new();
-        private readonly IProgram _programDepthStencilClear;
+        private readonly Program _programDepthStencilClear;
         private readonly IProgram _programStrideChange;
         private readonly IProgram _programConvertD32S8ToD24S8;
         private readonly IProgram _programConvertIndexBuffer;

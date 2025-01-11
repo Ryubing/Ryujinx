@@ -1,5 +1,6 @@
 using ARMeilleure.State;
 using Humanizer;
+using Microsoft.IO;
 using Ryujinx.Common;
 using Ryujinx.Common.Logging;
 using Ryujinx.Common.Memory;
@@ -73,7 +74,7 @@ namespace ARMeilleure.Translation.PTC
             Enabled = false;
         }
 
-        private void TimerElapsed(object _, ElapsedEventArgs __) 
+        private void TimerElapsed(object _, ElapsedEventArgs __)
             => new Thread(PreSave) { Name = "Ptc.DiskWriter" }.Start();
 
         public void AddEntry(ulong address, ExecutionMode mode, bool highCq)
@@ -191,7 +192,7 @@ namespace ARMeilleure.Translation.PTC
                     return false;
                 }
 
-                using MemoryStream stream = MemoryStreamManager.Shared.GetStream();
+                using RecyclableMemoryStream stream = MemoryStreamManager.Shared.GetStream();
                 Debug.Assert(stream.Seek(0L, SeekOrigin.Begin) == 0L && stream.Length == 0L);
 
                 try

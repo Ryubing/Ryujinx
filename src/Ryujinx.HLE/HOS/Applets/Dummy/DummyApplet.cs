@@ -1,3 +1,4 @@
+using Microsoft.IO;
 using Ryujinx.Common.Logging;
 using Ryujinx.Common.Memory;
 using Ryujinx.HLE.HOS.Applets;
@@ -11,14 +12,14 @@ namespace Ryujinx.HLE.HOS.Applets.Dummy
     {
         private readonly Horizon _system;
         private AppletSession _normalSession;
-        
+
         public event EventHandler AppletStateChanged;
-        
+
         public DummyApplet(Horizon system)
         {
             _system = system;
         }
-        
+
         public ResultCode Start(AppletSession normalSession, AppletSession interactiveSession)
         {
             _normalSession = normalSession;
@@ -27,10 +28,10 @@ namespace Ryujinx.HLE.HOS.Applets.Dummy
             _system.ReturnFocus();
             return ResultCode.Success;
         }
-        
+
         private static byte[] BuildResponse()
         {
-            using MemoryStream stream = MemoryStreamManager.Shared.GetStream();
+            using RecyclableMemoryStream stream = MemoryStreamManager.Shared.GetStream();
             using BinaryWriter writer = new(stream);
             writer.Write((ulong)ResultCode.Success);
             return stream.ToArray();
