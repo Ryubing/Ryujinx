@@ -264,6 +264,10 @@ namespace Ryujinx.Ava.UI.ViewModels.Input
 
         public InputViewModel()
         {
+            _mainWindow =
+                 (MainWindow)((IClassicDesktopStyleApplicationLifetime)Application.Current
+                     .ApplicationLifetime).MainWindow;
+            AvaloniaKeyboardDriver = new AvaloniaKeyboardDriver(_mainWindow);
             PlayerIndexes = new ObservableCollection<PlayerModel>();
             Controllers = new ObservableCollection<ControllerModel>();
             Devices = new ObservableCollection<(DeviceType Type, string Id, string Name)>();
@@ -752,38 +756,34 @@ namespace Ryujinx.Ava.UI.ViewModels.Input
 
                 return;
             }
-            else
+
+            bool validFileName = ProfileName.IndexOfAny(Path.GetInvalidFileNameChars()) == -1;
+
+            if (!validFileName)
             {
-                bool validFileName = ProfileName.IndexOfAny(Path.GetInvalidFileNameChars()) == -1;
-
-                if (validFileName)
-                {
-                    string path = Path.Combine(GetProfileBasePath(), ProfileName + ".json");
-
-                    InputConfig config = null;
-
-                    if (IsKeyboard)
-                    {
-                        config = (ConfigViewModel as KeyboardInputViewModel).Config.GetConfig();
-                    }
-                    else if (IsController)
-                    {
-                        config = (ConfigViewModel as ControllerInputViewModel).Config.GetConfig();
-                    }
-
-                    config.ControllerType = Controllers[_controller].Type;
-
-                    string jsonString = JsonHelper.Serialize(config, _serializerContext.InputConfig);
-
-                    await File.WriteAllTextAsync(path, jsonString);
-
-                    LoadProfiles();
-                }
-                else
-                {
-                    await ContentDialogHelper.CreateErrorDialog(LocaleManager.Instance[LocaleKeys.DialogProfileInvalidProfileNameErrorMessage]);
-                }
+                await ContentDialogHelper.CreateErrorDialog(LocaleManager.Instance[LocaleKeys.DialogProfileInvalidProfileNameErrorMessage]);
+                return;
             }
+            string path = Path.Combine(GetProfileBasePath(), ProfileName + ".json");
+
+            InputConfig config = null;
+
+            if (IsKeyboard)
+            {
+                config = (ConfigViewModel as KeyboardInputViewModel).Config.GetConfig();
+            }
+            else if (IsController)
+            {
+                config = (ConfigViewModel as ControllerInputViewModel).Config.GetConfig();
+            }
+
+            config.ControllerType = Controllers[_controller].Type;
+
+            string jsonString = JsonHelper.Serialize(config, _serializerContext.InputConfig);
+
+            await File.WriteAllTextAsync(path, jsonString);
+
+            LoadProfiles();
         }
 
         public async void RemoveProfile()
@@ -896,6 +896,14 @@ namespace Ryujinx.Ava.UI.ViewModels.Input
             SelectedGamepad?.Dispose();
 
             AvaloniaKeyboardDriver.Dispose();
+        }
+
+        public void CyclePlayerDevice(int player)
+        {
+            LoadDevices();
+            PlayerId = (PlayerIndex)player;
+            Device = (Device + 1) % Devices.Count;
+            Save();
         }
     }
 }
