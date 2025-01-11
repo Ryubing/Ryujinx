@@ -1,6 +1,6 @@
 using System;
 
-namespace Ryujinx.Graphics.Vulkan
+namespace Ryujinx.Graphics.Rdna3Vulkan
 {
     [Flags]
     internal enum FeedbackLoopAspects
