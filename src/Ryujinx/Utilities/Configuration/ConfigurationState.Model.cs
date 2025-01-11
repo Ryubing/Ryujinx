@@ -153,6 +153,11 @@ namespace Ryujinx.Ava.Utilities.Configuration
             public ReactiveObject<bool> StartFullscreen { get; private set; }
 
             /// <summary>
+            /// Start games with UI hidden
+            /// </summary>
+            public ReactiveObject<bool> StartNoUI { get; private set; }
+
+            /// <summary>
             /// Hide / Show Console Window
             /// </summary>
             public ReactiveObject<bool> ShowConsole { get; private set; }
@@ -192,6 +197,7 @@ namespace Ryujinx.Ava.Utilities.Configuration
                 WindowStartup = new WindowStartupSettings();
                 BaseStyle = new ReactiveObject<string>();
                 StartFullscreen = new ReactiveObject<bool>();
+                StartNoUI = new ReactiveObject<bool>();
                 GameListViewMode = new ReactiveObject<int>();
                 ShowNames = new ReactiveObject<bool>();
                 GridSize = new ReactiveObject<int>();

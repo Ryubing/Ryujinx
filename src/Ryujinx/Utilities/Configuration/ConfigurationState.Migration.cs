@@ -127,6 +127,7 @@ namespace Ryujinx.Ava.Utilities.Configuration
             UI.GridSize.Value = cff.GridSize;
             UI.ApplicationSort.Value = cff.ApplicationSort;
             UI.StartFullscreen.Value = cff.StartFullscreen;
+            UI.StartNoUI.Value = cff.StartNoUI;
             UI.ShowConsole.Value = cff.ShowConsole;
             UI.WindowStartup.WindowSizeWidth.Value = cff.WindowStartup.WindowSizeWidth;
             UI.WindowStartup.WindowSizeHeight.Value = cff.WindowStartup.WindowSizeHeight;
@@ -414,7 +415,8 @@ namespace Ryujinx.Ava.Utilities.Configuration
                     // This was accidentally enabled by default when it was PRed. That is not what we want,
                     // so as a compromise users who want to use it will simply need to re-enable it once after updating.
                     cff.IgnoreApplet = false;
-                })
+                }),
+                (60, static cff => cff.StartNoUI = false)
             );
     }
 }

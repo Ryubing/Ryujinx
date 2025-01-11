@@ -17,7 +17,7 @@ namespace Ryujinx.Ava.Utilities.Configuration
         /// <summary>
         /// The current version of the file format
         /// </summary>
-        public const int CurrentVersion = 59;
+        public const int CurrentVersion = 60;
 
         /// <summary>
         /// Version of the configuration file format
@@ -350,6 +350,11 @@ namespace Ryujinx.Ava.Utilities.Configuration
         /// Start games in fullscreen mode
         /// </summary>
         public bool StartFullscreen { get; set; }
+
+        /// <summary>
+        /// Start games with UI hidden
+        /// </summary>
+        public bool StartNoUI { get; set; }
 
         /// <summary>
         /// Show console window
