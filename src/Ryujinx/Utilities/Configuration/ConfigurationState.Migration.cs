@@ -418,7 +418,7 @@ namespace Ryujinx.Ava.Utilities.Configuration
                 }),
                 (60, static cff =>
                 {
-                    cff.specialExitEmulator = 0;
+                    cff.SpecialExitEmulator = 0;
                 })
             );
     }
