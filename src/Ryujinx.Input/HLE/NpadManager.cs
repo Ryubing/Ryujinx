@@ -200,8 +200,10 @@ namespace Ryujinx.Input.HLE
             ReloadConfiguration(inputConfig, enableKeyboard, enableMouse);
         }
 
-        public void Update(float aspectRatio = 1)
+        public bool Update(float aspectRatio = 1)
         {
+            bool specialExit = false;
+
             lock (_lock)
             {
                 List<GamepadInput> hleInputStates = new();
@@ -225,9 +227,10 @@ namespace Ryujinx.Input.HLE
                         DriverConfigurationUpdate(ref controller, inputConfig);
 
                         controller.UpdateUserConfiguration(inputConfig);
-                        controller.Update();
-                        controller.UpdateRumble(_device.Hid.Npads.GetRumbleQueue(playerIndex));
 
+                        specialExit = controller.Update();  //hotkey press check
+                        controller.UpdateRumble(_device.Hid.Npads.GetRumbleQueue(playerIndex));
+                        
                         inputState = controller.GetHLEInputState();
 
                         inputState.Buttons |= _device.Hid.UpdateStickButtons(inputState.LStick, inputState.RStick);
@@ -315,6 +318,8 @@ namespace Ryujinx.Input.HLE
 
                 _device.TamperMachine.UpdateInput(hleInputStates);
             }
+
+            return specialExit;
         }
 
         internal InputConfig GetPlayerInputConfigByIndex(int index)

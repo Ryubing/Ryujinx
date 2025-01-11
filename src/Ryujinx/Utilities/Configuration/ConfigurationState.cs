@@ -128,6 +128,7 @@ namespace Ryujinx.Ava.Utilities.Configuration
                 ShowConsole = UI.ShowConsole,
                 EnableKeyboard = Hid.EnableKeyboard,
                 EnableMouse = Hid.EnableMouse,
+                SpecialExitEmulator = Hid.SpecialExitEmulator,
                 Hotkeys = Hid.Hotkeys,
                 KeyboardConfig = [],
                 ControllerConfig = [],
@@ -241,6 +242,7 @@ namespace Ryujinx.Ava.Utilities.Configuration
             UI.WindowStartup.WindowMaximized.Value = false;
             Hid.EnableKeyboard.Value = false;
             Hid.EnableMouse.Value = false;
+            Hid.SpecialExitEmulator.Value = 0;
             Hid.Hotkeys.Value = new KeyboardHotkeys
             {
                 ToggleVSyncMode = Key.F1,

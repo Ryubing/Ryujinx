@@ -1,4 +1,4 @@
-﻿<UserControl
+<UserControl
     x:Class="Ryujinx.Ava.UI.Views.Settings.SettingsInputView"
     xmlns="https://github.com/avaloniaui"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
@@ -58,6 +58,20 @@
                                 <TextBlock
                                     Text="{ext:Locale SettingsTabInputDirectMouseAccess}" />
                             </CheckBox>
+                            <ComboBox SelectedIndex="{Binding EnableSpecialExit}"
+                                ToolTip.Tip="{ext:Locale SpecialExitTooltip}"
+                                HorizontalContentAlignment="Left"
+                                MinWidth="160">
+                                <ComboBoxItem>
+                                    <TextBlock Text="{ext:Locale SettingsTabInputDisableExitHotKey}" />
+                                </ComboBoxItem>
+                                <ComboBoxItem>
+                                    <TextBlock Text="{ext:Locale SettingsTabInputHotkeyIsCloseApp}" />
+                                </ComboBoxItem>
+                                <ComboBoxItem>
+                                    <TextBlock Text="{ext:Locale SettingsTabInputHotkeyIsCloseGame}" />
+                                </ComboBoxItem>
+                            </ComboBox>                           
                         </StackPanel>
                     </StackPanel>
                 </Grid>

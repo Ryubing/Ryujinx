@@ -421,6 +421,13 @@ namespace Ryujinx.Ava.Utilities.Configuration
             public ReactiveObject<bool> EnableMouse { get; private set; }
 
             /// <summary>
+            /// Allows you to choose one of several behaviors when pressing hotkeys:
+            /// 0 - Do nothing, 1 - Close the emulator application, 2 - Exit the game.
+            /// </summary>
+            public ReactiveObject<int> SpecialExitEmulator { get; private set; }
+
+
+            /// <summary>
             /// Hotkey Keyboard Bindings
             /// </summary>
             public ReactiveObject<KeyboardHotkeys> Hotkeys { get; private set; }
@@ -436,6 +443,7 @@ namespace Ryujinx.Ava.Utilities.Configuration
             {
                 EnableKeyboard = new ReactiveObject<bool>();
                 EnableMouse = new ReactiveObject<bool>();
+                SpecialExitEmulator = new ReactiveObject<int>();
                 Hotkeys = new ReactiveObject<KeyboardHotkeys>();
                 InputConfig = new ReactiveObject<List<InputConfig>>();
             }

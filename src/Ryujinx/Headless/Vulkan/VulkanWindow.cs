@@ -18,8 +18,9 @@ namespace Ryujinx.Headless
             AspectRatio aspectRatio,
             bool enableMouse,
             HideCursorMode hideCursorMode,
-            bool ignoreControllerApplet)
-            : base(inputManager, glLogLevel, aspectRatio, enableMouse, hideCursorMode, ignoreControllerApplet)
+            bool ignoreControllerApplet,
+            int specialExitEmulator)
+            : base(inputManager, glLogLevel, aspectRatio, enableMouse, hideCursorMode, ignoreControllerApplet, specialExitEmulator)
         {
             _glLogLevel = glLogLevel;
         }

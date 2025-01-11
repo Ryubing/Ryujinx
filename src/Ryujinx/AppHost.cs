@@ -18,6 +18,7 @@ using Ryujinx.Ava.UI.Helpers;
 using Ryujinx.Ava.UI.Models;
 using Ryujinx.Ava.UI.Renderer;
 using Ryujinx.Ava.UI.ViewModels;
+using Ryujinx.Ava.UI.Views.Main;
 using Ryujinx.Ava.UI.Windows;
 using Ryujinx.Ava.Utilities;
 using Ryujinx.Ava.Utilities.AppLibrary;
@@ -70,6 +71,7 @@ namespace Ryujinx.Ava
         private const float MaxResolutionScale = 4.0f; // Max resolution hotkeys can scale to before wrapping.
         private const int TargetFps = 60;
         private const float VolumeDelta = 0.05f;
+        static bool SpecialExit = false;
 
         private static readonly Cursor _invisibleCursor = new(StandardCursorType.None);
         private readonly nint _invisibleCursorWin;
@@ -95,6 +97,7 @@ namespace Ryujinx.Ava
         private long _lastCursorMoveTime;
         private bool _isCursorInRenderer = true;
         private bool _ignoreCursorState = false;
+
 
         private enum CursorStates
         {
@@ -503,8 +506,13 @@ namespace Ryujinx.Ava
             _viewModel.Volume = ConfigurationState.Instance.System.AudioVolume.Value;
 
             MainLoop();
-
+           
             Exit();
+        }
+
+        public bool IsSpecialExit()
+        {
+            return SpecialExit;
         }
 
         private void UpdateIgnoreMissingServicesState(object sender, ReactiveEventArgs<bool> args)
@@ -589,6 +597,7 @@ namespace Ryujinx.Ava
 
             _isStopped = true;
             Stop();
+            
         }
 
         public void DisposeContext()
@@ -1135,6 +1144,7 @@ namespace Ryujinx.Ava
             string dockedMode = ConfigurationState.Instance.System.EnableDockedMode ? LocaleManager.Instance[LocaleKeys.Docked] : LocaleManager.Instance[LocaleKeys.Handheld];
             string vSyncMode = Device.VSyncMode.ToString();
 
+
             UpdateShaderCount();
 
             if (GraphicsConfig.ResScale != 1)
@@ -1200,7 +1210,17 @@ namespace Ryujinx.Ava
                 return false;
             }
 
-            NpadManager.Update(ConfigurationState.Instance.Graphics.AspectRatio.Value.ToFloat());
+            if (NpadManager.Update(ConfigurationState.Instance.Graphics.AspectRatio.Value.ToFloat()))
+            {
+                if (ConfigurationState.Instance.Hid.SpecialExitEmulator.Value == 1)
+                {
+                    SpecialExit = true; // close App
+                }
+                if (ConfigurationState.Instance.Hid.SpecialExitEmulator.Value > 0)
+                {
+                    _isActive = false; //close game
+                }
+            }
 
             if (_viewModel.IsActive)
             {
@@ -1334,6 +1354,8 @@ namespace Ryujinx.Ava
             }
 
             Device.Hid.DebugPad.Update();
+
+
 
             return true;
         }

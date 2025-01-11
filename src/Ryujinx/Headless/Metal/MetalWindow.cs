@@ -23,8 +23,9 @@ namespace Ryujinx.Headless
             AspectRatio aspectRatio,
             bool enableMouse,
             HideCursorMode hideCursorMode, 
-            bool ignoreControllerApplet)
-            : base(inputManager, glLogLevel, aspectRatio, enableMouse, hideCursorMode, ignoreControllerApplet) { }
+            bool ignoreControllerApplet,
+            int specialExitEmulator)
+            : base(inputManager, glLogLevel, aspectRatio, enableMouse, hideCursorMode, ignoreControllerApplet, specialExitEmulator) { }
 
         public override SDL_WindowFlags GetWindowFlags() => SDL_WindowFlags.SDL_WINDOW_METAL;
 

@@ -30,6 +30,11 @@ namespace Ryujinx.Ava.Input
             public readonly Key From = from;
         }
 
+        public bool SpecialExit()
+        {
+            return false;
+        }
+
         public AvaloniaKeyboard(AvaloniaKeyboardDriver driver, string id, string name)
         {
             _buttonsUserMapping = [];
