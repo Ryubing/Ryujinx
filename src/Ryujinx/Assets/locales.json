@@ -1243,7 +1243,7 @@
         "th_TH": "",
         "tr_TR": "",
         "uk_UA": "",
-        "zh_CN": "",
+        "zh_CN": "问答与指南",
         "zh_TW": ""
       }
     },
@@ -4018,7 +4018,7 @@
         "th_TH": "",
         "tr_TR": "",
         "uk_UA": "",
-        "zh_CN": "",
+        "zh_CN": "与 PC 日期和时间重新同步",
         "zh_TW": ""
       }
     },
@@ -14178,7 +14178,7 @@
         "ar_SA": "",
         "de_DE": "",
         "el_GR": "",
-        "en_US": "Ryujinx is an emulator for the Nintendo Switch™.\nGet all the latest news in our Discord.\nDevelopers interested in contributing can find out more on our GitHub or Discord.",
+        "en_US": "Ryujinx is an emulator for the Nintendo Switch™.\nGet all the latest news in our Discord.\n有兴趣做出贡献的开发者可以在我们的 GitHub 或 Discord 上了解更多信息。",
         "es_ES": "",
         "fr_FR": "Ryujinx est un émulateur pour la Nintendo Switch™.\nObtenez le dernières nouvelles sur le Discord.\nLes développeurs qui veulent contribuer peuvent en savoir plus sur notre GitHub ou Discord.",
         "he_IL": "",
@@ -14193,7 +14193,7 @@
         "th_TH": "",
         "tr_TR": "",
         "uk_UA": "Ryujinx — це емулятор для Nintendo Switch™.\nОтримуйте всі останні новини в нашому Discord.\nРозробники, які хочуть зробити внесок, можуть дізнатися більше на нашому GitHub або в Discord.",
-        "zh_CN": "",
+        "zh_CN": "Ryujinx 是一个 Nintendo Switch™ 模拟器。\n请到我们的 Discord 获取最新消息。\n",
         "zh_TW": ""
       }
     },
@@ -17818,7 +17818,7 @@
         "th_TH": "",
         "tr_TR": "",
         "uk_UA": "",
-        "zh_CN": "",
+        "zh_CN": "档案对话框",
         "zh_TW": ""
       }
     },
@@ -19543,7 +19543,7 @@
         "th_TH": "",
         "tr_TR": "",
         "uk_UA": "Необрізаних {0} тайтл(ів)...",
-        "zh_CN": "",
+        "zh_CN": "正在精简 {0} 个游戏",
         "zh_TW": ""
       }
     },
@@ -19718,7 +19718,7 @@
         "th_TH": "",
         "tr_TR": "",
         "uk_UA": "Заголовок",
-        "zh_CN": "",
+        "zh_CN": "标题",
         "zh_TW": ""
       }
     },
@@ -19743,7 +19743,7 @@
         "th_TH": "",
         "tr_TR": "",
         "uk_UA": "Економія місця",
-        "zh_CN": "",
+        "zh_CN": "节省空间",
         "zh_TW": ""
       }
     },
@@ -19793,7 +19793,7 @@
         "th_TH": "",
         "tr_TR": "",
         "uk_UA": "Зшивання",
-        "zh_CN": "",
+        "zh_CN": "取消精简",
         "zh_TW": ""
       }
     },
@@ -22618,7 +22618,7 @@
         "th_TH": "",
         "tr_TR": "",
         "uk_UA": "",
-        "zh_CN": "",
+        "zh_CN": "最后更新于: {0}",
         "zh_TW": ""
       }
     },
@@ -22643,7 +22643,7 @@
         "th_TH": "",
         "tr_TR": "",
         "uk_UA": "",
-        "zh_CN": "",
+        "zh_CN": "此兼容性列表可能包含过时的条目。\n不要只测试 \"进入游戏\" 状态的游戏。",
         "zh_TW": ""
       }
     },
@@ -22668,7 +22668,7 @@
         "th_TH": "",
         "tr_TR": "",
         "uk_UA": "",
-        "zh_CN": "",
+        "zh_CN": "正在搜索兼容性条目...",
         "zh_TW": ""
       }
     },
@@ -22693,7 +22693,7 @@
         "th_TH": "",
         "tr_TR": "",
         "uk_UA": "",
-        "zh_CN": "",
+        "zh_CN": "打开兼容性列表",
         "zh_TW": ""
       }
     },
@@ -22718,7 +22718,7 @@
         "th_TH": "",
         "tr_TR": "",
         "uk_UA": "",
-        "zh_CN": "",
+        "zh_CN": "仅显示拥有的游戏",
         "zh_TW": ""
       }
     },
@@ -22743,7 +22743,7 @@
         "th_TH": "",
         "tr_TR": "",
         "uk_UA": "",
-        "zh_CN": "",
+        "zh_CN": "可游玩",
         "zh_TW": ""
       }
     },
@@ -22768,7 +22768,7 @@
         "th_TH": "",
         "tr_TR": "",
         "uk_UA": "",
-        "zh_CN": "",
+        "zh_CN": "进入游戏",
         "zh_TW": ""
       }
     },
@@ -22793,7 +22793,7 @@
         "th_TH": "",
         "tr_TR": "",
         "uk_UA": "",
-        "zh_CN": "",
+        "zh_CN": "菜单",
         "zh_TW": ""
       }
     },
@@ -22818,7 +22818,7 @@
         "th_TH": "",
         "tr_TR": "",
         "uk_UA": "",
-        "zh_CN": "",
+        "zh_CN": "启动",
         "zh_TW": ""
       }
     },
@@ -22843,7 +22843,7 @@
         "th_TH": "",
         "tr_TR": "",
         "uk_UA": "",
-        "zh_CN": "",
+        "zh_CN": "什么都没有",
         "zh_TW": ""
       }
     }
