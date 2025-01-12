@@ -24,7 +24,7 @@ namespace Ryujinx.Graphics.Vulkan.Queries
         private ulong _accumulatedCounter;
         private int _waiterCount;
 
-        private readonly object _lock = new();
+        private readonly Lock _lock = new();
 
         private readonly Queue<BufferedQuery> _queryPool;
         private readonly AutoResetEvent _queuedEvent = new(false);
@@ -52,7 +52,7 @@ namespace Ryujinx.Graphics.Vulkan.Queries
 
             _current = new CounterQueueEvent(this, type, 0);
 
-            _consumerThread = new Thread(EventConsumer);
+            _consumerThread = new Thread(EventConsumer) { Name = "CPU.CounterQueue." + (int)type };
             _consumerThread.Start();
         }
 

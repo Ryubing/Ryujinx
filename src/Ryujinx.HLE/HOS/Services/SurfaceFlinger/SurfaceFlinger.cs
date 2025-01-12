@@ -10,7 +10,6 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
 using System.Threading;
-using VSyncMode = Ryujinx.Common.Configuration.VSyncMode;
 
 namespace Ryujinx.HLE.HOS.Services.SurfaceFlinger
 {
@@ -37,7 +36,7 @@ namespace Ryujinx.HLE.HOS.Services.SurfaceFlinger
         private int _swapInterval;
         private int _swapIntervalDelay;
 
-        private readonly object _lock = new();
+        private readonly Lock _lock = new();
 
         public long RenderLayerId { get; private set; }
 

@@ -1,0 +1,82 @@
+<UserControl
+    x:Class="Ryujinx.Ava.UI.Views.Settings.SettingsHacksView"
+    xmlns="https://github.com/avaloniaui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:viewModels="clr-namespace:Ryujinx.Ava.UI.ViewModels"
+    mc:Ignorable="d"
+    x:DataType="viewModels:SettingsViewModel">
+    <Design.DataContext>
+        <viewModels:SettingsViewModel />
+    </Design.DataContext>
+    <ScrollViewer
+        Name="HacksPage"
+        HorizontalAlignment="Stretch"
+        VerticalAlignment="Stretch"
+        HorizontalScrollBarVisibility="Disabled"
+        VerticalScrollBarVisibility="Auto">
+        <Border Classes="settings">
+            <StackPanel
+                Margin="10"
+                HorizontalAlignment="Center"
+                Orientation="Vertical"
+                Spacing="5">
+                <TextBlock
+                    HorizontalAlignment="Center"
+                    Classes="h1"
+                    Text="Dirty Hacks" />
+                <TextBlock
+                    Foreground="{DynamicResource SecondaryTextColor}"
+                    TextDecorations="Underline"
+                    Text="Game-specific hacks &amp; tricks to alleviate performance issues or crashing. Will cause issues." />
+                <StackPanel
+                    Margin="0,10,0,0"
+                    Orientation="Horizontal"
+                    HorizontalAlignment="Center"
+                    ToolTip.Tip="{Binding DirtyHacks.Xc2MenuFixTooltip}">
+                    <CheckBox
+                        Margin="0"
+                        IsChecked="{Binding DirtyHacks.Xc2MenuSoftlockFix}"/>
+                    <TextBlock
+                        VerticalAlignment="Center"
+                        Text="Xenoblade Chronicles 2 Menu Softlock Fix" />
+                </StackPanel>
+                <Separator/>
+                <StackPanel
+                    Margin="0,10,0,0"
+                    Orientation="Horizontal"
+                    HorizontalAlignment="Center"
+                    ToolTip.Tip="{Binding DirtyHacks.ShaderTranslationDelayTooltip}">
+                    <CheckBox
+                        Margin="0"
+                        IsChecked="{Binding DirtyHacks.ShaderTranslationDelayEnabled}"/>
+                    <TextBlock VerticalAlignment="Center"
+                               Text="Arbitrary Delay on Shader Translation"/>
+                </StackPanel>
+                <StackPanel
+                    IsVisible="{Binding DirtyHacks.ShaderTranslationDelayEnabled}"
+                    Margin="0,10,0,0"
+                    Orientation="Horizontal"
+                    HorizontalAlignment="Center">
+                    <Slider HorizontalAlignment="Center" 
+                            Value="{Binding DirtyHacks.ShaderTranslationDelay}"
+                            Width="175"
+                            Margin="0,-3,0,0"
+                            Height="32"
+                            Padding="0,-5"
+                            TickFrequency="1"
+                            IsSnapToTickEnabled="True"
+                            LargeChange="10"
+                            SmallChange="1"
+                            VerticalAlignment="Center"
+                            Minimum="1"
+                            Maximum="1000" />
+                    <TextBlock Margin="5,0"
+                               Text="{Binding DirtyHacks.ShaderTranslationDelayValueText}"/>
+                </StackPanel>
+                <Separator/>
+            </StackPanel>
+        </Border>
+    </ScrollViewer>
+</UserControl>

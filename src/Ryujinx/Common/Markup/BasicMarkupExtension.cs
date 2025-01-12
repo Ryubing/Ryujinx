@@ -14,7 +14,7 @@ namespace Ryujinx.Ava.Common.Markup
 {
     internal abstract class BasicMarkupExtension<T> : MarkupExtension
     {
-        public virtual string Name => "Item";
+        public abstract string Name { get; }
         public virtual Action<object, T?>? Setter => null;
 
         protected abstract T? Value { get; }

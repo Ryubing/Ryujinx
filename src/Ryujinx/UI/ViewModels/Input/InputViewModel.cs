@@ -1,15 +1,15 @@
-using Avalonia;
 using Avalonia.Collections;
 using Avalonia.Controls;
-using Avalonia.Controls.ApplicationLifetimes;
 using Avalonia.Svg.Skia;
 using Avalonia.Threading;
+using CommunityToolkit.Mvvm.ComponentModel;
 using Ryujinx.Ava.Common.Locale;
 using Ryujinx.Ava.Input;
 using Ryujinx.Ava.UI.Helpers;
 using Ryujinx.Ava.UI.Models;
 using Ryujinx.Ava.UI.Models.Input;
 using Ryujinx.Ava.UI.Windows;
+using Ryujinx.Ava.Utilities.Configuration;
 using Ryujinx.Common;
 using Ryujinx.Common.Configuration;
 using Ryujinx.Common.Configuration.Hid;
@@ -19,7 +19,6 @@ using Ryujinx.Common.Configuration.Hid.Keyboard;
 using Ryujinx.Common.Logging;
 using Ryujinx.Common.Utilities;
 using Ryujinx.Input;
-using Ryujinx.UI.Common.Configuration;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
@@ -32,13 +31,13 @@ using Key = Ryujinx.Common.Configuration.Hid.Key;
 
 namespace Ryujinx.Ava.UI.ViewModels.Input
 {
-    public class InputViewModel : BaseModel, IDisposable
+    public partial class InputViewModel : BaseModel, IDisposable
     {
         private const string Disabled = "disabled";
-        private const string ProControllerResource = "Ryujinx.UI.Common/Resources/Controller_ProCon.svg";
-        private const string JoyConPairResource = "Ryujinx.UI.Common/Resources/Controller_JoyConPair.svg";
-        private const string JoyConLeftResource = "Ryujinx.UI.Common/Resources/Controller_JoyConLeft.svg";
-        private const string JoyConRightResource = "Ryujinx.UI.Common/Resources/Controller_JoyConRight.svg";
+        private const string ProControllerResource = "Ryujinx/Assets/Icons/Controller_ProCon.svg";
+        private const string JoyConPairResource = "Ryujinx/Assets/Icons/Controller_JoyConPair.svg";
+        private const string JoyConLeftResource = "Ryujinx/Assets/Icons/Controller_JoyConLeft.svg";
+        private const string JoyConRightResource = "Ryujinx/Assets/Icons/Controller_JoyConRight.svg";
         private const string KeyboardString = "keyboard";
         private const string ControllerString = "controller";
         private readonly MainWindow _mainWindow;
@@ -48,8 +47,8 @@ namespace Ryujinx.Ava.UI.ViewModels.Input
         private int _controller;
         private string _controllerImage;
         private int _device;
-        private object _configViewModel;
-        private string _profileName;
+        [ObservableProperty] private object _configViewModel;
+        [ObservableProperty] private string _profileName;
         private bool _isLoaded;
 
         private static readonly InputConfigJsonSerializerContext _serializerContext = new(JsonHelper.GetDefaultSerializerOptions());
@@ -73,17 +72,6 @@ namespace Ryujinx.Ava.UI.ViewModels.Input
         public bool IsModified { get; set; }
         public event Action NotifyChangesEvent;
 
-        public object ConfigViewModel
-        {
-            get => _configViewModel;
-            set
-            {
-                _configViewModel = value;
-
-                OnPropertyChanged();
-            }
-        }
-
         public PlayerIndex PlayerIdChoose
         {
             get => _playerIdChoose;
@@ -97,7 +85,7 @@ namespace Ryujinx.Ava.UI.ViewModels.Input
             {
                 if (IsModified)
                 {
-                    
+
                     _playerIdChoose = value;
                     return;
                 }
@@ -105,7 +93,7 @@ namespace Ryujinx.Ava.UI.ViewModels.Input
                 IsModified = false;
                 _playerId = value;
 
-                if (!Enum.IsDefined(typeof(PlayerIndex), _playerId))
+                if (!Enum.IsDefined<PlayerIndex>(_playerId))
                 {
                     _playerId = PlayerIndex.Player1;
 
@@ -200,16 +188,6 @@ namespace Ryujinx.Ava.UI.ViewModels.Input
             }
         }
 
-        public string ProfileName
-        {
-            get => _profileName; set
-            {
-                _profileName = value;
-
-                OnPropertyChanged();
-            }
-        }
-
         public int Device
         {
             get => _device;
@@ -245,9 +223,7 @@ namespace Ryujinx.Ava.UI.ViewModels.Input
         {
             if (Program.PreviewerDetached)
             {
-                _mainWindow =
-                    (MainWindow)((IClassicDesktopStyleApplicationLifetime)Application.Current
-                        .ApplicationLifetime).MainWindow;
+                _mainWindow = RyujinxApp.MainWindow;
 
                 AvaloniaKeyboardDriver = new AvaloniaKeyboardDriver(owner);
 
@@ -287,7 +263,7 @@ namespace Ryujinx.Ava.UI.ViewModels.Input
 
         private void LoadConfiguration(InputConfig inputConfig = null)
         {
-            Config = inputConfig ?? ConfigurationState.Instance.Hid.InputConfig.Value.Find(inputConfig => inputConfig.PlayerIndex == _playerId);
+            Config = inputConfig ?? ConfigurationState.Instance.Hid.InputConfig.Value.FirstOrDefault(inputConfig => inputConfig.PlayerIndex == _playerId);
 
             if (Config is StandardKeyboardInputConfig keyboardInputConfig)
             {
@@ -597,7 +573,7 @@ namespace Ryujinx.Ava.UI.ViewModels.Input
             }
             else if (activeDevice.Type == DeviceType.Controller)
             {
-                bool isNintendoStyle = Devices.ToList().Find(x => x.Id == activeDevice.Id).Name.Contains("Nintendo");
+                bool isNintendoStyle = Devices.ToList().FirstOrDefault(x => x.Id == activeDevice.Id).Name.Contains("Nintendo");
 
                 string id = activeDevice.Id.Split(" ")[0];
 
@@ -823,11 +799,11 @@ namespace Ryujinx.Ava.UI.ViewModels.Input
 
             newConfig.AddRange(ConfigurationState.Instance.Hid.InputConfig.Value);
 
-            newConfig.Remove(newConfig.Find(x => x == null));
+            newConfig.Remove(newConfig.FirstOrDefault(x => x == null));
 
             if (Device == 0)
             {
-                newConfig.Remove(newConfig.Find(x => x.PlayerIndex == this.PlayerId));
+                newConfig.Remove(newConfig.FirstOrDefault(x => x.PlayerIndex == this.PlayerId));
             }
             else
             {

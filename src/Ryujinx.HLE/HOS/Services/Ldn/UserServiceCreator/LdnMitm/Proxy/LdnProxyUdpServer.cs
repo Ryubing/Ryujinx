@@ -18,7 +18,7 @@ namespace Ryujinx.HLE.HOS.Services.Ldn.UserServiceCreator.LdnMitm.Proxy
         private byte[] _buffer;
         private int _bufferEnd;
 
-        private readonly object _scanLock = new();
+        private readonly Lock _scanLock = new();
 
         private Dictionary<ulong, NetworkInfo> _scanResultsLast = new();
         private Dictionary<ulong, NetworkInfo> _scanResults = new();

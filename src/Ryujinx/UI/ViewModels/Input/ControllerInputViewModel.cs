@@ -1,21 +1,13 @@
 using Avalonia.Svg.Skia;
+using CommunityToolkit.Mvvm.ComponentModel;
 using Ryujinx.Ava.UI.Models.Input;
 using Ryujinx.Ava.UI.Views.Input;
 
 namespace Ryujinx.Ava.UI.ViewModels.Input
 {
-    public class ControllerInputViewModel : BaseModel
+    public partial class ControllerInputViewModel : BaseModel
     {
-        private GamepadInputConfig _config;
-        public GamepadInputConfig Config
-        {
-            get => _config;
-            set
-            {
-                _config = value;
-                OnPropertyChanged();
-            }
-        }
+        [ObservableProperty] private GamepadInputConfig _config;
 
         private bool _isLeft;
         public bool IsLeft
@@ -43,16 +35,7 @@ namespace Ryujinx.Ava.UI.ViewModels.Input
 
         public bool HasSides => IsLeft ^ IsRight;
 
-        private SvgImage _image;
-        public SvgImage Image
-        {
-            get => _image;
-            set
-            {
-                _image = value;
-                OnPropertyChanged();
-            }
-        }
+        [ObservableProperty] private SvgImage _image;
 
         public readonly InputViewModel ParentModel;
 

@@ -2,6 +2,7 @@ using Ryujinx.Common.Memory;
 using Ryujinx.HLE.HOS.Services.Time.Clock;
 using System;
 using System.IO;
+using System.Threading;
 
 namespace Ryujinx.HLE.HOS.Services.Time.TimeZone
 {
@@ -13,7 +14,7 @@ namespace Ryujinx.HLE.HOS.Services.Time.TimeZone
         private UInt128 _timeZoneRuleVersion;
         private uint _totalLocationNameCount;
         private SteadyClockTimePoint _timeZoneUpdateTimePoint;
-        private readonly object _lock = new();
+        private readonly Lock _lock = new();
 
         public TimeZoneManager()
         {

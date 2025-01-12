@@ -14,14 +14,13 @@
     <DockPanel HorizontalAlignment="Stretch">
         <Image
             Name="RyuLogo"
-            Margin="2, 1,-1, 0"
-            Height="36"
-            Width="36"
-            ToolTip.Tip="{Binding Title}"
-            Source="resm:Ryujinx.UI.Common.Resources.Logo_Ryujinx.png?assembly=Ryujinx.UI.Common" />
+            Margin="7, 0"
+            Height="25"
+            Width="25"
+            ToolTip.Tip="{Binding Title}" />
         <Menu
             Name="Menu"
-            Height="35"
+            Height="32"
             Margin="0"
             HorizontalAlignment="Left"
             IsOpen="{Binding IsSubMenuOpen, Mode=OneWayToSource}">
@@ -57,7 +56,7 @@
                     ToolTip.Tip="{ext:Locale LoadTitleUpdatesFromFolderTooltip}" />
                 <MenuItem Header="{ext:Locale MenuBarFileOpenApplet}" IsEnabled="{Binding IsAppletMenuActive}" Icon="{ext:Icon mdi-launch}">
                     <MenuItem
-                        Click="OpenMiiApplet"
+                        Name="MiiAppletMenuItem"
                         Header="{ext:Locale MenuBarFileOpenAppletOpenMiiApplet}"
                         Icon="{ext:Icon fa-solid fa-person}"
                         ToolTip.Tip="{ext:Locale MenuBarFileOpenAppletOpenMiiAppletToolTip}" />
@@ -73,7 +72,7 @@
                     ToolTip.Tip="{ext:Locale OpenRyujinxLogsTooltip}" />
                 <Separator />
                 <MenuItem
-                    Click="CloseWindow"
+                    Name="CloseRyujinxMenuItem"
                     Header="{ext:Locale MenuBarFileExit}"
                     Icon="{ext:Icon fa-solid fa-xmark}"
                     ToolTip.Tip="{ext:Locale ExitTooltip}" />
@@ -168,7 +167,7 @@
                     Header="{ext:Locale MenuBarShowFileTypes}" />
                 <Separator />
                 <MenuItem
-                    Click="OpenSettings"
+                    Name="OpenSettingsMenuItem"
                     Padding="0"
                     Header="{ext:Locale MenuBarOptionsSettings}"
                     Icon="{ext:Icon fa-solid fa-gear}"
@@ -211,21 +210,21 @@
                 Header="{ext:Locale MenuBarActions}"
                 IsEnabled="{Binding IsGameRunning}">
                 <MenuItem
-                    Click="PauseEmulation_Click"
+                    Name="PauseEmulationMenuItem"
                     Header="{ext:Locale MenuBarOptionsPauseEmulation}"
                     Icon="{ext:Icon fa-solid fa-pause}"
                     InputGesture="{Binding PauseKey}"
                     IsEnabled="{Binding !IsPaused}"
                     IsVisible="{Binding !IsPaused}" />
                 <MenuItem
-                    Click="ResumeEmulation_Click"
+                    Name="ResumeEmulationMenuItem"
                     Header="{ext:Locale MenuBarOptionsResumeEmulation}"
                     Icon="{ext:Icon fa-solid fa-play}"
                     InputGesture="{Binding PauseKey}"
                     IsEnabled="{Binding IsPaused}"
                     IsVisible="{Binding IsPaused}" />
                 <MenuItem
-                    Click="StopEmulation_Click"
+                    Name="StopEmulationMenuItem"
                     Header="{ext:Locale MenuBarOptionsStopEmulation}"
                     Icon="{ext:Icon fa-solid fa-stop}"
                     InputGesture="Escape"
@@ -234,13 +233,20 @@
                 <MenuItem Command="{Binding SimulateWakeUpMessage}" Header="{ext:Locale MenuBarOptionsSimulateWakeUpMessage}" />
                 <Separator />
                 <MenuItem
-                    Name="ScanAmiiboMenuItem"
+                    Command="{Binding OpenAmiiboWindow}"
                     AttachedToVisualTree="ScanAmiiboMenuItem_AttachedToVisualTree"
-                    Click="OpenAmiiboWindow"
                     Header="{ext:Locale MenuBarActionsScanAmiibo}"
                     Icon="{ext:Icon mdi-cube-scan}"
                     InputGesture="Ctrl + A"
                     IsEnabled="{Binding IsAmiiboRequested}" />
+                <MenuItem
+                    Command="{Binding OpenBinFile}"
+                    AttachedToVisualTree="ScanBinAmiiboMenuItem_AttachedToVisualTree"
+                    Header="{ext:Locale MenuBarActionsScanAmiiboBin}"
+                    Icon="{ext:Icon mdi-cube-scan}"
+                    IsVisible="{Binding CanScanAmiiboBinaries}"
+                    InputGesture="Ctrl + B"
+                    IsEnabled="{Binding IsAmiiboBinRequested}" />
                 <MenuItem
                     Command="{Binding TakeScreenshot}"
                     Header="{ext:Locale MenuBarFileToolsTakeScreenshot}"
@@ -254,7 +260,7 @@
                     InputGesture="{Binding ShowUiKey}"
                     IsEnabled="{Binding IsGameRunning}" />
                 <MenuItem
-                    Click="OpenCheatManagerForCurrentApp"
+                    Name="CheatManagerMenuItem"
                     Header="{ext:Locale GameListContextMenuManageCheat}"
                     Icon="{ext:Icon fa-solid fa-code}"
                     IsEnabled="{Binding IsGameRunning}" />
@@ -269,32 +275,57 @@
                     <MenuItem Command="{Binding InstallFirmwareFromFolder}" Header="{ext:Locale MenuBarFileToolsInstallFirmwareFromDirectory}" Icon="{ext:Icon mdi-folder-cog}" />
                 </MenuItem>
                 <MenuItem Header="{ext:Locale MenuBarToolsManageFileTypes}" IsVisible="{Binding ManageFileTypesVisible}">
-                    <MenuItem Header="{ext:Locale MenuBarToolsInstallFileTypes}" Click="InstallFileTypes_Click" IsEnabled="{Binding AreMimeTypesRegistered, Converter={x:Static BoolConverters.Not}}" />
-                    <MenuItem Header="{ext:Locale MenuBarToolsUninstallFileTypes}" Click="UninstallFileTypes_Click" IsEnabled="{Binding AreMimeTypesRegistered}" />
+                    <MenuItem Name="InstallFileTypesMenuItem" Header="{ext:Locale MenuBarToolsInstallFileTypes}" IsEnabled="{Binding AreMimeTypesRegistered, Converter={x:Static BoolConverters.Not}}" />
+                    <MenuItem Name="UninstallFileTypesMenuItem" Header="{ext:Locale MenuBarToolsUninstallFileTypes}" IsEnabled="{Binding AreMimeTypesRegistered}" />
                 </MenuItem>
                 <Separator />
-                <MenuItem Header="{ext:Locale MenuBarToolsXCITrimmer}" IsEnabled="{Binding EnableNonGameRunningControls}" Click="OpenXCITrimmerWindow" Icon="{ext:Icon fa-solid fa-scissors}" />
+                <MenuItem Name="XciTrimmerMenuItem" Header="{ext:Locale MenuBarToolsXCITrimmer}" IsEnabled="{Binding EnableNonGameRunningControls}" Icon="{ext:Icon fa-solid fa-scissors}" />
             </MenuItem>
             <MenuItem VerticalAlignment="Center" Header="{ext:Locale MenuBarView}">
                 <MenuItem VerticalAlignment="Center" Header="{ext:Locale MenuBarViewWindow}">
-                    <MenuItem Header="{ext:Locale MenuBarViewWindow720}" Tag="1280 720" Click="ChangeWindowSize_Click" />
-                    <MenuItem Header="{ext:Locale MenuBarViewWindow1080}" Tag="1920 1080" Click="ChangeWindowSize_Click" />
+                    <MenuItem Name="WindowSize720PMenuItem" Header="{ext:Locale MenuBarViewWindow720}" CommandParameter="1280 720" />
+                    <MenuItem Name="WindowSize1080PMenuItem" Header="{ext:Locale MenuBarViewWindow1080}" CommandParameter="1920 1080" />
+                    <MenuItem Name="WindowSize1440PMenuItem" Header="{ext:Locale MenuBarViewWindow1440}" CommandParameter="2560 1440" />
+                    <MenuItem Name="WindowSize2160PMenuItem" Header="{ext:Locale MenuBarViewWindow2160}" CommandParameter="3840 2160" />
                 </MenuItem>
             </MenuItem>
             <MenuItem VerticalAlignment="Center" Header="{ext:Locale MenuBarHelp}">
                 <MenuItem
-                    Name="UpdateMenuItem"
-                    IsEnabled="{Binding CanUpdate}"
-                    Click="CheckForUpdates"
-                    Header="{ext:Locale MenuBarHelpCheckForUpdates}"
-                    Icon="{ext:Icon mdi-update}"
-                    ToolTip.Tip="{ext:Locale CheckUpdatesTooltip}" />
-                <Separator />
-                <MenuItem
-                    Click="OpenAboutWindow"
+                    Name="AboutWindowMenuItem"
                     Header="{ext:Locale MenuBarHelpAbout}"
                     Icon="{ext:Icon fa-solid fa-circle-info}"
                     ToolTip.Tip="{ext:Locale OpenAboutTooltip}" />
+                <MenuItem
+                    Name="UpdateMenuItem"
+                    IsEnabled="{Binding CanUpdate}"
+                    Header="{ext:Locale MenuBarHelpCheckForUpdates}"
+                    Icon="{ext:Icon mdi-update}"
+                    ToolTip.Tip="{ext:Locale CheckUpdatesTooltip}" />
+                <MenuItem
+                    Name="CompatibilityListMenuItem"
+                    Header="{ext:Locale CompatibilityListOpen}"
+                    Icon="{ext:Icon mdi-gamepad}"/>
+                <Separator />
+                <MenuItem VerticalAlignment="Center" Header="{ext:Locale MenuBarHelpFaqAndGuides}" Icon="{ext:Icon fa-solid fa-question}" >
+                    <MenuItem
+                        Name="FaqMenuItem"
+                        Header="{ext:Locale MenuBarHelpFaq}"
+                        Icon="{ext:Icon fa-github}"
+                        CommandParameter="https://github.com/GreemDev/Ryujinx/wiki/FAQ-and-Troubleshooting"
+                        ToolTip.Tip="{ext:Locale MenuBarHelpFaqTooltip}" />
+                    <MenuItem
+                        Name="SetupGuideMenuItem"
+                        Header="{ext:Locale MenuBarHelpSetup}"
+                        Icon="{ext:Icon fa-github}"
+                        CommandParameter="https://github.com/GreemDev/Ryujinx/wiki/Ryujinx-Setup-&amp;-Configuration-Guide"
+                        ToolTip.Tip="{ext:Locale MenuBarHelpSetupTooltip}" />
+                    <MenuItem
+                        Name="LdnGuideMenuItem"
+                        Header="{ext:Locale MenuBarHelpMultiplayer}"
+                        Icon="{ext:Icon fa-github}"
+                        CommandParameter="https://github.com/GreemDev/Ryujinx/wiki/Multiplayer%E2%80%90(LDN%E2%80%90Local%E2%80%90Wireless)%E2%80%90Guide"
+                        ToolTip.Tip="{ext:Locale MenuBarHelpMultiplayerTooltip}" />
+                </MenuItem>
             </MenuItem>
         </Menu>
     </DockPanel>

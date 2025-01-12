@@ -2,6 +2,7 @@ using Ryujinx.Common;
 using Ryujinx.HLE.HOS.Kernel.Threading;
 using Ryujinx.Horizon.Common;
 using System.Collections.Generic;
+using System.Threading;
 
 namespace Ryujinx.HLE.HOS.Kernel.Common
 {
@@ -14,7 +15,8 @@ namespace Ryujinx.HLE.HOS.Kernel.Common
         private readonly long[] _current2;
         private readonly long[] _peak;
 
-        private readonly object _lock;
+        // type is not Lock due to Monitor class usage
+        private readonly object _lock = new();
 
         private readonly LinkedList<KThread> _waitingThreads;
 
@@ -26,8 +28,6 @@ namespace Ryujinx.HLE.HOS.Kernel.Common
             _limit = new long[(int)LimitableResource.Count];
             _current2 = new long[(int)LimitableResource.Count];
             _peak = new long[(int)LimitableResource.Count];
-
-            _lock = new object();
 
             _waitingThreads = new LinkedList<KThread>();
         }

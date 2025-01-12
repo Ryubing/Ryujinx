@@ -62,9 +62,46 @@ namespace Ryujinx.Ava.UI.Helpers
             _notifications.Add(new Notification(title, text, type, delay, onClick, onClose));
         }
 
-        public static void ShowError(string message)
-        {
-            Show(LocaleManager.Instance[LocaleKeys.DialogErrorTitle], $"{LocaleManager.Instance[LocaleKeys.DialogErrorMessage]}\n\n{message}", NotificationType.Error);
-        }
+        public static void ShowError(string message) =>
+            ShowError(
+                LocaleManager.Instance[LocaleKeys.DialogErrorTitle], 
+                $"{LocaleManager.Instance[LocaleKeys.DialogErrorMessage]}\n\n{message}"
+            );
+
+        public static void ShowInformation(string title, string text, bool waitingExit = false, Action onClick = null, Action onClose = null) =>
+            Show(
+                title,
+                text,
+                NotificationType.Information,
+                waitingExit, 
+                onClick, 
+                onClose);
+
+        public static void ShowSuccess(string title, string text, bool waitingExit = false, Action onClick = null, Action onClose = null) =>
+            Show(
+                title,
+                text,
+                NotificationType.Success,
+                waitingExit, 
+                onClick, 
+                onClose);
+
+        public static void ShowWarning(string title, string text, bool waitingExit = false, Action onClick = null, Action onClose = null) =>
+            Show(
+                title,
+                text,
+                NotificationType.Warning,
+                waitingExit, 
+                onClick, 
+                onClose);
+
+        public static void ShowError(string title, string text, bool waitingExit = false, Action onClick = null, Action onClose = null) =>
+            Show(
+                title,
+                text,
+                NotificationType.Error,
+                waitingExit, 
+                onClick, 
+                onClose);
     }
 }

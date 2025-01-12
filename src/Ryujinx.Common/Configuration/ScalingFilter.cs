@@ -9,5 +9,6 @@ namespace Ryujinx.Common.Configuration
         Bilinear,
         Nearest,
         Fsr,
+        Area,
     }
 }

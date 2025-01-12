@@ -58,7 +58,7 @@ namespace Ryujinx.Graphics.GAL.Multithreading
         public uint ProgramCount { get; set; } = 0;
 
         private Action _interruptAction;
-        private readonly object _interruptLock = new();
+        private readonly Lock _interruptLock = new();
 
         public event EventHandler<ScreenCaptureImageInfo> ScreenCaptured;
 

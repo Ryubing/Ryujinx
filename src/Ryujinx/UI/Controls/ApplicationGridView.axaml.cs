@@ -3,7 +3,7 @@ using Avalonia.Input;
 using Avalonia.Interactivity;
 using Ryujinx.Ava.UI.Helpers;
 using Ryujinx.Ava.UI.ViewModels;
-using Ryujinx.UI.App.Common;
+using Ryujinx.Ava.Utilities.AppLibrary;
 using System;
 
 namespace Ryujinx.Ava.UI.Controls
@@ -25,12 +25,6 @@ namespace Ryujinx.Ava.UI.Controls
         {
             if (sender is ListBox { SelectedItem: ApplicationData selected })
                 RaiseEvent(new ApplicationOpenedEventArgs(selected, ApplicationOpenedEvent));
-        }
-
-        public void GameList_SelectionChanged(object sender, SelectionChangedEventArgs args)
-        {
-            if (DataContext is MainWindowViewModel viewModel && sender is ListBox { SelectedItem: ApplicationData selected })
-                viewModel.GridSelectedApplication = selected;
         }
     }
 }

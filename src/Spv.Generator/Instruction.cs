@@ -64,7 +64,7 @@ namespace Spv.Generator
             _operands.Add(value);
         }
 
-        public void AddOperand(IOperand[] value)
+        public void AddOperand(ReadOnlySpan<IOperand> value)
         {
             foreach (IOperand instruction in value)
             {
@@ -72,7 +72,7 @@ namespace Spv.Generator
             }
         }
 
-        public void AddOperand(LiteralInteger[] value)
+        public void AddOperand(ReadOnlySpan<LiteralInteger> value)
         {
             foreach (LiteralInteger instruction in value)
             {
@@ -85,7 +85,7 @@ namespace Spv.Generator
             AddOperand((IOperand)value);
         }
 
-        public void AddOperand(Instruction[] value)
+        public void AddOperand(ReadOnlySpan<Instruction> value)
         {
             foreach (Instruction instruction in value)
             {

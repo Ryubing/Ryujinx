@@ -1,5 +1,6 @@
 using Ryujinx.HLE.HOS.Services.SurfaceFlinger.Types;
 using System;
+using System.Threading;
 
 namespace Ryujinx.HLE.HOS.Services.SurfaceFlinger
 {
@@ -23,7 +24,7 @@ namespace Ryujinx.HLE.HOS.Services.SurfaceFlinger
 
         protected BufferQueueConsumer Consumer;
 
-        protected readonly object Lock = new();
+        protected readonly Lock Lock = new();
 
         private readonly IConsumerListener _listener;
 

@@ -231,7 +231,7 @@ namespace Ryujinx.HLE.Loaders.Processes
             ulong programId,
             byte programIndex,
             byte[] arguments = null,
-            params IExecutable[] executables)
+            params ReadOnlySpan<IExecutable> executables)
         {
             context.Device.System.ServiceTable.WaitServicesReady();
 
@@ -251,12 +251,17 @@ namespace Ryujinx.HLE.Loaders.Processes
             ulong codeStart = ((meta.Flags & 1) != 0 ? 0x8000000UL : 0x200000UL) + CodeStartOffset;
             uint codeSize = 0;
 
-            var buildIds = executables.Select(e => (e switch
+            var buildIds = new string[executables.Length];
+
+            for (int i = 0; i < executables.Length; i++)
             {
-                NsoExecutable nso => Convert.ToHexString(nso.BuildId.ItemsRo.ToArray()),
-                NroExecutable nro => Convert.ToHexString(nro.Header.BuildId),
-                _ => string.Empty
-            }).ToUpper());
+                buildIds[i] = (executables[i] switch
+                {
+                    NsoExecutable nso => Convert.ToHexString(nso.BuildId.ItemsRo.ToArray()),
+                    NroExecutable nro => Convert.ToHexString(nro.Header.BuildId),
+                    _ => string.Empty
+                }).ToUpper();
+            }
 
             ulong[] nsoBase = new ulong[executables.Length];
 

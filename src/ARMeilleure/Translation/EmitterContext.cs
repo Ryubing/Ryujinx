@@ -97,7 +97,7 @@ namespace ARMeilleure.Translation
 
         public virtual Operand Call(MethodInfo info, params Operand[] callArgs)
         {
-            nint funcPtr = Delegates.GetDelegateFuncPtr(info);
+            nint funcPtr = info.MethodHandle.GetFunctionPointer();
 
             OperandType returnType = GetOperandType(info.ReturnType);
 
@@ -559,27 +559,27 @@ namespace ARMeilleure.Translation
             return dest;
         }
 
-        public Operand AddIntrinsic(Intrinsic intrin, params Operand[] args)
+        public Operand AddIntrinsic(Intrinsic intrin, params ReadOnlySpan<Operand> args)
         {
             return Add(intrin, Local(OperandType.V128), args);
         }
 
-        public Operand AddIntrinsicInt(Intrinsic intrin, params Operand[] args)
+        public Operand AddIntrinsicInt(Intrinsic intrin, params ReadOnlySpan<Operand> args)
         {
             return Add(intrin, Local(OperandType.I32), args);
         }
 
-        public Operand AddIntrinsicLong(Intrinsic intrin, params Operand[] args)
+        public Operand AddIntrinsicLong(Intrinsic intrin, params ReadOnlySpan<Operand> args)
         {
             return Add(intrin, Local(OperandType.I64), args);
         }
 
-        public void AddIntrinsicNoRet(Intrinsic intrin, params Operand[] args)
+        public void AddIntrinsicNoRet(Intrinsic intrin, params ReadOnlySpan<Operand> args)
         {
             Add(intrin, default, args);
         }
 
-        private Operand Add(Intrinsic intrin, Operand dest, params Operand[] sources)
+        private Operand Add(Intrinsic intrin, Operand dest, params ReadOnlySpan<Operand> sources)
         {
             NewNextBlockIfNeeded();
 

@@ -35,6 +35,8 @@ namespace Ryujinx.Common.Configuration
 #pragma warning restore IDE0055
             };
         }
+        
+        
 
         public static float ToFloatY(this AspectRatio aspectRatio)
         {

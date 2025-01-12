@@ -10,7 +10,7 @@ namespace Ryujinx.HLE.HOS.Services.Ldn.UserServiceCreator.LdnRyu
         private readonly Action _timeoutCallback;
         private CancellationTokenSource _cancel;
 
-        private readonly object _lock = new object();
+        private readonly Lock _lock = new();
 
         public NetworkTimeout(int idleTimeout, Action timeoutCallback)
         {

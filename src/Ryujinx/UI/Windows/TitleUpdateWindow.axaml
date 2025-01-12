@@ -6,9 +6,9 @@
     xmlns:ext="clr-namespace:Ryujinx.Ava.Common.Markup"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:viewModels="clr-namespace:Ryujinx.Ava.UI.ViewModels"
-    xmlns:models="clr-namespace:Ryujinx.UI.Common.Models;assembly=Ryujinx.UI.Common"
     xmlns:ui="clr-namespace:FluentAvalonia.UI.Controls;assembly=FluentAvalonia"
     xmlns:helpers="clr-namespace:Ryujinx.Ava.UI.Helpers"
+    xmlns:models="clr-namespace:Ryujinx.Ava.Common.Models"
     Width="500"
     Height="300"
     mc:Ignorable="d"
@@ -95,7 +95,7 @@
                         </Panel>
                     </DataTemplate>
                     <DataTemplate
-                        DataType="viewModels:TitleUpdateViewNoUpdateSentinal">
+                        DataType="viewModels:TitleUpdateViewModelNoUpdate">
                         <Panel
                             Height="33"
                             Margin="10">

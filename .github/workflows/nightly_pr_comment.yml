@@ -38,20 +38,16 @@ jobs:
               return core.error(`No artifacts found`);
             }
             let body = `Download the artifacts for this pull request:\n`;
-            let hidden_headless_artifacts = `\n\n <details><summary>GUI-less</summary>\n`;
             let hidden_debug_artifacts = `\n\n <details><summary>Only for Developers</summary>\n`;
             for (const art of artifacts) {
-              if(art.name.includes('Debug')) {
-                hidden_debug_artifacts += `\n* [${art.name}](https://nightly.link/${owner}/${repo}/actions/artifacts/${art.id}.zip)`;
-              } else if(art.name.includes('nogui-ryujinx')) {
-                hidden_headless_artifacts += `\n* [${art.name}](https://nightly.link/${owner}/${repo}/actions/artifacts/${art.id}.zip)`;
+              const url = `https://nightly.link/${owner}/${repo}/actions/artifacts/${art.id}.zip`;
+              if (art.name.includes('Debug')) {
+                hidden_debug_artifacts += `\n* [${art.name}](${url})`;
               } else {
-                body += `\n* [${art.name}](https://nightly.link/${owner}/${repo}/actions/artifacts/${art.id}.zip)`;
+                body += `\n* [${art.name}](${url})`;
               }
             }
-            hidden_headless_artifacts += `\n</details>`;
             hidden_debug_artifacts += `\n</details>`;
-            body += hidden_headless_artifacts;
             body += hidden_debug_artifacts;
 
             const {data: comments} = await github.rest.issues.listComments({repo, owner, issue_number});

@@ -15,7 +15,6 @@
     x:DataType="viewModels:MainWindowViewModel">
     <UserControl.Resources>
         <helpers:BitmapArrayValueConverter x:Key="ByteImage" />
-        <controls:ApplicationContextMenu x:Key="ApplicationContextMenu" />
     </UserControl.Resources>
     <Grid>
         <Grid.RowDefinitions>
@@ -26,10 +25,10 @@
             Padding="8"
             HorizontalAlignment="Stretch"
             VerticalAlignment="Stretch"
-            ContextFlyout="{StaticResource ApplicationContextMenu}"
+            SelectedItem="{Binding GridSelectedApplication}"
+            ContextFlyout="{Binding GridAppContextMenu}"
             DoubleTapped="GameList_DoubleTapped"
-            ItemsSource="{Binding AppsObservableList}"
-            SelectionChanged="GameList_SelectionChanged">
+            ItemsSource="{Binding AppsObservableList}">
             <ListBox.ItemsPanel>
                 <ItemsPanelTemplate>
                     <WrapPanel

@@ -123,7 +123,7 @@ namespace Ryujinx.HLE.HOS.Services.Hid
             return true;
         }
 
-        public void Configure(params ControllerConfig[] configs)
+        public void Configure(params ReadOnlySpan<ControllerConfig> configs)
         {
             _configuredTypes = new ControllerType[MaxControllers];
 

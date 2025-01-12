@@ -3,13 +3,13 @@ using Avalonia.Collections;
 using Avalonia.Media.Imaging;
 using Avalonia.Threading;
 using Ryujinx.Ava.Common.Locale;
+using Ryujinx.Ava.Common.Models.Amiibo;
 using Ryujinx.Ava.UI.Helpers;
 using Ryujinx.Ava.UI.Windows;
 using Ryujinx.Common;
 using Ryujinx.Common.Configuration;
 using Ryujinx.Common.Logging;
 using Ryujinx.Common.Utilities;
-using Ryujinx.UI.Common.Models.Amiibo;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
@@ -68,7 +68,7 @@ namespace Ryujinx.Ava.UI.ViewModels
             _amiiboSeries = new ObservableCollection<string>();
             _amiibos = new AvaloniaList<AmiiboApi>();
 
-            _amiiboLogoBytes = EmbeddedResources.Read("Ryujinx.UI.Common/Resources/Logo_Amiibo.png");
+            _amiiboLogoBytes = EmbeddedResources.Read("Ryujinx/Assets/UIImages/Logo_Amiibo.png");
 
             _ = LoadContentAsync();
         }
@@ -332,7 +332,7 @@ namespace Ryujinx.Ava.UI.ViewModels
 
         private void SelectLastScannedAmiibo()
         {
-            AmiiboApi scanned = _amiiboList.Find(amiibo => amiibo.GetId() == LastScannedAmiiboId);
+            AmiiboApi scanned = _amiiboList.FirstOrDefault(amiibo => amiibo.GetId() == LastScannedAmiiboId);
 
             SeriesSelectedIndex = AmiiboSeries.IndexOf(scanned.AmiiboSeries);
             AmiiboSelectedIndex = AmiiboList.IndexOf(scanned);
@@ -393,7 +393,7 @@ namespace Ryujinx.Ava.UI.ViewModels
 
             AmiiboApi selected = _amiibos[_amiiboSelectedIndex];
 
-            string imageUrl = _amiiboList.Find(amiibo => amiibo.Equals(selected)).Image;
+            string imageUrl = _amiiboList.FirstOrDefault(amiibo => amiibo.Equals(selected)).Image;
 
             StringBuilder usageStringBuilder = new();
 

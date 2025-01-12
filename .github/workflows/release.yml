@@ -3,16 +3,6 @@ name: Release job
 on:
   workflow_dispatch:
     inputs: {}
-  push:
-    branches: [ release ]
-    paths-ignore:
-      - '.github/**'
-      - 'docs/**'
-      - 'assets/**'
-      - '*.yml'
-      - '*.json'
-      - '*.config'
-      - '*.md'
 
 concurrency: release
 
@@ -21,7 +11,7 @@ env:
   DOTNET_CLI_TELEMETRY_OPTOUT: 1
   RYUJINX_BASE_VERSION: "1.2"
   RYUJINX_TARGET_RELEASE_CHANNEL_NAME: "release"
-  RYUJINX_TARGET_RELEASE_CHANNEL_OWNER: "GreemDev"
+  RYUJINX_TARGET_RELEASE_CHANNEL_OWNER: "Ryubing"
   RYUJINX_TARGET_RELEASE_CHANNEL_REPO: "Ryujinx"
   RELEASE: 1
 
@@ -42,8 +32,8 @@ jobs:
         with:
           script: |
             github.rest.git.createRef({
-              owner: context.repo.owner,
-              repo: context.repo.repo,
+              owner: "${{ env.RYUJINX_TARGET_RELEASE_CHANNEL_OWNER }}",
+              repo: "${{ env.RYUJINX_TARGET_RELEASE_CHANNEL_REPO }}",
               ref: 'refs/tags/${{ steps.version_info.outputs.build_version }}',
               sha: context.sha
             })
@@ -54,13 +44,13 @@ jobs:
           name: ${{ steps.version_info.outputs.build_version }}
           tag: ${{ steps.version_info.outputs.build_version }}
           body: |
-            # Regular builds:
+            # Stable builds:
             | Platform | Artifact |
             |--|--|
-            | Windows 64 bit | [Release Windows Artifact](https://github.com/${{ env.RYUJINX_TARGET_RELEASE_CHANNEL_OWNER }}/${{ env.RYUJINX_TARGET_RELEASE_CHANNEL_REPO }}/releases/download/${{ steps.version_info.outputs.build_version }}/ryujinx-${{ steps.version_info.outputs.build_version }}-win_x64.zip) |
-            | Linux 64 bit | [Release Linux Artifact](https://github.com/${{ env.RYUJINX_TARGET_RELEASE_CHANNEL_OWNER }}/${{ env.RYUJINX_TARGET_RELEASE_CHANNEL_REPO }}/releases/download/${{ steps.version_info.outputs.build_version }}/ryujinx-${{ steps.version_info.outputs.build_version }}-linux_x64.tar.gz) |
-            | Linux arm 64 bit | [Release Linux arm Artifact](https://github.com/${{ env.RYUJINX_TARGET_RELEASE_CHANNEL_OWNER }}/${{ env.RYUJINX_TARGET_RELEASE_CHANNEL_REPO }}/releases/download/${{ steps.version_info.outputs.build_version }}/ryujinx-${{ steps.version_info.outputs.build_version }}-linux_arm64.tar.gz) |
-            | macOS | [Release macOS Artifact](https://github.com/${{ env.RYUJINX_TARGET_RELEASE_CHANNEL_OWNER }}/${{ env.RYUJINX_TARGET_RELEASE_CHANNEL_REPO }}/releases/download/${{ steps.version_info.outputs.build_version }}/ryujinx-${{ steps.version_info.outputs.build_version }}-macos_universal.app.tar.gz) |
+            | Windows 64-bit | [Stable Windows Artifact](https://github.com/${{ env.RYUJINX_TARGET_RELEASE_CHANNEL_OWNER }}/${{ env.RYUJINX_TARGET_RELEASE_CHANNEL_REPO }}/releases/download/${{ steps.version_info.outputs.build_version }}/ryujinx-${{ steps.version_info.outputs.build_version }}-win_x64.zip) |
+            | Linux 64-bit | [Stable Linux Artifact](https://github.com/${{ env.RYUJINX_TARGET_RELEASE_CHANNEL_OWNER }}/${{ env.RYUJINX_TARGET_RELEASE_CHANNEL_REPO }}/releases/download/${{ steps.version_info.outputs.build_version }}/ryujinx-${{ steps.version_info.outputs.build_version }}-linux_x64.tar.gz) |
+            | Linux ARM 64-bit | [Stable Linux ARM Artifact](https://github.com/${{ env.RYUJINX_TARGET_RELEASE_CHANNEL_OWNER }}/${{ env.RYUJINX_TARGET_RELEASE_CHANNEL_REPO }}/releases/download/${{ steps.version_info.outputs.build_version }}/ryujinx-${{ steps.version_info.outputs.build_version }}-linux_arm64.tar.gz) |
+            | macOS | [Stable macOS Artifact](https://github.com/${{ env.RYUJINX_TARGET_RELEASE_CHANNEL_OWNER }}/${{ env.RYUJINX_TARGET_RELEASE_CHANNEL_REPO }}/releases/download/${{ steps.version_info.outputs.build_version }}/ryujinx-${{ steps.version_info.outputs.build_version }}-macos_universal.app.tar.gz) |
             
             **Full Changelog**: https://github.com/${{ env.RYUJINX_TARGET_RELEASE_CHANNEL_OWNER }}/${{ env.RYUJINX_TARGET_RELEASE_CHANNEL_REPO }}/compare/${{ steps.version_info.outputs.prev_build_version }}...${{ steps.version_info.outputs.build_version }}
           omitBodyDuringUpdate: true
@@ -112,7 +102,6 @@ jobs:
       - name: Publish
         run: |
           dotnet publish -c Release -r "${{ matrix.platform.name }}" -o ./publish -p:Version="${{ steps.version_info.outputs.build_version }}" -p:SourceRevisionId="${{ steps.version_info.outputs.git_short_hash }}" -p:DebugType=embedded src/Ryujinx --self-contained
-          dotnet publish -c Release -r "${{ matrix.platform.name }}" -o ./publish_sdl2_headless -p:Version="${{ steps.version_info.outputs.build_version }}" -p:SourceRevisionId="${{ steps.version_info.outputs.git_short_hash }}" -p:DebugType=embedded src/Ryujinx.Headless.SDL2 --self-contained
 
       - name: Packing Windows builds
         if: matrix.platform.os == 'windows-latest'
@@ -121,10 +110,14 @@ jobs:
           rm libarmeilleure-jitsupport.dylib
           7z a ../release_output/ryujinx-${{ steps.version_info.outputs.build_version }}-${{ matrix.platform.zip_os_name }}.zip ../publish
           popd
+        shell: bash
 
-          pushd publish_sdl2_headless
-          rm libarmeilleure-jitsupport.dylib
-          7z a ../release_output/nogui-ryujinx-${{ steps.version_info.outputs.build_version }}-${{ matrix.platform.zip_os_name }}.zip ../publish
+      - name: Packing Linux builds
+        if: matrix.platform.os == 'ubuntu-latest'
+        run: |
+          pushd publish
+          chmod +x Ryujinx.sh Ryujinx
+          tar -czvf ../release_output/ryujinx-${{ steps.version_info.outputs.build_version }}-${{ matrix.platform.zip_os_name }}.tar.gz ../publish
           popd
         shell: bash
       
@@ -163,20 +156,6 @@ jobs:
           mv Ryujinx.AppImage ../release_output/ryujinx-$BUILD_VERSION-$ARCH_NAME.AppImage
           mv Ryujinx.AppImage.zsync ../release_output/ryujinx-$BUILD_VERSION-$ARCH_NAME.AppImage.zsync
           popd
-        shell: bash        
-
-      - name: Packing Linux builds
-        if: matrix.platform.os == 'ubuntu-latest'
-        run: |
-          pushd publish
-          chmod +x Ryujinx.sh Ryujinx
-          tar -czvf ../release_output/ryujinx-${{ steps.version_info.outputs.build_version }}-${{ matrix.platform.zip_os_name }}.tar.gz ../publish
-          popd
-
-          pushd publish_sdl2_headless
-          chmod +x Ryujinx.sh Ryujinx.Headless.SDL2
-          tar -czvf ../release_output/nogui-ryujinx-${{ steps.version_info.outputs.build_version }}-${{ matrix.platform.zip_os_name }}.tar.gz ../publish
-          popd
         shell: bash
 
       - name: Pushing new release
@@ -186,15 +165,15 @@ jobs:
           artifacts: "release_output/*.tar.gz,release_output/*.zip,release_output/*AppImage*"
           tag: ${{ steps.version_info.outputs.build_version }}
           body: |
-            # Regular builds:
+            # Stable builds:
             | Platform | Artifact |
             |--|--|
-            | Windows 64 bit | https://github.com/${{ github.repository }}/releases/download/${{ steps.version_info.outputs.build_version }}/ryujinx-${{ steps.version_info.outputs.build_version }}-win_x64.zip |
-            | Linux 64 bit | https://github.com/${{ github.repository }}/releases/download/${{ steps.version_info.outputs.build_version }}/ryujinx-${{ steps.version_info.outputs.build_version }}-linux_x64.tar.gz |
-            | Linux arm 64 bit | https://github.com/${{ github.repository }}/releases/download/${{ steps.version_info.outputs.build_version }}/ryujinx-${{ steps.version_info.outputs.build_version }}-linux_arm64.tar.gz |
-            | Macos | https://github.com/${{ github.repository }}/releases/download/${{ steps.version_info.outputs.build_version }}/ryujinx-${{ steps.version_info.outputs.build_version }}-macos_universal.app.tar.gz |
-          
-            "**Full Changelog**: https://github.com/${{ github.repository }}/compare/${{ steps.version_info.outputs.prev_build_version }}...${{ steps.version_info.outputs.build_version }}"
+            | Windows 64-bit | [Stable Windows Artifact](https://github.com/${{ env.RYUJINX_TARGET_RELEASE_CHANNEL_OWNER }}/${{ env.RYUJINX_TARGET_RELEASE_CHANNEL_REPO }}/releases/download/${{ steps.version_info.outputs.build_version }}/ryujinx-${{ steps.version_info.outputs.build_version }}-win_x64.zip) |
+            | Linux 64-bit | [Stable Linux Artifact](https://github.com/${{ env.RYUJINX_TARGET_RELEASE_CHANNEL_OWNER }}/${{ env.RYUJINX_TARGET_RELEASE_CHANNEL_REPO }}/releases/download/${{ steps.version_info.outputs.build_version }}/ryujinx-${{ steps.version_info.outputs.build_version }}-linux_x64.tar.gz) |
+            | Linux ARM 64-bit | [Stable Linux ARM Artifact](https://github.com/${{ env.RYUJINX_TARGET_RELEASE_CHANNEL_OWNER }}/${{ env.RYUJINX_TARGET_RELEASE_CHANNEL_REPO }}/releases/download/${{ steps.version_info.outputs.build_version }}/ryujinx-${{ steps.version_info.outputs.build_version }}-linux_arm64.tar.gz) |
+            | macOS | [Stable macOS Artifact](https://github.com/${{ env.RYUJINX_TARGET_RELEASE_CHANNEL_OWNER }}/${{ env.RYUJINX_TARGET_RELEASE_CHANNEL_REPO }}/releases/download/${{ steps.version_info.outputs.build_version }}/ryujinx-${{ steps.version_info.outputs.build_version }}-macos_universal.app.tar.gz) |
+            
+            **Full Changelog**: https://github.com/${{ env.RYUJINX_TARGET_RELEASE_CHANNEL_OWNER }}/${{ env.RYUJINX_TARGET_RELEASE_CHANNEL_REPO }}/compare/${{ steps.version_info.outputs.prev_build_version }}...${{ steps.version_info.outputs.build_version }}
           omitBodyDuringUpdate: true
           allowUpdates: true
           replacesArtifacts: true
@@ -251,26 +230,13 @@ jobs:
         run: |
           ./distribution/macos/create_macos_build_ava.sh . publish_tmp_ava publish ./distribution/macos/entitlements.xml "${{ steps.version_info.outputs.build_version }}" "${{ steps.version_info.outputs.git_short_hash }}" Release 0
 
-      - name: Publish macOS Ryujinx.Headless.SDL2
-        run: |
-          ./distribution/macos/create_macos_build_headless.sh . publish_tmp_headless publish_headless ./distribution/macos/entitlements.xml "${{ steps.version_info.outputs.build_version }}" "${{ steps.version_info.outputs.git_short_hash }}" Release 0
-
       - name: Pushing new release
         uses: ncipollo/release-action@v1
         with:
           name: ${{ steps.version_info.outputs.build_version }}
-          artifacts: "publish/*.tar.gz, publish_headless/*.tar.gz"
+          artifacts: "publish/*.tar.gz"
           tag: ${{ steps.version_info.outputs.build_version }}
-          body: |
-            # Regular builds:
-            | Platform | Artifact |
-            |--|--|
-            | Windows 64 bit | https://github.com/${{ github.repository }}/releases/download/${{ steps.version_info.outputs.build_version }}/ryujinx-${{ steps.version_info.outputs.build_version }}-win_x64.zip |
-            | Linux 64 bit | https://github.com/${{ github.repository }}/releases/download/${{ steps.version_info.outputs.build_version }}/ryujinx-${{ steps.version_info.outputs.build_version }}-linux_x64.tar.gz |
-            | Linux arm 64 bit | https://github.com/${{ github.repository }}/releases/download/${{ steps.version_info.outputs.build_version }}/ryujinx-${{ steps.version_info.outputs.build_version }}-linux_arm64.tar.gz |
-            | Macos | https://github.com/${{ github.repository }}/releases/download/${{ steps.version_info.outputs.build_version }}/ryujinx-${{ steps.version_info.outputs.build_version }}-macos_universal.app.tar.gz |
-            
-            "**Full Changelog**: https://github.com/${{ github.repository }}/compare/${{ steps.version_info.outputs.prev_build_version }}...${{ steps.version_info.outputs.build_version }}"
+          body: ""
           omitBodyDuringUpdate: true
           allowUpdates: true
           replacesArtifacts: true

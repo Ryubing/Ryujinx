@@ -721,7 +721,7 @@ namespace Ryujinx.Graphics.Gpu.Image
         /// <param name="format">The format of the texture</param>
         /// <param name="components">The texture swizzle components</param>
         /// <returns>The depth-stencil mode</returns>
-        private static DepthStencilMode GetDepthStencilMode(Format format, params SwizzleComponent[] components)
+        private static DepthStencilMode GetDepthStencilMode(Format format, params ReadOnlySpan<SwizzleComponent> components)
         {
             // R = Depth, G = Stencil.
             // On 24-bits depth formats, this is inverted (Stencil is R etc).

@@ -112,7 +112,7 @@ namespace Ryujinx.HLE.HOS.Kernel.Threading
 
         public bool WaitingInArbitration { get; set; }
 
-        private readonly object _activityOperationLock = new();
+        private readonly Lock _activityOperationLock = new();
 
         public KThread(KernelContext context) : base(context)
         {
@@ -181,7 +181,7 @@ namespace Ryujinx.HLE.HOS.Kernel.Threading
                 is64Bits = true;
             }
 
-            HostThread = new Thread(ThreadStart);
+            HostThread = new Thread(ThreadStart) { Name = "HLE.KThread" };
 
             Context = owner?.CreateExecutionContext() ?? new ProcessExecutionContext();
 

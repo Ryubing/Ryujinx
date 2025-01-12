@@ -15,18 +15,19 @@ using Ryujinx.Ava.Input;
 using Ryujinx.Ava.UI.Applet;
 using Ryujinx.Ava.UI.Helpers;
 using Ryujinx.Ava.UI.ViewModels;
+using Ryujinx.Ava.Utilities;
+using Ryujinx.Ava.Utilities.AppLibrary;
+using Ryujinx.Ava.Utilities.Configuration;
 using Ryujinx.Common;
+using Ryujinx.Common.Helper;
 using Ryujinx.Common.Logging;
+using Ryujinx.Common.UI;
 using Ryujinx.Graphics.Gpu;
 using Ryujinx.HLE.FileSystem;
 using Ryujinx.HLE.HOS;
 using Ryujinx.HLE.HOS.Services.Account.Acc;
 using Ryujinx.Input.HLE;
 using Ryujinx.Input.SDL2;
-using Ryujinx.UI.App.Common;
-using Ryujinx.UI.Common;
-using Ryujinx.UI.Common.Configuration;
-using Ryujinx.UI.Common.Helper;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -39,8 +40,6 @@ namespace Ryujinx.Ava.UI.Windows
 {
     public partial class MainWindow : StyleableAppWindow
     {
-        internal static MainWindowViewModel MainWindowViewModel { get; private set; }
-        
         public MainWindowViewModel ViewModel { get; }
 
         internal readonly AvaHostUIHandler UiHandler;
@@ -76,7 +75,7 @@ namespace Ryujinx.Ava.UI.Windows
 
         public MainWindow()
         {
-            DataContext = ViewModel = MainWindowViewModel = new MainWindowViewModel
+            DataContext = ViewModel = new MainWindowViewModel
             {
                 Window = this
             };
@@ -86,17 +85,22 @@ namespace Ryujinx.Ava.UI.Windows
 
             UiHandler = new AvaHostUIHandler(this);
 
-            ViewModel.Title = App.FormatTitle();
+            ViewModel.Title = RyujinxApp.FormatTitle();
 
             TitleBar.ExtendsContentIntoTitleBar = !ConfigurationState.Instance.ShowTitleBar;
             TitleBar.TitleBarHitTestType = (ConfigurationState.Instance.ShowTitleBar) ? TitleBarHitTestType.Simple : TitleBarHitTestType.Complex;
 
-            // Correctly size window when 'TitleBar' is enabled (Nov. 14, 2024)
-            TitleBarHeight = (ConfigurationState.Instance.ShowTitleBar ? TitleBar.Height : 0);
-
             // NOTE: Height of MenuBar and StatusBar is not usable here, since it would still be 0 at this point.
             StatusBarHeight = StatusBarView.StatusBar.MinHeight;
             MenuBarHeight = MenuBar.MinHeight;
+            
+            TitleBar.Height = MenuBarHeight;
+            
+            // Correctly size window when 'TitleBar' is enabled (Nov. 14, 2024)
+            TitleBarHeight = (ConfigurationState.Instance.ShowTitleBar ? TitleBar.Height : 0);
+
+            ApplicationList.DataContext = DataContext;
+            ApplicationGrid.DataContext = DataContext;
 
             SetWindowSizePosition();
 
@@ -114,7 +118,7 @@ namespace Ryujinx.Ava.UI.Windows
         /// </summary>
         private static void OnPlatformColorValuesChanged(object sender, PlatformColorValues e)
         {
-            if (Application.Current is App app)
+            if (Application.Current is RyujinxApp app)
                 app.ApplyConfiguredTheme(ConfigurationState.Instance.UI.BaseStyle);
         }
 
@@ -160,28 +164,35 @@ namespace Ryujinx.Ava.UI.Windows
             });
         }
 
-        private void ApplicationLibrary_LdnGameDataReceived(object sender, LdnGameDataReceivedEventArgs e)
+        private void ApplicationLibrary_LdnGameDataReceived(LdnGameDataReceivedEventArgs e)
         {
             Dispatcher.UIThread.Post(() =>
             {
-                var ldnGameDataArray = e.LdnData;
-                ViewModel.LastLdnGameData = ldnGameDataArray;
-                foreach (var application in ViewModel.Applications)
+                var ldnGameDataArray = e.LdnData.ToList();
+                ViewModel.LdnData.Clear();
+                foreach (var application in ViewModel.Applications.Where(it => it.HasControlHolder))
                 {
+                    ref var controlHolder = ref application.ControlHolder.Value;
+                    
+                    ViewModel.LdnData[application.IdString] = 
+                        LdnGameData.GetArrayForApp(
+                            ldnGameDataArray, 
+                            ref controlHolder
+                        );
+                    
                     UpdateApplicationWithLdnData(application);
                 }
+                
                 ViewModel.RefreshView();
             });
         }
 
         private void UpdateApplicationWithLdnData(ApplicationData application)
         {
-            if (application.ControlHolder.ByteSpan.Length > 0 && ViewModel.LastLdnGameData != null)
+            if (application.HasControlHolder && ViewModel.LdnData.TryGetValue(application.IdString, out var ldnGameDatas))
             {
-                IEnumerable<LdnGameData> ldnGameData = ViewModel.LastLdnGameData.Where(game => application.ControlHolder.Value.LocalCommunicationId.Items.Contains(Convert.ToUInt64(game.TitleId, 16)));
-
-                application.PlayerCount = ldnGameData.Sum(game => game.PlayerCount);
-                application.GameCount = ldnGameData.Count();
+                application.PlayerCount = ldnGameDatas.PlayerCount;
+                application.GameCount = ldnGameDatas.GameCount;
             }
             else
             {
@@ -354,7 +365,7 @@ namespace Ryujinx.Ava.UI.Windows
 
                         if (_launchApplicationId != null)
                         {
-                            applicationData = applications.Find(application => application.IdString == _launchApplicationId);
+                            applicationData = applications.FirstOrDefault(application => application.IdString == _launchApplicationId);
 
                             if (applicationData != null)
                             {
@@ -397,13 +408,10 @@ namespace Ryujinx.Ava.UI.Windows
         {
             StatusBarView.VolumeStatus.Click += VolumeStatus_CheckedChanged;
 
+            ApplicationGrid.DataContext = ApplicationList.DataContext = ViewModel;
+            
             ApplicationGrid.ApplicationOpened += Application_Opened;
-
-            ApplicationGrid.DataContext = ViewModel;
-
             ApplicationList.ApplicationOpened += Application_Opened;
-
-            ApplicationList.DataContext = ViewModel;
         }
 
         private void SetWindowSizePosition()

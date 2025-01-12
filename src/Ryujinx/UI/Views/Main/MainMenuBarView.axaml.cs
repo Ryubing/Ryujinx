@@ -1,28 +1,24 @@
 using Avalonia;
 using Avalonia.Controls;
-using Avalonia.Interactivity;
+using Avalonia.Layout;
 using Avalonia.Threading;
+using CommunityToolkit.Mvvm.Input;
 using Gommon;
-using LibHac.Common;
-using LibHac.Ncm;
-using LibHac.Ns;
-using LibHac.Tools.FsSystem.NcaUtils;
 using Ryujinx.Ava.Common.Locale;
 using Ryujinx.Ava.UI.Helpers;
 using Ryujinx.Ava.UI.ViewModels;
 using Ryujinx.Ava.UI.Windows;
+using Ryujinx.Ava.Utilities;
+using Ryujinx.Ava.Utilities.Compat;
+using Ryujinx.Ava.Utilities.Configuration;
 using Ryujinx.Common;
+using Ryujinx.Common.Helper;
 using Ryujinx.Common.Utilities;
-using Ryujinx.HLE;
-using Ryujinx.UI.App.Common;
-using Ryujinx.UI.Common;
-using Ryujinx.UI.Common.Configuration;
-using Ryujinx.UI.Common.Helper;
+using Ryujinx.HLE.HOS.Services.Nfc.AmiiboDecryption;
 using System;
 using System.Collections.Generic;
-using System.IO;
 using System.Linq;
-using System.Text;
+using System.Threading.Tasks;
 
 namespace Ryujinx.Ava.UI.Views.Main
 {
@@ -36,12 +32,41 @@ namespace Ryujinx.Ava.UI.Views.Main
             InitializeComponent();
 
             RyuLogo.IsVisible = !ConfigurationState.Instance.ShowTitleBar;
+            RyuLogo.Source = MainWindowViewModel.IconBitmap;
 
             ToggleFileTypesMenuItem.ItemsSource = GenerateToggleFileTypeItems();
             ChangeLanguageMenuItem.ItemsSource = GenerateLanguageMenuItems();
+
+            MiiAppletMenuItem.Command = new AsyncRelayCommand(OpenMiiApplet);
+            CloseRyujinxMenuItem.Command = new RelayCommand(CloseWindow);
+            OpenSettingsMenuItem.Command = new AsyncRelayCommand(OpenSettings);
+            PauseEmulationMenuItem.Command = new RelayCommand(() => ViewModel.AppHost?.Pause());
+            ResumeEmulationMenuItem.Command = new RelayCommand(() => ViewModel.AppHost?.Resume());
+            StopEmulationMenuItem.Command = new AsyncRelayCommand(() => ViewModel.AppHost?.ShowExitPrompt().OrCompleted());
+            CheatManagerMenuItem.Command = new AsyncRelayCommand(OpenCheatManagerForCurrentApp);
+            InstallFileTypesMenuItem.Command = new AsyncRelayCommand(InstallFileTypes);
+            UninstallFileTypesMenuItem.Command = new AsyncRelayCommand(UninstallFileTypes);
+            XciTrimmerMenuItem.Command = new AsyncRelayCommand(() => XCITrimmerWindow.Show(ViewModel));
+            AboutWindowMenuItem.Command = new AsyncRelayCommand(AboutWindow.Show);
+            CompatibilityListMenuItem.Command = new AsyncRelayCommand(CompatibilityList.Show);
+            
+            UpdateMenuItem.Command = new AsyncRelayCommand(async () =>
+            {
+                if (Updater.CanUpdate(true))
+                    await Updater.BeginUpdateAsync(true);
+            });
+
+            FaqMenuItem.Command = 
+                SetupGuideMenuItem.Command = 
+                    LdnGuideMenuItem.Command = new RelayCommand<string>(OpenHelper.OpenUrl);
+            
+            WindowSize720PMenuItem.Command = 
+                WindowSize1080PMenuItem.Command = 
+                    WindowSize1440PMenuItem.Command = 
+                        WindowSize2160PMenuItem.Command = new RelayCommand<string>(ChangeWindowSize);
         }
 
-        private CheckBox[] GenerateToggleFileTypeItems() =>
+        private IEnumerable<CheckBox> GenerateToggleFileTypeItems() =>
             Enum.GetValues<FileTypes>()
                 .Select(it => (FileName: Enum.GetName(it)!, FileType: it))
                 .Select(it =>
@@ -51,41 +76,44 @@ namespace Ryujinx.Ava.UI.Views.Main
                         IsChecked = it.FileType.GetConfigValue(ConfigurationState.Instance.UI.ShownFileTypes),
                         Command = MiniCommand.Create(() => Window.ToggleFileType(it.FileName))
                     }
-                ).ToArray();
+                );
 
-        private static MenuItem[] GenerateLanguageMenuItems()
+        private static IEnumerable<MenuItem> GenerateLanguageMenuItems()
         {
-            List<MenuItem> menuItems = new();
+            const string LocalePath = "Ryujinx/Assets/locales.json";
 
-            string localePath = "Ryujinx/Assets/Locales";
-            string localeExt = ".json";
+            string languageJson = EmbeddedResources.ReadAllText(LocalePath);
 
-            string[] localesPath = EmbeddedResources.GetAllAvailableResources(localePath, localeExt);
+            LocalesJson locales = JsonHelper.Deserialize(languageJson, LocalesJsonContext.Default.LocalesJson);
 
-            Array.Sort(localesPath);
-
-            foreach (string locale in localesPath)
+            foreach (string language in locales.Languages)
             {
-                string languageCode = Path.GetFileNameWithoutExtension(locale).Split('.').Last();
-                string languageJson = EmbeddedResources.ReadAllText($"{localePath}/{languageCode}{localeExt}");
-                var strings = JsonHelper.Deserialize(languageJson, CommonJsonContext.Default.StringDictionary);
+                int index = locales.Locales.FindIndex(x => x.ID == "Language");
+                string languageName;
 
-                if (!strings.TryGetValue("Language", out string languageName))
+                if (index == -1)
                 {
-                    languageName = languageCode;
+                    languageName = language;
+                }
+                else
+                {
+                    string tr = locales.Locales[index].Translations[language];
+                    languageName = string.IsNullOrEmpty(tr)
+                        ? language 
+                        : tr;
                 }
 
                 MenuItem menuItem = new()
                 {
-                    Padding = new Thickness(10, 0, 0, 0),
-                    Header = " " + languageName,
-                    Command = MiniCommand.Create(() => MainWindowViewModel.ChangeLanguage(languageCode))
+                    Padding = new Thickness(15, 0, 0, 0),
+                    Margin = new Thickness(3, 0, 3, 0),
+                    HorizontalAlignment = HorizontalAlignment.Stretch,
+                    Header = languageName,
+                    Command = MiniCommand.Create(() => MainWindowViewModel.ChangeLanguage(language))
                 };
 
-                menuItems.Add(menuItem);
+                yield return menuItem;
             }
-
-            return menuItems.ToArray();
         }
 
         protected override void OnAttachedToVisualTree(VisualTreeAttachmentEventArgs e)
@@ -99,22 +127,7 @@ namespace Ryujinx.Ava.UI.Views.Main
             }
         }
 
-        private async void StopEmulation_Click(object sender, RoutedEventArgs e)
-        {
-            await ViewModel.AppHost?.ShowExitPrompt().OrCompleted()!;
-        }
-
-        private void PauseEmulation_Click(object sender, RoutedEventArgs e)
-        {
-            ViewModel.AppHost?.Pause();
-        }
-
-        private void ResumeEmulation_Click(object sender, RoutedEventArgs e)
-        {
-            ViewModel.AppHost?.Resume();
-        }
-
-        public async void OpenSettings(object sender, RoutedEventArgs e)
+        public async Task OpenSettings()
         {
             Window.SettingsWindow = new(Window.VirtualFileSystem, Window.ContentManager);
 
@@ -125,33 +138,17 @@ namespace Ryujinx.Ava.UI.Views.Main
             ViewModel.LoadConfigurableHotKeys();
         }
 
-        public async void OpenMiiApplet(object sender, RoutedEventArgs e)
+        public static readonly AppletMetadata MiiApplet = new("miiEdit", 0x0100000000001009);
+
+        public async Task OpenMiiApplet()
         {
-            const string AppletName = "miiEdit";
-            const ulong AppletProgramId = 0x0100000000001009;
-            const string AppletVersion = "1.0.0";
-            
-            string contentPath = ViewModel.ContentManager.GetInstalledContentPath(AppletProgramId, StorageId.BuiltInSystem, NcaContentType.Program);
-
-            if (!string.IsNullOrEmpty(contentPath))
+            if (MiiApplet.CanStart(ViewModel.ContentManager, out var appData, out var nacpData))
             {
-                ApplicationData applicationData = new()
-                {
-                    Name = AppletName,
-                    Id = AppletProgramId,
-                    Path = contentPath
-                };
-                
-                var nacpData = StructHelpers.CreateCustomNacpData(AppletName, AppletVersion);
-
-                await ViewModel.LoadApplication(applicationData, ViewModel.IsFullScreen || ViewModel.StartGamesInFullscreen, nacpData);
+                await ViewModel.LoadApplication(appData, ViewModel.IsFullScreen || ViewModel.StartGamesInFullscreen, nacpData);
             }
         }
 
-        public async void OpenAmiiboWindow(object sender, RoutedEventArgs e)
-            => await ViewModel.OpenAmiiboWindow();
-
-        public async void OpenCheatManagerForCurrentApp(object sender, RoutedEventArgs e)
+        public async Task OpenCheatManagerForCurrentApp()
         {
             if (!ViewModel.IsGameRunning)
                 return;
@@ -173,7 +170,13 @@ namespace Ryujinx.Ava.UI.Views.Main
                 ViewModel.IsAmiiboRequested = ViewModel.AppHost.Device.System.SearchingForAmiibo(out _);
         }
 
-        private async void InstallFileTypes_Click(object sender, RoutedEventArgs e)
+        private void ScanBinAmiiboMenuItem_AttachedToVisualTree(object sender, VisualTreeAttachmentEventArgs e)
+        {
+            if (sender is MenuItem)
+                ViewModel.IsAmiiboBinRequested = ViewModel.IsAmiiboRequested && AmiiboBinReader.HasAmiiboKeyFile;
+        }
+
+        private async Task InstallFileTypes()
         {
             ViewModel.AreMimeTypesRegistered = FileAssociationHelper.Install();
             if (ViewModel.AreMimeTypesRegistered)
@@ -182,7 +185,7 @@ namespace Ryujinx.Ava.UI.Views.Main
                 await ContentDialogHelper.CreateErrorDialog(LocaleManager.Instance[LocaleKeys.DialogInstallFileTypesErrorMessage]);
         }
 
-        private async void UninstallFileTypes_Click(object sender, RoutedEventArgs e)
+        private async Task UninstallFileTypes()
         {
             ViewModel.AreMimeTypesRegistered = !FileAssociationHelper.Uninstall();
             if (!ViewModel.AreMimeTypesRegistered)
@@ -191,11 +194,8 @@ namespace Ryujinx.Ava.UI.Views.Main
                 await ContentDialogHelper.CreateErrorDialog(LocaleManager.Instance[LocaleKeys.DialogUninstallFileTypesErrorMessage]);
         }
 
-        private async void ChangeWindowSize_Click(object sender, RoutedEventArgs e)
+        private void ChangeWindowSize(string resolution)
         {
-            if (sender is not MenuItem { Tag: string resolution })
-                return;
-
             (int resolutionWidth, int resolutionHeight) = resolution.Split(' ', 2)
                 .Into(parts => 
                     (int.Parse(parts[0]), int.Parse(parts[1]))
@@ -208,7 +208,7 @@ namespace Ryujinx.Ava.UI.Views.Main
             double windowWidthScaled = (resolutionWidth * Program.WindowScaleFactor);
             double windowHeightScaled = ((resolutionHeight + barsHeight) * Program.WindowScaleFactor);
 
-            await Dispatcher.UIThread.InvokeAsync(() =>
+            Dispatcher.UIThread.Post(() =>
             {
                 ViewModel.WindowState = WindowState.Normal;
 
@@ -216,16 +216,7 @@ namespace Ryujinx.Ava.UI.Views.Main
             });
         }
 
-        public async void CheckForUpdates(object sender, RoutedEventArgs e)
-        {
-            if (Updater.CanUpdate(true))
-                await Updater.BeginUpdateAsync(true);
-        }
-
-        public async void OpenXCITrimmerWindow(object sender, RoutedEventArgs e) => await XCITrimmerWindow.Show(ViewModel);
-
-        public async void OpenAboutWindow(object sender, RoutedEventArgs e) => await AboutWindow.Show();
-
-        public void CloseWindow(object sender, RoutedEventArgs e) => Window.Close();
+        public void CloseWindow() => Window.Close();
+        
     }
 }

@@ -29,7 +29,7 @@ namespace Ryujinx.HLE.HOS.Services.Ldn.UserServiceCreator.LdnMitm
         private ILdnTcpSocket _tcp;
         private LdnProxyUdpServer _udp, _udp2;
         private readonly List<LdnProxyTcpSession> _stations = new();
-        private readonly object _lock = new();
+        private readonly Lock _lock = new();
 
         private readonly AutoResetEvent _apConnected = new(false);
 

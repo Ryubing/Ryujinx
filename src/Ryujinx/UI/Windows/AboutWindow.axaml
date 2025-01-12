@@ -38,7 +38,7 @@
                         <Image
                             Height="90"
                             Width="90"
-                            Source="resm:Ryujinx.UI.Common.Resources.Logo_Ryujinx.png?assembly=Ryujinx.UI.Common"
+                            Source="resm:Ryujinx.Assets.UIImages.Logo_Ryujinx.png?assembly=Ryujinx"
                             HorizontalAlignment="Center"
                             IsHitTestVisible="True" />
                         <WrapPanel

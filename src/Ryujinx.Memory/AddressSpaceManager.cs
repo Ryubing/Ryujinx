@@ -106,10 +106,13 @@ namespace Ryujinx.Memory
         {
             if (size == 0)
             {
-                return Enumerable.Empty<HostMemoryRange>();
+                yield break;
             }
 
-            return GetHostRegionsImpl(va, size);
+            foreach (var hostRegion in GetHostRegionsImpl(va, size))
+            {
+                yield return hostRegion;
+            }
         }
 
         /// <inheritdoc/>
@@ -117,50 +120,35 @@ namespace Ryujinx.Memory
         {
             if (size == 0)
             {
-                return Enumerable.Empty<MemoryRange>();
+                yield break;
             }
 
             var hostRegions = GetHostRegionsImpl(va, size);
             if (hostRegions == null)
             {
-                return null;
+                yield break;
             }
-
-            var regions = new MemoryRange[hostRegions.Count];
 
             ulong backingStart = (ulong)_backingMemory.Pointer;
             ulong backingEnd = backingStart + _backingMemory.Size;
 
-            int count = 0;
-
-            for (int i = 0; i < regions.Length; i++)
+            foreach (var hostRegion in hostRegions)
             {
-                var hostRegion = hostRegions[i];
-
                 if (hostRegion.Address >= backingStart && hostRegion.Address < backingEnd)
                 {
-                    regions[count++] = new MemoryRange(hostRegion.Address - backingStart, hostRegion.Size);
+                    yield return new MemoryRange(hostRegion.Address - backingStart, hostRegion.Size);
                 }
             }
-
-            if (count != regions.Length)
-            {
-                return new ArraySegment<MemoryRange>(regions, 0, count);
-            }
-
-            return regions;
         }
 
-        private List<HostMemoryRange> GetHostRegionsImpl(ulong va, ulong size)
+        private IEnumerable<HostMemoryRange> GetHostRegionsImpl(ulong va, ulong size)
         {
             if (!ValidateAddress(va) || !ValidateAddressAndSize(va, size))
             {
-                return null;
+                yield break;
             }
 
             int pages = GetPagesCount(va, size, out va);
-
-            var regions = new List<HostMemoryRange>();
 
             nuint regionStart = GetHostAddress(va);
             ulong regionSize = PageSize;
@@ -169,14 +157,14 @@ namespace Ryujinx.Memory
             {
                 if (!ValidateAddress(va + PageSize))
                 {
-                    return null;
+                    yield break;
                 }
 
                 nuint newHostAddress = GetHostAddress(va + PageSize);
 
                 if (GetHostAddress(va) + PageSize != newHostAddress)
                 {
-                    regions.Add(new HostMemoryRange(regionStart, regionSize));
+                    yield return new HostMemoryRange(regionStart, regionSize);
                     regionStart = newHostAddress;
                     regionSize = 0;
                 }
@@ -185,9 +173,7 @@ namespace Ryujinx.Memory
                 regionSize += PageSize;
             }
 
-            regions.Add(new HostMemoryRange(regionStart, regionSize));
-
-            return regions;
+            yield return new HostMemoryRange(regionStart, regionSize);
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]

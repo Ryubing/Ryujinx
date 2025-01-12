@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using System.Threading;
 
 namespace Ryujinx.HLE.HOS.Services.Ldn.UserServiceCreator.LdnRyu.Proxy
 {
@@ -8,7 +9,7 @@ namespace Ryujinx.HLE.HOS.Services.Ldn.UserServiceCreator.LdnRyu.Proxy
 
         private readonly List<ushort> _ephemeralPorts = new List<ushort>();
 
-        private readonly object _lock = new object();
+        private readonly Lock _lock = new();
 
         public ushort Get()
         {
