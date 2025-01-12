@@ -129,7 +129,7 @@ jobs:
         with:
           global-json-file: global.json
 
-      - name: Setup LLVM 14
+      - name: Setup LLVM 17
         run: |
           wget https://apt.llvm.org/llvm.sh
           chmod +x llvm.sh
