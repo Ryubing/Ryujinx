@@ -3,16 +3,6 @@ name: Release job
 on:
   workflow_dispatch:
     inputs: {}
-  push:
-    branches: [ release ]
-    paths-ignore:
-      - '.github/**'
-      - 'docs/**'
-      - 'assets/**'
-      - '*.yml'
-      - '*.json'
-      - '*.config'
-      - '*.md'
 
 concurrency: release
 

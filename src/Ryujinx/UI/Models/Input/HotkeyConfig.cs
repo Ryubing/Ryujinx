@@ -1,152 +1,53 @@
+using CommunityToolkit.Mvvm.ComponentModel;
 using Ryujinx.Ava.UI.ViewModels;
 using Ryujinx.Common.Configuration.Hid;
 
 namespace Ryujinx.Ava.UI.Models.Input
 {
-    public class HotkeyConfig : BaseModel
+    public partial class HotkeyConfig : BaseModel
     {
-        private Key _toggleVSyncMode;
-        public Key ToggleVSyncMode
-        {
-            get => _toggleVSyncMode;
-            set
-            {
-                _toggleVSyncMode = value;
-                OnPropertyChanged();
-            }
-        }
+        [ObservableProperty] private Key _toggleVSyncMode;
 
-        private Key _screenshot;
-        public Key Screenshot
-        {
-            get => _screenshot;
-            set
-            {
-                _screenshot = value;
-                OnPropertyChanged();
-            }
-        }
+        [ObservableProperty] private Key _screenshot;
 
-        private Key _showUI;
-        public Key ShowUI
-        {
-            get => _showUI;
-            set
-            {
-                _showUI = value;
-                OnPropertyChanged();
-            }
-        }
+        [ObservableProperty] private Key _showUI;
 
-        private Key _pause;
-        public Key Pause
-        {
-            get => _pause;
-            set
-            {
-                _pause = value;
-                OnPropertyChanged();
-            }
-        }
+        [ObservableProperty] private Key _pause;
 
-        private Key _toggleMute;
-        public Key ToggleMute
-        {
-            get => _toggleMute;
-            set
-            {
-                _toggleMute = value;
-                OnPropertyChanged();
-            }
-        }
+        [ObservableProperty] private Key _toggleMute;
 
-        private Key _resScaleUp;
-        public Key ResScaleUp
-        {
-            get => _resScaleUp;
-            set
-            {
-                _resScaleUp = value;
-                OnPropertyChanged();
-            }
-        }
+        [ObservableProperty] private Key _resScaleUp;
 
-        private Key _resScaleDown;
-        public Key ResScaleDown
-        {
-            get => _resScaleDown;
-            set
-            {
-                _resScaleDown = value;
-                OnPropertyChanged();
-            }
-        }
+        [ObservableProperty] private Key _resScaleDown;
 
-        private Key _volumeUp;
-        public Key VolumeUp
-        {
-            get => _volumeUp;
-            set
-            {
-                _volumeUp = value;
-                OnPropertyChanged();
-            }
-        }
+        [ObservableProperty] private Key _volumeUp;
 
-        private Key _volumeDown;
-        public Key VolumeDown
-        {
-            get => _volumeDown;
-            set
-            {
-                _volumeDown = value;
-                OnPropertyChanged();
-            }
-        }
+        [ObservableProperty] private Key _volumeDown;
 
-        private Key _customVSyncIntervalIncrement;
-        public Key CustomVSyncIntervalIncrement
-        {
-            get => _customVSyncIntervalIncrement;
-            set
-            {
-                _customVSyncIntervalIncrement = value;
-                OnPropertyChanged();
-            }
-        }
+        [ObservableProperty] private Key _customVSyncIntervalIncrement;
 
-        private Key _customVSyncIntervalDecrement;
-        public Key CustomVSyncIntervalDecrement
-        {
-            get => _customVSyncIntervalDecrement;
-            set
-            {
-                _customVSyncIntervalDecrement = value;
-                OnPropertyChanged();
-            }
-        }
+        [ObservableProperty] private Key _customVSyncIntervalDecrement;
 
         public HotkeyConfig(KeyboardHotkeys config)
         {
-            if (config != null)
-            {
-                ToggleVSyncMode = config.ToggleVSyncMode;
-                Screenshot = config.Screenshot;
-                ShowUI = config.ShowUI;
-                Pause = config.Pause;
-                ToggleMute = config.ToggleMute;
-                ResScaleUp = config.ResScaleUp;
-                ResScaleDown = config.ResScaleDown;
-                VolumeUp = config.VolumeUp;
-                VolumeDown = config.VolumeDown;
-                CustomVSyncIntervalIncrement = config.CustomVSyncIntervalIncrement;
-                CustomVSyncIntervalDecrement = config.CustomVSyncIntervalDecrement;
-            }
+            if (config == null)
+                return;
+
+            ToggleVSyncMode = config.ToggleVSyncMode;
+            Screenshot = config.Screenshot;
+            ShowUI = config.ShowUI;
+            Pause = config.Pause;
+            ToggleMute = config.ToggleMute;
+            ResScaleUp = config.ResScaleUp;
+            ResScaleDown = config.ResScaleDown;
+            VolumeUp = config.VolumeUp;
+            VolumeDown = config.VolumeDown;
+            CustomVSyncIntervalIncrement = config.CustomVSyncIntervalIncrement;
+            CustomVSyncIntervalDecrement = config.CustomVSyncIntervalDecrement;
         }
 
-        public KeyboardHotkeys GetConfig()
-        {
-            var config = new KeyboardHotkeys
+        public KeyboardHotkeys GetConfig() =>
+            new()
             {
                 ToggleVSyncMode = ToggleVSyncMode,
                 Screenshot = Screenshot,
@@ -160,8 +61,5 @@ namespace Ryujinx.Ava.UI.Models.Input
                 CustomVSyncIntervalIncrement = CustomVSyncIntervalIncrement,
                 CustomVSyncIntervalDecrement = CustomVSyncIntervalDecrement,
             };
-
-            return config;
-        }
     }
 }

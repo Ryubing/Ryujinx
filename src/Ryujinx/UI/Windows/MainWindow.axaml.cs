@@ -164,7 +164,7 @@ namespace Ryujinx.Ava.UI.Windows
             });
         }
 
-        private void ApplicationLibrary_LdnGameDataReceived(object sender, LdnGameDataReceivedEventArgs e)
+        private void ApplicationLibrary_LdnGameDataReceived(LdnGameDataReceivedEventArgs e)
         {
             Dispatcher.UIThread.Post(() =>
             {
@@ -408,13 +408,10 @@ namespace Ryujinx.Ava.UI.Windows
         {
             StatusBarView.VolumeStatus.Click += VolumeStatus_CheckedChanged;
 
+            ApplicationGrid.DataContext = ApplicationList.DataContext = ViewModel;
+            
             ApplicationGrid.ApplicationOpened += Application_Opened;
-
-            ApplicationGrid.DataContext = ViewModel;
-
             ApplicationList.ApplicationOpened += Application_Opened;
-
-            ApplicationList.DataContext = ViewModel;
         }
 
         private void SetWindowSizePosition()

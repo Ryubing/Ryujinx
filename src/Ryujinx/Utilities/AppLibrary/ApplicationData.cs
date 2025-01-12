@@ -37,6 +37,8 @@ namespace Ryujinx.Ava.Utilities.AppLibrary
 
         public string TimePlayedString => ValueFormatUtils.FormatTimeSpan(TimePlayed);
 
+        public bool HasPlayedPreviously => TimePlayedString != string.Empty;
+
         public string LastPlayedString => ValueFormatUtils.FormatDateTime(LastPlayed)?.Replace(" ", "\n");
 
         public string FileSizeString => ValueFormatUtils.FormatFileSize(FileSize);

@@ -44,8 +44,11 @@
                          ItemsSource="{Binding CurrentEntries}">
                     <ListBox.ItemTemplate>
                         <DataTemplate DataType="{x:Type local:CompatibilityEntry}">
-                            <Grid Width="750" ColumnDefinitions="Auto,Auto,Auto,*"
-                                  Margin="5">
+                            <Grid Width="750"
+                                  Margin="5"
+                                  ColumnDefinitions="Auto,Auto,Auto,*"
+                                  Background="Transparent"
+                                  ToolTip.Tip="{Binding  LocalizedLastUpdated}">
                                 <TextBlock Grid.Column="0"
                                            Text="{Binding GameName}"
                                            Width="320"
