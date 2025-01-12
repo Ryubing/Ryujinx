@@ -191,11 +191,11 @@ jobs:
         with:
           global-json-file: global.json
 
-      - name: Setup LLVM 15
+      - name: Setup LLVM 17
         run: |
           wget https://apt.llvm.org/llvm.sh
           chmod +x llvm.sh
-          sudo ./llvm.sh 15
+          sudo ./llvm.sh 17
 
       - name: Install rcodesign
         run: |
