@@ -21,7 +21,7 @@ env:
   DOTNET_CLI_TELEMETRY_OPTOUT: 1
   RYUJINX_BASE_VERSION: "1.2"
   RYUJINX_TARGET_RELEASE_CHANNEL_NAME: "canary"
-  RYUJINX_TARGET_RELEASE_CHANNEL_OWNER: "GreemDev"
+  RYUJINX_TARGET_RELEASE_CHANNEL_OWNER: "GabCoolDude"
   RYUJINX_TARGET_RELEASE_CHANNEL_SOURCE_REPO: "Ryujinx"
   RYUJINX_TARGET_RELEASE_CHANNEL_REPO: "Ryujinx-Canary"
   RELEASE: 1
@@ -223,11 +223,11 @@ jobs:
         with:
           global-json-file: global.json
 
-      - name: Setup LLVM 15
+      - name: Setup LLVM 17
         run: |
           wget https://apt.llvm.org/llvm.sh
           chmod +x llvm.sh
-          sudo ./llvm.sh 15
+          sudo ./llvm.sh 17
 
       - name: Install rcodesign
         run: |
