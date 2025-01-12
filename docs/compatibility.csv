@@ -3421,3 +3421,4 @@
 0100936018EB4000,"牧場物語 Welcome！ワンダフルライフ",crash,ingame,2023-04-25 19:43:52
 0100F4401940A000,"超探偵事件簿 レインコード  (Master Detective Archives: Rain Code)",crash,ingame,2024-02-12 20:58:31
 010064801A01C000,"超次元ゲイム ネプテューヌ GameMaker R:Evolution",crash,nothing,2023-10-30 22:37:40
+0100F3400332C000,"ゼノブレイド2",deadlock;amd-vendor-bug,ingame,2024-03-28 14:31:41
