@@ -19,7 +19,7 @@ if platform.system() == "Darwin":
 else:
     OTOOL = shutil.which("llvm-otool")
     if OTOOL is None:
-        for llvm_ver in [15, 14, 13]:
+        for llvm_ver in [17, 16, 15, 14, 13]:
             otool_path = shutil.which(f"llvm-otool-{llvm_ver}")
             if otool_path is not None:
                 OTOOL = otool_path
