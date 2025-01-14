@@ -329,6 +329,11 @@ namespace Ryujinx.Input.SDL2
             return result;
         }
 
+        public bool SpecialExit()
+        {
+            return false;
+        }
+
         public GamepadStateSnapshot GetStateSnapshot()
         {
             throw new NotSupportedException();

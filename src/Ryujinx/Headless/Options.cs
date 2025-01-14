@@ -150,7 +150,10 @@ namespace Ryujinx.Headless
             
             if (NeedsOverride(nameof(IgnoreControllerApplet)))
                 IgnoreControllerApplet = configurationState.IgnoreApplet;
-            
+
+            if (NeedsOverride(nameof(SpecialExit)))
+                SpecialExit = configurationState.Hid.SpecialExitEmulator;
+
             return;
             
             bool NeedsOverride(string argKey) => originalArgs.None(arg => arg.TrimStart('-').EqualsIgnoreCase(OptionName(argKey)));
@@ -273,6 +276,9 @@ namespace Ryujinx.Headless
 
         [Option("enable-mouse", Required = false, Default = false, HelpText = "Enable or disable mouse support.")]
         public bool EnableMouse { get; set; }
+
+        [Option("enable-press-hotkeys-to-exit", Required = false, Default = 0, HelpText = "press the minus and plus buttons to: 0 -disable, 1 - exit app, 2 - exit game.")]
+        public int SpecialExit { get; set; }
 
         [Option("hide-cursor", Required = false, Default = HideCursorMode.OnIdle, HelpText = "Change when the cursor gets hidden.")]
         public HideCursorMode HideCursorMode { get; set; }
@@ -413,6 +419,7 @@ namespace Ryujinx.Headless
         
         [Option("ignore-controller-applet", Required = false, Default = false, HelpText = "Enable ignoring the controller applet when your game loses connection to your controller.")]
         public bool IgnoreControllerApplet { get; set; }
+
 
         // Values
 

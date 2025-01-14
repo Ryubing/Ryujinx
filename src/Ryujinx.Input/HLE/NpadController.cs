@@ -3,6 +3,7 @@ using Ryujinx.Common.Configuration.Hid;
 using Ryujinx.Common.Configuration.Hid.Controller;
 using Ryujinx.Common.Configuration.Hid.Controller.Motion;
 using Ryujinx.Common.Logging;
+using Ryujinx.Graphics.Gpu;
 using Ryujinx.HLE.HOS.Services.Hid;
 using System;
 using System.Collections.Concurrent;
@@ -274,14 +275,20 @@ namespace Ryujinx.Input.HLE
             }
         }
 
-        public void Update()
+        public bool Update()
         {
+            
             // _gamepad may be altered by other threads
             var gamepad = _gamepad;
-
+            
             if (gamepad != null && GamepadDriver != null)
             {
                 State = gamepad.GetMappedStateSnapshot();
+
+                if (gamepad.SpecialExit())
+                {
+                    return true;
+                }
 
                 if (_config is StandardControllerInputConfig controllerConfig && controllerConfig.Motion.EnableMotion)
                 {
@@ -349,6 +356,7 @@ namespace Ryujinx.Input.HLE
                 _leftMotionInput = null;
                 _rightMotionInput = null;
             }
+            return false;
         }
 
         public GamepadInput GetHLEInputState()

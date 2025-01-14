@@ -13,6 +13,11 @@ namespace Ryujinx.Ava.Input
         public string Id => "0";
         public string Name => "AvaloniaMouse";
 
+        public bool SpecialExit() 
+        {
+            return false;
+        }
+
         public bool IsConnected => true;
         public GamepadFeaturesFlag Features => throw new NotImplementedException();
         public bool[] Buttons => _driver.PressedButtons;
