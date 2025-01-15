@@ -26,7 +26,17 @@ namespace Ryujinx.HLE.Loaders.Processes
 
         private ulong _latestPid;
 
-        public ProcessResult ActiveApplication => _processesByPid[_latestPid];
+        public ProcessResult ActiveApplication
+        {
+            get
+            {
+                if (!_processesByPid.TryGetValue(_latestPid, out ProcessResult value))
+                    throw new RyujinxException(
+                        $"The HLE Process map did not have a process with ID {_latestPid}. Are you missing firmware?");
+                
+                return value;
+            }
+        }
 
         public ProcessLoader(Switch device)
         {
