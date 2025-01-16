@@ -108,6 +108,7 @@ jobs:
           sed -r --in-place 's/\%\%RYUJINX_TARGET_RELEASE_CHANNEL_REPO\%\%/${{ env.RYUJINX_TARGET_RELEASE_CHANNEL_REPO }}/g;' src/Ryujinx.Common/ReleaseInformation.cs
           sed -r --in-place 's/\%\%RYUJINX_TARGET_RELEASE_CHANNEL_SOURCE_REPO\%\%/${{ env.RYUJINX_TARGET_RELEASE_CHANNEL_SOURCE_REPO }}/g;' src/Ryujinx.Common/ReleaseInformation.cs
           sed -r --in-place 's/\%\%RYUJINX_CONFIG_FILE_NAME\%\%/Config\.json/g;' src/Ryujinx.Common/ReleaseInformation.cs
+          sed -r --in-place '/^Name=Ryujinx$/s/Name=Ryujinx/Name=Ryujinx-Canary/' distribution/linux/Ryujinx.desktop          
         shell: bash
 
       - name: Create output dir
@@ -115,71 +116,69 @@ jobs:
 
       - name: Publish
         run: |
-          dotnet publish -c Release -r "${{ matrix.platform.name }}" -o ./publish_ava/publish -p:Version="${{ steps.version_info.outputs.build_version }}" -p:SourceRevisionId="${{ steps.version_info.outputs.git_short_hash }}" -p:DebugType=embedded src/Ryujinx --self-contained
+          dotnet publish -c Release -r "${{ matrix.platform.name }}" -o ./publish -p:Version="${{ steps.version_info.outputs.build_version }}" -p:SourceRevisionId="${{ steps.version_info.outputs.git_short_hash }}" -p:DebugType=embedded src/Ryujinx --self-contained
 
       - name: Packing Windows builds
         if: matrix.platform.os == 'windows-latest'
         run: |
-          pushd publish_ava
-          rm publish/libarmeilleure-jitsupport.dylib
-          7z a ../release_output/ryujinx-canary-${{ steps.version_info.outputs.build_version }}-${{ matrix.platform.zip_os_name }}.zip publish
+          pushd publish
+          rm libarmeilleure-jitsupport.dylib
+          7z a ../release_output/ryujinx-canary-${{ steps.version_info.outputs.build_version }}-${{ matrix.platform.zip_os_name }}.zip ../publish
           popd
         shell: bash
 
       - name: Packing Linux builds
         if: matrix.platform.os == 'ubuntu-latest'
         run: |
-          pushd publish_ava
-          rm publish/libarmeilleure-jitsupport.dylib
-          chmod +x publish/Ryujinx.sh publish/Ryujinx
-          tar -czvf ../release_output/ryujinx-canary-${{ steps.version_info.outputs.build_version }}-${{ matrix.platform.zip_os_name }}.tar.gz publish
+          pushd publish
+          rm libarmeilleure-jitsupport.dylib
+          chmod +x Ryujinx.sh Ryujinx
+          tar -czvf ../release_output/ryujinx-canary-${{ steps.version_info.outputs.build_version }}-${{ matrix.platform.zip_os_name }}.tar.gz ../publish
           popd
         shell: bash
       
-      #- name: Build AppImage (Linux)
-      #  if: matrix.platform.os == 'ubuntu-latest'
-      #  run: |
-      #    BUILD_VERSION="${{ steps.version_info.outputs.build_version }}"
-      #    PLATFORM_NAME="${{ matrix.platform.name }}"
+      - name: Build AppImage (Linux)
+        if: matrix.platform.os == 'ubuntu-latest'
+        run: |
+          BUILD_VERSION="${{ steps.version_info.outputs.build_version }}"
+          PLATFORM_NAME="${{ matrix.platform.name }}"
 
-      #    sudo apt install -y zsync desktop-file-utils appstream
+          sudo apt install -y zsync desktop-file-utils appstream
 
-      #    mkdir -p tools
-      #    export PATH="$PATH:$(readlink -f tools)"
+          mkdir -p tools
+          export PATH="$PATH:$(readlink -f tools)"
 
           # Setup appimagetool
-      #    wget -q -O tools/appimagetool "https://github.com/AppImage/appimagetool/releases/download/continuous/appimagetool-x86_64.AppImage"
-      #    chmod +x tools/appimagetool
-      #    chmod +x distribution/linux/appimage/build-appimage.sh
+          wget -q -O tools/appimagetool "https://github.com/AppImage/appimagetool/releases/download/continuous/appimagetool-x86_64.AppImage"
+          chmod +x tools/appimagetool
+          chmod +x distribution/linux/appimage/build-appimage.sh
 
           # Explicitly set $ARCH for appimagetool ($ARCH_NAME is for the file name)
-      #    if [ "$PLATFORM_NAME" = "linux-x64" ]; then
-      #      ARCH_NAME=x64
-      #      export ARCH=x86_64
-      #    elif [ "$PLATFORM_NAME" = "linux-arm64" ]; then
-      #      ARCH_NAME=arm64
-      #      export ARCH=aarch64
-      #    else
-      #      echo "Unexpected PLATFORM_NAME "$PLATFORM_NAME""
-      #      exit 1
-      #    fi
+          if [ "$PLATFORM_NAME" = "linux-x64" ]; then
+            ARCH_NAME=x64
+            export ARCH=x86_64
+          elif [ "$PLATFORM_NAME" = "linux-arm64" ]; then
+            ARCH_NAME=arm64
+            export ARCH=aarch64
+          else
+            echo "Unexpected PLATFORM_NAME "$PLATFORM_NAME""
+            exit 1
+          fi
 
-      #    export UFLAG="gh-releases-zsync|${{ github.repository_owner }}|${{ github.event.repository.name }}|latest|*-$ARCH_NAME.AppImage.zsync"
-      #    BUILDDIR=publish_ava OUTDIR=publish_ava_appimage distribution/linux/appimage/build-appimage.sh
+          export UFLAG="gh-releases-zsync|${{ github.repository_owner }}|Canary-Releases|latest|*-$ARCH_NAME.AppImage.zsync"
+          BUILDDIR=publish OUTDIR=publish_appimage distribution/linux/appimage/build-appimage.sh
 
-          # Add to release output
-      #    pushd publish_ava_appimage
-      #    mv Ryujinx.AppImage ../release_output/ryujinx-$BUILD_VERSION-$ARCH_NAME.AppImage
-      #    mv Ryujinx.AppImage.zsync ../release_output/ryujinx-$BUILD_VERSION-$ARCH_NAME.AppImage.zsync
-      #    popd
-      #  shell: bash
+          pushd publish_appimage
+          mv Ryujinx.AppImage ../release_output/ryujinx-canary-$BUILD_VERSION-$ARCH_NAME.AppImage
+          mv Ryujinx.AppImage.zsync ../release_output/ryujinx-canary-$BUILD_VERSION-$ARCH_NAME.AppImage.zsync
+          popd          
+        shell: bash 
 
       - name: Pushing new release
         uses: ncipollo/release-action@v1
         with:
           name: ${{ steps.version_info.outputs.build_version }}
-          artifacts: "release_output/*.tar.gz,release_output/*.zip"
-          #artifacts: "release_output/*.tar.gz,release_output/*.zip,release_output/*AppImage*"
+          artifacts: "release_output/*.tar.gz,release_output/*.zip,release_output/*AppImage*"
           tag: ${{ steps.version_info.outputs.build_version }}
           body: |
             # Canary builds:
@@ -211,11 +210,11 @@ jobs:
         with:
           global-json-file: global.json
 
-      - name: Setup LLVM 15
+      - name: Setup LLVM 17
         run: |
           wget https://apt.llvm.org/llvm.sh
           chmod +x llvm.sh
-          sudo ./llvm.sh 15
+          sudo ./llvm.sh 17
 
       - name: Install rcodesign
         run: |

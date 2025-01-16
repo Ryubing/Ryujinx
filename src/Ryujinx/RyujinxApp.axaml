@@ -6,6 +6,9 @@
     <Application.Resources>
         <ResourceDictionary>
             <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary>
+                    <FontFamily x:Key="JetBrainsMono">avares://Ryujinx/Assets/Fonts/Mono/#JetBrains Mono</FontFamily>
+                </ResourceDictionary>
                 <MergeResourceInclude Source="/Assets/Styles/Themes.xaml"/>
             </ResourceDictionary.MergedDictionaries>
         </ResourceDictionary>

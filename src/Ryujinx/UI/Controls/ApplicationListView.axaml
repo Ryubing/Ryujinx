@@ -133,12 +133,13 @@
                                     Spacing="5">
                                     <TextBlock
                                         HorizontalAlignment="Stretch"
-                                        Text="{Binding TimePlayedString}"
+                                        Text="{Binding LastPlayedString}"
                                         TextAlignment="End"
                                         TextWrapping="Wrap" />
                                     <TextBlock
                                         HorizontalAlignment="Stretch"
-                                        Text="{Binding LastPlayedString}"
+                                        Text="{Binding TimePlayedString}"
+                                        IsVisible="{Binding HasPlayedPreviously}"
                                         TextAlignment="End"
                                         TextWrapping="Wrap" />
                                     <TextBlock

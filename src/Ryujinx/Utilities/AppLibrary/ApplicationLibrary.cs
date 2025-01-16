@@ -1,4 +1,5 @@
 using DynamicData;
+using DynamicData.Kernel;
 using Gommon;
 using LibHac;
 using LibHac.Common;
@@ -44,7 +45,7 @@ namespace Ryujinx.Ava.Utilities.AppLibrary
         public const string DefaultLanPlayWebHost = "ryuldnweb.vudjun.com";
         public Language DesiredLanguage { get; set; }
         public event EventHandler<ApplicationCountUpdatedEventArgs> ApplicationCountUpdated;
-        public event EventHandler<LdnGameDataReceivedEventArgs> LdnGameDataReceived;
+        public event Action<LdnGameDataReceivedEventArgs> LdnGameDataReceived;
 
         public readonly IObservableCache<ApplicationData, ulong> Applications;
         public readonly IObservableCache<(TitleUpdateModel TitleUpdate, bool IsSelected), TitleUpdateModel> TitleUpdates;
@@ -778,7 +779,7 @@ namespace Ryujinx.Ava.Utilities.AppLibrary
                     using HttpClient httpClient = new HttpClient();
                     string ldnGameDataArrayString = await httpClient.GetStringAsync($"https://{ldnWebHost}/api/public_games");
                     ldnGameDataArray = JsonHelper.Deserialize(ldnGameDataArrayString, _ldnDataSerializerContext.IEnumerableLdnGameData);
-                    LdnGameDataReceived?.Invoke(null, new LdnGameDataReceivedEventArgs
+                    LdnGameDataReceived?.Invoke(new LdnGameDataReceivedEventArgs
                     {
                         LdnData = ldnGameDataArray
                     });
@@ -786,7 +787,7 @@ namespace Ryujinx.Ava.Utilities.AppLibrary
                 catch (Exception ex)
                 {
                     Logger.Warning?.Print(LogClass.Application, $"Failed to fetch the public games JSON from the API. Player and game count in the game list will be unavailable.\n{ex.Message}");
-                    LdnGameDataReceived?.Invoke(null, new LdnGameDataReceivedEventArgs
+                    LdnGameDataReceived?.Invoke(new LdnGameDataReceivedEventArgs
                     {
                         LdnData = Array.Empty<LdnGameData>()
                     });
@@ -794,7 +795,7 @@ namespace Ryujinx.Ava.Utilities.AppLibrary
             }
             else
             {
-                LdnGameDataReceived?.Invoke(null, new LdnGameDataReceivedEventArgs
+                LdnGameDataReceived?.Invoke(new LdnGameDataReceivedEventArgs
                 {
                     LdnData = Array.Empty<LdnGameData>()
                 });
@@ -1069,10 +1070,11 @@ namespace Ryujinx.Ava.Utilities.AppLibrary
         {
             if (update == null) return false;
             
-            var currentlySelected = TitleUpdates.Items.FindFirst(it =>
+            var currentlySelected = TitleUpdates.Items.FirstOrOptional(it =>
                 it.TitleUpdate.TitleIdBase == update.TitleIdBase && it.IsSelected);
 
-            var shouldSelect = currentlySelected.Check(curr => curr.TitleUpdate?.Version < update.Version);
+            var shouldSelect = !currentlySelected.HasValue ||
+                               currentlySelected.Value.TitleUpdate.Version < update.Version;
 
             _titleUpdates.AddOrUpdate((update, shouldSelect));
             
@@ -1463,7 +1465,7 @@ namespace Ryujinx.Ava.Utilities.AppLibrary
                     TitleUpdatesHelper.LoadTitleUpdatesJson(_virtualFileSystem, application.IdBase);
                 it.AddOrUpdate(savedUpdates);
 
-                var selectedUpdate = savedUpdates.FindFirst(update => update.IsSelected);
+                var selectedUpdate = savedUpdates.FirstOrOptional(update => update.IsSelected);
 
                 if (TryGetTitleUpdatesFromFile(application.Path, out var bundledUpdates))
                 {
@@ -1475,10 +1477,11 @@ namespace Ryujinx.Ava.Utilities.AppLibrary
                         if (!savedUpdateLookup.Contains(update))
                         {
                             bool shouldSelect = false;
-                            if (selectedUpdate.Check(su => su.Update?.Version < update.Version))
+                            if (!selectedUpdate.HasValue || selectedUpdate.Value.Item1.Version < update.Version)
                             {
                                 shouldSelect = true;
-                                _titleUpdates.AddOrUpdate((selectedUpdate.Value.Update, false));
+                                if (selectedUpdate.HasValue)
+                                    _titleUpdates.AddOrUpdate((selectedUpdate.Value.Update, false));
                                 selectedUpdate = (update, true);
                             }
 

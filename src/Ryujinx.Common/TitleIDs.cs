@@ -171,6 +171,7 @@ namespace Ryujinx.Common
             "0100b41013c82000", // Cruis'n Blast
             "01001b300b9be000", // Diablo III: Eternal Collection
             "01008c8012920000", // Dying Light Platinum Edition
+            "01001cc01b2d4000", // Goat Simulator 3
             "010073c01af34000", // LEGO Horizon Adventures
             "0100770008dd8000", // Monster Hunter Generations Ultimate
             "0100b04011742000", // Monster Hunter Rise

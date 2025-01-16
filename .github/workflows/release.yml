@@ -3,16 +3,6 @@ name: Release job
 on:
   workflow_dispatch:
     inputs: {}
-  push:
-    branches: [ release ]
-    paths-ignore:
-      - '.github/**'
-      - 'docs/**'
-      - 'assets/**'
-      - '*.yml'
-      - '*.json'
-      - '*.config'
-      - '*.md'
 
 concurrency: release
 
@@ -121,6 +111,15 @@ jobs:
           7z a ../release_output/ryujinx-${{ steps.version_info.outputs.build_version }}-${{ matrix.platform.zip_os_name }}.zip ../publish
           popd
         shell: bash
+
+      - name: Packing Linux builds
+        if: matrix.platform.os == 'ubuntu-latest'
+        run: |
+          pushd publish
+          chmod +x Ryujinx.sh Ryujinx
+          tar -czvf ../release_output/ryujinx-${{ steps.version_info.outputs.build_version }}-${{ matrix.platform.zip_os_name }}.tar.gz ../publish
+          popd
+        shell: bash
       
       - name: Build AppImage (Linux)
         if: matrix.platform.os == 'ubuntu-latest'
@@ -157,15 +156,6 @@ jobs:
           mv Ryujinx.AppImage ../release_output/ryujinx-$BUILD_VERSION-$ARCH_NAME.AppImage
           mv Ryujinx.AppImage.zsync ../release_output/ryujinx-$BUILD_VERSION-$ARCH_NAME.AppImage.zsync
           popd
-        shell: bash        
-
-      - name: Packing Linux builds
-        if: matrix.platform.os == 'ubuntu-latest'
-        run: |
-          pushd publish
-          chmod +x Ryujinx.sh Ryujinx
-          tar -czvf ../release_output/ryujinx-${{ steps.version_info.outputs.build_version }}-${{ matrix.platform.zip_os_name }}.tar.gz ../publish
-          popd
         shell: bash
 
       - name: Pushing new release
@@ -201,11 +191,11 @@ jobs:
         with:
           global-json-file: global.json
 
-      - name: Setup LLVM 15
+      - name: Setup LLVM 17
         run: |
           wget https://apt.llvm.org/llvm.sh
           chmod +x llvm.sh
-          sudo ./llvm.sh 15
+          sudo ./llvm.sh 17
 
       - name: Install rcodesign
         run: |

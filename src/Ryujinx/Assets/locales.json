@@ -1243,7 +1243,7 @@
         "th_TH": "",
         "tr_TR": "",
         "uk_UA": "",
-        "zh_CN": "",
+        "zh_CN": "问答与指南",
         "zh_TW": ""
       }
     },
@@ -4018,7 +4018,7 @@
         "th_TH": "",
         "tr_TR": "",
         "uk_UA": "",
-        "zh_CN": "",
+        "zh_CN": "与 PC 日期和时间重新同步",
         "zh_TW": ""
       }
     },
@@ -14193,7 +14193,7 @@
         "th_TH": "",
         "tr_TR": "",
         "uk_UA": "Ryujinx — це емулятор для Nintendo Switch™.\nОтримуйте всі останні новини в нашому Discord.\nРозробники, які хочуть зробити внесок, можуть дізнатися більше на нашому GitHub або в Discord.",
-        "zh_CN": "",
+        "zh_CN": "Ryujinx 是一个 Nintendo Switch™ 模拟器。\n有兴趣做出贡献的开发者可以在我们的 GitHub 或 Discord 上了解更多信息。\n",
         "zh_TW": ""
       }
     },
@@ -17818,7 +17818,7 @@
         "th_TH": "",
         "tr_TR": "",
         "uk_UA": "",
-        "zh_CN": "",
+        "zh_CN": "档案对话框",
         "zh_TW": ""
       }
     },
@@ -19543,7 +19543,7 @@
         "th_TH": "",
         "tr_TR": "",
         "uk_UA": "Необрізаних {0} тайтл(ів)...",
-        "zh_CN": "",
+        "zh_CN": "正在精简 {0} 个游戏",
         "zh_TW": ""
       }
     },
@@ -19718,7 +19718,7 @@
         "th_TH": "",
         "tr_TR": "",
         "uk_UA": "Заголовок",
-        "zh_CN": "",
+        "zh_CN": "标题",
         "zh_TW": ""
       }
     },
@@ -19743,7 +19743,7 @@
         "th_TH": "",
         "tr_TR": "",
         "uk_UA": "Економія місця",
-        "zh_CN": "",
+        "zh_CN": "节省空间",
         "zh_TW": ""
       }
     },
@@ -19793,7 +19793,7 @@
         "th_TH": "",
         "tr_TR": "",
         "uk_UA": "Зшивання",
-        "zh_CN": "",
+        "zh_CN": "取消精简",
         "zh_TW": ""
       }
     },
@@ -22594,6 +22594,256 @@
         "tr_TR": "",
         "uk_UA": "Понизити користувацьку частоту оновлення",
         "zh_CN": "降低自定义刷新率：",
+        "zh_TW": ""
+      }
+    },
+    {
+      "ID": "CompatibilityListLastUpdated",
+      "Translations": {
+        "ar_SA": "",
+        "de_DE": "",
+        "el_GR": "",
+        "en_US": "Last updated: {0}",
+        "es_ES": "",
+        "fr_FR": "",
+        "he_IL": "",
+        "it_IT": "",
+        "ja_JP": "",
+        "ko_KR": "",
+        "no_NO": "",
+        "pl_PL": "",
+        "pt_BR": "",
+        "ru_RU": "",
+        "sv_SE": "",
+        "th_TH": "",
+        "tr_TR": "",
+        "uk_UA": "",
+        "zh_CN": "最后更新于: {0}",
+        "zh_TW": ""
+      }
+    },
+    {
+      "ID": "CompatibilityListWarning",
+      "Translations": {
+        "ar_SA": "",
+        "de_DE": "",
+        "el_GR": "",
+        "en_US": "This compatibility list might contain out of date entries.\nDo not be opposed to testing games in the \"Ingame\" status.",
+        "es_ES": "",
+        "fr_FR": "",
+        "he_IL": "",
+        "it_IT": "",
+        "ja_JP": "",
+        "ko_KR": "이 호환성 목록에는 오래된 항목이 포함되어 있을 수 있습니다.\n\"게임 내\" 상태에서 게임을 테스트하는 것을 반대하지 마십시오.",
+        "no_NO": "",
+        "pl_PL": "",
+        "pt_BR": "",
+        "ru_RU": "",
+        "sv_SE": "",
+        "th_TH": "",
+        "tr_TR": "",
+        "uk_UA": "",
+        "zh_CN": "此兼容性列表可能包含过时的条目。\n不要只测试 \"进入游戏\" 状态的游戏。",
+        "zh_TW": ""
+      }
+    },
+    {
+      "ID": "CompatibilityListSearchBoxWatermark",
+      "Translations": {
+        "ar_SA": "",
+        "de_DE": "",
+        "el_GR": "",
+        "en_US": "Search compatibility entries...",
+        "es_ES": "",
+        "fr_FR": "",
+        "he_IL": "",
+        "it_IT": "",
+        "ja_JP": "",
+        "ko_KR": "호환성 항목 검색...",
+        "no_NO": "",
+        "pl_PL": "",
+        "pt_BR": "",
+        "ru_RU": "",
+        "sv_SE": "",
+        "th_TH": "",
+        "tr_TR": "",
+        "uk_UA": "",
+        "zh_CN": "正在搜索兼容性条目...",
+        "zh_TW": ""
+      }
+    },
+    {
+      "ID": "CompatibilityListOpen",
+      "Translations": {
+        "ar_SA": "",
+        "de_DE": "",
+        "el_GR": "",
+        "en_US": "Open Compatibility List",
+        "es_ES": "",
+        "fr_FR": "",
+        "he_IL": "",
+        "it_IT": "",
+        "ja_JP": "",
+        "ko_KR": "호환성 목록 열기",
+        "no_NO": "",
+        "pl_PL": "",
+        "pt_BR": "",
+        "ru_RU": "",
+        "sv_SE": "",
+        "th_TH": "",
+        "tr_TR": "",
+        "uk_UA": "",
+        "zh_CN": "打开兼容性列表",
+        "zh_TW": ""
+      }
+    },
+    {
+      "ID": "CompatibilityListOnlyShowOwnedGames",
+      "Translations": {
+        "ar_SA": "",
+        "de_DE": "",
+        "el_GR": "",
+        "en_US": "Only show owned games",
+        "es_ES": "",
+        "fr_FR": "",
+        "he_IL": "",
+        "it_IT": "",
+        "ja_JP": "",
+        "ko_KR": "보유 게임만 표시",
+        "no_NO": "",
+        "pl_PL": "",
+        "pt_BR": "",
+        "ru_RU": "",
+        "sv_SE": "",
+        "th_TH": "",
+        "tr_TR": "",
+        "uk_UA": "",
+        "zh_CN": "仅显示拥有的游戏",
+        "zh_TW": ""
+      }
+    },
+    {
+      "ID": "CompatibilityListPlayable",
+      "Translations": {
+        "ar_SA": "",
+        "de_DE": "",
+        "el_GR": "",
+        "en_US": "Playable",
+        "es_ES": "",
+        "fr_FR": "",
+        "he_IL": "",
+        "it_IT": "",
+        "ja_JP": "",
+        "ko_KR": "플레이 가능",
+        "no_NO": "",
+        "pl_PL": "",
+        "pt_BR": "",
+        "ru_RU": "",
+        "sv_SE": "",
+        "th_TH": "",
+        "tr_TR": "",
+        "uk_UA": "",
+        "zh_CN": "可游玩",
+        "zh_TW": ""
+      }
+    },
+    {
+      "ID": "CompatibilityListIngame",
+      "Translations": {
+        "ar_SA": "",
+        "de_DE": "",
+        "el_GR": "",
+        "en_US": "Ingame",
+        "es_ES": "",
+        "fr_FR": "",
+        "he_IL": "",
+        "it_IT": "",
+        "ja_JP": "",
+        "ko_KR": "게임 내",
+        "no_NO": "",
+        "pl_PL": "",
+        "pt_BR": "",
+        "ru_RU": "",
+        "sv_SE": "",
+        "th_TH": "",
+        "tr_TR": "",
+        "uk_UA": "",
+        "zh_CN": "进入游戏",
+        "zh_TW": ""
+      }
+    },
+    {
+      "ID": "CompatibilityListMenus",
+      "Translations": {
+        "ar_SA": "",
+        "de_DE": "",
+        "el_GR": "",
+        "en_US": "Menus",
+        "es_ES": "",
+        "fr_FR": "",
+        "he_IL": "",
+        "it_IT": "",
+        "ja_JP": "",
+        "ko_KR": "메뉴",
+        "no_NO": "",
+        "pl_PL": "",
+        "pt_BR": "",
+        "ru_RU": "",
+        "sv_SE": "",
+        "th_TH": "",
+        "tr_TR": "",
+        "uk_UA": "",
+        "zh_CN": "菜单",
+        "zh_TW": ""
+      }
+    },
+    {
+      "ID": "CompatibilityListBoots",
+      "Translations": {
+        "ar_SA": "",
+        "de_DE": "",
+        "el_GR": "",
+        "en_US": "Boots",
+        "es_ES": "",
+        "fr_FR": "",
+        "he_IL": "",
+        "it_IT": "",
+        "ja_JP": "",
+        "ko_KR": "부츠",
+        "no_NO": "",
+        "pl_PL": "",
+        "pt_BR": "",
+        "ru_RU": "",
+        "sv_SE": "",
+        "th_TH": "",
+        "tr_TR": "",
+        "uk_UA": "",
+        "zh_CN": "启动",
+        "zh_TW": ""
+      }
+    },
+    {
+      "ID": "CompatibilityListNothing",
+      "Translations": {
+        "ar_SA": "",
+        "de_DE": "",
+        "el_GR": "",
+        "en_US": "Nothing",
+        "es_ES": "",
+        "fr_FR": "",
+        "he_IL": "",
+        "it_IT": "",
+        "ja_JP": "",
+        "ko_KR": "없음",
+        "no_NO": "",
+        "pl_PL": "",
+        "pt_BR": "",
+        "ru_RU": "",
+        "sv_SE": "",
+        "th_TH": "",
+        "tr_TR": "",
+        "uk_UA": "",
+        "zh_CN": "什么都没有",
         "zh_TW": ""
       }
     }

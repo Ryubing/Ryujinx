@@ -168,13 +168,15 @@ namespace Ryujinx.Graphics.Vulkan
             return BinarySearch(list, offset, size) >= 0;
         }
 
-        public readonly IEnumerable<Range> FindOverlaps(int offset, int size)
+        public readonly List<Range> FindOverlaps(int offset, int size)
         {
             var list = _ranges;
             if (list == null)
             {
-                yield break;
+                return null;
             }
+            
+            List<Range> result = null;
 
             int index = BinarySearch(list, offset, size);
 
@@ -187,10 +189,12 @@ namespace Ryujinx.Graphics.Vulkan
 
                 do
                 {
-                    yield return list[index++];
+                    (result ??= []).Add(list[index++]);
                 }
                 while (index < list.Count && list[index].OverlapsWith(offset, size));
             }
+
+            return result;
         }
 
         private static int BinarySearch(List<Range> list, int offset, int size)

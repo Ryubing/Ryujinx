@@ -37,11 +37,11 @@ jobs:
             if (!artifacts.length) {
               return core.error(`No artifacts found`);
             }
-            let body = `*You need to be logged into GitHub to download these files.*\n\nDownload the artifacts for this pull request:\n`;
+            let body = `Download the artifacts for this pull request:\n`;
             let hidden_debug_artifacts = `\n\n <details><summary>Only for Developers</summary>\n`;
             for (const art of artifacts) {
-              const url = `https://github.com/Ryubing/Ryujinx/actions/runs/${run_id}/artifacts/${art.id}`;
-              if(art.name.includes('Debug')) {
+              const url = `https://nightly.link/${owner}/${repo}/actions/artifacts/${art.id}.zip`;
+              if (art.name.includes('Debug')) {
                 hidden_debug_artifacts += `\n* [${art.name}](${url})`;
               } else {
                 body += `\n* [${art.name}](${url})`;

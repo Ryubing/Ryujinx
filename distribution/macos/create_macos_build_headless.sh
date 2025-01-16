@@ -62,11 +62,11 @@ python3 "$BASE_DIR/distribution/macos/construct_universal_dylib.py" "$ARM64_OUTP
 
 if ! [ -x "$(command -v lipo)" ];
 then
-    if ! [ -x "$(command -v llvm-lipo-14)" ];
+    if ! [ -x "$(command -v llvm-lipo-17)" ];
     then
         LIPO=llvm-lipo
     else
-        LIPO=llvm-lipo-14
+        LIPO=llvm-lipo-17
     fi
 else
     LIPO=lipo

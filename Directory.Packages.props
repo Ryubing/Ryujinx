@@ -3,13 +3,13 @@
     <ManagePackageVersionsCentrally>true</ManagePackageVersionsCentrally>
   </PropertyGroup>
   <ItemGroup>
-    <PackageVersion Include="Avalonia" Version="11.0.10" />
-    <PackageVersion Include="Avalonia.Controls.DataGrid" Version="11.0.10" />
-    <PackageVersion Include="Avalonia.Desktop" Version="11.0.10" />
-    <PackageVersion Include="Avalonia.Diagnostics" Version="11.0.10" />
-    <PackageVersion Include="Avalonia.Markup.Xaml.Loader" Version="11.0.10" />
-    <PackageVersion Include="Avalonia.Svg" Version="11.0.0.18" />
-    <PackageVersion Include="Avalonia.Svg.Skia" Version="11.0.0.18" />
+    <PackageVersion Include="Avalonia" Version="11.0.13" />
+    <PackageVersion Include="Avalonia.Controls.DataGrid" Version="11.0.13" />
+    <PackageVersion Include="Avalonia.Desktop" Version="11.0.13" />
+    <PackageVersion Include="Avalonia.Diagnostics" Version="11.0.13" />
+    <PackageVersion Include="Avalonia.Markup.Xaml.Loader" Version="11.0.13" />
+    <PackageVersion Include="Avalonia.Svg" Version="11.0.0.19" />
+    <PackageVersion Include="Avalonia.Svg.Skia" Version="11.0.0.19" />
     <PackageVersion Include="Microsoft.Build.Framework" Version="17.11.4" />
     <PackageVersion Include="Microsoft.Build.Utilities.Core" Version="17.12.6" />
     <PackageVersion Include="Newtonsoft.Json" Version="13.0.3" />
@@ -18,7 +18,7 @@
     <PackageVersion Include="Projektanker.Icons.Avalonia.MaterialDesign" Version="9.4.0"/>
     <PackageVersion Include="CommandLineParser" Version="2.9.1" />
     <PackageVersion Include="CommunityToolkit.Mvvm" Version="8.4.0"/>
-    <PackageVersion Include="Concentus" Version="2.2.0" />
+    <PackageVersion Include="Concentus" Version="2.2.2" />
     <PackageVersion Include="DiscordRichPresence" Version="1.2.1.24" />
     <PackageVersion Include="DynamicData" Version="9.0.4" />
     <PackageVersion Include="FluentAvaloniaUI" Version="2.0.5" />
@@ -26,7 +26,7 @@
     <PackageVersion Include="LibHac" Version="0.19.0" />
     <PackageVersion Include="Microsoft.CodeAnalysis.Analyzers" Version="3.3.4" />
     <PackageVersion Include="Microsoft.CodeAnalysis.CSharp" Version="4.9.2" />
-    <PackageVersion Include="Microsoft.IdentityModel.JsonWebTokens" Version="8.1.2" />
+    <PackageVersion Include="Microsoft.IdentityModel.JsonWebTokens" Version="8.3.0" />
     <PackageVersion Include="Microsoft.NET.Test.Sdk" Version="17.9.0" />
     <PackageVersion Include="Microsoft.IO.RecyclableMemoryStream" Version="3.0.1" />
     <PackageVersion Include="MsgPack.Cli" Version="1.0.1" />
@@ -42,16 +42,17 @@
     <PackageVersion Include="Ryujinx.Graphics.Nvdec.Dependencies" Version="5.0.3-build14" />
     <PackageVersion Include="Ryujinx.Graphics.Vulkan.Dependencies.MoltenVK" Version="1.2.0" />
     <PackageVersion Include="Ryujinx.SDL2-CS" Version="2.30.0-build32" />
-    <PackageVersion Include="Gommon" Version="2.7.0.1" />
+    <PackageVersion Include="Gommon" Version="2.7.0.2" />
     <PackageVersion Include="securifybv.ShellLink" Version="0.1.0" />
+    <PackageVersion Include="Sep" Version="0.6.0" />
     <PackageVersion Include="shaderc.net" Version="0.1.0" />
     <PackageVersion Include="SharpMetal" Version="1.0.0-preview21" />
     <PackageVersion Include="SharpZipLib" Version="1.4.2" />
-    <PackageVersion Include="Silk.NET.Vulkan" Version="2.21.0" />
-    <PackageVersion Include="Silk.NET.Vulkan.Extensions.EXT" Version="2.21.0" />
-    <PackageVersion Include="Silk.NET.Vulkan.Extensions.KHR" Version="2.21.0" />
-    <PackageVersion Include="SkiaSharp" Version="2.88.7" />
-    <PackageVersion Include="SkiaSharp.NativeAssets.Linux" Version="2.88.7" />
+    <PackageVersion Include="Silk.NET.Vulkan" Version="2.22.0" />
+    <PackageVersion Include="Silk.NET.Vulkan.Extensions.EXT" Version="2.22.0" />
+    <PackageVersion Include="Silk.NET.Vulkan.Extensions.KHR" Version="2.22.0" />
+    <PackageVersion Include="SkiaSharp" Version="2.88.9" />
+    <PackageVersion Include="SkiaSharp.NativeAssets.Linux" Version="2.88.9" />
     <PackageVersion Include="SPB" Version="0.0.4-build32" />
     <PackageVersion Include="System.IO.Hashing" Version="9.0.0" />
     <PackageVersion Include="System.Management" Version="9.0.0" />
