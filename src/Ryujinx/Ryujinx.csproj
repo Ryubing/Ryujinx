@@ -57,7 +57,7 @@
     <PackageReference Include="Projektanker.Icons.Avalonia.MaterialDesign" />
     <PackageReference Include="OpenTK.Core" />
     <PackageReference Include="Ryujinx.Audio.OpenAL.Dependencies" Condition="'$(RuntimeIdentifier)' != 'linux-x64' AND '$(RuntimeIdentifier)' != 'linux-arm64' AND '$(RuntimeIdentifier)' != 'osx-x64' AND '$(RuntimeIdentifier)' != 'osx-arm64'" />
-    <PackageReference Include="Ryujinx.Graphics.Nvdec.Dependencies" />
+    <PackageReference Include="Ryujinx.Graphics.Nvdec.Dependencies.AllArch" />
     <PackageReference Include="Ryujinx.Graphics.Vulkan.Dependencies.MoltenVK" Condition="'$(RuntimeIdentifier)' != 'linux-x64' AND '$(RuntimeIdentifier)' != 'linux-arm64' AND '$(RuntimeIdentifier)' != 'win-x64'" />
     <PackageReference Include="securifybv.ShellLink" />
     <PackageReference Include="Sep" />

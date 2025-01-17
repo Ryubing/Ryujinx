@@ -39,7 +39,7 @@
     <PackageVersion Include="OpenTK.Windowing.GraphicsLibraryFramework" Version="4.8.2" />
     <PackageVersion Include="Open.NAT.Core" Version="2.1.0.5" />
     <PackageVersion Include="Ryujinx.Audio.OpenAL.Dependencies" Version="1.21.0.1" />
-    <PackageVersion Include="Ryujinx.Graphics.Nvdec.Dependencies" Version="5.0.3-build14" />
+    <PackageVersion Include="Ryujinx.Graphics.Nvdec.Dependencies.AllArch" Version="6.1.2-build3" />
     <PackageVersion Include="Ryujinx.Graphics.Vulkan.Dependencies.MoltenVK" Version="1.2.0" />
     <PackageVersion Include="Ryujinx.SDL2-CS" Version="2.30.0-build32" />
     <PackageVersion Include="Gommon" Version="2.7.1.1" />
