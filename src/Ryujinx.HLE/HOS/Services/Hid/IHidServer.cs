@@ -702,6 +702,18 @@ namespace Ryujinx.HLE.HOS.Services.Hid
 
             return ResultCode.Success;
         }
+        
+        [CommandCmif(92)]
+        // SetGestureOutputRanges(pid, ushort Unknown0)
+        public ResultCode SetGestureOutputRanges(ServiceCtx context)
+        {
+            ulong pid = context.Request.HandleDesc.PId;
+            ushort unknown0 = context.RequestData.ReadUInt16();
+
+            Logger.Stub?.PrintStub(LogClass.ServiceHid, new { pid, unknown0 });
+
+            return ResultCode.Success;
+        }
 
         [CommandCmif(100)]
         // SetSupportedNpadStyleSet(pid, nn::applet::AppletResourceUserId, nn::hid::NpadStyleTag)

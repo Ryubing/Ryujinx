@@ -3348,7 +3348,7 @@
 01001C400482C000,"Wunderling DX",audio;crash,ingame,2022-09-10 13:20:12
 01003B401148E000,"Wurroom",,playable,2020-10-07 22:46:21
 010081700EDF4000,"WWE 2K Battlegrounds",nvdec;online-broken;UE4,playable,2022-10-07 12:44:40
-010009800203E000,"WWE 2K18",nvdec,playable,2023-10-21 17:22:01
+010009800203E000,"WWE 2K18",nvdec;online-broken,ingame,2025-01-17 11:36:56
 0100DF100B97C000,"X-Morph: Defense",,playable,2020-06-22 11:05:31
 0100D0B00FB74000,"XCOM® 2 Collection",gpu;crash,ingame,2022-10-04 09:38:30
 0100CC9015360000,"XEL",gpu,ingame,2022-10-03 10:19:39
