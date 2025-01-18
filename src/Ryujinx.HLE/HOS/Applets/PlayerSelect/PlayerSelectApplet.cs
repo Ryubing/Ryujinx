@@ -1,3 +1,4 @@
+using Ryujinx.Common;
 using Ryujinx.Common.Logging;
 using Ryujinx.Common.Memory;
 using Ryujinx.HLE.HOS.Services.Account.Acc;
@@ -29,7 +30,15 @@ namespace Ryujinx.HLE.HOS.Applets
             _interactiveSession = interactiveSession;
             
             UserProfile selected = _system.Device.UIHandler.ShowPlayerSelectDialog();
-            _normalSession.Push(BuildResponse(selected));
+            if (selected.UserId == new UserId("00000000000000000000000000000080"))
+            {
+                _normalSession.Push(BuildGuestResponse());
+                Logger.Info?.Print(LogClass.Service,$"[Player Select] Guest Selected");
+            }
+            else
+            {
+                _normalSession.Push(BuildResponse(selected));
+            }
             AppletStateChanged?.Invoke(this, null);
 
             _system.ReturnFocus();
@@ -45,6 +54,16 @@ namespace Ryujinx.HLE.HOS.Applets
             writer.Write((ulong)PlayerSelectResult.Success);
 
             selectedUser.UserId.Write(writer);
+
+            return stream.ToArray();
+        }
+        
+        private byte[] BuildGuestResponse()
+        {
+            using MemoryStream stream = MemoryStreamManager.Shared.GetStream();
+            using BinaryWriter writer = new(stream);
+
+            writer.Write(new byte());
 
             return stream.ToArray();
         }

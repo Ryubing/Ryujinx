@@ -576,7 +576,7 @@ namespace Ryujinx.Headless
         
         public UserProfile ShowPlayerSelectDialog()
         {
-            throw new NotImplementedException();
+            return AccountSaveDataManager.GetLastUsedUser();
         }
     }
 }
