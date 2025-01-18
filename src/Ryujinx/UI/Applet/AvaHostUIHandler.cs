@@ -1,17 +1,25 @@
+using Avalonia;
 using Avalonia.Controls;
+using Avalonia.Media.Imaging;
 using Avalonia.Threading;
 using FluentAvalonia.UI.Controls;
+using Gommon;
 using Ryujinx.Ava.Common.Locale;
 using Ryujinx.Ava.UI.Controls;
 using Ryujinx.Ava.UI.Helpers;
+using Ryujinx.Ava.UI.ViewModels;
 using Ryujinx.Ava.UI.Windows;
 using Ryujinx.Ava.Utilities.Configuration;
+using Ryujinx.Common;
 using Ryujinx.HLE;
 using Ryujinx.HLE.HOS.Applets;
 using Ryujinx.HLE.HOS.Applets.SoftwareKeyboard;
+using Ryujinx.HLE.HOS.Services.Account.Acc;
 using Ryujinx.HLE.HOS.Services.Am.AppletOE.ApplicationProxyService.ApplicationProxy.Types;
 using Ryujinx.HLE.UI;
 using System;
+using System.Collections.ObjectModel;
+using System.Linq;
 using System.Threading;
 
 namespace Ryujinx.Ava.UI.Applet
@@ -253,5 +261,60 @@ namespace Ryujinx.Ava.UI.Applet
         }
 
         public IDynamicTextInputHandler CreateDynamicTextInputHandler() => new AvaloniaDynamicTextInputHandler(_parent);
+        
+        public UserProfile ShowPlayerSelectDialog()
+        {
+            UserId selected = UserId.Null;
+            byte[] defaultGuestImage = EmbeddedResources.Read("Ryujinx.HLE/HOS/Services/Account/Acc/GuestUserImage.jpg");
+            UserProfile guest = new UserProfile(new UserId("00000000000000000000000000000080"), "Guest", defaultGuestImage);
+    
+            ManualResetEvent dialogCloseEvent = new(false);
+    
+            Dispatcher.UIThread.InvokeAsync(async () =>
+            {
+                var Profiles = new ObservableCollection<BaseModel>();
+                var nav = new NavigationDialogHost();
+                
+                _parent.AccountManager.GetAllUsers()
+                    .OrderBy(x => x.Name)
+                    .ForEach(profile => Profiles.Add(new Models.UserProfile(profile, nav)));
+                
+                Profiles.Add(new Models.UserProfile(guest, nav));
+                
+                var content = new UserSelectorDialog(Profiles);
+                (UserId id, _) = await UserSelectorDialog.ShowInputDialog(content);
+                
+                if (id != UserId.Null)
+                {
+                    selected = id;
+                }
+                else
+                {
+                    selected = _parent.AccountManager.LastOpenedUser.UserId;
+                }
+        
+                dialogCloseEvent.Set();
+            });
+    
+            dialogCloseEvent.WaitOne();
+            
+            UserProfile profile = _parent.AccountManager.LastOpenedUser;
+            if (selected == guest.UserId)
+            {
+                profile = guest;
+            }
+            else
+            {
+                foreach (UserProfile p in _parent.AccountManager.GetAllUsers())
+                {
+                    if (p.UserId == selected)
+                    {
+                        profile = p;
+                        break;
+                    }
+                }
+            }
+            return profile;
+        }
     }
 }
