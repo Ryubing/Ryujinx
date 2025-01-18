@@ -1,22 +1,17 @@
 using Avalonia;
 using Avalonia.Controls;
 using Avalonia.Input;
-using Avalonia.Interactivity;
 using FluentAvalonia.UI.Controls;
-using FluentAvalonia.UI.Navigation;
 using Ryujinx.Ava.Common.Locale;
 using Ryujinx.Ava.UI.Controls;
 using Ryujinx.Ava.UI.Helpers;
 using Ryujinx.Ava.UI.ViewModels;
 using Ryujinx.Common.Logging;
-using Ryujinx.HLE.HOS.Applets;
 using Ryujinx.HLE.HOS.Services.Account.Acc;
-using shaderc;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Runtime.CompilerServices;
 using System.Threading.Tasks;
-using Button = Avalonia.Controls.Button;
 using UserProfile = Ryujinx.Ava.UI.Models.UserProfile;
 using UserProfileSft = Ryujinx.HLE.HOS.Services.Account.Acc.UserProfile;
 
@@ -91,14 +86,15 @@ namespace Ryujinx.Ava.UI.Applet
             }
         }
 
-        public static async Task<(UserId id, bool result)> ShowInputDialog(UserSelectorDialog content)
+        public static async Task<(UserId id, bool result)> ShowInputDialog(UserSelectorDialog content, UserProfileSft accountManagerLastOpenedUser)
         {
+            content._selectedUserId = accountManagerLastOpenedUser.UserId;
             ContentDialog contentDialog = new()
             {
                 Title = LocaleManager.Instance[LocaleKeys.UserProfileWindowTitle],
                 PrimaryButtonText = LocaleManager.Instance[LocaleKeys.Continue],
                 SecondaryButtonText = string.Empty,
-                CloseButtonText = string.Empty,
+                CloseButtonText = LocaleManager.Instance[LocaleKeys.Cancel],
                 Content = content,
                 Padding = new Thickness(0)
             };
@@ -113,6 +109,11 @@ namespace Ryujinx.Ava.UI.Applet
                     UserSelectorDialog view = (UserSelectorDialog)contentDialog.Content;
                     result = view?._selectedUserId ?? UserId.Null;
                     input = true;
+                }
+                else
+                {
+                    result = UserId.Null;
+                    input = false;
                 }
             }
 

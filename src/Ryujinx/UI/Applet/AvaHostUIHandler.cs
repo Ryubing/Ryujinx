@@ -1,6 +1,4 @@
-using Avalonia;
 using Avalonia.Controls;
-using Avalonia.Media.Imaging;
 using Avalonia.Threading;
 using FluentAvalonia.UI.Controls;
 using Gommon;
@@ -282,16 +280,9 @@ namespace Ryujinx.Ava.UI.Applet
                 Profiles.Add(new Models.UserProfile(guest, nav));
                 
                 var content = new UserSelectorDialog(Profiles);
-                (UserId id, _) = await UserSelectorDialog.ShowInputDialog(content);
+                (UserId id, _) = await UserSelectorDialog.ShowInputDialog(content, _parent.AccountManager.LastOpenedUser);
                 
-                if (id != UserId.Null)
-                {
-                    selected = id;
-                }
-                else
-                {
-                    selected = _parent.AccountManager.LastOpenedUser.UserId;
-                }
+                selected = id;
         
                 dialogCloseEvent.Set();
             });
@@ -302,6 +293,10 @@ namespace Ryujinx.Ava.UI.Applet
             if (selected == guest.UserId)
             {
                 profile = guest;
+            }
+            else if (selected == UserId.Null)
+            {
+                profile = null;
             }
             else
             {
