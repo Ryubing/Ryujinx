@@ -6,6 +6,7 @@ using Ryujinx.Ava.Common.Locale;
 using Ryujinx.Ava.UI.Controls;
 using Ryujinx.Ava.UI.Helpers;
 using Ryujinx.Ava.UI.ViewModels;
+using Ryujinx.Ava.UI.ViewModels.Input;
 using Ryujinx.Common.Logging;
 using Ryujinx.HLE.HOS.Services.Account.Acc;
 using System.Collections.ObjectModel;
@@ -19,36 +20,15 @@ namespace Ryujinx.Ava.UI.Applet
 {
     public partial class UserSelectorDialog : UserControl, INotifyPropertyChanged
     {
-        public new event PropertyChangedEventHandler PropertyChanged;
+        public UserSelectorDialogViewModel ViewModel { get; set; }
 
-        private UserId _selectedUserId;
-        private ObservableCollection<BaseModel> _profiles;
-
-        public ObservableCollection<BaseModel> Profiles
-        {
-            get => _profiles;
-            set
-            {
-                if (_profiles != value)
-                {
-                    _profiles = value;
-                    OnPropertyChanged();
-                }
-            }
-        }
-
-        public UserSelectorDialog(ObservableCollection<BaseModel> profiles)
+        public UserSelectorDialog(UserSelectorDialogViewModel viewModel)
         {
             InitializeComponent();
-            Profiles = profiles;
-            DataContext = this;
+            ViewModel = viewModel;
+            DataContext = ViewModel;
         }
-
-        protected virtual void OnPropertyChanged([CallerMemberName] string propertyName = "")
-        {
-            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
-        }
-
+        
         private void Grid_PointerEntered(object sender, PointerEventArgs e)
         {
             if (sender is Grid { DataContext: UserProfile profile })
@@ -71,22 +51,22 @@ namespace Ryujinx.Ava.UI.Applet
             {
                 int selectedIndex = listBox.SelectedIndex;
 
-                if (selectedIndex >= 0 && selectedIndex < Profiles.Count)
+                if (selectedIndex >= 0 && selectedIndex < ViewModel.Profiles.Count)
                 {
-                    if (Profiles[selectedIndex] is UserProfile userProfile)
+                    if (ViewModel.Profiles[selectedIndex] is UserProfile userProfile)
                     {
-                        _selectedUserId = userProfile.UserId;
+                        ViewModel.SelectedUserId = userProfile.UserId;
                         Logger.Info?.Print(LogClass.UI, $"Selected user: {userProfile.UserId}");
 
                         ObservableCollection<BaseModel> newProfiles = [];
 
-                        foreach (var item in Profiles)
+                        foreach (var item in ViewModel.Profiles)
                         {
                             if (item is UserProfile originalItem)
                             {
                                 var profile = new UserProfileSft(originalItem.UserId, originalItem.Name, originalItem.Image);
                                 
-                                if (profile.UserId == _selectedUserId)
+                                if (profile.UserId == ViewModel.SelectedUserId)
                                 {
                                     profile.AccountState = AccountState.Open;
                                 }
@@ -95,16 +75,14 @@ namespace Ryujinx.Ava.UI.Applet
                             }
                         }
 
-                        Profiles = newProfiles;
+                        ViewModel.Profiles = newProfiles;
                     }
                 }
             }
         }
 
-        public static async Task<(UserId Id, bool Result)> ShowInputDialog(UserSelectorDialog content, UserProfileSft accountManagerLastOpenedUser)
+        public static async Task<(UserId Id, bool Result)> ShowInputDialog(UserSelectorDialog content)
         {
-            content._selectedUserId = accountManagerLastOpenedUser.UserId;
-
             ContentDialog contentDialog = new()
             {
                 Title = LocaleManager.Instance[LocaleKeys.UserProfileWindowTitle],
@@ -124,7 +102,7 @@ namespace Ryujinx.Ava.UI.Applet
                 {
                     if (contentDialog.Content is UserSelectorDialog view)
                     {
-                        result = view._selectedUserId;
+                        result = view.ViewModel.SelectedUserId;
                         input = true;
                     }
                 }

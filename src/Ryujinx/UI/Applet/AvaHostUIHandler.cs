@@ -6,6 +6,7 @@ using Ryujinx.Ava.Common.Locale;
 using Ryujinx.Ava.UI.Controls;
 using Ryujinx.Ava.UI.Helpers;
 using Ryujinx.Ava.UI.ViewModels;
+using Ryujinx.Ava.UI.ViewModels.Input;
 using Ryujinx.Ava.UI.Windows;
 using Ryujinx.Ava.Utilities.Configuration;
 using Ryujinx.Common;
@@ -278,9 +279,11 @@ namespace Ryujinx.Ava.UI.Applet
                     .ForEach(profile => profiles.Add(new Models.UserProfile(profile, nav)));
                 
                 profiles.Add(new Models.UserProfile(guest, nav));
-                
-                UserSelectorDialog content = new(profiles);
-                (UserId id, _) = await UserSelectorDialog.ShowInputDialog(content, _parent.AccountManager.LastOpenedUser);
+                UserSelectorDialogViewModel ViewModel = new();
+                ViewModel.Profiles = profiles;
+                ViewModel.SelectedUserId = _parent.AccountManager.LastOpenedUser.UserId;
+                UserSelectorDialog content = new(ViewModel);
+                (UserId id, _) = await UserSelectorDialog.ShowInputDialog(content);
                 
                 selected = id;
         
