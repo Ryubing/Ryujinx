@@ -19,19 +19,31 @@ namespace Ryujinx.Ava.UI.Applet
 {
     public partial class UserSelectorDialog : UserControl, INotifyPropertyChanged
     {
-        public event PropertyChangedEventHandler PropertyChanged;
+        public new event PropertyChangedEventHandler PropertyChanged;
 
         private UserId _selectedUserId;
+        private ObservableCollection<BaseModel> _profiles;
 
-        public ObservableCollection<BaseModel> Profiles { get; set; }
+        public ObservableCollection<BaseModel> Profiles
+        {
+            get => _profiles;
+            set
+            {
+                if (_profiles != value)
+                {
+                    _profiles = value;
+                    OnPropertyChanged();
+                }
+            }
+        }
 
-        public UserSelectorDialog(ObservableCollection<BaseModel> Profiles)
+        public UserSelectorDialog(ObservableCollection<BaseModel> profiles)
         {
             InitializeComponent();
-            this.Profiles = Profiles;
-            DataContext = this;  
+            Profiles = profiles;
+            DataContext = this;
         }
-        
+
         protected virtual void OnPropertyChanged([CallerMemberName] string propertyName = "")
         {
             PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
@@ -39,7 +51,7 @@ namespace Ryujinx.Ava.UI.Applet
 
         private void Grid_PointerEntered(object sender, PointerEventArgs e)
         {
-            if (sender is Grid grid && grid.DataContext is UserProfile profile)
+            if (sender is Grid { DataContext: UserProfile profile })
             {
                 profile.IsPointerOver = true;
             }
@@ -47,7 +59,7 @@ namespace Ryujinx.Ava.UI.Applet
 
         private void Grid_OnPointerExited(object sender, PointerEventArgs e)
         {
-            if (sender is Grid grid && grid.DataContext is UserProfile profile)
+            if (sender is Grid { DataContext: UserProfile profile })
             {
                 profile.IsPointerOver = false;
             }
@@ -65,31 +77,35 @@ namespace Ryujinx.Ava.UI.Applet
                     {
                         _selectedUserId = userProfile.UserId;
                         Logger.Info?.Print(LogClass.UI, $"Selected user: {userProfile.UserId}");
-                        ObservableCollection<BaseModel> newProfiles = [];
+
+                        var newProfiles = new ObservableCollection<BaseModel>();
 
                         foreach (var item in Profiles)
                         {
-                            UserProfile originalItem = (UserProfile)item;
-                            UserProfileSft profile = new (originalItem.UserId, originalItem.Name,
-                                originalItem.Image);
-                            if (profile.UserId == _selectedUserId)
+                            if (item is UserProfile originalItem)
                             {
-                                profile.AccountState = AccountState.Open;
+                                var profile = new UserProfileSft(originalItem.UserId, originalItem.Name, originalItem.Image);
+                                
+                                if (profile.UserId == _selectedUserId)
+                                {
+                                    profile.AccountState = AccountState.Open;
+                                }
+
+                                newProfiles.Add(new UserProfile(profile, new NavigationDialogHost()));
                             }
-                            newProfiles.Add(new UserProfile(profile, new NavigationDialogHost()));
                         }
 
                         Profiles = newProfiles;
-                        OnPropertyChanged(nameof(Profiles));
                     }
                 }
             }
         }
 
-        public static async Task<(UserId id, bool result)> ShowInputDialog(UserSelectorDialog content, UserProfileSft accountManagerLastOpenedUser)
+        public static async Task<(UserId Id, bool Result)> ShowInputDialog(UserSelectorDialog content, UserProfileSft accountManagerLastOpenedUser)
         {
             content._selectedUserId = accountManagerLastOpenedUser.UserId;
-            ContentDialog contentDialog = new()
+
+            var contentDialog = new ContentDialog
             {
                 Title = LocaleManager.Instance[LocaleKeys.UserProfileWindowTitle],
                 PrimaryButtonText = LocaleManager.Instance[LocaleKeys.Continue],
@@ -106,9 +122,11 @@ namespace Ryujinx.Ava.UI.Applet
             {
                 if (eventArgs.Result == ContentDialogResult.Primary)
                 {
-                    UserSelectorDialog view = (UserSelectorDialog)contentDialog.Content;
-                    result = view?._selectedUserId ?? UserId.Null;
-                    input = true;
+                    if (contentDialog.Content is UserSelectorDialog view)
+                    {
+                        result = view._selectedUserId;
+                        input = true;
+                    }
                 }
                 else
                 {
