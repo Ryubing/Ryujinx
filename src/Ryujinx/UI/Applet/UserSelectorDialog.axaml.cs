@@ -78,7 +78,7 @@ namespace Ryujinx.Ava.UI.Applet
                         _selectedUserId = userProfile.UserId;
                         Logger.Info?.Print(LogClass.UI, $"Selected user: {userProfile.UserId}");
 
-                        var newProfiles = new ObservableCollection<BaseModel>();
+                        ObservableCollection<BaseModel> newProfiles = [];
 
                         foreach (var item in Profiles)
                         {
@@ -105,7 +105,7 @@ namespace Ryujinx.Ava.UI.Applet
         {
             content._selectedUserId = accountManagerLastOpenedUser.UserId;
 
-            var contentDialog = new ContentDialog
+            ContentDialog contentDialog = new()
             {
                 Title = LocaleManager.Instance[LocaleKeys.UserProfileWindowTitle],
                 PrimaryButtonText = LocaleManager.Instance[LocaleKeys.Continue],
