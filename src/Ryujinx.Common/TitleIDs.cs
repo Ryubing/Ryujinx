@@ -1,4 +1,4 @@
-﻿using Gommon;
+using Gommon;
 using Ryujinx.Common.Configuration;
 using System;
 using System.Linq;
@@ -116,6 +116,7 @@ namespace Ryujinx.Common
             "01008f6008c5e000", // Pokémon Violet
             "0100b3f000be2000", // Pokkén Tournament DX
             "0100f4300bf2c000", // New Pokémon Snap
+            "01003d200baa2000", // Pokémon Mystery Dungeon - Rescue Team DX
 
             "01003bc0000a0000", // Splatoon 2 (US)
             "0100f8f0000a2000", // Splatoon 2 (EU)
@@ -165,6 +166,10 @@ namespace Ryujinx.Common
             "01005ea01c0fc000", // SONIC X SHADOW GENERATIONS
             "01005ea01c0fc001", // ^
 
+            "0100ff500e34a000", // Xenoblade Chronicles - Definitive Edition
+            "0100e95004038000", // Xenoblade Chronicles 2
+            "010074f013262000", // Xenoblade Chronicles 3
+
             "010056e00853a000", // A Hat in Time
             "0100dbf01000a000", // Burnout Paradise Remastered
             "0100744001588000", // Cars 3: Driven to Win
@@ -190,6 +195,16 @@ namespace Ryujinx.Common
             "01000a10041ea000", // The Elder Scrolls V: Skyrim
             "010057a01e4d4000", // TSUKIHIME -A piece of blue glass moon-
             "010080b00ad66000", // Undertale
+            "0100534009ff2000", // Yonder - The cloud catcher chronicles
+            "010085500130a000", // Lego City: Undercover
+            "01003620068ea000", // Hand of Fate 2
+            "010042000a986000", // Dragon Quest Builders 2
+            "010008900705c000", // Dragon Quest Builders
+            "010085900337e000", // Death Squared
+            "0100fd1014726000", // Baldurs Gate: Dark Alliance
+            "010069401adb8000", // Unicorn Overlord
+            
+            
         ];
     }
 }
