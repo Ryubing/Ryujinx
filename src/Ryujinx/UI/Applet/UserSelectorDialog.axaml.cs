@@ -65,7 +65,7 @@ namespace Ryujinx.Ava.UI.Applet
                     {
                         _selectedUserId = userProfile.UserId;
                         Logger.Info?.Print(LogClass.UI, $"Selected user: {userProfile.UserId}");
-                        var NewProfiles = new ObservableCollection<BaseModel>();
+                        ObservableCollection<BaseModel> newProfiles = [];
 
                         foreach (var item in Profiles)
                         {
@@ -76,10 +76,10 @@ namespace Ryujinx.Ava.UI.Applet
                             {
                                 profile.AccountState = AccountState.Open;
                             }
-                            NewProfiles.Add(new UserProfile(profile, new NavigationDialogHost()));
+                            newProfiles.Add(new UserProfile(profile, new NavigationDialogHost()));
                         }
 
-                        Profiles = NewProfiles;
+                        Profiles = newProfiles;
                         OnPropertyChanged(nameof(Profiles));
                     }
                 }

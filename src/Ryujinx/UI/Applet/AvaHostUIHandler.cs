@@ -270,16 +270,16 @@ namespace Ryujinx.Ava.UI.Applet
     
             Dispatcher.UIThread.InvokeAsync(async () =>
             {
-                var Profiles = new ObservableCollection<BaseModel>();
-                var nav = new NavigationDialogHost();
+                ObservableCollection<BaseModel> profiles = [];
+                NavigationDialogHost nav = new();
                 
                 _parent.AccountManager.GetAllUsers()
                     .OrderBy(x => x.Name)
-                    .ForEach(profile => Profiles.Add(new Models.UserProfile(profile, nav)));
+                    .ForEach(profile => profiles.Add(new Models.UserProfile(profile, nav)));
                 
-                Profiles.Add(new Models.UserProfile(guest, nav));
+                profiles.Add(new Models.UserProfile(guest, nav));
                 
-                var content = new UserSelectorDialog(Profiles);
+                UserSelectorDialog content = new(profiles);
                 (UserId id, _) = await UserSelectorDialog.ShowInputDialog(content, _parent.AccountManager.LastOpenedUser);
                 
                 selected = id;
