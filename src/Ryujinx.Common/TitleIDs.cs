@@ -47,6 +47,9 @@ namespace Ryujinx.Common
 
         public static readonly string[] DiscordGameAssetKeys =
         [
+            "010008900705c000", // Dragon Quest Builders
+            "010042000a986000", // Dragon Quest Builders 2
+            
             "010055d009f78000", // Fire Emblem: Three Houses
             "0100a12011cc8000", // Fire Emblem: Shadow Dragon
             "0100a6301214e000", // Fire Emblem Engage
@@ -105,18 +108,18 @@ namespace Ryujinx.Common
             "0100f4c009322000", // Pikmin 3 Deluxe
             "0100b7c00933a000", // Pikmin 4
 
+            "0100f4300bf2c000", // New Pokémon Snap
+            "0100000011d90000", // Pokémon Brilliant Diamond
+            "01001f5010dfa000", // Pokémon Legends: Arceus
             "010003f003a34000", // Pokémon: Let's Go Pikachu!
             "0100187003a36000", // Pokémon: Let's Go Eevee!
-            "0100abf008968000", // Pokémon Sword
-            "01008db008c2c000", // Pokémon Shield
-            "0100000011d90000", // Pokémon Brilliant Diamond
-            "010018e011d92000", // Pokémon Shining Pearl
-            "01001f5010dfa000", // Pokémon Legends: Arceus
+            "01003d200baa2000", // Pokémon Mystery Dungeon - Rescue Team DX
             "0100a3d008c5c000", // Pokémon Scarlet
+            "01008db008c2c000", // Pokémon Shield
+            "010018e011d92000", // Pokémon Shining Pearl
+            "0100abf008968000", // Pokémon Sword
             "01008f6008c5e000", // Pokémon Violet
             "0100b3f000be2000", // Pokkén Tournament DX
-            "0100f4300bf2c000", // New Pokémon Snap
-            "01003d200baa2000", // Pokémon Mystery Dungeon - Rescue Team DX
 
             "01003bc0000a0000", // Splatoon 2 (US)
             "0100f8f0000a2000", // Splatoon 2 (EU)
@@ -171,12 +174,16 @@ namespace Ryujinx.Common
             "010074f013262000", // Xenoblade Chronicles 3
 
             "010056e00853a000", // A Hat in Time
+            "0100fd1014726000", // Baldurs Gate: Dark Alliance
             "0100dbf01000a000", // Burnout Paradise Remastered
             "0100744001588000", // Cars 3: Driven to Win
             "0100b41013c82000", // Cruis'n Blast
+            "010085900337e000", // Death Squared
             "01001b300b9be000", // Diablo III: Eternal Collection
             "01008c8012920000", // Dying Light Platinum Edition
             "01001cc01b2d4000", // Goat Simulator 3
+            "01003620068ea000", // Hand of Fate 2
+            "010085500130a000", // Lego City: Undercover
             "010073c01af34000", // LEGO Horizon Adventures
             "0100770008dd8000", // Monster Hunter Generations Ultimate
             "0100b04011742000", // Monster Hunter Rise
@@ -195,14 +202,8 @@ namespace Ryujinx.Common
             "01000a10041ea000", // The Elder Scrolls V: Skyrim
             "010057a01e4d4000", // TSUKIHIME -A piece of blue glass moon-
             "010080b00ad66000", // Undertale
-            "0100534009ff2000", // Yonder - The cloud catcher chronicles
-            "010085500130a000", // Lego City: Undercover
-            "01003620068ea000", // Hand of Fate 2
-            "010042000a986000", // Dragon Quest Builders 2
-            "010008900705c000", // Dragon Quest Builders
-            "010085900337e000", // Death Squared
-            "0100fd1014726000", // Baldurs Gate: Dark Alliance
             "010069401adb8000", // Unicorn Overlord
+            "0100534009ff2000", // Yonder - The cloud catcher chronicles
             
             
         ];
