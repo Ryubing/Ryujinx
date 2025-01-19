@@ -204,8 +204,6 @@ namespace Ryujinx.Common
             "010080b00ad66000", // Undertale
             "010069401adb8000", // Unicorn Overlord
             "0100534009ff2000", // Yonder - The cloud catcher chronicles
-            
-            
         ];
     }
 }
