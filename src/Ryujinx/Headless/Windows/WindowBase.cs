@@ -163,8 +163,6 @@ namespace Ryujinx.Headless
             }
         }
 
-        private StatusUpdatedEventArgs _lastStatus;
-
         private void InitializeWindow()
         {
             var activeProcess = Device.Processes.ActiveApplication;

@@ -138,7 +138,7 @@ namespace Ryujinx.Ava.UI.Windows
 
             NotificationHelper.SetNotificationManager(this);
 
-            ShowIntelMacWarningAsync();
+            Executor.ExecuteBackgroundAsync(ShowIntelMacWarningAsync);
         }
 
         private void OnScalingChanged(object sender, EventArgs e)
