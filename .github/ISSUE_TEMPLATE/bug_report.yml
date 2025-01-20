@@ -22,7 +22,7 @@ body:
     id: log
     attributes:
       label: Log file
-      description: A log file will help our developers to better diagnose and fix the issue.
+      description: "A log file will help our developers to better diagnose and fix the issue. UPLOAD THE FILE. DO NOT COPY AND PASTE THE FILE'S CONTENT."
       placeholder: Logs files can be found under "Logs" folder in Ryujinx program folder. They can also be accessed by opening Ryujinx, then going to File > Open Logs Folder. You can drag and drop the log on to the text area (do not copy paste).
     validations:
       required: true

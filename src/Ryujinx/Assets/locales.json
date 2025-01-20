@@ -92,9 +92,9 @@
         "sv_SE": "Redigera Mii-applet",
         "th_TH": "",
         "tr_TR": "",
-        "uk_UA": "Аплет для редагування Mii",
+        "uk_UA": "Аплет редагування Mii",
         "zh_CN": "Mii 小程序",
-        "zh_TW": ""
+        "zh_TW": "Mii 編輯器小程式"
       }
     },
     {
@@ -742,9 +742,9 @@
         "sv_SE": "Skanna en Amiibo (från bin-fil)",
         "th_TH": "",
         "tr_TR": "",
-        "uk_UA": "",
+        "uk_UA": "Сканувати Amiibo (з теки Bin)",
         "zh_CN": "从bin文件扫描 Amiibo",
-        "zh_TW": ""
+        "zh_TW": "掃瞄 Amiibo (從 Bin 檔案)"
       }
     },
     {
@@ -792,7 +792,7 @@
         "sv_SE": "Installera firmware",
         "th_TH": "ติดตั้งเฟิร์มแวร์",
         "tr_TR": "Yazılım Yükle",
-        "uk_UA": "Установити прошивку",
+        "uk_UA": "Встановити прошивку (Firmware)",
         "zh_CN": "安装系统固件",
         "zh_TW": "安裝韌體"
       }
@@ -817,7 +817,7 @@
         "sv_SE": "Installera en firmware från XCI eller ZIP",
         "th_TH": "ติดตั้งเฟิร์มแวร์จาก ไฟล์ XCI หรือ ไฟล์ ZIP",
         "tr_TR": "XCI veya ZIP'ten Yazılım Yükle",
-        "uk_UA": "Установити прошивку з XCI або ZIP",
+        "uk_UA": "Встановити прошивку з XCI або ZIP",
         "zh_CN": "从 XCI 或 ZIP 文件中安装系统固件",
         "zh_TW": "從 XCI 或 ZIP 安裝韌體"
       }
@@ -842,7 +842,7 @@
         "sv_SE": "Installera en firmware från en katalog",
         "th_TH": "ติดตั้งเฟิร์มแวร์จากไดเร็กทอรี",
         "tr_TR": "Bir Dizin Üzerinden Yazılım Yükle",
-        "uk_UA": "Установити прошивку з теки",
+        "uk_UA": "Встановити прошивку з теки",
         "zh_CN": "从文件夹中安装系统固件",
         "zh_TW": "從資料夾安裝韌體"
       }
@@ -867,9 +867,9 @@
         "sv_SE": "Installera nycklar",
         "th_TH": "",
         "tr_TR": "",
-        "uk_UA": "",
+        "uk_UA": "Встановити ключі",
         "zh_CN": "安装密匙",
-        "zh_TW": ""
+        "zh_TW": "安裝金鑰"
       }
     },
     {
@@ -892,9 +892,9 @@
         "sv_SE": "Installera nycklar från KEYS eller ZIP",
         "th_TH": "",
         "tr_TR": "",
-        "uk_UA": "",
+        "uk_UA": "Встановити ключі з файлу .KEYS або .ZIP",
         "zh_CN": "从.KEYS文件或ZIP压缩包安装密匙",
-        "zh_TW": ""
+        "zh_TW": "從 .KEYS 或 .ZIP 安裝金鑰"
       }
     },
     {
@@ -917,9 +917,9 @@
         "sv_SE": "Installera nycklar från en katalog",
         "th_TH": "",
         "tr_TR": "",
-        "uk_UA": "",
+        "uk_UA": "Встановити ключі з теки",
         "zh_CN": "从一个文件夹安装密匙",
-        "zh_TW": ""
+        "zh_TW": "從資料夾安裝金鑰"
       }
     },
     {
@@ -967,7 +967,7 @@
         "sv_SE": "Installera filtyper",
         "th_TH": "ติดตั้งประเภทไฟล์",
         "tr_TR": "Dosya uzantılarını yükle",
-        "uk_UA": "Установити типи файлів",
+        "uk_UA": "Встановити типи файлів",
         "zh_CN": "关联文件扩展名",
         "zh_TW": "安裝檔案類型"
       }
@@ -1019,7 +1019,7 @@
         "tr_TR": "",
         "uk_UA": "Обрізати XCI файли",
         "zh_CN": "XCI文件瘦身",
-        "zh_TW": ""
+        "zh_TW": "修剪 XCI 檔案"
       }
     },
     {
@@ -1242,9 +1242,9 @@
         "sv_SE": "Frågor, svar och guider",
         "th_TH": "",
         "tr_TR": "",
-        "uk_UA": "",
+        "uk_UA": "FAQ та посібники",
         "zh_CN": "问答与指南",
-        "zh_TW": ""
+        "zh_TW": "常見問題 (FAQ) 和指南"
       }
     },
     {
@@ -1267,9 +1267,9 @@
         "sv_SE": "Frågor, svar och felsökningssida",
         "th_TH": "",
         "tr_TR": "",
-        "uk_UA": "",
+        "uk_UA": "FAQ та усунення несправностей (eng)",
         "zh_CN": "常见问题和问题排除页面",
-        "zh_TW": ""
+        "zh_TW": "常見問題 (FAQ) 和疑難排解頁面"
       }
     },
     {
@@ -1292,9 +1292,9 @@
         "sv_SE": "Öppnar Frågor, svar och felsökningssidan på den officiella Ryujinx-wikin",
         "th_TH": "",
         "tr_TR": "",
-        "uk_UA": "",
+        "uk_UA": "Відкриває сторінку з Посібником по усуненню помилок та несправностей на офіційній вікі-сторінці Ryujinx (англійською)",
         "zh_CN": "打开Ryujinx官方wiki的常见问题和问题排除页面",
-        "zh_TW": ""
+        "zh_TW": "開啟官方 Ryujinx Wiki 常見問題 (FAQ) 和疑難排解頁面"
       }
     },
     {
@@ -1317,9 +1317,9 @@
         "sv_SE": "Konfigurationsguide",
         "th_TH": "",
         "tr_TR": "",
-        "uk_UA": "",
+        "uk_UA": "Посібник зі встановлення та налаштування (eng)",
         "zh_CN": "安装与配置指南",
-        "zh_TW": ""
+        "zh_TW": "設定和配置指南"
       }
     },
     {
@@ -1342,9 +1342,9 @@
         "sv_SE": "Öppnar konfigurationsguiden på den officiella Ryujinx-wikin",
         "th_TH": "",
         "tr_TR": "",
-        "uk_UA": "",
+        "uk_UA": "Відкриває посібник з Налаштування та конфігурації на офіційній вікі-сторінці Ryujinx (англійською)",
         "zh_CN": "打开Ryujinx官方wiki的安装与配置指南",
-        "zh_TW": ""
+        "zh_TW": "開啟官方 Ryujinx Wiki 設定和配置指南"
       }
     },
     {
@@ -1367,9 +1367,9 @@
         "sv_SE": "Flerspelarguide (LDN/LAN)",
         "th_TH": "",
         "tr_TR": "",
-        "uk_UA": "",
+        "uk_UA": "Посібник з мультиплеєру (LDN/LAN) (eng)",
         "zh_CN": "多人游戏（LDN/LAN）指南",
-        "zh_TW": ""
+        "zh_TW": "多人遊戲 (LDN/LAN) 指南"
       }
     },
     {
@@ -1392,9 +1392,9 @@
         "sv_SE": "Öppnar flerspelarguiden på den officiella Ryujinx-wikin",
         "th_TH": "",
         "tr_TR": "",
-        "uk_UA": "",
+        "uk_UA": "Відкриває посібник з налаштування Мультиплеєру на офіційній вікі-сторінці Ryujinx (англійською)",
         "zh_CN": "打开Ryujinx官方wiki的多人游戏指南",
-        "zh_TW": ""
+        "zh_TW": "開啟官方 Ryujinx Wiki 多人遊戲 (LDN/LAN) 指南"
       }
     },
     {
@@ -1717,7 +1717,7 @@
         "sv_SE": "Öppna användarkatalog för sparningar",
         "th_TH": "เปิดไดเร็กทอรี่บันทึกของผู้ใช้",
         "tr_TR": "Kullanıcı Kayıt Dosyası Dizinini Aç",
-        "uk_UA": "Відкрити теку збереження користувача",
+        "uk_UA": "Відкрити теку збережень користувача",
         "zh_CN": "打开用户存档目录",
         "zh_TW": "開啟使用者存檔資料夾"
       }
@@ -1742,7 +1742,7 @@
         "sv_SE": "Öppnar katalogen som innehåller applikationens användarsparade spel",
         "th_TH": "เปิดไดเร็กทอรี่ซึ่งมีการบันทึกข้อมูลของผู้ใช้แอปพลิเคชัน",
         "tr_TR": "Uygulamanın Kullanıcı Kaydı'nın bulunduğu dizini açar",
-        "uk_UA": "Відкриває каталог, який містить збереження користувача програми",
+        "uk_UA": "Відкриває теку, яка містить збереження користувача",
         "zh_CN": "打开储存游戏用户存档的目录",
         "zh_TW": "開啟此應用程式的使用者存檔資料夾"
       }
@@ -1767,7 +1767,7 @@
         "sv_SE": "Öppna enhetens katalog för sparade spel",
         "th_TH": "เปิดไดเร็กทอรี่บันทึกของอุปกรณ์",
         "tr_TR": "Kullanıcı Cihaz Dizinini Aç",
-        "uk_UA": "Відкрити каталог пристроїв користувача",
+        "uk_UA": "Відкрити теку пристроїв користувача",
         "zh_CN": "打开系统数据目录",
         "zh_TW": "開啟裝置存檔資料夾"
       }
@@ -1792,7 +1792,7 @@
         "sv_SE": "Öppnar katalogen som innehåller applikationens sparade spel på enheten",
         "th_TH": "เปิดไดเรกทอรี่ซึ่งมีบันทึกข้อมูลของอุปกรณ์ในแอปพลิเคชัน",
         "tr_TR": "Uygulamanın Kullanıcı Cihaz Kaydı'nın bulunduğu dizini açar",
-        "uk_UA": "Відкриває каталог, який містить збереження пристрою програми",
+        "uk_UA": "Відкриває теку, яка містить збережені пристрої",
         "zh_CN": "打开储存游戏系统数据的目录",
         "zh_TW": "開啟此應用程式的裝置存檔資料夾"
       }
@@ -1817,7 +1817,7 @@
         "sv_SE": "Öppna katalog för BCAT-sparningar",
         "th_TH": "เปิดไดเรกทอรี่บันทึกของ BCAT",
         "tr_TR": "Kullanıcı BCAT Dizinini Aç",
-        "uk_UA": "Відкрити каталог користувача BCAT",
+        "uk_UA": "Відкрити теку збережень BCAT",
         "zh_CN": "打开 BCAT 数据目录",
         "zh_TW": "開啟 BCAT 存檔資料夾"
       }
@@ -1842,7 +1842,7 @@
         "sv_SE": "Öppnar katalogen som innehåller applikationens BCAT-sparningar",
         "th_TH": "เปิดไดเรกทอรี่ซึ่งมีการบันทึกข้อมูลของ BCAT ในแอปพลิเคชัน",
         "tr_TR": "Uygulamanın Kullanıcı BCAT Kaydı'nın bulunduğu dizini açar",
-        "uk_UA": "Відкриває каталог, який містить BCAT-збереження програми",
+        "uk_UA": "Відкриває теку, яка містить BCAT-збереження програми",
         "zh_CN": "打开储存游戏 BCAT 数据的目录",
         "zh_TW": "開啟此應用程式的 BCAT 存檔資料夾"
       }
@@ -1867,7 +1867,7 @@
         "sv_SE": "Hantera speluppdateringar",
         "th_TH": "จัดการเวอร์ชั่นอัปเดต",
         "tr_TR": "Oyun Güncellemelerini Yönet",
-        "uk_UA": "Керування оновленнями заголовків",
+        "uk_UA": "Керування оновленнями",
         "zh_CN": "管理游戏更新",
         "zh_TW": "管理遊戲更新"
       }
@@ -1892,7 +1892,7 @@
         "sv_SE": "Öppnar spelets hanteringsfönster för uppdateringar",
         "th_TH": "เปิดหน้าต่างการจัดการเวอร์ชั่นการอัพเดต",
         "tr_TR": "Oyun Güncelleme Yönetim Penceresini Açar",
-        "uk_UA": "Відкриває вікно керування оновленням заголовка",
+        "uk_UA": "Відкриває меню керування оновленнями до гри (застосунку)",
         "zh_CN": "打开游戏更新管理窗口",
         "zh_TW": "開啟遊戲更新管理視窗"
       }
@@ -1942,7 +1942,7 @@
         "sv_SE": "Öppnar DLC-hanteringsfönstret",
         "th_TH": "เปิดหน้าต่างจัดการ DLC",
         "tr_TR": "DLC yönetim penceresini açar",
-        "uk_UA": "Відкриває вікно керування DLC",
+        "uk_UA": "Відкриває меню керування DLC",
         "zh_CN": "打开 DLC 管理窗口",
         "zh_TW": "開啟 DLC 管理視窗"
       }
@@ -1992,7 +1992,7 @@
         "sv_SE": "Kölägg PPTC Rebuild",
         "th_TH": "เพิ่มคิวการสร้าง PPTC ใหม่",
         "tr_TR": "PPTC Yeniden Yapılandırmasını Başlat",
-        "uk_UA": "Очистити кеш PPTC",
+        "uk_UA": "Додати до черги перекомпіляцію PPTC",
         "zh_CN": "清除 PPTC 缓存文件",
         "zh_TW": "佇列 PPTC 重建"
       }
@@ -2017,7 +2017,7 @@
         "sv_SE": "Gör så att PPTC bygger om vid uppstart när nästa spel startas",
         "th_TH": "ให้ PPTC สร้างใหม่ในเวลาบูตเมื่อเปิดเกมครั้งถัดไป",
         "tr_TR": "Oyunun bir sonraki açılışında PPTC'yi yeniden yapılandır",
-        "uk_UA": "Видаляє кеш PPTC програми",
+        "uk_UA": "Видаляє кеш PPTC застосунку (гри)",
         "zh_CN": "删除游戏的 PPTC 缓存文件，下次启动游戏时重新编译生成 PPTC 缓存文件",
         "zh_TW": "下一次啟動遊戲時，觸發 PPTC 進行重建"
       }
@@ -2067,7 +2067,7 @@
         "sv_SE": "Tar bort applikationens shader cache",
         "th_TH": "ลบแคช แสงเงา ของแอปพลิเคชัน",
         "tr_TR": "Uygulamanın shader önbelleğini temizler",
-        "uk_UA": "Видаляє кеш шейдерів програми",
+        "uk_UA": "Видаляє кеш шейдерів застосунку (гри)",
         "zh_CN": "删除游戏的着色器缓存文件，下次启动游戏时重新生成着色器缓存文件",
         "zh_TW": "刪除應用程式的著色器快取"
       }
@@ -2092,7 +2092,7 @@
         "sv_SE": "Öppna PPTC-katalog",
         "th_TH": "เปิดไดเรกทอรี่ PPTC",
         "tr_TR": "PPTC Dizinini Aç",
-        "uk_UA": "Відкрити каталог PPTC",
+        "uk_UA": "Відкрити теку PPTC",
         "zh_CN": "打开 PPTC 缓存目录",
         "zh_TW": "開啟 PPTC 資料夾"
       }
@@ -2117,7 +2117,7 @@
         "sv_SE": "Öppnar katalogen som innehåller applikationens PPTC-cache",
         "th_TH": "เปิดไดเร็กทอรี่ของ แคช PPTC ในแอปพลิเคชัน",
         "tr_TR": "Uygulamanın PPTC Önbelleğinin bulunduğu dizini açar",
-        "uk_UA": "Відкриває каталог, який містить кеш PPTC програми",
+        "uk_UA": "Відкриває теку, яка містить PPTC кеш застосунку (гри)",
         "zh_CN": "打开储存游戏 PPTC 缓存文件的目录",
         "zh_TW": "開啟此應用程式的 PPTC 快取資料夾"
       }
@@ -2142,7 +2142,7 @@
         "sv_SE": "Öppna katalog för shader cache",
         "th_TH": "เปิดไดเรกทอรี่ แคช แสงเงา",
         "tr_TR": "Shader Önbelleği Dizinini Aç",
-        "uk_UA": "Відкрити каталог кешу шейдерів",
+        "uk_UA": "Відкрити теку з кешем шейдерів",
         "zh_CN": "打开着色器缓存目录",
         "zh_TW": "開啟著色器快取資料夾"
       }
@@ -2167,7 +2167,7 @@
         "sv_SE": "Öppnar katalogen som innehåller applikationens shader cache",
         "th_TH": "เปิดไดเรกทอรี่ของ แคช แสงเงา ในแอปพลิเคชัน",
         "tr_TR": "Uygulamanın shader önbelleğinin bulunduğu dizini açar",
-        "uk_UA": "Відкриває каталог, який містить кеш шейдерів програми",
+        "uk_UA": "Відкриває теку, яка містить кеш шейдерів застосунку (гри)",
         "zh_CN": "打开储存游戏着色器缓存文件的目录",
         "zh_TW": "開啟此應用程式的著色器快取資料夾"
       }
@@ -2292,7 +2292,7 @@
         "sv_SE": "Extrahera RomFS-sektionen från applikationens aktuella konfiguration (inkl uppdateringar)",
         "th_TH": "แยกส่วน RomFS ออกจากการตั้งค่าปัจจุบันของแอปพลิเคชัน (รวมถึงอัพเดต)",
         "tr_TR": "Uygulamanın geçerli yapılandırmasından RomFS kısmını ayıkla (Güncellemeler dahil)",
-        "uk_UA": "Видобуває розділ RomFS із поточної конфігурації програми (включаючи оновлення)",
+        "uk_UA": "Видобуває розділ RomFS із поточної конфігурації застосунку (включно з оновленнями)",
         "zh_CN": "从游戏的当前状态中提取 RomFS 分区 (包括更新)",
         "zh_TW": "從應用程式的目前配置中提取 RomFS 分區 (包含更新)"
       }
@@ -2319,7 +2319,7 @@
         "tr_TR": "Simge",
         "uk_UA": "Логотип",
         "zh_CN": "图标",
-        "zh_TW": ""
+        "zh_TW": "圖示"
       }
     },
     {
@@ -2392,7 +2392,7 @@
         "sv_SE": "Skapa en skrivbordsgenväg som startar vald applikation",
         "th_TH": "สร้างทางลัดบนเดสก์ท็อปสำหรับใช้แอปพลิเคชันที่เลือก",
         "tr_TR": "Seçilmiş uygulamayı çalıştıracak bir masaüstü kısayolu oluştur",
-        "uk_UA": "Створити ярлик на робочому столі, який запускає вибраний застосунок",
+        "uk_UA": "Створити ярлик на робочому столі, який запускатиме вибраний застосунок (гру)",
         "zh_CN": "创建一个直接启动此游戏的桌面快捷方式",
         "zh_TW": "建立桌面捷徑，啟動選取的應用程式"
       }
@@ -2417,7 +2417,7 @@
         "sv_SE": "Skapa en genväg i macOS-programmapp som startar vald applikation",
         "th_TH": "สร้างทางลัดในโฟลเดอร์ Applications ของ macOS สำหรับใช้แอปพลิเคชันที่เลือก",
         "tr_TR": "",
-        "uk_UA": "Створити ярлик у каталозі macOS програм, що запускає обраний Додаток",
+        "uk_UA": "Створити ярлик у каталозі програм macOS, що запускатиме обраний застосунок (гру)",
         "zh_CN": "在 macOS 的应用程序目录中创建一个直接启动此游戏的快捷方式",
         "zh_TW": "在 macOS 的應用程式資料夾中建立捷徑，啟動選取的應用程式"
       }
@@ -2467,7 +2467,7 @@
         "sv_SE": "Öppnar katalogen som innehåller applikationens Mods",
         "th_TH": "เปิดไดเร็กทอรี่ Mods ของแอปพลิเคชัน",
         "tr_TR": "",
-        "uk_UA": "Відкриває каталог, який містить модифікації Додатків",
+        "uk_UA": "Відкриває теку, яка містить модифікації застосунків (ігор)",
         "zh_CN": "打开存放游戏 MOD 的目录",
         "zh_TW": "開啟此應用程式模組的資料夾"
       }
@@ -2492,7 +2492,7 @@
         "sv_SE": "Öppna Atmosphere Mods-katalogen",
         "th_TH": "เปิดไดเร็กทอรี่ Mods Atmosphere",
         "tr_TR": "",
-        "uk_UA": "Відкрити каталог модифікацій Atmosphere",
+        "uk_UA": "Відкрити теку модифікацій Atmosphere",
         "zh_CN": "打开大气层系统 MOD 目录",
         "zh_TW": "開啟 Atmosphere 模組資料夾"
       }
@@ -2517,7 +2517,7 @@
         "sv_SE": "Öppnar den alternativa Atmosphere-katalogen på SD-kort som innehåller applikationens Mods. Användbart för Mods som är paketerade för riktig hårdvara.",
         "th_TH": "เปิดไดเร็กทอรี่ Atmosphere ของการ์ด SD สำรองซึ่งมี Mods ของแอปพลิเคชัน ซึ่งมีประโยชน์สำหรับ Mods ที่บรรจุมากับฮาร์ดแวร์จริง",
         "tr_TR": "",
-        "uk_UA": "Відкриває альтернативний каталог SD-карти Atmosphere, що містить модифікації Додатків.  Корисно для модифікацій, зроблених для реального обладнання.",
+        "uk_UA": "Відкриває альтернативну теку SD-карти Atmosphere, що містить модифікації до застосунків або ігор. Корисно для модифікацій, зроблених для реального обладнання.",
         "zh_CN": "打开存放适用于大气层系统的游戏 MOD 的目录，对于为真实硬件打包的 MOD 非常有用",
         "zh_TW": "開啟此應用程式模組的另一個 SD 卡 Atmosphere 資料夾。適用於為真實硬體封裝的模組。"
       }
@@ -2542,9 +2542,9 @@
         "sv_SE": "Kontrollera och optimera XCI-fil",
         "th_TH": "",
         "tr_TR": "",
-        "uk_UA": "Перевірка та Нарізка XCI Файлів",
+        "uk_UA": "Перевірка та нарізка XCI Файлу",
         "zh_CN": "检查并瘦身XCI文件",
-        "zh_TW": ""
+        "zh_TW": "檢查及修剪 XCI 檔案"
       }
     },
     {
@@ -2567,9 +2567,9 @@
         "sv_SE": "Kontrollera och optimera XCI-fil för att spara diskutrymme",
         "th_TH": "",
         "tr_TR": "",
-        "uk_UA": "Перевірка та Нарізка XCI Файлів для збереження місця на диску",
+        "uk_UA": "Перевірити та обрізати XCI Файл задля збереження місця на диску",
         "zh_CN": "检查并瘦身XCI文件以节约磁盘空间",
-        "zh_TW": ""
+        "zh_TW": "檢查及修剪 XCI 檔案以節省儲存空間"
       }
     },
     {
@@ -2617,9 +2617,9 @@
         "sv_SE": "Firmware-version: {0}",
         "th_TH": "",
         "tr_TR": "",
-        "uk_UA": "",
+        "uk_UA": "Версія прошивки: {0}",
         "zh_CN": "系统固件版本：{0}",
-        "zh_TW": ""
+        "zh_TW": "系統韌體版本: {0}"
       }
     },
     {
@@ -2642,9 +2642,9 @@
         "sv_SE": "Optimerar XCI-filen '{0}'",
         "th_TH": "",
         "tr_TR": "",
-        "uk_UA": "Обрізано XCI Файлів '{0}'",
+        "uk_UA": "Обрізається XCI Файлів '{0}'",
         "zh_CN": "XCI文件瘦身中'{0}'",
-        "zh_TW": ""
+        "zh_TW": "正在修剪 XCI 檔案 '{0}'"
       }
     },
     {
@@ -2692,7 +2692,7 @@
         "sv_SE": "Vill du öka värdet för vm.max_map_count till {0}",
         "th_TH": "คุณต้องเพิ่มค่า vm.max_map_count ไปยัง {0}",
         "tr_TR": "vm.max_map_count değerini {0} sayısına yükseltmek ister misiniz",
-        "uk_UA": "Бажаєте збільшити значення vm.max_map_count на {0}",
+        "uk_UA": "Бажаєте збільшити значення vm.max_map_count до {0}",
         "zh_CN": "你想要将操作系统 vm.max_map_count 的值增加到 {0} 吗",
         "zh_TW": "您是否要將 vm.max_map_count 的數值增至 {0}?"
       }
@@ -2717,7 +2717,7 @@
         "sv_SE": "Vissa spel kan försöka att skapa fler minnesmappningar än vad som tillåts. Ryujinx kommer att krascha så snart som denna gräns överstigs.",
         "th_TH": "บางเกมอาจพยายามใช้งานหน่วยความจำมากกว่าที่ได้รับอนุญาตในปัจจุบัน Ryujinx จะปิดตัวลงเมื่อเกินขีดจำกัดนี้",
         "tr_TR": "Bazı oyunlar şu an izin verilen bellek haritası limitinden daha fazlasını yaratmaya çalışabilir. Ryujinx bu limitin geçildiği takdirde kendini kapatıcaktır.",
-        "uk_UA": "Деякі ігри можуть спробувати створити більше відображень памʼяті, ніж дозволено наразі. Ryujinx завершить роботу, щойно цей ліміт буде перевищено.",
+        "uk_UA": "Деякі ігри можуть спробувати створити більше відображень памʼяті, ніж це дозволено зараз. Ryujinx закриється (крашнеться), щойно цей ліміт буде перевищено.",
         "zh_CN": "有些游戏可能会尝试创建超过当前系统允许的内存映射最大数量，若超过当前最大数量，Ryujinx 模拟器将会闪退。",
         "zh_TW": "某些遊戲可能會嘗試建立超過目前允許的記憶體映射。一旦超過此限制，Ryujinx 就會崩潰。"
       }
@@ -2767,7 +2767,7 @@
         "sv_SE": "Ja, permanent",
         "th_TH": "ใช่, อย่างถาวร",
         "tr_TR": "Evet, kalıcı olarak",
-        "uk_UA": "Так, назавжди",
+        "uk_UA": "Так, постійно",
         "zh_CN": "确定，永久保存",
         "zh_TW": "是的，永久設定"
       }
@@ -2792,7 +2792,7 @@
         "sv_SE": "Maximal mängd minnesmappningar är lägre än rekommenderat.",
         "th_TH": "จำนวนสูงสุดของการจัดการหน่วยความจำ ต่ำกว่าที่แนะนำ",
         "tr_TR": "İzin verilen maksimum bellek haritası değeri tavsiye edildiğinden daha düşük. ",
-        "uk_UA": "Максимальна кількість відображення памʼяті менша, ніж рекомендовано.",
+        "uk_UA": "Максимальний обсяг виділеної пам'яті менший за рекомендований.",
         "zh_CN": "内存映射的最大数量低于推荐值。",
         "zh_TW": "記憶體映射的最大值低於建議值。"
       }
@@ -2817,7 +2817,7 @@
         "sv_SE": "Det aktuella värdet för vm.max_map_count ({0}) är lägre än {1}. Vissa spel kan försöka att skapa fler minnesmappningar än vad som tillåts. Ryujinx kommer att krascha så snart som denna gräns överstigs.\n\nDu kanske vill manuellt öka gränsen eller installera pkexec, vilket tillåter att Ryujinx hjälper till med det.",
         "th_TH": "ค่าปัจจุบันของ vm.max_map_count ({0}) มีค่าต่ำกว่า {1} บางเกมอาจพยายามใช้หน่วยความจำมากกว่าที่ได้รับอนุญาตในปัจจุบัน Ryujinx จะปิดตัวลงเมื่อเกินขีดจำกัดนี้\n\nคุณอาจต้องการตั้งค่าเพิ่มขีดจำกัดด้วยตนเองหรือติดตั้ง pkexec ซึ่งอนุญาตให้ Ryujinx ช่วยเหลือคุณได้",
         "tr_TR": "Şu anki vm.max_map_count değeri {0}, bu {1} değerinden daha az. Bazı oyunlar şu an izin verilen bellek haritası limitinden daha fazlasını yaratmaya çalışabilir. Ryujinx bu limitin geçildiği takdirde kendini kapatıcaktır.\n\nManuel olarak bu limiti arttırmayı deneyebilir ya da pkexec'i yükleyebilirsiniz, bu da Ryujinx'in yardımcı olmasına izin verir.",
-        "uk_UA": "Поточне значення vm.max_map_count ({0}) менше за {1}. Деякі ігри можуть спробувати створити більше відображень пам’яті, ніж дозволено наразі. Ryujinx завершить роботу, щойно цей ліміт буде перевищено.\n\nВи можете збільшити ліміт вручну або встановити pkexec, який дозволяє Ryujinx допомогти з цим.",
+        "uk_UA": "Поточне значення vm.max_map_count ({0}) менше за {1}. Деякі ігри можуть спробувати створити більше відображень пам’яті, ніж дозволено наразі. Ryujinx закриється (крашнеться), щойно цей ліміт буде перевищено.\n\nВи можете збільшити ліміт власноруч або встановити pkexec, який допоможе Ryujinx впоратися з перевищенням ліміту.",
         "zh_CN": "vm.max_map_count ({0}) 的当前值小于 {1}。 有些游戏可能会尝试创建超过当前系统允许的内存映射最大数量，若超过当前最大数量，Ryujinx 模拟器将会闪退。\n\n你可以手动增加内存映射最大数量，或者安装 pkexec，它可以辅助 Ryujinx 完成内存映射最大数量的修改操作。",
         "zh_TW": "目前 vm.max_map_count ({0}) 的數值小於 {1}。某些遊戲可能會嘗試建立比目前允許值更多的記憶體映射。一旦超過此限制，Ryujinx 就會崩潰。\n\n您可能需要手動提高上限，或者安裝 pkexec，讓 Ryujinx 協助提高上限。"
       }
@@ -3167,7 +3167,7 @@
         "sv_SE": "Läs automatisk in DLC/speluppdateringar",
         "th_TH": "โหลดไดเรกทอรี DLC/ไฟล์อัปเดต อัตโนมัติ",
         "tr_TR": "",
-        "uk_UA": "Автозавантаження каталогів DLC/Оновлень",
+        "uk_UA": "Автозавантаження теки DLC/Оновлень",
         "zh_CN": "自动加载DLC/游戏更新目录",
         "zh_TW": "自動載入 DLC/遊戲更新資料夾"
       }
@@ -3996,6 +3996,56 @@
       }
     },
     {
+      "ID": "SettingsTabSystemSystemLanguageSwedish",
+      "Translations": {
+        "ar_SA": "",
+        "de_DE": "",
+        "el_GR": "",
+        "en_US": "Swedish",
+        "es_ES": "",
+        "fr_FR": "",
+        "he_IL": "",
+        "it_IT": "",
+        "ja_JP": "",
+        "ko_KR": "",
+        "no_NO": "",
+        "pl_PL": "",
+        "pt_BR": "",
+        "ru_RU": "",
+        "sv_SE": "Svenska",
+        "th_TH": "",
+        "tr_TR": "",
+        "uk_UA": "",
+        "zh_CN": "",
+        "zh_TW": ""
+      }
+    },
+    {
+      "ID": "SettingsTabSystemSystemLanguageNorwegian",
+      "Translations": {
+        "ar_SA": "",
+        "de_DE": "",
+        "el_GR": "",
+        "en_US": "Norwegian",
+        "es_ES": "",
+        "fr_FR": "",
+        "he_IL": "",
+        "it_IT": "",
+        "ja_JP": "",
+        "ko_KR": "",
+        "no_NO": "Norsk",
+        "pl_PL": "",
+        "pt_BR": "",
+        "ru_RU": "",
+        "sv_SE": "Norska",
+        "th_TH": "",
+        "tr_TR": "",
+        "uk_UA": "",
+        "zh_CN": "",
+        "zh_TW": ""
+      }
+    },
+    {
       "ID": "SettingsTabSystemSystemTimeZone",
       "Translations": {
         "ar_SA": "النطاق الزمني للنظام:",
@@ -4065,9 +4115,9 @@
         "sv_SE": "Återsynka till datorns datum och tid",
         "th_TH": "",
         "tr_TR": "",
-        "uk_UA": "",
+        "uk_UA": "Синхронізувати з датою та часом ПК",
         "zh_CN": "与 PC 日期和时间重新同步",
-        "zh_TW": ""
+        "zh_TW": "重新同步至 PC 的日期和時間"
       }
     },
     {
@@ -4142,7 +4192,7 @@
         "tr_TR": "FS Bütünlük Kontrolleri",
         "uk_UA": "Перевірка цілісності FS",
         "zh_CN": "启用文件系统完整性检查",
-        "zh_TW": "檔案系統完整性檢查"
+        "zh_TW": "啟用檔案系統完整性檢查"
       }
     },
     {
@@ -4190,7 +4240,7 @@
         "sv_SE": "",
         "th_TH": "",
         "tr_TR": "Yapay",
-        "uk_UA": "",
+        "uk_UA": "Вимкнено",
         "zh_CN": "无",
         "zh_TW": "虛設 (Dummy)"
       }
@@ -5167,7 +5217,7 @@
         "tr_TR": "Logları Dosyaya Kaydetmeyi Etkinleştir",
         "uk_UA": "Увімкнути налагодження у файл",
         "zh_CN": "将日志写入文件",
-        "zh_TW": "啟用日誌到檔案"
+        "zh_TW": "啟用日誌寫入到檔案"
       }
     },
     {
@@ -5415,7 +5465,7 @@
         "sv_SE": "VARNING: Kommer att reducera prestandan",
         "th_TH": "คำเตือน: จะทำให้ประสิทธิภาพลดลง",
         "tr_TR": "UYARI: Oyun performansı azalacak",
-        "uk_UA": "УВАГА: Зміна параметрів нижче негативно впливає на продуктивність",
+        "uk_UA": "УВАГА: Зміна параметрів нижче має негативний вплив на продуктивність",
         "zh_CN": "警告：会降低模拟器性能",
         "zh_TW": "警告: 會降低效能"
       }
@@ -5440,7 +5490,7 @@
         "sv_SE": "Loggnivå för grafikbakände:",
         "th_TH": "ระดับการบันทึกประวัติ กราฟิกเบื้องหลัง:",
         "tr_TR": "Grafik Arka Uç Günlük Düzeyi",
-        "uk_UA": "Рівень журналу графічного сервера:",
+        "uk_UA": "Рівень журналу графічного бекенда:",
         "zh_CN": "图形引擎日志级别：",
         "zh_TW": "圖形後端日誌等級:"
       }
@@ -5715,7 +5765,7 @@
         "sv_SE": "",
         "th_TH": "ตกลง",
         "tr_TR": "Tamam",
-        "uk_UA": "Гаразд",
+        "uk_UA": "",
         "zh_CN": "确定",
         "zh_TW": "確定"
       }
@@ -6165,7 +6215,7 @@
         "sv_SE": "",
         "th_TH": "โปรคอนโทรลเลอร์",
         "tr_TR": "Profesyonel Kumanda",
-        "uk_UA": "Контролер Pro",
+        "uk_UA": "Геймпад Nintendo Switch Pro",
         "zh_CN": "Pro 手柄",
         "zh_TW": "Pro 控制器"
       }
@@ -6692,7 +6742,7 @@
         "tr_TR": "Tuş",
         "uk_UA": "Кнопка",
         "zh_CN": "按下摇杆",
-        "zh_TW": "按鍵"
+        "zh_TW": "搖桿按鍵"
       }
     },
     {
@@ -8015,9 +8065,9 @@
         "sv_SE": "Meny",
         "th_TH": "",
         "tr_TR": "Menü",
-        "uk_UA": "",
+        "uk_UA": "Меню",
         "zh_CN": "菜单键",
-        "zh_TW": "功能表"
+        "zh_TW": "功能表鍵"
       }
     },
     {
@@ -8040,7 +8090,7 @@
         "sv_SE": "Upp",
         "th_TH": "",
         "tr_TR": "Yukarı",
-        "uk_UA": "",
+        "uk_UA": "Вгору ↑",
         "zh_CN": "上",
         "zh_TW": "上"
       }
@@ -8065,7 +8115,7 @@
         "sv_SE": "Ner",
         "th_TH": "",
         "tr_TR": "Aşağı",
-        "uk_UA": "",
+        "uk_UA": "Вниз ↓",
         "zh_CN": "下",
         "zh_TW": "下"
       }
@@ -8090,7 +8140,7 @@
         "sv_SE": "Vänster",
         "th_TH": "",
         "tr_TR": "Sol",
-        "uk_UA": "Вліво",
+        "uk_UA": "Вліво ←",
         "zh_CN": "左",
         "zh_TW": "左"
       }
@@ -8115,7 +8165,7 @@
         "sv_SE": "Höger",
         "th_TH": "",
         "tr_TR": "Sağ",
-        "uk_UA": "Вправо",
+        "uk_UA": "Вправо →",
         "zh_CN": "右",
         "zh_TW": "右"
       }
@@ -8561,11 +8611,11 @@
         "no_NO": "Numerisk 0",
         "pl_PL": "",
         "pt_BR": "",
-        "ru_RU": "Блок цифр 0",
+        "ru_RU": "0 (цифровий блок)",
         "sv_SE": "",
         "th_TH": "",
         "tr_TR": "",
-        "uk_UA": "",
+        "uk_UA": "Блок цифр 0",
         "zh_CN": "小键盘0",
         "zh_TW": "數字鍵 0"
       }
@@ -8586,11 +8636,11 @@
         "no_NO": "Numerisk 1",
         "pl_PL": "",
         "pt_BR": "",
-        "ru_RU": "Блок цифр 1",
+        "ru_RU": "1 (цифровий блок)",
         "sv_SE": "",
         "th_TH": "",
         "tr_TR": "",
-        "uk_UA": "",
+        "uk_UA": "Блок цифр 1",
         "zh_CN": "小键盘1",
         "zh_TW": "數字鍵 1"
       }
@@ -8615,7 +8665,7 @@
         "sv_SE": "",
         "th_TH": "",
         "tr_TR": "",
-        "uk_UA": "",
+        "uk_UA": "2 (цифровий блок)",
         "zh_CN": "小键盘2",
         "zh_TW": "數字鍵 2"
       }
@@ -8640,7 +8690,7 @@
         "sv_SE": "",
         "th_TH": "",
         "tr_TR": "",
-        "uk_UA": "",
+        "uk_UA": "3 (цифровий блок)",
         "zh_CN": "小键盘3",
         "zh_TW": "數字鍵 3"
       }
@@ -8665,7 +8715,7 @@
         "sv_SE": "",
         "th_TH": "",
         "tr_TR": "",
-        "uk_UA": "",
+        "uk_UA": "4 (цифровий блок)",
         "zh_CN": "小键盘4",
         "zh_TW": "數字鍵 4"
       }
@@ -8690,7 +8740,7 @@
         "sv_SE": "",
         "th_TH": "",
         "tr_TR": "",
-        "uk_UA": "",
+        "uk_UA": "5 (цифровий блок)",
         "zh_CN": "小键盘5",
         "zh_TW": "數字鍵 5"
       }
@@ -8715,7 +8765,7 @@
         "sv_SE": "",
         "th_TH": "",
         "tr_TR": "",
-        "uk_UA": "",
+        "uk_UA": "6 (цифровий блок)",
         "zh_CN": "小键盘6",
         "zh_TW": "數字鍵 6"
       }
@@ -8740,7 +8790,7 @@
         "sv_SE": "",
         "th_TH": "",
         "tr_TR": "",
-        "uk_UA": "",
+        "uk_UA": "7 (цифровий блок)",
         "zh_CN": "小键盘7",
         "zh_TW": "數字鍵 7"
       }
@@ -8765,7 +8815,7 @@
         "sv_SE": "",
         "th_TH": "",
         "tr_TR": "",
-        "uk_UA": "",
+        "uk_UA": "8 (цифровий блок)",
         "zh_CN": "小键盘8",
         "zh_TW": "數字鍵 8"
       }
@@ -8790,7 +8840,7 @@
         "sv_SE": "",
         "th_TH": "",
         "tr_TR": "",
-        "uk_UA": "",
+        "uk_UA": "9 (цифровий блок)",
         "zh_CN": "小键盘9",
         "zh_TW": "數字鍵 9"
       }
@@ -8815,7 +8865,7 @@
         "sv_SE": "Keypad /",
         "th_TH": "",
         "tr_TR": "",
-        "uk_UA": "",
+        "uk_UA": "/ (цифровий блок)",
         "zh_CN": "小键盘/",
         "zh_TW": "數字鍵除號"
       }
@@ -8840,7 +8890,7 @@
         "sv_SE": "Keypad *",
         "th_TH": "",
         "tr_TR": "",
-        "uk_UA": "",
+        "uk_UA": "* (цифровий блок)",
         "zh_CN": "小键盘*",
         "zh_TW": "數字鍵乘號"
       }
@@ -8865,7 +8915,7 @@
         "sv_SE": "Keypad -",
         "th_TH": "",
         "tr_TR": "",
-        "uk_UA": "",
+        "uk_UA": "- (цифровий блок)",
         "zh_CN": "小键盘-",
         "zh_TW": "數字鍵減號"
       }
@@ -8890,7 +8940,7 @@
         "sv_SE": "Keypad +",
         "th_TH": "",
         "tr_TR": "",
-        "uk_UA": "",
+        "uk_UA": "+ (цифровий блок)",
         "zh_CN": "小键盘+",
         "zh_TW": "數字鍵加號"
       }
@@ -8915,7 +8965,7 @@
         "sv_SE": "Keypad ,",
         "th_TH": "",
         "tr_TR": "",
-        "uk_UA": "",
+        "uk_UA": ". (цифровий блок)",
         "zh_CN": "小键盘.",
         "zh_TW": "數字鍵小數點"
       }
@@ -8940,7 +8990,7 @@
         "sv_SE": "",
         "th_TH": "",
         "tr_TR": "",
-        "uk_UA": "",
+        "uk_UA": "Enter (цифровий блок)",
         "zh_CN": "小键盘回车键",
         "zh_TW": "數字鍵 Enter"
       }
@@ -9890,7 +9940,7 @@
         "sv_SE": "",
         "th_TH": "",
         "tr_TR": "Pedal 1",
-        "uk_UA": "",
+        "uk_UA": "Додаткова кнопка 1",
         "zh_CN": "其他按键1",
         "zh_TW": "其他按鍵 1"
       }
@@ -9915,7 +9965,7 @@
         "sv_SE": "",
         "th_TH": "",
         "tr_TR": "Pedal 2",
-        "uk_UA": "",
+        "uk_UA": "Додаткова кнопка 2",
         "zh_CN": "其他按键2",
         "zh_TW": "其他按鍵 2"
       }
@@ -9940,7 +9990,7 @@
         "sv_SE": "",
         "th_TH": "",
         "tr_TR": "Pedal 3",
-        "uk_UA": "",
+        "uk_UA": "Додаткова кнопка 3",
         "zh_CN": "其他按键3",
         "zh_TW": "其他按鍵 3"
       }
@@ -9965,7 +10015,7 @@
         "sv_SE": "",
         "th_TH": "",
         "tr_TR": "Pedal 4",
-        "uk_UA": "",
+        "uk_UA": "Додаткова кнопка 4",
         "zh_CN": "其他按键4",
         "zh_TW": "其他按鍵 4"
       }
@@ -10515,7 +10565,7 @@
         "sv_SE": "Ok",
         "th_TH": "ตกลง",
         "tr_TR": "Tamam",
-        "uk_UA": "Гаразд",
+        "uk_UA": "",
         "zh_CN": "完成",
         "zh_TW": "確定"
       }
@@ -10567,7 +10617,7 @@
         "tr_TR": "",
         "uk_UA": "Скасування",
         "zh_CN": "正在取消",
-        "zh_TW": ""
+        "zh_TW": "正在取消"
       }
     },
     {
@@ -10592,7 +10642,7 @@
         "tr_TR": "",
         "uk_UA": "Закрити",
         "zh_CN": "关闭",
-        "zh_TW": ""
+        "zh_TW": "關閉"
       }
     },
     {
@@ -10792,7 +10842,7 @@
         "tr_TR": "",
         "uk_UA": "Показати профіль",
         "zh_CN": "预览配置文件",
-        "zh_TW": ""
+        "zh_TW": "檢視設定檔"
       }
     },
     {
@@ -10940,7 +10990,7 @@
         "sv_SE": "Kör applikation",
         "th_TH": "เปิดใช้งานแอปพลิเคชัน",
         "tr_TR": "Uygulamayı Çalıştır",
-        "uk_UA": "Запустити додаток",
+        "uk_UA": "Запустити",
         "zh_CN": "启动游戏",
         "zh_TW": "執行應用程式"
       }
@@ -10965,7 +11015,7 @@
         "sv_SE": "Växla som favorit",
         "th_TH": "สลับรายการโปรด",
         "tr_TR": "Favori Ayarla",
-        "uk_UA": "Перемкнути вибране",
+        "uk_UA": "Додати в обрані",
         "zh_CN": "收藏",
         "zh_TW": "加入/移除為我的最愛"
       }
@@ -10990,7 +11040,7 @@
         "sv_SE": "Växla favoritstatus för spelet",
         "th_TH": "สลับสถานะเกมที่ชื่นชอบ",
         "tr_TR": "Oyunu Favorilere Ekle/Çıkar",
-        "uk_UA": "Перемкнути улюблений статус гри",
+        "uk_UA": "Додати або вилучити гру з обраних",
         "zh_CN": "切换游戏的收藏状态",
         "zh_TW": "切換遊戲的我的最愛狀態"
       }
@@ -11892,7 +11942,7 @@
         "tr_TR": "",
         "uk_UA": "Показати список змін",
         "zh_CN": "显示更新日志",
-        "zh_TW": ""
+        "zh_TW": "顯示更新日誌"
       }
     },
     {
@@ -12365,9 +12415,9 @@
         "sv_SE": "XCI-optimerare",
         "th_TH": "",
         "tr_TR": "",
-        "uk_UA": "",
+        "uk_UA": "Вікно XCI Тримера",
         "zh_CN": "XCI文件瘦身窗口",
-        "zh_TW": ""
+        "zh_TW": "XCI 修剪器視窗"
       }
     },
     {
@@ -12967,7 +13017,7 @@
         "tr_TR": "Sistem sürümü {0} yüklenecek.",
         "uk_UA": "Буде встановлено версію системи {0}.",
         "zh_CN": "即将安装系统固件版本 {0} 。",
-        "zh_TW": "將安裝系統版本 {0}。"
+        "zh_TW": "即將安裝系統韌體版本 {0}。"
       }
     },
     {
@@ -12992,7 +13042,7 @@
         "tr_TR": "\n\nBu şimdiki sistem sürümünün yerini alacak {0}.",
         "uk_UA": "\n\nЦе замінить поточну версію системи {0}.",
         "zh_CN": "\n\n替换当前系统固件版本 {0} 。",
-        "zh_TW": "\n\n這將取代目前的系統版本 {0}。"
+        "zh_TW": "\n\n這將取代目前的系統韌體版本 {0}。"
       }
     },
     {
@@ -13067,7 +13117,7 @@
         "tr_TR": "Sistem sürümü {0} başarıyla yüklendi.",
         "uk_UA": "Версію системи {0} успішно встановлено.",
         "zh_CN": "成功安装系统固件版本 {0} 。",
-        "zh_TW": "成功安裝系統版本 {0}。"
+        "zh_TW": "成功安裝系統韌體版本 {0}。"
       }
     },
     {
@@ -13092,7 +13142,7 @@
         "tr_TR": "",
         "uk_UA": "",
         "zh_CN": "在{0}发现了一个无效的密匙文件",
-        "zh_TW": ""
+        "zh_TW": "找到無效的金鑰檔案 {0}"
       }
     },
     {
@@ -13117,7 +13167,7 @@
         "tr_TR": "",
         "uk_UA": "Встановлення Ключів",
         "zh_CN": "安装密匙",
-        "zh_TW": ""
+        "zh_TW": "安裝金鑰"
       }
     },
     {
@@ -13142,7 +13192,7 @@
         "tr_TR": "",
         "uk_UA": "Новий файл Ключів буде встановлено",
         "zh_CN": "将会安装新密匙文件",
-        "zh_TW": ""
+        "zh_TW": "將會安裝新增的金鑰檔案。"
       }
     },
     {
@@ -13167,7 +13217,7 @@
         "tr_TR": "",
         "uk_UA": "\n\nЦе замінить собою поточні файли Ключів.",
         "zh_CN": "\n\n这也许会替换掉一些当前已安装的密匙",
-        "zh_TW": ""
+        "zh_TW": "\n\n這將取代部分已安裝的金鑰。"
       }
     },
     {
@@ -13192,7 +13242,7 @@
         "tr_TR": "",
         "uk_UA": "\n\nВи хочете продовжити?",
         "zh_CN": "\n\n你想要继续吗？",
-        "zh_TW": ""
+        "zh_TW": "\n\n是否繼續?"
       }
     },
     {
@@ -13217,7 +13267,7 @@
         "tr_TR": "",
         "uk_UA": "Встановлення Ключів...",
         "zh_CN": "安装密匙中。。。",
-        "zh_TW": ""
+        "zh_TW": "正在安裝金鑰..."
       }
     },
     {
@@ -13242,7 +13292,7 @@
         "tr_TR": "",
         "uk_UA": "Нові ключі встановлено.",
         "zh_CN": "已成功安装新密匙文件",
-        "zh_TW": ""
+        "zh_TW": "成功安裝新增的金鑰檔案。"
       }
     },
     {
@@ -13490,7 +13540,7 @@
         "sv_SE": "Den angivna katalogen innehåller inte en modd!",
         "th_TH": "ไดเร็กทอรีที่ระบุไม่มี ม็อดอยู่!",
         "tr_TR": "",
-        "uk_UA": "Вказаний каталог не містить модифікації!",
+        "uk_UA": "Вказана тека не містить модифікації!",
         "zh_CN": "指定的目录找不到 MOD 文件！",
         "zh_TW": "指定資料夾不包含模組!"
       }
@@ -13515,7 +13565,7 @@
         "sv_SE": "Misslyckades med att ta bort: Kunde inte hitta föräldrakatalogen för modden \"{0}\"!",
         "th_TH": "ไม่สามารถลบ: ไม่พบไดเร็กทอรีหลักสำหรับ ม็อด \"{0}\"!",
         "tr_TR": "Silme Başarısız: \"{0}\" Modu için üst dizin bulunamadı! ",
-        "uk_UA": "Не видалено: Не знайдено батьківський каталог для модифікації \"{0}\"!",
+        "uk_UA": "Не видалено: Не знайдено батьківський каталог (теку) для модифікації \"{0}\"!",
         "zh_CN": "删除失败：找不到 MOD 的父目录“{0}”！",
         "zh_TW": "刪除失敗: 無法找到模組「{0}」的父資料夾!"
       }
@@ -13540,7 +13590,7 @@
         "sv_SE": "Den angivna filen innehåller inte en DLC för angivet spel!",
         "th_TH": "ไฟล์ที่ระบุไม่มี DLC สำหรับชื่อที่เลือก!",
         "tr_TR": "Belirtilen dosya seçilen oyun için DLC içermiyor!",
-        "uk_UA": "Зазначений файл не містить DLC для вибраного заголовку!",
+        "uk_UA": "Зазначений файл не містить DLC для обраної гри!",
         "zh_CN": "选择的文件不是当前游戏的 DLC！",
         "zh_TW": "指定檔案不包含所選遊戲的 DLC!"
       }
@@ -14165,7 +14215,7 @@
         "sv_SE": "Klicka för att öppna Ryujinx GitHub-sida i din webbläsare.",
         "th_TH": "คลิกเพื่อเปิดหน้า Github ของ Ryujinx  บนเบราว์เซอร์เริ่มต้นของคุณ",
         "tr_TR": "Ryujinx'in GitHub sayfasını varsayılan tarayıcınızda açmak için tıklayın.",
-        "uk_UA": "Натисніть, щоб відкрити сторінку GitHub Ryujinx у браузері за замовчуванням.",
+        "uk_UA": "Натисніть, щоб відкрити сторінку GitHub Ryujinx у браузері.",
         "zh_CN": "在浏览器中打开 Ryujinx 的 GitHub 代码库。",
         "zh_TW": "在預設瀏覽器中開啟 Ryujinx 的 GitHub 網頁。"
       }
@@ -14190,7 +14240,7 @@
         "sv_SE": "Klicka för att öppna en inbjudan till Ryujinx Discord-server i din webbläsare.",
         "th_TH": "คลิกเพื่อเปิดคำเชิญเข้าสู่เซิร์ฟเวอร์ Discord ของ Ryujinx บนเบราว์เซอร์เริ่มต้นของคุณ",
         "tr_TR": "Varsayılan tarayıcınızda Ryujinx'in Discord'una bir davet açmak için tıklayın.",
-        "uk_UA": "Натисніть, щоб відкрити запрошення на сервер Discord Ryujinx у браузері за замовчуванням.",
+        "uk_UA": "Натисніть, щоб відкрити запрошення на сервер Discord Ryujinx у браузері.",
         "zh_CN": "在浏览器中打开 Ryujinx 的 Discord 邀请链接。",
         "zh_TW": "在預設瀏覽器中開啟 Ryujinx 的 Discord 邀請連結。"
       }
@@ -14240,9 +14290,9 @@
         "sv_SE": "Ryujinx är en emulator för Nintendo Switch™.\nFå de senaste nyheterna via vår Discord.\nUtvecklare som är intresserade att bidra kan hitta mer info på vår GitHub eller Discord.",
         "th_TH": "",
         "tr_TR": "",
-        "uk_UA": "Ryujinx — це емулятор для Nintendo Switch™.\nОтримуйте всі останні новини в нашому Discord.\nРозробники, які хочуть зробити внесок, можуть дізнатися більше на нашому GitHub або в Discord.",
+        "uk_UA": "Ryujinx — це емулятор для Nintendo Switch™.\nОстанні новини можна отримати в нашому Discord.\nРозробники, що бажають долучитись до розробки та зробити свій внесок, можуть отримати більше інформації на нашому GitHub або в Discord.",
         "zh_CN": "Ryujinx 是一个 Nintendo Switch™ 模拟器。\n有兴趣做出贡献的开发者可以在我们的 GitHub 或 Discord 上了解更多信息。\n",
-        "zh_TW": ""
+        "zh_TW": "Ryujinx 是一款 Nintendo Switch™ 模擬器。\n關注我們的 Discord 取得所有最新消息。\n對於有興趣貢獻的開發者，可以在我們的 GitHub 或 Discord 上了解更多資訊。"
       }
     },
     {
@@ -14292,7 +14342,7 @@
         "tr_TR": "",
         "uk_UA": "Минулі розробники:",
         "zh_CN": "曾经的维护者：",
-        "zh_TW": ""
+        "zh_TW": "過往的維護者:"
       }
     },
     {
@@ -14915,7 +14965,7 @@
         "sv_SE": "Ange en spelkatalog att lägga till i listan",
         "th_TH": "ป้อนไดเรกทอรี่เกมที่จะทำการเพิ่มลงในรายการ",
         "tr_TR": "Listeye eklemek için oyun dizini seçin",
-        "uk_UA": "Введіть каталог ігор, щоб додати до списку",
+        "uk_UA": "Додайте теку з іграми, щоб додати їх до списку",
         "zh_CN": "输入要添加的游戏目录",
         "zh_TW": "輸入要新增到清單中的遊戲資料夾"
       }
@@ -14940,7 +14990,7 @@
         "sv_SE": "Lägg till en spelkatalog till listan",
         "th_TH": "เพิ่มไดเรกทอรี่เกมลงในรายการ",
         "tr_TR": "Listeye oyun dizini ekle",
-        "uk_UA": "Додати каталог гри до списку",
+        "uk_UA": "Додати теку з іграми до списку",
         "zh_CN": "添加游戏目录到列表中",
         "zh_TW": "新增遊戲資料夾到清單中"
       }
@@ -14965,7 +15015,7 @@
         "sv_SE": "Ta bort vald spelkatalog",
         "th_TH": "ลบไดเรกทอรี่เกมที่เลือก",
         "tr_TR": "Seçili oyun dizinini kaldır",
-        "uk_UA": "Видалити вибраний каталог гри",
+        "uk_UA": "Видалити вибрану теку гри",
         "zh_CN": "移除选中的目录",
         "zh_TW": "移除選取的遊戲資料夾"
       }
@@ -15040,7 +15090,7 @@
         "sv_SE": "Ta bort markerad katalog för automatisk inläsning",
         "th_TH": "ลบไดเรกทอรีสำหรับโหลดอัตโนมัติที่เลือก",
         "tr_TR": "",
-        "uk_UA": "Видалити вибраний каталог автозавантаження",
+        "uk_UA": "Видалити вибрану теку автозавантаження",
         "zh_CN": "移除被选中的自动加载目录",
         "zh_TW": "移除選取的「自動載入 DLC/遊戲更新資料夾」"
       }
@@ -15190,7 +15240,7 @@
         "sv_SE": "Stöd för direkt musåtkomst (HID). Ger spel åtkomst till din mus som pekdon.\n\nFungerar endast med spel som har inbyggt stöd för  muskontroller på Switch-hårdvara, som är endast ett fåtal.\n\nViss pekskärmsfunktionalitet kanske inte fungerar när aktiverat.\n\nLämna AV om du är osäker.",
         "th_TH": "รองรับการเข้าถึงเมาส์โดยตรง (HID) ให้เกมเข้าถึงเมาส์ของคุณเป็นอุปกรณ์ชี้ตำแหน่ง\n\nใช้งานได้เฉพาะกับเกมที่รองรับการควบคุมเมาส์บนฮาร์ดแวร์ของ Switch เท่านั้น ซึ่งมีอยู่ไม่มากนัก\n\nเมื่อเปิดใช้งาน ฟังก์ชั่นหน้าจอสัมผัสอาจไม่ทำงาน\n\nหากคุณไม่แน่ใจให้ปิดใช้งานไว้",
         "tr_TR": "",
-        "uk_UA": "Підтримка прямого доступу до миші (HID). Надає іграм доступ до миші, як пристрій вказування.\n\nПрацює тільки з іграми, які підтримують мишу на обладнанні Switch, їх небагато.\n\nФункціонал сенсорного екрана може не працювати, якщо функція ввімкнена.\n\nЗалиште вимкненим, якщо не впевнені.",
+        "uk_UA": "Підтримка прямого доступу до миші (HID). Надає іграм доступ до миші, як пристрій вказування.\n\nПрацює тільки з іграми, які підтримують мишу на обладнанні Switch (таких небагато).\n\nФункціонал сенсорного екрану може не працювати, якщо ця функція ввімкнена.\n\nЗалиште вимкненим, якщо не впевнені.",
         "zh_CN": "直接鼠标访问(HID)支持，游戏可以直接访问鼠标作为指针输入设备。\n\n只适用于在 Switch 硬件上原生支持鼠标控制的游戏，这种游戏很少。\n\n启用后，触屏功能可能无法正常工作。\n\n如果不确定，请保持关闭状态。",
         "zh_TW": "支援滑鼠直接存取 (HID)。遊戲可將滑鼠作為指向裝置使用。\n\n僅適用於在 Switch 硬體上原生支援滑鼠控制的遊戲，這類遊戲很少。\n\n啟用後，觸控螢幕功能可能無法使用。\n\n如果不確定，請保持關閉狀態。"
       }
@@ -15290,7 +15340,7 @@
         "sv_SE": "Ändra systemtid",
         "th_TH": "เปลี่ยนเวลาของระบบ",
         "tr_TR": "Sistem Saatini Değiştir",
-        "uk_UA": "Змінити час системи",
+        "uk_UA": "Змінити системний час",
         "zh_CN": "更改系统时间",
         "zh_TW": "變更系統時鐘"
       }
@@ -15315,9 +15365,9 @@
         "sv_SE": "Återsynkronisera systemtiden för att matcha din dators aktuella datum och tid.\n\nDetta är inte en aktiv inställning och den kan tappa synken och om det händer så kan du klicka på denna knapp igen.",
         "th_TH": "",
         "tr_TR": "",
-        "uk_UA": "",
+        "uk_UA": "Синхронізувати системний час, щоб він відповідав поточній даті та часу вашого ПК.\n\nЦе не активне налаштування, тому синхронізація може збитися; у такому разі просто натискайте цю кнопку знову.",
         "zh_CN": "重新同步系统时间以匹配您电脑的当前日期和时间。\n\n这个操作不会实时同步系统时间与电脑时间，时间仍然可能不同步；在这种情况下，只需再次单击此按钮即可。",
-        "zh_TW": ""
+        "zh_TW": "重新同步系統韌體時間至 PC 目前的日期和時間。\n\n這不是一個主動設定，它仍然可能會失去同步；在這種情況下，只需再次點擊此按鈕。"
       }
     },
     {
@@ -15340,7 +15390,7 @@
         "sv_SE": "Emulerade konsollens vertikala synk. I grund och botten en begränsare för bitrutor för de flesta spel; inaktivera den kan orsaka att spel kör på en högre hastighet eller gör att skärmar tar längre tid att läsa eller fastnar i dem.\n\nKan växlas inne i spelet med en snabbtangent som du väljer (F1 som standard). Vi rekommenderar att göra detta om du planerar att inaktivera den.\n\nLämna PÅ om du är osäker.",
         "th_TH": "Vertical Sync ของคอนโซลจำลอง โดยพื้นฐานแล้วเป็นตัวจำกัดเฟรมสำหรับเกมส่วนใหญ่ การปิดใช้งานอาจทำให้เกมทำงานด้วยความเร็วสูงขึ้น หรือทำให้หน้าจอการโหลดใช้เวลานานขึ้นหรือค้าง\n\nสามารถสลับได้ในเกมด้วยปุ่มลัดตามที่คุณต้องการ (F1 เป็นค่าเริ่มต้น) เราขอแนะนำให้ทำเช่นนี้หากคุณวางแผนที่จะปิดการใช้งาน\n\nเปิดทิ้งไว้หากคุณไม่แน่ใจ",
         "tr_TR": "",
-        "uk_UA": "Емульована вертикальна синхронізація консолі. По суті, обмежувач кадрів для більшості ігор; його вимкнення може призвести до того, що ігри працюватимуть на вищій швидкості, екрани завантаження триватимуть довше чи зупинятимуться.\n\nМожна перемикати в грі гарячою клавішею (За умовчанням F1). Якщо ви плануєте вимкнути функцію, рекомендуємо зробити це через гарячу клавішу.\n\nЗалиште увімкненим, якщо не впевнені.",
+        "uk_UA": "Емуляція Вертикальної Синхронізації консолі. По суті, це обмежувач кадрів для більшості ігор; його вимкнення може призвести до того, що ігри працюватимуть на вищій швидкості, екрани завантаження триватимуть довше чи зупинятимуться.\n\nМожна перемикати в грі гарячою клавішею (За умовчанням F1). Якщо ви плануєте вимкнути функцію, рекомендуємо зробити це через гарячу клавішу.\n\nЗалиште увімкненим, якщо не впевнені.",
         "zh_CN": "模拟控制台的垂直同步，开启后会降低大部分游戏的帧率。关闭后，可以获得更高的帧率，但也可能导致游戏画面加载耗时更长或卡住。\n\n在游戏中可以使用热键进行切换（默认为 F1 键）。\n\n如果不确定，请保持开启状态。",
         "zh_TW": "模擬遊戲機的垂直同步。對大多數遊戲來說，它本質上是一個幀率限制器；停用它可能會導致遊戲以更高的速度執行，或使載入畫面耗時更長或卡住。\n\n可以在遊戲中使用快速鍵進行切換 (預設為 F1)。如果您打算停用，我們建議您這樣做。\n\n如果不確定，請保持開啟狀態。"
       }
@@ -15365,7 +15415,7 @@
         "sv_SE": "Sparar översatta JIT-funktioner så att de inte behöver översättas varje gång som spelet läses in.\n\nMinskar stuttering och snabbare på uppstartstiden väsentligt efter första uppstarten av ett spel.\n\nLämna PÅ om du är osäker.",
         "th_TH": "บันทึกฟังก์ชั่น JIT ที่แปลแล้ว ดังนั้นจึงไม่จำเป็นต้องแปลทุกครั้งที่โหลดเกม\n\nลดอาการกระตุกและเร่งความเร็วการบูตได้อย่างมากหลังจากการบูตครั้งแรกของเกม\n\nเปิดทิ้งไว้หากคุณไม่แน่ใจ",
         "tr_TR": "Çevrilen JIT fonksiyonlarını oyun her açıldığında çevrilmek zorunda kalmaması için kaydeder.\n\nTeklemeyi azaltır ve ilk açılıştan sonra oyunların ilk açılış süresini ciddi biçimde hızlandırır.\n\nEmin değilseniz aktif halde bırakın.",
-        "uk_UA": "Зберігає перекладені функції JIT, щоб їх не потрібно було перекладати кожного разу, коли гра завантажується.\n\nЗменшує заїкання та значно прискорює час завантаження після першого завантаження гри.\n\nЗалиште увімкненим, якщо не впевнені.",
+        "uk_UA": "Зберігає перекладені функції JIT, щоб їх не потрібно було перекладати кожного разу, коли гра завантажується.\n\nЗменшує заїкання (stuttering) та значно прискорює наступні завантаження гри (після першого завантаження).\n\nЗалиште увімкненим, якщо не впевнені.",
         "zh_CN": "缓存已编译的游戏指令，这样每次游戏加载时就无需重新编译。\n\n可以减少卡顿和启动时间，提高游戏响应速度。\n\n如果不确定，请保持开启状态。",
         "zh_TW": "儲存已轉譯的 JIT 函數，這樣每次載入遊戲時就無需再轉譯這些函數。\n\n減少遊戲首次啟動後的卡頓現象，並大大加快啟動時間。\n\n如果不確定，請保持開啟狀態。"
       }
@@ -15790,7 +15840,7 @@
         "sv_SE": "Nivå av anisotropisk filtrering. Ställ in till Automatiskt för att använda det värde som begärts av spelet.",
         "th_TH": "ระดับของ Anisotropic ตั้งค่าเป็นอัตโนมัติเพื่อใช้ค่าพื้นฐานของเกม",
         "tr_TR": "",
-        "uk_UA": "Рівень анізотропної фільтрації. Встановіть на «Авто», щоб використовувати значення, яке вимагає гра.",
+        "uk_UA": "Рівень анізотропної фільтрації. Встановіть «Авто», щоб використовувати значення яке вимагає гра.",
         "zh_CN": "各向异性过滤等级，可以提高倾斜视角纹理的清晰度。\n当设置为“自动”时，使用游戏自身设定的等级。",
         "zh_TW": "各向異性過濾等級。設定為自動可使用遊戲要求的值。"
       }
@@ -15815,7 +15865,7 @@
         "sv_SE": "Bildförhållande att appliceras på renderarfönstret.\n\nÄndra endast detta om du använder en modd för bildförhållande till ditt spel, annars kommer grafiken att sträckas ut.\n\nLämna den till 16:9 om du är osäker.",
         "th_TH": "อัตราส่วนภาพที่ใช้กับหน้าต่างตัวแสดงภาพ\n\nเปลี่ยนสิ่งนี้หากคุณใช้ตัวดัดแปลงอัตราส่วนกว้างยาวสำหรับเกมของคุณ ไม่เช่นนั้นกราฟิกจะถูกยืดออก\n\nทิ้งไว้ที่ 16:9 หากไม่แน่ใจ",
         "tr_TR": "",
-        "uk_UA": "Співвідношення сторін застосовано до вікна рендера.\n\nМіняйте тільки, якщо використовуєте модифікацію співвідношення сторін для гри, інакше графіка буде розтягнута.\n\nЗалиште на \"16:9\", якщо не впевнені.",
+        "uk_UA": "Співвідношення сторін застосовано до вікна рендера.\n\nМіняйте тільки, якщо використовуєте модифікацію співвідношення сторін для гри, інакше зображення буде розтягнутим.\n\nЗалиште на \"16:9\", якщо не впевнені.",
         "zh_CN": "游戏渲染窗口的宽高比。\n\n只有当游戏使用了修改宽高比的 MOD 时才需要修改这个设置，否则图像会被拉伸。\n\n如果不确定，请保持为“16:9”。",
         "zh_TW": "套用於繪製器視窗的長寬比。\n\n只有在遊戲中使用長寬比模組時才可變更，否則圖形會被拉伸。\n\n如果不確定，請保持 16:9 狀態。"
       }
@@ -15840,7 +15890,7 @@
         "sv_SE": "Sökväg för Graphics Shaders Dump",
         "th_TH": "ที่เก็บ ดัมพ์ไฟล์เชเดอร์",
         "tr_TR": "Grafik Shader Döküm Yolu",
-        "uk_UA": "Шлях скидання графічних шейдерів",
+        "uk_UA": "Шлях до дампу графічних шейдерів",
         "zh_CN": "转储图形着色器的路径",
         "zh_TW": "圖形著色器傾印路徑"
       }
@@ -15865,7 +15915,7 @@
         "sv_SE": "Sparar konsolloggning till en loggfil på disk. Påverkar inte prestandan.",
         "th_TH": "บันทึกประวัติคอนโซลลงในไฟล์บันทึก จะไม่ส่งผลกระทบต่อประสิทธิภาพการทำงาน",
         "tr_TR": "Konsol loglarını diskte bir log dosyasına kaydeder. Performansı etkilemez.",
-        "uk_UA": "Зберігає журнал консолі у файл журналу на диску. Не впливає на продуктивність.",
+        "uk_UA": "Зберігає консольне ведення журналу у файл на диску. Не впливає на продуктивність.",
         "zh_CN": "将控制台日志保存到硬盘文件，不影响性能。",
         "zh_TW": "將控制台日誌儲存到磁碟上的日誌檔案中。不會影響效能。"
       }
@@ -15890,7 +15940,7 @@
         "sv_SE": "Skriver ut stubbloggmeddelanden  i konsollen. Påverkar inte prestandan.",
         "th_TH": "พิมพ์ข้อความประวัติในคอนโซล จะไม่ส่งผลกระทบต่อประสิทธิภาพการทำงาน",
         "tr_TR": "Stub log mesajlarını konsola yazdırır. Performansı etkilemez.",
-        "uk_UA": "Друкує повідомлення журналу-заглушки на консолі. Не впливає на продуктивність.",
+        "uk_UA": "Відображає повідомлення журналу-заглушки (tub log) в консолі. Не впливає на продуктивність.",
         "zh_CN": "在控制台中显示存根日志，不影响性能。",
         "zh_TW": "在控制台中輸出日誌訊息。不會影響效能。"
       }
@@ -15915,7 +15965,7 @@
         "sv_SE": "Skriver ut informationsloggmeddelanden  i konsollen. Påverkar inte prestandan.",
         "th_TH": "พิมพ์ข้อความบันทึกข้อมูลในคอนโซล จะไม่ส่งผลกระทบต่อประสิทธิภาพการทำงาน",
         "tr_TR": "Bilgi log mesajlarını konsola yazdırır. Performansı etkilemez.",
-        "uk_UA": "Друкує повідомлення інформаційного журналу на консолі. Не впливає на продуктивність.",
+        "uk_UA": "Виводить повідомлення журналу інформації (info log) в консоль. Не впливає на продуктивність.",
         "zh_CN": "在控制台中显示信息日志，不影响性能。",
         "zh_TW": "在控制台中輸出資訊日誌訊息。不會影響效能。"
       }
@@ -15940,7 +15990,7 @@
         "sv_SE": "Skriver ut varningsloggmeddelanden  i konsollen. Påverkar inte prestandan.",
         "th_TH": "พิมพ์ข้อความประวัติการเตือนในคอนโซล จะไม่ส่งผลกระทบต่อประสิทธิภาพการทำงาน",
         "tr_TR": "Uyarı log mesajlarını konsola yazdırır. Performansı etkilemez.",
-        "uk_UA": "Друкує повідомлення журналу попереджень у консолі. Не впливає на продуктивність.",
+        "uk_UA": "Додає повідомлення журналу попереджень (warning log) до консолі. Не впливає на продуктивність.",
         "zh_CN": "在控制台中显示警告日志，不影响性能。",
         "zh_TW": "在控制台中輸出警告日誌訊息。不會影響效能。"
       }
@@ -15965,7 +16015,7 @@
         "sv_SE": "Skriver ut felloggmeddelanden  i konsollen. Påverkar inte prestandan.",
         "th_TH": "พิมพ์ข้อความบันทึกข้อผิดพลาดในคอนโซล จะไม่ส่งผลกระทบต่อประสิทธิภาพการทำงาน",
         "tr_TR": "Hata log mesajlarını konsola yazdırır. Performansı etkilemez.",
-        "uk_UA": "Друкує повідомлення журналу помилок у консолі. Не впливає на продуктивність.",
+        "uk_UA": "Додає повідомлення журналу помилок (error log) до консолі. Не впливає на продуктивність.",
         "zh_CN": "在控制台中显示错误日志，不影响性能。",
         "zh_TW": "在控制台中輸出錯誤日誌訊息。不會影響效能。"
       }
@@ -15990,7 +16040,7 @@
         "sv_SE": "Skriver ut spårloggmeddelanden  i konsollen. Påverkar inte prestandan.",
         "th_TH": "พิมพ์ข้อความประวัติการติดตามในคอนโซล ไม่ส่งผลกระทบต่อประสิทธิภาพการทำงาน",
         "tr_TR": "Trace log mesajlarını konsola yazdırır. Performansı etkilemez.",
-        "uk_UA": "Друкує повідомлення журналу трасування на консолі. Не впливає на продуктивність.",
+        "uk_UA": "Додає повідомлення журналу трасування (trace log) до консолі. Не впливає на продуктивність.",
         "zh_CN": "在控制台中显示跟踪日志。",
         "zh_TW": "在控制台中輸出追蹤日誌訊息。不會影響效能。"
       }
@@ -16015,7 +16065,7 @@
         "sv_SE": "Skriver ut gästloggmeddelanden  i konsollen. Påverkar inte prestandan.",
         "th_TH": "พิมพ์ข้อความประวัติของผู้เยี่ยมชมในคอนโซล ไม่ส่งผลกระทบต่อประสิทธิภาพการทำงาน",
         "tr_TR": "Guest log mesajlarını konsola yazdırır. Performansı etkilemez.",
-        "uk_UA": "Друкує повідомлення журналу гостей у консолі. Не впливає на продуктивність.",
+        "uk_UA": "Додає повідомлення журналу гостей (guest log) до консолі. Не впливає на продуктивність.",
         "zh_CN": "在控制台中显示访客日志，不影响性能。",
         "zh_TW": "在控制台中輸出客體日誌訊息。不會影響效能。"
       }
@@ -16040,7 +16090,7 @@
         "sv_SE": "Skriver ut loggmeddelanden för filåtkomst i konsollen.",
         "th_TH": "พิมพ์ข้อความบันทึกการเข้าถึงไฟล์ในคอนโซล",
         "tr_TR": "Dosya sistemi erişim log mesajlarını konsola yazdırır.",
-        "uk_UA": "Друкує повідомлення журналу доступу до файлів у консолі.",
+        "uk_UA": "Виводить повідомлення журналу доступу (access log) до файлів в консоль.",
         "zh_CN": "在控制台中显示文件访问日志。",
         "zh_TW": "在控制台中輸出檔案存取日誌訊息。"
       }
@@ -16065,7 +16115,7 @@
         "sv_SE": "Aktiverar loggutdata för filsystemsåtkomst i konsollen. Möjliga lägen är 0-3",
         "th_TH": "เปิดใช้งาน เอาต์พุตประวัติการเข้าถึง FS ไปยังคอนโซล โหมดที่เป็นไปได้คือ 0-3",
         "tr_TR": "Konsola FS erişim loglarının yazılmasını etkinleştirir. Kullanılabilir modlar 0-3'tür",
-        "uk_UA": "Вмикає виведення журналу доступу до FS на консоль. Можливі режими 0-3",
+        "uk_UA": "Вмикає виведення журналу доступу (access log) до FS на консоль. Можливі режими 0-3",
         "zh_CN": "在控制台中显示文件系统访问日志，可选模式为 0-3。",
         "zh_TW": "啟用檔案系統存取日誌輸出到控制台中。可能的模式為 0 到 3"
       }
@@ -16090,7 +16140,7 @@
         "sv_SE": "Använd med försiktighet",
         "th_TH": "โปรดใช้ด้วยความระมัดระวัง",
         "tr_TR": "Dikkatli kullanın",
-        "uk_UA": "Використовуйте з обережністю",
+        "uk_UA": "Використовувати обережно",
         "zh_CN": "请谨慎使用",
         "zh_TW": "謹慎使用"
       }
@@ -16115,7 +16165,7 @@
         "sv_SE": "Kräver att lämpliga loggnivåer aktiveras",
         "th_TH": "จำเป็นต้องเปิดใช้งานระดับบันทึกที่เหมาะสม",
         "tr_TR": "Uygun log seviyesinin aktif olmasını gerektirir",
-        "uk_UA": "Потрібно увімкнути відповідні рівні журналу",
+        "uk_UA": "Потрібно увімкнути відповідні рівні журналу (log)",
         "zh_CN": "需要启用适当的日志级别",
         "zh_TW": "需要啟用適當的日誌等級"
       }
@@ -16140,7 +16190,7 @@
         "sv_SE": "Skriver ut felsökningsloggmeddelanden i konsolen.\n\nAnvänd endast detta om det är specifikt instruerat av en medarbetare, eftersom det kommer att göra loggar svåra att läsa och försämra emulatorprestanda.",
         "th_TH": "พิมพ์ข้อความประวัติการแก้ไขข้อบกพร่องในคอนโซล\n\nใช้สิ่งนี้เฉพาะเมื่อได้รับคำแนะนำจากผู้ดูแลเท่านั้น เนื่องจากจะทำให้บันทึกอ่านยากและทำให้ประสิทธิภาพของโปรแกรมจำลองแย่ลง",
         "tr_TR": "Debug log mesajlarını konsola yazdırır.\n\nBu seçeneği yalnızca geliştirici üyemiz belirtirse aktifleştirin, çünkü bu seçenek log dosyasını okumayı zorlaştırır ve emülatörün performansını düşürür.",
-        "uk_UA": "Друкує повідомлення журналу налагодження на консолі.\n\nВикористовуйте це лише за спеціальною вказівкою співробітника, оскільки це ускладнить читання журналів і погіршить роботу емулятора.",
+        "uk_UA": "Виводить повідомлення журналу налагодження в консолі.\n\nВикористовуйте лише за спеціальною вказівкою розробника, оскільки увімкнення цього параметру ускладнить читання журналів (logs) і погіршить роботу емулятора.",
         "zh_CN": "在控制台中显示调试日志。\n\n仅在特别需要时使用此功能，因为它会导致日志信息难以阅读，并降低模拟器性能。",
         "zh_TW": "在控制台中輸出偵錯日誌訊息。\n\n只有在人員特別指示的情況下才能使用，因為這會導致日誌難以閱讀，並降低模擬器效能。"
       }
@@ -16165,7 +16215,7 @@
         "sv_SE": "Öppna en filutforskare för att välja en Switch-kompatibel fil att läsa in",
         "th_TH": "เปิดตัวสำรวจไฟล์เพื่อเลือกไฟล์ที่เข้ากันได้กับ Switch ที่จะโหลด",
         "tr_TR": "Switch ile uyumlu bir dosya yüklemek için dosya tarayıcısını açar",
-        "uk_UA": "Відкриває файловий провідник, щоб вибрати для завантаження сумісний файл Switch",
+        "uk_UA": "Відкриває Файловий провідник, щоб обрати для завантаження сумісний зі Switch файл",
         "zh_CN": "选择 Switch 游戏文件并加载",
         "zh_TW": "開啟檔案總管，選擇與 Switch 相容的檔案來載入"
       }
@@ -16190,7 +16240,7 @@
         "sv_SE": "Öppna en filutforskare för att välja en Switch-kompatibel, uppackad applikation att läsa in",
         "th_TH": "เปิดตัวสำรวจไฟล์เพื่อเลือกไฟล์ที่เข้ากันได้กับ Switch ที่จะโหลด",
         "tr_TR": "Switch ile uyumlu ayrıştırılmamış bir uygulama yüklemek için dosya tarayıcısını açar",
-        "uk_UA": "Відкриває файловий провідник, щоб вибрати сумісну з комутатором розпаковану програму для завантаження",
+        "uk_UA": "Відкриває Файловий провідник, щоб обрати сумісну зі Switch розпаковану програму для завантаження",
         "zh_CN": "选择解包后的 Switch 游戏目录并加载",
         "zh_TW": "開啟檔案總管，選擇與 Switch 相容且未封裝的應用程式來載入"
       }
@@ -16215,7 +16265,7 @@
         "sv_SE": "Öppna en filutforskare för att välja en eller flera mappar att läsa in alla DLC från",
         "th_TH": "เปิดตัวสำรวจไฟล์เพื่อเลือกหนึ่งโฟลเดอร์ขึ้นไปเพื่อโหลด DLC จำนวนมาก",
         "tr_TR": "",
-        "uk_UA": "Відкрийте провідник файлів, щоб вибрати одну або кілька папок для масового завантаження DLC",
+        "uk_UA": "Відкриває Файловий провідник для обрання однієї або декількох тек для масового завантаження DLC",
         "zh_CN": "打开文件资源管理器以选择一个或多个文件夹来批量加载DLC。",
         "zh_TW": "開啟檔案總管，選擇一個或多個資料夾來大量載入 DLC"
       }
@@ -16240,7 +16290,7 @@
         "sv_SE": "Öppna en filutforskare för att välja en eller flera mappar att läsa in alla titeluppdateringar från",
         "th_TH": "เปิดตัวสำรวจไฟล์เพื่อเลือกหนึ่งโฟลเดอร์ขึ้นไปเพื่อโหลดไฟล์อัปเดตจำนวนมาก",
         "tr_TR": "",
-        "uk_UA": "Відкрийте провідник файлів, щоб вибрати одну або кілька папок для масового завантаження оновлень заголовків",
+        "uk_UA": "Відкриває Файловий провідник для обрання однієї або декількох тек для масового завантаження оновлень",
         "zh_CN": "打开文件资源管理器以选择一个或多个文件夹来批量加载游戏更新。",
         "zh_TW": "開啟檔案總管，選擇一個或多個資料夾來大量載入遊戲更新"
       }
@@ -16265,7 +16315,7 @@
         "sv_SE": "Öppna Ryujinx-filsystemsmappen",
         "th_TH": "เปิดโฟลเดอร์ระบบไฟล์ Ryujinx",
         "tr_TR": "Ryujinx dosya sistem klasörünü açar",
-        "uk_UA": "Відкриває теку файлової системи Ryujinx",
+        "uk_UA": "Відкриває теку з файлами Ryujinx",
         "zh_CN": "打开 Ryujinx 模拟器系统目录",
         "zh_TW": "開啟 Ryujinx 檔案系統資料夾"
       }
@@ -16290,7 +16340,7 @@
         "sv_SE": "Öppnar mappen där loggarna har skrivits till",
         "th_TH": "เปิดโฟลเดอร์ ที่เก็บไฟล์ประวัติ",
         "tr_TR": "Log dosyalarının bulunduğu klasörü açar",
-        "uk_UA": "Відкриває теку, куди записуються журнали",
+        "uk_UA": "Відкриває теку, куди записуються журнали (logs)",
         "zh_CN": "打开日志存放的目录",
         "zh_TW": "開啟日誌被寫入的資料夾"
       }
@@ -16665,7 +16715,7 @@
         "sv_SE": "Hantera fusk",
         "th_TH": "ฟังก์ชั่นจัดการสูตรโกง",
         "tr_TR": "Hileleri yönetmeyi sağlar",
-        "uk_UA": "Керування читами",
+        "uk_UA": "Відкриває меню керування чит-кодами (cheats)",
         "zh_CN": "管理当前游戏的金手指",
         "zh_TW": "管理密技"
       }
@@ -16715,7 +16765,7 @@
         "sv_SE": "Hantera moddar",
         "th_TH": "ฟังก์ชั่นจัดการม็อด",
         "tr_TR": "Modları Yönet",
-        "uk_UA": "Керування модами",
+        "uk_UA": "Відкриває меню керування модифікаціями (mods)",
         "zh_CN": "管理当前游戏的 MOD",
         "zh_TW": "管理模組"
       }
@@ -16940,7 +16990,7 @@
         "sv_SE": "CPU-cache",
         "th_TH": "แคชซีพียู",
         "tr_TR": "İşlemci Belleği",
-        "uk_UA": "Кеш ЦП",
+        "uk_UA": "Кеш CPU",
         "zh_CN": "CPU 缓存",
         "zh_TW": "CPU 快取"
       }
@@ -16965,7 +17015,7 @@
         "sv_SE": "CPU-läge",
         "th_TH": "โหมดซีพียู",
         "tr_TR": "CPU Hafızası",
-        "uk_UA": "Пам'ять ЦП",
+        "uk_UA": "Режим CPU",
         "zh_CN": "CPU 模式",
         "zh_TW": "CPU 模式"
       }
@@ -17040,7 +17090,7 @@
         "sv_SE": "Ikonstorlek",
         "th_TH": "ขนาดไอคอน",
         "tr_TR": "Ikon Boyutu",
-        "uk_UA": "Розмір значка",
+        "uk_UA": "Розмір обкладинки",
         "zh_CN": "图标尺寸",
         "zh_TW": "圖示大小"
       }
@@ -17065,7 +17115,7 @@
         "sv_SE": "Ändra storleken för spelikonerna",
         "th_TH": "เปลี่ยนขนาดของไอคอนเกม",
         "tr_TR": "Oyun ikonlarının boyutunu değiştirmeyi sağlar",
-        "uk_UA": "Змінити розмір значків гри",
+        "uk_UA": "Змінити розмір обкладинок (значків) ігор",
         "zh_CN": "更改游戏图标的显示尺寸",
         "zh_TW": "變更遊戲圖示的大小"
       }
@@ -17215,7 +17265,7 @@
         "sv_SE": "Applikationen hittades inte",
         "th_TH": "ไม่พบ แอปพลิเคชัน",
         "tr_TR": "Uygulama bulunamadı",
-        "uk_UA": "Додаток не знайдено",
+        "uk_UA": "Застосунок не знайдено",
         "zh_CN": "找不到游戏程序",
         "zh_TW": "找不到應用程式"
       }
@@ -17365,7 +17415,7 @@
         "sv_SE": "Ryujinx kunde inte hitta en giltig applikation i angiven sökväg.",
         "th_TH": "Ryujinx ไม่พบแอปพลิเคชันที่ถูกต้องในที่เก็บไฟล์ที่กำหนด",
         "tr_TR": "Ryujinx belirtilen yolda geçerli bir uygulama bulamadı.",
-        "uk_UA": "Ryujinx не вдалося знайти дійсний додаток за вказаним шляхом",
+        "uk_UA": "Ryujinx не вдалося знайти дійсний застосунок (гру) за вказаним шляхом",
         "zh_CN": "Ryujinx 模拟器在所选路径中找不到有效的游戏程序。",
         "zh_TW": "Ryujinx 無法在指定路徑下找到有效的應用程式。"
       }
@@ -17415,7 +17465,7 @@
         "sv_SE": "Ett odefinierat fel inträffade! Detta ska inte hända. Kontakta en utvecklare!",
         "th_TH": "เกิดข้อผิดพลาดที่ไม่สามารถระบุได้! สิ่งนี้ไม่ควรเกิดขึ้น โปรดติดต่อผู้พัฒนา!",
         "tr_TR": "Tanımlanmayan bir hata oluştu! Bu durum ile karşılaşılmamalıydı, lütfen bir geliştirici ile iletişime geçin!",
-        "uk_UA": "Сталася невизначена помилка! Цього не повинно статися, зверніться до розробника!",
+        "uk_UA": "Виникла невизначена помилка! Це не повинно було статися. Будь ласка, зверніться до розробника!",
         "zh_CN": "出现未定义错误！此类错误不应出现，请联系开发者！",
         "zh_TW": "發生未定義錯誤! 這種情況不應該發生，請聯絡開發人員!"
       }
@@ -17465,7 +17515,7 @@
         "sv_SE": "Ingen uppdatering",
         "th_TH": "ไม่มีการอัปเดต",
         "tr_TR": "Güncelleme Yok",
-        "uk_UA": "Немає оновлень",
+        "uk_UA": "НБез оновлень",
         "zh_CN": "无更新（默认版本）",
         "zh_TW": "沒有更新"
       }
@@ -17567,7 +17617,7 @@
         "tr_TR": "",
         "uk_UA": "Часткові",
         "zh_CN": "分区",
-        "zh_TW": ""
+        "zh_TW": "部分"
       }
     },
     {
@@ -17592,7 +17642,7 @@
         "tr_TR": "",
         "uk_UA": "Необрізані",
         "zh_CN": "没有瘦身的",
-        "zh_TW": ""
+        "zh_TW": "未修剪"
       }
     },
     {
@@ -17617,7 +17667,7 @@
         "tr_TR": "",
         "uk_UA": "Обрізані",
         "zh_CN": "经过瘦身的",
-        "zh_TW": ""
+        "zh_TW": "已修剪"
       }
     },
     {
@@ -17642,7 +17692,7 @@
         "tr_TR": "",
         "uk_UA": "(Невдача)",
         "zh_CN": "(失败)",
-        "zh_TW": ""
+        "zh_TW": "(失敗)"
       }
     },
     {
@@ -17667,7 +17717,7 @@
         "tr_TR": "",
         "uk_UA": "Зберегти {0:n0} Мб",
         "zh_CN": "能节约 {0:n0} Mb",
-        "zh_TW": ""
+        "zh_TW": "可節省 {0:n0} Mb"
       }
     },
     {
@@ -17692,7 +17742,7 @@
         "tr_TR": "",
         "uk_UA": "Збережено {0:n0} Мб",
         "zh_CN": "节约了 {0:n0} Mb",
-        "zh_TW": ""
+        "zh_TW": "已節省 {0:n0} Mb"
       }
     },
     {
@@ -17867,7 +17917,7 @@
         "tr_TR": "",
         "uk_UA": "",
         "zh_CN": "档案对话框",
-        "zh_TW": ""
+        "zh_TW": "Cabinet 對話方塊"
       }
     },
     {
@@ -17892,7 +17942,7 @@
         "tr_TR": "",
         "uk_UA": "Вкажіть Ваше нове ім'я Amiibo",
         "zh_CN": "输入你的 Amiibo 的新名字",
-        "zh_TW": ""
+        "zh_TW": "輸入 Amiibo 的新名稱"
       }
     },
     {
@@ -17917,7 +17967,7 @@
         "tr_TR": "",
         "uk_UA": "Будь ласка, проскануйте Ваш Amiibo.",
         "zh_CN": "请现在扫描你的 Amiibo",
-        "zh_TW": ""
+        "zh_TW": "請掃描你的 Amiibo。"
       }
     },
     {
@@ -19042,7 +19092,7 @@
         "tr_TR": "",
         "uk_UA": "Перевірити та Обрізати XCI файл",
         "zh_CN": "检查并瘦身XCI文件",
-        "zh_TW": ""
+        "zh_TW": "檢查及修剪 XCI 檔案"
       }
     },
     {
@@ -19065,9 +19115,9 @@
         "sv_SE": "Denna funktion kommer först att kontrollera ledigt utrymme och sedan optimera XCI-filen för att spara diskutrymme.",
         "th_TH": "",
         "tr_TR": "",
-        "uk_UA": "Ця функція спочатку перевірить вільний простір, а потім обрізатиме файл XCI для економії місця на диску.",
+        "uk_UA": "Ця функція спочатку перевірить наявність порожнього місця, після чого обріже файл XCI для економії місця на диску.",
         "zh_CN": "这个功能将会先检查XCI文件，再对其执行瘦身操作以节约磁盘空间。",
-        "zh_TW": ""
+        "zh_TW": "此功能首先檢查 XCI 檔案是否有可修剪的字元，然後修剪檔案以節省儲存空間。"
       }
     },
     {
@@ -19092,7 +19142,7 @@
         "tr_TR": "",
         "uk_UA": "Поточний розмір файла: {0:n} MB\nРозмір файлів гри: {1:n} MB\nЕкономія місця: {2:n} MB",
         "zh_CN": "当前文件大小: {0:n} MB\n游戏数据大小: {1:n} MB\n节约的磁盘空间: {2:n} MB",
-        "zh_TW": ""
+        "zh_TW": "現在的檔案大小: {0:n} MB\n遊戲資料大小: {1:n} MB\n節省的儲存空間: {2:n} MB"
       }
     },
     {
@@ -19115,9 +19165,9 @@
         "sv_SE": "XCI-filen behöver inte optimeras. Kontrollera loggen för mer information",
         "th_TH": "",
         "tr_TR": "",
-        "uk_UA": "XCI файл не потребує обрізання. Перевірте журнали для додаткової інформації",
+        "uk_UA": "XCI файл не потребує обрізання. Перевірте журнали (logs) для отримання додаткової інформації",
         "zh_CN": "XCI文件不需要被瘦身。查看日志以获得更多细节。",
-        "zh_TW": ""
+        "zh_TW": "XCI 檔案不需要修剪。檢查日誌以取得更多資訊"
       }
     },
     {
@@ -19140,9 +19190,9 @@
         "sv_SE": "XCI-filen kan inte avoptimeras. Kontrollera loggen för mer information",
         "th_TH": "",
         "tr_TR": "",
-        "uk_UA": "XCI файл не може бути обрізаний. Перевірте журнали для додаткової інформації",
+        "uk_UA": "XCI файл не може бути обрізаний. Перевірте журнали (logs) для отримання додаткової інформації",
         "zh_CN": "XCI文件不能被瘦身。查看日志以获得更多细节。",
-        "zh_TW": ""
+        "zh_TW": "XCI 檔案不能被修剪。檢查日誌以取得更多資訊"
       }
     },
     {
@@ -19165,9 +19215,9 @@
         "sv_SE": "XCI-filen är skrivskyddad och kunde inte göras skrivbar. Kontrollera loggen för mer information",
         "th_TH": "",
         "tr_TR": "",
-        "uk_UA": "XCI файл Тільки для Читання і не може бути прочитаним. Перевірте журнали додаткової інформації",
+        "uk_UA": "XCI файл Тільки для Читання і не може бути прочитаним. Перевірте журнали (logs) для отримання додаткової інформації",
         "zh_CN": "XCI文件是只读的，且不可以被标记为可读取的。查看日志以获得更多细节。",
-        "zh_TW": ""
+        "zh_TW": "XCI 檔案是唯讀，並且無法改成可寫入。檢查日誌以取得更多資訊"
       }
     },
     {
@@ -19192,7 +19242,7 @@
         "tr_TR": "",
         "uk_UA": "Розмір файлу XCI змінився з моменту сканування. Перевірте, чи не записується файл, та спробуйте знову",
         "zh_CN": "XCI文件在扫描后大小发生了变化。请检查文件是否未被写入，然后重试。",
-        "zh_TW": ""
+        "zh_TW": "XCI 檔案大小比較上次的掃瞄已經改變。請檢查檔案是否未被寫入，然後再嘗試。"
       }
     },
     {
@@ -19217,7 +19267,7 @@
         "tr_TR": "",
         "uk_UA": "Файл XCI містить дані в зоні вільного простору, тому обрізка небезпечна",
         "zh_CN": "XCI文件的空闲区域内有数据，不能安全瘦身。",
-        "zh_TW": ""
+        "zh_TW": "XCI 檔案有數據儲存於可節省儲存空間的區域，所以試圖修剪並不安全"
       }
     },
     {
@@ -19240,9 +19290,9 @@
         "sv_SE": "XCI-filen innehåller ogiltig data. Kontrollera loggen för mer information",
         "th_TH": "",
         "tr_TR": "",
-        "uk_UA": "XCI Файл містить недійсні дані. Перевірте журнали для додаткової інформації",
+        "uk_UA": "XCI Файл містить недійсні дані. Перевірте журнали (logs) для отримання додаткової інформації",
         "zh_CN": "XCI文件含有无效数据。查看日志以获得更多细节。",
-        "zh_TW": ""
+        "zh_TW": "XCI 檔案帶有無效的數據。檢查日誌以取得更多資訊"
       }
     },
     {
@@ -19267,7 +19317,7 @@
         "tr_TR": "",
         "uk_UA": "XCI Файл файл не вдалося відкрити для запису. Перевірте журнали для додаткової інформації",
         "zh_CN": "XCI文件不能被读写。查看日志以获得更多细节。",
-        "zh_TW": ""
+        "zh_TW": "XCI 檔案不能被寫入。檢查日誌以取得更多資訊"
       }
     },
     {
@@ -19292,7 +19342,7 @@
         "tr_TR": "",
         "uk_UA": "Не вдалося обрізати файл XCI",
         "zh_CN": "XCI文件瘦身失败",
-        "zh_TW": ""
+        "zh_TW": "修剪 XCI 檔案失敗"
       }
     },
     {
@@ -19317,7 +19367,7 @@
         "tr_TR": "",
         "uk_UA": "Операція перервана",
         "zh_CN": "操作已取消",
-        "zh_TW": ""
+        "zh_TW": "修剪已取消"
       }
     },
     {
@@ -19342,7 +19392,7 @@
         "tr_TR": "",
         "uk_UA": "Операція не проводилася",
         "zh_CN": "未执行操作",
-        "zh_TW": ""
+        "zh_TW": "沒有修剪"
       }
     },
     {
@@ -19492,7 +19542,7 @@
         "tr_TR": "",
         "uk_UA": "Обрізка XCI Файлів",
         "zh_CN": "XCI文件瘦身器",
-        "zh_TW": ""
+        "zh_TW": "XCI 檔案修剪器"
       }
     },
     {
@@ -19517,7 +19567,7 @@
         "tr_TR": "",
         "uk_UA": "{0} з {1} тайтл(ів) обрано",
         "zh_CN": "在 {1} 中选中了 {0} 个游戏 ",
-        "zh_TW": ""
+        "zh_TW": "已選擇 {1} 之 {0} 的遊戲"
       }
     },
     {
@@ -19542,7 +19592,7 @@
         "tr_TR": "",
         "uk_UA": "{0} з {1} тайтл(ів) обрано ({2} відображається)",
         "zh_CN": "在 {1} 中选中了 {0} 个游戏 （显示了 {2} 个）",
-        "zh_TW": ""
+        "zh_TW": "已選擇 {1} 之 {0} 的遊戲 (已顯示 {2} 個)"
       }
     },
     {
@@ -19567,7 +19617,7 @@
         "tr_TR": "",
         "uk_UA": "Обрізка {0} тайтл(ів)...",
         "zh_CN": "{0} 个游戏瘦身中。。。",
-        "zh_TW": ""
+        "zh_TW": "正在修剪 {0} 個遊戲..."
       }
     },
     {
@@ -19592,7 +19642,7 @@
         "tr_TR": "",
         "uk_UA": "Необрізаних {0} тайтл(ів)...",
         "zh_CN": "正在精简 {0} 个游戏",
-        "zh_TW": ""
+        "zh_TW": "正在反修剪 {0} 個遊戲..."
       }
     },
     {
@@ -19617,7 +19667,7 @@
         "tr_TR": "",
         "uk_UA": "Невдача",
         "zh_CN": "失败",
-        "zh_TW": ""
+        "zh_TW": "失敗"
       }
     },
     {
@@ -19642,7 +19692,7 @@
         "tr_TR": "",
         "uk_UA": "Потенційна економія",
         "zh_CN": "潜在的储存空间节省",
-        "zh_TW": ""
+        "zh_TW": "潛在節省的儲存空間"
       }
     },
     {
@@ -19667,7 +19717,7 @@
         "tr_TR": "",
         "uk_UA": "Зекономлено",
         "zh_CN": "实际的储存空间节省",
-        "zh_TW": ""
+        "zh_TW": "實際節省的儲存空間"
       }
     },
     {
@@ -19717,7 +19767,7 @@
         "tr_TR": "",
         "uk_UA": "Вибрати показане",
         "zh_CN": "选定显示的",
-        "zh_TW": ""
+        "zh_TW": "選擇已顯示"
       }
     },
     {
@@ -19742,7 +19792,7 @@
         "tr_TR": "",
         "uk_UA": "Скасувати вибір показаного",
         "zh_CN": "反选显示的",
-        "zh_TW": ""
+        "zh_TW": "取消選擇已顯示"
       }
     },
     {
@@ -19765,9 +19815,9 @@
         "sv_SE": "Titel",
         "th_TH": "",
         "tr_TR": "",
-        "uk_UA": "Заголовок",
+        "uk_UA": "Назва",
         "zh_CN": "标题",
-        "zh_TW": ""
+        "zh_TW": "名稱"
       }
     },
     {
@@ -19792,7 +19842,7 @@
         "tr_TR": "",
         "uk_UA": "Економія місця",
         "zh_CN": "节省空间",
-        "zh_TW": ""
+        "zh_TW": "節省的儲存空間"
       }
     },
     {
@@ -19817,7 +19867,7 @@
         "tr_TR": "",
         "uk_UA": "Обрізка",
         "zh_CN": "瘦身",
-        "zh_TW": ""
+        "zh_TW": "修剪"
       }
     },
     {
@@ -19842,7 +19892,7 @@
         "tr_TR": "",
         "uk_UA": "Зшивання",
         "zh_CN": "取消精简",
-        "zh_TW": ""
+        "zh_TW": "反修剪"
       }
     },
     {
@@ -19865,7 +19915,7 @@
         "sv_SE": "{0} nya uppdatering(ar) lades till",
         "th_TH": "{0} อัพเดตที่เพิ่มมาใหม่",
         "tr_TR": "",
-        "uk_UA": "{0} нове оновлення додано",
+        "uk_UA": "{0} нових оновлень додано",
         "zh_CN": "{0} 个更新被添加",
         "zh_TW": "已加入 {0} 個遊戲更新"
       }
@@ -19915,7 +19965,7 @@
         "sv_SE": "Fusk tillgängliga för {0} [{1}]",
         "th_TH": "สูตรโกงมีให้สำหรับ {0} [{1}]",
         "tr_TR": "{0} için Hile mevcut [{1}]",
-        "uk_UA": "Коди доступні для {0} [{1}]",
+        "uk_UA": "Чит-коди доступні для {0} [{1}]",
         "zh_CN": "适用于 {0} [{1}] 的金手指",
         "zh_TW": "可用於 {0} [{1}] 的密技"
       }
@@ -19965,7 +20015,7 @@
         "sv_SE": "Bundlade DLC kan inte tas bort, endast inaktiveras.",
         "th_TH": "แพ็ค DLC ไม่สามารถลบทิ้งได้ สามารถปิดใช้งานได้เท่านั้น",
         "tr_TR": "",
-        "uk_UA": "Вбудований DLC не може бути видаленим, лише вимкненим.",
+        "uk_UA": "Комплектні DLC (бандли) не можуть бути видаленими, лише вимкненими.",
         "zh_CN": "游戏整合的DLC无法移除，可尝试禁用。",
         "zh_TW": "附帶的 DLC 只能被停用而無法被刪除。"
       }
@@ -19992,7 +20042,7 @@
         "tr_TR": "",
         "uk_UA": "{0} DLC доступно",
         "zh_CN": "{0} 个 DLC",
-        "zh_TW": ""
+        "zh_TW": "{0} 個可下載內容"
       }
     },
     {
@@ -20192,7 +20242,7 @@
         "tr_TR": "",
         "uk_UA": "Продовжити",
         "zh_CN": "继续",
-        "zh_TW": ""
+        "zh_TW": "繼續"
       }
     },
     {
@@ -20390,7 +20440,7 @@
         "sv_SE": "Hantera uppdateringar för {0} ({1})",
         "th_TH": "จัดการอัพเดตสำหรับ {0} ({1})",
         "tr_TR": "{0} için güncellemeler mevcut [{1}]",
-        "uk_UA": "{0} Доступні оновлення для {1} ({2})",
+        "uk_UA": "Доступні оновлення для {0} ({1})",
         "zh_CN": "管理 {0} ({1}) 的更新",
         "zh_TW": "管理 {0} 的更新 ({1})"
       }
@@ -20567,7 +20617,7 @@
         "tr_TR": "",
         "uk_UA": "",
         "zh_CN": "自动",
-        "zh_TW": ""
+        "zh_TW": "自動"
       }
     },
     {
@@ -20592,7 +20642,7 @@
         "tr_TR": "",
         "uk_UA": "",
         "zh_CN": "使用Vulkan。\n在ARM Mac上，当玩在其下运行良好的游戏时，使用Metal后端。",
-        "zh_TW": ""
+        "zh_TW": "使用Vulkan。\n在 ARM Mac 上，如果遊戲執行性能良好時，則將使用 Metal 後端。"
       }
     },
     {
@@ -21365,7 +21415,7 @@
         "sv_SE": "Välj det skalfilter som ska tillämpas vid användning av upplösningsskala.\n\nBilinjär fungerar bra för 3D-spel och är ett säkert standardalternativ.\n\nNärmast rekommenderas för pixel art-spel.\n\nFSR 1.0 är bara ett skarpningsfilter, rekommenderas inte för FXAA eller SMAA.\n\nOmrådesskalning rekommenderas vid nedskalning av upplösning som är större än utdatafönstret. Det kan användas för att uppnå en supersamplad anti-alias-effekt vid nedskalning med mer än 2x.\n\nDetta alternativ kan ändras medan ett spel körs genom att klicka på \"Tillämpa\" nedan. du kan helt enkelt flytta inställningsfönstret åt sidan och experimentera tills du hittar ditt föredragna utseende för ett spel.\n\nLämna som BILINJÄR om du är osäker.",
         "th_TH": "เลือกตัวกรองสเกลที่จะใช้เมื่อใช้สเกลความละเอียด\n\nBilinear ทำงานได้ดีกับเกม 3D และเป็นตัวเลือกเริ่มต้นที่ปลอดภัย\n\nแนะนำให้ใช้เกมภาพพิกเซลที่ใกล้เคียงที่สุด\n\nFSR 1.0 เป็นเพียงตัวกรองความคมชัด ไม่แนะนำให้ใช้กับ FXAA หรือ SMAA\n\nตัวเลือกนี้สามารถเปลี่ยนแปลงได้ในขณะที่เกมกำลังทำงานอยู่โดยคลิก \"นำไปใช้\" ด้านล่าง คุณสามารถย้ายหน้าต่างการตั้งค่าไปด้านข้างและทดลองจนกว่าคุณจะพบรูปลักษณ์ที่คุณต้องการสำหรับเกม",
         "tr_TR": "Choose the scaling filter that will be applied when using resolution scale.\n\nBilinear works well for 3D games and is a safe default option.\n\nNearest is recommended for pixel art games.\n\nFSR 1.0 is merely a sharpening filter, not recommended for use with FXAA or SMAA.\n\nThis option can be changed while a game is running by clicking \"Apply\" below; you can simply move the settings window aside and experiment until you find your preferred look for a game.\n\nLeave on BILINEAR if unsure.",
-        "uk_UA": "Виберіть фільтр масштабування, що використається при збільшенні роздільної здатності.\n\n\"Білінійний\" добре виглядає в 3D іграх, і хороше налаштування за умовчуванням.\n\n\"Найближчий\" рекомендується для ігор з піксель-артом.\n\n\"FSR 1.0\" - це просто фільтр різкості, не рекомендується використовувати разом з FXAA або SMAA.\n\nЦю опцію можна міняти коли гра запущена кліком на \"Застосувати; ви можете відсунути вікно налаштувань і поекспериментувати з видом гри.\n\nЗалиште на \"Білінійний\", якщо не впевнені.",
+        "uk_UA": "Виберіть фільтр масштабування, що використається при збільшенні роздільної здатності.\n\n\"Білінійний\" добре виглядає в 3D іграх, і хороше налаштування за умовчуванням.\n\n\"Найближчий\" рекомендується для ігор з піксель-артом.\n\n\"FSR 1.0\" - фільтр різкості. Не варто використовувати разом з FXAA або SMAA.\n\nЦю опцію можна змінювати під час гри кліком на \"Застосувати\" нижче; ви можете відсунути вікно налаштувань і поекспериментувати з тим, як відображатиметься гра.\n\nЗалиште на \"Білінійний\", якщо не впевнені.",
         "zh_CN": "选择在分辨率缩放时将使用的缩放过滤器。\n\nBilinear（双线性过滤）对于3D游戏效果较好，是一个安全的默认选项。\n\nNearest（最近邻过滤）推荐用于像素艺术游戏。\n\nFSR（超级分辨率锐画）只是一个锐化过滤器，不推荐与 FXAA 或 SMAA 抗锯齿一起使用。\n\nArea（局部过滤），当渲染分辨率大于窗口实际分辨率，推荐该选项。该选项在渲染比例大于2.0的情况下，可以实现超采样的效果。\n\n在游戏运行时，通过点击下面的“应用”按钮可以使设置生效；你可以将设置窗口移开，并试验找到您喜欢的游戏画面效果。\n\n如果不确定，请保持为“Bilinear（双线性过滤）”。",
         "zh_TW": "選擇使用解析度縮放時套用的縮放過濾器。\n\n雙線性 (Bilinear) 濾鏡適用於 3D 遊戲，是一個安全的預設選項。\n\n建議像素美術遊戲使用近鄰性 (Nearest) 濾鏡。\n\nFSR 1.0 只是一個銳化濾鏡，不建議與 FXAA 或 SMAA 一起使用。\n\n此選項可在遊戲執行時透過點選下方的「套用」進行變更；您只需將設定視窗移到一旁，然後進行試驗，直到找到您喜歡的遊戲效果。\n\n如果不確定，請保持雙線性 (Bilinear) 狀態。"
       }
@@ -21467,7 +21517,7 @@
         "tr_TR": "",
         "uk_UA": "",
         "zh_CN": "Area（区域过滤）",
-        "zh_TW": ""
+        "zh_TW": "區域"
       }
     },
     {
@@ -21515,7 +21565,7 @@
         "sv_SE": "Ställ in nivå för FSR 1.0 sharpening. Högre är skarpare.",
         "th_TH": "ตั้งค่าระดับความคมชัด FSR 1.0 ยิ่งสูงกว่าจะยิ่งคมชัดกว่า",
         "tr_TR": "",
-        "uk_UA": "Встановити рівень різкості в FSR 1.0. Чим вище - тим різкіше.",
+        "uk_UA": "Встановити рівень різкості FSR 1.0. Чим вище - тим різкіше.",
         "zh_CN": "设置 FSR 1.0 的锐化等级，数值越高，图像越锐利。",
         "zh_TW": "設定 FSR 1.0 銳化等級。越高越清晰。"
       }
@@ -21992,7 +22042,7 @@
         "tr_TR": "",
         "uk_UA": "Вимкнути хостинг P2P мережі (може збільшити затримку)",
         "zh_CN": "禁用P2P网络连接 （也许会增加延迟）",
-        "zh_TW": ""
+        "zh_TW": "停用對等網路代管 (P2P Network Hosting) (可能增加網路延遲)"
       }
     },
     {
@@ -22017,7 +22067,7 @@
         "tr_TR": "",
         "uk_UA": "Вимкнути хостинг P2P мережі, піри будуть підключатися через майстер-сервер замість прямого з'єднання з вами.",
         "zh_CN": "禁用P2P网络连接，对方将通过主服务器进行连接，而不是直接连接到您。",
-        "zh_TW": ""
+        "zh_TW": "停用對等網路代管 (P2P Network Hosting), 用戶群會經過代理何服器而非直接連線至你的主機。"
       }
     },
     {
@@ -22042,7 +22092,7 @@
         "tr_TR": "",
         "uk_UA": "Мережевий пароль:",
         "zh_CN": "网络密码：",
-        "zh_TW": ""
+        "zh_TW": "網路密碼片語 (passphrase):"
       }
     },
     {
@@ -22067,7 +22117,7 @@
         "tr_TR": "",
         "uk_UA": "Ви зможете бачити лише ті ігри, які мають такий самий пароль, як і у вас.",
         "zh_CN": "您只能看到与您使用相同密码的游戏房间。",
-        "zh_TW": ""
+        "zh_TW": "你只會看到與你的密碼片語 (passphrase) 相同的遊戲房間。"
       }
     },
     {
@@ -22092,7 +22142,7 @@
         "tr_TR": "",
         "uk_UA": "Введіть пароль у форматі Ryujinx-<8 символів>. Ви зможете бачити лише ті ігри, які мають такий самий пароль, як і у вас.",
         "zh_CN": "以Ryujinx-<8个十六进制字符>的格式输入密码。您只能看到与您使用相同密码的游戏房间。",
-        "zh_TW": ""
+        "zh_TW": "以「Ryujinx-<8 個十六進制數字>」的格式輸入密碼片語 (passphrase)。你只會看到與你的密碼片語 (passphrase) 相同的遊戲房間。"
       }
     },
     {
@@ -22117,7 +22167,7 @@
         "tr_TR": "",
         "uk_UA": "(публічний)",
         "zh_CN": "（公开的）",
-        "zh_TW": ""
+        "zh_TW": "(公開模式)"
       }
     },
     {
@@ -22142,7 +22192,7 @@
         "tr_TR": "",
         "uk_UA": "Згенерувати випадкову",
         "zh_CN": "随机生成",
-        "zh_TW": ""
+        "zh_TW": "隨機產生"
       }
     },
     {
@@ -22167,7 +22217,7 @@
         "tr_TR": "",
         "uk_UA": "Генерує новий пароль, яким можна поділитися з іншими гравцями.",
         "zh_CN": "生成一个新的密码，可以与其他玩家共享。",
-        "zh_TW": ""
+        "zh_TW": "產生一組新的密碼片語 (passphrase), 以供分享給其他玩家。"
       }
     },
     {
@@ -22192,7 +22242,7 @@
         "tr_TR": "",
         "uk_UA": "Очистити",
         "zh_CN": "清除",
-        "zh_TW": ""
+        "zh_TW": "清除"
       }
     },
     {
@@ -22217,7 +22267,7 @@
         "tr_TR": "",
         "uk_UA": "Очищає поточну пароль, повертаючись до публічної мережі.",
         "zh_CN": "清除当前密码，返回公共网络。",
-        "zh_TW": ""
+        "zh_TW": "清除現有的密碼片語 (passphrase), 藉此公開網路連線。"
       }
     },
     {
@@ -22242,7 +22292,7 @@
         "tr_TR": "",
         "uk_UA": "Невірний пароль! Має бути в форматі \"Ryujinx-<8 символів>\"",
         "zh_CN": "无效密码！密码的格式必须是\"Ryujinx-<8个十六进制字符>\"",
-        "zh_TW": ""
+        "zh_TW": "無效的密碼片語 (passphrase)! 密碼片語必須是以「Ryujinx-<8 個十六進制數字>」的格式輸入"
       }
     },
     {
@@ -22267,7 +22317,7 @@
         "tr_TR": "",
         "uk_UA": "Вертикальна синхронізація (VSync):",
         "zh_CN": "垂直同步（VSync）",
-        "zh_TW": ""
+        "zh_TW": "垂直同步:"
       }
     },
     {
@@ -22292,7 +22342,7 @@
         "tr_TR": "",
         "uk_UA": "Увімкнути користувацьку частоту оновлення (Експериментально)",
         "zh_CN": "启动自定义刷新率（实验性功能）",
-        "zh_TW": ""
+        "zh_TW": "啟用自訂的重新整理頻率 (實驗性功能)"
       }
     },
     {
@@ -22342,7 +22392,7 @@
         "tr_TR": "",
         "uk_UA": "Безмежна",
         "zh_CN": "无限制",
-        "zh_TW": ""
+        "zh_TW": "沒有限制"
       }
     },
     {
@@ -22367,7 +22417,7 @@
         "tr_TR": "",
         "uk_UA": "Користувацька",
         "zh_CN": "自定义刷新率",
-        "zh_TW": ""
+        "zh_TW": "自訂的重新整理頻率"
       }
     },
     {
@@ -22390,9 +22440,9 @@
         "sv_SE": "Emulerad vertikal synk. 'Switch' emulerar Switchens uppdateringsfrekvens på 60Hz. 'Obunden' är en obegränsad uppdateringsfrekvens.",
         "th_TH": "",
         "tr_TR": "",
-        "uk_UA": "Емульована вертикальна синхронізація. 'Switch' емулює частоту оновлення Switch 60 Гц. 'Безмежна' — частота оновлення не матиме обмежень.",
+        "uk_UA": "Емульована вертикальна синхронізація кадрів. 'Switch' емулює частоту оновлення консолі Nintendo Switch (60 Гц). 'Необмежена' — частота оновлення не матиме обмежень.",
         "zh_CN": "模拟垂直同步。“Switch”模拟了Switch的60Hz刷新率。“无限制”没有刷新率限制。",
-        "zh_TW": ""
+        "zh_TW": "模擬垂直同步。「Switch」 模擬 Nintendo Switch 的 60Hz 重新整理頻率。「沒有限制」是沒有限制的重新整理頻率。"
       }
     },
     {
@@ -22415,9 +22465,9 @@
         "sv_SE": "Emulerad vertikal synk. 'Switch' emulerar Switchens uppdateringsfrekvens på 60Hz. 'Obunden' är en obegränsad uppdateringsfrekvens. 'Anpassad uppdateringsfrekvens' emulerar den angivna anpassade uppdateringsfrekvensen.",
         "th_TH": "",
         "tr_TR": "",
-        "uk_UA": "Емульована вертикальна синхронізація. 'Switch' емулює частоту оновлення Switch 60 Гц. 'Безмежна' — частота оновлення не матиме обмежень. 'Користувацька' емулює вказану користувацьку частоту оновлення.",
+        "uk_UA": "Емульована вертикальна синхронізація кадрів. 'Switch' емулює частоту оновлення консолі Nintendo Switch (60 Гц). 'Необмежена' — частота оновлення не матиме обмежень. 'Користувацька' емулює вказану користувацьку частоту оновлення.",
         "zh_CN": "模拟垂直同步。“Switch”模拟了Switch的60Hz刷新率。“无限制”没有刷新率限制。“自定义刷新率”模拟指定的自定义刷新率。",
-        "zh_TW": ""
+        "zh_TW": "模擬垂直同步。「Switch」 模擬 Nintendo Switch 的 60Hz 重新整理頻率。「沒有限制」是沒有限制的重新整理頻率。「自訂的重新整理頻率」模擬所自訂的重新整理頻率。"
       }
     },
     {
@@ -22440,9 +22490,9 @@
         "sv_SE": "Låter användaren ange en emulerad uppdateringsfrekvens. För vissa spel så kan detta snabba upp eller ner frekvensen för spellogiken. I andra spel så kan detta tillåta att bildfrekvensen kapas för delar av uppdateringsfrekvensen eller leda till oväntat beteende. Detta är en experimentell funktion utan några garantier för hur spelet påverkas. \n\nLämna AV om du är osäker.",
         "th_TH": "",
         "tr_TR": "",
-        "uk_UA": "Дозволяє користувачу вказати емульовану частоту оновлення. У деяких іграх це може прискорити або сповільнити логіку гри. У інших іграх це може дозволити обмежити FPS на певні кратні частоти оновлення або призвести до непередбачуваної поведінки. Це експериментальна функція, без гарантій того, як це вплине на ігровий процес. \n\nЗалиште ВИМКНЕНИМ, якщо не впевнені.",
+        "uk_UA": "Дозволяє користувачу вказати емульовану частоту оновлення. У деяких іграх це може прискорити або сповільнити логіку гри. Натомість в інших іграх ця функція може дозволити обмежити FPS на певні кратні частоти оновлення або призвести до непередбачуваної поведінки. Це експериментальна функція, без гарантій того, як вона вплине на ігровий процес. \n\nЗалиште ВИМКНЕНИМ, якщо не впевнені.",
         "zh_CN": "允许用户指定模拟刷新率。在某些游戏中，这可能会加快或减慢游戏逻辑的速度。在其他游戏中，它可能允许将FPS限制在刷新率的某个倍数，或者导致不可预测的行为。这是一个实验性功能，无法保证游戏会受到怎样的影响。\n\n如果不确定，请关闭。",
-        "zh_TW": ""
+        "zh_TW": "容許使用者自訂模擬的重新整理頻率。你可能會在某些遊戲裡感受到加快或減慢的遊戲速度；其他遊戲裡則可能會容許限制最高的 FPS 至重新整理頻率的倍數，或引起未知遊戲行為。這是實驗性功能，且沒有保證遊戲會穩定執行。\n\n如果不確定，請保持關閉狀態。"
       }
     },
     {
@@ -22467,7 +22517,7 @@
         "tr_TR": "",
         "uk_UA": "Цільове значення користувацької частоти оновлення.",
         "zh_CN": "目标自定义刷新率值。",
-        "zh_TW": ""
+        "zh_TW": "自訂的重新整理頻率數值。"
       }
     },
     {
@@ -22492,7 +22542,7 @@
         "tr_TR": "",
         "uk_UA": "Користувацька частота оновлення, як відсоток від стандартної частоти оновлення Switch.",
         "zh_CN": "自定义刷新率，占正常SWitch刷新率的百分比值。",
-        "zh_TW": ""
+        "zh_TW": "以 Nintendo Switch 重新整理頻率的百分比自訂重新整理頻率。"
       }
     },
     {
@@ -22517,7 +22567,7 @@
         "tr_TR": "",
         "uk_UA": "Користувацька частота оновлення %:",
         "zh_CN": "自定义刷新率值 %:",
-        "zh_TW": ""
+        "zh_TW": "自訂重新整理頻率 %:"
       }
     },
     {
@@ -22540,9 +22590,9 @@
         "sv_SE": "Värde för anpassad uppdateringsfrekvens:",
         "th_TH": "",
         "tr_TR": "",
-        "uk_UA": "Значення користувацька частота оновлення:",
+        "uk_UA": "Значення користувацької частоти оновлення:",
         "zh_CN": "自定义刷新率值：",
-        "zh_TW": ""
+        "zh_TW": "自訂重新整理頻率數值:"
       }
     },
     {
@@ -22567,7 +22617,7 @@
         "tr_TR": "",
         "uk_UA": "",
         "zh_CN": "间隔",
-        "zh_TW": ""
+        "zh_TW": "間隔"
       }
     },
     {
@@ -22592,7 +22642,7 @@
         "tr_TR": "",
         "uk_UA": "Перемкнути VSync режим:",
         "zh_CN": "设置 VSync 模式：",
-        "zh_TW": ""
+        "zh_TW": "切換 VSync 模式:"
       }
     },
     {
@@ -22617,7 +22667,7 @@
         "tr_TR": "",
         "uk_UA": "Підвищити користувацьку частоту оновлення",
         "zh_CN": "提高自定义刷新率：",
-        "zh_TW": ""
+        "zh_TW": "提高自訂的重新整理頻率"
       }
     },
     {
@@ -22642,7 +22692,7 @@
         "tr_TR": "",
         "uk_UA": "Понизити користувацьку частоту оновлення",
         "zh_CN": "降低自定义刷新率：",
-        "zh_TW": ""
+        "zh_TW": "降低自訂的重新整理頻率"
       }
     },
     {
@@ -22658,7 +22708,7 @@
         "it_IT": "",
         "ja_JP": "",
         "ko_KR": "",
-        "no_NO": "",
+        "no_NO": "Sist oppdatert: {0}",
         "pl_PL": "",
         "pt_BR": "",
         "ru_RU": "",
@@ -22667,7 +22717,7 @@
         "tr_TR": "",
         "uk_UA": "",
         "zh_CN": "最后更新于: {0}",
-        "zh_TW": ""
+        "zh_TW": "上次更新時間: {0}"
       }
     },
     {
@@ -22692,7 +22742,7 @@
         "tr_TR": "",
         "uk_UA": "",
         "zh_CN": "此兼容性列表可能包含过时的条目。\n不要只测试 \"进入游戏\" 状态的游戏。",
-        "zh_TW": ""
+        "zh_TW": "這個相容性列表可能含有已過時的紀錄。\n敬請繼續測試「大致可遊玩 (Ingame)」狀態的遊戲並回報以更新紀錄。"
       }
     },
     {
@@ -22717,7 +22767,7 @@
         "tr_TR": "",
         "uk_UA": "",
         "zh_CN": "正在搜索兼容性条目...",
-        "zh_TW": ""
+        "zh_TW": "搜尋相容性列表紀錄..."
       }
     },
     {
@@ -22742,7 +22792,7 @@
         "tr_TR": "",
         "uk_UA": "",
         "zh_CN": "打开兼容性列表",
-        "zh_TW": ""
+        "zh_TW": "開啟相容性列表"
       }
     },
     {
@@ -22767,7 +22817,7 @@
         "tr_TR": "",
         "uk_UA": "",
         "zh_CN": "仅显示拥有的游戏",
-        "zh_TW": ""
+        "zh_TW": "只顯示已擁有的遊戲"
       }
     },
     {
@@ -22792,7 +22842,7 @@
         "tr_TR": "",
         "uk_UA": "",
         "zh_CN": "可游玩",
-        "zh_TW": ""
+        "zh_TW": "可暢順遊玩 (Playable)"
       }
     },
     {
@@ -22817,7 +22867,7 @@
         "tr_TR": "",
         "uk_UA": "",
         "zh_CN": "进入游戏",
-        "zh_TW": ""
+        "zh_TW": "大致可遊玩 (Ingame)"
       }
     },
     {
@@ -22842,7 +22892,7 @@
         "tr_TR": "",
         "uk_UA": "",
         "zh_CN": "菜单",
-        "zh_TW": ""
+        "zh_TW": "只開啟至遊戲開始功能表 (Menus)"
       }
     },
     {
@@ -22867,7 +22917,7 @@
         "tr_TR": "",
         "uk_UA": "",
         "zh_CN": "启动",
-        "zh_TW": ""
+        "zh_TW": "只能啟動 (Boots)"
       }
     },
     {
@@ -22892,7 +22942,7 @@
         "tr_TR": "",
         "uk_UA": "",
         "zh_CN": "什么都没有",
-        "zh_TW": ""
+        "zh_TW": "無法啟動 (Nothing)"
       }
     }
   ]

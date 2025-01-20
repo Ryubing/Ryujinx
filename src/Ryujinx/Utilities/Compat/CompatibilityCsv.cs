@@ -28,7 +28,9 @@ namespace Ryujinx.Ava.Utilities.Compat
     
     public class CompatibilityCsv
     {
-        static CompatibilityCsv()
+        static CompatibilityCsv() => Load();
+
+        public static void Load()
         {
             using Stream csvStream = Assembly.GetExecutingAssembly()
                 .GetManifestResourceStream("RyujinxGameCompatibilityList")!;
@@ -37,15 +39,31 @@ namespace Ryujinx.Ava.Utilities.Compat
             using SepReader reader = Sep.Reader().From(csvStream);
             ColumnIndices columnIndices = new(reader.Header.IndexOf);
 
-            Entries = reader
+            _entries = reader
                 .Enumerate(row => new CompatibilityEntry(ref columnIndices, row))
                 .OrderBy(it => it.GameName)
                 .ToArray();
             
-            Logger.Debug?.Print(LogClass.UI, "Compatibility CSV loaded.", "LoadCompatCsv");
+            Logger.Debug?.Print(LogClass.UI, "Compatibility CSV loaded.", "LoadCompatibility");
         }
 
-        public static CompatibilityEntry[] Entries { get; private set; }
+        public static void Unload()
+        {
+            _entries = null;
+        }
+
+        private static CompatibilityEntry[] _entries;
+        
+        public static CompatibilityEntry[] Entries 
+        {
+            get
+            {
+                if (_entries == null)
+                    Load();
+                
+                return _entries;
+            }
+        }
     }
 
     public class CompatibilityEntry

@@ -54,5 +54,9 @@ namespace Ryujinx.Ava.Utilities
             appControl = new BlitStruct<ApplicationControlProperty>(0);
             return false;
         }
+
+        public bool CanStart(out ApplicationData appData,
+            out BlitStruct<ApplicationControlProperty> appControl)
+            => CanStart(null, out appData, out appControl);
     }
 }

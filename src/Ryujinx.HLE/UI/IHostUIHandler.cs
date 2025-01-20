@@ -1,4 +1,5 @@
 using Ryujinx.HLE.HOS.Applets;
+using Ryujinx.HLE.HOS.Services.Account.Acc;
 using Ryujinx.HLE.HOS.Services.Am.AppletOE.ApplicationProxyService.ApplicationProxy.Types;
 
 namespace Ryujinx.HLE.UI
@@ -59,5 +60,11 @@ namespace Ryujinx.HLE.UI
         /// Gets fonts and colors used by the host.
         /// </summary>
         IHostUITheme HostUITheme { get; }
+        
+        
+        /// <summary>
+        /// Displays the player select dialog and returns the selected profile.
+        /// </summary>
+        UserProfile ShowPlayerSelectDialog();
     }
 }

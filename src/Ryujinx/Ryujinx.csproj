@@ -166,12 +166,17 @@
     <EmbeddedResource Include="Assets\UIImages\Logo_GitHub_Light.png" />
     <EmbeddedResource Include="Assets\UIImages\Logo_Ryujinx.png" />
     <EmbeddedResource Include="Assets\UIImages\Logo_Ryujinx_AntiAlias.png" />
-    <EmbeddedResource Include="Headless\Ryujinx.bmp" LogicalName="HeadlessLogo" />
   </ItemGroup>
   <ItemGroup>
     <AdditionalFiles Include="Assets\locales.json" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Assets\Fonts\Mono\" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Update="UI\Applet\UserSelectorDialog.axaml.cs">
+      <DependentUpon>UserSelectorDialog.axaml</DependentUpon>
+      <SubType>Code</SubType>
+    </Compile>
   </ItemGroup>
 </Project>

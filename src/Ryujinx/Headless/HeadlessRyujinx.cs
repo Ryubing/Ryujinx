@@ -228,8 +228,6 @@ namespace Ryujinx.Headless
             _inputConfiguration ??= [];
             _enableKeyboard = option.EnableKeyboard;
             _enableMouse = option.EnableMouse;
-
-
             
             LoadPlayerConfiguration(option.InputProfile1Name, option.InputId1, PlayerIndex.Player1);
             LoadPlayerConfiguration(option.InputProfile2Name, option.InputId2, PlayerIndex.Player2); 
@@ -301,7 +299,10 @@ namespace Ryujinx.Headless
                 _userChannelPersistence.ShouldRestart = false;
             }
 
-            _inputManager.Dispose();
+            try
+            {
+                _inputManager.Dispose();
+            } catch {}
 
             return;
             
@@ -338,12 +339,12 @@ namespace Ryujinx.Headless
         {
             string label = state switch
             {
-                LoadState => $"PTC : {current}/{total}",
-                ShaderCacheState => $"Shaders : {current}/{total}",
-                _ => throw new ArgumentException($"Unknown Progress Handler type {typeof(T)}"),
+                LoadState => "PTC",
+                ShaderCacheState => "Shaders",
+                _ => throw new ArgumentException($"Unknown Progress Handler type {typeof(T)}")
             };
 
-            Logger.Info?.Print(LogClass.Application, label);
+            Logger.Info?.Print(LogClass.Application, $"{label} : {current}/{total}");
         }
 
         private static WindowBase CreateWindow(Options options)

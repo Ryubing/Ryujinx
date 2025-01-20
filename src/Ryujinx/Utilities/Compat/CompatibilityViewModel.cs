@@ -1,19 +1,18 @@
 ﻿using CommunityToolkit.Mvvm.ComponentModel;
-using ExCSS;
 using Gommon;
+using Ryujinx.Ava.UI.ViewModels;
 using Ryujinx.Ava.Utilities.AppLibrary;
 using System.Collections.Generic;
 using System.Linq;
 
 namespace Ryujinx.Ava.Utilities.Compat
 {
-    public partial class CompatibilityViewModel : ObservableObject
+    public class CompatibilityViewModel : BaseModel
     {
-        [ObservableProperty] private bool _onlyShowOwnedGames = true;
+        private bool _onlyShowOwnedGames = true;
 
         private IEnumerable<CompatibilityEntry> _currentEntries = CompatibilityCsv.Entries;
-        private readonly string[] _ownedGameTitleIds = [];
-        private readonly ApplicationLibrary _appLibrary;
+        private string[] _ownedGameTitleIds = [];
 
         public IEnumerable<CompatibilityEntry> CurrentEntries => OnlyShowOwnedGames
             ? _currentEntries.Where(x =>
@@ -24,14 +23,23 @@ namespace Ryujinx.Ava.Utilities.Compat
 
         public CompatibilityViewModel(ApplicationLibrary appLibrary)
         {
-            _appLibrary = appLibrary;
+            appLibrary.ApplicationCountUpdated += (_, _) 
+                => _ownedGameTitleIds = appLibrary.Applications.Keys.Select(x => x.ToString("X16")).ToArray();
+            
             _ownedGameTitleIds = appLibrary.Applications.Keys.Select(x => x.ToString("X16")).ToArray();
+        }
 
-            PropertyChanged += (_, args) =>
+        public bool OnlyShowOwnedGames
+        {
+            get => _onlyShowOwnedGames;
+            set
             {
-                if (args.PropertyName is nameof(OnlyShowOwnedGames))
-                    OnPropertyChanged(nameof(CurrentEntries));
-            };
+                OnPropertyChanging();
+                OnPropertyChanging(nameof(CurrentEntries));
+                _onlyShowOwnedGames = value;
+                OnPropertyChanged();
+                OnPropertyChanged(nameof(CurrentEntries));
+            }
         }
 
         public void Search(string searchTerm)

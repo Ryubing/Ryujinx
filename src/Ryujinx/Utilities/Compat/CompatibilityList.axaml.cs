@@ -1,11 +1,8 @@
 ﻿using Avalonia.Controls;
 using Avalonia.Styling;
 using FluentAvalonia.UI.Controls;
-using nietras.SeparatedValues;
 using Ryujinx.Ava.Common.Locale;
 using Ryujinx.Ava.UI.Helpers;
-using System.IO;
-using System.Reflection;
 using System.Threading.Tasks;
 
 namespace Ryujinx.Ava.Utilities.Compat
@@ -35,6 +32,8 @@ namespace Ryujinx.Ava.Utilities.Compat
             contentDialog.Styles.Add(closeButtonParent);
 
             await ContentDialogHelper.ShowAsync(contentDialog);
+            
+            CompatibilityCsv.Unload();
         }
         
         public CompatibilityList()

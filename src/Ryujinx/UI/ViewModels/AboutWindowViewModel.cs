@@ -27,7 +27,7 @@ namespace Ryujinx.Ava.UI.ViewModels
             ThemeManager.ThemeChanged += ThemeManager_ThemeChanged;
         }
 
-        private void ThemeManager_ThemeChanged(object sender, EventArgs e)
+        private void ThemeManager_ThemeChanged()
         {
             Dispatcher.UIThread.Post(() => UpdateLogoTheme(ConfigurationState.Instance.UI.BaseStyle.Value));
         }

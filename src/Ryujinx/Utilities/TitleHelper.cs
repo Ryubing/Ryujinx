@@ -4,7 +4,7 @@ namespace Ryujinx.Ava.Utilities
 {
     public static class TitleHelper
     {
-        public static string ActiveApplicationTitle(ProcessResult activeProcess, string applicationVersion, string pauseString = "")
+        public static string ActiveApplicationTitle(ProcessResult activeProcess, string applicationVersion, bool customTitlebar, string pauseString = "")
         {
             if (activeProcess == null)
                 return string.Empty;
@@ -14,7 +14,9 @@ namespace Ryujinx.Ava.Utilities
             string titleIdSection = $" ({activeProcess.ProgramIdText.ToUpper()})";
             string titleArchSection = activeProcess.Is64Bit ? " (64-bit)" : " (32-bit)";
 
-            string appTitle = $"Ryujinx {applicationVersion} -{titleNameSection}{titleVersionSection}{titleIdSection}{titleArchSection}";
+            string appTitle = customTitlebar 
+                ? $"Ryujinx {applicationVersion}\n{titleNameSection.Trim()}\n{titleVersionSection.Trim()}\n{titleIdSection.Trim()}{titleArchSection}"
+                : $"Ryujinx {applicationVersion} -{titleNameSection}{titleVersionSection}{titleIdSection}{titleArchSection}";
 
             return !string.IsNullOrEmpty(pauseString)
                 ? appTitle + $" ({pauseString})"

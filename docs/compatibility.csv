@@ -167,7 +167,7 @@
 01006C40086EA000,"AeternoBlade",nvdec,playable,2020-12-14 20:06:48
 0100B1C00949A000,"AeternoBlade Demo",nvdec,playable,2021-02-09 14:39:26
 01009D100EA28000,"AeternoBlade II",online-broken;UE4;vulkan-backend-bug,playable,2022-09-12 21:11:18
-,"AeternoBlade II Demo Version",gpu;nvdec,ingame,2021-02-09 15:10:19
+0100B1C00949A000,"AeternoBlade II Demo Version",gpu;nvdec,ingame,2021-02-09 15:10:19
 01001B400D334000,"AFL Evolution 2",slow;online-broken;UE4,playable,2022-12-07 12:45:56
 0100DB100BBCE000,"Afterparty",,playable,2022-09-22 12:23:19
 010087C011C4E000,"Agatha Christie - The ABC Murders",,playable,2020-10-27 17:08:23
@@ -477,7 +477,7 @@
 010020700DE04000,"Bear With Me: The Lost Robots",nvdec,playable,2021-02-27 14:20:10
 010024200E97E800,"Bear With Me: The Lost Robots Demo",nvdec,playable,2021-02-12 22:38:12
 0100C0E014A4E000,"Bear's Restaurant",,playable,2024-08-11 21:26:59
-,"BEAST Darling! ~Kemomimi Danshi to Himitsu no Ryou~",crash,menus,2020-10-04 06:12:08
+010045F00BF64000,"BEAST Darling! ~Kemomimi Danshi to Himitsu no Ryou~",crash,menus,2020-10-04 06:12:08
 01009C300BB4C000,"Beat Cop",,playable,2021-01-06 19:26:48
 01002D20129FC000,"Beat Me!",online-broken,playable,2022-10-16 21:59:26
 01006B0014590000,"BEAUTIFUL DESOLATION",gpu;nvdec,ingame,2022-10-26 10:34:38
@@ -703,7 +703,7 @@
 01006A30124CA000,"Chocobo GP",gpu;crash,ingame,2022-06-04 14:52:18
 0100BF600BF26000,"Chocobo's Mystery Dungeon EVERY BUDDY!",slow,playable,2020-05-26 13:53:13
 01000BA0132EA000,"Choices That Matter: And The Sun Went Out",,playable,2020-12-17 15:44:08
-,"Chou no Doku Hana no Kusari: Taishou Irokoi Ibun",gpu;nvdec,ingame,2020-09-28 17:58:04
+0100A1200CA3C000,"Chou no Doku Hana no Kusari: Taishou Irokoi Ibun",gpu;nvdec,ingame,2020-09-28 17:58:04
 010039A008E76000,"ChromaGun",,playable,2020-05-26 12:56:42
 010006800E13A000,"Chronos: Before the Ashes",UE4;gpu;nvdec,ingame,2020-12-11 22:16:35
 010039700BA7E000,"Circle of Sumo",,playable,2020-05-22 12:45:21
@@ -769,7 +769,7 @@
 0100CCB01B1A0000,"COSMIC FANTASY COLLECTION",,ingame,2024-05-21 17:56:37
 010067C00A776000,"Cosmic Star Heroine",,playable,2021-02-20 14:30:47
 01003DD00F94A000,"COTTOn Reboot! [ コットン リブート！ ]",,playable,2022-05-24 16:29:24
-,"Cotton/Guardian Saturn Tribute Games",gpu,boots,2022-11-27 21:00:51
+010077001526E000,"Cotton/Guardian Saturn Tribute Games",gpu,boots,2022-11-27 21:00:51
 01000E301107A000,"Couch Co-Op Bundle Vol. 2",nvdec,playable,2022-10-02 12:04:21
 0100C1E012A42000,"Country Tales",,playable,2021-06-17 16:45:39
 01003370136EA000,"Cozy Grove",gpu,ingame,2023-07-30 22:22:19
@@ -830,7 +830,7 @@
 01003ED0099B0000,"Danger Mouse: The Danger Games",crash;online,boots,2022-07-22 15:49:45
 0100EFA013E7C000,"Danger Scavenger",nvdec,playable,2021-04-17 15:53:04
 0100417007F78000,"Danmaku Unlimited 3",,playable,2020-11-15 00:48:35
-,"Darius Cozmic Collection",,playable,2021-02-19 20:59:06
+01000330105BE000,"Darius Cozmic Collection",,playable,2021-02-19 20:59:06
 010059C00BED4000,"Darius Cozmic Collection Special Edition",,playable,2022-07-22 16:26:50
 010015800F93C000,"Dariusburst - Another Chronicle EX+",online,playable,2021-04-05 14:21:43
 01003D301357A000,"Dark Arcana: The Carnival",gpu;slow,ingame,2022-02-19 08:52:28
@@ -859,7 +859,7 @@
 010095A011A14000,"Deadly Days",,playable,2020-11-27 13:38:55
 0100BAC011928000,"Deadly Premonition 2: A Blessing In Disguise",,playable,2021-06-15 14:12:36
 0100EBE00F22E000,"Deadly Premonition Origins",32-bit;nvdec,playable,2024-03-25 12:47:46
-,"Dear Magi - Mahou Shounen Gakka -",,playable,2020-11-22 16:45:16
+010015600D814000,"Dear Magi - Mahou Shounen Gakka -",,playable,2020-11-22 16:45:16
 01000D60126B6000,"Death and Taxes",,playable,2020-12-15 20:27:49
 010012B011AB2000,"Death Come True",nvdec,playable,2021-06-10 22:30:49
 0100F3B00CF32000,"Death Coming",crash,nothing,2022-02-06 07:43:03
@@ -902,13 +902,13 @@
 010023600C704000,"Deponia",nvdec,playable,2021-01-26 17:17:19
 0100ED700469A000,"Deru - The Art of Cooperation",,playable,2021-01-07 16:59:59
 0100D4600D0E4000,"Descenders",gpu,ingame,2020-12-10 15:22:36
-,"Desire remaster ver.",crash,boots,2021-01-17 02:34:37
+0100D870102BC000,"Desire remaster ver.",crash,boots,2021-01-17 02:34:37
 010069500DD86000,"Destiny Connect: Tick-Tock Travelers",UE4;gpu;nvdec,ingame,2020-12-16 12:20:36
 01008BB011ED6000,"Destrobots",,playable,2021-03-06 14:37:05
 01009E701356A000,"Destroy All Humans!",gpu;nvdec;UE4,ingame,2023-01-14 22:23:53
 010030600E65A000,"Detective Dolittle",,playable,2021-03-02 14:03:59
 01009C0009842000,"Detective Gallo",nvdec,playable,2022-07-24 11:51:04
-,"Detective Jinguji Saburo Prism of Eyes",,playable,2020-10-02 21:54:41
+01002D400B0F6000,"Detective Jinguji Saburo Prism of Eyes",,playable,2020-10-02 21:54:41
 010007500F27C000,"Detective Pikachu™ Returns",,playable,2023-10-07 10:24:59
 010031B00CF66000,"Devil Engine",,playable,2021-06-04 11:54:30
 01002F000E8F2000,"Devil Kingdom",,playable,2023-01-31 08:58:44
@@ -1057,7 +1057,7 @@
 01004F000B716000,"Edna & Harvey: The Breakout – Anniversary Edition",crash;nvdec,ingame,2022-08-01 16:59:56
 01002550129F0000,"Effie",,playable,2022-10-27 14:36:39
 0100CC0010A46000,"Ego Protocol: Remastered",nvdec,playable,2020-12-16 20:16:35
-,"Eiga Sumikko Gurashi Tobidasu Ehon to Himitsu no Ko Game de Asobo Ehon no Sekai",,playable,2020-11-12 00:11:50
+01004CC00B352000,"Eiga Sumikko Gurashi Tobidasu Ehon to Himitsu no Ko Game de Asobo Ehon no Sekai",,playable,2020-11-12 00:11:50
 01003AD013BD2000,"Eight Dragons",nvdec,playable,2022-10-27 14:47:28
 010020A01209C000,"El Hijo - A Wild West Tale",nvdec,playable,2021-04-19 17:44:08
 0100B5B00EF38000,"Elden: Path of the Forgotten",,playable,2020-12-15 00:33:19
@@ -1123,7 +1123,7 @@
 01005C10136CA000,"Fantasy Tavern Sextet -Vol.2 Adventurer's Days-",gpu;slow;crash,ingame,2021-11-06 02:57:29
 010022700E7D6000,"FAR: Lone Sails",,playable,2022-09-06 16:33:05
 0100C9E00FD62000,"Farabel",,playable,2020-08-03 17:47:28
-,"Farm Expert 2019 for Nintendo Switch",,playable,2020-07-09 21:42:57
+0100ECD00C806000,"Farm Expert 2019 for Nintendo Switch",,playable,2020-07-09 21:42:57
 01000E400ED98000,"Farm Mystery",nvdec,playable,2022-09-06 16:46:47
 010086B00BB50000,"Farm Together",,playable,2021-01-19 20:01:19
 0100EB600E914000,"Farming Simulator 20",nvdec,playable,2021-06-13 10:52:44
@@ -1246,12 +1246,12 @@
 0100ECE00C0C4000,"Fury Unleashed",crash;services,ingame,2020-10-18 11:52:40
 010070000ED9E000,"Fury Unleashed Demo",,playable,2020-10-08 20:09:21
 0100E1F013674000,"FUSER™",nvdec;UE4,playable,2022-10-17 20:58:32
-,"Fushigi no Gensokyo Lotus Labyrinth",Needs Update;audio;gpu;nvdec,ingame,2021-01-20 15:30:02
+0100A7A015E4C000,"Fushigi no Gensokyo Lotus Labyrinth",Needs Update;audio;gpu;nvdec,ingame,2021-01-20 15:30:02
 01003C300B274000,"Futari de! Nyanko Daisensou",,playable,2024-01-05 22:26:52
 010055801134E000,"FUZE Player",online-broken;vulkan-backend-bug,ingame,2022-10-18 12:23:53
 0100EAD007E98000,"FUZE4 Nintendo Switch",vulkan-backend-bug,playable,2022-09-06 19:25:01
 010067600F1A0000,"FuzzBall",crash,nothing,2021-03-29 20:13:21
-,"G-MODE Archives 06 The strongest ever Julia Miyamoto",,playable,2020-10-15 13:06:26
+0100275011e54000,"G-MODE Archives 06 The strongest ever Julia Miyamoto",,playable,2020-10-15 13:06:26
 0100EB10108EA000,"G.I. Joe: Operation Blackout",UE4;crash,boots,2020-11-21 12:37:44
 010048600B14E000,"Gal Metal",,playable,2022-07-27 20:57:48
 010024700901A000,"Gal*Gun 2",nvdec;UE4,playable,2022-07-27 12:45:37
@@ -1370,7 +1370,7 @@
 01006F80082E4000,"GUILTY GEAR XX ACCENT CORE PLUS R",nvdec,playable,2021-01-13 09:28:33
 01003C6008940000,"GUNBIRD for Nintendo Switch",32-bit,playable,2021-06-04 19:16:01
 0100BCB00AE98000,"GUNBIRD2 for Nintendo Switch",,playable,2020-10-10 14:41:16
-,"Gunka o haita neko",gpu;nvdec,ingame,2020-08-25 12:37:56
+01003FF010312000,"Gunka o haita neko",gpu;nvdec,ingame,2020-08-25 12:37:56
 010061000D318000,"Gunman Clive HD Collection",,playable,2020-10-09 12:17:35
 01006D4003BCE000,"Guns, Gore and Cannoli 2",online,playable,2021-01-06 18:43:59
 01008C800E654000,"Gunvolt Chronicles Luminous Avenger iX - Retail Version",,playable,2020-06-16 22:47:07
@@ -1564,7 +1564,7 @@
 0100BDC00A664000,"KAMEN RIDER CLIMAX SCRAMBLE",nvdec;ldn-untested,playable,2024-07-03 08:51:11
 0100A9801180E000,"KAMEN RIDER memory of heroez / Premium Sound Edition",,playable,2022-12-06 03:14:26
 010085300314E000,"KAMIKO",,playable,2020-05-13 12:48:57
-,"Kangokuto Mary Skelter Finale",audio;crash,ingame,2021-01-09 22:39:28
+010042C011736000,"Kangokuto Mary Skelter Finale",audio;crash,ingame,2021-01-09 22:39:28
 01007FD00DB20000,"Katakoi Contrast - collection of branch -",nvdec,playable,2022-12-09 09:41:26
 0100D7000C2C6000,"Katamari Damacy REROLL",,playable,2022-08-02 21:35:05
 0100F9800EDFA000,"KATANA KAMI: A Way of the Samurai Story",slow,playable,2022-04-09 10:40:16
@@ -1581,7 +1581,7 @@
 0100FB400D832000,"KILL la KILL -IF",,playable,2020-06-09 14:47:08
 010011B00910C000,"Kill The Bad Guy",,playable,2020-05-12 22:16:10
 0100F2900B3E2000,"Killer Queen Black",ldn-untested;online,playable,2021-04-08 12:46:18
-,"Kin'iro no Corda Octave",,playable,2020-09-22 13:23:12
+010014A00C5E0000,"Kin'iro no Corda Octave",,playable,2020-09-22 13:23:12
 010089000F0E8000,"Kine",UE4,playable,2022-09-14 14:28:37
 0100E6B00FFBA000,"King Lucas",,playable,2022-09-21 19:43:23
 0100B1300783E000,"King Oddball",,playable,2020-05-13 13:47:57
@@ -1612,7 +1612,7 @@
 01009EF00DDB4000,"Knockout City™",services;online-broken,boots,2022-12-09 09:48:58
 0100C57019BA2000,"Koa and the Five Pirates of Mara",gpu,ingame,2024-07-11 16:14:44
 01001E500401C000,"Koi DX",,playable,2020-05-11 21:37:51
-,"Koi no Hanasaku Hyakkaen",32-bit;gpu;nvdec,ingame,2020-10-03 14:17:10
+010052300F612000,"Koi no Hanasaku Hyakkaen",32-bit;gpu;nvdec,ingame,2020-10-03 14:17:10
 01005D200C9AA000,"Koloro",,playable,2022-08-03 12:34:02
 0100464009294000,"Kona",,playable,2022-08-03 12:48:19
 010016C011AAA000,"Kono Subarashii Sekai ni Shukufuku o Kono Yokubo no Isho ni Choai o",,playable,2023-04-26 09:51:08
@@ -1779,8 +1779,8 @@
 0100EC000CE24000,"Mech Rage",,playable,2020-11-18 12:30:16
 0100C4F005EB4000,"Mecho Tales",,playable,2022-08-04 17:03:19
 0100E4600D31A000,"Mechstermination Force",,playable,2024-07-04 05:39:15
-,"Medarot Classics Plus Kabuto Ver",,playable,2020-11-21 11:31:18
-,"Medarot Classics Plus Kuwagata Ver",,playable,2020-11-21 11:30:40
+01007580124C0000,"Medarot Classics Plus Kabuto Ver",,playable,2020-11-21 11:31:18
+0100228012682000,"Medarot Classics Plus Kuwagata Ver",,playable,2020-11-21 11:30:40
 0100BBC00CB9A000,"Mega Mall Story",slow,playable,2022-08-04 17:10:58
 0100B0C0086B0000,"Mega Man 11",,playable,2021-04-26 12:07:53
 010038E016264000,"Mega Man Battle Network Legacy Collection Vol. 1",,playable,2023-04-25 03:55:57
@@ -1797,7 +1797,7 @@
 0100B360068B2000,"Mekorama",gpu,boots,2021-06-17 16:37:21
 01000FA010340000,"Melbits World",nvdec;online,menus,2021-11-26 13:51:22
 0100F68019636000,"Melon Journey",,playable,2023-04-23 21:20:01
-,"Memories Off -Innocent Fille- for Dearest",,playable,2020-08-04 07:31:22
+010079C012896000,"Memories Off -Innocent Fille- for Dearest",,playable,2020-08-04 07:31:22
 010062F011E7C000,"Memory Lane",UE4,playable,2022-10-05 14:31:03
 0100EBE00D5B0000,"Meow Motors",UE4;gpu,ingame,2020-12-18 00:24:01
 0100273008FBC000,"Mercenaries Saga Chronicles",,playable,2021-01-10 12:48:19
@@ -1873,7 +1873,7 @@
 010093A01305C000,"Monster Hunter Rise Demo",online-broken;ldn-works;demo,playable,2022-10-18 23:04:17
 0100E21011446000,"Monster Hunter Stories 2: Wings of Ruin",services,ingame,2022-07-10 19:27:30
 010042501329E000,"MONSTER HUNTER STORIES 2: WINGS OF RUIN Trial Version",demo,playable,2022-11-13 22:20:26
-,"Monster Hunter XX Demo",32-bit;cpu,nothing,2020-03-22 10:12:28
+0100C51003B46000,"Monster Hunter XX Demo",32-bit;cpu,nothing,2020-03-22 10:12:28
 0100C3800049C000,"Monster Hunter XX Nintendo Switch Ver ( Double Cross )",,playable,2024-07-21 14:08:09
 010088400366E000,"Monster Jam Crush It!",UE4;nvdec;online,playable,2021-04-08 19:29:27
 010095C00F354000,"Monster Jam Steel Titans",crash;nvdec;UE4,menus,2021-11-14 09:45:38
@@ -1917,7 +1917,7 @@
 010035901046C000,"Mushroom Quest",,playable,2020-05-17 13:07:08
 0100700006EF6000,"Mushroom Wars 2",nvdec,playable,2020-09-28 15:26:08
 010046400F310000,"Music Racer",,playable,2020-08-10 08:51:23
-,"Musou Orochi 2 Ultimate",crash;nvdec,boots,2021-04-09 19:39:16
+0100153006300000,"Musou Orochi 2 Ultimate",crash;nvdec,boots,2021-04-09 19:39:16
 0100F6000EAA8000,"Must Dash Amigos",,playable,2022-09-20 16:45:56
 01007B6006092000,"MUSYNX",,playable,2020-05-08 14:24:43
 0100C3E00ACAA000,"Mutant Football League: Dynasty Edition",online-broken,playable,2022-08-05 17:01:51
@@ -1948,7 +1948,7 @@
 0100A6F00AC70000,"NAIRI: Tower of Shirin",nvdec,playable,2020-08-09 19:49:12
 010002F001220000,"NAMCO MUSEUM",ldn-untested,playable,2024-08-13 07:52:21
 0100DAA00AEE6000,"NAMCO MUSEUM™ ARCADE PAC™",,playable,2021-06-07 21:44:50
-,"NAMCOT COLLECTION",audio,playable,2020-06-25 13:35:22
+010039F010E14000,"NAMCOT COLLECTION",audio,playable,2020-06-25 13:35:22
 010072B00BDDE000,"Narcos: Rise of the Cartels",UE4;crash;nvdec,boots,2021-03-22 13:18:47
 01006BB00800A000,"NARUTO SHIPPUDEN: Ultimate Ninja STORM 3 Full Burst",nvdec,playable,2024-06-16 14:58:05
 010084D00CF5E000,"NARUTO SHIPPUDEN™: Ultimate Ninja® STORM 4 ROAD TO BORUTO",,playable,2024-06-29 13:04:22
@@ -2089,11 +2089,11 @@
 0100F9D00C186000,"Olympia Soiree",,playable,2022-12-04 21:07:12
 0100A8B00E14A000,"Olympic Games Tokyo 2020 – The Official Video Game™",ldn-untested;nvdec;online,playable,2021-01-06 01:20:24
 01001D600E51A000,"Omega Labyrinth Life",,playable,2021-02-23 21:03:03
-,"Omega Vampire",nvdec,playable,2020-10-17 19:15:35
+01005DE00CA34000,"Omega Vampire",nvdec,playable,2020-10-17 19:15:35
 0100CDC00C40A000,"Omensight: Definitive Edition",UE4;crash;nvdec,ingame,2020-07-26 01:45:14
 01006DB00D970000,"OMG Zombies!",32-bit,playable,2021-04-12 18:04:45
 010014E017B14000,"OMORI",,playable,2023-01-07 20:21:02
-,"Once Upon A Coma",nvdec,playable,2020-08-01 12:09:39
+0100A5F011800000,"Once Upon A Coma",nvdec,playable,2020-08-01 12:09:39
 0100BD3006A02000,"One More Dungeon",,playable,2021-01-06 09:10:58
 010076600FD64000,"One Person Story",,playable,2020-07-14 11:51:02
 0100774009CF6000,"ONE PIECE Pirate Warriors 3 Deluxe Edition",nvdec,playable,2020-05-10 06:23:52
@@ -2184,7 +2184,7 @@
 010062B01525C000,"Persona 4 Golden",,playable,2024-08-07 17:48:07
 01005CA01580E000,"Persona 5 Royal",gpu,ingame,2024-08-17 21:45:15
 010087701B092000,"Persona 5 Tactica",,playable,2024-04-01 22:21:03
-,"Persona 5: Scramble",deadlock,boots,2020-10-04 03:22:29
+0100E4F010D92000,"Persona 5: Scramble",deadlock,boots,2020-10-04 03:22:29
 0100801011C3E000,"Persona® 5 Strikers",nvdec;mac-bug,playable,2023-09-26 09:36:01
 010044400EEAE000,"Petoons Party",nvdec,playable,2021-03-02 21:07:58
 010053401147C000,"PGA TOUR 2K21",deadlock;nvdec,ingame,2022-10-05 21:53:50
@@ -2273,7 +2273,7 @@
 0100D1C01C194000,"Powerful Pro Baseball 2024-2025",gpu,ingame,2024-08-25 06:40:48
 01008E100E416000,"PowerSlave Exhumed",gpu,ingame,2023-07-31 23:19:10
 010054F01266C000,"Prehistoric Dude",gpu,ingame,2020-10-12 12:38:48
-,"Pretty Princess Magical Coordinate",,playable,2020-10-15 11:43:41
+0100DB200D3E4000,"Pretty Princess Magical Coordinate",,playable,2020-10-15 11:43:41
 01007F00128CC000,"Pretty Princess Party",,playable,2022-10-19 17:23:58
 010009300D278000,"Preventive Strike",nvdec,playable,2022-10-06 10:55:51
 0100210019428000,"Prince of Persia The Lost Crown",crash,ingame,2024-06-08 21:31:58
@@ -2294,13 +2294,13 @@
 0100ACE00DAB6000,"Project Nimbus: Complete Edition",nvdec;UE4;vulkan-backend-bug,playable,2022-08-10 17:35:43
 01002980140F6000,"Project TRIANGLE STRATEGY™ Debut Demo",UE4;demo,playable,2022-10-24 21:40:27
 0100BDB01150E000,"Project Warlock",,playable,2020-06-16 10:50:41
-,"Psikyo Collection Vol 1",32-bit,playable,2020-10-11 13:18:47
+01009F100BC52000,"Psikyo Collection Vol 1",32-bit,playable,2020-10-11 13:18:47
 0100A2300DB78000,"Psikyo Collection Vol. 3",,ingame,2021-06-07 02:46:23
 01009D400C4A8000,"Psikyo Collection Vol.2",32-bit,playable,2021-06-07 03:22:07
 01007A200F2E2000,"Psikyo Shooting Stars Alpha",32-bit,playable,2021-04-13 12:03:43
 0100D7400F2E4000,"Psikyo Shooting Stars Bravo",32-bit,playable,2021-06-14 12:09:07
 0100EC100A790000,"PSYVARIAR DELTA",nvdec,playable,2021-01-20 13:01:46
-,"Puchitto kurasutā",Need-Update;crash;services,menus,2020-07-04 16:44:28
+0100AE700F184000,"Puchitto kurasutā",Need-Update;crash;services,menus,2020-07-04 16:44:28
 0100D61010526000,"Pulstario",,playable,2022-10-06 11:02:01
 01009AE00B788000,"Pumped BMX Pro",nvdec;online-broken,playable,2022-09-20 17:40:50
 01006C10131F6000,"Pumpkin Jack",nvdec;UE4,playable,2022-10-13 12:52:32
@@ -2325,7 +2325,7 @@
 0100DCF00F13A000,"Queen's Quest 4: Sacred Truce",nvdec,playable,2022-10-13 12:59:21
 0100492012378000,"Quell",gpu,ingame,2021-06-11 15:59:53
 01001DE005012000,"Quest of Dungeons",,playable,2021-06-07 10:29:22
-,"QuietMansion2",,playable,2020-09-03 14:59:35
+010067D011E68000,"QuietMansion2",,playable,2020-09-03 14:59:35
 0100AF100EE76000,"Quiplash 2 InterLASHional: The Say Anything Party Game!",online-working,playable,2022-10-19 17:43:45
 0100E5400BE64000,"R-Type Dimensions EX",,playable,2020-10-09 12:04:43
 0100F930136B6000,"R-Type® Final 2",slow;nvdec;UE4,ingame,2022-10-30 21:46:29
@@ -2383,7 +2383,7 @@
 01007A800D520000,"Refunct",UE4,playable,2020-12-15 22:46:21
 0100FDF0083A6000,"Regalia: Of Men and Monarchs - Royal Edition",,playable,2022-08-11 12:24:01
 01005FD00F15A000,"Regions of Ruin",,playable,2020-08-05 11:38:58
-,"Reine des Fleurs",cpu;crash,boots,2020-09-27 18:50:39
+0100B5800C0E4000,"Reine des Fleurs",cpu;crash,boots,2020-09-27 18:50:39
 0100F1900B144000,"REKT! High Octane Stunts",online,playable,2020-09-28 12:33:56
 01002AD013C52000,"Relicta",nvdec;UE4,playable,2022-10-31 12:48:33
 010095900B436000,"RemiLore",,playable,2021-06-03 18:58:15
@@ -2495,7 +2495,7 @@
 01002DF00F76C000,"SAMURAI SHODOWN",UE4;crash;nvdec,menus,2020-09-06 02:17:00
 0100F6800F48E000,"SAMURAI SHODOWN NEOGEO COLLECTION",nvdec,playable,2021-06-14 17:12:56
 0100B6501A360000,"Samurai Warrior",,playable,2023-02-27 18:42:38
-,"Sangoku Rensenki ~Otome no Heihou!~",gpu;nvdec,ingame,2020-10-17 19:13:14
+01000EA00B23C000,"Sangoku Rensenki ~Otome no Heihou!~",gpu;nvdec,ingame,2020-10-17 19:13:14
 0100A4700BC98000,"Satsujin Tantei Jack the Ripper",,playable,2021-06-21 16:32:54
 0100F0000869C000,"Saturday Morning RPG",nvdec,playable,2022-08-12 12:41:50
 01006EE00380C000,"Sausage Sports Club",gpu,ingame,2021-01-10 05:37:17
@@ -2532,7 +2532,7 @@
 010054400D2E6000,"SEGA AGES Virtua Racing",online-broken,playable,2023-01-29 17:08:39
 01001E700AC60000,"SEGA AGES Wonder Boy: Monster Land",online,playable,2021-05-05 16:28:25
 0100B3C014BDA000,"SEGA Genesis™ – Nintendo Switch Online",crash;regression,nothing,2022-04-11 07:27:21
-,"SEGA Mega Drive Classics",online,playable,2021-01-05 11:08:00
+0100F7300B24E000,"SEGA Mega Drive Classics",online,playable,2021-01-05 11:08:00
 01009840046BC000,"Semispheres",,playable,2021-01-06 23:08:31
 0100D1800D902000,"SENRAN KAGURA Peach Ball",,playable,2021-06-03 15:12:10
 0100E0C00ADAC000,"SENRAN KAGURA Reflexions",,playable,2020-03-23 19:15:23
@@ -2585,7 +2585,7 @@
 0100B2E00F13E000,"Shipped",,playable,2020-11-21 14:22:32
 01000E800FCB4000,"Ships",,playable,2021-06-11 16:14:37
 01007430122D0000,"Shiren the Wanderer: The Tower of Fortune and the Dice of Fate",nvdec,playable,2022-10-20 11:44:36
-,"Shiritsu Berubara Gakuen ~Versailles no Bara Re*imagination~",cpu;crash,boots,2020-09-27 19:01:25
+010027300A660000,"Shiritsu Berubara Gakuen ~Versailles no Bara Re*imagination~",cpu;crash,boots,2020-09-27 19:01:25
 01000244016BAE00,"Shiro0",gpu,ingame,2024-01-13 08:54:39
 0100CCE00DDB6000,"Shoot 1UP DX",,playable,2020-12-13 12:32:47
 01001180021FA000,"Shovel Knight: Specter of Torment",,playable,2020-05-30 08:34:17
@@ -2626,7 +2626,7 @@
 0100C52011460000,"Sky: Children of the Light",cpu;online-broken,nothing,2023-02-23 10:57:10
 010041C01014E000,"Skybolt Zack",,playable,2021-04-12 18:28:00
 0100A0A00D1AA000,"SKYHILL",,playable,2021-03-05 15:19:11
-,"Skylanders Imaginators",crash;services,boots,2020-05-30 18:49:18
+0100CCC0002E6000,"Skylanders Imaginators",crash;services,boots,2020-05-30 18:49:18
 010021A00ABEE000,"SKYPEACE",,playable,2020-05-29 14:14:30
 0100EA400BF44000,"SkyScrappers",,playable,2020-05-28 22:11:25
 0100F3C00C400000,"SkyTime",slow,ingame,2020-05-30 09:24:51
@@ -2797,7 +2797,7 @@
 0100681011B56000,"Struggling",,playable,2020-10-15 20:37:03
 0100AF000B4AE000,"Stunt Kite Party",nvdec,playable,2021-01-25 17:16:56
 0100C5500E7AE000,"STURMWIND EX",audio;32-bit,playable,2022-09-16 12:01:39
-,"Subarashiki Kono Sekai -Final Remix-",services;slow,ingame,2020-02-10 16:21:51
+01001C1009892000,"Subarashiki Kono Sekai -Final Remix-",services;slow,ingame,2020-02-10 16:21:51
 010001400E474000,"Subdivision Infinity DX",UE4;crash,boots,2021-03-03 14:26:46
 0100E6400BCE8000,"Sublevel Zero Redux",,playable,2022-09-16 12:30:03
 0100EDA00D866000,"Submerged",nvdec;UE4;vulkan-backend-bug,playable,2022-08-16 15:17:01
@@ -2846,9 +2846,9 @@
 0100284007D6C000,"Super One More Jump",,playable,2022-08-17 16:47:47
 01001F90122B2000,"Super Punch Patrol",,playable,2024-07-12 19:49:02
 0100331005E8E000,"Super Putty Squad",gpu;32-bit,ingame,2024-04-29 15:51:54
-,"SUPER ROBOT WARS T",online,playable,2021-03-25 11:00:40
-,"SUPER ROBOT WARS V",online,playable,2020-06-23 12:56:37
-,"SUPER ROBOT WARS X",online,playable,2020-08-05 19:18:51
+01006C900CC60000,"SUPER ROBOT WARS T",online,playable,2021-03-25 11:00:40
+0100CA400E300000,"SUPER ROBOT WARS V",online,playable,2020-06-23 12:56:37
+010026800E304000,"SUPER ROBOT WARS X",online,playable,2020-08-05 19:18:51
 01004CF00A60E000,"Super Saurio Fly",nvdec,playable,2020-08-06 13:12:14
 010039700D200000,"Super Skelemania",,playable,2020-06-07 22:59:50
 01006A800016E000,"Super Smash Bros.™ Ultimate",gpu;crash;nvdec;ldn-works;intel-vendor-bug,ingame,2024-09-14 23:05:21
@@ -3014,7 +3014,7 @@
 010085A00C5E8000,"The Lord of the Rings: Adventure Card Game - Definitive Edition",online-broken,menus,2022-09-16 15:19:32
 01008A000A404000,"The Lost Child",nvdec,playable,2021-02-23 15:44:20
 0100BAB00A116000,"The Low Road",,playable,2021-02-26 13:23:22
-,"The Mahjong",Needs Update;crash;services,nothing,2021-04-01 22:06:22
+01005F3006AFE000,"The Mahjong",Needs Update;crash;services,nothing,2021-04-01 22:06:22
 0100DC300AC78000,"The Messenger",,playable,2020-03-22 13:51:37
 0100DEC00B2BC000,"The Midnight Sanctuary",nvdec;UE4;vulkan-backend-bug,playable,2022-10-03 17:17:32
 0100F1B00B456000,"The MISSING: J.J. Macfield and the Island of Memories",,playable,2022-08-22 19:36:18
@@ -3060,7 +3060,7 @@
 010064E00ECBC000,"The Unicorn Princess",,playable,2022-09-16 16:20:56
 0100BCF00E970000,"The Vanishing of Ethan Carter",UE4,playable,2021-06-09 17:14:47
 0100D0500B0A6000,"The VideoKid",nvdec,playable,2021-01-06 09:28:24
-,"The Voice",services,menus,2020-07-28 20:48:49
+01008CF00BA38000,"The Voice",services,menus,2020-07-28 20:48:49
 010056E00B4F4000,"The Walking Dead: A New Frontier",,playable,2022-09-21 13:40:48
 010099100B6AC000,"The Walking Dead: Season Two",,playable,2020-08-09 12:57:06
 010029200B6AA000,"The Walking Dead: The Complete First Season",,playable,2021-06-04 13:10:56
@@ -3376,7 +3376,7 @@
 010022F00DA66000,"Yooka-Laylee and the Impossible Lair",,playable,2021-03-05 17:32:21
 01006000040C2000,"Yoshi’s Crafted World™",gpu;audout,ingame,2021-08-30 13:25:51
 0100AE800C9C6000,"Yoshi’s Crafted World™ Demo",gpu,boots,2020-12-16 14:57:40
-,"Yoshiwara Higanbana Kuon no Chigiri",nvdec,playable,2020-10-17 19:14:46
+0100BBA00B23E000,"Yoshiwara Higanbana Kuon no Chigiri",nvdec,playable,2020-10-17 19:14:46
 01003A400C3DA800,"YouTube",,playable,2024-06-08 05:24:10
 00100A7700CCAA40,"Youtubers Life00",nvdec,playable,2022-09-03 14:56:19
 0100E390124D8000,"Ys IX: Monstrum Nox",,playable,2022-06-12 04:14:42
@@ -3386,7 +3386,7 @@
 01002D60188DE000,"Yu-Gi-Oh! Rush Duel: Dawn of the Battle Royale!! Let's Go! Go Rush!!",crash,ingame,2023-03-17 01:54:01
 010037D00DBDC000,"YU-NO: A girl who chants love at the bound of this world.",nvdec,playable,2021-01-26 17:03:52
 0100B56011502000,"Yumeutsutsu Re:After",,playable,2022-11-20 16:09:06
-,"Yunohana Spring! - Mellow Times -",audio;crash,menus,2020-09-27 19:27:40
+0100DE200C0DA000,"Yunohana Spring! - Mellow Times -",audio;crash,menus,2020-09-27 19:27:40
 0100307011C44000,"Yuppie Psycho: Executive Edition",crash,ingame,2020-12-11 10:37:06
 0100FC900963E000,"Yuri",,playable,2021-06-11 13:08:50
 010092400A678000,"Zaccaria Pinball",online-broken,playable,2022-09-03 15:44:28
@@ -3397,7 +3397,7 @@
 0100AAC00E692000,"Zenith",,playable,2022-09-17 09:57:02
 0100A6A00894C000,"ZERO GUNNER 2- for Nintendo Switch",,playable,2021-01-04 20:17:14
 01004B001058C000,"Zero Strain",services;UE4,menus,2021-11-10 07:48:32
-,"Zettai kaikyu gakuen",gpu;nvdec,ingame,2020-08-25 15:15:54
+010021300F69E000,"Zettai kaikyu gakuen",gpu;nvdec,ingame,2020-08-25 15:15:54
 0100D7B013DD0000,"Ziggy the Chaser",,playable,2021-02-04 20:34:27
 010086700EF16000,"ZikSquare",gpu,ingame,2021-11-06 02:02:48
 010069C0123D8000,"Zoids Wild Blast Unleashed",nvdec,playable,2022-10-15 11:26:59
@@ -3409,7 +3409,7 @@
 0100CD300A1BA000,"Zombillie",,playable,2020-07-23 17:42:23
 01001EE00A6B0000,"Zotrix: Solar Division",,playable,2021-06-07 20:34:05
 0100B9B00C6A4000,"この世の果てで恋を唄う少女ＹＵ－ＮＯ",audio,ingame,2021-01-22 07:00:16
-,"スーパーファミコン Nintendo Switch Online",slow,ingame,2020-03-14 05:48:38
+0100E8600C504000,"スーパーファミコン Nintendo Switch Online",slow,ingame,2020-03-14 05:48:38
 01000BB01CB8A000,"トラブル・マギア ～訳アリ少女は未来を勝ち取るために異国の魔法学校へ留学します～(Trouble Magia ~Wakeari Shoujo wa Mirai o Kachitoru Tame ni Ikoku no Mahou Gakkou e Ryuugaku Shimasu~)",,nothing,2024-09-28 07:03:14
 010065500B218000,"メモリーズオフ - Innocent Fille",,playable,2022-12-02 17:36:48
 010032400E700000,"二ノ国 白き聖灰の女王",services;32-bit,menus,2023-04-16 17:11:06

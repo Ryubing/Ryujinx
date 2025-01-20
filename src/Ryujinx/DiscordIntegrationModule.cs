@@ -2,6 +2,7 @@ using DiscordRPC;
 using Gommon;
 using Humanizer;
 using Humanizer.Localisation;
+using Ryujinx.Ava.Utilities;
 using Ryujinx.Ava.Utilities.AppLibrary;
 using Ryujinx.Ava.Utilities.Configuration;
 using Ryujinx.Common;
@@ -97,7 +98,7 @@ namespace Ryujinx.Ava
                 },
                 Details = TruncateToByteLength($"Playing {appMeta.Title}"),
                 State = appMeta.LastPlayed.HasValue && appMeta.TimePlayed.TotalSeconds > 5
-                    ? $"Total play time: {appMeta.TimePlayed.Humanize(2, false, maxUnit: TimeUnit.Hour)}"
+                    ? $"Total play time: {ValueFormatUtils.FormatTimeSpan(appMeta.TimePlayed)}"
                     : "Never played",
                 Timestamps = Timestamps.Now
             });

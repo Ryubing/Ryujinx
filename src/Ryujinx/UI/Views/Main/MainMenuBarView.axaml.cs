@@ -43,7 +43,13 @@ namespace Ryujinx.Ava.UI.Views.Main
             PauseEmulationMenuItem.Command = new RelayCommand(() => ViewModel.AppHost?.Pause());
             ResumeEmulationMenuItem.Command = new RelayCommand(() => ViewModel.AppHost?.Resume());
             StopEmulationMenuItem.Command = new AsyncRelayCommand(() => ViewModel.AppHost?.ShowExitPrompt().OrCompleted());
-            CheatManagerMenuItem.Command = new AsyncRelayCommand(OpenCheatManagerForCurrentApp);
+            CheatManagerMenuItem.Command = new AsyncRelayCommand(async () =>
+            {
+                try
+                {
+                    await OpenCheatManagerForCurrentApp();
+                } catch {}
+            });
             InstallFileTypesMenuItem.Command = new AsyncRelayCommand(InstallFileTypes);
             UninstallFileTypesMenuItem.Command = new AsyncRelayCommand(UninstallFileTypes);
             XciTrimmerMenuItem.Command = new AsyncRelayCommand(() => XCITrimmerWindow.Show(ViewModel));
@@ -138,14 +144,14 @@ namespace Ryujinx.Ava.UI.Views.Main
             ViewModel.LoadConfigurableHotKeys();
         }
 
-        public static readonly AppletMetadata MiiApplet = new("miiEdit", 0x0100000000001009);
-
+        public AppletMetadata MiiApplet => new(ViewModel.ContentManager, "miiEdit", 0x0100000000001009);
+        
         public async Task OpenMiiApplet()
         {
-            if (MiiApplet.CanStart(ViewModel.ContentManager, out var appData, out var nacpData))
-            {
-                await ViewModel.LoadApplication(appData, ViewModel.IsFullScreen || ViewModel.StartGamesInFullscreen, nacpData);
-            }
+            if (!MiiApplet.CanStart(out var appData, out var nacpData)) 
+                return;
+            
+            await ViewModel.LoadApplication(appData, ViewModel.IsFullScreen || ViewModel.StartGamesInFullscreen, nacpData);
         }
 
         public async Task OpenCheatManagerForCurrentApp()

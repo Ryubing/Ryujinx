@@ -26,7 +26,7 @@ namespace Ryujinx.Headless
             bool ignoreControllerApplet)
             : base(inputManager, glLogLevel, aspectRatio, enableMouse, hideCursorMode, ignoreControllerApplet) { }
 
-        public override SDL_WindowFlags GetWindowFlags() => SDL_WindowFlags.SDL_WINDOW_METAL;
+        public override SDL_WindowFlags WindowFlags => SDL_WindowFlags.SDL_WINDOW_METAL;
 
         protected override void InitializeWindowRenderer()
         {
