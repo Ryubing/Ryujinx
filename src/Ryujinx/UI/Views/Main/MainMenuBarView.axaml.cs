@@ -144,14 +144,14 @@ namespace Ryujinx.Ava.UI.Views.Main
             ViewModel.LoadConfigurableHotKeys();
         }
 
-        public static readonly AppletMetadata MiiApplet = new("miiEdit", 0x0100000000001009);
-
+        public AppletMetadata MiiApplet => new(ViewModel.ContentManager, "miiEdit", 0x0100000000001009);
+        
         public async Task OpenMiiApplet()
         {
-            if (MiiApplet.CanStart(ViewModel.ContentManager, out var appData, out var nacpData))
-            {
-                await ViewModel.LoadApplication(appData, ViewModel.IsFullScreen || ViewModel.StartGamesInFullscreen, nacpData);
-            }
+            if (!MiiApplet.CanStart(out var appData, out var nacpData)) 
+                return;
+            
+            await ViewModel.LoadApplication(appData, ViewModel.IsFullScreen || ViewModel.StartGamesInFullscreen, nacpData);
         }
 
         public async Task OpenCheatManagerForCurrentApp()

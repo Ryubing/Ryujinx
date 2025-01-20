@@ -38,7 +38,6 @@ using Ryujinx.HLE.HOS.Services.Account.Acc;
 using Ryujinx.HLE.HOS.Services.Nfc.AmiiboDecryption;
 using Ryujinx.HLE.UI;
 using Ryujinx.Input.HLE;
-using Silk.NET.Vulkan;
 using SkiaSharp;
 using System;
 using System.Collections.Generic;
