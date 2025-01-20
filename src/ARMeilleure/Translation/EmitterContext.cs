@@ -97,7 +97,7 @@ namespace ARMeilleure.Translation
 
         public virtual Operand Call(MethodInfo info, params Operand[] callArgs)
         {
-            nint funcPtr = Delegates.GetDelegateFuncPtr(info);
+            nint funcPtr = info.MethodHandle.GetFunctionPointer();
 
             OperandType returnType = GetOperandType(info.ReturnType);
 

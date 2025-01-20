@@ -26,7 +26,7 @@ else:
     LIPO = shutil.which("llvm-lipo")
 
     if LIPO is None:
-        for llvm_ver in [15, 14, 13]:
+        for llvm_ver in [17, 16, 15, 14, 13]:
             lipo_path = shutil.which(f"llvm-lipo-{llvm_ver}")
             if lipo_path is not None:
                 LIPO = lipo_path

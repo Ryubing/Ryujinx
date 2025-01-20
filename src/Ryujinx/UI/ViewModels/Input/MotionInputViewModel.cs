@@ -1,93 +1,23 @@
+using CommunityToolkit.Mvvm.ComponentModel;
+
 namespace Ryujinx.Ava.UI.ViewModels.Input
 {
-    public class MotionInputViewModel : BaseModel
+    public partial class MotionInputViewModel : BaseModel
     {
-        private int _slot;
-        public int Slot
-        {
-            get => _slot;
-            set
-            {
-                _slot = value;
-                OnPropertyChanged();
-            }
-        }
+        [ObservableProperty] private int _slot;
 
-        private int _altSlot;
-        public int AltSlot
-        {
-            get => _altSlot;
-            set
-            {
-                _altSlot = value;
-                OnPropertyChanged();
-            }
-        }
+        [ObservableProperty] private int _altSlot;
 
-        private string _dsuServerHost;
-        public string DsuServerHost
-        {
-            get => _dsuServerHost;
-            set
-            {
-                _dsuServerHost = value;
-                OnPropertyChanged();
-            }
-        }
+        [ObservableProperty] private string _dsuServerHost;
 
-        private int _dsuServerPort;
-        public int DsuServerPort
-        {
-            get => _dsuServerPort;
-            set
-            {
-                _dsuServerPort = value;
-                OnPropertyChanged();
-            }
-        }
+        [ObservableProperty] private int _dsuServerPort;
 
-        private bool _mirrorInput;
-        public bool MirrorInput
-        {
-            get => _mirrorInput;
-            set
-            {
-                _mirrorInput = value;
-                OnPropertyChanged();
-            }
-        }
+        [ObservableProperty] private bool _mirrorInput;
 
-        private int _sensitivity;
-        public int Sensitivity
-        {
-            get => _sensitivity;
-            set
-            {
-                _sensitivity = value;
-                OnPropertyChanged();
-            }
-        }
+        [ObservableProperty] private int _sensitivity;
 
-        private double _gryoDeadzone;
-        public double GyroDeadzone
-        {
-            get => _gryoDeadzone;
-            set
-            {
-                _gryoDeadzone = value;
-                OnPropertyChanged();
-            }
-        }
+        [ObservableProperty] private double _gyroDeadzone;
 
-        private bool _enableCemuHookMotion;
-        public bool EnableCemuHookMotion
-        {
-            get => _enableCemuHookMotion;
-            set
-            {
-                _enableCemuHookMotion = value;
-                OnPropertyChanged();
-            }
-        }
+        [ObservableProperty] private bool _enableCemuHookMotion;
     }
 }

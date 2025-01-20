@@ -48,6 +48,7 @@
     <EmbeddedResource Include="HOS\Applets\SoftwareKeyboard\Resources\Icon_BtnB.png" />
     <EmbeddedResource Include="HOS\Applets\SoftwareKeyboard\Resources\Icon_KeyF6.png" />
     <EmbeddedResource Include="HOS\Services\Account\Acc\DefaultUserImage.jpg" />
+    <EmbeddedResource Include="HOS\Services\Account\Acc\GuestUserImage.jpg" />
   </ItemGroup>
 
 </Project>

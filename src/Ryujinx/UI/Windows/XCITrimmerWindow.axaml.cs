@@ -3,8 +3,8 @@ using Avalonia.Interactivity;
 using Avalonia.Styling;
 using FluentAvalonia.UI.Controls;
 using Ryujinx.Ava.Common.Locale;
+using Ryujinx.Ava.Common.Models;
 using Ryujinx.Ava.UI.ViewModels;
-using Ryujinx.UI.Common.Models;
 using System;
 using System.Threading.Tasks;
 

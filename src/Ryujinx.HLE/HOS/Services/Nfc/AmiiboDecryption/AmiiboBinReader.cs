@@ -33,12 +33,15 @@ namespace Ryujinx.HLE.HOS.Services.Nfc.AmiiboDecryption
             const int pageSize = 4;
             const int totalBytes = totalPages * pageSize;
 
-            if (fileBytes.Length < totalBytes)
+            if (fileBytes.Length == 532)
             {
-                return new VirtualAmiiboFile();
+                // add 8 bytes to the end of the file
+                byte[] newFileBytes = new byte[totalBytes];
+                Array.Copy(fileBytes, newFileBytes, fileBytes.Length);
+                fileBytes = newFileBytes;
             }
 
-            AmiiboDecrypter amiiboDecryptor = new AmiiboDecrypter(keyRetailBinPath);
+            AmiiboDecryptor amiiboDecryptor = new(keyRetailBinPath);
             AmiiboDump amiiboDump = amiiboDecryptor.DecryptAmiiboDump(fileBytes);
 
             byte[] titleId = new byte[8];
@@ -111,10 +114,10 @@ namespace Ryujinx.HLE.HOS.Services.Nfc.AmiiboDecryption
                 }
             }
 
-            string usedCharacterStr = BitConverter.ToString(usedCharacter).Replace("-", "");
-            string variationStr = BitConverter.ToString(variation).Replace("-", "");
-            string amiiboIDStr = BitConverter.ToString(amiiboID).Replace("-", "");
-            string setIDStr = BitConverter.ToString(setID).Replace("-", "");
+            string usedCharacterStr = Convert.ToHexString(usedCharacter);
+            string variationStr = Convert.ToHexString(variation);
+            string amiiboIDStr = Convert.ToHexString(amiiboID);
+            string setIDStr = Convert.ToHexString(setID);
             string head = usedCharacterStr + variationStr;
             string tail = amiiboIDStr + setIDStr + "02";
             string finalID = head + tail;
@@ -171,7 +174,15 @@ namespace Ryujinx.HLE.HOS.Services.Nfc.AmiiboDecryption
                 return false;
             }
 
-            AmiiboDecrypter amiiboDecryptor = new AmiiboDecrypter(keyRetailBinPath);
+            if (readBytes.Length == 532)
+            {
+                // add 8 bytes to the end of the file
+                byte[] newFileBytes = new byte[540];
+                Array.Copy(readBytes, newFileBytes, readBytes.Length);
+                readBytes = newFileBytes;
+            }
+
+            AmiiboDecryptor amiiboDecryptor = new AmiiboDecryptor(keyRetailBinPath);
             AmiiboDump amiiboDump = amiiboDecryptor.DecryptAmiiboDump(readBytes);
 
             byte[] oldData = amiiboDump.GetData();
@@ -231,7 +242,15 @@ namespace Ryujinx.HLE.HOS.Services.Nfc.AmiiboDecryption
                 return false;
             }
 
-            AmiiboDecrypter amiiboDecryptor = new AmiiboDecrypter(keyRetailBinPath);
+            if (readBytes.Length == 532)
+            {
+                // add 8 bytes to the end of the file
+                byte[] newFileBytes = new byte[540];
+                Array.Copy(readBytes, newFileBytes, readBytes.Length);
+                readBytes = newFileBytes;
+            }
+
+            AmiiboDecryptor amiiboDecryptor = new AmiiboDecryptor(keyRetailBinPath);
             AmiiboDump amiiboDump = amiiboDecryptor.DecryptAmiiboDump(readBytes);
             amiiboDump.AmiiboNickname = newNickName;
             byte[] oldData = amiiboDump.GetData();
@@ -270,8 +289,8 @@ namespace Ryujinx.HLE.HOS.Services.Nfc.AmiiboDecryption
 
         private static void LogFinalData(byte[] titleId, byte[] appId, string head, string tail, string finalID, string nickName, DateTime initDateTime, DateTime writeDateTime, ushort settingsValue, ushort writeCounterValue, byte[] applicationAreas)
         {
-            Logger.Debug?.Print(LogClass.ServiceNfp, $"Title ID: 0x{BitConverter.ToString(titleId).Replace("-", "")}");
-            Logger.Debug?.Print(LogClass.ServiceNfp, $"Application Program ID: 0x{BitConverter.ToString(appId).Replace("-", "")}");
+            Logger.Debug?.Print(LogClass.ServiceNfp, $"Title ID: 0x{Convert.ToHexString(titleId)}");
+            Logger.Debug?.Print(LogClass.ServiceNfp, $"Application Program ID: 0x{Convert.ToHexString(appId)}");
             Logger.Debug?.Print(LogClass.ServiceNfp, $"Head: {head}");
             Logger.Debug?.Print(LogClass.ServiceNfp, $"Tail: {tail}");
             Logger.Debug?.Print(LogClass.ServiceNfp, $"Final ID: {finalID}");
@@ -314,10 +333,9 @@ namespace Ryujinx.HLE.HOS.Services.Nfc.AmiiboDecryption
             return Path.Combine(AppDataManager.KeysDirPath, "key_retail.bin");
         }
 
-        public static bool HasKeyRetailBinPath()
-        {
-            return File.Exists(GetKeyRetailBinPath());
-        }
+        public static bool HasAmiiboKeyFile => File.Exists(GetKeyRetailBinPath());
+
+        
         public static DateTime DateTimeFromTag(ushort value)
         {
             try

@@ -359,7 +359,6 @@ namespace Ryujinx.HLE.HOS
         {
             string cheatName = DefaultCheatName;
             List<string> instructions = new();
-            List<Cheat> cheats = new();
 
             using StreamReader cheatData = cheatFile.OpenText();
             while (cheatData.ReadLine() is { } line)
@@ -375,13 +374,13 @@ namespace Ryujinx.HLE.HOS
 
                         Logger.Warning?.Print(LogClass.ModLoader, $"Ignoring cheat '{cheatFile.FullName}' because it is malformed");
 
-                        return Array.Empty<Cheat>();
+                        yield break;
                     }
 
                     // Add the previous section to the list.
                     if (instructions.Count > 0)
                     {
-                        cheats.Add(new Cheat($"<{cheatName} Cheat>", cheatFile, instructions));
+                        yield return new Cheat($"<{cheatName} Cheat>", cheatFile, instructions);
                     }
 
                     // Start a new cheat section.
@@ -398,10 +397,8 @@ namespace Ryujinx.HLE.HOS
             // Add the last section being processed.
             if (instructions.Count > 0)
             {
-                cheats.Add(new Cheat($"<{cheatName} Cheat>", cheatFile, instructions));
+                yield return new Cheat($"<{cheatName} Cheat>", cheatFile, instructions);
             }
-
-            return cheats;
         }
 
         // Assumes searchDirPaths don't overlap

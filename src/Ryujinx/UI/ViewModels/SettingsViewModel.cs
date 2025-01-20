@@ -1,6 +1,8 @@
 using Avalonia.Collections;
 using Avalonia.Controls;
 using Avalonia.Threading;
+using CommunityToolkit.Mvvm.ComponentModel;
+using Gommon;
 using LibHac.Tools.FsSystem;
 using Ryujinx.Audio.Backends.OpenAL;
 using Ryujinx.Audio.Backends.SDL2;
@@ -9,6 +11,8 @@ using Ryujinx.Ava.Common.Locale;
 using Ryujinx.Ava.UI.Helpers;
 using Ryujinx.Ava.UI.Models.Input;
 using Ryujinx.Ava.UI.Windows;
+using Ryujinx.Ava.Utilities.Configuration;
+using Ryujinx.Ava.Utilities.Configuration.System;
 using Ryujinx.Common.Configuration;
 using Ryujinx.Common.Configuration.Multiplayer;
 using Ryujinx.Common.GraphicsDriver;
@@ -17,8 +21,6 @@ using Ryujinx.Graphics.Vulkan;
 using Ryujinx.HLE;
 using Ryujinx.HLE.FileSystem;
 using Ryujinx.HLE.HOS.Services.Time.TimeZone;
-using Ryujinx.UI.Common.Configuration;
-using Ryujinx.UI.Common.Configuration.System;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
@@ -45,9 +47,9 @@ namespace Ryujinx.Ava.UI.ViewModels
         private int _resolutionScale;
         private int _graphicsBackendMultithreadingIndex;
         private float _volume;
-        private bool _isVulkanAvailable = true;
-        private bool _gameDirectoryChanged;
-        private bool _autoloadDirectoryChanged;
+        [ObservableProperty] private bool _isVulkanAvailable = true;
+        [ObservableProperty] private bool _gameDirectoryChanged;
+        [ObservableProperty] private bool _autoloadDirectoryChanged;
         private readonly List<string> _gpuIds = new();
         private int _graphicsBackendIndex;
         private int _scalingFilter;
@@ -62,7 +64,9 @@ namespace Ryujinx.Ava.UI.ViewModels
         private int _networkInterfaceIndex;
         private int _multiplayerModeIndex;
         private string _ldnPassphrase;
-        private string _LdnServer;
+        [ObservableProperty] private string _ldnServer;
+
+        public SettingsHacksViewModel DirtyHacks { get; }
 
         public int ResolutionScale
         {
@@ -71,8 +75,7 @@ namespace Ryujinx.Ava.UI.ViewModels
             {
                 _resolutionScale = value;
 
-                OnPropertyChanged(nameof(CustomResolutionScale));
-                OnPropertyChanged(nameof(IsCustomResolutionScaleActive));
+                OnPropertiesChanged(nameof(CustomResolutionScale), nameof(IsCustomResolutionScaleActive));
             }
         }
 
@@ -109,42 +112,9 @@ namespace Ryujinx.Ava.UI.ViewModels
             }
         }
 
-        public bool IsVulkanAvailable
-        {
-            get => _isVulkanAvailable;
-            set
-            {
-                _isVulkanAvailable = value;
-
-                OnPropertyChanged();
-            }
-        }
-
         public bool IsOpenGLAvailable => !OperatingSystem.IsMacOS();
 
-        public bool IsHypervisorAvailable => OperatingSystem.IsMacOS() && RuntimeInformation.ProcessArchitecture == Architecture.Arm64;
-
-        public bool GameDirectoryChanged
-        {
-            get => _gameDirectoryChanged;
-            set
-            {
-                _gameDirectoryChanged = value;
-
-                OnPropertyChanged();
-            }
-        }
-
-        public bool AutoloadDirectoryChanged
-        {
-            get => _autoloadDirectoryChanged;
-            set
-            {
-                _autoloadDirectoryChanged = value;
-
-                OnPropertyChanged();
-            }
-        }
+        public bool IsAppleSiliconMac => OperatingSystem.IsMacOS() && RuntimeInformation.ProcessArchitecture == Architecture.Arm64;
 
         public bool IsMacOS => OperatingSystem.IsMacOS();
 
@@ -163,9 +133,7 @@ namespace Ryujinx.Ava.UI.ViewModels
             get => _vSyncMode;
             set
             {
-                if (value == VSyncMode.Custom ||
-                    value == VSyncMode.Switch ||
-                    value == VSyncMode.Unbounded)
+                if (value is VSyncMode.Custom or VSyncMode.Switch or VSyncMode.Unbounded)
                 {
                     _vSyncMode = value;
                     OnPropertyChanged();
@@ -181,19 +149,13 @@ namespace Ryujinx.Ava.UI.ViewModels
                 int newInterval = (int)((value / 100f) * 60);
                 _customVSyncInterval = newInterval;
                 _customVSyncIntervalPercentageProxy = value;
-                OnPropertyChanged((nameof(CustomVSyncInterval)));
-                OnPropertyChanged((nameof(CustomVSyncIntervalPercentageText)));
+                OnPropertiesChanged(
+                    nameof(CustomVSyncInterval),
+                    nameof(CustomVSyncIntervalPercentageText));
             }
         }
 
-        public string CustomVSyncIntervalPercentageText
-        {
-            get
-            {
-                string text = CustomVSyncIntervalPercentageProxy.ToString() + "%";
-                return text;
-            }
-        }
+        public string CustomVSyncIntervalPercentageText => CustomVSyncIntervalPercentageProxy + "%";
 
         public bool EnableCustomVSyncInterval
         {
@@ -221,8 +183,9 @@ namespace Ryujinx.Ava.UI.ViewModels
                 _customVSyncInterval = value;
                 int newPercent = (int)((value / 60f) * 100);
                 _customVSyncIntervalPercentageProxy = newPercent;
-                OnPropertyChanged(nameof(CustomVSyncIntervalPercentageProxy));
-                OnPropertyChanged(nameof(CustomVSyncIntervalPercentageText));
+                OnPropertiesChanged(
+                    nameof(CustomVSyncIntervalPercentageProxy), 
+                    nameof(CustomVSyncIntervalPercentageText));
                 OnPropertyChanged();
             }
         }
@@ -252,9 +215,12 @@ namespace Ryujinx.Ava.UI.ViewModels
         public bool IsCustomResolutionScaleActive => _resolutionScale == 4;
         public bool IsScalingFilterActive => _scalingFilter == (int)Ryujinx.Common.Configuration.ScalingFilter.Fsr;
 
-        public bool IsVulkanSelected => GraphicsBackendIndex == 0;
+        public bool IsVulkanSelected =>
+            GraphicsBackendIndex == 1 || (GraphicsBackendIndex == 0 && !OperatingSystem.IsMacOS());
         public bool UseHypervisor { get; set; }
         public bool DisableP2P { get; set; }
+
+        public bool ShowDirtyHacks => ConfigurationState.Instance.Hacks.ShowDirtyHacks;
 
         public string TimeZone { get; set; }
         public string ShaderDumpPath { get; set; }
@@ -330,6 +296,7 @@ namespace Ryujinx.Ava.UI.ViewModels
         }
 
         public DateTimeOffset CurrentDate { get; set; }
+
         public TimeSpan CurrentTime { get; set; }
 
         internal AvaloniaList<TimeZone> TimeZones { get; set; }
@@ -350,7 +317,6 @@ namespace Ryujinx.Ava.UI.ViewModels
             set
             {
                 _networkInterfaceIndex = value != -1 ? value : 0;
-                ConfigurationState.Instance.Multiplayer.LanInterfaceId.Value = _networkInterfaces[NetworkInterfaceList[_networkInterfaceIndex]];
             }
         }
 
@@ -360,7 +326,6 @@ namespace Ryujinx.Ava.UI.ViewModels
             set
             {
                 _multiplayerModeIndex = value;
-                ConfigurationState.Instance.Multiplayer.Mode.Value = (MultiplayerMode)_multiplayerModeIndex;
             }
         }
 
@@ -369,23 +334,16 @@ namespace Ryujinx.Ava.UI.ViewModels
 
         public bool IsInvalidLdnPassphraseVisible { get; set; }
 
-        public string LdnServer
-        {
-            get => _LdnServer;
-            set
-            {
-                _LdnServer = value;
-                OnPropertyChanged();
-            }
-        }
-
         public SettingsViewModel(VirtualFileSystem virtualFileSystem, ContentManager contentManager) : this()
         {
             _virtualFileSystem = virtualFileSystem;
             _contentManager = contentManager;
+            
             if (Program.PreviewerDetached)
             {
                 Task.Run(LoadTimeZones);
+                
+                DirtyHacks = new SettingsHacksViewModel(this);
             }
         }
 
@@ -405,6 +363,8 @@ namespace Ryujinx.Ava.UI.ViewModels
             {
                 Task.Run(LoadAvailableGpus);
                 LoadCurrentConfiguration();
+
+                DirtyHacks = new SettingsHacksViewModel(this);
             }
         }
 
@@ -431,7 +391,7 @@ namespace Ryujinx.Ava.UI.ViewModels
             if (devices.Length == 0)
             {
                 IsVulkanAvailable = false;
-                GraphicsBackendIndex = 1;
+                GraphicsBackendIndex = 2;
             }
             else
             {
@@ -451,6 +411,17 @@ namespace Ryujinx.Ava.UI.ViewModels
                                 _gpuIds.IndexOf(ConfigurationState.Instance.Graphics.PreferredGpu) : 0;
 
             Dispatcher.UIThread.Post(() => OnPropertyChanged(nameof(PreferredGpuIndex)));
+        }
+
+        public void MatchSystemTime()
+        {
+            (DateTimeOffset dto, TimeSpan timeOfDay) = DateTimeOffset.Now.Extract();
+            
+            CurrentDate = dto;
+            CurrentTime = timeOfDay;
+            
+            OnPropertyChanged(nameof(CurrentDate));
+            OnPropertyChanged(nameof(CurrentTime));
         }
 
         public async Task LoadTimeZones()
@@ -607,9 +578,9 @@ namespace Ryujinx.Ava.UI.ViewModels
             OpenglDebugLevel = (int)config.Logger.GraphicsDebugLevel.Value;
 
             MultiplayerModeIndex = (int)config.Multiplayer.Mode.Value;
-            DisableP2P = config.Multiplayer.DisableP2p.Value;
-            LdnPassphrase = config.Multiplayer.LdnPassphrase.Value;
-            LdnServer = config.Multiplayer.LdnServer.Value;
+            DisableP2P = config.Multiplayer.DisableP2p;
+            LdnPassphrase = config.Multiplayer.LdnPassphrase;
+            LdnServer = config.Multiplayer.LdnServer;
         }
 
         public void SaveSettings()
@@ -625,16 +596,14 @@ namespace Ryujinx.Ava.UI.ViewModels
             config.ShowTitleBar.Value = ShowTitleBar;
             config.HideCursor.Value = (HideCursorMode)HideCursor;
 
-            if (_gameDirectoryChanged)
+            if (GameDirectoryChanged)
             {
-                List<string> gameDirs = new(GameDirectories);
-                config.UI.GameDirs.Value = gameDirs;
+                config.UI.GameDirs.Value = [..GameDirectories];
             }
 
-            if (_autoloadDirectoryChanged)
+            if (AutoloadDirectoryChanged)
             {
-                List<string> autoloadDirs = new(AutoloadDirectories);
-                config.UI.AutoloadDirs.Value = autoloadDirs;
+                config.UI.AutoloadDirs.Value = [..AutoloadDirectories];
             }
 
             config.UI.BaseStyle.Value = BaseStyleIndex switch
@@ -731,16 +700,21 @@ namespace Ryujinx.Ava.UI.ViewModels
             config.Multiplayer.DisableP2p.Value = DisableP2P;
             config.Multiplayer.LdnPassphrase.Value = LdnPassphrase;
             config.Multiplayer.LdnServer.Value = LdnServer;
+            
+            // Dirty Hacks
+            config.Hacks.Xc2MenuSoftlockFix.Value = DirtyHacks.Xc2MenuSoftlockFix;
+            config.Hacks.EnableShaderTranslationDelay.Value = DirtyHacks.ShaderTranslationDelayEnabled;
+            config.Hacks.ShaderTranslationDelay.Value = DirtyHacks.ShaderTranslationDelay;
 
             config.ToFileFormat().SaveConfig(Program.ConfigurationPath);
 
             MainWindow.UpdateGraphicsConfig();
-            MainWindow.MainWindowViewModel.VSyncModeSettingChanged();
+            RyujinxApp.MainWindow.ViewModel.VSyncModeSettingChanged();
 
             SaveSettingsEvent?.Invoke();
 
-            _gameDirectoryChanged = false;
-            _autoloadDirectoryChanged = false;
+            GameDirectoryChanged = false;
+            AutoloadDirectoryChanged = false;
         }
 
         private static void RevertIfNotSaved()

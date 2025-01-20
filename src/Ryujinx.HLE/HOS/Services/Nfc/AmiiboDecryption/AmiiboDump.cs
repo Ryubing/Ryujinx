@@ -36,7 +36,7 @@ namespace Ryujinx.HLE.HOS.Services.Nfc.AmiiboDecryption
 
         private byte[] DeriveKey(AmiiboMasterKey key, bool deriveAes, out byte[] derivedAesKey, out byte[] derivedAesIv)
         {
-            List<byte> seed = new List<byte>();
+            List<byte> seed = [];
 
             // Start with the type string (14 bytes)
             seed.AddRange(key.TypeString);

@@ -1034,16 +1034,16 @@ namespace Ryujinx.HLE.FileSystem
                 switch (fileName)
                 {
                     case "prod.keys":
-                        verified = verifyKeys(lines, genericPattern);
+                        verified = VerifyKeys(lines, genericPattern);
                         break;
                     case "title.keys":
-                        verified = verifyKeys(lines, titlePattern);
+                        verified = VerifyKeys(lines, titlePattern);
                         break;
                     case "console.keys":
-                        verified = verifyKeys(lines, genericPattern);
+                        verified = VerifyKeys(lines, genericPattern);
                         break;
                     case "dev.keys":
-                        verified = verifyKeys(lines, genericPattern);
+                        verified = VerifyKeys(lines, genericPattern);
                         break;
                     default:
                         throw new FormatException($"Keys file name \"{fileName}\" not supported. Only \"prod.keys\", \"title.keys\", \"console.keys\", \"dev.keys\" are supported.");
@@ -1056,20 +1056,22 @@ namespace Ryujinx.HLE.FileSystem
             {
                 throw new FileNotFoundException($"Keys file not found at \"{filePath}\".");
             }
-        }
 
-        private bool verifyKeys(string[] lines, string regex)
-        {
-            foreach (string line in lines)
+            return;
+            
+            bool VerifyKeys(string[] lines, string regex)
             {
-                if (!Regex.IsMatch(line, regex))
+                foreach (string line in lines)
                 {
-                    return false;
+                    if (!Regex.IsMatch(line, regex))
+                    {
+                        return false;
+                    }
                 }
+                return true;
             }
-            return true;
         }
-
+        
         public bool AreKeysAlredyPresent(string pathToCheck)
         {
             string[] fileNames = { "prod.keys", "title.keys", "console.keys", "dev.keys" };

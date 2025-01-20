@@ -19,7 +19,7 @@ namespace Ryujinx.Ava.UI.Helpers
             AvaLogger.Sink = new LoggerAdapter();
         }
 
-        private static RyuLogger.Log? GetLog(AvaLogLevel level)
+        private static RyuLogger.Log? GetLog(AvaLogLevel level, string area)
         {
             return level switch
             {
@@ -27,7 +27,7 @@ namespace Ryujinx.Ava.UI.Helpers
                 AvaLogLevel.Debug => RyuLogger.Debug,
                 AvaLogLevel.Information => RyuLogger.Debug,
                 AvaLogLevel.Warning => RyuLogger.Debug,
-                AvaLogLevel.Error => RyuLogger.Error,
+                AvaLogLevel.Error => area is "IME" ? RyuLogger.Debug : RyuLogger.Error,
                 AvaLogLevel.Fatal => RyuLogger.Error,
                 _ => throw new ArgumentOutOfRangeException(nameof(level), level, null),
             };
@@ -35,17 +35,17 @@ namespace Ryujinx.Ava.UI.Helpers
 
         public bool IsEnabled(AvaLogLevel level, string area)
         {
-            return GetLog(level) != null;
+            return GetLog(level, area) != null;
         }
 
         public void Log(AvaLogLevel level, string area, object source, string messageTemplate)
         {
-            GetLog(level)?.PrintMsg(RyuLogClass.UI, Format(level, area, messageTemplate, source, null));
+            GetLog(level, area)?.PrintMsg(RyuLogClass.UI, Format(level, area, messageTemplate, source, null));
         }
 
         public void Log(AvaLogLevel level, string area, object source, string messageTemplate, params object[] propertyValues)
         {
-            GetLog(level)?.PrintMsg(RyuLogClass.UI, Format(level, area, messageTemplate, source, propertyValues));
+            GetLog(level, area)?.PrintMsg(RyuLogClass.UI, Format(level, area, messageTemplate, source, propertyValues));
         }
 
         private static string Format(AvaLogLevel level, string area, string template, object source, object[] v)

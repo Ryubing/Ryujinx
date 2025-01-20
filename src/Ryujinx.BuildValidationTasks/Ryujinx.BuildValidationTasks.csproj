@@ -1,0 +1,17 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <OutputType>Exe</OutputType>
+  </PropertyGroup>
+
+  <Target Name="PostBuildTarget" AfterTargets="AfterBuild">
+    <Message Text="Running Validation Project" Importance="high" />
+
+    <Exec WorkingDirectory="$(ProjectDir)bin\Debug\$(TargetFramework)\"
+      Command="dotnet Ryujinx.BuildValidationTasks.dll &quot;$(ProjectDir)..\..\\&quot;" 
+      ConsoleToMsBuild="true"
+      Condition="'$(RuntimeIdentifier)' == ''"
+      />
+  </Target>
+
+</Project>

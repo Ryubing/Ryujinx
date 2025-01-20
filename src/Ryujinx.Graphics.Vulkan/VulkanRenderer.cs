@@ -1,3 +1,4 @@
+using Gommon;
 using Ryujinx.Common.Configuration;
 using Ryujinx.Common.Logging;
 using Ryujinx.Graphics.GAL;
@@ -890,7 +891,12 @@ namespace Ryujinx.Graphics.Vulkan
 
         private void PrintGpuInformation()
         {
-            Logger.Notice.Print(LogClass.Gpu, $"{GpuVendor} {GpuRenderer} ({GpuVersion})");
+            string gpuInfoMessage = $"{GpuRenderer} ({GpuVersion})";
+            if (!GpuRenderer.StartsWithIgnoreCase(GpuVendor))
+                gpuInfoMessage = gpuInfoMessage.Prepend(GpuVendor);
+
+            Logger.Notice.Print(LogClass.Gpu, gpuInfoMessage);
+            
             Logger.Notice.Print(LogClass.Gpu, $"GPU Memory: {GetTotalGPUMemory() / (1024 * 1024)} MiB");
         }
 

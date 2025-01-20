@@ -43,7 +43,7 @@ namespace ARMeilleure.Instructions
             }
             else
             {
-                EmitScalarUnaryOpF32(context, (op1) => EmitUnaryMathCall(context, nameof(Math.Abs), op1));
+                EmitScalarUnaryOpF32(context, (op1) => EmitUnaryMathCall(context, nameof(MathHelper.Abs), op1));
             }
         }
 
@@ -66,7 +66,7 @@ namespace ARMeilleure.Instructions
                 }
                 else
                 {
-                    EmitVectorUnaryOpF32(context, (op1) => EmitUnaryMathCall(context, nameof(Math.Abs), op1));
+                    EmitVectorUnaryOpF32(context, (op1) => EmitUnaryMathCall(context, nameof(MathHelper.Abs), op1));
                 }
             }
             else

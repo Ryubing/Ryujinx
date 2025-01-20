@@ -1,10 +1,11 @@
+using Gommon;
 using LibHac.Fs;
 using LibHac.Ncm;
 using Ryujinx.Ava.UI.ViewModels;
 using Ryujinx.Ava.UI.Windows;
+using Ryujinx.Ava.Utilities;
+using Ryujinx.Ava.Utilities.AppLibrary;
 using Ryujinx.HLE.FileSystem;
-using Ryujinx.UI.App.Common;
-using Ryujinx.UI.Common.Helper;
 using System;
 using System.IO;
 using System.Linq;
@@ -47,7 +48,7 @@ namespace Ryujinx.Ava.UI.Models
             TitleId = info.ProgramId;
             UserId = info.UserId;
 
-            var appData = MainWindow.MainWindowViewModel.Applications.FirstOrDefault(x => x.IdString.Equals(TitleIdString, StringComparison.OrdinalIgnoreCase));
+            var appData = RyujinxApp.MainWindow.ViewModel.Applications.FirstOrDefault(x => x.IdString.EqualsIgnoreCase(TitleIdString));
 
             InGameList = appData != null;
 

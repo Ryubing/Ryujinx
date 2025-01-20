@@ -6,7 +6,6 @@ namespace Ryujinx.Common
     // DO NOT EDIT, filled by CI
     public static class ReleaseInformation
     {
-        private const string FlatHubChannel = "flathub";
         private const string CanaryChannel = "canary";
         private const string ReleaseChannel = "release";
 
@@ -28,8 +27,6 @@ namespace Ryujinx.Common
             !ReleaseChannelSourceRepo.StartsWith("%%") &&
             !ReleaseChannelRepo.StartsWith("%%") &&
             !ConfigFileName.StartsWith("%%");
-
-        public static bool IsFlatHubBuild => IsValid && ReleaseChannelOwner.Equals(FlatHubChannel);
 
         public static bool IsCanaryBuild => IsValid && ReleaseChannelName.Equals(CanaryChannel);
         

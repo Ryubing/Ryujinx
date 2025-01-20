@@ -63,6 +63,7 @@ namespace Ryujinx.Ava.UI.Helpers
         public static MiniCommand Create(Action callback) => new MiniCommand<object>(_ => callback());
         public static MiniCommand Create<TArg>(Action<TArg> callback) => new MiniCommand<TArg>(callback);
         public static MiniCommand CreateFromTask(Func<Task> callback) => new MiniCommand<object>(_ => callback());
+        public static MiniCommand CreateFromTask<TArg>(Func<TArg, Task> callback) => new MiniCommand<TArg>(callback);
 
         public abstract bool CanExecute(object parameter);
         public abstract void Execute(object parameter);

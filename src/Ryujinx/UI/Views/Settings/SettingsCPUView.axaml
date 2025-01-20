@@ -69,7 +69,7 @@
                         </ComboBox>
                     </StackPanel>
                     <CheckBox IsChecked="{Binding UseHypervisor}"
-                              IsVisible="{Binding IsHypervisorAvailable}"
+                              IsVisible="{Binding IsAppleSiliconMac}"
                               ToolTip.Tip="{ext:Locale UseHypervisorTooltip}">
                         <TextBlock Text="{ext:Locale SettingsTabSystemUseHypervisor}"
                                    ToolTip.Tip="{ext:Locale UseHypervisorTooltip}" />

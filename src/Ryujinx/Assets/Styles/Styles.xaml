@@ -402,7 +402,7 @@
         <x:Double x:Key="ControlContentThemeFontSize">13</x:Double>
         <x:Double x:Key="MenuItemHeight">26</x:Double>
         <x:Double x:Key="TabItemMinHeight">28</x:Double>
-        <x:Double x:Key="ContentDialogMaxWidth">700</x:Double>
+        <x:Double x:Key="ContentDialogMaxWidth">900</x:Double>
         <x:Double x:Key="ContentDialogMaxHeight">756</x:Double>
     </Styles.Resources>
 </Styles>

@@ -6,7 +6,9 @@ using LibHac.Ns;
 using LibHac.Tools.Fs;
 using LibHac.Tools.FsSystem;
 using LibHac.Tools.FsSystem.NcaUtils;
+using Ryujinx.Common;
 using Ryujinx.Common.Logging;
+using Ryujinx.Graphics.Gpu;
 using Ryujinx.HLE.Loaders.Executables;
 using Ryujinx.HLE.Loaders.Processes.Extensions;
 using System;
@@ -24,7 +26,17 @@ namespace Ryujinx.HLE.Loaders.Processes
 
         private ulong _latestPid;
 
-        public ProcessResult ActiveApplication => _processesByPid[_latestPid];
+        public ProcessResult ActiveApplication
+        {
+            get
+            {
+                if (!_processesByPid.TryGetValue(_latestPid, out ProcessResult value))
+                    throw new RyujinxException(
+                        $"The HLE Process map did not have a process with ID {_latestPid}. Are you missing firmware?");
+                
+                return value;
+            }
+        }
 
         public ProcessLoader(Switch device)
         {
@@ -59,6 +71,8 @@ namespace Ryujinx.HLE.Loaders.Processes
                 {
                     _latestPid = processResult.ProcessId;
 
+                    TitleIDs.CurrentApplication.Value = processResult.ProgramIdText;
+
                     return true;
                 }
             }
@@ -85,6 +99,8 @@ namespace Ryujinx.HLE.Loaders.Processes
                 if (processResult.Start(_device))
                 {
                     _latestPid = processResult.ProcessId;
+
+                    TitleIDs.CurrentApplication.Value = processResult.ProgramIdText;
 
                     return true;
                 }
@@ -113,6 +129,8 @@ namespace Ryujinx.HLE.Loaders.Processes
                     if (processResult.ProgramId > 0x01000000000007FF)
                     {
                         _latestPid = processResult.ProcessId;
+
+                        TitleIDs.CurrentApplication.Value = processResult.ProgramIdText;
                     }
 
                     return true;
@@ -131,6 +149,8 @@ namespace Ryujinx.HLE.Loaders.Processes
                 if (processResult.Start(_device))
                 {
                     _latestPid = processResult.ProcessId;
+
+                    TitleIDs.CurrentApplication.Value = processResult.ProgramIdText;
 
                     return true;
                 }
@@ -183,14 +203,17 @@ namespace Ryujinx.HLE.Loaders.Processes
                     if (nacpData.Value.PresenceGroupId != 0)
                     {
                         programId = nacpData.Value.PresenceGroupId;
+                        TitleIDs.CurrentApplication.Value = programId.ToString("X16");
                     }
                     else if (nacpData.Value.SaveDataOwnerId != 0)
                     {
                         programId = nacpData.Value.SaveDataOwnerId;
+                        TitleIDs.CurrentApplication.Value = programId.ToString("X16");
                     }
                     else if (nacpData.Value.AddOnContentBaseId != 0)
                     {
                         programId = nacpData.Value.AddOnContentBaseId - 0x1000;
+                        TitleIDs.CurrentApplication.Value = programId.ToString("X16");
                     }
                 }
 
@@ -204,7 +227,7 @@ namespace Ryujinx.HLE.Loaders.Processes
             }
 
             // Explicitly null TitleId to disable the shader cache.
-            Graphics.Gpu.GraphicsConfig.TitleId = null;
+            GraphicsConfig.TitleId = null;
             _device.Gpu.HostInitalized.Set();
 
             ProcessResult processResult = ProcessLoaderHelper.LoadNsos(_device,

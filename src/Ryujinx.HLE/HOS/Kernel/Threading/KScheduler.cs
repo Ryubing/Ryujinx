@@ -9,13 +9,11 @@ namespace Ryujinx.HLE.HOS.Kernel.Threading
     partial class KScheduler : IDisposable
     {
         public const int PrioritiesCount = 64;
-        public const int CpuCoresCount = 4;
+        public static int CpuCoresCount;
 
         private const int RoundRobinTimeQuantumMs = 10;
 
-        private static readonly int[] _preemptionPriorities = { 59, 59, 59, 63 };
-
-        private static readonly int[] _srcCoresHighestPrioThreads = new int[CpuCoresCount];
+        private static int[] _srcCoresHighestPrioThreads;
 
         private readonly KernelContext _context;
         private readonly int _coreId;
@@ -47,6 +45,16 @@ namespace Ryujinx.HLE.HOS.Kernel.Threading
             _coreId = coreId;
 
             _currentThread = null;
+
+            if (_srcCoresHighestPrioThreads == null)
+            {
+                _srcCoresHighestPrioThreads = new int[CpuCoresCount];
+            }
+        }
+
+        private static int PreemptionPriorities(int index)
+        {
+            return index == CpuCoresCount - 1 ? 63 : 59;
         }
 
         public static ulong SelectThreads(KernelContext context)
@@ -437,7 +445,7 @@ namespace Ryujinx.HLE.HOS.Kernel.Threading
 
                 for (int core = 0; core < CpuCoresCount; core++)
                 {
-                    RotateScheduledQueue(context, core, _preemptionPriorities[core]);
+                    RotateScheduledQueue(context, core, PreemptionPriorities(core));
                 }
 
                 context.CriticalSection.Leave();

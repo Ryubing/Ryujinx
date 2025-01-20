@@ -93,6 +93,7 @@
                                         Padding="10"
                                         MinWidth="0"
                                         MinHeight="0"
+                                        ToolTip.Tip="{Binding Path}"
                                         Click="OpenLocation">
                                         <ui:SymbolIcon
                                             Symbol="OpenFolder"

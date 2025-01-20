@@ -406,7 +406,7 @@ namespace ARMeilleure.Instructions
                 {
                     Operand res = EmitSoftFloatCall(context, nameof(SoftFloat32.FPSub), op1, op2);
 
-                    return EmitUnaryMathCall(context, nameof(Math.Abs), res);
+                    return EmitUnaryMathCall(context, nameof(MathHelper.Abs), res);
                 });
             }
         }
@@ -451,7 +451,7 @@ namespace ARMeilleure.Instructions
                 {
                     Operand res = EmitSoftFloatCall(context, nameof(SoftFloat32.FPSub), op1, op2);
 
-                    return EmitUnaryMathCall(context, nameof(Math.Abs), res);
+                    return EmitUnaryMathCall(context, nameof(MathHelper.Abs), res);
                 });
             }
         }
@@ -483,7 +483,7 @@ namespace ARMeilleure.Instructions
             {
                 EmitScalarUnaryOpF(context, (op1) =>
                 {
-                    return EmitUnaryMathCall(context, nameof(Math.Abs), op1);
+                    return EmitUnaryMathCall(context, nameof(MathHelper.Abs), op1);
                 });
             }
         }
@@ -522,7 +522,7 @@ namespace ARMeilleure.Instructions
             {
                 EmitVectorUnaryOpF(context, (op1) =>
                 {
-                    return EmitUnaryMathCall(context, nameof(Math.Abs), op1);
+                    return EmitUnaryMathCall(context, nameof(MathHelper.Abs), op1);
                 });
             }
         }
@@ -2246,7 +2246,7 @@ namespace ARMeilleure.Instructions
             {
                 EmitScalarUnaryOpF(context, (op1) =>
                 {
-                    return EmitUnaryMathCall(context, nameof(Math.Floor), op1);
+                    return EmitUnaryMathCall(context, nameof(MathHelper.Floor), op1);
                 });
             }
         }
@@ -2265,7 +2265,7 @@ namespace ARMeilleure.Instructions
             {
                 EmitVectorUnaryOpF(context, (op1) =>
                 {
-                    return EmitUnaryMathCall(context, nameof(Math.Floor), op1);
+                    return EmitUnaryMathCall(context, nameof(MathHelper.Floor), op1);
                 });
             }
         }
@@ -2322,7 +2322,7 @@ namespace ARMeilleure.Instructions
             {
                 EmitScalarUnaryOpF(context, (op1) =>
                 {
-                    return EmitUnaryMathCall(context, nameof(Math.Ceiling), op1);
+                    return EmitUnaryMathCall(context, nameof(MathHelper.Ceiling), op1);
                 });
             }
         }
@@ -2341,7 +2341,7 @@ namespace ARMeilleure.Instructions
             {
                 EmitVectorUnaryOpF(context, (op1) =>
                 {
-                    return EmitUnaryMathCall(context, nameof(Math.Ceiling), op1);
+                    return EmitUnaryMathCall(context, nameof(MathHelper.Ceiling), op1);
                 });
             }
         }
@@ -2390,7 +2390,7 @@ namespace ARMeilleure.Instructions
             {
                 EmitScalarUnaryOpF(context, (op1) =>
                 {
-                    return EmitUnaryMathCall(context, nameof(Math.Truncate), op1);
+                    return EmitUnaryMathCall(context, nameof(MathHelper.Truncate), op1);
                 });
             }
         }
@@ -2409,7 +2409,7 @@ namespace ARMeilleure.Instructions
             {
                 EmitVectorUnaryOpF(context, (op1) =>
                 {
-                    return EmitUnaryMathCall(context, nameof(Math.Truncate), op1);
+                    return EmitUnaryMathCall(context, nameof(MathHelper.Truncate), op1);
                 });
             }
         }

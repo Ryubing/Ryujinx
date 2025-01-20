@@ -17,7 +17,6 @@
     <MenuItem
         Click="CreateApplicationShortcut_Click"
         Header="{ext:Locale GameListContextMenuCreateShortcut}"
-        IsEnabled="{Binding CreateShortcutEnabled}"
         Icon="{ext:Icon fa-solid fa-bookmark}"
         ToolTip.Tip="{OnPlatform Default={ext:Locale GameListContextMenuCreateShortcutToolTip}, macOS={ext:Locale GameListContextMenuCreateShortcutToolTipMacOS}}" />
     <Separator />

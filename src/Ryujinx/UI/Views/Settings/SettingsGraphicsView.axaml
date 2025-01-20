@@ -33,15 +33,23 @@
                                 ToolTip.Tip="{ext:Locale SettingsTabGraphicsBackendTooltip}"
                                 Text="{ext:Locale SettingsTabGraphicsBackend}"
                                 Width="250" />
-                        <ComboBox Width="350"
-                                HorizontalContentAlignment="Left"
-                                ToolTip.Tip="{ext:Locale SettingsTabGraphicsBackendTooltip}"
-                                SelectedIndex="{Binding GraphicsBackendIndex}">
+                        <ComboBox
+                            Name="GraphicsBackendSelector"
+                            Width="350"
+                            HorizontalContentAlignment="Left"
+                            ToolTip.Tip="{ext:Locale SettingsTabGraphicsBackendTooltip}"
+                            SelectedIndex="{Binding GraphicsBackendIndex}">
+                            <ComboBoxItem IsVisible="{Binding IsVulkanAvailable}" ToolTip.Tip="{ext:Locale SettingsTabGraphicsBackendAutoTooltip}" >
+                                <TextBlock Text="{ext:Locale SettingsTabGraphicsBackendAuto}" />
+                            </ComboBoxItem>
                             <ComboBoxItem IsVisible="{Binding IsVulkanAvailable}">
                                 <TextBlock Text="Vulkan" />
                             </ComboBoxItem>
                             <ComboBoxItem IsEnabled="{Binding IsOpenGLAvailable}">
                                 <TextBlock Text="OpenGL" />
+                            </ComboBoxItem>
+                            <ComboBoxItem IsEnabled="{Binding IsAppleSiliconMac}">
+                                <TextBlock Text="Metal (ARM Mac only, Experimental)" />
                             </ComboBoxItem>
                         </ComboBox>
                     </StackPanel>

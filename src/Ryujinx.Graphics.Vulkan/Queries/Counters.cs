@@ -13,7 +13,7 @@ namespace Ryujinx.Graphics.Vulkan.Queries
         {
             _pipeline = pipeline;
 
-            int count = Enum.GetNames(typeof(CounterType)).Length;
+            int count = Enum.GetNames<CounterType>().Length;
 
             _counterQueues = new CounterQueue[count];
 

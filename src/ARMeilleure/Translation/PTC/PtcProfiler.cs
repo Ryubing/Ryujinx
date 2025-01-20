@@ -1,4 +1,5 @@
 using ARMeilleure.State;
+using Humanizer;
 using Ryujinx.Common;
 using Ryujinx.Common.Logging;
 using Ryujinx.Common.Memory;
@@ -59,8 +60,8 @@ namespace ARMeilleure.Translation.PTC
         {
             _ptc = ptc;
 
-            _timer = new Timer(SaveInterval * 1000d);
-            _timer.Elapsed += PreSave;
+            _timer = new Timer(SaveInterval.Seconds());
+            _timer.Elapsed += TimerElapsed;
 
             _outerHeaderMagic = BinaryPrimitives.ReadUInt64LittleEndian(EncodingCache.UTF8NoBOM.GetBytes(OuterHeaderMagicString).AsSpan());
 
@@ -72,6 +73,9 @@ namespace ARMeilleure.Translation.PTC
 
             Enabled = false;
         }
+
+        private void TimerElapsed(object _, ElapsedEventArgs __) 
+            => new Thread(PreSave) { Name = "Ptc.DiskWriter" }.Start();
 
         public void AddEntry(ulong address, ExecutionMode mode, bool highCq, bool blacklist = false)
         {
@@ -306,7 +310,7 @@ namespace ARMeilleure.Translation.PTC
             compressedStream.SetLength(0L);
         }
 
-        private void PreSave(object source, ElapsedEventArgs e)
+        private void PreSave()
         {
             _waitEvent.Reset();
 
@@ -494,7 +498,7 @@ namespace ARMeilleure.Translation.PTC
             {
                 _disposed = true;
 
-                _timer.Elapsed -= PreSave;
+                _timer.Elapsed -= TimerElapsed;
                 _timer.Dispose();
 
                 Wait();

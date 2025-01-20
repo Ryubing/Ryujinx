@@ -460,8 +460,8 @@ namespace ARMeilleure.Instructions
             IOpCodeSimd op = (IOpCodeSimd)context.CurrOp;
 
             MethodInfo info = (op.Size & 1) == 0
-                ? typeof(MathF).GetMethod(name, new Type[] { typeof(float) })
-                : typeof(Math).GetMethod(name, new Type[] { typeof(double) });
+                ? typeof(MathHelperF).GetMethod(name, new Type[] { typeof(float) })
+                : typeof(MathHelper).GetMethod(name, new Type[] { typeof(double) });
 
             return context.Call(info, n);
         }
@@ -470,11 +470,11 @@ namespace ARMeilleure.Instructions
         {
             IOpCodeSimd op = (IOpCodeSimd)context.CurrOp;
 
-            string name = nameof(Math.Round);
+            string name = nameof(MathHelper.Round);
 
             MethodInfo info = (op.Size & 1) == 0
-                ? typeof(MathF).GetMethod(name, new Type[] { typeof(float), typeof(MidpointRounding) })
-                : typeof(Math).GetMethod(name, new Type[] { typeof(double), typeof(MidpointRounding) });
+                ? typeof(MathHelperF).GetMethod(name, new Type[] { typeof(float), typeof(int) })
+                : typeof(MathHelper).GetMethod(name, new Type[] { typeof(double), typeof(int) });
 
             return context.Call(info, n, Const((int)roundMode));
         }
@@ -510,16 +510,16 @@ namespace ARMeilleure.Instructions
 
             context.MarkLabel(lbl1);
             context.BranchIf(lbl2, rMode, rP, Comparison.NotEqual);
-            context.Copy(res, EmitUnaryMathCall(context, nameof(Math.Ceiling), op));
+            context.Copy(res, EmitUnaryMathCall(context, nameof(MathHelper.Ceiling), op));
             context.Branch(lblEnd);
 
             context.MarkLabel(lbl2);
             context.BranchIf(lbl3, rMode, rM, Comparison.NotEqual);
-            context.Copy(res, EmitUnaryMathCall(context, nameof(Math.Floor), op));
+            context.Copy(res, EmitUnaryMathCall(context, nameof(MathHelper.Floor), op));
             context.Branch(lblEnd);
 
             context.MarkLabel(lbl3);
-            context.Copy(res, EmitUnaryMathCall(context, nameof(Math.Truncate), op));
+            context.Copy(res, EmitUnaryMathCall(context, nameof(MathHelper.Truncate), op));
             context.Branch(lblEnd);
 
             context.MarkLabel(lblEnd);

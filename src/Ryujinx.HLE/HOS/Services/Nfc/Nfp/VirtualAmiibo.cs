@@ -16,7 +16,7 @@ namespace Ryujinx.HLE.HOS.Services.Nfc.Nfp
     static class VirtualAmiibo
     {
         public static uint OpenedApplicationAreaId;
-        public static byte[] ApplicationBytes = new byte[0];
+        public static byte[] ApplicationBytes = Array.Empty<byte>();
         public static string InputBin = string.Empty;
         public static string NickName = string.Empty;
         private static readonly AmiiboJsonSerializerContext _serializerContext = AmiiboJsonSerializerContext.Default;
@@ -137,7 +137,7 @@ namespace Ryujinx.HLE.HOS.Services.Nfc.Nfp
             if (ApplicationBytes.Length > 0)
             {
                 byte[] bytes = ApplicationBytes;
-                ApplicationBytes = new byte[0];
+                ApplicationBytes = Array.Empty<byte>();
                 return bytes;
             }
             VirtualAmiiboFile virtualAmiiboFile = LoadAmiiboFile(amiiboId);

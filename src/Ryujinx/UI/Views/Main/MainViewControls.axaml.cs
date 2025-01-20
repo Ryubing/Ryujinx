@@ -26,7 +26,6 @@ namespace Ryujinx.Ava.UI.Views.Main
             {
                 DataContext = ViewModel = window.ViewModel;
             }
-
         }
 
         public void Sort_Checked(object sender, RoutedEventArgs args)

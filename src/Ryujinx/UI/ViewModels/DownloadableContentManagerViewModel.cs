@@ -2,13 +2,14 @@ using Avalonia.Collections;
 using Avalonia.Controls.ApplicationLifetimes;
 using Avalonia.Platform.Storage;
 using Avalonia.Threading;
+using CommunityToolkit.Mvvm.ComponentModel;
 using DynamicData;
 using FluentAvalonia.UI.Controls;
 using Ryujinx.Ava.Common.Locale;
+using Ryujinx.Ava.Common.Models;
 using Ryujinx.Ava.UI.Helpers;
+using Ryujinx.Ava.Utilities.AppLibrary;
 using Ryujinx.HLE.FileSystem;
-using Ryujinx.UI.App.Common;
-using Ryujinx.UI.Common.Models;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
@@ -17,13 +18,13 @@ using Application = Avalonia.Application;
 
 namespace Ryujinx.Ava.UI.ViewModels
 {
-    public class DownloadableContentManagerViewModel : BaseModel
+    public partial class DownloadableContentManagerViewModel : BaseModel
     {
         private readonly ApplicationLibrary _applicationLibrary;
         private AvaloniaList<DownloadableContentModel> _downloadableContents = new();
-        private AvaloniaList<DownloadableContentModel> _selectedDownloadableContents = new();
-        private AvaloniaList<DownloadableContentModel> _views = new();
-        private bool _showBundledContentNotice = false;
+        [ObservableProperty] private AvaloniaList<DownloadableContentModel> _selectedDownloadableContents = new();
+        [ObservableProperty] private AvaloniaList<DownloadableContentModel> _views = new();
+        [ObservableProperty] private bool _showBundledContentNotice = false;
 
         private string _search;
         private readonly ApplicationData _applicationData;
@@ -38,26 +39,6 @@ namespace Ryujinx.Ava.UI.ViewModels
                 OnPropertyChanged();
                 OnPropertyChanged(nameof(UpdateCount));
                 Sort();
-            }
-        }
-
-        public AvaloniaList<DownloadableContentModel> Views
-        {
-            get => _views;
-            set
-            {
-                _views = value;
-                OnPropertyChanged();
-            }
-        }
-
-        public AvaloniaList<DownloadableContentModel> SelectedDownloadableContents
-        {
-            get => _selectedDownloadableContents;
-            set
-            {
-                _selectedDownloadableContents = value;
-                OnPropertyChanged();
             }
         }
 
@@ -77,26 +58,13 @@ namespace Ryujinx.Ava.UI.ViewModels
             get => string.Format(LocaleManager.Instance[LocaleKeys.DlcWindowHeading], DownloadableContents.Count);
         }
 
-        public bool ShowBundledContentNotice
-        {
-            get => _showBundledContentNotice;
-            set
-            {
-                _showBundledContentNotice = value;
-                OnPropertyChanged();
-            }
-        }
-
         public DownloadableContentManagerViewModel(ApplicationLibrary applicationLibrary, ApplicationData applicationData)
         {
             _applicationLibrary = applicationLibrary;
 
             _applicationData = applicationData;
 
-            if (Application.Current.ApplicationLifetime is IClassicDesktopStyleApplicationLifetime desktop)
-            {
-                _storageProvider = desktop.MainWindow.StorageProvider;
-            }
+            _storageProvider = RyujinxApp.MainWindow.StorageProvider;
 
             LoadDownloadableContents();
         }
@@ -138,9 +106,9 @@ namespace Ryujinx.Ava.UI.ViewModels
             // NOTE(jpr): this works around a bug where calling _views.Clear also clears SelectedDownloadableContents for
             // some reason. so we save the items here and add them back after
             var items = SelectedDownloadableContents.ToArray();
-
-            _views.Clear();
-            _views.AddRange(view);
+            
+            Views.Clear();
+            Views.AddRange(view);
 
             foreach (DownloadableContentModel item in items)
             {

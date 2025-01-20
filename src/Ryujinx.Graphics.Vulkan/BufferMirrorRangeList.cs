@@ -175,7 +175,7 @@ namespace Ryujinx.Graphics.Vulkan
             {
                 return null;
             }
-
+            
             List<Range> result = null;
 
             int index = BinarySearch(list, offset, size);
@@ -189,7 +189,7 @@ namespace Ryujinx.Graphics.Vulkan
 
                 do
                 {
-                    (result ??= new List<Range>()).Add(list[index++]);
+                    (result ??= []).Add(list[index++]);
                 }
                 while (index < list.Count && list[index].OverlapsWith(offset, size));
             }

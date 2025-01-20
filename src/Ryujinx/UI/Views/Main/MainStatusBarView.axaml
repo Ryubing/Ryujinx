@@ -132,14 +132,7 @@
                         </Flyout>
                     </Button.Flyout>
                 </Button>
-            <Border
-                Width="2"
-                Height="12"
-                Margin="0"
-                BorderBrush="Gray"
-                Background="Gray"
-                BorderThickness="1"
-                IsVisible="{Binding !ShowLoadProgress}" />
+            <controls:MiniVerticalSeparator IsVisible="{Binding !ShowLoadProgress}" />
             <TextBlock
                 Name="DockedStatus"
                 Margin="5,0,5,0"
@@ -149,14 +142,7 @@
                 PointerReleased="DockedStatus_PointerReleased"
                 Text="{Binding DockedStatusText}"
                 TextAlignment="Start" />
-            <Border
-                Width="2"
-                Height="12"
-                Margin="0"
-                BorderBrush="Gray"
-                Background="Gray"
-                BorderThickness="1"
-                IsVisible="{Binding !ShowLoadProgress}" />
+            <controls:MiniVerticalSeparator IsVisible="{Binding !ShowLoadProgress}" />
             <SplitButton
                 Name="AspectRatioStatus"
                 Padding="5,0,5,0"
@@ -203,14 +189,7 @@
                     </MenuFlyout>
                 </SplitButton.Flyout>
             </SplitButton>
-            <Border
-                Width="2"
-                Height="12"
-                Margin="0"
-                BorderBrush="Gray"
-                Background="Gray"
-                BorderThickness="1"
-                IsVisible="{Binding !ShowLoadProgress}" />
+            <controls:MiniVerticalSeparator IsVisible="{Binding !ShowLoadProgress}" />
             <ToggleSplitButton
                 Name="VolumeStatus"
                 Padding="5,0,5,0"
@@ -254,14 +233,7 @@
                     </Flyout>
                 </ToggleSplitButton.Flyout>
             </ToggleSplitButton>
-            <Border
-                Width="2"
-                Height="12"
-                Margin="0"
-                BorderBrush="Gray"
-                Background="Gray"
-                BorderThickness="1"
-                IsVisible="{Binding !ShowLoadProgress}" />
+            <controls:MiniVerticalSeparator IsVisible="{Binding !ShowLoadProgress}" />
             <TextBlock
                 Margin="5,0,5,0"
                 HorizontalAlignment="Left"
@@ -269,14 +241,7 @@
                 IsVisible="{Binding !ShowLoadProgress}"
                 Text="{Binding GameStatusText}"
                 TextAlignment="Start" />
-            <Border
-                Width="2"
-                Height="12"
-                Margin="0"
-                BorderBrush="Gray"
-                Background="Gray"
-                BorderThickness="1"
-                IsVisible="{Binding !ShowLoadProgress}" />
+            <controls:MiniVerticalSeparator IsVisible="{Binding !ShowLoadProgress}" />
             <TextBlock
                 Margin="5,0,5,0"
                 HorizontalAlignment="Left"
@@ -298,13 +263,7 @@
                 VerticalAlignment="Center"
                 IsVisible="{Binding ShowShaderCompilationHint}"
                 Text="{Binding ShaderCountText}" />
-            <Border
-                Width="2"
-                Height="12"
-                Margin="0"
-                BorderBrush="Gray"
-                BorderThickness="1"
-                IsVisible="{Binding ShowShaderCompilationHint}" />
+            <controls:MiniVerticalSeparator IsVisible="{Binding ShowShaderCompilationHint}" />
             <TextBlock
                 Margin="5,0,5,0"
                 HorizontalAlignment="Left"
@@ -312,14 +271,7 @@
                 IsVisible="{Binding !ShowLoadProgress}"
                 Text="{Binding BackendText}"
                 TextAlignment="Start" />
-            <Border
-                Width="2"
-                Height="12"
-                Margin="0"
-                BorderBrush="Gray"
-                Background="Gray"
-                BorderThickness="1"
-                IsVisible="{Binding !ShowLoadProgress}" />
+            <controls:MiniVerticalSeparator IsVisible="{Binding !ShowLoadProgress}" />
             <TextBlock
                 Margin="5,0,0,0"
                 HorizontalAlignment="Left"
@@ -334,13 +286,7 @@
             VerticalAlignment="Center"
             IsVisible="{Binding ShowFirmwareStatus}"
             Orientation="Horizontal">
-            <Border
-                Width="2"
-                Height="12"
-                Margin="0"
-                BorderBrush="Gray"
-                BorderThickness="1"
-                IsVisible="{Binding IsGameRunning}" />
+            <controls:MiniVerticalSeparator IsVisible="{Binding IsGameRunning}" />
             <TextBlock
                 Name="FirmwareStatus"
                 Margin="5, 0, 0, 0"
