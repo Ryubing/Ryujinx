@@ -735,21 +735,19 @@ namespace Ryujinx.Ava.UI.Windows
             });
         }
 
-        private static bool _intelMacWarningShown;
+        private static bool _intelMacWarningShown = !(OperatingSystem.IsMacOS() &&
+                                                     (RuntimeInformation.OSArchitecture == Architecture.X64 ||
+                                                      RuntimeInformation.OSArchitecture == Architecture.X86));
 
         public static async Task ShowIntelMacWarningAsync()
         {
-            if (!_intelMacWarningShown && 
-                (OperatingSystem.IsMacOS() && 
-                 (RuntimeInformation.OSArchitecture == Architecture.X64 ||
-                                               RuntimeInformation.OSArchitecture == Architecture.X86)))
-            {
-                _intelMacWarningShown = true;
+            if (_intelMacWarningShown) return;
+            
+            await Dispatcher.UIThread.InvokeAsync(async () => await ContentDialogHelper.CreateWarningDialog(
+                "Intel Mac Warning",
+                "Intel Macs are not supported and will not work properly.\nIf you continue, do not come to our Discord asking for support;\nand do not report bugs on the GitHub. They will be closed."));
 
-                await Dispatcher.UIThread.InvokeAsync(async () => await ContentDialogHelper.CreateWarningDialog(
-                    "Intel Mac Warning",
-                    "Intel Macs are not supported and will not work properly.\nIf you continue, do not come to our Discord asking for support."));
-            }
+            _intelMacWarningShown = true;
         }
     }
 }

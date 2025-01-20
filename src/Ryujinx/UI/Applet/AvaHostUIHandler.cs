@@ -279,13 +279,13 @@ namespace Ryujinx.Ava.UI.Applet
                     .ForEach(profile => profiles.Add(new Models.UserProfile(profile, nav)));
                 
                 profiles.Add(new Models.UserProfile(guest, nav));
-                UserSelectorDialogViewModel viewModel = new();
-                viewModel.Profiles = profiles;
-                viewModel.SelectedUserId = _parent.AccountManager.LastOpenedUser.UserId;
+                UserSelectorDialogViewModel viewModel = new()
+                {
+                    Profiles = profiles, 
+                    SelectedUserId = _parent.AccountManager.LastOpenedUser.UserId
+                };
                 UserSelectorDialog content = new(viewModel);
-                (UserId id, _) = await UserSelectorDialog.ShowInputDialog(content);
-                
-                selected = id;
+                (selected, _) = await UserSelectorDialog.ShowInputDialog(content);
         
                 dialogCloseEvent.Set();
             });
