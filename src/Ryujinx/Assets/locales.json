@@ -2023,6 +2023,56 @@
       }
     },
     {
+      "ID": "GameListContextMenuCacheManagementNukePptc",
+      "Translations": {
+        "ar_SA": "",
+        "de_DE": "",
+        "el_GR": "",
+        "en_US": "Purge PPTC cache",
+        "es_ES": "",
+        "fr_FR": "",
+        "he_IL": "",
+        "it_IT": "",
+        "ja_JP": "",
+        "ko_KR": "",
+        "no_NO": "",
+        "pl_PL": "",
+        "pt_BR": "",
+        "ru_RU": "",
+        "sv_SE": "",
+        "th_TH": "",
+        "tr_TR": "",
+        "uk_UA": "",
+        "zh_CN": "",
+        "zh_TW": ""
+      }
+    },
+    {
+      "ID": "GameListContextMenuCacheManagementNukePptcToolTip",
+      "Translations": {
+        "ar_SA": "",
+        "de_DE": "",
+        "el_GR": "",
+        "en_US": "Deletes all PPTC cache files for the Application",
+        "es_ES": "",
+        "fr_FR": "",
+        "he_IL": "",
+        "it_IT": "",
+        "ja_JP": "",
+        "ko_KR": "",
+        "no_NO": "",
+        "pl_PL": "",
+        "pt_BR": "",
+        "ru_RU": "",
+        "sv_SE": "",
+        "th_TH": "",
+        "tr_TR": "",
+        "uk_UA": "",
+        "zh_CN": "",
+        "zh_TW": ""
+      }
+    },
+    {
       "ID": "GameListContextMenuCacheManagementPurgeShaderCache",
       "Translations": {
         "ar_SA": "تنظيف ذاكرة مرشحات الفيديو المؤقتة",
@@ -12945,6 +12995,31 @@
         "uk_UA": "Помилка очищення кешу PPTC на {0}: {1}",
         "zh_CN": "清除 {0} 的 PPTC 缓存文件时出错：{1}",
         "zh_TW": "在 {0} 清除 PPTC 快取時出錯: {1}"
+      }
+    },
+    {
+      "ID": "DialogPPTCNukeMessage",
+      "Translations": {
+        "ar_SA": "",
+        "de_DE": "",
+        "el_GR": "",
+        "en_US": "You are about to purge all PPTC data from:\n\n{0}\n\nAre you sure you want to proceed?",
+        "es_ES": "",
+        "fr_FR": "",
+        "he_IL": "",
+        "it_IT": "",
+        "ja_JP": "",
+        "ko_KR": "",
+        "no_NO": "",
+        "pl_PL": "",
+        "pt_BR": "",
+        "ru_RU": "",
+        "sv_SE": "",
+        "th_TH": "",
+        "tr_TR": "",
+        "uk_UA": "",
+        "zh_CN": "",
+        "zh_TW": ""
       }
     },
     {
