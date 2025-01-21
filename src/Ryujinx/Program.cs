@@ -230,6 +230,7 @@ namespace Ryujinx.Ava
         internal static void PrintSystemInfo()
         {
             Logger.Notice.Print(LogClass.Application, $"{RyujinxApp.FullAppName} Version: {Version}");
+            Logger.Notice.Print(LogClass.Application, $"Runtime: {RuntimeInformation.FrameworkDescription}");
             SystemInfo.Gather().Print();
 
             var enabledLogLevels = Logger.GetEnabledLevels().ToArray();
