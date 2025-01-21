@@ -3,10 +3,13 @@ using Avalonia.Interactivity;
 using Avalonia.Markup.Xaml;
 using Avalonia.Platform.Storage;
 using Avalonia.Threading;
+using FluentAvalonia.UI.Controls;
+using LibHac;
 using LibHac.Fs;
 using LibHac.Tools.FsSystem.NcaUtils;
 using Ryujinx.Ava.Common;
 using Ryujinx.Ava.Common.Locale;
+using Ryujinx.Ava.Common.Models;
 using Ryujinx.Ava.UI.Helpers;
 using Ryujinx.Ava.UI.ViewModels;
 using Ryujinx.Ava.UI.Windows;
@@ -14,6 +17,7 @@ using Ryujinx.Ava.Utilities;
 using Ryujinx.Ava.Utilities.AppLibrary;
 using Ryujinx.Common.Configuration;
 using Ryujinx.Common.Helper;
+using Ryujinx.Common.Logging;
 using Ryujinx.HLE.HOS;
 using SkiaSharp;
 using System;
@@ -278,6 +282,22 @@ namespace Ryujinx.Ava.UI.Controls
                     NcaSectionType.Data,
                     viewModel.SelectedApplication.Path,
                     viewModel.SelectedApplication.Name);
+        }
+        
+        public async void ExtractAocRomFs_Click(object sender, RoutedEventArgs args)
+        {
+            if (sender is not MenuItem { DataContext: MainWindowViewModel { SelectedApplication: not null } viewModel })
+                return;
+
+            DownloadableContentModel selectedDlc = await DlcSelectView.Show(viewModel.SelectedApplication.IdBase, viewModel.ApplicationLibrary);
+            
+            if (selectedDlc is not null)
+            {
+                await ApplicationHelper.ExtractAoc(
+                    viewModel.StorageProvider,
+                    selectedDlc.ContainerPath,
+                    selectedDlc.FileName);
+            }
         }
 
         public async void ExtractApplicationLogo_Click(object sender, RoutedEventArgs args)

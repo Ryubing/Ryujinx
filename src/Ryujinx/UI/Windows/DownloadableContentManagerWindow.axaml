@@ -14,9 +14,6 @@
     mc:Ignorable="d"
     x:DataType="viewModels:DownloadableContentManagerViewModel"
     Focusable="True">
-    <UserControl.Resources>
-        <helpers:DownloadableContentLabelConverter x:Key="DownloadableContentLabel" />
-    </UserControl.Resources>
     <Grid RowDefinitions="Auto,Auto,*,Auto">
         <StackPanel
             Grid.Row="0"
@@ -89,7 +86,7 @@
                 <ListBox.DataTemplates>
                     <DataTemplate
                         DataType="models:DownloadableContentModel">
-                        <Panel Margin="10">
+                        <Panel Margin="10" Background="Transparent">
                             <Grid ColumnDefinitions="*,Auto">
                                 <Grid
                                     Grid.Column="0" ColumnDefinitions="*,Auto">
@@ -101,7 +98,7 @@
                                         TextWrapping="Wrap"
                                         TextTrimming="CharacterEllipsis">
                                         <TextBlock.Text>
-                                            <MultiBinding Converter="{StaticResource DownloadableContentLabel}">
+                                            <MultiBinding Converter="{x:Static helpers:DownloadableContentLabelConverter.Instance}">
                                                 <Binding Path="FileName" />
                                                 <Binding Path="IsBundled" />
                                             </MultiBinding>
@@ -112,7 +109,7 @@
                                         Margin="10 0"
                                         HorizontalAlignment="Left"
                                         VerticalAlignment="Center"
-                                        Text="{Binding TitleId}" />
+                                        Text="{Binding TitleIdStr}" />
                                 </Grid>
                                 <StackPanel
                                     Grid.Column="1"

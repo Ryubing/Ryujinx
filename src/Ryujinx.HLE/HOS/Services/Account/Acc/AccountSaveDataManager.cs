@@ -56,7 +56,7 @@ namespace Ryujinx.HLE.HOS.Services.Account.Acc
             ProfilesJson profilesJson = JsonHelper.DeserializeFromFile(_profilesJsonPath, _serializerContext.ProfilesJson);
 
             return profilesJson.Profiles
-                .FindFirst(profile => profile.AccountState == AccountState.Open)
+                .FindFirst(profile => profile.UserId == profilesJson.LastOpened)
                 .Convert(profileJson => new UserProfile(new UserId(profileJson.UserId), profileJson.Name,
                     profileJson.Image, profileJson.LastModifiedTimestamp));
         }

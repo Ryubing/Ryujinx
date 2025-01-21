@@ -208,7 +208,7 @@
                 Name="ActionsMenuItem"
                 VerticalAlignment="Center"
                 Header="{ext:Locale MenuBarActions}"
-                IsEnabled="{Binding IsGameRunning}">
+                IsVisible="{Binding !EnableNonGameRunningControls}">
                 <MenuItem
                     Name="PauseEmulationMenuItem"
                     Header="{ext:Locale MenuBarOptionsPauseEmulation}"
@@ -265,21 +265,21 @@
                     Icon="{ext:Icon fa-solid fa-code}"
                     IsEnabled="{Binding IsGameRunning}" />
             </MenuItem>
-            <MenuItem VerticalAlignment="Center" Header="{ext:Locale MenuBarTools}">
-                <MenuItem Header="{ext:Locale MenuBarToolsInstallKeys}" Icon="{ext:Icon fa-solid fa-key}" IsEnabled="{Binding EnableNonGameRunningControls}">
-                    <MenuItem Command="{Binding InstallKeysFromFile}" Header="{ext:Locale MenuBarFileToolsInstallKeysFromFile}" Icon="{ext:Icon mdi-file-cog}" />
-                    <MenuItem Command="{Binding InstallKeysFromFolder}" Header="{ext:Locale MenuBarFileToolsInstallKeysFromFolder}" Icon="{ext:Icon mdi-folder-cog}" />
+            <MenuItem VerticalAlignment="Center" Header="{ext:Locale MenuBarActions}" IsVisible="{Binding EnableNonGameRunningControls}">
+                <MenuItem Header="{ext:Locale MenuBarActionsInstallKeys}" Icon="{ext:Icon fa-solid fa-key}">
+                    <MenuItem Command="{Binding InstallKeysFromFile}" Header="{ext:Locale MenuBarFileActionsInstallKeysFromFile}" Icon="{ext:Icon mdi-file-cog}" />
+                    <MenuItem Command="{Binding InstallKeysFromFolder}" Header="{ext:Locale MenuBarFileActionsInstallKeysFromFolder}" Icon="{ext:Icon mdi-folder-cog}" />
                 </MenuItem>
-                <MenuItem Header="{ext:Locale MenuBarToolsInstallFirmware}" Icon="{ext:Icon fa-solid fa-download}" IsEnabled="{Binding EnableNonGameRunningControls}">
-                    <MenuItem Command="{Binding InstallFirmwareFromFile}" Header="{ext:Locale MenuBarFileToolsInstallFirmwareFromFile}" Icon="{ext:Icon mdi-file-cog}" />
-                    <MenuItem Command="{Binding InstallFirmwareFromFolder}" Header="{ext:Locale MenuBarFileToolsInstallFirmwareFromDirectory}" Icon="{ext:Icon mdi-folder-cog}" />
+                <MenuItem Header="{ext:Locale MenuBarActionsInstallFirmware}" Icon="{ext:Icon fa-solid fa-download}">
+                    <MenuItem Command="{Binding InstallFirmwareFromFile}" Header="{ext:Locale MenuBarActionsInstallFirmwareFromFile}" Icon="{ext:Icon mdi-file-cog}" />
+                    <MenuItem Command="{Binding InstallFirmwareFromFolder}" Header="{ext:Locale MenuBarActionsInstallFirmwareFromDirectory}" Icon="{ext:Icon mdi-folder-cog}" />
                 </MenuItem>
-                <MenuItem Header="{ext:Locale MenuBarToolsManageFileTypes}" IsVisible="{Binding ManageFileTypesVisible}">
-                    <MenuItem Name="InstallFileTypesMenuItem" Header="{ext:Locale MenuBarToolsInstallFileTypes}" IsEnabled="{Binding AreMimeTypesRegistered, Converter={x:Static BoolConverters.Not}}" />
-                    <MenuItem Name="UninstallFileTypesMenuItem" Header="{ext:Locale MenuBarToolsUninstallFileTypes}" IsEnabled="{Binding AreMimeTypesRegistered}" />
+                <MenuItem Header="{ext:Locale MenuBarActionsManageFileTypes}" IsVisible="{Binding ManageFileTypesVisible}">
+                    <MenuItem Name="InstallFileTypesMenuItem" Header="{ext:Locale MenuBarActionsInstallFileTypes}" IsEnabled="{Binding AreMimeTypesRegistered, Converter={x:Static BoolConverters.Not}}" />
+                    <MenuItem Name="UninstallFileTypesMenuItem" Header="{ext:Locale MenuBarActionsUninstallFileTypes}" IsEnabled="{Binding AreMimeTypesRegistered}" />
                 </MenuItem>
                 <Separator />
-                <MenuItem Name="XciTrimmerMenuItem" Header="{ext:Locale MenuBarToolsXCITrimmer}" IsEnabled="{Binding EnableNonGameRunningControls}" Icon="{ext:Icon fa-solid fa-scissors}" />
+                <MenuItem Name="XciTrimmerMenuItem" Header="{ext:Locale MenuBarActionsXCITrimmer}" Icon="{ext:Icon fa-solid fa-scissors}" />
             </MenuItem>
             <MenuItem VerticalAlignment="Center" Header="{ext:Locale MenuBarView}">
                 <MenuItem VerticalAlignment="Center" Header="{ext:Locale MenuBarViewWindow}">

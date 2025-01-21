@@ -1,0 +1,67 @@
+﻿<UserControl xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:helpers="using:Ryujinx.Ava.UI.Helpers"
+             xmlns:ext="using:Ryujinx.Ava.Common.Markup"
+             xmlns:models="using:Ryujinx.Ava.Common.Models"
+             xmlns:viewModels="using:Ryujinx.Ava.UI.ViewModels"
+             mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
+             x:Class="Ryujinx.Ava.UI.Controls.DlcSelectView"
+             x:DataType="viewModels:DlcSelectViewModel">
+    <Grid RowDefinitions="*,Auto,*">
+        <TextBlock
+            Classes="h1"
+            Margin="5, -5, 0, 15"
+            HorizontalAlignment="Center"
+            VerticalAlignment="Center"
+            TextWrapping="Wrap"
+            Text="{ext:Locale ExtractAocListHeader}" />
+        <ScrollViewer Grid.Row="2">
+            <ListBox
+                AutoScrollToSelectedItem="False"
+                SelectionMode="Single"
+                Background="Transparent"
+                SelectedItem="{Binding SelectedDlc}"
+                ItemsSource="{Binding Dlcs}">
+                <ListBox.DataTemplates>
+                    <DataTemplate
+                        DataType="models:DownloadableContentModel">
+                        <Panel Margin="10" Background="Transparent">
+                            <Grid ColumnDefinitions="*,Auto">
+                                <Grid
+                                    Grid.Column="0" ColumnDefinitions="*,Auto">
+                                    <TextBlock
+                                        Grid.Column="0"
+                                        HorizontalAlignment="Left"
+                                        VerticalAlignment="Center"
+                                        MaxLines="2"
+                                        TextWrapping="Wrap"
+                                        TextTrimming="CharacterEllipsis">
+                                        <TextBlock.Text>
+                                            <MultiBinding Converter="{x:Static helpers:DownloadableContentLabelConverter.Instance}">
+                                                <Binding Path="FileName" />
+                                                <Binding Path="IsBundled" />
+                                            </MultiBinding>
+                                        </TextBlock.Text>
+                                    </TextBlock>
+                                    <TextBlock
+                                        Grid.Column="1"
+                                        Margin="10, 0, 0, 0"
+                                        HorizontalAlignment="Left"
+                                        VerticalAlignment="Center"
+                                        Text="{Binding TitleIdStr}" />
+                                </Grid>
+                            </Grid>
+                        </Panel>
+                    </DataTemplate>
+                </ListBox.DataTemplates>
+                <ListBox.Styles>
+                    <Style Selector="ListBoxItem">
+                        <Setter Property="Background" Value="Transparent" />
+                    </Style>
+                </ListBox.Styles>
+            </ListBox>
+        </ScrollViewer>
+    </Grid>
+</UserControl>

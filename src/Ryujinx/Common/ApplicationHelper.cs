@@ -295,6 +295,142 @@ namespace Ryujinx.Ava.Common
             };
             extractorThread.Start();
         }
+        
+        public static void ExtractAoc(string destination, string updateFilePath, string updateName)
+        {
+            var cancellationToken = new CancellationTokenSource();
+
+            UpdateWaitWindow waitingDialog = new(
+                RyujinxApp.FormatTitle(LocaleKeys.DialogNcaExtractionTitle),
+                LocaleManager.Instance.UpdateAndGetDynamicValue(LocaleKeys.DialogNcaExtractionMessage, NcaSectionType.Data, Path.GetFileName(updateFilePath)),
+                cancellationToken);
+
+            Thread extractorThread = new(() =>
+            {
+                Dispatcher.UIThread.Post(waitingDialog.Show);
+
+                using FileStream file = new(updateFilePath, FileMode.Open, FileAccess.Read);
+
+                Nca publicDataNca = null;
+
+                string extension = Path.GetExtension(updateFilePath).ToLower();
+                if (extension is ".nsp")
+                {
+                    var pfsTemp = new PartitionFileSystem();
+                    pfsTemp.Initialize(file.AsStorage()).ThrowIfFailure();
+                    IFileSystem pfs = pfsTemp;
+
+                    foreach (DirectoryEntryEx fileEntry in pfs.EnumerateEntries("/", "*.nca"))
+                    {
+                        using var ncaFile = new UniqueRef<IFile>();
+
+                        pfs.OpenFile(ref ncaFile.Ref, fileEntry.FullPath.ToU8Span(), OpenMode.Read).ThrowIfFailure();
+
+                        Nca nca = new(_virtualFileSystem.KeySet, ncaFile.Get.AsStorage());
+                        if (nca.Header.ContentType is NcaContentType.PublicData && nca.SectionExists(NcaSectionType.Data))
+                        {
+                            publicDataNca = nca;
+                        }
+                    }
+                }
+
+                if (publicDataNca is null)
+                {
+                    Logger.Error?.Print(LogClass.Application, "Extraction failure. The  NCA was not present in the selected file");
+
+                    Dispatcher.UIThread.InvokeAsync(async () =>
+                    {
+                        waitingDialog.Close();
+
+                        await ContentDialogHelper.CreateErrorDialog(LocaleManager.Instance[LocaleKeys.DialogNcaExtractionMainNcaNotFoundErrorMessage]);
+                    });
+
+                    return;
+                }
+
+                IntegrityCheckLevel checkLevel = ConfigurationState.Instance.System.EnableFsIntegrityChecks
+                    ? IntegrityCheckLevel.ErrorOnInvalid
+                    : IntegrityCheckLevel.None;
+
+                int index = Nca.GetSectionIndexFromType(NcaSectionType.Data, publicDataNca.Header.ContentType);
+
+                try
+                {
+                    IFileSystem ncaFileSystem = publicDataNca.OpenFileSystem(index, IntegrityCheckLevel.ErrorOnInvalid);
+
+                    FileSystemClient fsClient = _horizonClient.Fs;
+
+                    string source = DateTime.Now.ToFileTime().ToString()[10..];
+                    string output = DateTime.Now.ToFileTime().ToString()[10..];
+
+                    using var uniqueSourceFs = new UniqueRef<IFileSystem>(ncaFileSystem);
+                    using var uniqueOutputFs = new UniqueRef<IFileSystem>(new LocalFileSystem(destination));
+
+                    fsClient.Register(source.ToU8Span(), ref uniqueSourceFs.Ref);
+                    fsClient.Register(output.ToU8Span(), ref uniqueOutputFs.Ref);
+
+                    (Result? resultCode, bool canceled) = CopyDirectory(fsClient, $"{source}:/", $"{output}:/", cancellationToken.Token);
+
+                    if (!canceled)
+                    {
+                        if (resultCode.Value.IsFailure())
+                        {
+                            Logger.Error?.Print(LogClass.Application, $"LibHac returned error code: {resultCode.Value.ErrorCode}");
+
+                            Dispatcher.UIThread.InvokeAsync(async () =>
+                            {
+                                waitingDialog.Close();
+
+                                await ContentDialogHelper.CreateErrorDialog(LocaleManager.Instance[LocaleKeys.DialogNcaExtractionCheckLogErrorMessage]);
+                            });
+                        }
+                        else if (resultCode.Value.IsSuccess())
+                        {
+                            Dispatcher.UIThread.Post(waitingDialog.Close);
+
+                            NotificationHelper.ShowInformation(
+                                RyujinxApp.FormatTitle(LocaleKeys.DialogNcaExtractionTitle),
+                                $"{updateName}\n\n{LocaleManager.Instance[LocaleKeys.DialogNcaExtractionSuccessMessage]}");
+                        }
+                    }
+
+                    fsClient.Unmount(source.ToU8Span());
+                    fsClient.Unmount(output.ToU8Span());
+                }
+                catch (ArgumentException ex)
+                {
+                    Logger.Error?.Print(LogClass.Application, $"{ex.Message}");
+
+                    Dispatcher.UIThread.InvokeAsync(async () =>
+                    {
+                        waitingDialog.Close();
+
+                        await ContentDialogHelper.CreateErrorDialog(ex.Message);
+                    });
+                }
+            })
+            {
+                Name = "GUI.AocExtractorThread",
+                IsBackground = true,
+            };
+            extractorThread.Start();
+        }
+
+        public static async Task ExtractAoc(IStorageProvider storageProvider, string updateFilePath, string updateName)
+        {
+            var result = await storageProvider.OpenFolderPickerAsync(new FolderPickerOpenOptions
+            {
+                Title = LocaleManager.Instance[LocaleKeys.FolderDialogExtractTitle],
+                AllowMultiple = false,
+            });
+
+            if (result.Count == 0)
+            {
+                return;
+            }
+
+            ExtractAoc(result[0].Path.LocalPath, updateFilePath, updateName);
+        }
 
 
         public static async Task ExtractSection(IStorageProvider storageProvider, NcaSectionType ncaSectionType, string titleFilePath, string titleName, int programIndex = 0)

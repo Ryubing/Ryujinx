@@ -748,32 +748,7 @@
       }
     },
     {
-      "ID": "MenuBarTools",
-      "Translations": {
-        "ar_SA": "_الأدوات",
-        "de_DE": "",
-        "el_GR": "_Εργαλεία",
-        "en_US": "_Tools",
-        "es_ES": "_Herramientas",
-        "fr_FR": "_Outils",
-        "he_IL": "_כלים",
-        "it_IT": "_Strumenti",
-        "ja_JP": "ツール(_T)",
-        "ko_KR": "도구(_T)",
-        "no_NO": "_Verktøy",
-        "pl_PL": "_Narzędzia",
-        "pt_BR": "_Ferramentas",
-        "ru_RU": "_Инструменты",
-        "sv_SE": "V_erktyg",
-        "th_TH": "_เครื่องมือ",
-        "tr_TR": "_Araçlar",
-        "uk_UA": "_Інструменти",
-        "zh_CN": "工具(_T)",
-        "zh_TW": "工具(_T)"
-      }
-    },
-    {
-      "ID": "MenuBarToolsInstallFirmware",
+      "ID": "MenuBarActionsInstallFirmware",
       "Translations": {
         "ar_SA": "تثبيت البرنامج الثابت",
         "de_DE": "Firmware installieren",
@@ -798,7 +773,7 @@
       }
     },
     {
-      "ID": "MenuBarFileToolsInstallFirmwareFromFile",
+      "ID": "MenuBarActionsInstallFirmwareFromFile",
       "Translations": {
         "ar_SA": "تثبيت برنامج ثابت من XCI أو ZIP",
         "de_DE": "Firmware von einer XCI- oder einer ZIP-Datei installieren",
@@ -823,7 +798,7 @@
       }
     },
     {
-      "ID": "MenuBarFileToolsInstallFirmwareFromDirectory",
+      "ID": "MenuBarActionsInstallFirmwareFromDirectory",
       "Translations": {
         "ar_SA": "تثبيت برنامج ثابت من مجلد",
         "de_DE": "Firmware aus einem Verzeichnis installieren",
@@ -848,7 +823,7 @@
       }
     },
     {
-      "ID": "MenuBarToolsInstallKeys",
+      "ID": "MenuBarActionsInstallKeys",
       "Translations": {
         "ar_SA": "",
         "de_DE": "",
@@ -873,7 +848,7 @@
       }
     },
     {
-      "ID": "MenuBarFileToolsInstallKeysFromFile",
+      "ID": "MenuBarFileActionsInstallKeysFromFile",
       "Translations": {
         "ar_SA": "",
         "de_DE": "",
@@ -898,7 +873,7 @@
       }
     },
     {
-      "ID": "MenuBarFileToolsInstallKeysFromFolder",
+      "ID": "MenuBarFileActionsInstallKeysFromFolder",
       "Translations": {
         "ar_SA": "",
         "de_DE": "",
@@ -923,7 +898,7 @@
       }
     },
     {
-      "ID": "MenuBarToolsManageFileTypes",
+      "ID": "MenuBarActionsManageFileTypes",
       "Translations": {
         "ar_SA": "إدارة أنواع الملفات",
         "de_DE": "Dateitypen verwalten",
@@ -948,7 +923,7 @@
       }
     },
     {
-      "ID": "MenuBarToolsInstallFileTypes",
+      "ID": "MenuBarActionsInstallFileTypes",
       "Translations": {
         "ar_SA": "تثبيت أنواع الملفات",
         "de_DE": "Dateitypen installieren",
@@ -973,7 +948,7 @@
       }
     },
     {
-      "ID": "MenuBarToolsUninstallFileTypes",
+      "ID": "MenuBarActionsUninstallFileTypes",
       "Translations": {
         "ar_SA": "إزالة أنواع الملفات",
         "de_DE": "Dateitypen deinstallieren",
@@ -998,7 +973,7 @@
       }
     },
     {
-      "ID": "MenuBarToolsXCITrimmer",
+      "ID": "MenuBarActionsXCITrimmer",
       "Translations": {
         "ar_SA": "",
         "de_DE": "",
@@ -2295,6 +2270,56 @@
         "uk_UA": "Видобуває розділ RomFS із поточної конфігурації застосунку (включно з оновленнями)",
         "zh_CN": "从游戏的当前状态中提取 RomFS 分区 (包括更新)",
         "zh_TW": "從應用程式的目前配置中提取 RomFS 分區 (包含更新)"
+      }
+    },
+    {
+      "ID": "GameListContextMenuExtractDataAocRomFS",
+      "Translations": {
+        "ar_SA": "",
+        "de_DE": "",
+        "el_GR": "",
+        "en_US": "DLC RomFS",
+        "es_ES": "",
+        "fr_FR": "RomFS de DLC",
+        "he_IL": "",
+        "it_IT": "",
+        "ja_JP": "",
+        "ko_KR": "",
+        "no_NO": "",
+        "pl_PL": "",
+        "pt_BR": "",
+        "ru_RU": "",
+        "sv_SE": "",
+        "th_TH": "",
+        "tr_TR": "",
+        "uk_UA": "",
+        "zh_CN": "",
+        "zh_TW": ""
+      }
+    },
+    {
+      "ID": "GameListContextMenuExtractDataAocRomFSToolTip",
+      "Translations": {
+        "ar_SA": "",
+        "de_DE": "",
+        "el_GR": "",
+        "en_US": "Extract the RomFS from a selected DLC file",
+        "es_ES": "",
+        "fr_FR": "Extraire les RomFS d'un fichier DLC choisi",
+        "he_IL": "",
+        "it_IT": "",
+        "ja_JP": "",
+        "ko_KR": "",
+        "no_NO": "Pakk ut RomFS filene fra valgt DLC fil",
+        "pl_PL": "",
+        "pt_BR": "",
+        "ru_RU": "",
+        "sv_SE": "",
+        "th_TH": "",
+        "tr_TR": "",
+        "uk_UA": "",
+        "zh_CN": "",
+        "zh_TW": ""
       }
     },
     {
@@ -22895,6 +22920,31 @@
         "uk_UA": "",
         "zh_CN": "什么都没有",
         "zh_TW": "無法啟動 (Nothing)"
+      }
+    },
+    {
+      "ID": "ExtractAocListHeader",
+      "Translations": {
+        "ar_SA": "",
+        "de_DE": "",
+        "el_GR": "",
+        "en_US": "Select a DLC to Extract",
+        "es_ES": "",
+        "fr_FR": "Choisissez un DLC à extraire",
+        "he_IL": "",
+        "it_IT": "",
+        "ja_JP": "",
+        "ko_KR": "",
+        "no_NO": "Velg en DLC og hente ut",
+        "pl_PL": "",
+        "pt_BR": "",
+        "ru_RU": "",
+        "sv_SE": "",
+        "th_TH": "",
+        "tr_TR": "",
+        "uk_UA": "",
+        "zh_CN": "",
+        "zh_TW": ""
       }
     }
   ]
