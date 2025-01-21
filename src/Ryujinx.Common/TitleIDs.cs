@@ -28,8 +28,10 @@ namespace Ryujinx.Common
         
         public static readonly string[] GreatMetalTitles =
         [
+            "010076f0049a2000", // Bayonetta
             "0100a5c00d162000", // Cuphead
             "010023800d64a000", // Deltarune
+            "01003a30012c0000", // LEGO City Undercover
             "010028600EBDA000", // Mario 3D World
             "0100152000022000", // Mario Kart 8 Deluxe
             "0100187003A36000", // Pokémon: Let's Go, Eevee!
@@ -41,15 +43,11 @@ namespace Ryujinx.Common
             //These ones have small issues, but those happen on Vulkan as well:
             "01006f8002326000", // Animal Crossings: New Horizons
             "01009bf0072d4000", // Captain Toad: Treasure Tracker
+            "01009510001ca000", // Fast RMX
             "01005CA01580E000", // Persona 5 Royale
             "0100000000010000", // Super Mario Odyssey
 
-            //More testing needed:
-            "010076f0049a2000", // Bayonetta
-            "01009510001ca000", // Fast RMX
-            "01003a30012c0000", // LEGO City Undercover
-            "0100704000B3A000", // Snipperclips
-            "01008e20047dc000", // Snipperclips Plus
+            //Isaac claims it has a issue in level 2, but I am not able to replicate it on my M3. More testing would be appreciated:
             "010015100b514000", // Super Mario Bros. Wonder
         ];
         
