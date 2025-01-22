@@ -87,7 +87,7 @@ namespace Ryujinx.Input.SDL2
             Features = GetFeaturesFlag();
             _triggerThreshold = 0.0f;
 
-            //if (SDL_GameControllerHasLED(_gamepadHandle))
+            if (SDL_GameControllerHasLED(_gamepadHandle) == SDL_bool.SDL_TRUE)
             {
                 SetLedColor("000000");
             }
