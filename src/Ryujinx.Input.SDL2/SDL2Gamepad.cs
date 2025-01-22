@@ -89,7 +89,7 @@ namespace Ryujinx.Input.SDL2
 
             if (SDL_GameControllerHasLED(_gamepadHandle) == SDL_bool.SDL_TRUE)
             {
-                SetLedColor("000000");
+                SetLedColor("FFE4B5");
             }
             
             // Enable motion tracking
