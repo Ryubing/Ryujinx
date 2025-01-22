@@ -86,6 +86,11 @@ namespace Ryujinx.Input.SDL2
             Features = GetFeaturesFlag();
             _triggerThreshold = 0.0f;
 
+            //if (SDL_GameControllerHasLED(_gamepadHandle))
+            {
+                _setControllerLedColor("000000");
+            }
+            
             // Enable motion tracking
             if (Features.HasFlag(GamepadFeaturesFlag.Motion))
             {
@@ -99,6 +104,16 @@ namespace Ryujinx.Input.SDL2
                     Logger.Error?.Print(LogClass.Hid, $"Could not enable data reporting for SensorType {SDL_SensorType.SDL_SENSOR_GYRO}.");
                 }
             }
+        }
+
+        private void _setControllerLedColor(string hex)
+        {
+            ulong LEDcolor = Convert.ToUInt64(hex, 16);
+            byte red = (byte)((LEDcolor >> 16) % 256);
+            byte green = (byte)((LEDcolor >> 8) % 256);
+            byte blue = (byte)(LEDcolor % 256);
+                
+            SDL_GameControllerSetLED(_gamepadHandle, red, green, blue);
         }
 
         private GamepadFeaturesFlag GetFeaturesFlag()
