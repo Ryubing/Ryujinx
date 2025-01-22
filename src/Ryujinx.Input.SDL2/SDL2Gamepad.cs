@@ -89,7 +89,7 @@ namespace Ryujinx.Input.SDL2
 
             //if (SDL_GameControllerHasLED(_gamepadHandle))
             {
-                _setControllerLedColor("000000");
+                SetLedColor("000000");
             }
             
             // Enable motion tracking
@@ -107,7 +107,7 @@ namespace Ryujinx.Input.SDL2
             }
         }
 
-        private void _setControllerLedColor(string hex)
+        public void SetLedColor(string hex)
         {
             ulong LEDcolor = Convert.ToUInt64(hex, 16);
             byte red = (byte)((LEDcolor >> 16) % 256);
