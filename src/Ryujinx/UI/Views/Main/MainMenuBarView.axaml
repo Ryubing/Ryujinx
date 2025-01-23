@@ -264,19 +264,19 @@
                         Name="FaqMenuItem"
                         Header="{ext:Locale MenuBarHelpFaq}"
                         Icon="{ext:Icon fa-github}"
-                        CommandParameter="https://github.com/GreemDev/Ryujinx/wiki/FAQ-and-Troubleshooting"
+                        CommandParameter="https://github.com/Ryubing/Ryujinx/wiki/FAQ-and-Troubleshooting"
                         ToolTip.Tip="{ext:Locale MenuBarHelpFaqTooltip}" />
                     <MenuItem
                         Name="SetupGuideMenuItem"
                         Header="{ext:Locale MenuBarHelpSetup}"
                         Icon="{ext:Icon fa-github}"
-                        CommandParameter="https://github.com/GreemDev/Ryujinx/wiki/Ryujinx-Setup-&amp;-Configuration-Guide"
+                        CommandParameter="https://github.com/Ryubing/Ryujinx/wiki/Ryujinx-Setup-&amp;-Configuration-Guide"
                         ToolTip.Tip="{ext:Locale MenuBarHelpSetupTooltip}" />
                     <MenuItem
                         Name="LdnGuideMenuItem"
                         Header="{ext:Locale MenuBarHelpMultiplayer}"
                         Icon="{ext:Icon fa-github}"
-                        CommandParameter="https://github.com/GreemDev/Ryujinx/wiki/Multiplayer%E2%80%90(LDN%E2%80%90Local%E2%80%90Wireless)%E2%80%90Guide"
+                        CommandParameter="https://github.com/Ryubing/Ryujinx/wiki/Multiplayer%E2%80%90(LDN%E2%80%90Local%E2%80%90Wireless)%E2%80%90Guide"
                         ToolTip.Tip="{ext:Locale MenuBarHelpMultiplayerTooltip}" />
                 </MenuItem>
             </MenuItem>

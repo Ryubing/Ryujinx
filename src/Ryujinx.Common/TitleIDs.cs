@@ -8,7 +8,7 @@ namespace Ryujinx.Common
 {
     public static class TitleIDs
     {
-        public static ReactiveObject<Optional<string>> CurrentApplication { get; set; } = new();
+        public static ReactiveObject<Optional<string>> CurrentApplication { get; } = new();
         
         public static GraphicsBackend SelectGraphicsBackend(string titleId, GraphicsBackend currentBackend)
         {

@@ -149,7 +149,7 @@ namespace Ryujinx.Headless
                 IgnoreMissingServices = configurationState.System.IgnoreMissingServices;
             
             if (NeedsOverride(nameof(IgnoreControllerApplet)))
-                IgnoreControllerApplet = configurationState.IgnoreApplet;
+                IgnoreControllerApplet = configurationState.System.IgnoreApplet;
             
             return;
             

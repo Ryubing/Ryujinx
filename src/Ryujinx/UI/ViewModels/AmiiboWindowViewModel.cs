@@ -432,7 +432,7 @@ namespace Ryujinx.Ava.UI.ViewModels
         {
             try
             {
-                HttpResponseMessage response = await _httpClient.SendAsync(new HttpRequestMessage(HttpMethod.Head, "https://raw.githubusercontent.com/GreemDev/Ryujinx/refs/heads/master/assets/amiibo/Amiibo.json"));
+                HttpResponseMessage response = await _httpClient.SendAsync(new HttpRequestMessage(HttpMethod.Head, "https://raw.githubusercontent.com/Ryubing/Ryujinx/refs/heads/master/assets/amiibo/Amiibo.json"));
 
                 if (response.IsSuccessStatusCode)
                 {
@@ -451,7 +451,7 @@ namespace Ryujinx.Ava.UI.ViewModels
         {
             try
             {
-                HttpResponseMessage response = await _httpClient.GetAsync($"https://raw.githubusercontent.com/GreemDev/Ryujinx/refs/heads/master/assets/amiibo/Amiibo.json");
+                HttpResponseMessage response = await _httpClient.GetAsync($"https://raw.githubusercontent.com/Ryubing/Ryujinx/refs/heads/master/assets/amiibo/Amiibo.json");
 
                 if (response.IsSuccessStatusCode)
                 {

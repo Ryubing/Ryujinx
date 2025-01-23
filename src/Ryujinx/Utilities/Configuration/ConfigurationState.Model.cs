@@ -366,6 +366,11 @@ namespace Ryujinx.Ava.Utilities.Configuration
             /// Enable or disable ignoring missing services
             /// </summary>
             public ReactiveObject<bool> IgnoreMissingServices { get; private set; }
+            
+            /// <summary>
+            ///  Ignore Controller Applet
+            /// </summary>
+            public ReactiveObject<bool> IgnoreApplet { get; private set; }
 
             /// <summary>
             /// Uses Hypervisor over JIT if available
@@ -404,6 +409,8 @@ namespace Ryujinx.Ava.Utilities.Configuration
                 DramSize.LogChangesToValue(nameof(DramSize));
                 IgnoreMissingServices = new ReactiveObject<bool>();
                 IgnoreMissingServices.LogChangesToValue(nameof(IgnoreMissingServices));
+                IgnoreApplet = new ReactiveObject<bool>();
+                IgnoreApplet.LogChangesToValue(nameof(IgnoreApplet));
                 AudioVolume = new ReactiveObject<float>();
                 AudioVolume.LogChangesToValue(nameof(AudioVolume));
                 UseHypervisor = new ReactiveObject<bool>();
@@ -746,11 +753,6 @@ namespace Ryujinx.Ava.Utilities.Configuration
         public ReactiveObject<bool> ShowConfirmExit { get; private set; }
 
         /// <summary>
-        /// Ignore Applet
-        /// </summary>
-        public ReactiveObject<bool> IgnoreApplet { get; private set; }
-
-        /// <summary>
         /// Enables or disables save window size, position and state on close.
         /// </summary>
         public ReactiveObject<bool> RememberWindowState { get; private set; }
@@ -782,8 +784,6 @@ namespace Ryujinx.Ava.Utilities.Configuration
             EnableDiscordIntegration = new ReactiveObject<bool>();
             CheckUpdatesOnStart = new ReactiveObject<bool>();
             ShowConfirmExit = new ReactiveObject<bool>();
-            IgnoreApplet = new ReactiveObject<bool>();
-            IgnoreApplet.LogChangesToValue(nameof(IgnoreApplet));
             RememberWindowState = new ReactiveObject<bool>();
             ShowTitleBar = new ReactiveObject<bool>();
             EnableHardwareAcceleration = new ReactiveObject<bool>();

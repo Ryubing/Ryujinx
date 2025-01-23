@@ -54,12 +54,13 @@ failing to meet this requirement may result in a poor gameplay experience or une
 
 ## Latest build
 
-Stable builds are made every so often onto a separate "release" branch that then gets put into the releases you know and love.
+Stable builds are made every so often, based on the `master` branch, that then gets put into the releases you know and love.
 These stable builds exist so that the end user can get a more **enjoyable and stable experience**.
+They are released every month or so, to ensure consistent updates, while not being an annoying amount of individual updates to download over the course of that month.
 
 You can find the latest stable release [here](https://github.com/GreemDev/Ryujinx/releases/latest).
 
-Canary builds are compiled automatically for each commit on the master branch.
+Canary builds are compiled automatically for each commit on the `master` branch.
 While we strive to ensure optimal stability and performance prior to pushing an update, these builds **may be unstable or completely broken**.
 These canary builds are only recommended for experienced users.
 
@@ -109,7 +110,7 @@ If you are planning to contribute or just want to learn more about this project 
 - **Configuration**
 
   The emulator has settings for enabling or disabling some logging, remapping controllers, and more.
-  You can configure all of them through the graphical interface or manually through the config file, `Config.json`, found in the user folder which can be accessed by clicking `Open Ryujinx Folder` under the File menu in the GUI.
+  You can configure all of them through the graphical interface or manually through the config file, `Config.json`, found in the Ryujinx data folder which can be accessed by clicking `Open Ryujinx Folder` under the File menu in the GUI.
 
 ## License
 

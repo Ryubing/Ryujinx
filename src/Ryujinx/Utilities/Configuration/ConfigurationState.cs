@@ -56,7 +56,6 @@ namespace Ryujinx.Ava.Utilities.Configuration
                 EnableDiscordIntegration = EnableDiscordIntegration,
                 CheckUpdatesOnStart = CheckUpdatesOnStart,
                 ShowConfirmExit = ShowConfirmExit,
-                IgnoreApplet = IgnoreApplet,
                 RememberWindowState = RememberWindowState,
                 ShowTitleBar = ShowTitleBar,
                 EnableHardwareAcceleration = EnableHardwareAcceleration,
@@ -78,6 +77,7 @@ namespace Ryujinx.Ava.Utilities.Configuration
                 MemoryManagerMode = System.MemoryManagerMode,
                 DramSize = System.DramSize,
                 IgnoreMissingServices = System.IgnoreMissingServices,
+                IgnoreApplet = System.IgnoreApplet,
                 UseHypervisor = System.UseHypervisor,
                 GuiColumns = new GuiColumns
                 {
@@ -176,7 +176,6 @@ namespace Ryujinx.Ava.Utilities.Configuration
             EnableDiscordIntegration.Value = true;
             CheckUpdatesOnStart.Value = true;
             ShowConfirmExit.Value = true;
-            IgnoreApplet.Value = false;
             RememberWindowState.Value = true;
             ShowTitleBar.Value = !OperatingSystem.IsWindows();
             EnableHardwareAcceleration.Value = true;
@@ -200,6 +199,7 @@ namespace Ryujinx.Ava.Utilities.Configuration
             System.MemoryManagerMode.Value = MemoryManagerMode.HostMappedUnsafe;
             System.DramSize.Value = MemoryConfiguration.MemoryConfiguration4GiB;
             System.IgnoreMissingServices.Value = false;
+            System.IgnoreApplet.Value = false;
             System.UseHypervisor.Value = true;
             Multiplayer.LanInterfaceId.Value = "0";
             Multiplayer.Mode.Value = MultiplayerMode.Disabled;

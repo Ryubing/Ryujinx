@@ -6,7 +6,6 @@ using Ryujinx.Ava.Common.Locale;
 using Ryujinx.Ava.UI.Controls;
 using Ryujinx.Ava.UI.Helpers;
 using Ryujinx.Ava.UI.ViewModels;
-using Ryujinx.Ava.UI.ViewModels.Input;
 using Ryujinx.Ava.UI.Windows;
 using Ryujinx.Ava.Utilities.Configuration;
 using Ryujinx.Common;
@@ -42,7 +41,7 @@ namespace Ryujinx.Ava.UI.Applet
 
             bool okPressed = false;
 
-            if (ConfigurationState.Instance.IgnoreApplet)
+            if (ConfigurationState.Instance.System.IgnoreApplet)
                 return false;
 
             Dispatcher.UIThread.InvokeAsync(async () =>

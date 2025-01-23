@@ -105,7 +105,7 @@ namespace Ryujinx.HLE.HOS.Services.Sdb.Pl
                                 titleName = "Unknown";
                             }
 
-                            throw new InvalidSystemResourceException($"{titleName} ({fontTitle:x8}) system title not found! This font will not work, provide the system archive to fix this error. (See https://github.com/GreemDev/Ryujinx#requirements for more information)");
+                            throw new InvalidSystemResourceException($"{titleName} ({fontTitle:x8}) system title not found! This font will not work, provide the system archive to fix this error. (See https://github.com/Ryubing/Ryujinx#requirements for more information)");
                         }
                     }
                     else

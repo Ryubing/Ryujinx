@@ -34,8 +34,8 @@ namespace Ryujinx.HLE
 
         public int CpuCoresCount = 4; //Switch 1 has 4 cores
 
-        public VSyncMode VSyncMode { get; set; } = VSyncMode.Switch;
-        public bool CustomVSyncIntervalEnabled { get; set; } = false;
+        public VSyncMode VSyncMode { get; set; }
+        public bool CustomVSyncIntervalEnabled { get; set; }
         public int CustomVSyncInterval { get; set; }
 
         public long TargetVSyncInterval { get; set; } = 60;

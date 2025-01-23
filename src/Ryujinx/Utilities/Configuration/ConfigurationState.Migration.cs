@@ -45,7 +45,6 @@ namespace Ryujinx.Ava.Utilities.Configuration
             EnableDiscordIntegration.Value = cff.EnableDiscordIntegration;
             CheckUpdatesOnStart.Value = cff.CheckUpdatesOnStart;
             ShowConfirmExit.Value = cff.ShowConfirmExit;
-            IgnoreApplet.Value = cff.IgnoreApplet;
             RememberWindowState.Value = cff.RememberWindowState;
             ShowTitleBar.Value = cff.ShowTitleBar;
             EnableHardwareAcceleration.Value = cff.EnableHardwareAcceleration;
@@ -97,6 +96,7 @@ namespace Ryujinx.Ava.Utilities.Configuration
             System.MemoryManagerMode.Value = cff.MemoryManagerMode;
             System.DramSize.Value = cff.DramSize;
             System.IgnoreMissingServices.Value = cff.IgnoreMissingServices;
+            System.IgnoreApplet.Value = cff.IgnoreApplet;
             System.UseHypervisor.Value = cff.UseHypervisor;
             
             UI.GuiColumns.FavColumn.Value = cff.GuiColumns.FavColumn;

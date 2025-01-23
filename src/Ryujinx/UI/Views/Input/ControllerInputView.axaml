@@ -503,7 +503,7 @@
                                 MinWidth="0"
                                 Grid.Column="0"
                                 IsChecked="{Binding Config.EnableLedChanging, Mode=TwoWay}">
-                                <TextBlock Text="Custom LED color" />
+                                <TextBlock Text="{ext:Locale ControllerSettingsLedColor}" />
                             </CheckBox>
                             <ui:ColorPickerButton 
                                 Grid.Column="1"
