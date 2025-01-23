@@ -110,7 +110,7 @@ namespace Ryujinx.Input.SDL2
         public void SetLedColor()
         {
             //IAMTOOTIREDWILLCONTINUETOMORROWSORRY
-            uint rawColor = 111;
+            uint rawColor = 110;
             byte red = (byte)(rawColor >> 16);
             byte green = (byte)(rawColor >> 8);
             byte blue = (byte)(rawColor % 256);
