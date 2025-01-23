@@ -1,4 +1,5 @@
 using Ryujinx.Common;
+using Ryujinx.Common.Configuration;
 using Ryujinx.Common.Logging;
 using Ryujinx.Graphics.GAL;
 using Ryujinx.Graphics.Gpu.Engine.Types;
@@ -147,6 +148,9 @@ namespace Ryujinx.Graphics.Gpu.Engine.Threed.ComputeDraw
                 {
                     _vacContext.VertexInfoBufferUpdater.SetVertexStride(index, 0, componentsCount);
                     _vacContext.VertexInfoBufferUpdater.SetVertexOffset(index, 0, 0);
+                    if (_context.Renderer.Backend is not GraphicsBackend.Metal)
+                        SetDummyBufferTexture(_vertexAsCompute.Reservations, index, format);
+                    
                     continue;
                 }
 
@@ -162,6 +166,9 @@ namespace Ryujinx.Graphics.Gpu.Engine.Threed.ComputeDraw
                 {
                     _vacContext.VertexInfoBufferUpdater.SetVertexStride(index, 0, componentsCount);
                     _vacContext.VertexInfoBufferUpdater.SetVertexOffset(index, 0, 0);
+                    if (_context.Renderer.Backend is not GraphicsBackend.Metal)
+                        SetDummyBufferTexture(_vertexAsCompute.Reservations, index, format);
+                    
                     continue;
                 }
 
@@ -339,6 +346,20 @@ namespace Ryujinx.Graphics.Gpu.Engine.Threed.ComputeDraw
         private static int GetMaxCompleteStrips(int verticesPerPrimitive, int maxOutputVertices)
         {
             return maxOutputVertices / verticesPerPrimitive;
+        }
+        
+        /// <summary>
+        /// Binds a dummy buffer as vertex buffer into a buffer texture.
+        /// </summary>
+        /// <param name="reservations">Shader resource binding reservations</param>
+        /// <param name="index">Buffer texture index</param>
+        /// <param name="format">Buffer texture format</param>
+        private readonly void SetDummyBufferTexture(ResourceReservations reservations, int index, Format format)
+        {
+            ITexture bufferTexture = _vacContext.EnsureBufferTexture(index + 2, format);
+            bufferTexture.SetStorage(_vacContext.GetDummyBufferRange());
+
+            _context.Renderer.Pipeline.SetTextureAndSampler(ShaderStage.Compute, reservations.GetVertexBufferTextureBinding(index), bufferTexture, null);
         }
 
         /// <summary>

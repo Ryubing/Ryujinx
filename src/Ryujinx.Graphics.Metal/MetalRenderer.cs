@@ -31,6 +31,8 @@ namespace Ryujinx.Graphics.Metal
         public IPipeline Pipeline => _pipeline;
         public IWindow Window => _window;
 
+        public GraphicsBackend Backend => GraphicsBackend.Metal;
+
         internal MTLCommandQueue BackgroundQueue { get; private set; }
         internal HelperShader HelperShader { get; private set; }
         internal BufferManager BufferManager { get; private set; }

@@ -20,6 +20,8 @@ namespace Ryujinx.Graphics.OpenGL
         private readonly Window _window;
 
         public IWindow Window => _window;
+        
+        public GraphicsBackend Backend => GraphicsBackend.OpenGl;
 
         private readonly TextureCopy _textureCopy;
         private readonly TextureCopy _backgroundTextureCopy;

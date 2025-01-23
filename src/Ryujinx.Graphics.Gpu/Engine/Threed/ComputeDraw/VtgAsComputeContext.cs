@@ -1,4 +1,5 @@
 using Ryujinx.Common;
+using Ryujinx.Common.Configuration;
 using Ryujinx.Graphics.GAL;
 using System;
 using System.Collections.Generic;
@@ -11,6 +12,8 @@ namespace Ryujinx.Graphics.Gpu.Engine.Threed.ComputeDraw
     /// </summary>
     class VtgAsComputeContext : IDisposable
     {
+        private const int DummyBufferSize = 16;
+        
         private readonly GpuContext _context;
 
         /// <summary>
@@ -46,7 +49,9 @@ namespace Ryujinx.Graphics.Gpu.Engine.Threed.ComputeDraw
                         1,
                         1,
                         1,
-                        format.GetBytesPerElement(),
+                        renderer.Backend is GraphicsBackend.Metal 
+                            ? format.GetBytesPerElement() 
+                            : 1,
                         format,
                         DepthStencilMode.Depth,
                         Target.TextureBuffer,
@@ -517,6 +522,21 @@ namespace Ryujinx.Graphics.Gpu.Engine.Threed.ComputeDraw
         public BufferRange GetGeometryIndexDataBufferRange(int offset, int size, bool write)
         {
             return new BufferRange(_geometryIndexDataBuffer.Handle, offset, size, write);
+        }
+        
+        /// <summary>
+        /// Gets the range for a dummy 16 bytes buffer, filled with zeros.
+        /// </summary>
+        /// <returns>Dummy buffer range</returns>
+        public BufferRange GetDummyBufferRange()
+        {
+            if (_dummyBuffer == BufferHandle.Null)
+            {
+                _dummyBuffer = _context.Renderer.CreateBuffer(DummyBufferSize, BufferAccess.DeviceMemory);
+                _context.Renderer.Pipeline.ClearBuffer(_dummyBuffer, 0, DummyBufferSize, 0);
+            }
+
+            return new BufferRange(_dummyBuffer, 0, DummyBufferSize);
         }
 
         /// <summary>

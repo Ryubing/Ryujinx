@@ -15,6 +15,8 @@ namespace Ryujinx.Graphics.GAL
         IWindow Window { get; }
 
         uint ProgramCount { get; }
+        
+        GraphicsBackend Backend { get; }
 
         void BackgroundContextAction(Action action, bool alwaysBackground = false);
 
