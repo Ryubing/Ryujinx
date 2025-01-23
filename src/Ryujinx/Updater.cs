@@ -87,6 +87,8 @@ namespace Ryujinx.Ava
 
                 return;
             }
+            
+            Logger.Info?.Print(LogClass.Application, "Checking for updates.");
 
             // Get latest version number from GitHub API
             try
@@ -140,6 +142,8 @@ namespace Ryujinx.Ava
                             OpenHelper.OpenUrl(ReleaseInformation.GetChangelogForVersion(currentVersion));
                         }
                     }
+                    
+                    Logger.Info?.Print(LogClass.Application, "Up to date.");
 
                     _running = false;
 
@@ -213,6 +217,8 @@ namespace Ryujinx.Ava
                 string newVersionString = ReleaseInformation.IsCanaryBuild
                     ? $"Canary {currentVersion} -> Canary {newVersion}"
                     : $"{currentVersion} -> {newVersion}";
+                
+                Logger.Info?.Print(LogClass.Application, $"Version found: {newVersionString}");
                 
             RequestUserToUpdate:
                 // Show a message asking the user if they want to update

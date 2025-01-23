@@ -244,6 +244,15 @@ namespace Ryujinx.HLE.HOS.Services.Settings
             return ResultCode.Success;
         }
 
+        [CommandCmif(68)]
+        // GetSerialNumber() -> buffer<nn::settings::system::SerialNumber, 0x16>
+        public ResultCode GetSerialNumber(ServiceCtx context)
+        {
+            context.ResponseData.Write(Encoding.ASCII.GetBytes("RYU00000000000"));
+
+            return ResultCode.Success;
+        }
+
         [CommandCmif(77)]
         // GetDeviceNickName() -> buffer<nn::settings::system::DeviceNickName, 0x16>
         public ResultCode GetDeviceNickName(ServiceCtx context)

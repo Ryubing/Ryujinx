@@ -840,7 +840,6 @@ namespace Ryujinx.Ava.Utilities.AppLibrary
             try
             {
                 // Remove any downloadable content which can no longer be located on disk
-                Logger.Notice.Print(LogClass.Application, $"Removing non-existing Title DLCs");
                 var dlcToRemove = _downloadableContents.Items
                     .Where(dlc => !File.Exists(dlc.Dlc.ContainerPath))
                     .ToList();
@@ -852,8 +851,6 @@ namespace Ryujinx.Ava.Utilities.AppLibrary
 
                 foreach (string appDir in appDirs)
                 {
-                    Logger.Notice.Print(LogClass.Application, $"Auto loading DLC from: {appDir}");
-
                     if (_cancellationToken.Token.IsCancellationRequested)
                     {
                         return newDlcLoaded;
@@ -956,7 +953,6 @@ namespace Ryujinx.Ava.Utilities.AppLibrary
                 var titleIdsToRefresh = new HashSet<ulong>();
 
                 // Remove any updates which can no longer be located on disk
-                Logger.Notice.Print(LogClass.Application, $"Removing non-existing Title Updates");
                 var updatesToRemove = _titleUpdates.Items
                     .Where(it => !File.Exists(it.TitleUpdate.Path))
                     .ToList();
@@ -971,8 +967,6 @@ namespace Ryujinx.Ava.Utilities.AppLibrary
 
                 foreach (string appDir in appDirs)
                 {
-                    Logger.Notice.Print(LogClass.Application, $"Auto loading updates from: {appDir}");
-
                     if (_cancellationToken.Token.IsCancellationRequested)
                     {
                         return numUpdatesLoaded;

@@ -69,6 +69,9 @@ namespace Ryujinx.Ava.UI.ViewModels.Input
         public bool IsRight { get; set; }
         public bool IsLeft { get; set; }
 
+        public bool HasLed => false; //temporary
+            //SelectedGamepad.Features.HasFlag(GamepadFeaturesFlag.Led);
+
         public bool IsModified { get; set; }
         public event Action NotifyChangesEvent;
 

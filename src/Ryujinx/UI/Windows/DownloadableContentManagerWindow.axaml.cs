@@ -95,18 +95,5 @@ namespace Ryujinx.Ava.UI.Windows
                 }
             }
         }
-        
-        private async void DlcItem_DumpRomfs(object sender, RoutedEventArgs e)
-        {
-            if (sender is not Button { DataContext: DownloadableContentModel dlc }) return;
-            if (RyujinxApp.MainWindow.ViewModel is not { } viewModel)
-                return;
-            
-            await ApplicationHelper.ExtractAoc(
-                viewModel.StorageProvider,
-                NcaSectionType.Data,
-                dlc.ContainerPath,
-                dlc.FileName);
-        }
     }
 }

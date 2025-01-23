@@ -28,15 +28,15 @@ namespace Ryujinx.Ava.UI.Windows
             InitializeComponent();
         }
 
-        public static async Task Show(MainWindowViewModel mainWindowViewModel)
+        public static async Task Show()
         {
             ContentDialog contentDialog = new()
             {
                 PrimaryButtonText = string.Empty,
                 SecondaryButtonText = string.Empty,
                 CloseButtonText = string.Empty,
-                Content = new XCITrimmerWindow(mainWindowViewModel),
-                Title = string.Format(LocaleManager.Instance[LocaleKeys.XCITrimmerWindowTitle]),
+                Content = new XCITrimmerWindow(RyujinxApp.MainWindow.ViewModel),
+                Title = LocaleManager.Instance[LocaleKeys.XCITrimmerWindowTitle]
             };
 
             Style bottomBorder = new(x => x.OfType<Grid>().Name("DialogSpace").Child().OfType<Border>());

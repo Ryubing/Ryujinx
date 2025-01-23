@@ -1,3 +1,4 @@
+using Avalonia.Media;
 using Ryujinx.Ava.UI.ViewModels;
 using Ryujinx.Common.Configuration.Hid;
 using Ryujinx.Common.Configuration.Hid.Controller;
@@ -387,6 +388,30 @@ namespace Ryujinx.Ava.UI.Models.Input
             }
         }
 
+        private bool _enableLedChanging;
+
+        public bool EnableLedChanging
+        {
+            get => _enableLedChanging;
+            set
+            {
+                _enableLedChanging = value;
+                OnPropertyChanged();
+            }
+        }
+        
+        private Color _ledColor;
+
+        public Color LedColor
+        {
+            get => _ledColor;
+            set
+            {
+                _ledColor = value;
+                OnPropertyChanged();
+            }
+        }
+
         private bool _enableMotion;
         public bool EnableMotion
         {
@@ -483,12 +508,23 @@ namespace Ryujinx.Ava.UI.Models.Input
                     WeakRumble = controllerInput.Rumble.WeakRumble;
                     StrongRumble = controllerInput.Rumble.StrongRumble;
                 }
+                
+                if (controllerInput.Led != null)
+                {
+                    EnableLedChanging = controllerInput.Led.EnableLed;
+                    uint rawColor = controllerInput.Led.LedColor;
+                    byte alpha = (byte)(rawColor >> 24);
+                    byte red = (byte)(rawColor >> 16);
+                    byte green = (byte)(rawColor >> 8);
+                    byte blue = (byte)(rawColor % 256);
+                    LedColor = new Color(alpha, red, green, blue);
+                }
             }
         }
 
         public InputConfig GetConfig()
         {
-            var config = new StandardControllerInputConfig
+            StandardControllerInputConfig config = new()
             {
                 Id = Id,
                 Backend = InputBackendType.GamepadSDL2,
@@ -539,6 +575,11 @@ namespace Ryujinx.Ava.UI.Models.Input
                     EnableRumble = EnableRumble,
                     WeakRumble = WeakRumble,
                     StrongRumble = StrongRumble,
+                },
+                Led = new LedConfigController
+                {
+                    EnableLed = EnableLedChanging,
+                    LedColor = LedColor.ToUInt32()
                 },
                 Version = InputConfig.CurrentVersion,
                 DeadzoneLeft = DeadzoneLeft,

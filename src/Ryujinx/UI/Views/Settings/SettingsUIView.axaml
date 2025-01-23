@@ -114,8 +114,7 @@
                             Grid.Column="1"
                             MinWidth="90"
                             Margin="10,0,0,0"
-                            ToolTip.Tip="{ext:Locale AddGameDirTooltip}"
-                            Click="AddGameDirButton_OnClick">
+                            ToolTip.Tip="{ext:Locale AddGameDirTooltip}">
                             <TextBlock HorizontalAlignment="Center"
                                        Text="{ext:Locale SettingsTabGeneralAdd}" />
                         </Button>
@@ -168,8 +167,7 @@
                             Grid.Column="1"
                             MinWidth="90"
                             Margin="10,0,0,0"
-                            ToolTip.Tip="{ext:Locale AddAutoloadDirTooltip}"
-                            Click="AddAutoloadDirButton_OnClick">
+                            ToolTip.Tip="{ext:Locale AddAutoloadDirTooltip}">
                             <TextBlock HorizontalAlignment="Center"
                                        Text="{ext:Locale SettingsTabGeneralAdd}" />
                         </Button>

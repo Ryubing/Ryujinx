@@ -674,7 +674,7 @@ namespace Ryujinx.Ava
 
         public async Task<bool> LoadGuestApplication(BlitStruct<ApplicationControlProperty>? customNacpData = null)
         {
-            InitializeSwitchInstance();
+            InitEmulatedSwitch();
             MainWindow.UpdateGraphicsConfig();
 
             SystemVersion firmwareVersion = ContentManager.GetCurrentFirmwareVersion();
@@ -757,6 +757,8 @@ namespace Ryujinx.Ava
                 {
                     romFsFiles = Directory.GetFiles(ApplicationPath, "*.romfs");
                 }
+                
+                Logger.Notice.Print(LogClass.Application, $"Loading unpacked content archive from '{ApplicationPath}'.");
 
                 if (romFsFiles.Length > 0)
                 {
@@ -783,6 +785,8 @@ namespace Ryujinx.Ava
             }
             else if (File.Exists(ApplicationPath))
             {
+                Logger.Notice.Print(LogClass.Application, $"Loading content archive from '{ApplicationPath}'.");
+                
                 switch (Path.GetExtension(ApplicationPath).ToLowerInvariant())
                 {
                     case ".xci":
@@ -885,7 +889,7 @@ namespace Ryujinx.Ava
             Logger.Info?.Print(LogClass.Emulation, "Emulation was paused");
         }
 
-        private void InitializeSwitchInstance()
+        private void InitEmulatedSwitch()
         {
             // Initialize KeySet.
             VirtualFileSystem.ReloadKeySet();
@@ -1040,7 +1044,7 @@ namespace Ryujinx.Ava
                     _viewModel.WindowState = WindowState.FullScreen;
                 }
 
-                if (_viewModel.WindowState is WindowState.FullScreen)
+                if (_viewModel.WindowState is WindowState.FullScreen || _viewModel.StartGamesWithoutUI)
                 {
                     _viewModel.ShowMenuAndStatusBar = false;
                 }

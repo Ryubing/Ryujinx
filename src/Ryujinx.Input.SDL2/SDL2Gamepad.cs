@@ -1,6 +1,7 @@
 using Ryujinx.Common.Configuration.Hid;
 using Ryujinx.Common.Configuration.Hid.Controller;
 using Ryujinx.Common.Logging;
+using SDL2;
 using System;
 using System.Collections.Generic;
 using System.Numerics;
@@ -116,6 +117,11 @@ namespace Ryujinx.Input.SDL2
             if (error == 0)
             {
                 result |= GamepadFeaturesFlag.Rumble;
+            }
+
+            if (SDL_GameControllerHasLED(_gamepadHandle) == SDL_bool.SDL_TRUE)
+            {
+                result |= GamepadFeaturesFlag.Led;
             }
 
             return result;

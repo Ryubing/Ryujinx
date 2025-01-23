@@ -118,7 +118,7 @@ namespace Ryujinx.Graphics.Gpu.Shader
         private static string GetDiskCachePath()
         {
             return GraphicsConfig.EnableShaderCache && GraphicsConfig.TitleId != null
-                ? Path.Combine(AppDataManager.GamesDirPath, GraphicsConfig.TitleId, "cache", "shader")
+                ? Path.Combine(AppDataManager.GamesDirPath, GraphicsConfig.TitleId.ToLower(), "cache", "shader")
                 : null;
         }
 

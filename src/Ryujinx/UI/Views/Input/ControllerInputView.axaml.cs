@@ -4,14 +4,11 @@ using Avalonia.Controls.Primitives;
 using Avalonia.Input;
 using Avalonia.Interactivity;
 using Avalonia.LogicalTree;
-using DiscordRPC;
 using Ryujinx.Ava.UI.Helpers;
 using Ryujinx.Ava.UI.ViewModels.Input;
 using Ryujinx.Common.Configuration.Hid.Controller;
-using Ryujinx.Common.Logging;
 using Ryujinx.Input;
 using Ryujinx.Input.Assigner;
-using System;
 using StickInputId = Ryujinx.Common.Configuration.Hid.Controller.StickInputId;
 
 namespace Ryujinx.Ava.UI.Views.Input

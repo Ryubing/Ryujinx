@@ -691,6 +691,7 @@ namespace Ryujinx.Ava.UI.Windows
                 ApplicationLibrary.LoadApplications(ConfigurationState.Instance.UI.GameDirs);
 
                 var autoloadDirs = ConfigurationState.Instance.UI.AutoloadDirs.Value;
+                autoloadDirs.ForEach(dir => Logger.Info?.Print(LogClass.Application, $"Auto loading DLC & updates from: {dir}"));
                 if (autoloadDirs.Count > 0)
                 {
                     var updatesLoaded = ApplicationLibrary.AutoLoadTitleUpdates(autoloadDirs, out int updatesRemoved);

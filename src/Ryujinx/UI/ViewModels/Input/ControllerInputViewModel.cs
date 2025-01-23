@@ -37,7 +37,7 @@ namespace Ryujinx.Ava.UI.ViewModels.Input
 
         [ObservableProperty] private SvgImage _image;
 
-        public readonly InputViewModel ParentModel;
+        public InputViewModel ParentModel { get; }
 
         public ControllerInputViewModel(InputViewModel model, GamepadInputConfig config)
         {

@@ -107,6 +107,10 @@
             Header="{ext:Locale GameListContextMenuExtractDataRomFS}"
             ToolTip.Tip="{ext:Locale GameListContextMenuExtractDataRomFSToolTip}" />
         <MenuItem
+            Click="ExtractAocRomFs_Click"
+            Header="{ext:Locale GameListContextMenuExtractDataAocRomFS}"
+            ToolTip.Tip="{ext:Locale GameListContextMenuExtractDataAocRomFSToolTip}" />
+        <MenuItem
             Click="ExtractApplicationLogo_Click"
             Header="{ext:Locale GameListContextMenuExtractDataLogo}"
             ToolTip.Tip="{ext:Locale GameListContextMenuExtractDataLogoToolTip}" />

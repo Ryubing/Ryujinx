@@ -29,7 +29,7 @@
                 <TextBlock
                     Foreground="{DynamicResource SecondaryTextColor}"
                     TextDecorations="Underline"
-                    Text="Game-specific hacks &amp; tricks to alleviate performance issues or crashing. Will cause issues." />
+                    Text="Highly specific hacks &amp; tricks to alleviate performance issues, crashing, or freezing. Will cause issues." />
                 <StackPanel
                     Margin="0,10,0,0"
                     Orientation="Horizontal"
