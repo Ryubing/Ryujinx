@@ -1,6 +1,7 @@
 using Ryujinx.Common.Configuration.Hid;
 using Ryujinx.Common.Configuration.Hid.Controller;
 using Ryujinx.Common.Logging;
+using Ryujinx.HLE.HOS.Services.Hid;
 using SDL2;
 using System;
 using System.Collections.Generic;
@@ -87,7 +88,7 @@ namespace Ryujinx.Input.SDL2
             Features = GetFeaturesFlag();
             _triggerThreshold = 0.0f;
 
-            if (Features.HasFlag(GamepadFeaturesFlag.Led))
+            //if (Features.HasFlag(GamepadFeaturesFlag.Led))
             {
                 SetLedColor();
             }
@@ -110,7 +111,8 @@ namespace Ryujinx.Input.SDL2
         public void SetLedColor()
         {
             //IAMTOOTIREDWILLCONTINUETOMORROWSORRY
-            uint rawColor = 110;
+            //uint rawColor = 0;
+            uint rawColor = _configuration.Led.LedColor;
             byte red = (byte)(rawColor >> 16);
             byte green = (byte)(rawColor >> 8);
             byte blue = (byte)(rawColor % 256);
