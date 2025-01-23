@@ -106,6 +106,7 @@ namespace Ryujinx.Input.SDL2
         public void SetLedColor()
         {
             if (!HasConfiguration) return;
+            if (!_configuration.Led.EnableLed) return;
             
             uint _rawColor = _configuration.Led.LedColor;
             byte red = (byte)(_rawColor >> 16);
