@@ -78,8 +78,6 @@ namespace Ryujinx.Input.SDL2
 
         private float _triggerThreshold;
 
-        private uint _rawColor;
-
         public SDL2Gamepad(nint gamepadHandle, string driverId)
         {
             _gamepadHandle = gamepadHandle;
@@ -89,11 +87,6 @@ namespace Ryujinx.Input.SDL2
             Id = driverId;
             Features = GetFeaturesFlag();
             _triggerThreshold = 0.0f;
-
-            //if (Features.HasFlag(GamepadFeaturesFlag.Led))
-            {
-                SetLedColor();
-            }
             
             // Enable motion tracking
             if (Features.HasFlag(GamepadFeaturesFlag.Motion))
@@ -112,8 +105,9 @@ namespace Ryujinx.Input.SDL2
 
         public void SetLedColor()
         {
-            //uint rawColor = 0;
-            //_rawColor = _configuration.Led.LedColor;
+            if (!HasConfiguration) return;
+            
+            uint _rawColor = _configuration.Led.LedColor;
             byte red = (byte)(_rawColor >> 16);
             byte green = (byte)(_rawColor >> 8);
             byte blue = (byte)(_rawColor % 256);
@@ -239,8 +233,8 @@ namespace Ryujinx.Input.SDL2
             {
                 _configuration = (StandardControllerInputConfig)configuration;
 
-                _rawColor = _configuration.Led.LedColor;
-                SetLedColor();
+                if (Features.HasFlag(GamepadFeaturesFlag.Led))
+                    SetLedColor();
                 
                 _buttonsUserMapping.Clear();
 
