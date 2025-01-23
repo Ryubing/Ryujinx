@@ -87,9 +87,9 @@ namespace Ryujinx.Input.SDL2
             Features = GetFeaturesFlag();
             _triggerThreshold = 0.0f;
 
-            if (SDL_GameControllerHasLED(_gamepadHandle) == SDL_bool.SDL_TRUE)
+            if (Features.HasFlag(GamepadFeaturesFlag.Led))
             {
-                SetLedColor("FFE3B5");
+                SetLedColor();
             }
             
             // Enable motion tracking
@@ -107,12 +107,13 @@ namespace Ryujinx.Input.SDL2
             }
         }
 
-        public void SetLedColor(string hex)
+        public void SetLedColor()
         {
-            ulong LEDcolor = Convert.ToUInt64(hex, 16);
-            byte red = (byte)((LEDcolor >> 16) % 256);
-            byte green = (byte)((LEDcolor >> 8) % 256);
-            byte blue = (byte)(LEDcolor % 256);
+            //IAMTOOTIREDWILLCONTINUETOMORROWSORRY
+            uint rawColor = 100;
+            byte red = (byte)(rawColor >> 16);
+            byte green = (byte)(rawColor >> 8);
+            byte blue = (byte)(rawColor % 256);
                 
             SDL_GameControllerSetLED(_gamepadHandle, red, green, blue);
         }
