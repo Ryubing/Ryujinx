@@ -78,6 +78,8 @@ namespace Ryujinx.Input.SDL2
 
         private float _triggerThreshold;
 
+        private uint _rawColor;
+
         public SDL2Gamepad(nint gamepadHandle, string driverId)
         {
             _gamepadHandle = gamepadHandle;
@@ -110,12 +112,11 @@ namespace Ryujinx.Input.SDL2
 
         public void SetLedColor()
         {
-            //IAMTOOTIREDWILLCONTINUETOMORROWSORRY
             //uint rawColor = 0;
-            uint rawColor = _configuration.Led.LedColor;
-            byte red = (byte)(rawColor >> 16);
-            byte green = (byte)(rawColor >> 8);
-            byte blue = (byte)(rawColor % 256);
+            //_rawColor = _configuration.Led.LedColor;
+            byte red = (byte)(_rawColor >> 16);
+            byte green = (byte)(_rawColor >> 8);
+            byte blue = (byte)(_rawColor % 256);
                 
             SDL_GameControllerSetLED(_gamepadHandle, red, green, blue);
         }
@@ -238,6 +239,9 @@ namespace Ryujinx.Input.SDL2
             {
                 _configuration = (StandardControllerInputConfig)configuration;
 
+                _rawColor = _configuration.Led.LedColor;
+                SetLedColor();
+                
                 _buttonsUserMapping.Clear();
 
                 // First update sticks
