@@ -495,19 +495,20 @@
                         Margin="0,-1,0,0">
                         <Grid IsVisible="{Binding ParentModel.HasLed}">
                             <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="Auto" />
                                 <ColumnDefinition Width="*" />
                                 <ColumnDefinition Width="*" />
                                 <ColumnDefinition Width="Auto" />
                             </Grid.ColumnDefinitions>
                             <CheckBox
-                                Margin="10"
+                                Margin="10, 10, 5, 10"
                                 MinWidth="0"
                                 Grid.Column="0"
                                 IsChecked="{Binding Config.EnableLedChanging, Mode=TwoWay}">
                                 <TextBlock Text="{ext:Locale ControllerSettingsLedColor}" />
                             </CheckBox>
                             <CheckBox
-                                Margin="10"
+                                Margin="5, 10, 5, 10"
                                 MinWidth="0"
                                 Grid.Column="1"
                                 IsVisible="{Binding ParentModel.CanClearLed}"
@@ -515,10 +516,18 @@
                                 Command="{Binding LedDisabledChanged}">
                                 <TextBlock Text="{ext:Locale ControllerSettingsLedColorDisable}" />
                             </CheckBox>
-                            <ui:ColorPickerButton 
+                            <CheckBox
+                                Margin="5, 10 5,10"
+                                MinWidth="0"
                                 Grid.Column="2"
                                 IsEnabled="{Binding !Config.TurnOffLed}"
-                                Margin="10"
+                                IsChecked="{Binding Config.UseRainbowLed, Mode=TwoWay}">
+                                <TextBlock Text="Rainbow" />
+                            </CheckBox>
+                            <ui:ColorPickerButton 
+                                Grid.Column="3"
+                                IsEnabled="{Binding Config.ShowLedColorPicker}"
+                                Margin="5, 10, 10, 10"
                                 IsMoreButtonVisible="False"
                                 UseColorPalette="False"
                                 UseColorTriangle="False"

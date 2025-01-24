@@ -388,42 +388,6 @@ namespace Ryujinx.Ava.UI.Models.Input
             }
         }
 
-        private bool _enableLedChanging;
-
-        public bool EnableLedChanging
-        {
-            get => _enableLedChanging;
-            set
-            {
-                _enableLedChanging = value;
-                OnPropertyChanged();
-            }
-        }
-        
-        private bool _turnOffLed;
-        
-        public bool TurnOffLed
-        {
-            get => _turnOffLed;
-            set
-            {
-                _turnOffLed = value;
-                OnPropertyChanged();
-            }
-        }
-        
-        private Color _ledColor;
-
-        public Color LedColor
-        {
-            get => _ledColor;
-            set
-            {
-                _ledColor = value;
-                OnPropertyChanged();
-            }
-        }
-
         private bool _enableMotion;
         public bool EnableMotion
         {
@@ -442,6 +406,58 @@ namespace Ryujinx.Ava.UI.Models.Input
             set
             {
                 _enableRumble = value;
+                OnPropertyChanged();
+            }
+        }
+        
+        private bool _enableLedChanging;
+
+        public bool EnableLedChanging
+        {
+            get => _enableLedChanging;
+            set
+            {
+                _enableLedChanging = value;
+                OnPropertyChanged();
+            }
+        }
+        
+        public bool ShowLedColorPicker => !TurnOffLed && !UseRainbowLed;
+        
+        private bool _turnOffLed;
+        
+        public bool TurnOffLed
+        {
+            get => _turnOffLed;
+            set
+            {
+                _turnOffLed = value;
+                OnPropertyChanged();
+                OnPropertyChanged(nameof(ShowLedColorPicker));
+            }
+        }
+        
+        private bool _useRainbowLed;
+        
+        public bool UseRainbowLed
+        {
+            get => _useRainbowLed;
+            set
+            {
+                _useRainbowLed = value;
+                OnPropertyChanged();
+                OnPropertyChanged(nameof(ShowLedColorPicker));
+            }
+        }
+        
+        private Color _ledColor;
+
+        public Color LedColor
+        {
+            get => _ledColor;
+            set
+            {
+                _ledColor = value;
                 OnPropertyChanged();
             }
         }
@@ -525,6 +541,7 @@ namespace Ryujinx.Ava.UI.Models.Input
                 {
                     EnableLedChanging = controllerInput.Led.EnableLed;
                     TurnOffLed = controllerInput.Led.TurnOffLed;
+                    UseRainbowLed = controllerInput.Led.UseRainbow;
                     uint rawColor = controllerInput.Led.LedColor;
                     byte alpha = (byte)(rawColor >> 24);
                     byte red = (byte)(rawColor >> 16);
@@ -593,6 +610,7 @@ namespace Ryujinx.Ava.UI.Models.Input
                 {
                     EnableLed = EnableLedChanging,
                     TurnOffLed = this.TurnOffLed,
+                    UseRainbow = UseRainbowLed,
                     LedColor = LedColor.ToUInt32()
                 },
                 Version = InputConfig.CurrentVersion,

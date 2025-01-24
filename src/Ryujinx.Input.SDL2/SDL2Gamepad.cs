@@ -1,6 +1,7 @@
 using Ryujinx.Common.Configuration.Hid;
 using Ryujinx.Common.Configuration.Hid.Controller;
 using Ryujinx.Common.Logging;
+using Ryujinx.Common.Utilities;
 using Ryujinx.HLE.HOS.Services.Hid;
 using SDL2;
 using System;
@@ -235,8 +236,11 @@ namespace Ryujinx.Input.SDL2
                 {
                     if (_configuration.Led.TurnOffLed)
                         (this as IGamepad).ClearLed();
+                    else if (_configuration.Led.UseRainbow)
+                        Rainbow.RainbowColorUpdated += clr => SetLed((uint)clr);
                     else
                         SetLed(_configuration.Led.LedColor);
+                    
                 }
                 
                 _buttonsUserMapping.Clear();
