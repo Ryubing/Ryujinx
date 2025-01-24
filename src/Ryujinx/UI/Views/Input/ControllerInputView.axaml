@@ -531,7 +531,7 @@
                                 IsMoreButtonVisible="False"
                                 UseColorPalette="False"
                                 UseColorTriangle="False"
-                                UseColorWheel="True"
+                                UseColorWheel="False"
                                 ShowAcceptDismissButtons="False"
                                 IsAlphaEnabled="False"
                                 AttachedToVisualTree="ColorPickerButton_OnAttachedToVisualTree"
