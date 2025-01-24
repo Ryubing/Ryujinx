@@ -112,14 +112,9 @@ namespace Ryujinx.Ava.UI.Windows
         {
             HotkeysPage.Dispose();
             
-            if (InputPage.InputView.DataContext is InputViewModel vm)
+            foreach (IGamepad gamepad in RyujinxApp.MainWindow.InputManager.GamepadDriver.GetGamepads())
             {
-                foreach ((_, string id, _) in vm.Devices.Where(x => x.Type == DeviceType.Controller))
-                {
-                    IGamepad gamepad = RyujinxApp.MainWindow.InputManager.GamepadDriver.GetGamepad(id);
-
-                    gamepad?.ClearLed();
-                }
+                gamepad?.ClearLed();
             }
             
             InputPage.Dispose();

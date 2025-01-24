@@ -237,14 +237,9 @@ namespace Ryujinx.Ava.UI.Views.Input
         {
             base.OnDetachedFromVisualTree(e);
             
-            if (DataContext is ControllerInputViewModel vm)
+            foreach (IGamepad gamepad in RyujinxApp.MainWindow.InputManager.GamepadDriver.GetGamepads())
             {
-                foreach ((_, string id, _) in vm.ParentModel.Devices.Where(x => x.Type == DeviceType.Controller))
-                {
-                    IGamepad gamepad = RyujinxApp.MainWindow.InputManager.GamepadDriver.GetGamepad(id);
-
-                    gamepad?.ClearLed();
-                }
+                gamepad?.ClearLed();
             }
             
             _currentAssigner?.Cancel();

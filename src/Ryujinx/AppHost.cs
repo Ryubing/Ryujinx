@@ -587,6 +587,11 @@ namespace Ryujinx.Ava
                 return;
             }
 
+            foreach (IGamepad gamepad in RyujinxApp.MainWindow.InputManager.GamepadDriver.GetGamepads())
+            {
+                gamepad?.ClearLed();
+            }
+
             _isStopped = true;
             Stop();
         }

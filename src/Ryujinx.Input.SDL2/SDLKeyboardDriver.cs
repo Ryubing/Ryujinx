@@ -1,5 +1,6 @@
 using Ryujinx.SDL2.Common;
 using System;
+using System.Collections.Generic;
 
 namespace Ryujinx.Input.SDL2
 {
@@ -50,6 +51,14 @@ namespace Ryujinx.Input.SDL2
             }
 
             return new SDL2Keyboard(this, _keyboardIdentifers[0], "All keyboards");
+        }
+
+        public IEnumerable<IGamepad> GetGamepads()
+        {
+            foreach (var keyboardId in _keyboardIdentifers)
+            {
+                yield return GetGamepad(keyboardId);
+            }
         }
     }
 }

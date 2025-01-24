@@ -59,6 +59,8 @@ namespace Ryujinx.Ava.Input
             return new AvaloniaKeyboard(this, _keyboardIdentifers[0], LocaleManager.Instance[LocaleKeys.AllKeyboards]);
         }
 
+        public IEnumerable<IGamepad> GetGamepads() => [GetGamepad("0")];
+
         protected virtual void Dispose(bool disposing)
         {
             if (disposing)
