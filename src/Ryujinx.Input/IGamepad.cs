@@ -72,6 +72,8 @@ namespace Ryujinx.Input
         /// <param name="packedRgb">The packed RGB integer.</param>
         void SetLed(uint packedRgb);
 
+        public void ClearLed() => SetLed(0);
+
         /// <summary>
         /// Starts a rumble effect on the gamepad.
         /// </summary>

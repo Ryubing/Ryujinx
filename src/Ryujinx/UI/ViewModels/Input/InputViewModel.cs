@@ -3,6 +3,7 @@ using Avalonia.Controls;
 using Avalonia.Svg.Skia;
 using Avalonia.Threading;
 using CommunityToolkit.Mvvm.ComponentModel;
+using Gommon;
 using Ryujinx.Ava.Common.Locale;
 using Ryujinx.Ava.Input;
 using Ryujinx.Ava.UI.Helpers;
@@ -54,7 +55,18 @@ namespace Ryujinx.Ava.UI.ViewModels.Input
         private static readonly InputConfigJsonSerializerContext _serializerContext = new(JsonHelper.GetDefaultSerializerOptions());
 
         public IGamepadDriver AvaloniaKeyboardDriver { get; }
-        public IGamepad SelectedGamepad { get; private set; }
+
+        private IGamepad _selectedGamepad;
+
+        public IGamepad SelectedGamepad
+        {
+            get => _selectedGamepad;
+            private set
+            {
+                _selectedGamepad = value;
+                OnPropertiesChanged(nameof(HasLed), nameof(CanClearLed));
+            }
+        }
 
         public ObservableCollection<PlayerModel> PlayerIndexes { get; set; }
         public ObservableCollection<(DeviceType Type, string Id, string Name)> Devices { get; set; }
@@ -70,6 +82,7 @@ namespace Ryujinx.Ava.UI.ViewModels.Input
         public bool IsLeft { get; set; }
 
         public bool HasLed => SelectedGamepad.Features.HasFlag(GamepadFeaturesFlag.Led);
+        public bool CanClearLed => SelectedGamepad.Name.ContainsIgnoreCase("DualSense");
 
         public bool IsModified { get; set; }
         public event Action NotifyChangesEvent;

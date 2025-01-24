@@ -83,7 +83,7 @@ namespace Ryujinx.Ava.UI.Views.Input
 
         private void Button_IsCheckedChanged(object sender, RoutedEventArgs e)
         {
-            if (sender is ToggleButton button) 
+            if (sender is ToggleButton button)
             {
                 if (button.IsChecked is true)
                 {
@@ -104,7 +104,9 @@ namespace Ryujinx.Ava.UI.Views.Input
 
                         var viewModel = (DataContext as ControllerInputViewModel);
 
-                        IKeyboard keyboard = (IKeyboard)viewModel.ParentModel.AvaloniaKeyboardDriver.GetGamepad("0"); // Open Avalonia keyboard for cancel operations.
+                        IKeyboard keyboard =
+                            (IKeyboard)viewModel.ParentModel.AvaloniaKeyboardDriver
+                                .GetGamepad("0"); // Open Avalonia keyboard for cancel operations.
                         IButtonAssigner assigner = CreateButtonAssigner(isStick);
 
                         _currentAssigner.ButtonAssigned += (sender, e) =>
@@ -235,13 +237,13 @@ namespace Ryujinx.Ava.UI.Views.Input
             _currentAssigner?.Cancel();
             _currentAssigner = null;
         }
-        
+
         private void ColorPickerButton_OnColorChanged(ColorPickerButton sender, ColorButtonColorChangedEventArgs args)
         {
             if (!args.NewColor.HasValue) return;
             if (DataContext is not ControllerInputViewModel cVm) return;
             if (!cVm.Config.EnableLedChanging) return;
-            
+
             cVm.ParentModel.SelectedGamepad.SetLed(args.NewColor.Value.ToUInt32());
         }
 
@@ -249,7 +251,7 @@ namespace Ryujinx.Ava.UI.Views.Input
         {
             if (DataContext is not ControllerInputViewModel cVm) return;
             if (!cVm.Config.EnableLedChanging) return;
-            
+
             cVm.ParentModel.SelectedGamepad.SetLed(cVm.Config.LedColor.ToUInt32());
         }
     }

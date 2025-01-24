@@ -400,6 +400,18 @@ namespace Ryujinx.Ava.UI.Models.Input
             }
         }
         
+        private bool _turnOffLed;
+        
+        public bool TurnOffLed
+        {
+            get => _turnOffLed;
+            set
+            {
+                _turnOffLed = value;
+                OnPropertyChanged();
+            }
+        }
+        
         private Color _ledColor;
 
         public Color LedColor
@@ -512,6 +524,7 @@ namespace Ryujinx.Ava.UI.Models.Input
                 if (controllerInput.Led != null)
                 {
                     EnableLedChanging = controllerInput.Led.EnableLed;
+                    TurnOffLed = controllerInput.Led.TurnOffLed;
                     uint rawColor = controllerInput.Led.LedColor;
                     byte alpha = (byte)(rawColor >> 24);
                     byte red = (byte)(rawColor >> 16);
@@ -579,6 +592,7 @@ namespace Ryujinx.Ava.UI.Models.Input
                 Led = new LedConfigController
                 {
                     EnableLed = EnableLedChanging,
+                    TurnOffLed = this.TurnOffLed,
                     LedColor = LedColor.ToUInt32()
                 },
                 Version = InputConfig.CurrentVersion,

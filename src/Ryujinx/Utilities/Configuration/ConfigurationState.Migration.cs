@@ -422,6 +422,7 @@ namespace Ryujinx.Ava.Utilities.Configuration
                         config.Led = new LedConfigController
                         {
                             EnableLed = false,
+                            TurnOffLed = false,
                             LedColor = new Color(255, 5, 1, 253).ToUInt32()
                         };
                     }

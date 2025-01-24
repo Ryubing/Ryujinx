@@ -496,6 +496,7 @@
                         <Grid IsVisible="{Binding ParentModel.HasLed}">
                             <Grid.ColumnDefinitions>
                                 <ColumnDefinition Width="*" />
+                                <ColumnDefinition Width="*" />
                                 <ColumnDefinition Width="Auto" />
                             </Grid.ColumnDefinitions>
                             <CheckBox
@@ -505,8 +506,18 @@
                                 IsChecked="{Binding Config.EnableLedChanging, Mode=TwoWay}">
                                 <TextBlock Text="{ext:Locale ControllerSettingsLedColor}" />
                             </CheckBox>
-                            <ui:ColorPickerButton 
+                            <CheckBox
+                                Margin="10"
+                                MinWidth="0"
                                 Grid.Column="1"
+                                IsVisible="{Binding ParentModel.CanClearLed}"
+                                IsChecked="{Binding Config.TurnOffLed, Mode=TwoWay}"
+                                Command="{Binding LedDisabledChanged}">
+                                <TextBlock Text="{ext:Locale ControllerSettingsLedColorDisable}" />
+                            </CheckBox>
+                            <ui:ColorPickerButton 
+                                Grid.Column="2"
+                                IsEnabled="{Binding !Config.TurnOffLed}"
                                 Margin="10"
                                 IsMoreButtonVisible="False"
                                 UseColorPalette="False"
