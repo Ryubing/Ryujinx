@@ -75,6 +75,8 @@ namespace Ryujinx.Input.SDL2
         {
             throw new NotImplementedException();
         }
+        
+        public void SetLed(uint packedRgb) {}
 
         public void SetTriggerThreshold(float triggerThreshold)
         {

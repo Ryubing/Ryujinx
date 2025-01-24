@@ -73,6 +73,8 @@ namespace Ryujinx.Ava.Input
         {
             throw new NotImplementedException();
         }
+        
+        public void SetLed(uint packedRgb) { }
 
         public void SetTriggerThreshold(float triggerThreshold)
         {

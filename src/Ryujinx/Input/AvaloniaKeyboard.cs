@@ -142,6 +142,8 @@ namespace Ryujinx.Ava.Input
 #pragma warning restore IDE0055
             }
         }
+        
+        public void SetLed(uint packedRgb) { }
 
         public void SetTriggerThreshold(float triggerThreshold) { }
 

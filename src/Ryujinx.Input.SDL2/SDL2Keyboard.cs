@@ -384,6 +384,8 @@ namespace Ryujinx.Input.SDL2
                 _buttonsUserMapping.Add(new ButtonMappingEntry(GamepadButtonInputId.SingleLeftTrigger1, (Key)_configuration.RightJoycon.ButtonSl));
             }
         }
+        
+        public void SetLed(uint packedRgb) {}
 
         public void SetTriggerThreshold(float triggerThreshold)
         {
