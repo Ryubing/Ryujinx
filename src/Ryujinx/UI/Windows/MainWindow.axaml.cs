@@ -736,9 +736,7 @@ namespace Ryujinx.Ava.UI.Windows
             });
         }
 
-        private static bool _intelMacWarningShown = !(OperatingSystem.IsMacOS() &&
-                                                     (RuntimeInformation.OSArchitecture == Architecture.X64 ||
-                                                      RuntimeInformation.OSArchitecture == Architecture.X86));
+        private static bool _intelMacWarningShown = !RunningPlatform.IsIntelMac;
 
         public static async Task ShowIntelMacWarningAsync()
         {
