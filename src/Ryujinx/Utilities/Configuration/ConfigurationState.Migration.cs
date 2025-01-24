@@ -1,3 +1,4 @@
+using Avalonia.Media;
 using Gommon;
 using Ryujinx.Ava.Utilities.Configuration.System;
 using Ryujinx.Ava.Utilities.Configuration.UI;
@@ -421,7 +422,7 @@ namespace Ryujinx.Ava.Utilities.Configuration
                         config.Led = new LedConfigController
                         {
                             EnableLed = false,
-                            LedColor = 328189
+                            LedColor = new Color(255, 5, 1, 253).ToUInt32()
                         };
                     }
                 })
