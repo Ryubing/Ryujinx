@@ -6,10 +6,12 @@ using Avalonia.Interactivity;
 using Avalonia.LogicalTree;
 using FluentAvalonia.UI.Controls;
 using Ryujinx.Ava.UI.Helpers;
+using Ryujinx.Ava.UI.Models;
 using Ryujinx.Ava.UI.ViewModels.Input;
 using Ryujinx.Common.Configuration.Hid.Controller;
 using Ryujinx.Input;
 using Ryujinx.Input.Assigner;
+using System.Linq;
 using StickInputId = Ryujinx.Common.Configuration.Hid.Controller.StickInputId;
 
 namespace Ryujinx.Ava.UI.Views.Input
@@ -234,6 +236,17 @@ namespace Ryujinx.Ava.UI.Views.Input
         protected override void OnDetachedFromVisualTree(VisualTreeAttachmentEventArgs e)
         {
             base.OnDetachedFromVisualTree(e);
+            
+            if (DataContext is ControllerInputViewModel vm)
+            {
+                foreach ((_, string id, _) in vm.ParentModel.Devices.Where(x => x.Type == DeviceType.Controller))
+                {
+                    IGamepad gamepad = RyujinxApp.MainWindow.InputManager.GamepadDriver.GetGamepad(id);
+
+                    gamepad?.ClearLed();
+                }
+            }
+            
             _currentAssigner?.Cancel();
             _currentAssigner = null;
         }
