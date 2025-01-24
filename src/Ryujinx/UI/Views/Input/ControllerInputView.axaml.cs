@@ -4,6 +4,7 @@ using Avalonia.Controls.Primitives;
 using Avalonia.Input;
 using Avalonia.Interactivity;
 using Avalonia.LogicalTree;
+using FluentAvalonia.UI.Controls;
 using Ryujinx.Ava.UI.Helpers;
 using Ryujinx.Ava.UI.ViewModels.Input;
 using Ryujinx.Common.Configuration.Hid.Controller;
@@ -233,6 +234,23 @@ namespace Ryujinx.Ava.UI.Views.Input
             base.OnDetachedFromVisualTree(e);
             _currentAssigner?.Cancel();
             _currentAssigner = null;
+        }
+        
+        private void ColorPickerButton_OnColorChanged(ColorPickerButton sender, ColorButtonColorChangedEventArgs args)
+        {
+            if (!args.NewColor.HasValue) return;
+            if (DataContext is not ControllerInputViewModel cVm) return;
+            if (!cVm.Config.EnableLedChanging) return;
+            
+            cVm.ParentModel.SelectedGamepad.SetLed(args.NewColor.Value.ToUInt32());
+        }
+
+        private void ColorPickerButton_OnAttachedToVisualTree(object sender, VisualTreeAttachmentEventArgs e)
+        {
+            if (DataContext is not ControllerInputViewModel cVm) return;
+            if (!cVm.Config.EnableLedChanging) return;
+            
+            cVm.ParentModel.SelectedGamepad.SetLed(cVm.Config.LedColor.ToUInt32());
         }
     }
 }

@@ -1,5 +1,6 @@
 using Ryujinx.Common.Configuration.Hid;
 using Ryujinx.Common.Configuration.Hid.Keyboard;
+using Ryujinx.Common.Logging;
 using Ryujinx.Input;
 using System;
 using System.Collections.Generic;
@@ -142,8 +143,11 @@ namespace Ryujinx.Ava.Input
 #pragma warning restore IDE0055
             }
         }
-        
-        public void SetLed(uint packedRgb) { }
+
+        public void SetLed(uint packedRgb)
+        {
+            Logger.Info?.Print(LogClass.UI, "SetLed called on an AvaloniaKeyboard");
+        }
 
         public void SetTriggerThreshold(float triggerThreshold) { }
 

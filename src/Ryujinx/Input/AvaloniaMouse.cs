@@ -1,4 +1,5 @@
 using Ryujinx.Common.Configuration.Hid;
+using Ryujinx.Common.Logging;
 using Ryujinx.Input;
 using System;
 using System.Drawing;
@@ -73,8 +74,11 @@ namespace Ryujinx.Ava.Input
         {
             throw new NotImplementedException();
         }
-        
-        public void SetLed(uint packedRgb) { }
+
+        public void SetLed(uint packedRgb)
+        {
+            Logger.Info?.Print(LogClass.UI, "SetLed called on an AvaloniaMouse");
+        }
 
         public void SetTriggerThreshold(float triggerThreshold)
         {

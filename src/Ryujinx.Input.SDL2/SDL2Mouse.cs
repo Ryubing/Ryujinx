@@ -1,4 +1,5 @@
 using Ryujinx.Common.Configuration.Hid;
+using Ryujinx.Common.Logging;
 using System;
 using System.Drawing;
 using System.Numerics;
@@ -75,8 +76,11 @@ namespace Ryujinx.Input.SDL2
         {
             throw new NotImplementedException();
         }
-        
-        public void SetLed(uint packedRgb) {}
+
+        public void SetLed(uint packedRgb)
+        {
+            Logger.Info?.Print(LogClass.UI, "SetLed called on an SDL2Mouse");
+        }
 
         public void SetTriggerThreshold(float triggerThreshold)
         {

@@ -106,8 +106,6 @@ namespace Ryujinx.Input.SDL2
         public void SetLed(uint packedRgb)
         {
             if (!Features.HasFlag(GamepadFeaturesFlag.Led)) return;
-            if (!HasConfiguration) return;
-            if (!_configuration.Led.EnableLed) return;
             
             byte red = (byte)(packedRgb >> 16);
             byte green = (byte)(packedRgb >> 8);
@@ -234,7 +232,7 @@ namespace Ryujinx.Input.SDL2
             {
                 _configuration = (StandardControllerInputConfig)configuration;
 
-                if (Features.HasFlag(GamepadFeaturesFlag.Led))
+                if (Features.HasFlag(GamepadFeaturesFlag.Led) && _configuration.Led.EnableLed)
                     SetLed(_configuration.Led.LedColor);
                 
                 _buttonsUserMapping.Clear();
