@@ -36,7 +36,7 @@ namespace Ryujinx.Input
         IGamepad GetGamepad(string id);
         
         /// <summary>
-        ///     Returns an <see cref="IEnumerable{T}"/> of the connected gamepads.
+        /// Returns an <see cref="IEnumerable{T}"/> of the connected gamepads.
         /// </summary>
         IEnumerable<IGamepad> GetGamepads();
 
