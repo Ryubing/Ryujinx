@@ -111,7 +111,8 @@ namespace Ryujinx.Input.SDL2
             byte green = (byte)(packedRgb >> 8);
             byte blue = (byte)(packedRgb % 256);
 
-            SDL_GameControllerSetLED(_gamepadHandle, red, green, blue);
+            if (SDL_GameControllerSetLED(_gamepadHandle, red, green, blue) != 0)
+                Logger.Error?.Print(LogClass.Hid, "LED is not supported on this game controller.");
         }
 
         private GamepadFeaturesFlag GetFeaturesFlag()
