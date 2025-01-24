@@ -125,9 +125,7 @@ namespace Ryujinx.Input.SDL2
                 result |= GamepadFeaturesFlag.Motion;
             }
 
-            int error = SDL_GameControllerRumble(_gamepadHandle, 0, 0, 100);
-
-            if (error == 0)
+            if (SDL_GameControllerRumble(_gamepadHandle, 0, 0, 100) == 0)
             {
                 result |= GamepadFeaturesFlag.Rumble;
             }
