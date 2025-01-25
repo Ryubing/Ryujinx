@@ -266,6 +266,7 @@ namespace Ryujinx.Input.HLE
             if (motionConfig.MotionBackend != MotionInputBackendType.CemuHook)
             {
                 _leftMotionInput = new MotionInput();
+                _rightMotionInput = new MotionInput();
             }
             else
             {
@@ -298,7 +299,20 @@ namespace Ryujinx.Input.HLE
 
                             if (controllerConfig.ControllerType == ConfigControllerType.JoyconPair)
                             {
-                                _rightMotionInput = _leftMotionInput;
+                                if (gamepad.Id== "JoyConPair")
+                                {
+                                    Vector3 rightAccelerometer = gamepad.GetMotionData(MotionInputId.SecondAccelerometer);
+                                    Vector3 rightGyroscope = gamepad.GetMotionData(MotionInputId.SecondGyroscope);
+
+                                    rightAccelerometer = new Vector3(rightAccelerometer.X, -rightAccelerometer.Z, rightAccelerometer.Y);
+                                    rightGyroscope = new Vector3(rightGyroscope.X, -rightGyroscope.Z, rightGyroscope.Y);
+
+                                    _rightMotionInput.Update(rightAccelerometer, rightGyroscope, (ulong)PerformanceCounter.ElapsedNanoseconds / 1000, controllerConfig.Motion.Sensitivity, (float)controllerConfig.Motion.GyroDeadzone);
+                                }
+                                else
+                                {
+                                    _rightMotionInput = _leftMotionInput;
+                                }
                             }
                         }
                     }
@@ -333,6 +347,7 @@ namespace Ryujinx.Input.HLE
                 // Reset states
                 State = default;
                 _leftMotionInput = null;
+                _rightMotionInput = null;
             }
         }
 
