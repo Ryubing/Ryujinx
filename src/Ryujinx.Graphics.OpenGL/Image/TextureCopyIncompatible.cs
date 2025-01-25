@@ -91,8 +91,8 @@ void main()
             int srcComponentsCount = srcBpp / componentSize;
             int dstComponentsCount = dstBpp / componentSize;
 
-            var srcFormat = GetFormat(componentSize, srcComponentsCount);
-            var dstFormat = GetFormat(componentSize, dstComponentsCount);
+            SizedInternalFormat srcFormat = GetFormat(componentSize, srcComponentsCount);
+            SizedInternalFormat dstFormat = GetFormat(componentSize, dstComponentsCount);
 
             GL.UseProgram(srcBpp < dstBpp
                 ? GetWideningShader(componentSize, srcComponentsCount, dstComponentsCount)

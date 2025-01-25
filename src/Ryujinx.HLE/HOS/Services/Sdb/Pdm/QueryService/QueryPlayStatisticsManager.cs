@@ -55,7 +55,7 @@ namespace Ryujinx.HLE.HOS.Services.Sdb.Pdm.QueryService
             MemoryHelper.FillWithZeros(context.Memory, outputPosition, (int)outputSize);
 
             // Return ResultCode.ServiceUnavailable if data is locked by another process.
-            var filteredApplicationPlayStatistics = _applicationPlayStatistics.AsEnumerable();
+            IEnumerable<KeyValuePair<UserId, ApplicationPlayStatistics>> filteredApplicationPlayStatistics = _applicationPlayStatistics.AsEnumerable();
 
             if (queryCapability == PlayLogQueryCapability.None)
             {

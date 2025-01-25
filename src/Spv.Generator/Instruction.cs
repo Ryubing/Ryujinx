@@ -239,8 +239,8 @@ namespace Spv.Generator
 
         public override string ToString()
         {
-            var labels = _operandLabels.TryGetValue(Opcode, out var opLabels) ? opLabels : Array.Empty<string>();
-            var result = _resultType == null ? string.Empty : $"{_resultType} ";
+            string[] labels = _operandLabels.TryGetValue(Opcode, out string[] opLabels) ? opLabels : Array.Empty<string>();
+            string result = _resultType == null ? string.Empty : $"{_resultType} ";
             return $"{result}{Opcode}{_operands.ToString(labels)}";
         }
     }

@@ -490,8 +490,8 @@ namespace Ryujinx.Graphics.Shader.Translation
 
                 for (int index = 0; index < pTreeNode.Uses.Count; index++)
                 {
-                    var pUse = pTreeNode.Uses[index];
-                    var cUse = cTreeNode.Uses[index];
+                    PatternTreeNodeUse pUse = pTreeNode.Uses[index];
+                    TreeNodeUse cUse = cTreeNode.Uses[index];
 
                     if (pUse.Index <= -2)
                     {
@@ -524,8 +524,8 @@ namespace Ryujinx.Graphics.Shader.Translation
         {
             public static IPatternTreeNode[] GetFsiGetAddress()
             {
-                var affinityValue = S2r(SReg.Affinity).Use(PT).Out;
-                var orderingTicketValue = S2r(SReg.OrderingTicket).Use(PT).Out;
+                PatternTreeNodeUse affinityValue = S2r(SReg.Affinity).Use(PT).Out;
+                PatternTreeNodeUse orderingTicketValue = S2r(SReg.OrderingTicket).Use(PT).Out;
 
                 return new IPatternTreeNode[]
                 {
@@ -554,8 +554,8 @@ namespace Ryujinx.Graphics.Shader.Translation
 
             public static IPatternTreeNode[] GetFsiGetAddressV2()
             {
-                var affinityValue = S2r(SReg.Affinity).Use(PT).Out;
-                var orderingTicketValue = S2r(SReg.OrderingTicket).Use(PT).Out;
+                PatternTreeNodeUse affinityValue = S2r(SReg.Affinity).Use(PT).Out;
+                PatternTreeNodeUse orderingTicketValue = S2r(SReg.OrderingTicket).Use(PT).Out;
 
                 return new IPatternTreeNode[]
                 {
@@ -582,8 +582,8 @@ namespace Ryujinx.Graphics.Shader.Translation
 
             public static IPatternTreeNode[] GetFsiIsLastWarpThread()
             {
-                var threadKillValue = S2r(SReg.ThreadKill).Use(PT).Out;
-                var laneIdValue = S2r(SReg.LaneId).Use(PT).Out;
+                PatternTreeNodeUse threadKillValue = S2r(SReg.ThreadKill).Use(PT).Out;
+                PatternTreeNodeUse laneIdValue = S2r(SReg.LaneId).Use(PT).Out;
 
                 return new IPatternTreeNode[]
                 {
@@ -609,11 +609,11 @@ namespace Ryujinx.Graphics.Shader.Translation
 
             public static IPatternTreeNode[] GetFsiBeginPattern()
             {
-                var addressLowValue = CallArg(1);
+                PatternTreeNodeUse addressLowValue = CallArg(1);
 
                 static PatternTreeNodeUse HighU16Equals(PatternTreeNodeUse x)
                 {
-                    var expectedValue = CallArg(3);
+                    PatternTreeNodeUse expectedValue = CallArg(3);
 
                     return IsetpU32(IComp.Eq)
                         .Use(PT)
@@ -644,13 +644,13 @@ namespace Ryujinx.Graphics.Shader.Translation
 
             public static IPatternTreeNode[] GetFsiEndPattern()
             {
-                var voteResult = Vote(VoteMode.All).Use(PT).Use(PT).OutAt(1);
-                var popcResult = Popc().Use(PT).Use(voteResult).Out;
-                var threadKillValue = S2r(SReg.ThreadKill).Use(PT).Out;
-                var laneIdValue = S2r(SReg.LaneId).Use(PT).Out;
+                PatternTreeNodeUse voteResult = Vote(VoteMode.All).Use(PT).Use(PT).OutAt(1);
+                PatternTreeNodeUse popcResult = Popc().Use(PT).Use(voteResult).Out;
+                PatternTreeNodeUse threadKillValue = S2r(SReg.ThreadKill).Use(PT).Out;
+                PatternTreeNodeUse laneIdValue = S2r(SReg.LaneId).Use(PT).Out;
 
-                var addressLowValue = CallArg(1);
-                var incrementValue = CallArg(2);
+                PatternTreeNodeUse addressLowValue = CallArg(1);
+                PatternTreeNodeUse incrementValue = CallArg(2);
 
                 return new IPatternTreeNode[]
                 {

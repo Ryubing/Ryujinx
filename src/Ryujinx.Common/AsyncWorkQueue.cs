@@ -34,7 +34,7 @@ namespace Ryujinx.Common
         {
             try
             {
-                foreach (var item in _queue.GetConsumingEnumerable(_cts.Token))
+                foreach (T item in _queue.GetConsumingEnumerable(_cts.Token))
                 {
                     _workerAction(item);
                 }

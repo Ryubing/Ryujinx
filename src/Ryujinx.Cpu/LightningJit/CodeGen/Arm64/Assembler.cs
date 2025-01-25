@@ -41,7 +41,7 @@ namespace Ryujinx.Cpu.LightningJit.CodeGen.Arm64
         {
             int targetIndex = _code.Count;
 
-            var state = _labels[label.AsInt32()];
+            LabelState state = _labels[label.AsInt32()];
 
             state.TargetIndex = targetIndex;
             state.HasTarget = true;
@@ -68,7 +68,7 @@ namespace Ryujinx.Cpu.LightningJit.CodeGen.Arm64
         {
             int branchIndex = _code.Count;
 
-            var state = _labels[label.AsInt32()];
+            LabelState state = _labels[label.AsInt32()];
 
             state.BranchIndex = branchIndex;
             state.HasBranch = true;
@@ -94,7 +94,7 @@ namespace Ryujinx.Cpu.LightningJit.CodeGen.Arm64
         {
             int branchIndex = _code.Count;
 
-            var state = _labels[label.AsInt32()];
+            LabelState state = _labels[label.AsInt32()];
 
             state.BranchIndex = branchIndex;
             state.HasBranch = true;
@@ -113,7 +113,7 @@ namespace Ryujinx.Cpu.LightningJit.CodeGen.Arm64
         {
             int branchIndex = _code.Count;
 
-            var state = _labels[label.AsInt32()];
+            LabelState state = _labels[label.AsInt32()];
 
             state.BranchIndex = branchIndex;
             state.HasBranch = true;
@@ -342,7 +342,7 @@ namespace Ryujinx.Cpu.LightningJit.CodeGen.Arm64
 
         public readonly void Cset(Operand rd, ArmCondition condition)
         {
-            var zr = new Operand(ZrRegister, RegisterType.Integer, rd.Type);
+            Operand zr = new Operand(ZrRegister, RegisterType.Integer, rd.Type);
             Csinc(rd, zr, zr, (ArmCondition)((int)condition ^ 1));
         }
 

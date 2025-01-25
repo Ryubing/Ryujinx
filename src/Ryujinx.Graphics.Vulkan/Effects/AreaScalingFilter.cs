@@ -41,9 +41,9 @@ namespace Ryujinx.Graphics.Vulkan.Effects
 
             _pipeline.Initialize();
 
-            var scalingShader = EmbeddedResources.Read("Ryujinx.Graphics.Vulkan/Effects/Shaders/AreaScaling.spv");
+            byte[] scalingShader = EmbeddedResources.Read("Ryujinx.Graphics.Vulkan/Effects/Shaders/AreaScaling.spv");
 
-            var scalingResourceLayout = new ResourceLayoutBuilder()
+            ResourceLayout scalingResourceLayout = new ResourceLayoutBuilder()
                 .Add(ResourceStages.Compute, ResourceType.UniformBuffer, 2)
                 .Add(ResourceStages.Compute, ResourceType.TextureAndSampler, 1)
                 .Add(ResourceStages.Compute, ResourceType.Image, 0, true).Build();
@@ -83,7 +83,7 @@ namespace Ryujinx.Graphics.Vulkan.Effects
             };
 
             int rangeSize = dimensionsBuffer.Length * sizeof(float);
-            using var buffer = _renderer.BufferManager.ReserveOrCreate(_renderer, cbs, rangeSize);
+            using ScopedTemporaryBuffer buffer = _renderer.BufferManager.ReserveOrCreate(_renderer, cbs, rangeSize);
             buffer.Holder.SetDataUnchecked(buffer.Offset, dimensionsBuffer);
 
             int threadGroupWorkRegionDim = 16;

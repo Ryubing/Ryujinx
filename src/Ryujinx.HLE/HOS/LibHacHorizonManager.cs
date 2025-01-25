@@ -54,7 +54,7 @@ namespace Ryujinx.HLE.HOS
 
         public void InitializeFsServer(VirtualFileSystem virtualFileSystem)
         {
-            virtualFileSystem.InitializeFsServer(Server, out var fsClient);
+            virtualFileSystem.InitializeFsServer(Server, out HorizonClient fsClient);
 
             FsClient = fsClient;
         }

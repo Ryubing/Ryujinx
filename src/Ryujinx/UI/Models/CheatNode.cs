@@ -28,7 +28,7 @@ namespace Ryujinx.Ava.UI.Models
             }
             set
             {
-                foreach (var cheat in SubNodes)
+                foreach (CheatNode cheat in SubNodes)
                 {
                     cheat.IsEnabled = value;
                     cheat.OnPropertyChanged();

@@ -60,7 +60,7 @@ namespace Ryujinx.Graphics.Gpu.Shader
                 {
                     Target target = descriptor.Type != SamplerType.None ? ShaderTexture.GetTarget(descriptor.Type) : default;
 
-                    var result = new TextureBindingInfo(
+                    TextureBindingInfo result = new TextureBindingInfo(
                         target,
                         descriptor.Set,
                         descriptor.Binding,
@@ -88,7 +88,7 @@ namespace Ryujinx.Graphics.Gpu.Shader
                     Target target = ShaderTexture.GetTarget(descriptor.Type);
                     FormatInfo formatInfo = ShaderTexture.GetFormatInfo(descriptor.Format);
 
-                    var result = new TextureBindingInfo(
+                    TextureBindingInfo result = new TextureBindingInfo(
                         target,
                         formatInfo,
                         descriptor.Set,

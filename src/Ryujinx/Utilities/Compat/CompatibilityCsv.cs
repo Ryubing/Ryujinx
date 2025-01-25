@@ -88,7 +88,7 @@ namespace Ryujinx.Ava.Utilities.Compat
                 _ => null
             };
 
-            if (DateTime.TryParse(ColStr(row[indices.LastUpdated]), out var dt))
+            if (DateTime.TryParse(ColStr(row[indices.LastUpdated]), out DateTime dt))
                 LastUpdated = dt;
 
             return;

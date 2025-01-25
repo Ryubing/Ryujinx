@@ -1,3 +1,4 @@
+using Ryujinx.Common.Memory;
 using Ryujinx.Graphics.GAL;
 using Ryujinx.Graphics.Shader;
 using Silk.NET.Vulkan;
@@ -7,6 +8,8 @@ using System.Linq;
 using System.Numerics;
 using System.Runtime.CompilerServices;
 using System.Runtime.InteropServices;
+using BlendOp = Silk.NET.Vulkan.BlendOp;
+using Buffer = Silk.NET.Vulkan.Buffer;
 using CompareOp = Ryujinx.Graphics.GAL.CompareOp;
 using Format = Ryujinx.Graphics.GAL.Format;
 using FrontFace = Ryujinx.Graphics.GAL.FrontFace;
@@ -102,7 +105,7 @@ namespace Ryujinx.Graphics.Vulkan
             AutoFlush = new AutoFlushCounter(gd);
             EndRenderPassDelegate = EndRenderPass;
 
-            var pipelineCacheCreateInfo = new PipelineCacheCreateInfo
+            PipelineCacheCreateInfo pipelineCacheCreateInfo = new PipelineCacheCreateInfo
             {
                 SType = StructureType.PipelineCacheCreateInfo,
             };
@@ -117,7 +120,7 @@ namespace Ryujinx.Graphics.Vulkan
 
             const int EmptyVbSize = 16;
 
-            using var emptyVb = gd.BufferManager.Create(gd, EmptyVbSize);
+            using BufferHolder emptyVb = gd.BufferManager.Create(gd, EmptyVbSize);
             emptyVb.SetData(0, new byte[EmptyVbSize]);
             _vertexBuffers[0] = new VertexBufferState(emptyVb.GetBuffer(), 0, 0, EmptyVbSize);
             _vertexBuffersDirty = ulong.MaxValue >> (64 - _vertexBuffers.Length);
@@ -174,7 +177,7 @@ namespace Ryujinx.Graphics.Vulkan
         {
             EndRenderPass();
 
-            var dst = Gd.BufferManager.GetBuffer(CommandBuffer, destination, offset, size, true).Get(Cbs, offset, size, true).Value;
+            Buffer dst = Gd.BufferManager.GetBuffer(CommandBuffer, destination, offset, size, true).Get(Cbs, offset, size, true).Value;
 
             BufferHolder.InsertBufferBarrier(
                 Gd,
@@ -217,9 +220,9 @@ namespace Ryujinx.Graphics.Vulkan
 
             BeginRenderPass();
 
-            var clearValue = new ClearValue(new ClearColorValue(color.Red, color.Green, color.Blue, color.Alpha));
-            var attachment = new ClearAttachment(ImageAspectFlags.ColorBit, (uint)index, clearValue);
-            var clearRect = FramebufferParams.GetClearRect(ClearScissor, layer, layerCount);
+            ClearValue clearValue = new ClearValue(new ClearColorValue(color.Red, color.Green, color.Blue, color.Alpha));
+            ClearAttachment attachment = new ClearAttachment(ImageAspectFlags.ColorBit, (uint)index, clearValue);
+            ClearRect clearRect = FramebufferParams.GetClearRect(ClearScissor, layer, layerCount);
 
             Gd.Api.CmdClearAttachments(CommandBuffer, 1, &attachment, 1, &clearRect);
         }
@@ -231,8 +234,8 @@ namespace Ryujinx.Graphics.Vulkan
                 return;
             }
 
-            var clearValue = new ClearValue(null, new ClearDepthStencilValue(depthValue, (uint)stencilValue));
-            var flags = depthMask ? ImageAspectFlags.DepthBit : 0;
+            ClearValue clearValue = new ClearValue(null, new ClearDepthStencilValue(depthValue, (uint)stencilValue));
+            ImageAspectFlags flags = depthMask ? ImageAspectFlags.DepthBit : 0;
 
             if (stencilMask)
             {
@@ -255,8 +258,8 @@ namespace Ryujinx.Graphics.Vulkan
 
             BeginRenderPass();
 
-            var attachment = new ClearAttachment(flags, 0, clearValue);
-            var clearRect = FramebufferParams.GetClearRect(ClearScissor, layer, layerCount);
+            ClearAttachment attachment = new ClearAttachment(flags, 0, clearValue);
+            ClearRect clearRect = FramebufferParams.GetClearRect(ClearScissor, layer, layerCount);
 
             Gd.Api.CmdClearAttachments(CommandBuffer, 1, &attachment, 1, &clearRect);
         }
@@ -270,8 +273,8 @@ namespace Ryujinx.Graphics.Vulkan
         {
             EndRenderPass();
 
-            var src = Gd.BufferManager.GetBuffer(CommandBuffer, source, srcOffset, size, false);
-            var dst = Gd.BufferManager.GetBuffer(CommandBuffer, destination, dstOffset, size, true);
+            Auto<DisposableBuffer> src = Gd.BufferManager.GetBuffer(CommandBuffer, source, srcOffset, size, false);
+            Auto<DisposableBuffer> dst = Gd.BufferManager.GetBuffer(CommandBuffer, destination, dstOffset, size, true);
 
             BufferHolder.Copy(Gd, Cbs, src, dst, srcOffset, dstOffset, size);
         }
@@ -350,7 +353,7 @@ namespace Ryujinx.Graphics.Vulkan
                 };
 
                 BufferHandle handle = pattern.GetRepeatingBuffer(vertexCount, out int indexCount);
-                var buffer = Gd.BufferManager.GetBuffer(CommandBuffer, handle, false);
+                Auto<DisposableBuffer> buffer = Gd.BufferManager.GetBuffer(CommandBuffer, handle, false);
 
                 Gd.Api.CmdBindIndexBuffer(CommandBuffer, buffer.Get(Cbs, 0, indexCount * sizeof(int)).Value, 0, Silk.NET.Vulkan.IndexType.Uint32);
 
@@ -435,7 +438,7 @@ namespace Ryujinx.Graphics.Vulkan
 
         public void DrawIndexedIndirect(BufferRange indirectBuffer)
         {
-            var buffer = Gd.BufferManager
+            Buffer buffer = Gd.BufferManager
                 .GetBuffer(CommandBuffer, indirectBuffer.Handle, indirectBuffer.Offset, indirectBuffer.Size, false)
                 .Get(Cbs, indirectBuffer.Offset, indirectBuffer.Size).Value;
 
@@ -481,11 +484,11 @@ namespace Ryujinx.Graphics.Vulkan
 
         public void DrawIndexedIndirectCount(BufferRange indirectBuffer, BufferRange parameterBuffer, int maxDrawCount, int stride)
         {
-            var countBuffer = Gd.BufferManager
+            Buffer countBuffer = Gd.BufferManager
                 .GetBuffer(CommandBuffer, parameterBuffer.Handle, parameterBuffer.Offset, parameterBuffer.Size, false)
                 .Get(Cbs, parameterBuffer.Offset, parameterBuffer.Size).Value;
 
-            var buffer = Gd.BufferManager
+            Buffer buffer = Gd.BufferManager
                 .GetBuffer(CommandBuffer, indirectBuffer.Handle, indirectBuffer.Offset, indirectBuffer.Size, false)
                 .Get(Cbs, indirectBuffer.Offset, indirectBuffer.Size).Value;
 
@@ -575,7 +578,7 @@ namespace Ryujinx.Graphics.Vulkan
         {
             // TODO: Support quads and other unsupported topologies.
 
-            var buffer = Gd.BufferManager
+            Buffer buffer = Gd.BufferManager
                 .GetBuffer(CommandBuffer, indirectBuffer.Handle, indirectBuffer.Offset, indirectBuffer.Size, false)
                 .Get(Cbs, indirectBuffer.Offset, indirectBuffer.Size, false).Value;
 
@@ -599,11 +602,11 @@ namespace Ryujinx.Graphics.Vulkan
                 throw new NotSupportedException();
             }
 
-            var buffer = Gd.BufferManager
+            Buffer buffer = Gd.BufferManager
                 .GetBuffer(CommandBuffer, indirectBuffer.Handle, indirectBuffer.Offset, indirectBuffer.Size, false)
                 .Get(Cbs, indirectBuffer.Offset, indirectBuffer.Size, false).Value;
 
-            var countBuffer = Gd.BufferManager
+            Buffer countBuffer = Gd.BufferManager
                 .GetBuffer(CommandBuffer, parameterBuffer.Handle, parameterBuffer.Offset, parameterBuffer.Size, false)
                 .Get(Cbs, parameterBuffer.Offset, parameterBuffer.Size, false).Value;
 
@@ -632,13 +635,13 @@ namespace Ryujinx.Graphics.Vulkan
         {
             if (texture is TextureView srcTexture)
             {
-                var oldCullMode = _newState.CullMode;
-                var oldStencilTestEnable = _newState.StencilTestEnable;
-                var oldDepthTestEnable = _newState.DepthTestEnable;
-                var oldDepthWriteEnable = _newState.DepthWriteEnable;
-                var oldViewports = DynamicState.Viewports;
-                var oldViewportsCount = _newState.ViewportsCount;
-                var oldTopology = _topology;
+                CullModeFlags oldCullMode = _newState.CullMode;
+                bool oldStencilTestEnable = _newState.StencilTestEnable;
+                bool oldDepthTestEnable = _newState.DepthTestEnable;
+                bool oldDepthWriteEnable = _newState.DepthWriteEnable;
+                Array16<Silk.NET.Vulkan.Viewport> oldViewports = DynamicState.Viewports;
+                uint oldViewportsCount = _newState.ViewportsCount;
+                PrimitiveTopology oldTopology = _topology;
 
                 _newState.CullMode = CullModeFlags.None;
                 _newState.StencilTestEnable = false;
@@ -710,11 +713,11 @@ namespace Ryujinx.Graphics.Vulkan
         {
             for (int index = 0; index < Constants.MaxRenderTargets; index++)
             {
-                ref var vkBlend = ref _newState.Internal.ColorBlendAttachmentState[index];
+                ref PipelineColorBlendAttachmentState vkBlend = ref _newState.Internal.ColorBlendAttachmentState[index];
 
                 if (index == 0)
                 {
-                    var blendOp = blend.Op.Convert();
+                    BlendOp blendOp = blend.Op.Convert();
 
                     vkBlend = new PipelineColorBlendAttachmentState(
                         blendEnable: true,
@@ -751,7 +754,7 @@ namespace Ryujinx.Graphics.Vulkan
 
         public void SetBlendState(int index, BlendDescriptor blend)
         {
-            ref var vkBlend = ref _newState.Internal.ColorBlendAttachmentState[index];
+            ref PipelineColorBlendAttachmentState vkBlend = ref _newState.Internal.ColorBlendAttachmentState[index];
 
             if (blend.Enable)
             {
@@ -919,7 +922,7 @@ namespace Ryujinx.Graphics.Vulkan
         {
             _topology = topology;
 
-            var vkTopology = Gd.TopologyRemap(topology).Convert();
+            Silk.NET.Vulkan.PrimitiveTopology vkTopology = Gd.TopologyRemap(topology).Convert();
 
             _newState.Topology = vkTopology;
 
@@ -928,8 +931,8 @@ namespace Ryujinx.Graphics.Vulkan
 
         public void SetProgram(IProgram program)
         {
-            var internalProgram = (ShaderCollection)program;
-            var stages = internalProgram.GetInfos();
+            ShaderCollection internalProgram = (ShaderCollection)program;
+            PipelineShaderStageCreateInfo[] stages = internalProgram.GetInfos();
 
             _program = internalProgram;
 
@@ -952,7 +955,7 @@ namespace Ryujinx.Graphics.Vulkan
 
         public void Specialize<T>(in T data) where T : unmanaged
         {
-            var dataSpan = MemoryMarshal.AsBytes(MemoryMarshal.CreateReadOnlySpan(ref Unsafe.AsRef(in data), 1));
+            ReadOnlySpan<byte> dataSpan = MemoryMarshal.AsBytes(MemoryMarshal.CreateReadOnlySpan(ref Unsafe.AsRef(in data), 1));
 
             if (!dataSpan.SequenceEqual(_newState.SpecializationData.Span))
             {
@@ -986,8 +989,8 @@ namespace Ryujinx.Graphics.Vulkan
 
             for (int i = 0; i < count; i++)
             {
-                ref var vkBlend = ref _newState.Internal.ColorBlendAttachmentState[i];
-                var newMask = (ColorComponentFlags)componentMask[i];
+                ref PipelineColorBlendAttachmentState vkBlend = ref _newState.Internal.ColorBlendAttachmentState[i];
+                ColorComponentFlags newMask = (ColorComponentFlags)componentMask[i];
 
                 // When color write mask is 0, remove all blend state to help the pipeline cache.
                 // Restore it when the mask becomes non-zero.
@@ -1054,9 +1057,9 @@ namespace Ryujinx.Graphics.Vulkan
 
             for (int i = 0; i < count; i++)
             {
-                var region = regions[i];
-                var offset = new Offset2D(region.X, region.Y);
-                var extent = new Extent2D((uint)region.Width, (uint)region.Height);
+                Rectangle<int> region = regions[i];
+                Offset2D offset = new Offset2D(region.X, region.Y);
+                Extent2D extent = new Extent2D((uint)region.Width, (uint)region.Height);
 
                 DynamicState.SetScissor(i, new Rect2D(offset, extent));
             }
@@ -1129,7 +1132,7 @@ namespace Ryujinx.Graphics.Vulkan
 
             for (int i = 0; i < count; i++)
             {
-                var range = buffers[i];
+                BufferRange range = buffers[i];
 
                 _transformFeedbackBuffers[i].Dispose();
 
@@ -1158,7 +1161,7 @@ namespace Ryujinx.Graphics.Vulkan
 
         public void SetVertexAttribs(ReadOnlySpan<VertexAttribDescriptor> vertexAttribs)
         {
-            var formatCapabilities = Gd.FormatCapabilities;
+            FormatCapabilities formatCapabilities = Gd.FormatCapabilities;
 
             Span<int> newVbScalarSizes = stackalloc int[Constants.MaxVertexBuffers];
 
@@ -1167,9 +1170,9 @@ namespace Ryujinx.Graphics.Vulkan
 
             for (int i = 0; i < count; i++)
             {
-                var attribute = vertexAttribs[i];
-                var rawIndex = attribute.BufferIndex;
-                var bufferIndex = attribute.IsZero ? 0 : rawIndex + 1;
+                VertexAttribDescriptor attribute = vertexAttribs[i];
+                int rawIndex = attribute.BufferIndex;
+                int bufferIndex = attribute.IsZero ? 0 : rawIndex + 1;
 
                 if (!attribute.IsZero)
                 {
@@ -1188,7 +1191,7 @@ namespace Ryujinx.Graphics.Vulkan
             {
                 int dirtyBit = BitOperations.TrailingZeroCount(dirtyVbSizes);
 
-                ref var buffer = ref _vertexBuffers[dirtyBit + 1];
+                ref VertexBufferState buffer = ref _vertexBuffers[dirtyBit + 1];
 
                 if (buffer.AttributeScalarAlignment != newVbScalarSizes[dirtyBit])
                 {
@@ -1216,10 +1219,10 @@ namespace Ryujinx.Graphics.Vulkan
 
             for (int i = 0; i < count; i++)
             {
-                var vertexBuffer = vertexBuffers[i];
+                VertexBufferDescriptor vertexBuffer = vertexBuffers[i];
 
                 // TODO: Support divisor > 1
-                var inputRate = vertexBuffer.Divisor != 0 ? VertexInputRate.Instance : VertexInputRate.Vertex;
+                VertexInputRate inputRate = vertexBuffer.Divisor != 0 ? VertexInputRate.Instance : VertexInputRate.Vertex;
 
                 if (vertexBuffer.Buffer.Handle != BufferHandle.Null)
                 {
@@ -1253,7 +1256,7 @@ namespace Ryujinx.Graphics.Vulkan
                             }
                         }
 
-                        ref var buffer = ref _vertexBuffers[binding];
+                        ref VertexBufferState buffer = ref _vertexBuffers[binding];
                         int oldScalarAlign = buffer.AttributeScalarAlignment;
 
                         if (Gd.Capabilities.VertexBufferAlignment < 2 &&
@@ -1314,7 +1317,7 @@ namespace Ryujinx.Graphics.Vulkan
 
             for (int i = 0; i < count; i++)
             {
-                var viewport = viewports[i];
+                Viewport viewport = viewports[i];
 
                 DynamicState.SetViewport(i, new Silk.NET.Vulkan.Viewport(
                     viewport.Region.X,
@@ -1410,7 +1413,7 @@ namespace Ryujinx.Graphics.Vulkan
                         continue;
                     }
 
-                    ref var vkBlend = ref _newState.Internal.ColorBlendAttachmentState[i];
+                    ref PipelineColorBlendAttachmentState vkBlend = ref _newState.Internal.ColorBlendAttachmentState[i];
 
                     for (int j = 0; j < i; j++)
                     {
@@ -1419,7 +1422,7 @@ namespace Ryujinx.Graphics.Vulkan
                         if (colors[i] == colors[j])
                         {
                             // Prefer the binding with no write mask.
-                            ref var vkBlend2 = ref _newState.Internal.ColorBlendAttachmentState[j];
+                            ref PipelineColorBlendAttachmentState vkBlend2 = ref _newState.Internal.ColorBlendAttachmentState[j];
                             if (vkBlend.ColorWriteMask == 0)
                             {
                                 colors[i] = null;
@@ -1457,7 +1460,7 @@ namespace Ryujinx.Graphics.Vulkan
 
         protected void UpdatePipelineAttachmentFormats()
         {
-            var dstAttachmentFormats = _newState.Internal.AttachmentFormats.AsSpan();
+            Span<Silk.NET.Vulkan.Format> dstAttachmentFormats = _newState.Internal.AttachmentFormats.AsSpan();
             FramebufferParams.AttachmentFormats.CopyTo(dstAttachmentFormats);
             _newState.Internal.AttachmentIntegerFormatMask = FramebufferParams.AttachmentIntegerFormatMask;
             _newState.Internal.LogicOpsAllowed = FramebufferParams.LogicOpsAllowed;
@@ -1474,7 +1477,7 @@ namespace Ryujinx.Graphics.Vulkan
 
         protected unsafe void CreateRenderPass()
         {
-            var hasFramebuffer = FramebufferParams != null;
+            bool hasFramebuffer = FramebufferParams != null;
 
             EndRenderPass();
 
@@ -1679,7 +1682,7 @@ namespace Ryujinx.Graphics.Vulkan
                     return false;
                 }
 
-                var pipeline = pbp == PipelineBindPoint.Compute
+                Auto<DisposablePipeline> pipeline = pbp == PipelineBindPoint.Compute
                     ? _newState.CreateComputePipeline(Gd, Device, _program, PipelineCache)
                     : _newState.CreateGraphicsPipeline(Gd, Device, _program, PipelineCache, _renderPass.Get(Cbs).Value);
 
@@ -1711,10 +1714,10 @@ namespace Ryujinx.Graphics.Vulkan
             {
                 FramebufferParams.InsertLoadOpBarriers(Gd, Cbs);
 
-                var renderArea = new Rect2D(null, new Extent2D(FramebufferParams.Width, FramebufferParams.Height));
-                var clearValue = new ClearValue();
+                Rect2D renderArea = new Rect2D(null, new Extent2D(FramebufferParams.Width, FramebufferParams.Height));
+                ClearValue clearValue = new ClearValue();
 
-                var renderPassBeginInfo = new RenderPassBeginInfo
+                RenderPassBeginInfo renderPassBeginInfo = new RenderPassBeginInfo
                 {
                     SType = StructureType.RenderPassBeginInfo,
                     RenderPass = _renderPass.Get(Cbs).Value,

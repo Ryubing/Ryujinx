@@ -91,7 +91,7 @@ namespace Ryujinx.Ava.Input
                 return false;
             }
 
-            AvaloniaKeyboardMappingHelper.TryGetAvaKey(key, out var nativeKey);
+            AvaloniaKeyboardMappingHelper.TryGetAvaKey(key, out AvaKey nativeKey);
 
             return _pressedKeys.Contains(nativeKey);
         }

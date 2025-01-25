@@ -302,7 +302,7 @@ namespace Ryujinx.Graphics.Shader.Translation
 
                         Debug.Assert(funcId.Type == OperandType.Constant);
 
-                        var fru = frus[funcId.Value];
+                        FunctionRegisterUsage fru = frus[funcId.Value];
 
                         Operand[] inRegs = new Operand[fru.InArguments.Length];
 

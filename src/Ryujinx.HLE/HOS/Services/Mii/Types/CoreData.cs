@@ -440,18 +440,18 @@ namespace Ryujinx.HLE.HOS.Services.Mii.Types
 
             int indexFor4 = 3 * (int)age + 9 * (int)gender + (int)race;
 
-            var facelineTypeInfo = RandomMiiFacelineArray[indexFor4];
-            var facelineColorInfo = RandomMiiFacelineColorArray[3 * (int)gender + (int)race];
-            var facelineWrinkleInfo = RandomMiiFacelineWrinkleArray[indexFor4];
-            var facelineMakeInfo = RandomMiiFacelineMakeArray[indexFor4];
-            var hairTypeInfo = RandomMiiHairTypeArray[indexFor4];
-            var hairColorInfo = RandomMiiHairColorArray[3 * (int)race + (int)age];
-            var eyeTypeInfo = RandomMiiEyeTypeArray[indexFor4];
-            var eyeColorInfo = RandomMiiEyeColorArray[(int)race];
-            var eyebrowTypeInfo = RandomMiiEyebrowTypeArray[indexFor4];
-            var noseTypeInfo = RandomMiiNoseTypeArray[indexFor4];
-            var mouthTypeInfo = RandomMiiMouthTypeArray[indexFor4];
-            var glassTypeInfo = RandomMiiGlassTypeArray[(int)age];
+            RandomMiiData4 facelineTypeInfo = RandomMiiFacelineArray[indexFor4];
+            RandomMiiData3 facelineColorInfo = RandomMiiFacelineColorArray[3 * (int)gender + (int)race];
+            RandomMiiData4 facelineWrinkleInfo = RandomMiiFacelineWrinkleArray[indexFor4];
+            RandomMiiData4 facelineMakeInfo = RandomMiiFacelineMakeArray[indexFor4];
+            RandomMiiData4 hairTypeInfo = RandomMiiHairTypeArray[indexFor4];
+            RandomMiiData3 hairColorInfo = RandomMiiHairColorArray[3 * (int)race + (int)age];
+            RandomMiiData4 eyeTypeInfo = RandomMiiEyeTypeArray[indexFor4];
+            RandomMiiData2 eyeColorInfo = RandomMiiEyeColorArray[(int)race];
+            RandomMiiData4 eyebrowTypeInfo = RandomMiiEyebrowTypeArray[indexFor4];
+            RandomMiiData4 noseTypeInfo = RandomMiiNoseTypeArray[indexFor4];
+            RandomMiiData4 mouthTypeInfo = RandomMiiMouthTypeArray[indexFor4];
+            RandomMiiData2 glassTypeInfo = RandomMiiGlassTypeArray[(int)age];
 
             // Faceline
             coreData.FacelineType = (FacelineType)facelineTypeInfo.Values[utilImpl.GetRandom(facelineTypeInfo.ValuesCount)];

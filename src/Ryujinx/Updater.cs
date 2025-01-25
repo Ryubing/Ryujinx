@@ -71,7 +71,7 @@ namespace Ryujinx.Ava
             }
             else if (OperatingSystem.IsLinux())
             {
-                var arch = RuntimeInformation.OSArchitecture == Architecture.Arm64 ? "arm64" : "x64";
+                string arch = RuntimeInformation.OSArchitecture == Architecture.Arm64 ? "arm64" : "x64";
                 _platformExt = $"linux_{arch}.tar.gz";
             }
 
@@ -96,10 +96,10 @@ namespace Ryujinx.Ava
                 using HttpClient jsonClient = ConstructHttpClient();
                 
                 string fetchedJson = await jsonClient.GetStringAsync(LatestReleaseUrl);
-                var fetched = JsonHelper.Deserialize(fetchedJson, _serializerContext.GithubReleasesJsonResponse);
+                GithubReleasesJsonResponse fetched = JsonHelper.Deserialize(fetchedJson, _serializerContext.GithubReleasesJsonResponse);
                 _buildVer = fetched.TagName;
 
-                foreach (var asset in fetched.Assets)
+                foreach (GithubReleaseAssetJsonResponse asset in fetched.Assets)
                 {
                     if (asset.Name.StartsWith("ryujinx") && asset.Name.EndsWith(_platformExt))
                     {
@@ -711,15 +711,15 @@ namespace Ryujinx.Ava
         // NOTE: This method should always reflect the latest build layout.
         private static IEnumerable<string> EnumerateFilesToDelete()
         {
-            var files = Directory.EnumerateFiles(_homeDir); // All files directly in base dir.
+            IEnumerable<string> files = Directory.EnumerateFiles(_homeDir); // All files directly in base dir.
 
             // Determine and exclude user files only when the updater is running, not when cleaning old files
             if (_running && !OperatingSystem.IsMacOS())
             {
                 // Compare the loose files in base directory against the loose files from the incoming update, and store foreign ones in a user list.
-                var oldFiles = Directory.EnumerateFiles(_homeDir, "*", SearchOption.TopDirectoryOnly).Select(Path.GetFileName);
-                var newFiles = Directory.EnumerateFiles(_updatePublishDir, "*", SearchOption.TopDirectoryOnly).Select(Path.GetFileName);
-                var userFiles = oldFiles.Except(newFiles).Select(filename => Path.Combine(_homeDir, filename));
+                IEnumerable<string> oldFiles = Directory.EnumerateFiles(_homeDir, "*", SearchOption.TopDirectoryOnly).Select(Path.GetFileName);
+                IEnumerable<string> newFiles = Directory.EnumerateFiles(_updatePublishDir, "*", SearchOption.TopDirectoryOnly).Select(Path.GetFileName);
+                IEnumerable<string> userFiles = oldFiles.Except(newFiles).Select(filename => Path.Combine(_homeDir, filename));
 
                 // Remove user files from the paths in files.
                 files = files.Except(userFiles);

@@ -37,7 +37,7 @@ namespace Ryujinx.Horizon.Sdk.Sf
                 context.Processor.SetImplementationProcessor(_processor);
             }
 
-            var runtimeMetadata = context.Processor.GetRuntimeMetadata();
+            ServerMessageRuntimeMetadata runtimeMetadata = context.Processor.GetRuntimeMetadata();
             Result result = context.Processor.PrepareForProcess(ref context, runtimeMetadata);
 
             return result.IsFailure ? result : _invoke(ref context, _processor, runtimeMetadata, inRawData, ref outHeader);

@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using System.Diagnostics.CodeAnalysis;
 using System.Numerics;
+using System.Reflection;
 using System.Runtime.CompilerServices;
 using System.Runtime.InteropServices;
 
@@ -58,13 +59,13 @@ namespace Ryujinx.Graphics.Gpu.Engine.Threed
             _registerToGroupMapping = new byte[BlockSize];
             _callbacks = new Action[entries.Length];
 
-            var fieldToDelegate = new Dictionary<string, int>();
+            Dictionary<string, int> fieldToDelegate = new Dictionary<string, int>();
 
             for (int entryIndex = 0; entryIndex < entries.Length; entryIndex++)
             {
-                var entry = entries[entryIndex];
+                StateUpdateCallbackEntry entry = entries[entryIndex];
 
-                foreach (var fieldName in entry.FieldNames)
+                foreach (string fieldName in entry.FieldNames)
                 {
                     fieldToDelegate.Add(fieldName, entryIndex);
                 }
@@ -72,15 +73,15 @@ namespace Ryujinx.Graphics.Gpu.Engine.Threed
                 _callbacks[entryIndex] = entry.Callback;
             }
 
-            var fields = typeof(TState).GetFields();
+            FieldInfo[] fields = typeof(TState).GetFields();
             int offset = 0;
 
             for (int fieldIndex = 0; fieldIndex < fields.Length; fieldIndex++)
             {
-                var field = fields[fieldIndex];
+                FieldInfo field = fields[fieldIndex];
 
-                var currentFieldOffset = (int)Marshal.OffsetOf<TState>(field.Name);
-                var nextFieldOffset = fieldIndex + 1 == fields.Length ? Unsafe.SizeOf<TState>() : (int)Marshal.OffsetOf<TState>(fields[fieldIndex + 1].Name);
+                int currentFieldOffset = (int)Marshal.OffsetOf<TState>(field.Name);
+                int nextFieldOffset = fieldIndex + 1 == fields.Length ? Unsafe.SizeOf<TState>() : (int)Marshal.OffsetOf<TState>(fields[fieldIndex + 1].Name);
 
                 int sizeOfField = nextFieldOffset - currentFieldOffset;
 

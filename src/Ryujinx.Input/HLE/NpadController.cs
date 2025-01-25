@@ -276,7 +276,7 @@ namespace Ryujinx.Input.HLE
         public void Update()
         {
             // _gamepad may be altered by other threads
-            var gamepad = _gamepad;
+            IGamepad gamepad = _gamepad;
 
             if (gamepad != null && GamepadDriver != null)
             {
@@ -489,7 +489,7 @@ namespace Ryujinx.Input.HLE
 
         public static KeyboardInput GetHLEKeyboardInput(IGamepadDriver KeyboardDriver)
         {
-            var keyboard = KeyboardDriver.GetGamepad("0") as IKeyboard;
+            IKeyboard keyboard = KeyboardDriver.GetGamepad("0") as IKeyboard;
 
             KeyboardStateSnapshot keyboardState = keyboard.GetKeyboardStateSnapshot();
 

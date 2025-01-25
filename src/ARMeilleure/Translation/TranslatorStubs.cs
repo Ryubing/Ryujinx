@@ -142,7 +142,7 @@ namespace ARMeilleure.Translation
         /// <returns>Generated <see cref="DispatchStub"/></returns>
         private nint GenerateDispatchStub()
         {
-            var context = new EmitterContext();
+            EmitterContext context = new EmitterContext();
 
             Operand lblFallback = Label();
             Operand lblEnd = Label();
@@ -161,7 +161,7 @@ namespace ARMeilleure.Translation
 
             for (int i = 0; i < _functionTable.Levels.Length; i++)
             {
-                ref var level = ref _functionTable.Levels[i];
+                ref AddressTableLevel level = ref _functionTable.Levels[i];
 
                 // level.Mask is not used directly because it is more often bigger than 32-bits, so it will not
                 // be encoded as an immediate on x86's bitwise and operation.
@@ -185,11 +185,11 @@ namespace ARMeilleure.Translation
             hostAddress = context.Call(typeof(NativeInterface).GetMethod(nameof(NativeInterface.GetFunctionAddress)), guestAddress);
             context.Tailcall(hostAddress, nativeContext);
 
-            var cfg = context.GetControlFlowGraph();
-            var retType = OperandType.I64;
-            var argTypes = new[] { OperandType.I64 };
+            ControlFlowGraph cfg = context.GetControlFlowGraph();
+            OperandType retType = OperandType.I64;
+            OperandType[] argTypes = new[] { OperandType.I64 };
 
-            var func = Compiler.Compile(cfg, argTypes, retType, CompilerOptions.HighCq, RuntimeInformation.ProcessArchitecture).Map<GuestFunction>();
+            GuestFunction func = Compiler.Compile(cfg, argTypes, retType, CompilerOptions.HighCq, RuntimeInformation.ProcessArchitecture).Map<GuestFunction>();
 
             return Marshal.GetFunctionPointerForDelegate(func);
         }
@@ -200,7 +200,7 @@ namespace ARMeilleure.Translation
         /// <returns>Generated <see cref="SlowDispatchStub"/></returns>
         private nint GenerateSlowDispatchStub()
         {
-            var context = new EmitterContext();
+            EmitterContext context = new EmitterContext();
 
             // Load the target guest address from the native context.
             Operand nativeContext = context.LoadArgument(OperandType.I64, 0);
@@ -210,11 +210,11 @@ namespace ARMeilleure.Translation
             Operand hostAddress = context.Call(typeof(NativeInterface).GetMethod(nameof(NativeInterface.GetFunctionAddress)), guestAddress);
             context.Tailcall(hostAddress, nativeContext);
 
-            var cfg = context.GetControlFlowGraph();
-            var retType = OperandType.I64;
-            var argTypes = new[] { OperandType.I64 };
+            ControlFlowGraph cfg = context.GetControlFlowGraph();
+            OperandType retType = OperandType.I64;
+            OperandType[] argTypes = new[] { OperandType.I64 };
 
-            var func = Compiler.Compile(cfg, argTypes, retType, CompilerOptions.HighCq, RuntimeInformation.ProcessArchitecture).Map<GuestFunction>();
+            GuestFunction func = Compiler.Compile(cfg, argTypes, retType, CompilerOptions.HighCq, RuntimeInformation.ProcessArchitecture).Map<GuestFunction>();
 
             return Marshal.GetFunctionPointerForDelegate(func);
         }
@@ -251,7 +251,7 @@ namespace ARMeilleure.Translation
         /// <returns><see cref="DispatchLoop"/> function</returns>
         private DispatcherFunction GenerateDispatchLoop()
         {
-            var context = new EmitterContext();
+            EmitterContext context = new EmitterContext();
 
             Operand beginLbl = Label();
             Operand endLbl = Label();
@@ -279,9 +279,9 @@ namespace ARMeilleure.Translation
 
             context.Return();
 
-            var cfg = context.GetControlFlowGraph();
-            var retType = OperandType.None;
-            var argTypes = new[] { OperandType.I64, OperandType.I64 };
+            ControlFlowGraph cfg = context.GetControlFlowGraph();
+            OperandType retType = OperandType.None;
+            OperandType[] argTypes = new[] { OperandType.I64, OperandType.I64 };
 
             return Compiler.Compile(cfg, argTypes, retType, CompilerOptions.HighCq, RuntimeInformation.ProcessArchitecture).Map<DispatcherFunction>();
         }
@@ -292,7 +292,7 @@ namespace ARMeilleure.Translation
         /// <returns><see cref="ContextWrapper"/> function</returns>
         private WrapperFunction GenerateContextWrapper()
         {
-            var context = new EmitterContext();
+            EmitterContext context = new EmitterContext();
 
             Operand nativeContext = context.LoadArgument(OperandType.I64, 0);
             Operand guestMethod = context.LoadArgument(OperandType.I64, 1);
@@ -303,9 +303,9 @@ namespace ARMeilleure.Translation
 
             context.Return(returnValue);
 
-            var cfg = context.GetControlFlowGraph();
-            var retType = OperandType.I64;
-            var argTypes = new[] { OperandType.I64, OperandType.I64 };
+            ControlFlowGraph cfg = context.GetControlFlowGraph();
+            OperandType retType = OperandType.I64;
+            OperandType[] argTypes = new[] { OperandType.I64, OperandType.I64 };
 
             return Compiler.Compile(cfg, argTypes, retType, CompilerOptions.HighCq, RuntimeInformation.ProcessArchitecture).Map<WrapperFunction>();
         }

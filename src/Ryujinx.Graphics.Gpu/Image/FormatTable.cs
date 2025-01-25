@@ -704,7 +704,7 @@ namespace Ryujinx.Graphics.Gpu.Image
         /// <returns>True if the format is valid, false otherwise</returns>
         public static bool TryGetSingleComponentAttribFormat(uint encoded, out Format format, out int componentsCount)
         {
-            bool result = _singleComponentAttribFormats.TryGetValue((VertexAttributeFormat)encoded, out var tuple);
+            bool result = _singleComponentAttribFormats.TryGetValue((VertexAttributeFormat)encoded, out (Format, int) tuple);
 
             format = tuple.Item1;
             componentsCount = tuple.Item2;

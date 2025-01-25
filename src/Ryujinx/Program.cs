@@ -262,7 +262,7 @@ namespace Ryujinx.Ava
                 exceptions.Add(initialException);
             }
 
-            foreach (var e in exceptions)
+            foreach (Exception e in exceptions)
             {
                 string message = $"Unhandled exception caught: {e}";
                 // ReSharper disable once ConstantConditionalAccessQualifier

@@ -326,7 +326,7 @@ namespace Ryujinx.HLE.HOS.Services.Settings
 
             IFileSystem firmwareRomFs = firmwareContent.OpenFileSystem(NcaSectionType.Data, device.System.FsIntegrityCheckLevel);
 
-            using var firmwareFile = new UniqueRef<IFile>();
+            using UniqueRef<IFile> firmwareFile = new UniqueRef<IFile>();
 
             Result result = firmwareRomFs.OpenFile(ref firmwareFile.Ref, "/file".ToU8Span(), OpenMode.Read);
             if (result.IsFailure())

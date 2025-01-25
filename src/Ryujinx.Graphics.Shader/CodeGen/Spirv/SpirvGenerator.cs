@@ -124,20 +124,20 @@ namespace Ryujinx.Graphics.Shader.CodeGen.Spirv
 
             for (int funcIndex = 0; funcIndex < info.Functions.Count; funcIndex++)
             {
-                var function = info.Functions[funcIndex];
-                var retType = context.GetType(function.ReturnType);
+                StructuredFunction function = info.Functions[funcIndex];
+                SpvInstruction retType = context.GetType(function.ReturnType);
 
-                var funcArgs = new SpvInstruction[function.InArguments.Length + function.OutArguments.Length];
+                SpvInstruction[] funcArgs = new SpvInstruction[function.InArguments.Length + function.OutArguments.Length];
 
                 for (int argIndex = 0; argIndex < funcArgs.Length; argIndex++)
                 {
-                    var argType = context.GetType(function.GetArgumentType(argIndex));
-                    var argPointerType = context.TypePointer(StorageClass.Function, argType);
+                    SpvInstruction argType = context.GetType(function.GetArgumentType(argIndex));
+                    SpvInstruction argPointerType = context.TypePointer(StorageClass.Function, argType);
                     funcArgs[argIndex] = argPointerType;
                 }
 
-                var funcType = context.TypeFunction(retType, false, funcArgs);
-                var spvFunc = context.Function(retType, FunctionControlMask.MaskNone, funcType);
+                SpvInstruction funcType = context.TypeFunction(retType, false, funcArgs);
+                SpvInstruction spvFunc = context.Function(retType, FunctionControlMask.MaskNone, funcType);
 
                 context.DeclareFunction(funcIndex, function, spvFunc);
             }
@@ -160,7 +160,7 @@ namespace Ryujinx.Graphics.Shader.CodeGen.Spirv
 
         private static void Generate(CodeGenContext context, StructuredProgramInfo info, int funcIndex)
         {
-            var (function, spvFunc) = context.GetFunction(funcIndex);
+            (StructuredFunction function, SpvInstruction spvFunc) = context.GetFunction(funcIndex);
 
             context.CurrentFunction = function;
             context.AddFunction(spvFunc);
@@ -284,9 +284,9 @@ namespace Ryujinx.Graphics.Shader.CodeGen.Spirv
                 }
                 else if (context.Definitions.Stage == ShaderStage.Compute)
                 {
-                    var localSizeX = (SpvLiteralInteger)context.Definitions.ComputeLocalSizeX;
-                    var localSizeY = (SpvLiteralInteger)context.Definitions.ComputeLocalSizeY;
-                    var localSizeZ = (SpvLiteralInteger)context.Definitions.ComputeLocalSizeZ;
+                    SpvLiteralInteger localSizeX = (SpvLiteralInteger)context.Definitions.ComputeLocalSizeX;
+                    SpvLiteralInteger localSizeY = (SpvLiteralInteger)context.Definitions.ComputeLocalSizeY;
+                    SpvLiteralInteger localSizeZ = (SpvLiteralInteger)context.Definitions.ComputeLocalSizeZ;
 
                     context.AddExecutionMode(
                         spvFunc,
@@ -307,7 +307,7 @@ namespace Ryujinx.Graphics.Shader.CodeGen.Spirv
         {
             AstBlockVisitor visitor = new(block);
 
-            var loopTargets = new Dictionary<AstBlock, (SpvInstruction, SpvInstruction)>();
+            Dictionary<AstBlock, (SpvInstruction, SpvInstruction)> loopTargets = new Dictionary<AstBlock, (SpvInstruction, SpvInstruction)>();
 
             context.LoopTargets = loopTargets;
 
@@ -329,14 +329,14 @@ namespace Ryujinx.Graphics.Shader.CodeGen.Spirv
                         ifFalseBlock = mergeBlock;
                     }
 
-                    var condition = context.Get(AggregateType.Bool, e.Block.Condition);
+                    SpvInstruction condition = context.Get(AggregateType.Bool, e.Block.Condition);
 
                     context.SelectionMerge(context.GetNextLabel(mergeBlock), SelectionControlMask.MaskNone);
                     context.BranchConditional(condition, context.GetNextLabel(ifTrueBlock), context.GetNextLabel(ifFalseBlock));
                 }
                 else if (e.Block.Type == AstBlockType.DoWhile)
                 {
-                    var continueTarget = context.Label();
+                    SpvInstruction continueTarget = context.Label();
 
                     loopTargets.Add(e.Block, (context.NewBlock(), continueTarget));
 
@@ -357,12 +357,12 @@ namespace Ryujinx.Graphics.Shader.CodeGen.Spirv
                         // if the condition is true.
                         AstBlock mergeBlock = e.Block.Parent;
 
-                        var (loopTarget, continueTarget) = loopTargets[e.Block];
+                        (SpvInstruction loopTarget, SpvInstruction continueTarget) = loopTargets[e.Block];
 
                         context.Branch(continueTarget);
                         context.AddLabel(continueTarget);
 
-                        var condition = context.Get(AggregateType.Bool, e.Block.Condition);
+                        SpvInstruction condition = context.Get(AggregateType.Bool, e.Block.Condition);
 
                         context.BranchConditional(condition, loopTarget, context.GetNextLabel(mergeBlock));
                     }
@@ -398,16 +398,16 @@ namespace Ryujinx.Graphics.Shader.CodeGen.Spirv
             {
                 if (node is AstAssignment assignment)
                 {
-                    var dest = (AstOperand)assignment.Destination;
+                    AstOperand dest = (AstOperand)assignment.Destination;
 
                     if (dest.Type == OperandType.LocalVariable)
                     {
-                        var source = context.Get(dest.VarType, assignment.Source);
+                        SpvInstruction source = context.Get(dest.VarType, assignment.Source);
                         context.Store(context.GetLocalPointer(dest), source);
                     }
                     else if (dest.Type == OperandType.Argument)
                     {
-                        var source = context.Get(dest.VarType, assignment.Source);
+                        SpvInstruction source = context.Get(dest.VarType, assignment.Source);
                         context.Store(context.GetArgumentPointer(dest), source);
                     }
                     else

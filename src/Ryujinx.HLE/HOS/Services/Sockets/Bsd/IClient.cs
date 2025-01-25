@@ -315,9 +315,9 @@ namespace Ryujinx.HLE.HOS.Services.Sockets.Bsd
                 }
             }
 
-            using var readFdsOut = context.Memory.GetWritableRegion(readFdsOutBufferPosition, (int)readFdsOutBufferSize);
-            using var writeFdsOut = context.Memory.GetWritableRegion(writeFdsOutBufferPosition, (int)writeFdsOutBufferSize);
-            using var errorFdsOut = context.Memory.GetWritableRegion(errorFdsOutBufferPosition, (int)errorFdsOutBufferSize);
+            using WritableRegion readFdsOut = context.Memory.GetWritableRegion(readFdsOutBufferPosition, (int)readFdsOutBufferSize);
+            using WritableRegion writeFdsOut = context.Memory.GetWritableRegion(writeFdsOutBufferPosition, (int)writeFdsOutBufferSize);
+            using WritableRegion errorFdsOut = context.Memory.GetWritableRegion(errorFdsOutBufferPosition, (int)errorFdsOutBufferSize);
 
             _context.BuildMask(readFds, readFdsOut.Memory.Span);
             _context.BuildMask(writeFds, writeFdsOut.Memory.Span);

@@ -139,10 +139,10 @@ namespace Ryujinx.Ava.Utilities
 
             // An input string can either look like "01:23:45" or "1d, 01:23:45" if the timespan represents a duration of more than a day.
             // Here, we split the input string to check if it's the former or the latter.
-            var valueSplit = timeSpanString.Split(", ");
+            string[] valueSplit = timeSpanString.Split(", ");
             if (valueSplit.Length > 1)
             {
-                var dayPart = valueSplit[0].Split("d")[0];
+                string dayPart = valueSplit[0].Split("d")[0];
                 if (int.TryParse(dayPart, out int days))
                 {
                     returnTimeSpan = returnTimeSpan.Add(TimeSpan.FromDays(days));

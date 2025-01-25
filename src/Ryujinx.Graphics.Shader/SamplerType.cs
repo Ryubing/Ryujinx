@@ -192,7 +192,7 @@ namespace Ryujinx.Graphics.Shader
                 typeName += "_array";
             }
 
-            var format = aggregateType switch
+            string format = aggregateType switch
             {
                 AggregateType.S32 => "int",
                 AggregateType.U32 => "uint",

@@ -128,7 +128,7 @@ namespace Ryujinx.Graphics.Gpu.Image
                             // Any texture that has been unmapped at any point or is partially unmapped
                             // should update their pool references after the remap completes.
 
-                            foreach (var texture in _partiallyMappedTextures)
+                            foreach (Texture texture in _partiallyMappedTextures)
                             {
                                 texture.UpdatePoolMappings();
                             }
@@ -253,7 +253,7 @@ namespace Ryujinx.Graphics.Gpu.Image
 
             for (int i = 0; i < overlapCount; i++)
             {
-                var other = _textureOverlaps[i];
+                Texture other = _textureOverlaps[i];
 
                 if (texture != other &&
                     (texture.IsViewCompatible(other.Info, other.Range, true, other.LayerSize, _context.Capabilities, out _, out _) != TextureViewCompatibility.Incompatible ||
@@ -486,7 +486,7 @@ namespace Ryujinx.Graphics.Gpu.Image
 
             int layerSize = !isLinear ? colorState.LayerSize * 4 : 0;
 
-            var flags = TextureSearchFlags.WithUpscale;
+            TextureSearchFlags flags = TextureSearchFlags.WithUpscale;
 
             if (discard)
             {
@@ -560,7 +560,7 @@ namespace Ryujinx.Graphics.Gpu.Image
                 target,
                 formatInfo);
 
-            var flags = TextureSearchFlags.WithUpscale;
+            TextureSearchFlags flags = TextureSearchFlags.WithUpscale;
 
             if (discard)
             {
@@ -947,7 +947,7 @@ namespace Ryujinx.Graphics.Gpu.Image
                 bool hasLayerViews = false;
                 bool hasMipViews = false;
 
-                var incompatibleOverlaps = new List<TextureIncompatibleOverlap>();
+                List<TextureIncompatibleOverlap> incompatibleOverlaps = new List<TextureIncompatibleOverlap>();
 
                 for (int index = 0; index < overlapsCount; index++)
                 {

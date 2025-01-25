@@ -37,7 +37,7 @@ namespace Ryujinx.Graphics.Vulkan
 
             public void Initialize(Vk api, Device device, CommandPool pool)
             {
-                var allocateInfo = new CommandBufferAllocateInfo
+                CommandBufferAllocateInfo allocateInfo = new CommandBufferAllocateInfo
                 {
                     SType = StructureType.CommandBufferAllocateInfo,
                     CommandBufferCount = 1,
@@ -75,7 +75,7 @@ namespace Ryujinx.Graphics.Vulkan
             _concurrentFenceWaitUnsupported = concurrentFenceWaitUnsupported;
             _owner = Thread.CurrentThread;
 
-            var commandPoolCreateInfo = new CommandPoolCreateInfo
+            CommandPoolCreateInfo commandPoolCreateInfo = new CommandPoolCreateInfo
             {
                 SType = StructureType.CommandPoolCreateInfo,
                 QueueFamilyIndex = queueFamilyIndex,
@@ -114,7 +114,7 @@ namespace Ryujinx.Graphics.Vulkan
             {
                 for (int i = 0; i < _totalCommandBuffers; i++)
                 {
-                    ref var entry = ref _commandBuffers[i];
+                    ref ReservedCommandBuffer entry = ref _commandBuffers[i];
 
                     if (entry.InConsumption)
                     {
@@ -130,7 +130,7 @@ namespace Ryujinx.Graphics.Vulkan
             {
                 for (int i = 0; i < _totalCommandBuffers; i++)
                 {
-                    ref var entry = ref _commandBuffers[i];
+                    ref ReservedCommandBuffer entry = ref _commandBuffers[i];
 
                     if (entry.InUse)
                     {
@@ -142,7 +142,7 @@ namespace Ryujinx.Graphics.Vulkan
 
         public void AddWaitable(int cbIndex, MultiFenceHolder waitable)
         {
-            ref var entry = ref _commandBuffers[cbIndex];
+            ref ReservedCommandBuffer entry = ref _commandBuffers[cbIndex];
             if (waitable.AddFence(cbIndex, entry.Fence))
             {
                 entry.Waitables.Add(waitable);
@@ -155,7 +155,7 @@ namespace Ryujinx.Graphics.Vulkan
             {
                 for (int i = 0; i < _totalCommandBuffers; i++)
                 {
-                    ref var entry = ref _commandBuffers[i];
+                    ref ReservedCommandBuffer entry = ref _commandBuffers[i];
 
                     if (entry.InUse &&
                         waitable.HasFence(i) &&
@@ -175,7 +175,7 @@ namespace Ryujinx.Graphics.Vulkan
             {
                 for (int i = 0; i < _totalCommandBuffers; i++)
                 {
-                    ref var entry = ref _commandBuffers[i];
+                    ref ReservedCommandBuffer entry = ref _commandBuffers[i];
 
                     if (entry.InUse && entry.Fence == fence)
                     {
@@ -205,7 +205,7 @@ namespace Ryujinx.Graphics.Vulkan
             {
                 int index = _queuedIndexes[_queuedIndexesPtr];
 
-                ref var entry = ref _commandBuffers[index];
+                ref ReservedCommandBuffer entry = ref _commandBuffers[index];
 
                 if (wait || !entry.InConsumption || entry.Fence.IsSignaled())
                 {
@@ -240,7 +240,7 @@ namespace Ryujinx.Graphics.Vulkan
 
                 for (int i = 0; i < _totalCommandBuffers; i++)
                 {
-                    ref var entry = ref _commandBuffers[cursor];
+                    ref ReservedCommandBuffer entry = ref _commandBuffers[cursor];
 
                     if (!entry.InUse && !entry.InConsumption)
                     {
@@ -248,7 +248,7 @@ namespace Ryujinx.Graphics.Vulkan
 
                         _inUseCount++;
 
-                        var commandBufferBeginInfo = new CommandBufferBeginInfo
+                        CommandBufferBeginInfo commandBufferBeginInfo = new CommandBufferBeginInfo
                         {
                             SType = StructureType.CommandBufferBeginInfo,
                         };
@@ -280,7 +280,7 @@ namespace Ryujinx.Graphics.Vulkan
             {
                 int cbIndex = cbs.CommandBufferIndex;
 
-                ref var entry = ref _commandBuffers[cbIndex];
+                ref ReservedCommandBuffer entry = ref _commandBuffers[cbIndex];
 
                 Debug.Assert(entry.InUse);
                 Debug.Assert(entry.CommandBuffer.Handle == cbs.CommandBuffer.Handle);
@@ -289,7 +289,7 @@ namespace Ryujinx.Graphics.Vulkan
                 entry.SubmissionCount++;
                 _inUseCount--;
 
-                var commandBuffer = entry.CommandBuffer;
+                CommandBuffer commandBuffer = entry.CommandBuffer;
 
                 _api.EndCommandBuffer(commandBuffer).ThrowOnError();
 
@@ -324,7 +324,7 @@ namespace Ryujinx.Graphics.Vulkan
 
         private void WaitAndDecrementRef(int cbIndex, bool refreshFence = true)
         {
-            ref var entry = ref _commandBuffers[cbIndex];
+            ref ReservedCommandBuffer entry = ref _commandBuffers[cbIndex];
 
             if (entry.InConsumption)
             {
@@ -332,12 +332,12 @@ namespace Ryujinx.Graphics.Vulkan
                 entry.InConsumption = false;
             }
 
-            foreach (var dependant in entry.Dependants)
+            foreach (IAuto dependant in entry.Dependants)
             {
                 dependant.DecrementReferenceCount(cbIndex);
             }
 
-            foreach (var waitable in entry.Waitables)
+            foreach (MultiFenceHolder waitable in entry.Waitables)
             {
                 waitable.RemoveFence(cbIndex);
                 waitable.RemoveBufferUses(cbIndex);

@@ -57,7 +57,7 @@ namespace Ryujinx.Graphics.Shader.Instructions
         {
             InstTld op = context.GetOp<InstTld>();
 
-            var lod = op.Lod ? Lod.Ll : Lod.Lz;
+            Lod lod = op.Lod ? Lod.Ll : Lod.Lz;
 
             EmitTex(context, TextureFlags.IntCoords, op.Dim, lod, op.TidB, op.WMask, op.SrcA, op.SrcB, op.Dest, op.Ms, false, op.Toff);
         }
@@ -66,8 +66,8 @@ namespace Ryujinx.Graphics.Shader.Instructions
         {
             InstTldB op = context.GetOp<InstTldB>();
 
-            var flags = TextureFlags.IntCoords | TextureFlags.Bindless;
-            var lod = op.Lod ? Lod.Ll : Lod.Lz;
+            TextureFlags flags = TextureFlags.IntCoords | TextureFlags.Bindless;
+            Lod lod = op.Lod ? Lod.Ll : Lod.Lz;
 
             EmitTex(context, flags, op.Dim, lod, 0, op.WMask, op.SrcA, op.SrcB, op.Dest, op.Ms, false, op.Toff);
         }
@@ -376,7 +376,7 @@ namespace Ryujinx.Graphics.Shader.Instructions
 
             if (texsType == TexsType.Texs)
             {
-                var texsOp = context.GetOp<InstTexs>();
+                InstTexs texsOp = context.GetOp<InstTexs>();
 
                 type = ConvertSamplerType(texsOp.Target);
 
@@ -468,7 +468,7 @@ namespace Ryujinx.Graphics.Shader.Instructions
             }
             else if (texsType == TexsType.Tlds)
             {
-                var tldsOp = context.GetOp<InstTlds>();
+                InstTlds tldsOp = context.GetOp<InstTlds>();
 
                 type = ConvertSamplerType(tldsOp.Target);
 
@@ -562,7 +562,7 @@ namespace Ryujinx.Graphics.Shader.Instructions
             }
             else if (texsType == TexsType.Tld4s)
             {
-                var tld4sOp = context.GetOp<InstTld4s>();
+                InstTld4s tld4sOp = context.GetOp<InstTld4s>();
 
                 if (!(tld4sOp.Dc || tld4sOp.Aoffi))
                 {

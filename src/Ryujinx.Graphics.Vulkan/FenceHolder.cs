@@ -20,7 +20,7 @@ namespace Ryujinx.Graphics.Vulkan
             _device = device;
             _concurrentWaitUnsupported = concurrentWaitUnsupported;
 
-            var fenceCreateInfo = new FenceCreateInfo
+            FenceCreateInfo fenceCreateInfo = new FenceCreateInfo
             {
                 SType = StructureType.FenceCreateInfo,
             };

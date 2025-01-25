@@ -31,7 +31,7 @@ namespace Ryujinx.Horizon.Sdk.OsTypes
 
         public static void DestroySystemEvent(ref SystemEventType sysEvent)
         {
-            var oldState = sysEvent.State;
+            SystemEventType.InitializationState oldState = sysEvent.State;
             sysEvent.State = SystemEventType.InitializationState.NotInitialized;
 
             switch (oldState)

@@ -14,7 +14,7 @@ namespace Ryujinx.Graphics.Gpu.Memory
         {
             get
             {
-                foreach (var regionHandle in _cpuRegionHandles)
+                foreach (RegionHandle regionHandle in _cpuRegionHandles)
                 {
                     if (regionHandle.Dirty)
                     {
@@ -44,7 +44,7 @@ namespace Ryujinx.Graphics.Gpu.Memory
         /// </summary>
         public void Dispose()
         {
-            foreach (var regionHandle in _cpuRegionHandles)
+            foreach (RegionHandle regionHandle in _cpuRegionHandles)
             {
                 regionHandle.Dispose();
             }
@@ -57,7 +57,7 @@ namespace Ryujinx.Graphics.Gpu.Memory
         /// <param name="action">Action to call on read or write</param>
         public void RegisterAction(RegionSignal action)
         {
-            foreach (var regionHandle in _cpuRegionHandles)
+            foreach (RegionHandle regionHandle in _cpuRegionHandles)
             {
                 regionHandle.RegisterAction(action);
             }
@@ -70,7 +70,7 @@ namespace Ryujinx.Graphics.Gpu.Memory
         /// <param name="action">Action to call on read or write</param>
         public void RegisterPreciseAction(PreciseRegionSignal action)
         {
-            foreach (var regionHandle in _cpuRegionHandles)
+            foreach (RegionHandle regionHandle in _cpuRegionHandles)
             {
                 regionHandle.RegisterPreciseAction(action);
             }
@@ -81,7 +81,7 @@ namespace Ryujinx.Graphics.Gpu.Memory
         /// </summary>
         public void Reprotect(bool asDirty = false)
         {
-            foreach (var regionHandle in _cpuRegionHandles)
+            foreach (RegionHandle regionHandle in _cpuRegionHandles)
             {
                 regionHandle.Reprotect(asDirty);
             }
@@ -92,7 +92,7 @@ namespace Ryujinx.Graphics.Gpu.Memory
         /// </summary>
         public void ForceDirty()
         {
-            foreach (var regionHandle in _cpuRegionHandles)
+            foreach (RegionHandle regionHandle in _cpuRegionHandles)
             {
                 regionHandle.ForceDirty();
             }

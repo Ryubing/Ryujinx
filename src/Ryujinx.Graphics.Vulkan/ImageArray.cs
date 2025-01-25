@@ -128,8 +128,8 @@ namespace Ryujinx.Graphics.Vulkan
 
             for (int i = 0; i < textures.Length; i++)
             {
-                ref var texture = ref textures[i];
-                ref var refs = ref _textureRefs[i];
+                ref DescriptorImageInfo texture = ref textures[i];
+                ref TextureRef refs = ref _textureRefs[i];
 
                 if (i > 0 && _textureRefs[i - 1].View == refs.View)
                 {

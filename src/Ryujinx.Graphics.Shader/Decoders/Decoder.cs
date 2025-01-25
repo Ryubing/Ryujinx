@@ -568,39 +568,39 @@ namespace Ryujinx.Graphics.Shader.Decoders
 
             HashSet<Block> visited = new();
 
-            var ldcLocation = FindFirstRegWrite(visited, new BlockLocation(block, block.OpCodes.Count - 1), brxReg);
+            BlockLocation ldcLocation = FindFirstRegWrite(visited, new BlockLocation(block, block.OpCodes.Count - 1), brxReg);
             if (ldcLocation.Block == null || ldcLocation.Block.OpCodes[ldcLocation.Index].Name != InstName.Ldc)
             {
                 return (0, 0);
             }
 
-            GetOp<InstLdc>(ldcLocation, out var opLdc);
+            GetOp<InstLdc>(ldcLocation, out InstLdc opLdc);
 
             if (opLdc.CbufSlot != 1 || opLdc.AddressMode != 0)
             {
                 return (0, 0);
             }
 
-            var shlLocation = FindFirstRegWrite(visited, ldcLocation, opLdc.SrcA);
+            BlockLocation shlLocation = FindFirstRegWrite(visited, ldcLocation, opLdc.SrcA);
             if (shlLocation.Block == null || !shlLocation.IsImmInst(InstName.Shl))
             {
                 return (0, 0);
             }
 
-            GetOp<InstShlI>(shlLocation, out var opShl);
+            GetOp<InstShlI>(shlLocation, out InstShlI opShl);
 
             if (opShl.Imm20 != 2)
             {
                 return (0, 0);
             }
 
-            var imnmxLocation = FindFirstRegWrite(visited, shlLocation, opShl.SrcA);
+            BlockLocation imnmxLocation = FindFirstRegWrite(visited, shlLocation, opShl.SrcA);
             if (imnmxLocation.Block == null || !imnmxLocation.IsImmInst(InstName.Imnmx))
             {
                 return (0, 0);
             }
 
-            GetOp<InstImnmxI>(imnmxLocation, out var opImnmx);
+            GetOp<InstImnmxI>(imnmxLocation, out InstImnmxI opImnmx);
 
             if (opImnmx.Signed || opImnmx.SrcPred != RegisterConsts.PredicateTrueIndex || opImnmx.SrcPredInv)
             {
@@ -640,7 +640,7 @@ namespace Ryujinx.Graphics.Shader.Decoders
             toVisit.Enqueue(location);
             visited.Add(location.Block);
 
-            while (toVisit.TryDequeue(out var currentLocation))
+            while (toVisit.TryDequeue(out BlockLocation currentLocation))
             {
                 Block block = currentLocation.Block;
                 for (int i = currentLocation.Index - 1; i >= 0; i--)

@@ -229,7 +229,7 @@ namespace Ryujinx.Graphics.Vulkan
 
             for (int i = 0; i < _fences.Length; i++)
             {
-                var fence = _fences[i];
+                FenceHolder fence = _fences[i];
 
                 if (fence != null)
                 {
@@ -253,7 +253,7 @@ namespace Ryujinx.Graphics.Vulkan
 
             for (int i = 0; i < _fences.Length; i++)
             {
-                var fence = _fences[i];
+                FenceHolder fence = _fences[i];
 
                 if (fence != null && _bufferUsageBitmap.OverlapsWith(i, offset, size))
                 {

@@ -623,7 +623,7 @@ namespace ARMeilleure.CodeGen.X86
 
             Debug.Assert(comp.Kind == OperandKind.Constant);
 
-            var cond = ((Comparison)comp.AsInt32()).ToX86Condition();
+            X86Condition cond = ((Comparison)comp.AsInt32()).ToX86Condition();
 
             GenerateCompareCommon(context, operation);
 
@@ -661,7 +661,7 @@ namespace ARMeilleure.CodeGen.X86
             Debug.Assert(dest.Type == OperandType.I32);
             Debug.Assert(comp.Kind == OperandKind.Constant);
 
-            var cond = ((Comparison)comp.AsInt32()).ToX86Condition();
+            X86Condition cond = ((Comparison)comp.AsInt32()).ToX86Condition();
 
             GenerateCompareCommon(context, operation);
 

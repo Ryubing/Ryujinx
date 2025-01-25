@@ -13,9 +13,9 @@ namespace Ryujinx.Graphics.Shader.Instructions
         {
             InstDmnmxR op = context.GetOp<InstDmnmxR>();
 
-            var srcA = GetSrcReg(context, op.SrcA, isFP64: true);
-            var srcB = GetSrcReg(context, op.SrcB, isFP64: true);
-            var srcPred = GetPredicate(context, op.SrcPred, op.SrcPredInv);
+            Operand srcA = GetSrcReg(context, op.SrcA, isFP64: true);
+            Operand srcB = GetSrcReg(context, op.SrcB, isFP64: true);
+            Operand srcPred = GetPredicate(context, op.SrcPred, op.SrcPredInv);
 
             EmitFmnmx(context, srcA, srcB, srcPred, op.Dest, op.AbsA, op.AbsB, op.NegA, op.NegB, op.WriteCC, isFP64: true);
         }
@@ -24,9 +24,9 @@ namespace Ryujinx.Graphics.Shader.Instructions
         {
             InstDmnmxI op = context.GetOp<InstDmnmxI>();
 
-            var srcA = GetSrcReg(context, op.SrcA, isFP64: true);
-            var srcB = GetSrcImm(context, Imm20ToFloat(op.Imm20), isFP64: true);
-            var srcPred = GetPredicate(context, op.SrcPred, op.SrcPredInv);
+            Operand srcA = GetSrcReg(context, op.SrcA, isFP64: true);
+            Operand srcB = GetSrcImm(context, Imm20ToFloat(op.Imm20), isFP64: true);
+            Operand srcPred = GetPredicate(context, op.SrcPred, op.SrcPredInv);
 
             EmitFmnmx(context, srcA, srcB, srcPred, op.Dest, op.AbsA, op.AbsB, op.NegA, op.NegB, op.WriteCC, isFP64: true);
         }
@@ -35,9 +35,9 @@ namespace Ryujinx.Graphics.Shader.Instructions
         {
             InstDmnmxC op = context.GetOp<InstDmnmxC>();
 
-            var srcA = GetSrcReg(context, op.SrcA, isFP64: true);
-            var srcB = GetSrcCbuf(context, op.CbufSlot, op.CbufOffset, isFP64: true);
-            var srcPred = GetPredicate(context, op.SrcPred, op.SrcPredInv);
+            Operand srcA = GetSrcReg(context, op.SrcA, isFP64: true);
+            Operand srcB = GetSrcCbuf(context, op.CbufSlot, op.CbufOffset, isFP64: true);
+            Operand srcPred = GetPredicate(context, op.SrcPred, op.SrcPredInv);
 
             EmitFmnmx(context, srcA, srcB, srcPred, op.Dest, op.AbsA, op.AbsB, op.NegA, op.NegB, op.WriteCC, isFP64: true);
         }
@@ -46,9 +46,9 @@ namespace Ryujinx.Graphics.Shader.Instructions
         {
             InstFmnmxR op = context.GetOp<InstFmnmxR>();
 
-            var srcA = GetSrcReg(context, op.SrcA);
-            var srcB = GetSrcReg(context, op.SrcB);
-            var srcPred = GetPredicate(context, op.SrcPred, op.SrcPredInv);
+            Operand srcA = GetSrcReg(context, op.SrcA);
+            Operand srcB = GetSrcReg(context, op.SrcB);
+            Operand srcPred = GetPredicate(context, op.SrcPred, op.SrcPredInv);
 
             EmitFmnmx(context, srcA, srcB, srcPred, op.Dest, op.AbsA, op.AbsB, op.NegA, op.NegB, op.WriteCC);
         }
@@ -57,9 +57,9 @@ namespace Ryujinx.Graphics.Shader.Instructions
         {
             InstFmnmxI op = context.GetOp<InstFmnmxI>();
 
-            var srcA = GetSrcReg(context, op.SrcA);
-            var srcB = GetSrcImm(context, Imm20ToFloat(op.Imm20));
-            var srcPred = GetPredicate(context, op.SrcPred, op.SrcPredInv);
+            Operand srcA = GetSrcReg(context, op.SrcA);
+            Operand srcB = GetSrcImm(context, Imm20ToFloat(op.Imm20));
+            Operand srcPred = GetPredicate(context, op.SrcPred, op.SrcPredInv);
 
             EmitFmnmx(context, srcA, srcB, srcPred, op.Dest, op.AbsA, op.AbsB, op.NegA, op.NegB, op.WriteCC);
         }
@@ -68,9 +68,9 @@ namespace Ryujinx.Graphics.Shader.Instructions
         {
             InstFmnmxC op = context.GetOp<InstFmnmxC>();
 
-            var srcA = GetSrcReg(context, op.SrcA);
-            var srcB = GetSrcCbuf(context, op.CbufSlot, op.CbufOffset);
-            var srcPred = GetPredicate(context, op.SrcPred, op.SrcPredInv);
+            Operand srcA = GetSrcReg(context, op.SrcA);
+            Operand srcB = GetSrcCbuf(context, op.CbufSlot, op.CbufOffset);
+            Operand srcPred = GetPredicate(context, op.SrcPred, op.SrcPredInv);
 
             EmitFmnmx(context, srcA, srcB, srcPred, op.Dest, op.AbsA, op.AbsB, op.NegA, op.NegB, op.WriteCC);
         }

@@ -1205,7 +1205,7 @@ namespace Ryujinx.Graphics.OpenGL
             {
                 int vIndex = index * 4;
 
-                var region = regions[index];
+                Rectangle<int> region = regions[index];
 
                 bool enabled = (region.X | region.Y) != 0 || region.Width != 0xffff || region.Height != 0xffff;
                 uint mask = 1u << index;

@@ -47,7 +47,7 @@ namespace Ryujinx.Graphics.Metal
             if (_requestedWidth != 0 && _requestedHeight != 0)
             {
                 // TODO: This is actually a CGSize, but there is no overload for that, so fill the first two fields of rect with the size.
-                var rect = new NSRect(_requestedWidth, _requestedHeight, 0, 0);
+                NSRect rect = new NSRect(_requestedWidth, _requestedHeight, 0, 0);
 
                 ObjectiveC.objc_msgSend(_metalLayer, "setDrawableSize:", rect);
 
@@ -62,7 +62,7 @@ namespace Ryujinx.Graphics.Metal
             {
                 ResizeIfNeeded();
 
-                var drawable = new CAMetalDrawable(ObjectiveC.IntPtr_objc_msgSend(_metalLayer, "nextDrawable"));
+                CAMetalDrawable drawable = new CAMetalDrawable(ObjectiveC.IntPtr_objc_msgSend(_metalLayer, "nextDrawable"));
 
                 _width = (int)drawable.Texture.Width;
                 _height = (int)drawable.Texture.Height;

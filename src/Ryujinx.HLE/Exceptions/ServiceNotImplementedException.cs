@@ -3,6 +3,7 @@ using Ryujinx.HLE.HOS;
 using Ryujinx.HLE.HOS.Ipc;
 using Ryujinx.HLE.HOS.Services;
 using System;
+using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
 using System.Reflection;
@@ -53,12 +54,12 @@ namespace Ryujinx.HLE.Exceptions
             if (callingType != null && callingMethod != null)
             {
                 // If the type is past 0xF, we are using TIPC
-                var ipcCommands = Request.Type > IpcMessageType.TipcCloseSession ? Service.TipcCommands : Service.CmifCommands;
+                IReadOnlyDictionary<int, MethodInfo> ipcCommands = Request.Type > IpcMessageType.TipcCloseSession ? Service.TipcCommands : Service.CmifCommands;
 
                 // Find the handler for the method called
-                var ipcHandler = ipcCommands.FirstOrDefault(x => x.Value == callingMethod);
-                var ipcCommandId = ipcHandler.Key;
-                var ipcMethod = ipcHandler.Value;
+                KeyValuePair<int, MethodInfo> ipcHandler = ipcCommands.FirstOrDefault(x => x.Value == callingMethod);
+                int ipcCommandId = ipcHandler.Key;
+                MethodInfo ipcMethod = ipcHandler.Value;
 
                 if (ipcMethod != null)
                 {
@@ -83,7 +84,7 @@ namespace Ryujinx.HLE.Exceptions
                 {
                     sb.AppendLine("\tPtrBuff:");
 
-                    foreach (var buff in Request.PtrBuff)
+                    foreach (IpcPtrBuffDesc buff in Request.PtrBuff)
                     {
                         sb.AppendLine($"\t[{buff.Index}] Position: 0x{buff.Position:x16} Size: 0x{buff.Size:x16}");
                     }
@@ -93,7 +94,7 @@ namespace Ryujinx.HLE.Exceptions
                 {
                     sb.AppendLine("\tSendBuff:");
 
-                    foreach (var buff in Request.SendBuff)
+                    foreach (IpcBuffDesc buff in Request.SendBuff)
                     {
                         sb.AppendLine($"\tPosition: 0x{buff.Position:x16} Size: 0x{buff.Size:x16} Flags: {buff.Flags}");
                     }
@@ -103,7 +104,7 @@ namespace Ryujinx.HLE.Exceptions
                 {
                     sb.AppendLine("\tReceiveBuff:");
 
-                    foreach (var buff in Request.ReceiveBuff)
+                    foreach (IpcBuffDesc buff in Request.ReceiveBuff)
                     {
                         sb.AppendLine($"\tPosition: 0x{buff.Position:x16} Size: 0x{buff.Size:x16} Flags: {buff.Flags}");
                     }
@@ -113,7 +114,7 @@ namespace Ryujinx.HLE.Exceptions
                 {
                     sb.AppendLine("\tExchangeBuff:");
 
-                    foreach (var buff in Request.ExchangeBuff)
+                    foreach (IpcBuffDesc buff in Request.ExchangeBuff)
                     {
                         sb.AppendLine($"\tPosition: 0x{buff.Position:x16} Size: 0x{buff.Size:x16} Flags: {buff.Flags}");
                     }
@@ -123,7 +124,7 @@ namespace Ryujinx.HLE.Exceptions
                 {
                     sb.AppendLine("\tRecvListBuff:");
 
-                    foreach (var buff in Request.RecvListBuff)
+                    foreach (IpcRecvListBuffDesc buff in Request.RecvListBuff)
                     {
                         sb.AppendLine($"\tPosition: 0x{buff.Position:x16} Size: 0x{buff.Size:x16}");
                     }
@@ -147,8 +148,8 @@ namespace Ryujinx.HLE.Exceptions
             // Find the IIpcService method that threw this exception
             while ((frame = trace.GetFrame(i++)) != null)
             {
-                var method = frame.GetMethod();
-                var declType = method.DeclaringType;
+                MethodBase method = frame.GetMethod();
+                Type declType = method.DeclaringType;
 
                 if (typeof(IpcService).IsAssignableFrom(declType))
                 {

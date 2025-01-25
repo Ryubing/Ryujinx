@@ -303,10 +303,10 @@ namespace Ryujinx.Graphics.Gpu.Shader.DiskCache
 
                         Logger.Info?.Print(LogClass.Gpu, $"Rebuilding {_programList.Count} shaders...");
 
-                        using var streams = _hostStorage.GetOutputStreams(_context);
+                        using DiskCacheOutputStreams streams = _hostStorage.GetOutputStreams(_context);
 
                         int packagedShaders = 0;
-                        foreach (var kv in _programList)
+                        foreach (KeyValuePair<int, (CachedShaderProgram, byte[])> kv in _programList)
                         {
                             if (!Active)
                             {

@@ -94,7 +94,7 @@ namespace Ryujinx.HLE.HOS.Services.Time.TimeZone
                 Nca nca = new(_virtualFileSystem.KeySet, ncaFileStream);
                 IFileSystem romfs = nca.OpenFileSystem(NcaSectionType.Data, _fsIntegrityCheckLevel);
 
-                using var binaryListFile = new UniqueRef<IFile>();
+                using UniqueRef<IFile> binaryListFile = new UniqueRef<IFile>();
 
                 romfs.OpenFile(ref binaryListFile.Ref, "/binaryList.txt".ToU8Span(), OpenMode.Read).ThrowIfFailure();
 
@@ -120,7 +120,7 @@ namespace Ryujinx.HLE.HOS.Services.Time.TimeZone
 
         public IEnumerable<(int Offset, string Location, string Abbr)> ParseTzOffsets()
         {
-            var tzBinaryContentPath = GetTimeZoneBinaryTitleContentPath();
+            string tzBinaryContentPath = GetTimeZoneBinaryTitleContentPath();
 
             if (string.IsNullOrEmpty(tzBinaryContentPath))
             {
@@ -128,7 +128,7 @@ namespace Ryujinx.HLE.HOS.Services.Time.TimeZone
             }
 
             List<(int Offset, string Location, string Abbr)> outList = new();
-            var now = DateTimeOffset.Now.ToUnixTimeSeconds();
+            long now = DateTimeOffset.Now.ToUnixTimeSeconds();
             using (IStorage ncaStorage = new LocalStorage(VirtualFileSystem.SwitchPathToSystemPath(tzBinaryContentPath), FileAccess.Read, FileMode.Open))
             using (IFileSystem romfs = new Nca(_virtualFileSystem.KeySet, ncaStorage).OpenFileSystem(NcaSectionType.Data, _fsIntegrityCheckLevel))
             {
@@ -139,7 +139,7 @@ namespace Ryujinx.HLE.HOS.Services.Time.TimeZone
                         continue;
                     }
 
-                    using var tzif = new UniqueRef<IFile>();
+                    using UniqueRef<IFile> tzif = new UniqueRef<IFile>();
 
                     if (romfs.OpenFile(ref tzif.Ref, $"/zoneinfo/{locName}".ToU8Span(), OpenMode.Read).IsFailure())
                     {
@@ -176,7 +176,7 @@ namespace Ryujinx.HLE.HOS.Services.Time.TimeZone
                         continue;
                     }
 
-                    var abbrStart = tzRule.Chars[ttInfo.AbbreviationListIndex..];
+                    Span<byte> abbrStart = tzRule.Chars[ttInfo.AbbreviationListIndex..];
                     int abbrEnd = abbrStart.IndexOf((byte)0);
 
                     outList.Add((ttInfo.GmtOffset, locName, Encoding.UTF8.GetString(abbrStart[..abbrEnd])));
@@ -269,7 +269,7 @@ namespace Ryujinx.HLE.HOS.Services.Time.TimeZone
             Nca nca = new(_virtualFileSystem.KeySet, ncaFile);
             IFileSystem romfs = nca.OpenFileSystem(NcaSectionType.Data, _fsIntegrityCheckLevel);
 
-            using var timeZoneBinaryFile = new UniqueRef<IFile>();
+            using UniqueRef<IFile> timeZoneBinaryFile = new UniqueRef<IFile>();
 
             Result result = romfs.OpenFile(ref timeZoneBinaryFile.Ref, $"/zoneinfo/{locationName}".ToU8Span(), OpenMode.Read);
 

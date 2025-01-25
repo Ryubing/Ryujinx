@@ -76,14 +76,14 @@ namespace Ryujinx.Ava.Utilities.AppLibrary
                 }
                 else
                 {
-                    var pfsTemp = new PartitionFileSystem();
+                    PartitionFileSystem pfsTemp = new PartitionFileSystem();
                     pfsTemp.Initialize(file.AsStorage()).ThrowIfFailure();
                     pfs = pfsTemp;
                 }
 
                 foreach (DirectoryEntryEx fileEntry in pfs.EnumerateEntries("/", "*.nca"))
                 {
-                    using var ncaFile = new UniqueRef<IFile>();
+                    using UniqueRef<IFile> ncaFile = new UniqueRef<IFile>();
 
                     pfs.OpenFile(ref ncaFile.Ref, fileEntry.FullPath.ToU8Span(), OpenMode.Read).ThrowIfFailure();
 
@@ -158,7 +158,7 @@ namespace Ryujinx.Ava.Utilities.AppLibrary
                 return string.Empty;
             }
 
-            using var nsoFile = new UniqueRef<IFile>();
+            using UniqueRef<IFile> nsoFile = new UniqueRef<IFile>();
 
             codeFs.OpenFile(ref nsoFile.Ref, $"/{MainExeFs}".ToU8Span(), OpenMode.Read).ThrowIfFailure();
 

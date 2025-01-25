@@ -21,7 +21,7 @@ namespace Ryujinx.Ava.UI.Helpers
         /// </remarks>
         public static bool ReplaceWith<T>(this AvaloniaList<T> list, T item, bool addIfNotFound = true)
         {
-            var index = list.IndexOf(item);
+            int index = list.IndexOf(item);
 
             if (index != -1)
             {
@@ -45,9 +45,9 @@ namespace Ryujinx.Ava.UI.Helpers
         /// <param name="matchingList">The items to use as matching records to search for in the `sourceList', if not found this item will be added instead</params>
         public static void AddOrReplaceMatching<T>(this AvaloniaList<T> list, IList<T> sourceList, IList<T> matchingList)
         {
-            foreach (var match in matchingList)
+            foreach (T match in matchingList)
             {
-                var index = sourceList.IndexOf(match);
+                int index = sourceList.IndexOf(match);
                 if (index != -1)
                 {
                     list.ReplaceWith(sourceList[index]);

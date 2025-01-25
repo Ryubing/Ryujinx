@@ -91,7 +91,7 @@ namespace ARMeilleure.CodeGen.Arm64
 
             long target = _stream.Position;
 
-            if (_pendingBranches.TryGetValue(block, out var list))
+            if (_pendingBranches.TryGetValue(block, out List<(ArmCondition Condition, long BranchPos)> list))
             {
                 foreach ((ArmCondition condition, long branchPos) in list)
                 {
@@ -119,7 +119,7 @@ namespace ARMeilleure.CodeGen.Arm64
             }
             else
             {
-                if (!_pendingBranches.TryGetValue(target, out var list))
+                if (!_pendingBranches.TryGetValue(target, out List<(ArmCondition Condition, long BranchPos)> list))
                 {
                     list = new List<(ArmCondition, long)>();
                     _pendingBranches.Add(target, list);

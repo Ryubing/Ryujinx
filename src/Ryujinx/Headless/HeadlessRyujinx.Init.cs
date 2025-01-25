@@ -291,9 +291,9 @@ namespace Ryujinx.Headless
                 if (!string.IsNullOrEmpty(options.PreferredGPUVendor))
                 {
                     string preferredGpuVendor = options.PreferredGPUVendor.ToLowerInvariant();
-                    var devices = VulkanRenderer.GetPhysicalDevices(api);
+                    DeviceInfo[] devices = VulkanRenderer.GetPhysicalDevices(api);
 
-                    foreach (var device in devices)
+                    foreach (DeviceInfo device in devices)
                     {
                         if (device.Vendor.ToLowerInvariant() == preferredGpuVendor)
                         {

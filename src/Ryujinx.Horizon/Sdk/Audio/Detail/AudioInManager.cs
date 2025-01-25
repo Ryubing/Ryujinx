@@ -5,6 +5,7 @@ using Ryujinx.Horizon.Common;
 using Ryujinx.Horizon.Sdk.Applet;
 using Ryujinx.Horizon.Sdk.Sf;
 using Ryujinx.Horizon.Sdk.Sf.Hipc;
+using Ryujinx.Memory;
 using System;
 
 namespace Ryujinx.Horizon.Sdk.Audio.Detail
@@ -49,7 +50,7 @@ namespace Ryujinx.Horizon.Sdk.Audio.Detail
             [Buffer(HipcBufferFlags.In | HipcBufferFlags.MapAlias)] ReadOnlySpan<DeviceName> name,
             [ClientProcessId] ulong pid)
         {
-            var clientMemoryManager = HorizonStatic.Syscall.GetMemoryManagerByProcessHandle(processHandle);
+            IVirtualMemoryManager clientMemoryManager = HorizonStatic.Syscall.GetMemoryManagerByProcessHandle(processHandle);
 
             ResultCode rc = _impl.OpenAudioIn(
                 out string outputDeviceName,

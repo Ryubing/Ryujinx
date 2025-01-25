@@ -9,7 +9,7 @@ namespace ARMeilleure.Decoders
 
         public OpCode32SimdDupElem(InstDescriptor inst, ulong address, int opCode, bool isThumb) : base(inst, address, opCode, isThumb)
         {
-            var opc = (opCode >> 16) & 0xf;
+            int opc = (opCode >> 16) & 0xf;
 
             if ((opc & 0b1) == 1)
             {

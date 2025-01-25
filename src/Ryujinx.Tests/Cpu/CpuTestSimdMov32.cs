@@ -2,6 +2,7 @@
 
 using ARMeilleure.State;
 using NUnit.Framework;
+using NUnit.Framework.Internal;
 
 namespace Ryujinx.Tests.Cpu
 {
@@ -467,7 +468,7 @@ namespace Ryujinx.Tests.Cpu
             opcode |= (vn & 0xf) << 16;
             opcode |= (length & 0x3) << 8;
 
-            var rnd = TestContext.CurrentContext.Random;
+            Randomizer rnd = TestContext.CurrentContext.Random;
             V128 v2 = new(TestContext.CurrentContext.Random.NextULong(), TestContext.CurrentContext.Random.NextULong());
             V128 v3 = new(TestContext.CurrentContext.Random.NextULong(), TestContext.CurrentContext.Random.NextULong());
             V128 v4 = new(TestContext.CurrentContext.Random.NextULong(), TestContext.CurrentContext.Random.NextULong());

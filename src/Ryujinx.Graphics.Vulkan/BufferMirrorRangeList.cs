@@ -38,7 +38,7 @@ namespace Ryujinx.Graphics.Vulkan
 
         public readonly bool Remove(int offset, int size)
         {
-            var list = _ranges;
+            List<Range> list = _ranges;
             bool removedAny = false;
             if (list != null)
             {
@@ -56,7 +56,7 @@ namespace Ryujinx.Graphics.Vulkan
                     int endOffset = offset + size;
                     int startIndex = overlapIndex;
 
-                    var currentOverlap = list[overlapIndex];
+                    Range currentOverlap = list[overlapIndex];
 
                     // Orphan the start of the overlap.
                     if (currentOverlap.Offset < offset)
@@ -102,7 +102,7 @@ namespace Ryujinx.Graphics.Vulkan
 
         public void Add(int offset, int size)
         {
-            var list = _ranges;
+            List<Range> list = _ranges;
             if (list != null)
             {
                 int overlapIndex = BinarySearch(list, offset, size);
@@ -118,8 +118,8 @@ namespace Ryujinx.Graphics.Vulkan
 
                     while (overlapIndex < list.Count && list[overlapIndex].OverlapsWith(offset, size))
                     {
-                        var currentOverlap = list[overlapIndex];
-                        var currentOverlapEndOffset = currentOverlap.Offset + currentOverlap.Size;
+                        Range currentOverlap = list[overlapIndex];
+                        int currentOverlapEndOffset = currentOverlap.Offset + currentOverlap.Size;
 
                         if (offset > currentOverlap.Offset)
                         {
@@ -159,7 +159,7 @@ namespace Ryujinx.Graphics.Vulkan
 
         public readonly bool OverlapsWith(int offset, int size)
         {
-            var list = _ranges;
+            List<Range> list = _ranges;
             if (list == null)
             {
                 return false;
@@ -170,7 +170,7 @@ namespace Ryujinx.Graphics.Vulkan
 
         public readonly List<Range> FindOverlaps(int offset, int size)
         {
-            var list = _ranges;
+            List<Range> list = _ranges;
             if (list == null)
             {
                 return null;
@@ -208,7 +208,7 @@ namespace Ryujinx.Graphics.Vulkan
 
                 int middle = left + (range >> 1);
 
-                var item = list[middle];
+                Range item = list[middle];
 
                 if (item.OverlapsWith(offset, size))
                 {
@@ -233,7 +233,7 @@ namespace Ryujinx.Graphics.Vulkan
             int size = baseData.Length;
             int endOffset = offset + size;
 
-            var list = _ranges;
+            List<Range> list = _ranges;
             if (list == null)
             {
                 baseData.CopyTo(result);
@@ -245,7 +245,7 @@ namespace Ryujinx.Graphics.Vulkan
 
             for (int i = 0; i < list.Count; i++)
             {
-                var range = list[i];
+                Range range = list[i];
 
                 int rangeEnd = range.Offset + range.Size;
 

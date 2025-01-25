@@ -8,7 +8,7 @@ namespace Ryujinx.Ava.UI.ViewModels
         protected void OnPropertiesChanged(string firstPropertyName, params ReadOnlySpan<string> propertyNames)
         {
             OnPropertyChanged(firstPropertyName);
-            foreach (var propertyName in propertyNames)
+            foreach (string propertyName in propertyNames)
             {
                 OnPropertyChanged(propertyName);
             }

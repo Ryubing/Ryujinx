@@ -101,7 +101,7 @@ namespace Ryujinx.Graphics.Metal
             {
                 for (int i = 0; i < _totalCommandBuffers; i++)
                 {
-                    ref var entry = ref _commandBuffers[i];
+                    ref ReservedCommandBuffer entry = ref _commandBuffers[i];
 
                     if (entry.InConsumption)
                     {
@@ -117,7 +117,7 @@ namespace Ryujinx.Graphics.Metal
             {
                 for (int i = 0; i < _totalCommandBuffers; i++)
                 {
-                    ref var entry = ref _commandBuffers[i];
+                    ref ReservedCommandBuffer entry = ref _commandBuffers[i];
 
                     if (entry.InUse)
                     {
@@ -129,7 +129,7 @@ namespace Ryujinx.Graphics.Metal
 
         public void AddWaitable(int cbIndex, MultiFenceHolder waitable)
         {
-            ref var entry = ref _commandBuffers[cbIndex];
+            ref ReservedCommandBuffer entry = ref _commandBuffers[cbIndex];
             if (waitable.AddFence(cbIndex, entry.Fence))
             {
                 entry.Waitables.Add(waitable);
@@ -142,7 +142,7 @@ namespace Ryujinx.Graphics.Metal
             {
                 for (int i = 0; i < _totalCommandBuffers; i++)
                 {
-                    ref var entry = ref _commandBuffers[i];
+                    ref ReservedCommandBuffer entry = ref _commandBuffers[i];
 
                     if (entry.InUse && entry.Fence == fence)
                     {
@@ -172,7 +172,7 @@ namespace Ryujinx.Graphics.Metal
             {
                 int index = _queuedIndexes[_queuedIndexesPtr];
 
-                ref var entry = ref _commandBuffers[index];
+                ref ReservedCommandBuffer entry = ref _commandBuffers[index];
 
                 if (wait || !entry.InConsumption || entry.Fence.IsSignaled())
                 {
@@ -207,7 +207,7 @@ namespace Ryujinx.Graphics.Metal
 
                 for (int i = 0; i < _totalCommandBuffers; i++)
                 {
-                    ref var entry = ref _commandBuffers[cursor];
+                    ref ReservedCommandBuffer entry = ref _commandBuffers[cursor];
 
                     if (!entry.InUse && !entry.InConsumption)
                     {
@@ -234,7 +234,7 @@ namespace Ryujinx.Graphics.Metal
             {
                 int cbIndex = cbs.CommandBufferIndex;
 
-                ref var entry = ref _commandBuffers[cbIndex];
+                ref ReservedCommandBuffer entry = ref _commandBuffers[cbIndex];
 
                 Debug.Assert(entry.InUse);
                 Debug.Assert(entry.CommandBuffer.NativePtr == cbs.CommandBuffer.NativePtr);
@@ -243,7 +243,7 @@ namespace Ryujinx.Graphics.Metal
                 entry.SubmissionCount++;
                 _inUseCount--;
 
-                var commandBuffer = entry.CommandBuffer;
+                MTLCommandBuffer commandBuffer = entry.CommandBuffer;
                 commandBuffer.Commit();
 
                 int ptr = (_queuedIndexesPtr + _queuedCount) % _totalCommandBuffers;
@@ -254,7 +254,7 @@ namespace Ryujinx.Graphics.Metal
 
         private void WaitAndDecrementRef(int cbIndex)
         {
-            ref var entry = ref _commandBuffers[cbIndex];
+            ref ReservedCommandBuffer entry = ref _commandBuffers[cbIndex];
 
             if (entry.InConsumption)
             {
@@ -262,12 +262,12 @@ namespace Ryujinx.Graphics.Metal
                 entry.InConsumption = false;
             }
 
-            foreach (var dependant in entry.Dependants)
+            foreach (IAuto dependant in entry.Dependants)
             {
                 dependant.DecrementReferenceCount(cbIndex);
             }
 
-            foreach (var waitable in entry.Waitables)
+            foreach (MultiFenceHolder waitable in entry.Waitables)
             {
                 waitable.RemoveFence(cbIndex);
                 waitable.RemoveBufferUses(cbIndex);

@@ -52,7 +52,7 @@ namespace Ryujinx.Graphics.Vulkan
             {
                 for (int i = 0; i < _freeRanges.Count; i++)
                 {
-                    var range = _freeRanges[i];
+                    Range range = _freeRanges[i];
 
                     ulong alignedOffset = BitUtils.AlignUp(range.Offset, alignment);
                     ulong sizeDelta = alignedOffset - range.Offset;
@@ -88,7 +88,7 @@ namespace Ryujinx.Graphics.Vulkan
 
             private void InsertFreeRange(ulong offset, ulong size)
             {
-                var range = new Range(offset, size);
+                Range range = new Range(offset, size);
                 int index = _freeRanges.BinarySearch(range);
                 if (index < 0)
                 {
@@ -101,7 +101,7 @@ namespace Ryujinx.Graphics.Vulkan
             private void InsertFreeRangeComingled(ulong offset, ulong size)
             {
                 ulong endOffset = offset + size;
-                var range = new Range(offset, size);
+                Range range = new Range(offset, size);
                 int index = _freeRanges.BinarySearch(range);
                 if (index < 0)
                 {
@@ -194,7 +194,7 @@ namespace Ryujinx.Graphics.Vulkan
             {
                 for (int i = 0; i < _blocks.Count; i++)
                 {
-                    var block = _blocks[i];
+                    Block block = _blocks[i];
 
                     if (block.Mapped == map && block.Size >= size)
                     {
@@ -213,14 +213,14 @@ namespace Ryujinx.Graphics.Vulkan
 
             ulong blockAlignedSize = BitUtils.AlignUp(size, (ulong)_blockAlignment);
 
-            var memoryAllocateInfo = new MemoryAllocateInfo
+            MemoryAllocateInfo memoryAllocateInfo = new MemoryAllocateInfo
             {
                 SType = StructureType.MemoryAllocateInfo,
                 AllocationSize = blockAlignedSize,
                 MemoryTypeIndex = (uint)MemoryTypeIndex,
             };
 
-            _api.AllocateMemory(_device, in memoryAllocateInfo, null, out var deviceMemory).ThrowOnError();
+            _api.AllocateMemory(_device, in memoryAllocateInfo, null, out DeviceMemory deviceMemory).ThrowOnError();
 
             nint hostPointer = nint.Zero;
 
@@ -231,7 +231,7 @@ namespace Ryujinx.Graphics.Vulkan
                 hostPointer = (nint)pointer;
             }
 
-            var newBlock = new Block(deviceMemory, hostPointer, blockAlignedSize);
+            Block newBlock = new Block(deviceMemory, hostPointer, blockAlignedSize);
 
             InsertBlock(newBlock);
 

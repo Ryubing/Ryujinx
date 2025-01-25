@@ -190,7 +190,7 @@ namespace Ryujinx.Cpu.LightningJit.Cache
 
         private bool TryGetThreadLocalFunction(ulong guestAddress, out nint funcPtr)
         {
-            if ((_threadLocalCache ??= new()).TryGetValue(guestAddress, out var entry))
+            if ((_threadLocalCache ??= new()).TryGetValue(guestAddress, out ThreadLocalCacheEntry entry))
             {
                 if (entry.IncrementUseCount() >= MinCallsForPad)
                 {

@@ -27,7 +27,7 @@ namespace Ryujinx.Horizon.Kernel.Generators
                 return;
             }
 
-            foreach (var memberDeclaration in classDeclaration.Members)
+            foreach (MemberDeclarationSyntax memberDeclaration in classDeclaration.Members)
             {
                 if (memberDeclaration is MethodDeclarationSyntax methodDeclaration)
                 {

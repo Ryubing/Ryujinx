@@ -101,7 +101,7 @@ namespace Ryujinx.Common.Helper
             {
                 RegistryKey key = Registry.CurrentUser.OpenSubKey(@$"Software\Classes\{ext}");
 
-                var openCmd = key?.OpenSubKey(@"shell\open\command");
+                RegistryKey openCmd = key?.OpenSubKey(@"shell\open\command");
                 
                 if (openCmd is null)
                 {
@@ -143,7 +143,7 @@ namespace Ryujinx.Common.Helper
                 }
                 else
                 {
-                    using var key = Registry.CurrentUser.CreateSubKey(keyString);
+                    using RegistryKey key = Registry.CurrentUser.CreateSubKey(keyString);
 
                     if (key is null)
                     {
@@ -151,7 +151,7 @@ namespace Ryujinx.Common.Helper
                     }
 
                     Logger.Debug?.Print(LogClass.Application, $"Adding type association {ext}");
-                    using var openCmd = key.CreateSubKey(@"shell\open\command");
+                    using RegistryKey openCmd = key.CreateSubKey(@"shell\open\command");
                     openCmd.SetValue(string.Empty, $"\"{Environment.ProcessPath}\" \"%1\"");
                     Logger.Debug?.Print(LogClass.Application, $"Added type association {ext}");
 

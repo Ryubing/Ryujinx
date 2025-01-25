@@ -37,7 +37,7 @@ namespace Ryujinx.Audio.Backends.SDL2
 
             SDL2Driver.Instance.Initialize();
 
-            int res = SDL_GetDefaultAudioInfo(nint.Zero, out var spec, 0);
+            int res = SDL_GetDefaultAudioInfo(nint.Zero, out SDL_AudioSpec spec, 0);
 
             if (res != 0)
             {

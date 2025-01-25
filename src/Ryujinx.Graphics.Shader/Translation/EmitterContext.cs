@@ -1,5 +1,6 @@
 using Ryujinx.Graphics.Shader.Decoders;
 using Ryujinx.Graphics.Shader.IntermediateRepresentation;
+using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Numerics;
@@ -256,8 +257,8 @@ namespace Ryujinx.Graphics.Shader.Translation
 
                 for (int tfbIndex = 0; tfbIndex < ResourceReservations.TfeBuffersCount; tfbIndex++)
                 {
-                    var locations = TranslatorContext.GpuAccessor.QueryTransformFeedbackVaryingLocations(tfbIndex);
-                    var stride = TranslatorContext.GpuAccessor.QueryTransformFeedbackStride(tfbIndex);
+                    ReadOnlySpan<byte> locations = TranslatorContext.GpuAccessor.QueryTransformFeedbackVaryingLocations(tfbIndex);
+                    int stride = TranslatorContext.GpuAccessor.QueryTransformFeedbackStride(tfbIndex);
 
                     Operand baseOffset = this.Load(StorageKind.ConstantBuffer, SupportBuffer.Binding, Const((int)SupportBufferField.TfeOffset), Const(tfbIndex));
                     Operand baseVertex = this.Load(StorageKind.Input, IoVariable.BaseVertex);

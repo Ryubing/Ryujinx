@@ -55,7 +55,7 @@ namespace Ryujinx.Input.SDL2
 
         public IEnumerable<IGamepad> GetGamepads()
         {
-            foreach (var keyboardId in _keyboardIdentifers)
+            foreach (string keyboardId in _keyboardIdentifers)
             {
                 yield return GetGamepad(keyboardId);
             }

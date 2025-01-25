@@ -322,7 +322,7 @@ namespace ARMeilleure.CodeGen.Arm64
 
             Debug.Assert(comp.Kind == OperandKind.Constant);
 
-            var cond = ((Comparison)comp.AsInt32()).ToArmCondition();
+            ArmCondition cond = ((Comparison)comp.AsInt32()).ToArmCondition();
 
             GenerateCompareCommon(context, operation);
 
@@ -354,7 +354,7 @@ namespace ARMeilleure.CodeGen.Arm64
             Debug.Assert(dest.Type == OperandType.I32);
             Debug.Assert(comp.Kind == OperandKind.Constant);
 
-            var cond = ((Comparison)comp.AsInt32()).ToArmCondition();
+            ArmCondition cond = ((Comparison)comp.AsInt32()).ToArmCondition();
 
             GenerateCompareCommon(context, operation);
 

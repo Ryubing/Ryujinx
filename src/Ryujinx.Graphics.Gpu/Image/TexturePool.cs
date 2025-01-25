@@ -118,7 +118,7 @@ namespace Ryujinx.Graphics.Gpu.Image
             /// <returns>Texture with the requested format, or null if not found</returns>
             public Texture Find(Format format)
             {
-                foreach (var alias in _aliases)
+                foreach (Alias alias in _aliases)
                 {
                     if (alias.Format == format)
                     {
@@ -134,7 +134,7 @@ namespace Ryujinx.Graphics.Gpu.Image
             /// </summary>
             public void Destroy()
             {
-                foreach (var entry in _aliases)
+                foreach (Alias entry in _aliases)
                 {
                     entry.Texture.DecrementReferenceCount();
                 }
@@ -361,7 +361,7 @@ namespace Ryujinx.Graphics.Gpu.Image
         /// <param name="deferred">If true, queue the dereference to happen on the render thread, otherwise dereference immediately</param>
         public void ForceRemove(Texture texture, int id, bool deferred)
         {
-            var previous = Interlocked.Exchange(ref Items[id], null);
+            Texture previous = Interlocked.Exchange(ref Items[id], null);
 
             if (deferred)
             {
