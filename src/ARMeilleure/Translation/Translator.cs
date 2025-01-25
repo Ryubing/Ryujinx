@@ -249,6 +249,11 @@ namespace ARMeilleure.Translation
 
             ControlFlowGraph cfg = EmitAndGetCFG(context, blocks, out Range funcRange, out Counter<uint> counter);
 
+            if (cfg == null)
+            {
+                return null;
+            }
+
             ulong funcSize = funcRange.End - funcRange.Start;
 
             Logger.EndPass(PassName.Translation, cfg);
@@ -407,6 +412,11 @@ namespace ARMeilleure.Translation
                         if (opCode.Instruction.Emitter != null)
                         {
                             opCode.Instruction.Emitter(context);
+                            if (opCode.Instruction.Name == InstName.Und && blkIndex == 0)
+                            {
+                                range = new Range(rangeStart, rangeEnd);
+                                return null;
+                            }
                         }
                         else
                         {

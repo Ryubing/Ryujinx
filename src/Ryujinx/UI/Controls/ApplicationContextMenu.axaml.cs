@@ -175,6 +175,52 @@ namespace Ryujinx.Ava.UI.Controls
             }
         }
 
+        public async void NukePtcCache_Click(object sender, RoutedEventArgs args)
+        {
+            if (sender is not MenuItem { DataContext: MainWindowViewModel { SelectedApplication: not null } viewModel })
+                return;
+
+            UserResult result = await ContentDialogHelper.CreateLocalizedConfirmationDialog(
+                LocaleManager.Instance[LocaleKeys.DialogWarning],
+                LocaleManager.Instance.UpdateAndGetDynamicValue(LocaleKeys.DialogPPTCNukeMessage, viewModel.SelectedApplication.Name)
+            );
+
+            if (result == UserResult.Yes)
+            {
+                DirectoryInfo mainDir = new(Path.Combine(AppDataManager.GamesDirPath, viewModel.SelectedApplication.IdString, "cache", "cpu", "0"));
+                DirectoryInfo backupDir = new(Path.Combine(AppDataManager.GamesDirPath, viewModel.SelectedApplication.IdString, "cache", "cpu", "1"));
+
+                List<FileInfo> cacheFiles = new();
+
+                if (mainDir.Exists)
+                {
+                    cacheFiles.AddRange(mainDir.EnumerateFiles("*.cache"));
+                    cacheFiles.AddRange(mainDir.EnumerateFiles("*.info"));
+                }
+
+                if (backupDir.Exists)
+                {
+                    cacheFiles.AddRange(backupDir.EnumerateFiles("*.cache"));
+                    cacheFiles.AddRange(mainDir.EnumerateFiles("*.info"));
+                }
+
+                if (cacheFiles.Count > 0)
+                {
+                    foreach (FileInfo file in cacheFiles)
+                    {
+                        try
+                        {
+                            file.Delete();
+                        }
+                        catch (Exception ex)
+                        {
+                            await ContentDialogHelper.CreateErrorDialog(LocaleManager.Instance.UpdateAndGetDynamicValue(LocaleKeys.DialogPPTCDeletionErrorMessage, file.Name, ex));
+                        }
+                    }
+                }
+            }
+        }
+
         public async void PurgeShaderCache_Click(object sender, RoutedEventArgs args)
         {
             if (sender is not MenuItem { DataContext: MainWindowViewModel { SelectedApplication: not null } viewModel })

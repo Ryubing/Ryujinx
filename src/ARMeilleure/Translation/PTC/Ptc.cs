@@ -3,6 +3,7 @@ using ARMeilleure.CodeGen.Linking;
 using ARMeilleure.CodeGen.Unwinding;
 using ARMeilleure.Common;
 using ARMeilleure.Memory;
+using ARMeilleure.State;
 using Ryujinx.Common;
 using Ryujinx.Common.Configuration;
 using Ryujinx.Common.Logging;
@@ -29,8 +30,8 @@ namespace ARMeilleure.Translation.PTC
     {
         private const string OuterHeaderMagicString = "PTCohd\0\0";
         private const string InnerHeaderMagicString = "PTCihd\0\0";
-        
-        private const uint InternalVersion = 6998; //! To be incremented manually for each change to the ARMeilleure project.
+
+        private const uint InternalVersion = 7007; //! To be incremented manually for each change to the ARMeilleure project.
 
         private const string ActualDir = "0";
         private const string BackupDir = "1";
@@ -181,6 +182,36 @@ namespace ARMeilleure.Translation.PTC
             DisposeCarriers();
 
             InitializeCarriers();
+        }
+
+        private bool ContainsBlacklistedFunctions()
+        {
+            List<ulong> blacklist = Profiler.GetBlacklistedFunctions();
+            bool containsBlacklistedFunctions = false;
+            _infosStream.Seek(0L, SeekOrigin.Begin);
+            bool foundBadFunction = false;
+
+            for (int index = 0; index < GetEntriesCount(); index++)
+            {
+                InfoEntry infoEntry = DeserializeStructure<InfoEntry>(_infosStream);
+                foreach (ulong address in blacklist)
+                {
+                    if (infoEntry.Address == address)
+                    {
+                        containsBlacklistedFunctions = true;
+                        Logger.Warning?.Print(LogClass.Ptc, "PPTC cache invalidated: Found blacklisted functions in PPTC cache");
+                        foundBadFunction = true;
+                        break;
+                    }
+                }
+
+                if (foundBadFunction)
+                {
+                    break;
+                }
+            }
+
+            return containsBlacklistedFunctions;
         }
 
         private void PreLoad()
@@ -531,7 +562,7 @@ namespace ARMeilleure.Translation.PTC
 
         public void LoadTranslations(Translator translator)
         {
-            if (AreCarriersEmpty())
+            if (AreCarriersEmpty() || ContainsBlacklistedFunctions())
             {
                 return;
             }
@@ -834,10 +865,18 @@ namespace ARMeilleure.Translation.PTC
                 while (profiledFuncsToTranslate.TryDequeue(out var item))
                 {
                     ulong address = item.address;
+                    ExecutionMode executionMode = item.funcProfile.Mode;
+                    bool highCq = item.funcProfile.HighCq;
 
                     Debug.Assert(Profiler.IsAddressInStaticCodeRange(address));
 
-                    TranslatedFunction func = translator.Translate(address, item.funcProfile.Mode, item.funcProfile.HighCq);
+                    TranslatedFunction func = translator.Translate(address, executionMode, highCq);
+
+                    if (func == null)
+                    {
+                        Profiler.UpdateEntry(address, executionMode, true, true);
+                        continue;
+                    }
 
                     bool isAddressUnique = translator.Functions.TryAdd(address, func.GuestSize, func);
 
@@ -884,7 +923,14 @@ namespace ARMeilleure.Translation.PTC
 
             PtcStateChanged?.Invoke(PtcLoadingState.Loaded, _translateCount, _translateTotalCount);
 
-            Logger.Info?.Print(LogClass.Ptc, $"{_translateCount} of {_translateTotalCount} functions translated | Thread count: {degreeOfParallelism} in {sw.Elapsed.TotalSeconds} s");
+            if (_translateCount == _translateTotalCount)
+            {
+                Logger.Info?.Print(LogClass.Ptc, $"{_translateCount} of {_translateTotalCount} functions translated | Thread count: {degreeOfParallelism} in {sw.Elapsed.TotalSeconds} s");
+            }
+            else
+            {
+                Logger.Info?.Print(LogClass.Ptc, $"{_translateCount} of {_translateTotalCount} functions translated | {_translateTotalCount - _translateCount} function{(_translateTotalCount - _translateCount != 1 ? "s" : "")} blacklisted | Thread count: {degreeOfParallelism} in {sw.Elapsed.TotalSeconds} s");
+            }
 
             Thread preSaveThread = new(PreSave)
             {
