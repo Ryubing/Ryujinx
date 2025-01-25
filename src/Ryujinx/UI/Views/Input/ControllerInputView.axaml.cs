@@ -262,6 +262,7 @@ namespace Ryujinx.Ava.UI.Views.Input
             if (DataContext is not ControllerInputViewModel cVm) return;
             if (!cVm.Config.EnableLedChanging) return;
             if (cVm.Config.TurnOffLed) return;
+            
             cVm.ParentModel.SelectedGamepad.SetLed(cVm.Config.LedColor.ToUInt32());
         }
     }
