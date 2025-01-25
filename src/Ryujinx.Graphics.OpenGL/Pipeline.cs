@@ -898,7 +898,7 @@ namespace Ryujinx.Graphics.OpenGL
             }
         }
 
-        public void SetDepthTest(DepthTestDescriptor depthTest)
+        public void SetDepthTest(DepthTestDescriptor depthTest, bool signalChange = true)
         {
             if (depthTest.TestEnable)
             {
@@ -915,11 +915,11 @@ namespace Ryujinx.Graphics.OpenGL
             _depthTestEnable = depthTest.TestEnable;
         }
 
-        public void SetFaceCulling(bool enable, Face face)
+        public void SetFaceCulling(Face face)
         {
-            _cullEnable = enable;
+            _cullEnable = face != Face.None;
 
-            if (!enable)
+            if (!_cullEnable)
             {
                 GL.Disable(EnableCap.CullFace);
                 return;
@@ -1107,12 +1107,12 @@ namespace Ryujinx.Graphics.OpenGL
             GL.Enable(EnableCap.PrimitiveRestart);
         }
 
-        public void SetPrimitiveTopology(PrimitiveTopology topology)
+        public void SetPrimitiveTopology(PrimitiveTopology topology, bool signalChange = true)
         {
             _primitiveType = topology.Convert();
         }
 
-        public void SetProgram(IProgram program)
+        public void SetProgram(IProgram program, bool signalChange = true)
         {
             Program prg = (Program)program;
 
@@ -1154,7 +1154,7 @@ namespace Ryujinx.Graphics.OpenGL
             _rasterizerDiscard = discard;
         }
 
-        public void SetRenderTargetColorMasks(ReadOnlySpan<uint> componentMasks)
+        public void SetRenderTargetColorMasks(ReadOnlySpan<uint> componentMasks, bool signalChange = true)
         {
             _componentMasks = 0;
 
@@ -1195,7 +1195,7 @@ namespace Ryujinx.Graphics.OpenGL
             _framebuffer.SetDrawBuffers(colors.Length);
         }
 
-        public void SetScissors(ReadOnlySpan<Rectangle<int>> regions)
+        public void SetScissors(ReadOnlySpan<Rectangle<int>> regions, bool signalChange = true)
         {
             int count = Math.Min(regions.Length, Constants.MaxViewports);
 
@@ -1388,7 +1388,7 @@ namespace Ryujinx.Graphics.OpenGL
             _vertexArray.SetVertexBuffers(vertexBuffers);
         }
 
-        public void SetViewports(ReadOnlySpan<Viewport> viewports)
+        public void SetViewports(ReadOnlySpan<Viewport> viewports, bool signalChange = true)
         {
             Array.Resize(ref _viewportArray, viewports.Length * 4);
             Array.Resize(ref _depthRangeArray, viewports.Length * 2);

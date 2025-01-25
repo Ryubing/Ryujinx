@@ -429,35 +429,35 @@ namespace Ryujinx.Graphics.Vulkan
 
             if (dstIsDepthOrStencil)
             {
-                _pipeline.SetProgram(src.Info.Target.IsMultisample() ? _programDepthBlitMs : _programDepthBlit);
-                _pipeline.SetDepthTest(new DepthTestDescriptor(true, true, CompareOp.Always));
+                _pipeline.SetProgram(src.Info.Target.IsMultisample() ? _programDepthBlitMs : _programDepthBlit, false);
+                _pipeline.SetDepthTest(new DepthTestDescriptor(true, true, CompareOp.Always), false);
             }
             else if (src.Info.Target.IsMultisample())
             {
-                _pipeline.SetProgram(_programColorBlitMs);
+                _pipeline.SetProgram(_programColorBlitMs, false);
             }
             else if (clearAlpha)
             {
-                _pipeline.SetProgram(_programColorBlitClearAlpha);
+                _pipeline.SetProgram(_programColorBlitClearAlpha, false);
             }
             else
             {
-                _pipeline.SetProgram(_programColorBlit);
+                _pipeline.SetProgram(_programColorBlit, false);
             }
 
             int dstWidth = dst.Width;
             int dstHeight = dst.Height;
 
-            _pipeline.SetRenderTarget(dst, (uint)dstWidth, (uint)dstHeight);
-            _pipeline.SetRenderTargetColorMasks(new uint[] { 0xf });
-            _pipeline.SetScissors(stackalloc Rectangle<int>[] { new Rectangle<int>(0, 0, dstWidth, dstHeight) });
+            _pipeline.SetRenderTarget(dst, (uint)dstWidth, (uint)dstHeight, false);
+            _pipeline.SetRenderTargetColorMasks(new uint[] { 0xf }, false);
+            _pipeline.SetScissors(stackalloc Rectangle<int>[] { new Rectangle<int>(0, 0, dstWidth, dstHeight) }, false);
 
             if (clearAlpha)
             {
                 _pipeline.ClearRenderTargetColor(0, 0, 1, new ColorF(0f, 0f, 0f, 1f));
             }
 
-            _pipeline.SetViewports(viewports);
+            _pipeline.SetViewports(viewports, false);
             _pipeline.SetPrimitiveTopology(PrimitiveTopology.TriangleStrip);
             _pipeline.Draw(4, 1, 0, 0);
 
@@ -524,10 +524,10 @@ namespace Ryujinx.Graphics.Vulkan
             int dstWidth = dst.Width;
             int dstHeight = dst.Height;
 
-            _pipeline.SetRenderTarget(dst, (uint)dstWidth, (uint)dstHeight);
-            _pipeline.SetScissors(stackalloc Rectangle<int>[] { new Rectangle<int>(0, 0, dstWidth, dstHeight) });
-            _pipeline.SetViewports(viewports);
-            _pipeline.SetPrimitiveTopology(PrimitiveTopology.TriangleStrip);
+            _pipeline.SetRenderTarget(dst, (uint)dstWidth, (uint)dstHeight, false);
+            _pipeline.SetScissors(stackalloc Rectangle<int>[] { new Rectangle<int>(0, 0, dstWidth, dstHeight) }, false);
+            _pipeline.SetViewports(viewports, false);
+            _pipeline.SetPrimitiveTopology(PrimitiveTopology.TriangleStrip, false);
 
             var aspectFlags = src.Info.Format.ConvertAspectFlags();
 
@@ -589,12 +589,12 @@ namespace Ryujinx.Graphics.Vulkan
 
             if (isDepth)
             {
-                _pipeline.SetProgram(src.Info.Target.IsMultisample() ? _programDepthBlitMs : _programDepthBlit);
+                _pipeline.SetProgram(src.Info.Target.IsMultisample() ? _programDepthBlitMs : _programDepthBlit, false);
                 _pipeline.SetDepthTest(new DepthTestDescriptor(true, true, CompareOp.Always));
             }
             else
             {
-                _pipeline.SetProgram(src.Info.Target.IsMultisample() ? _programStencilBlitMs : _programStencilBlit);
+                _pipeline.SetProgram(src.Info.Target.IsMultisample() ? _programStencilBlitMs : _programStencilBlit, false);
                 _pipeline.SetStencilTest(CreateStencilTestDescriptor(true));
             }
 
@@ -684,11 +684,11 @@ namespace Ryujinx.Graphics.Vulkan
                 program = _programColorClearF;
             }
 
-            _pipeline.SetProgram(program);
-            _pipeline.SetRenderTarget(dst, (uint)dstWidth, (uint)dstHeight);
-            _pipeline.SetRenderTargetColorMasks(new[] { componentMask });
-            _pipeline.SetViewports(viewports);
-            _pipeline.SetScissors(stackalloc Rectangle<int>[] { scissor });
+            _pipeline.SetProgram(program, false);
+            _pipeline.SetRenderTarget(dst, (uint)dstWidth, (uint)dstHeight, false);
+            _pipeline.SetRenderTargetColorMasks(new[] { componentMask }, false);
+            _pipeline.SetViewports(viewports, false);
+            _pipeline.SetScissors(stackalloc Rectangle<int>[] { scissor }, false);
             _pipeline.SetPrimitiveTopology(PrimitiveTopology.TriangleStrip);
             _pipeline.Draw(4, 1, 0, 0);
             _pipeline.Finish();
@@ -731,12 +731,12 @@ namespace Ryujinx.Graphics.Vulkan
                 0f,
                 1f);
 
-            _pipeline.SetProgram(_programDepthStencilClear);
-            _pipeline.SetRenderTarget(dst, (uint)dstWidth, (uint)dstHeight);
-            _pipeline.SetViewports(viewports);
-            _pipeline.SetScissors(stackalloc Rectangle<int>[] { scissor });
-            _pipeline.SetPrimitiveTopology(PrimitiveTopology.TriangleStrip);
-            _pipeline.SetDepthTest(new DepthTestDescriptor(true, depthMask, CompareOp.Always));
+            _pipeline.SetProgram(_programDepthStencilClear, false);
+            _pipeline.SetRenderTarget(dst, (uint)dstWidth, (uint)dstHeight, false);
+            _pipeline.SetViewports(viewports, false);
+            _pipeline.SetScissors(stackalloc Rectangle<int>[] { scissor }, false);
+            _pipeline.SetPrimitiveTopology(PrimitiveTopology.TriangleStrip, false);
+            _pipeline.SetDepthTest(new DepthTestDescriptor(true, depthMask, CompareOp.Always), false);
             _pipeline.SetStencilTest(CreateStencilTestDescriptor(stencilMask != 0, stencilValue, 0xff, stencilMask));
             _pipeline.Draw(4, 1, 0, 0);
             _pipeline.Finish();
@@ -794,8 +794,8 @@ namespace Ryujinx.Graphics.Vulkan
                 0f,
                 1f);
 
-            pipeline.SetProgram(_programColorBlit);
-            pipeline.SetViewports(viewports);
+            pipeline.SetProgram(_programColorBlit, false);
+            pipeline.SetViewports(viewports, false);
             pipeline.SetPrimitiveTopology(PrimitiveTopology.TriangleStrip);
             pipeline.Draw(4, 1, 0, 0);
 
@@ -1129,16 +1129,16 @@ namespace Ryujinx.Graphics.Vulkan
                     0f,
                     1f);
 
-                _pipeline.SetScissors(stackalloc Rectangle<int>[] { new Rectangle<int>(0, 0, dst.Width, dst.Height) });
-                _pipeline.SetViewports(viewports);
-                _pipeline.SetPrimitiveTopology(PrimitiveTopology.TriangleStrip);
+                _pipeline.SetScissors(stackalloc Rectangle<int>[] { new Rectangle<int>(0, 0, dst.Width, dst.Height) }, false);
+                _pipeline.SetViewports(viewports, false);
+                _pipeline.SetPrimitiveTopology(PrimitiveTopology.TriangleStrip, false);
 
                 for (int z = 0; z < depth; z++)
                 {
                     var srcView = Create2DLayerView(src, srcLayer + z, 0);
                     var dstView = Create2DLayerView(dst, dstLayer + z, 0);
 
-                    _pipeline.SetRenderTarget(dstView, (uint)dst.Width, (uint)dst.Height);
+                    _pipeline.SetRenderTarget(dstView, (uint)dst.Width, (uint)dst.Height, false);
 
                     CopyMSDraw(srcView, aspectFlags, fromMS: true);
 
@@ -1251,9 +1251,9 @@ namespace Ryujinx.Graphics.Vulkan
                 1f);
 
             _pipeline.SetRenderTargetColorMasks(new uint[] { 0xf });
-            _pipeline.SetScissors(stackalloc Rectangle<int>[] { new Rectangle<int>(0, 0, dst.Width, dst.Height) });
-            _pipeline.SetViewports(viewports);
-            _pipeline.SetPrimitiveTopology(PrimitiveTopology.TriangleStrip);
+            _pipeline.SetScissors(stackalloc Rectangle<int>[] { new Rectangle<int>(0, 0, dst.Width, dst.Height) }, false);
+            _pipeline.SetViewports(viewports, false);
+            _pipeline.SetPrimitiveTopology(PrimitiveTopology.TriangleStrip, false);
 
             _pipeline.SetUniformBuffers(stackalloc[] { new BufferAssignment(0, buffer.Range) });
 
@@ -1264,7 +1264,7 @@ namespace Ryujinx.Graphics.Vulkan
                     var srcView = Create2DLayerView(src, srcLayer + z, 0);
                     var dstView = Create2DLayerView(dst, dstLayer + z, 0);
 
-                    _pipeline.SetRenderTarget(dstView, (uint)dst.Width, (uint)dst.Height);
+                    _pipeline.SetRenderTarget(dstView, (uint)dst.Width, (uint)dst.Height, false);
 
                     CopyMSDraw(srcView, aspectFlags, fromMS: false);
 
@@ -1281,7 +1281,7 @@ namespace Ryujinx.Graphics.Vulkan
             }
             else
             {
-                _pipeline.SetProgram(_programColorDrawToMs);
+                _pipeline.SetProgram(_programColorDrawToMs, false);
 
                 var format = GetFormat(src.Info.BytesPerPixel);
                 var vkFormat = FormatTable.GetFormat(format);
@@ -1358,12 +1358,12 @@ namespace Ryujinx.Graphics.Vulkan
 
             if (isDepth)
             {
-                _pipeline.SetProgram(fromMS ? _programDepthDrawToNonMs : _programDepthDrawToMs);
+                _pipeline.SetProgram(fromMS ? _programDepthDrawToNonMs : _programDepthDrawToMs, false);
                 _pipeline.SetDepthTest(new DepthTestDescriptor(true, true, CompareOp.Always));
             }
             else
             {
-                _pipeline.SetProgram(fromMS ? _programStencilDrawToNonMs : _programStencilDrawToMs);
+                _pipeline.SetProgram(fromMS ? _programStencilDrawToNonMs : _programStencilDrawToMs, false);
                 _pipeline.SetStencilTest(CreateStencilTestDescriptor(true));
             }
 

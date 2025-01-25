@@ -854,6 +854,9 @@ namespace Ryujinx.Graphics.Gpu.Engine.Threed
             enables |= (depthBias.FillEnable ? PolygonModeMask.Fill : 0);
 
             _pipeline.BiasEnable = enables;
+            _pipeline.DepthBiasUnits = units / 2f;
+            _pipeline.DepthBiasFactor = factor;
+
             _context.Renderer.Pipeline.SetDepthBias(enables, factor, units / 2f, clamp);
         }
 
@@ -1026,7 +1029,6 @@ namespace Ryujinx.Graphics.Gpu.Engine.Threed
             float width = _state.State.LineWidthSmooth;
             bool smooth = _state.State.LineSmoothEnable;
 
-            _pipeline.LineWidth = width;
             _context.Renderer.Pipeline.SetLineParameters(width, smooth);
         }
 
@@ -1196,9 +1198,16 @@ namespace Ryujinx.Graphics.Gpu.Engine.Threed
             var yControl = _state.State.YControl;
             var face = _state.State.FaceState;
 
-            _pipeline.CullEnable = face.CullEnable;
-            _pipeline.CullMode = face.CullFace;
-            _context.Renderer.Pipeline.SetFaceCulling(face.CullEnable, face.CullFace);
+            if (face.CullEnable)
+            {
+                _pipeline.CullMode = face.CullFace;
+                _context.Renderer.Pipeline.SetFaceCulling(face.CullFace);
+            }
+            else
+            {
+                _pipeline.CullMode = Face.None;
+                _context.Renderer.Pipeline.SetFaceCulling(Face.None);
+            }
 
             UpdateFrontFace(yControl, face.FrontFace);
         }
@@ -1388,6 +1397,8 @@ namespace Ryujinx.Graphics.Gpu.Engine.Threed
             bool alphaToCoverageEnable = (_state.State.MultisampleControl & 1) != 0;
             bool alphaToOneEnable = (_state.State.MultisampleControl & 0x10) != 0;
 
+            _pipeline.AlphaToCoverageEnable = alphaToCoverageEnable;
+            _pipeline.AlphaToOneEnable = alphaToOneEnable;
             _context.Renderer.Pipeline.SetMultisampleState(new MultisampleDescriptor(
                 alphaToCoverageEnable,
                 _state.State.AlphaToCoverageDitherEnable,

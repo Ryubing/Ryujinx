@@ -238,6 +238,7 @@ namespace Ryujinx.Graphics.Vulkan
                 Face.Back => CullModeFlags.BackBit,
                 Face.Front => CullModeFlags.FrontBit,
                 Face.FrontAndBack => CullModeFlags.FrontAndBack,
+                Face.None => CullModeFlags.None,
                 _ => LogInvalidAndReturn(face, nameof(Face), CullModeFlags.BackBit),
             };
         }
@@ -307,6 +308,25 @@ namespace Ryujinx.Graphics.Vulkan
                 GAL.PrimitiveTopology.Quads => throw new NotSupportedException("Quad topology is not available in Vulkan."),
                 GAL.PrimitiveTopology.QuadStrip => throw new NotSupportedException("QuadStrip topology is not available in Vulkan."),
                 _ => LogInvalidAndReturn(topology, nameof(GAL.PrimitiveTopology), PrimitiveTopology.TriangleList),
+            };
+        }
+
+        public static PrimitiveTopology ConvertToClass(this PrimitiveTopology topology)
+        {
+            return topology switch
+            {
+                PrimitiveTopology.PointList => PrimitiveTopology.PointList,
+                PrimitiveTopology.LineList or
+                    PrimitiveTopology.LineStrip or
+                    PrimitiveTopology.LineListWithAdjacency or
+                    PrimitiveTopology.LineStripWithAdjacency => PrimitiveTopology.LineList,
+                PrimitiveTopology.TriangleList or
+                    PrimitiveTopology.TriangleStrip or
+                    PrimitiveTopology.TriangleFan or
+                    PrimitiveTopology.TriangleListWithAdjacency or
+                    PrimitiveTopology.TriangleStripWithAdjacency => PrimitiveTopology.TriangleStrip,
+                PrimitiveTopology.PatchList => PrimitiveTopology.PatchList,
+                _ => LogInvalidAndReturn(topology, nameof(PrimitiveTopology), PrimitiveTopology.TriangleStrip),
             };
         }
 
