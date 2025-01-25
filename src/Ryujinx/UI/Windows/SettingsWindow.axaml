@@ -11,7 +11,7 @@
     xmlns:settings="clr-namespace:Ryujinx.Ava.UI.Views.Settings"
     xmlns:helpers="clr-namespace:Ryujinx.Ava.UI.Helpers"
     Width="1100"
-    Height="768"
+    Height="850"
     MinWidth="800"
     MinHeight="480"
     WindowStartupLocation="CenterOwner"

@@ -3,6 +3,7 @@ using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
 using FluentAvalonia.UI.Controls;
 using Ryujinx.Ava.UI.Helpers;
+using Ryujinx.Ava.Input;
 using Ryujinx.Ava.UI.Models.Input;
 using Ryujinx.Ava.UI.Views.Input;
 
@@ -10,8 +11,30 @@ namespace Ryujinx.Ava.UI.ViewModels.Input
 {
     public partial class ControllerInputViewModel : BaseModel
     {
-        [ObservableProperty] private GamepadInputConfig _config;
+        private GamepadInputConfig _config;
+        public GamepadInputConfig Config
+        {
+            get => _config;
+            set
+            {
+                _config = value;
 
+                OnPropertyChanged();
+            }
+        }
+
+        private StickVisualizer _visualizer;
+        public StickVisualizer Visualizer
+        {
+            get => _visualizer;
+            set
+            {
+                _visualizer = value;
+
+                OnPropertyChanged();
+            }
+        }
+        
         private bool _isLeft;
         public bool IsLeft
         {
@@ -37,14 +60,15 @@ namespace Ryujinx.Ava.UI.ViewModels.Input
         }
 
         public bool HasSides => IsLeft ^ IsRight;
-
+        
         [ObservableProperty] private SvgImage _image;
-
+        
         public InputViewModel ParentModel { get; }
-
-        public ControllerInputViewModel(InputViewModel model, GamepadInputConfig config)
+        
+        public ControllerInputViewModel(InputViewModel model, GamepadInputConfig config, StickVisualizer visualizer)
         {
             ParentModel = model;
+            Visualizer = visualizer;
             model.NotifyChangesEvent += OnParentModelChanged;
             OnParentModelChanged();
             Config = config;
@@ -59,7 +83,7 @@ namespace Ryujinx.Ava.UI.ViewModels.Input
         {
             await RumbleInputView.Show(this);
         }
-
+        
         public RelayCommand LedDisabledChanged => Commands.Create(() =>
         {
             if (!Config.EnableLedChanging) return;
