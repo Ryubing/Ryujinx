@@ -370,6 +370,11 @@ namespace Ryujinx.Ava.Utilities.Configuration
         /// Enable or disable mouse support (Independent from controllers binding)
         /// </summary>
         public bool EnableMouse { get; set; }
+        
+        /// <summary>
+        /// Enable or disable automatic controller assignment for players
+        /// </summary>
+        public bool EnableAutoAssign { get; set; }
 
         /// <summary>
         /// Hotkey Keyboard Bindings

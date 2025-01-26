@@ -851,8 +851,8 @@ namespace Ryujinx.Ava.UI.ViewModels.Input
                     newConfig[i] = config;
                 }
             }
-
-            _mainWindow.ViewModel.AppHost?.NpadManager.ReloadConfiguration(newConfig, ConfigurationState.Instance.Hid.EnableKeyboard, ConfigurationState.Instance.Hid.EnableMouse);
+            
+            _mainWindow.ViewModel.AppHost?.NpadManager.ReloadConfiguration(newConfig, ConfigurationState.Instance.Hid.EnableKeyboard, ConfigurationState.Instance.Hid.EnableMouse, ConfigurationState.Instance.Hid.EnableAutoAssign);
 
             // Atomically replace and signal input change.
             // NOTE: Do not modify InputConfig.Value directly as other code depends on the on-change event.

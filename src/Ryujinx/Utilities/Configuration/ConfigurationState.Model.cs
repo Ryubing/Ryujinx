@@ -432,6 +432,11 @@ namespace Ryujinx.Ava.Utilities.Configuration
             /// Enable or disable mouse support (Independent from controllers binding)
             /// </summary>
             public ReactiveObject<bool> EnableMouse { get; private set; }
+            
+            /// <summary>
+            /// Enable or disable auto-assigning controllers to players
+            /// </summary>
+            public ReactiveObject<bool> EnableAutoAssign { get; private set; }
 
             /// <summary>
             /// Hotkey Keyboard Bindings
@@ -449,6 +454,7 @@ namespace Ryujinx.Ava.Utilities.Configuration
             {
                 EnableKeyboard = new ReactiveObject<bool>();
                 EnableMouse = new ReactiveObject<bool>();
+                EnableAutoAssign = new ReactiveObject<bool>();
                 Hotkeys = new ReactiveObject<KeyboardHotkeys>();
                 InputConfig = new ReactiveObject<List<InputConfig>>();
             }

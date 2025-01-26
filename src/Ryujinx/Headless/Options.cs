@@ -27,6 +27,9 @@ namespace Ryujinx.Headless
             
             if (NeedsOverride(nameof(EnableMouse)))
                 EnableMouse = configurationState.Hid.EnableMouse;
+            
+            if (NeedsOverride(nameof(EnableAutoAssign)))
+                EnableAutoAssign = configurationState.Hid.EnableAutoAssign;
 
             if (NeedsOverride(nameof(HideCursorMode)))
                 HideCursorMode = configurationState.HideCursor;
@@ -273,6 +276,9 @@ namespace Ryujinx.Headless
 
         [Option("enable-mouse", Required = false, Default = false, HelpText = "Enable or disable mouse support.")]
         public bool EnableMouse { get; set; }
+        
+        [Option("enable-auto-assign", Required = false, Default = false, HelpText = "Enable or disable auto-assigning controllers to players.")]
+        public bool EnableAutoAssign { get; set; }
 
         [Option("hide-cursor", Required = false, Default = HideCursorMode.OnIdle, HelpText = "Change when the cursor gets hidden.")]
         public HideCursorMode HideCursorMode { get; set; }

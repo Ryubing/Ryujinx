@@ -1,5 +1,8 @@
 using Ryujinx.Common.Configuration.Hid;
 using Ryujinx.Common.Configuration.Hid.Controller;
+using Ryujinx.Common.Configuration.Hid.Controller.Motion;
+using ConfigGamepadInputId = Ryujinx.Common.Configuration.Hid.Controller.GamepadInputId;
+using ConfigStickInputId = Ryujinx.Common.Configuration.Hid.Controller.StickInputId;
 using Ryujinx.Common.Configuration.Hid.Keyboard;
 using Ryujinx.HLE.HOS.Services.Hid;
 using System;
@@ -12,6 +15,7 @@ using CemuHookClient = Ryujinx.Input.Motion.CemuHook.Client;
 using ControllerType = Ryujinx.Common.Configuration.Hid.ControllerType;
 using PlayerIndex = Ryujinx.HLE.HOS.Services.Hid.PlayerIndex;
 using Switch = Ryujinx.HLE.Switch;
+
 
 namespace Ryujinx.Input.HLE
 {
@@ -35,6 +39,7 @@ namespace Ryujinx.Input.HLE
         private List<InputConfig> _inputConfig;
         private bool _enableKeyboard;
         private bool _enableMouse;
+        private bool _enableAutoAssign;
         private Switch _device;
 
         public NpadManager(IGamepadDriver keyboardDriver, IGamepadDriver gamepadDriver, IGamepadDriver mouseDriver)
@@ -83,14 +88,14 @@ namespace Ryujinx.Input.HLE
                     }
                 }
 
-                ReloadConfiguration(_inputConfig, _enableKeyboard, _enableMouse);
+                ReloadConfiguration(_inputConfig, _enableKeyboard, _enableMouse, _enableAutoAssign);
             }
         }
 
         private void HandleOnGamepadConnected(string id)
         {
             // Force input reload
-            ReloadConfiguration(_inputConfig, _enableKeyboard, _enableMouse);
+            ReloadConfiguration(_inputConfig, _enableKeyboard, _enableMouse, _enableAutoAssign);
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
@@ -117,7 +122,7 @@ namespace Ryujinx.Input.HLE
             return controller.GamepadDriver != null;
         }
 
-        public void ReloadConfiguration(List<InputConfig> inputConfig, bool enableKeyboard, bool enableMouse)
+        public void ReloadConfiguration(List<InputConfig> inputConfig, bool enableKeyboard, bool enableMouse, bool enableAutoAssign)
         {
             lock (_lock)
             {
@@ -125,50 +130,176 @@ namespace Ryujinx.Input.HLE
 
                 List<InputConfig> validInputs = new();
 
-                foreach (InputConfig inputConfigEntry in inputConfig)
+                // if auto assign is disabled, we want to keep the old logic with profiles.
+                if (!enableAutoAssign)
                 {
-                    NpadController controller;
-                    int index = (int)inputConfigEntry.PlayerIndex;
+                    foreach (InputConfig inputConfigEntry in inputConfig)
+                    {
+                        NpadController controller;
+                        int index = (int)inputConfigEntry.PlayerIndex;
 
-                    if (oldControllers[index] != null)
-                    {
-                        // Try reuse the existing controller.
-                        controller = oldControllers[index];
-                        oldControllers[index] = null;
-                    }
-                    else
-                    {
-                        controller = new(_cemuHookClient);
-                    }
+                        if (oldControllers[index] != null)
+                        {
+                            // Try reuse the existing controller.
+                            controller = oldControllers[index];
+                            oldControllers[index] = null;
+                        }
+                        else
+                        {
+                            controller = new(_cemuHookClient);
+                        }
 
-                    bool isValid = DriverConfigurationUpdate(ref controller, inputConfigEntry);
+                        bool isValid = DriverConfigurationUpdate(ref controller, inputConfigEntry);
 
-                    if (!isValid)
-                    {
-                        _controllers[index] = null;
-                        controller.Dispose();
-                    }
-                    else
-                    {
-                        _controllers[index] = controller;
-                        validInputs.Add(inputConfigEntry);
+                        if (!isValid)
+                        {
+                            _controllers[index] = null;
+                            controller.Dispose();
+                        }
+                        else
+                        {
+                            _controllers[index] = controller;
+                            validInputs.Add(inputConfigEntry);
+                        }
                     }
                 }
-
+                else
+                {
+                    List<IGamepad> controllers = _gamepadDriver.GetGamepads().ToList();
+                    
+                    foreach (IGamepad activeController in controllers)
+                    {
+                        NpadController controller;
+                        int index = controllers.FindIndex(x => x == activeController);
+                
+                        // TODO: Implement a function to determine if pro controller or single joycon (L/R) and to create the appropriate config.
+                        // Also if old controller exists, try to reuse it (and create their config too).
+                        bool isNintendoStyle = controllers.FirstOrDefault(x => x.Id == activeController.Id).Name.Contains("Nintendo");
+                        string id = activeController.Id.Split(" ")[0];
+                        InputConfig config = new StandardControllerInputConfig
+                        {
+                            Version = InputConfig.CurrentVersion,
+                            Backend = InputBackendType.GamepadSDL2,
+                            Id = id,
+                            ControllerType = ControllerType.ProController,
+                            DeadzoneLeft = 0.1f,
+                            DeadzoneRight = 0.1f,
+                            RangeLeft = 1.0f,
+                            RangeRight = 1.0f,
+                            TriggerThreshold = 0.5f,
+                            LeftJoycon = new LeftJoyconCommonConfig<ConfigGamepadInputId>
+                            {
+                                DpadUp = ConfigGamepadInputId.DpadUp,
+                                DpadDown = ConfigGamepadInputId.DpadDown,
+                                DpadLeft = ConfigGamepadInputId.DpadLeft,
+                                DpadRight = ConfigGamepadInputId.DpadRight,
+                                ButtonMinus = ConfigGamepadInputId.Minus,
+                                ButtonL = ConfigGamepadInputId.LeftShoulder,
+                                ButtonZl = ConfigGamepadInputId.LeftTrigger,
+                                ButtonSl = ConfigGamepadInputId.Unbound,
+                                ButtonSr = ConfigGamepadInputId.Unbound,
+                            },
+                            LeftJoyconStick = new JoyconConfigControllerStick<ConfigGamepadInputId, ConfigStickInputId>
+                            {
+                                Joystick = ConfigStickInputId.Left,
+                                StickButton = ConfigGamepadInputId.LeftStick,
+                                InvertStickX = false,
+                                InvertStickY = false,
+                            },
+                            RightJoycon = new RightJoyconCommonConfig<ConfigGamepadInputId>
+                            {
+                                ButtonA = isNintendoStyle ? ConfigGamepadInputId.A : ConfigGamepadInputId.B,
+                                ButtonB = isNintendoStyle ? ConfigGamepadInputId.B : ConfigGamepadInputId.A,
+                                ButtonX = isNintendoStyle ? ConfigGamepadInputId.X : ConfigGamepadInputId.Y,
+                                ButtonY = isNintendoStyle ? ConfigGamepadInputId.Y : ConfigGamepadInputId.X,
+                                ButtonPlus = ConfigGamepadInputId.Plus,
+                                ButtonR = ConfigGamepadInputId.RightShoulder,
+                                ButtonZr = ConfigGamepadInputId.RightTrigger,
+                                ButtonSl = ConfigGamepadInputId.Unbound,
+                                ButtonSr = ConfigGamepadInputId.Unbound,
+                            },
+                            RightJoyconStick = new JoyconConfigControllerStick<ConfigGamepadInputId, ConfigStickInputId>
+                            {
+                                Joystick = ConfigStickInputId.Right,
+                                StickButton = ConfigGamepadInputId.RightStick,
+                                InvertStickX = false,
+                                InvertStickY = false,
+                            },
+                            Motion = new StandardMotionConfigController
+                            {
+                                MotionBackend = MotionInputBackendType.GamepadDriver,
+                                EnableMotion = true,
+                                Sensitivity = 100,
+                                GyroDeadzone = 1,
+                            },
+                            Rumble = new RumbleConfigController
+                            {
+                                StrongRumble = 1f,
+                                WeakRumble = 1f,
+                                EnableRumble = false,
+                            },
+                            Led = new LedConfigController
+                            {
+                                EnableLed = false,
+                                TurnOffLed = false,
+                                UseRainbow = false,
+                                LedColor = 0,
+                            },
+                        };
+                        
+                        config.PlayerIndex = (Common.Configuration.Hid.PlayerIndex)index;
+                        
+                        if (oldControllers[index] != null)
+                        {
+                            // Try reuse the existing controller.
+                            controller = oldControllers[index];
+                            oldControllers[index] = null;
+                        }
+                        else
+                        {
+                            controller = new(_cemuHookClient);
+                        }
+                        
+                        // TODO: call function to get config from controller here
+                
+                        bool isValid = DriverConfigurationUpdate(ref controller, config);
+                
+                        if (!isValid)
+                        {
+                            _controllers[index] = null;
+                            controller.Dispose();
+                        }
+                        else
+                        {
+                            _controllers[index] = controller;
+                            validInputs.Add(config);
+                        }
+                    }
+                }
+                
                 for (int i = 0; i < oldControllers.Length; i++)
                 {
                     // Disconnect any controllers that weren't reused by the new configuration.
-
+                
                     oldControllers[i]?.Dispose();
                     oldControllers[i] = null;
                 }
-
-                _inputConfig = inputConfig;
+                
+                _inputConfig = (enableAutoAssign) ? validInputs : inputConfig;
                 _enableKeyboard = enableKeyboard;
                 _enableMouse = enableMouse;
+                _enableAutoAssign = enableAutoAssign;
 
                 _device.Hid.RefreshInputConfig(validInputs);
+                
             }
+        }
+
+        private InputConfig CreateConfigFromController(IGamepad controller)
+        {
+            InputConfig config;
+            
+            return null;
         }
 
         public void UnblockInputUpdates()
@@ -192,12 +323,12 @@ namespace Ryujinx.Input.HLE
             }
         }
 
-        public void Initialize(Switch device, List<InputConfig> inputConfig, bool enableKeyboard, bool enableMouse)
+        public void Initialize(Switch device, List<InputConfig> inputConfig, bool enableKeyboard, bool enableMouse, bool enableAutoAssign)
         {
             _device = device;
             _device.Configuration.RefreshInputConfig = RefreshInputConfigForHLE;
 
-            ReloadConfiguration(inputConfig, enableKeyboard, enableMouse);
+            ReloadConfiguration(inputConfig, enableKeyboard, enableMouse, enableAutoAssign);
         }
 
         public void Update(float aspectRatio = 1)

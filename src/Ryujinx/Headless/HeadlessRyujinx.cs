@@ -44,6 +44,7 @@ namespace Ryujinx.Headless
         private static List<InputConfig> _inputConfiguration = [];
         private static bool _enableKeyboard;
         private static bool _enableMouse;
+        private static bool _enableAutoAssign;
 
         private static readonly InputConfigJsonSerializerContext _serializerContext = new(JsonHelper.GetDefaultSerializerOptions());
 
@@ -228,6 +229,7 @@ namespace Ryujinx.Headless
             _inputConfiguration ??= [];
             _enableKeyboard = option.EnableKeyboard;
             _enableMouse = option.EnableMouse;
+            _enableAutoAssign = option.EnableAutoAssign;
             
             LoadPlayerConfiguration(option.InputProfile1Name, option.InputId1, PlayerIndex.Player1);
             LoadPlayerConfiguration(option.InputProfile2Name, option.InputId2, PlayerIndex.Player2); 
@@ -368,7 +370,7 @@ namespace Ryujinx.Headless
 
             DisplaySleep.Prevent();
 
-            _window.Initialize(_emulationContext, _inputConfiguration, _enableKeyboard, _enableMouse);
+            _window.Initialize(_emulationContext, _inputConfiguration, _enableKeyboard, _enableMouse, _enableAutoAssign);
 
             _window.Execute();
 

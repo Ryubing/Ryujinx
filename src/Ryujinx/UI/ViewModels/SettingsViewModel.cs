@@ -128,6 +128,7 @@ namespace Ryujinx.Ava.UI.ViewModels
         public bool EnableDockedMode { get; set; }
         public bool EnableKeyboard { get; set; }
         public bool EnableMouse { get; set; }
+        public bool EnableAutoAssign { get; set; }
         public VSyncMode VSyncMode
         {
             get => _vSyncMode;
@@ -510,6 +511,7 @@ namespace Ryujinx.Ava.UI.ViewModels
             EnableDockedMode = config.System.EnableDockedMode;
             EnableKeyboard = config.Hid.EnableKeyboard;
             EnableMouse = config.Hid.EnableMouse;
+            EnableAutoAssign = config.Hid.EnableAutoAssign;
 
             // Keyboard Hotkeys
             KeyboardHotkey = new HotkeyConfig(config.Hid.Hotkeys.Value);
@@ -617,6 +619,7 @@ namespace Ryujinx.Ava.UI.ViewModels
             config.System.EnableDockedMode.Value = EnableDockedMode;
             config.Hid.EnableKeyboard.Value = EnableKeyboard;
             config.Hid.EnableMouse.Value = EnableMouse;
+            config.Hid.EnableAutoAssign.Value = EnableAutoAssign;
 
             // Keyboard Hotkeys
             config.Hid.Hotkeys.Value = KeyboardHotkey.GetConfig();

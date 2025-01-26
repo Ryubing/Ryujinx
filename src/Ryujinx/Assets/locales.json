@@ -148,6 +148,31 @@
       }
     },
     {
+      "ID": "SettingsTabInputAutoAssign",
+      "Translations": {
+        "ar_SA": "",
+        "de_DE": "",
+        "el_GR": "",
+        "en_US": "Auto-assign controllers",
+        "es_ES": "",
+        "fr_FR": "",
+        "he_IL": "",
+        "it_IT": "Assegnamento controller automatico",
+        "ja_JP": "",
+        "ko_KR": "",
+        "no_NO": "",
+        "pl_PL": "",
+        "pt_BR": "",
+        "ru_RU": "",
+        "sv_SE": "",
+        "th_TH": "",
+        "tr_TR": "",
+        "uk_UA": "",
+        "zh_CN": "",
+        "zh_TW": ""
+      }
+    },
+    {
       "ID": "SettingsTabSystemMemoryManagerMode",
       "Translations": {
         "ar_SA": "وضع إدارة الذاكرة:",
@@ -15320,6 +15345,31 @@
         "uk_UA": "Підтримка прямого доступу до миші (HID). Надає іграм доступ до миші, як пристрій вказування.\n\nПрацює тільки з іграми, які підтримують мишу на обладнанні Switch (таких небагато).\n\nФункціонал сенсорного екрану може не працювати, якщо ця функція ввімкнена.\n\nЗалиште вимкненим, якщо не впевнені.",
         "zh_CN": "直接鼠标访问(HID)支持，游戏可以直接访问鼠标作为指针输入设备。\n\n只适用于在 Switch 硬件上原生支持鼠标控制的游戏，这种游戏很少。\n\n启用后，触屏功能可能无法正常工作。\n\n如果不确定，请保持关闭状态。",
         "zh_TW": "支援滑鼠直接存取 (HID)。遊戲可將滑鼠作為指向裝置使用。\n\n僅適用於在 Switch 硬體上原生支援滑鼠控制的遊戲，這類遊戲很少。\n\n啟用後，觸控螢幕功能可能無法使用。\n\n如果不確定，請保持關閉狀態。"
+      }
+    },
+    {
+      "ID": "AutoAssignTooltip",
+      "Translations": {
+        "ar_SA": "",
+        "de_DE": "",
+        "el_GR": "",
+        "en_US": "Automatic controllers assignment support. Automatically assigns connected controllers to each player.\n\nThis feature may override custom player-to-controller assignments.\n\nLeave OFF if you prefer to manually assign controllers.",
+        "es_ES": "",
+        "fr_FR": "",
+        "he_IL": "",
+        "it_IT": "Supporto per l'assegnazione automatica dei controller. Assegna automaticamente i controller connessi a ciascun giocatore.\\n\\nQuesta funzionalità potrebbe sovrascrivere le configurazioni personalizzate controller-giocatore.\\n\\nLascia disattivato se preferisci assegnare i controller manualmente.",
+        "ja_JP": "",
+        "ko_KR": "",
+        "no_NO": "",
+        "pl_PL": "",
+        "pt_BR": "",
+        "ru_RU": "",
+        "sv_SE": "",
+        "th_TH": "",
+        "tr_TR": "",
+        "uk_UA": "",
+        "zh_CN": "",
+        "zh_TW": "。"
       }
     },
     {
