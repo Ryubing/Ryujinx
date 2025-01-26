@@ -313,6 +313,7 @@
                         <TextBlock Text="{ext:Locale SettingsTabSystemIgnoreMissingServices}" />
                     </CheckBox>
                     <CheckBox 
+                        IsEnabled="{Binding !EnableAutoAssign}"
                         IsChecked="{Binding IgnoreApplet}"
                         ToolTip.Tip="{ext:Locale IgnoreAppletTooltip}">
                         <TextBlock Text="{ext:Locale SettingsTabSystemIgnoreApplet}" />

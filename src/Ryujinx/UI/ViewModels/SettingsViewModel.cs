@@ -638,7 +638,7 @@ namespace Ryujinx.Ava.UI.ViewModels
             config.System.EnableFsIntegrityChecks.Value = EnableFsIntegrityChecks;
             config.System.DramSize.Value = DramSize;
             config.System.IgnoreMissingServices.Value = IgnoreMissingServices;
-            config.System.IgnoreApplet.Value = IgnoreApplet;
+            config.System.IgnoreApplet.Value = (EnableAutoAssign) || IgnoreApplet;
 
             // CPU
             config.System.EnablePtc.Value = EnablePptc;

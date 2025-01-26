@@ -175,7 +175,6 @@ namespace Ryujinx.HLE.HOS.Services.Hid
 
         private void Remap()
         {
-            Logger.Warning?.Print(LogClass.Hid, $"Connected controllers");
             // Remap/Init if necessary
             for (int i = 0; i < MaxControllers; ++i)
             {

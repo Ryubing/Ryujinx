@@ -173,7 +173,7 @@ namespace Ryujinx.Input.HLE
                         NpadController controller;
                         int index = controllers.FindIndex(x => x == activeController);
                 
-                        // TODO: Implement a function to determine if pro controller or single joycon (L/R) and to create the appropriate config.
+                        // TODO: Implement a function to determine if pro controller or single joycon (L/R) and create the appropriate config.
                         // Also if old controller exists, try to reuse it (and create their config too).
                         bool isNintendoStyle = controllers.FirstOrDefault(x => x.Id == activeController.Id).Name.Contains("Nintendo");
                         string id = activeController.Id.Split(" ")[0];
