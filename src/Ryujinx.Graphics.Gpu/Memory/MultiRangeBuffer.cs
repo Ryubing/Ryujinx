@@ -149,7 +149,7 @@ namespace Ryujinx.Graphics.Gpu.Memory
 
             if (_dependencies != null)
             {
-                foreach (var dependency in _dependencies)
+                foreach (PhysicalDependency dependency in _dependencies)
                 {
                     if (dependency.PhysicalBuffer == buffer && dependency.VirtualOffset >= minimumVirtOffset)
                     {
@@ -231,7 +231,7 @@ namespace Ryujinx.Graphics.Gpu.Memory
         {
             if (_dependencies != null)
             {
-                foreach (var dependency in _dependencies)
+                foreach (PhysicalDependency dependency in _dependencies)
                 {
                     dependency.PhysicalBuffer.RemoveVirtualDependency(this);
                 }

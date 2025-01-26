@@ -288,7 +288,7 @@ namespace Ryujinx.Graphics.Gpu.Engine.Threed
             {
                 int rtIndex = rtControl.UnpackPermutationIndex(index);
 
-                var colorState = state[rtIndex];
+                RtColorState colorState = state[rtIndex];
 
                 if (index < count && StateUpdater.IsRtEnabled(colorState))
                 {

@@ -454,7 +454,7 @@ namespace Ryujinx.Graphics.OpenGL.Image
             {
                 unsafe
                 {
-                    var dataSpan = data.Span;
+                    Span<byte> dataSpan = data.Span;
                     fixed (byte* ptr = dataSpan)
                     {
                         ReadFrom((nint)ptr, dataSpan.Length);

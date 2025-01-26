@@ -41,7 +41,7 @@ namespace Ryujinx.Common.Logging.Formatters
 
             sb.Append('{');
 
-            foreach (var prop in props)
+            foreach (PropertyInfo prop in props)
             {
                 sb.Append(prop.Name);
                 sb.Append(": ");
@@ -52,7 +52,7 @@ namespace Ryujinx.Common.Logging.Formatters
 
                     if (array is not null)
                     {
-                        foreach (var item in array)
+                        foreach (object? item in array)
                         {
                             sb.Append(item);
                             sb.Append(", ");

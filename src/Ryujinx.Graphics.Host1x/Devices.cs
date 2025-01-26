@@ -20,7 +20,7 @@ namespace Ryujinx.Graphics.Host1x
 
         public void Dispose()
         {
-            foreach (var device in _devices.Values)
+            foreach (IDeviceState device in _devices.Values)
             {
                 if (device is ThiDevice thi)
                 {

@@ -21,7 +21,7 @@ namespace Ryujinx.Graphics.Metal
 
             MTLSamplerBorderColor borderColor = GetConstrainedBorderColor(info.BorderColor, out _);
 
-            using var descriptor = new MTLSamplerDescriptor
+            using MTLSamplerDescriptor descriptor = new MTLSamplerDescriptor
             {
                 BorderColor = borderColor,
                 MinFilter = minFilter,
@@ -38,7 +38,7 @@ namespace Ryujinx.Graphics.Metal
                 SupportArgumentBuffers = true
             };
 
-            var sampler = device.NewSamplerState(descriptor);
+            MTLSamplerState sampler = device.NewSamplerState(descriptor);
 
             _sampler = new Auto<DisposableSampler>(new DisposableSampler(sampler));
         }

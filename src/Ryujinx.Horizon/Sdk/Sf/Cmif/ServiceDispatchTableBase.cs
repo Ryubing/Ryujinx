@@ -35,9 +35,9 @@ namespace Ryujinx.Horizon.Sdk.Sf.Cmif
             ReadOnlySpan<byte> inMessageRawData = inRawData[Unsafe.SizeOf<CmifInHeader>()..];
             uint commandId = inHeader.CommandId;
 
-            var outHeader = Span<CmifOutHeader>.Empty;
+            Span<CmifOutHeader> outHeader = Span<CmifOutHeader>.Empty;
 
-            if (!entries.TryGetValue((int)commandId, out var commandHandler))
+            if (!entries.TryGetValue((int)commandId, out CommandHandler commandHandler))
             {
                 if (HorizonStatic.Options.IgnoreMissingServices)
                 {
@@ -87,7 +87,7 @@ namespace Ryujinx.Horizon.Sdk.Sf.Cmif
 
         private static void PrepareForStubReply(scoped ref ServiceDispatchContext context, out Span<byte> outRawData)
         {
-            var response = HipcMessage.WriteResponse(context.OutMessageBuffer, 0, 0x20 / sizeof(uint), 0, 0);
+            HipcMessageData response = HipcMessage.WriteResponse(context.OutMessageBuffer, 0, 0x20 / sizeof(uint), 0, 0);
             outRawData = MemoryMarshal.Cast<uint, byte>(response.DataWords);
         }
     }

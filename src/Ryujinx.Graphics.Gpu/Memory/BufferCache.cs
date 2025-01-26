@@ -412,7 +412,7 @@ namespace Ryujinx.Graphics.Gpu.Memory
                 dstOffset += subRange.Size;
             }
 
-            foreach (var buffer in physicalBuffers)
+            foreach (Buffer buffer in physicalBuffers)
             {
                 buffer.CopyToDependantVirtualBuffer(virtualBuffer);
             }
@@ -1037,7 +1037,7 @@ namespace Ryujinx.Graphics.Gpu.Memory
         /// <param name="toDelete">List used to track entries to delete</param>
         private static void Prune(Dictionary<ulong, BufferCacheEntry> dictionary, ref List<ulong> toDelete)
         {
-            foreach (var entry in dictionary)
+            foreach (KeyValuePair<ulong, BufferCacheEntry> entry in dictionary)
             {
                 if (entry.Value.UnmappedSequence != entry.Value.Buffer.UnmappedSequence)
                 {

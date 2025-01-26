@@ -154,11 +154,11 @@ namespace Ryujinx.HLE.HOS
             timePageList.AddRange(timePa, TimeSize / KPageTableBase.PageSize);
             appletCaptureBufferPageList.AddRange(appletCaptureBufferPa, AppletCaptureBufferSize / KPageTableBase.PageSize);
 
-            var hidStorage = new SharedMemoryStorage(KernelContext, hidPageList);
-            var fontStorage = new SharedMemoryStorage(KernelContext, fontPageList);
-            var iirsStorage = new SharedMemoryStorage(KernelContext, iirsPageList);
-            var timeStorage = new SharedMemoryStorage(KernelContext, timePageList);
-            var appletCaptureBufferStorage = new SharedMemoryStorage(KernelContext, appletCaptureBufferPageList);
+            SharedMemoryStorage hidStorage = new SharedMemoryStorage(KernelContext, hidPageList);
+            SharedMemoryStorage fontStorage = new SharedMemoryStorage(KernelContext, fontPageList);
+            SharedMemoryStorage iirsStorage = new SharedMemoryStorage(KernelContext, iirsPageList);
+            SharedMemoryStorage timeStorage = new SharedMemoryStorage(KernelContext, timePageList);
+            SharedMemoryStorage appletCaptureBufferStorage = new SharedMemoryStorage(KernelContext, appletCaptureBufferPageList);
 
             HidStorage = hidStorage;
 
@@ -265,7 +265,7 @@ namespace Ryujinx.HLE.HOS
             HorizonFsClient fsClient = new(this);
 
             ServiceTable = new ServiceTable();
-            var services = ServiceTable.GetServices(new HorizonOptions
+            IEnumerable<ServiceEntry> services = ServiceTable.GetServices(new HorizonOptions
                 (Device.Configuration.IgnoreMissingServices,
                 LibHacHorizonManager.BcatClient,
                 fsClient,
@@ -273,7 +273,7 @@ namespace Ryujinx.HLE.HOS
                 Device.AudioDeviceDriver,
                 TickSource));
 
-            foreach (var service in services)
+            foreach (ServiceEntry service in services)
             {
                 const ProcessCreationFlags Flags =
                     ProcessCreationFlags.EnableAslr |
@@ -304,7 +304,7 @@ namespace Ryujinx.HLE.HOS
 
         public bool LoadKip(string kipPath)
         {
-            using var kipFile = new SharedRef<IStorage>(new LocalStorage(kipPath, FileAccess.Read));
+            using SharedRef<IStorage> kipFile = new SharedRef<IStorage>(new LocalStorage(kipPath, FileAccess.Read));
 
             return ProcessLoaderHelper.LoadKip(KernelContext, new KipExecutable(in kipFile));
         }

@@ -372,8 +372,8 @@ namespace Ryujinx.Graphics.Gpu.Shader
         {
             int totalSets = _resourceDescriptors.Length;
 
-            var descriptors = new ResourceDescriptorCollection[totalSets];
-            var usages = new ResourceUsageCollection[totalSets];
+            ResourceDescriptorCollection[] descriptors = new ResourceDescriptorCollection[totalSets];
+            ResourceUsageCollection[] usages = new ResourceUsageCollection[totalSets];
 
             for (int index = 0; index < totalSets; index++)
             {

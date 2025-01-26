@@ -40,7 +40,7 @@ namespace Ryujinx.HLE.HOS.Kernel.Memory
 
                 if (result == Result.Success)
                 {
-                    foreach (var node in pageList)
+                    foreach (KPageNode node in pageList)
                     {
                         IncrementPagesReferenceCount(node.Address, node.PagesCount);
                     }

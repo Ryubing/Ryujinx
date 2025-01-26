@@ -19,7 +19,7 @@ namespace Ryujinx.Graphics.Vulkan.MoltenVK
 
         public static void Initialize()
         {
-            var configSize = (nint)Marshal.SizeOf<MVKConfiguration>();
+            IntPtr configSize = (nint)Marshal.SizeOf<MVKConfiguration>();
 
             vkGetMoltenVKConfigurationMVK(nint.Zero, out MVKConfiguration config, configSize);
 

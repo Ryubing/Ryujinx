@@ -234,7 +234,7 @@ namespace Ryujinx.Memory
 
                 nuint pa = TranslateVirtualAddressChecked(va);
 
-                var target = GetPhysicalAddressSpan(pa, data.Length);
+                Span<byte> target = GetPhysicalAddressSpan(pa, data.Length);
 
                 bool changed = !data.SequenceEqual(target);
 

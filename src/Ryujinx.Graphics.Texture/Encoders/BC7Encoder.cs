@@ -67,7 +67,7 @@ namespace Ryujinx.Graphics.Texture.Encoders
             int w = Math.Min(4, width - x);
             int h = Math.Min(4, height - y);
 
-            var dataUint = MemoryMarshal.Cast<byte, uint>(data);
+            ReadOnlySpan<uint> dataUint = MemoryMarshal.Cast<byte, uint>(data);
 
             int baseOffset = y * width + x;
 

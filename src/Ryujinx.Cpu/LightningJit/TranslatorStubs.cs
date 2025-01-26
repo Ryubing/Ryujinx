@@ -174,7 +174,7 @@ namespace Ryujinx.Cpu.LightningJit
 
                 for (int i = 0; i < _functionTable.Levels.Length; i++)
                 {
-                    ref var level = ref _functionTable.Levels[i];
+                    ref AddressTableLevel level = ref _functionTable.Levels[i];
 
                     asm.Mov(mask, level.Mask >> level.Index);
                     asm.And(index, mask, guestAddress, ArmShiftType.Lsr, level.Index);

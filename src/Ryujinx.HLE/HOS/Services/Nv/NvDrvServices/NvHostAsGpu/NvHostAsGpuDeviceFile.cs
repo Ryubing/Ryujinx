@@ -104,7 +104,7 @@ namespace Ryujinx.HLE.HOS.Services.Nv.NvDrvServices.NvHostAsGpu
 
         private NvInternalResult BindChannel(ref BindChannelArguments arguments)
         {
-            var channelDeviceFile = INvDrvServices.DeviceFileIdRegistry.GetData<NvHostChannelDeviceFile>(arguments.Fd);
+            NvHostChannelDeviceFile channelDeviceFile = INvDrvServices.DeviceFileIdRegistry.GetData<NvHostChannelDeviceFile>(arguments.Fd);
             if (channelDeviceFile == null)
             {
                 // TODO: Return invalid Fd error.
@@ -336,9 +336,9 @@ namespace Ryujinx.HLE.HOS.Services.Nv.NvDrvServices.NvHostAsGpu
 
             for (uint i = 0; i < writeEntries; i++)
             {
-                ref var region = ref arguments.Regions[(int)i];
+                ref VaRegion region = ref arguments.Regions[(int)i];
 
-                var vmRegion = _vmRegions[i];
+                VmRegion vmRegion = _vmRegions[i];
                 uint pageSize = _pageSizes[i];
 
                 region.PageSize = pageSize;

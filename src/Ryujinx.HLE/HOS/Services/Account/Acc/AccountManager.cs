@@ -191,10 +191,10 @@ namespace Ryujinx.HLE.HOS.Services.Account.Acc
 
         private void DeleteSaveData(UserId userId)
         {
-            var saveDataFilter = SaveDataFilter.Make(programId: default, saveType: default,
+            SaveDataFilter saveDataFilter = SaveDataFilter.Make(programId: default, saveType: default,
                 new LibHac.Fs.UserId((ulong)userId.High, (ulong)userId.Low), saveDataId: default, index: default);
 
-            using var saveDataIterator = new UniqueRef<SaveDataIterator>();
+            using UniqueRef<SaveDataIterator> saveDataIterator = new UniqueRef<SaveDataIterator>();
 
             _horizonClient.Fs.OpenSaveDataIterator(ref saveDataIterator.Ref, SaveDataSpaceId.User, in saveDataFilter).ThrowIfFailure();
 

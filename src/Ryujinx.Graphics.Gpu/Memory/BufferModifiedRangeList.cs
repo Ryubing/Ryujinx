@@ -117,7 +117,7 @@ namespace Ryujinx.Graphics.Gpu.Memory
             lock (_lock)
             {
                 // Slices a given region using the modified regions in the list. Calls the action for the new slices.
-                ref var overlaps = ref ThreadStaticArray<BufferModifiedRange>.Get();
+                ref BufferModifiedRange[] overlaps = ref ThreadStaticArray<BufferModifiedRange>.Get();
 
                 int count = FindOverlapsNonOverlapping(address, size, ref overlaps);
 
@@ -156,7 +156,7 @@ namespace Ryujinx.Graphics.Gpu.Memory
             lock (_lock)
             {
                 // We may overlap with some existing modified regions. They must be cut into by the new entry.
-                ref var overlaps = ref ThreadStaticArray<BufferModifiedRange>.Get();
+                ref BufferModifiedRange[] overlaps = ref ThreadStaticArray<BufferModifiedRange>.Get();
 
                 int count = FindOverlapsNonOverlapping(address, size, ref overlaps);
 
@@ -210,7 +210,7 @@ namespace Ryujinx.Graphics.Gpu.Memory
         {
             int count = 0;
 
-            ref var overlaps = ref ThreadStaticArray<BufferModifiedRange>.Get();
+            ref BufferModifiedRange[] overlaps = ref ThreadStaticArray<BufferModifiedRange>.Get();
 
             // Range list must be consistent for this operation.
             lock (_lock)
@@ -239,7 +239,7 @@ namespace Ryujinx.Graphics.Gpu.Memory
         {
             int count = 0;
 
-            ref var overlaps = ref ThreadStaticArray<BufferModifiedRange>.Get();
+            ref BufferModifiedRange[] overlaps = ref ThreadStaticArray<BufferModifiedRange>.Get();
 
             // Range list must be consistent for this operation.
             lock (_lock)
@@ -355,7 +355,7 @@ namespace Ryujinx.Graphics.Gpu.Memory
 
             int rangeCount = 0;
 
-            ref var overlaps = ref ThreadStaticArray<BufferModifiedRange>.Get();
+            ref BufferModifiedRange[] overlaps = ref ThreadStaticArray<BufferModifiedRange>.Get();
 
             // Range list must be consistent for this operation
             lock (_lock)

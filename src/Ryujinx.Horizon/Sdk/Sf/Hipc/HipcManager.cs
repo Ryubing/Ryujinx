@@ -20,7 +20,7 @@ namespace Ryujinx.Horizon.Sdk.Sf.Hipc
         {
             objectId = 0;
 
-            var domain = _manager.Domain.AllocateDomainServiceObject();
+            DomainServiceObject domain = _manager.Domain.AllocateDomainServiceObject();
             if (domain == null)
             {
                 return HipcResult.OutOfDomains;
@@ -66,7 +66,7 @@ namespace Ryujinx.Horizon.Sdk.Sf.Hipc
                 return HipcResult.TargetNotDomain;
             }
 
-            var obj = domain.GetObject(objectId);
+            ServiceObjectHolder obj = domain.GetObject(objectId);
             if (obj == null)
             {
                 return HipcResult.DomainObjectNotFound;
@@ -100,7 +100,7 @@ namespace Ryujinx.Horizon.Sdk.Sf.Hipc
         {
             clientHandle = 0;
 
-            var clone = _session.ServiceObjectHolder.Clone();
+            ServiceObjectHolder clone = _session.ServiceObjectHolder.Clone();
             if (clone == null)
             {
                 return HipcResult.DomainObjectNotFound;

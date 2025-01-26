@@ -23,7 +23,7 @@ namespace Ryujinx.Ava.UI.Helpers
         }
 
         public string this[string key] =>
-            _glyphs.TryGetValue(Enum.Parse<Glyph>(key), out var val)
+            _glyphs.TryGetValue(Enum.Parse<Glyph>(key), out string val)
                 ? val
                 : string.Empty;
 

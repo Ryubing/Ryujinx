@@ -53,15 +53,15 @@ namespace Ryujinx.Graphics.Vulkan.Effects
 
             _pipeline.Initialize();
 
-            var scalingShader = EmbeddedResources.Read("Ryujinx.Graphics.Vulkan/Effects/Shaders/FsrScaling.spv");
-            var sharpeningShader = EmbeddedResources.Read("Ryujinx.Graphics.Vulkan/Effects/Shaders/FsrSharpening.spv");
+            byte[] scalingShader = EmbeddedResources.Read("Ryujinx.Graphics.Vulkan/Effects/Shaders/FsrScaling.spv");
+            byte[] sharpeningShader = EmbeddedResources.Read("Ryujinx.Graphics.Vulkan/Effects/Shaders/FsrSharpening.spv");
 
-            var scalingResourceLayout = new ResourceLayoutBuilder()
+            ResourceLayout scalingResourceLayout = new ResourceLayoutBuilder()
                 .Add(ResourceStages.Compute, ResourceType.UniformBuffer, 2)
                 .Add(ResourceStages.Compute, ResourceType.TextureAndSampler, 1)
                 .Add(ResourceStages.Compute, ResourceType.Image, 0, true).Build();
 
-            var sharpeningResourceLayout = new ResourceLayoutBuilder()
+            ResourceLayout sharpeningResourceLayout = new ResourceLayoutBuilder()
                 .Add(ResourceStages.Compute, ResourceType.UniformBuffer, 2)
                 .Add(ResourceStages.Compute, ResourceType.UniformBuffer, 3)
                 .Add(ResourceStages.Compute, ResourceType.UniformBuffer, 4)
@@ -96,9 +96,9 @@ namespace Ryujinx.Graphics.Vulkan.Effects
                 || _intermediaryTexture.Info.Height != height
                 || !_intermediaryTexture.Info.Equals(view.Info))
             {
-                var originalInfo = view.Info;
+                TextureCreateInfo originalInfo = view.Info;
 
-                var info = new TextureCreateInfo(
+                TextureCreateInfo info = new TextureCreateInfo(
                     width,
                     height,
                     originalInfo.Depth,
@@ -142,11 +142,11 @@ namespace Ryujinx.Graphics.Vulkan.Effects
             };
 
             int rangeSize = dimensionsBuffer.Length * sizeof(float);
-            using var buffer = _renderer.BufferManager.ReserveOrCreate(_renderer, cbs, rangeSize);
+            using ScopedTemporaryBuffer buffer = _renderer.BufferManager.ReserveOrCreate(_renderer, cbs, rangeSize);
             buffer.Holder.SetDataUnchecked(buffer.Offset, dimensionsBuffer);
 
             ReadOnlySpan<float> sharpeningBufferData = stackalloc float[] { 1.5f - (Level * 0.01f * 1.5f) };
-            using var sharpeningBuffer = _renderer.BufferManager.ReserveOrCreate(_renderer, cbs, sizeof(float));
+            using ScopedTemporaryBuffer sharpeningBuffer = _renderer.BufferManager.ReserveOrCreate(_renderer, cbs, sizeof(float));
             sharpeningBuffer.Holder.SetDataUnchecked(sharpeningBuffer.Offset, sharpeningBufferData);
 
             int threadGroupWorkRegionDim = 16;

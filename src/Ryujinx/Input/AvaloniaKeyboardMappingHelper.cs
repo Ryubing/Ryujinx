@@ -150,14 +150,14 @@ namespace Ryujinx.Ava.Input
 
         static AvaloniaKeyboardMappingHelper()
         {
-            var inputKeys = Enum.GetValues<Key>();
+            Key[] inputKeys = Enum.GetValues<Key>();
 
             // NOTE: Avalonia.Input.Key is not contiguous and quite large, so use a dictionary instead of an array.
             _avaKeyMapping = new Dictionary<AvaKey, Key>();
 
-            foreach (var key in inputKeys)
+            foreach (Key key in inputKeys)
             {
-                if (TryGetAvaKey(key, out var index))
+                if (TryGetAvaKey(key, out AvaKey index))
                 {
                     _avaKeyMapping[index] = key;
                 }

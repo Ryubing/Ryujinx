@@ -73,7 +73,7 @@ namespace Ryujinx.Memory.Range
             }
             else
             {
-                var ranges = new List<MemoryRange>();
+                List<MemoryRange> ranges = [];
 
                 foreach (MemoryRange range in _ranges)
                 {

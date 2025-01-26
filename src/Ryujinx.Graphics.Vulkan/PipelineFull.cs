@@ -34,7 +34,7 @@ namespace Ryujinx.Graphics.Vulkan
 
         private void CopyPendingQuery()
         {
-            foreach (var query in _pendingQueryCopies)
+            foreach (BufferedQuery query in _pendingQueryCopies)
             {
                 query.PoolCopy(Cbs);
             }
@@ -54,7 +54,7 @@ namespace Ryujinx.Graphics.Vulkan
                 // We can't use CmdClearAttachments if not writing all components,
                 // because on Vulkan, the pipeline state does not affect clears.
                 // On proprietary Adreno drivers, CmdClearAttachments appears to execute out of order, so it's better to not use it at all.
-                var dstTexture = FramebufferParams.GetColorView(index);
+                TextureView dstTexture = FramebufferParams.GetColorView(index);
                 if (dstTexture == null)
                 {
                     return;
@@ -95,7 +95,7 @@ namespace Ryujinx.Graphics.Vulkan
                 // We can't use CmdClearAttachments if not clearing all (mask is all ones, 0xFF) or none (mask is 0) of the stencil bits,
                 // because on Vulkan, the pipeline state does not affect clears.
                 // On proprietary Adreno drivers, CmdClearAttachments appears to execute out of order, so it's better to not use it at all.
-                var dstTexture = FramebufferParams.GetDepthStencilView();
+                TextureView dstTexture = FramebufferParams.GetDepthStencilView();
                 if (dstTexture == null)
                 {
                     return;
@@ -246,7 +246,7 @@ namespace Ryujinx.Graphics.Vulkan
             AutoFlush.RegisterFlush(DrawCount);
             EndRenderPass();
 
-            foreach ((var queryPool, _) in _activeQueries)
+            foreach ((QueryPool queryPool, _) in _activeQueries)
             {
                 Gd.Api.CmdEndQuery(CommandBuffer, queryPool, 0);
             }
@@ -271,7 +271,7 @@ namespace Ryujinx.Graphics.Vulkan
 
             _activeBufferMirrors.Clear();
 
-            foreach ((var queryPool, var isOcclusion) in _activeQueries)
+            foreach ((QueryPool queryPool, bool isOcclusion) in _activeQueries)
             {
                 bool isPrecise = Gd.Capabilities.SupportsPreciseOcclusionQueries && isOcclusion;
 

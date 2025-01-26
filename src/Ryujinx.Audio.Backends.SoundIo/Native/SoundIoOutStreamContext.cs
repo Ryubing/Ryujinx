@@ -38,7 +38,7 @@ namespace Ryujinx.Audio.Backends.SoundIo.Native
             get => Marshal.PtrToStringAnsi(GetOutContext().Name);
             set
             {
-                var context = GetOutContext();
+                SoundIoOutStream context = GetOutContext();
 
                 if (_nameStored != nint.Zero && context.Name == _nameStored)
                 {
@@ -129,8 +129,8 @@ namespace Ryujinx.Audio.Backends.SoundIo.Native
 
             unsafe
             {
-                var frameCountPtr = &nativeFrameCount;
-                var arenasPtr = &arenas;
+                int* frameCountPtr = &nativeFrameCount;
+                IntPtr* arenasPtr = &arenas;
                 CheckError(soundio_outstream_begin_write(_context, (nint)arenasPtr, (nint)frameCountPtr));
 
                 frameCount = *frameCountPtr;

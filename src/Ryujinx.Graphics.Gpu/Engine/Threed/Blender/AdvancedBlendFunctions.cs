@@ -221,7 +221,7 @@ namespace Ryujinx.Graphics.Gpu.Engine.Threed.Blender
             sb.AppendLine($"private static Dictionary<Hash128, AdvancedBlendEntry> _entries = new()");
             sb.AppendLine("{");
 
-            foreach (var entry in Table)
+            foreach (AdvancedBlendUcode entry in Table)
             {
                 Hash128 hash = Hash128.ComputeHash(MemoryMarshal.Cast<uint, byte>(entry.Code));
 

@@ -122,7 +122,7 @@ namespace Ryujinx.HLE.HOS.Applets.Error
 
             if (romfs.FileExists(filePath))
             {
-                using var binaryFile = new UniqueRef<IFile>();
+                using UniqueRef<IFile> binaryFile = new UniqueRef<IFile>();
 
                 romfs.OpenFile(ref binaryFile.Ref, filePath.ToU8Span(), OpenMode.Read).ThrowIfFailure();
                 StreamReader reader = new(binaryFile.Get.AsStream(), Encoding.Unicode);

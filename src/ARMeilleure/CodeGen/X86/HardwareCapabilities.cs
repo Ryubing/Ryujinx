@@ -53,7 +53,7 @@ namespace ARMeilleure.CodeGen.X86
 
             memGetXcr0.Reprotect(0, (ulong)asmGetXcr0.Length, MemoryPermission.ReadAndExecute);
 
-            var fGetXcr0 = Marshal.GetDelegateForFunctionPointer<GetXcr0>(memGetXcr0.Pointer);
+            GetXcr0 fGetXcr0 = Marshal.GetDelegateForFunctionPointer<GetXcr0>(memGetXcr0.Pointer);
 
             return fGetXcr0();
         }

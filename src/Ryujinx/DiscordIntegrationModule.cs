@@ -14,7 +14,8 @@ namespace Ryujinx.Ava
 {
     public static class DiscordIntegrationModule
     {
-        public static Timestamps StartedAt { get; set; }
+        public static Timestamps EmulatorStartedAt { get; set; }
+        public static Timestamps GuestAppStartedAt { get; set; }
 
         private static string VersionString
             => (ReleaseInformation.IsCanaryBuild ? "Canary " : string.Empty) + $"v{ReleaseInformation.Version}"; 
@@ -43,7 +44,7 @@ namespace Ryujinx.Ava
                 },
                 Details = "Main Menu",
                 State = "Idling",
-                Timestamps = StartedAt
+                Timestamps = EmulatorStartedAt
             };
 
             ConfigurationState.Instance.EnableDiscordIntegration.Event += Update;
@@ -100,7 +101,7 @@ namespace Ryujinx.Ava
                 State = appMeta.LastPlayed.HasValue && appMeta.TimePlayed.TotalSeconds > 5
                     ? $"Total play time: {ValueFormatUtils.FormatTimeSpan(appMeta.TimePlayed)}"
                     : "Never played",
-                Timestamps = Timestamps.Now
+                Timestamps = GuestAppStartedAt ??= Timestamps.Now
             });
         }
 

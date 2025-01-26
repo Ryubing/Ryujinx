@@ -9,6 +9,7 @@ using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
+using System.Numerics;
 using System.Runtime.CompilerServices;
 using System.Threading;
 using CemuHookClient = Ryujinx.Input.Motion.CemuHook.Client;
@@ -61,7 +62,7 @@ namespace Ryujinx.Input.HLE
             lock (_lock)
             {
                 List<InputConfig> validInputs = new();
-                foreach (var inputConfigEntry in _inputConfig)
+                foreach (InputConfig inputConfigEntry in _inputConfig)
                 {
                     if (_controllers[(int)inputConfigEntry.PlayerIndex] != null)
                     {
@@ -365,7 +366,7 @@ namespace Ryujinx.Input.HLE
 
                         isJoyconPair = inputConfig.ControllerType == ControllerType.JoyconPair;
 
-                        var altMotionState = isJoyconPair ? controller.GetHLEMotionState(true) : default;
+                        SixAxisInput altMotionState = isJoyconPair ? controller.GetHLEMotionState(true) : default;
 
                         motionState = (controller.GetHLEMotionState(), altMotionState);
                     }
@@ -404,9 +405,9 @@ namespace Ryujinx.Input.HLE
 
                 if (_enableMouse)
                 {
-                    var mouse = _mouseDriver.GetGamepad("0") as IMouse;
+                    IMouse mouse = _mouseDriver.GetGamepad("0") as IMouse;
 
-                    var mouseInput = IMouse.GetMouseStateSnapshot(mouse);
+                    MouseStateSnapshot mouseInput = IMouse.GetMouseStateSnapshot(mouse);
 
                     uint buttons = 0;
 
@@ -435,7 +436,7 @@ namespace Ryujinx.Input.HLE
                         buttons |= 1 << 4;
                     }
 
-                    var position = IMouse.GetScreenPosition(mouseInput.Position, mouse.ClientSize, aspectRatio);
+                    Vector2 position = IMouse.GetScreenPosition(mouseInput.Position, mouse.ClientSize, aspectRatio);
 
                     _device.Hid.Mouse.Update((int)position.X, (int)position.Y, buttons, (int)mouseInput.Scroll.X, (int)mouseInput.Scroll.Y, true);
                 }

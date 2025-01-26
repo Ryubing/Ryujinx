@@ -115,7 +115,7 @@ namespace ARMeilleure.CodeGen.RegisterAllocators
         {
             NumberLocals(cfg, regMasks.RegistersCount);
 
-            var context = new AllocationContext(stackAlloc, regMasks, _intervals.Count);
+            AllocationContext context = new AllocationContext(stackAlloc, regMasks, _intervals.Count);
 
             BuildIntervals(cfg, context);
 

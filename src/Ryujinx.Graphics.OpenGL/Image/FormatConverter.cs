@@ -19,7 +19,7 @@ namespace Ryujinx.Graphics.OpenGL.Image
 
             if (Avx2.IsSupported)
             {
-                var mask = Vector256.Create(
+                Vector256<byte> mask = Vector256.Create(
                     (byte)3, (byte)0, (byte)1, (byte)2,
                     (byte)7, (byte)4, (byte)5, (byte)6,
                     (byte)11, (byte)8, (byte)9, (byte)10,
@@ -35,7 +35,7 @@ namespace Ryujinx.Graphics.OpenGL.Image
                 {
                     for (uint i = 0; i < sizeAligned; i += 32)
                     {
-                        var dataVec = Avx.LoadVector256(pInput + i);
+                        Vector256<byte> dataVec = Avx.LoadVector256(pInput + i);
 
                         dataVec = Avx2.Shuffle(dataVec, mask);
 
@@ -47,7 +47,7 @@ namespace Ryujinx.Graphics.OpenGL.Image
             }
             else if (Ssse3.IsSupported)
             {
-                var mask = Vector128.Create(
+                Vector128<byte> mask = Vector128.Create(
                     (byte)3, (byte)0, (byte)1, (byte)2,
                     (byte)7, (byte)4, (byte)5, (byte)6,
                     (byte)11, (byte)8, (byte)9, (byte)10,
@@ -59,7 +59,7 @@ namespace Ryujinx.Graphics.OpenGL.Image
                 {
                     for (uint i = 0; i < sizeAligned; i += 16)
                     {
-                        var dataVec = Sse2.LoadVector128(pInput + i);
+                        Vector128<byte> dataVec = Sse2.LoadVector128(pInput + i);
 
                         dataVec = Ssse3.Shuffle(dataVec, mask);
 
@@ -70,8 +70,8 @@ namespace Ryujinx.Graphics.OpenGL.Image
                 start = sizeAligned;
             }
 
-            var outSpan = MemoryMarshal.Cast<byte, uint>(output);
-            var dataSpan = MemoryMarshal.Cast<byte, uint>(data);
+            Span<uint> outSpan = MemoryMarshal.Cast<byte, uint>(output);
+            ReadOnlySpan<uint> dataSpan = MemoryMarshal.Cast<byte, uint>(data);
             for (int i = start / sizeof(uint); i < dataSpan.Length; i++)
             {
                 outSpan[i] = BitOperations.RotateLeft(dataSpan[i], 8);
@@ -88,7 +88,7 @@ namespace Ryujinx.Graphics.OpenGL.Image
 
             if (Avx2.IsSupported)
             {
-                var mask = Vector256.Create(
+                Vector256<byte> mask = Vector256.Create(
                     (byte)1, (byte)2, (byte)3, (byte)0,
                     (byte)5, (byte)6, (byte)7, (byte)4,
                     (byte)9, (byte)10, (byte)11, (byte)8,
@@ -104,7 +104,7 @@ namespace Ryujinx.Graphics.OpenGL.Image
                 {
                     for (uint i = 0; i < sizeAligned; i += 32)
                     {
-                        var dataVec = Avx.LoadVector256(pInput + i);
+                        Vector256<byte> dataVec = Avx.LoadVector256(pInput + i);
 
                         dataVec = Avx2.Shuffle(dataVec, mask);
 
@@ -116,7 +116,7 @@ namespace Ryujinx.Graphics.OpenGL.Image
             }
             else if (Ssse3.IsSupported)
             {
-                var mask = Vector128.Create(
+                Vector128<byte> mask = Vector128.Create(
                     (byte)1, (byte)2, (byte)3, (byte)0,
                     (byte)5, (byte)6, (byte)7, (byte)4,
                     (byte)9, (byte)10, (byte)11, (byte)8,
@@ -128,7 +128,7 @@ namespace Ryujinx.Graphics.OpenGL.Image
                 {
                     for (uint i = 0; i < sizeAligned; i += 16)
                     {
-                        var dataVec = Sse2.LoadVector128(pInput + i);
+                        Vector128<byte> dataVec = Sse2.LoadVector128(pInput + i);
 
                         dataVec = Ssse3.Shuffle(dataVec, mask);
 
@@ -139,8 +139,8 @@ namespace Ryujinx.Graphics.OpenGL.Image
                 start = sizeAligned;
             }
 
-            var outSpan = MemoryMarshal.Cast<byte, uint>(output);
-            var dataSpan = MemoryMarshal.Cast<byte, uint>(data);
+            Span<uint> outSpan = MemoryMarshal.Cast<byte, uint>(output);
+            ReadOnlySpan<uint> dataSpan = MemoryMarshal.Cast<byte, uint>(data);
             for (int i = start / sizeof(uint); i < dataSpan.Length; i++)
             {
                 outSpan[i] = BitOperations.RotateRight(dataSpan[i], 8);

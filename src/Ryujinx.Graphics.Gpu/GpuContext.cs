@@ -167,7 +167,7 @@ namespace Ryujinx.Graphics.Gpu
         /// <exception cref="ArgumentException">Thrown when <paramref name="pid"/> is invalid</exception>
         public MemoryManager CreateMemoryManager(ulong pid, ulong cpuMemorySize)
         {
-            if (!PhysicalMemoryRegistry.TryGetValue(pid, out var physicalMemory))
+            if (!PhysicalMemoryRegistry.TryGetValue(pid, out PhysicalMemory physicalMemory))
             {
                 throw new ArgumentException("The PID is invalid or the process was not registered", nameof(pid));
             }
@@ -183,7 +183,7 @@ namespace Ryujinx.Graphics.Gpu
         /// <exception cref="ArgumentException">Thrown when <paramref name="pid"/> is invalid</exception>
         public DeviceMemoryManager CreateDeviceMemoryManager(ulong pid)
         {
-            if (!PhysicalMemoryRegistry.TryGetValue(pid, out var physicalMemory))
+            if (!PhysicalMemoryRegistry.TryGetValue(pid, out PhysicalMemory physicalMemory))
             {
                 throw new ArgumentException("The PID is invalid or the process was not registered", nameof(pid));
             }
@@ -199,7 +199,7 @@ namespace Ryujinx.Graphics.Gpu
         /// <exception cref="ArgumentException">Thrown if <paramref name="pid"/> was already registered</exception>
         public void RegisterProcess(ulong pid, Cpu.IVirtualMemoryManagerTracked cpuMemory)
         {
-            var physicalMemory = new PhysicalMemory(this, cpuMemory);
+            PhysicalMemory physicalMemory = new PhysicalMemory(this, cpuMemory);
             if (!PhysicalMemoryRegistry.TryAdd(pid, physicalMemory))
             {
                 throw new ArgumentException("The PID was already registered", nameof(pid));
@@ -214,7 +214,7 @@ namespace Ryujinx.Graphics.Gpu
         /// <param name="pid">ID of the process</param>
         public void UnregisterProcess(ulong pid)
         {
-            if (PhysicalMemoryRegistry.TryRemove(pid, out var physicalMemory))
+            if (PhysicalMemoryRegistry.TryRemove(pid, out PhysicalMemory physicalMemory))
             {
                 physicalMemory.ShaderCache.ShaderCacheStateChanged -= ShaderCacheStateUpdate;
                 physicalMemory.Dispose();
@@ -289,7 +289,7 @@ namespace Ryujinx.Graphics.Gpu
         {
             HostInitalized.WaitOne();
 
-            foreach (var physicalMemory in PhysicalMemoryRegistry.Values)
+            foreach (PhysicalMemory physicalMemory in PhysicalMemoryRegistry.Values)
             {
                 physicalMemory.ShaderCache.Initialize(cancellationToken);
             }
@@ -329,7 +329,7 @@ namespace Ryujinx.Graphics.Gpu
         /// </summary>
         public void ProcessShaderCacheQueue()
         {
-            foreach (var physicalMemory in PhysicalMemoryRegistry.Values)
+            foreach (PhysicalMemory physicalMemory in PhysicalMemoryRegistry.Values)
             {
                 physicalMemory.ShaderCache.ProcessShaderCacheQueue();
             }
@@ -404,12 +404,12 @@ namespace Ryujinx.Graphics.Gpu
 
             if (force || _pendingSync || (syncpoint && SyncpointActions.Count > 0))
             {
-                foreach (var action in SyncActions)
+                foreach (ISyncActionHandler action in SyncActions)
                 {
                     action.SyncPreAction(syncpoint);
                 }
 
-                foreach (var action in SyncpointActions)
+                foreach (ISyncActionHandler action in SyncpointActions)
                 {
                     action.SyncPreAction(syncpoint);
                 }
@@ -450,7 +450,7 @@ namespace Ryujinx.Graphics.Gpu
             _gpuReadyEvent.Dispose();
 
             // Has to be disposed before processing deferred actions, as it will produce some.
-            foreach (var physicalMemory in PhysicalMemoryRegistry.Values)
+            foreach (PhysicalMemory physicalMemory in PhysicalMemoryRegistry.Values)
             {
                 physicalMemory.Dispose();
             }

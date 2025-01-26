@@ -1,6 +1,7 @@
 ﻿using Gommon;
 using System;
 using System.Drawing;
+using System.Threading;
 using System.Threading.Tasks;
 
 namespace Ryujinx.Common.Utilities
@@ -18,7 +19,7 @@ namespace Ryujinx.Common.Utilities
                 {
                     while (CyclingEnabled)
                     {
-                        await Task.Delay(15);
+                        await Task.Delay(20);
                         Tick();
                     }
                 });
@@ -32,29 +33,47 @@ namespace Ryujinx.Common.Utilities
         
         
         public static float Speed { get; set; } = 1;
+
+        private static readonly Lock _lock = new();
         
-        public static Color Color { get; private set; } = Color.Blue;
+        private static Color _color = Color.Blue;
+
+        public static ref Color Color
+        {
+            get
+            {
+                lock (_lock)
+                {
+                    return ref _color;
+                }
+            }
+        }
 
         public static void Tick()
         {
-            Color = HsbToRgb((Color.GetHue() + Speed) / 360);
+            lock (_lock)
+            {
+                _color = HsbToRgb((_color.GetHue() + Speed) / 360);
             
-            UpdatedHandler.Call(Color.ToArgb());
+                _updatedHandler.Call(_color.ToArgb());
+            }
         }
 
         public static void Reset()
         {
-            Color = Color.Blue;
-            UpdatedHandler.Clear();
+            _updatedHandler.Clear();
+            
+            lock (_lock)
+                _color = Color.Blue;
         }
 
         public static event Action<int> Updated
         {
-            add => UpdatedHandler.Add(value);
-            remove => UpdatedHandler.Remove(value);
+            add => _updatedHandler.Add(value);
+            remove => _updatedHandler.Remove(value);
         }
 
-        internal static Event<int> UpdatedHandler = new();
+        private static readonly Event<int> _updatedHandler = new();
 
         private static Color HsbToRgb(float hue, float saturation = 1, float brightness = 1)
         {

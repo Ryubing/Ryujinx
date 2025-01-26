@@ -126,7 +126,7 @@ namespace Ryujinx.Graphics.GAL
 
             if (Descriptors != null)
             {
-                foreach (var descriptor in Descriptors)
+                foreach (ResourceDescriptor descriptor in Descriptors)
                 {
                     hasher.Add(descriptor);
                 }

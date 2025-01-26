@@ -63,7 +63,7 @@ namespace ARMeilleure.Common
                 }
 
                 int index = _freeHint++;
-                var page = GetPage(index);
+                Span<TEntry> page = GetPage(index);
 
                 _allocated.Set(index);
 
@@ -111,7 +111,7 @@ namespace ARMeilleure.Common
                     throw new ArgumentException("Entry at the specified index was not allocated", nameof(index));
                 }
 
-                var page = GetPage(index);
+                Span<TEntry> page = GetPage(index);
 
                 return ref GetValue(page, index);
             }
@@ -136,7 +136,7 @@ namespace ARMeilleure.Common
         /// <returns>Page for the specified <see cref="index"/></returns>
         private unsafe Span<TEntry> GetPage(int index)
         {
-            var pageIndex = (int)((uint)(index & ~(_pageCapacity - 1)) >> _pageLogCapacity);
+            int pageIndex = (int)((uint)(index & ~(_pageCapacity - 1)) >> _pageLogCapacity);
 
             if (!_pages.TryGetValue(pageIndex, out nint page))
             {
@@ -168,7 +168,7 @@ namespace ARMeilleure.Common
             {
                 _allocated.Dispose();
 
-                foreach (var page in _pages.Values)
+                foreach (IntPtr page in _pages.Values)
                 {
                     NativeAllocator.Instance.Free((void*)page);
                 }

@@ -57,7 +57,7 @@ namespace Ryujinx.Graphics.Gpu
         /// <param name="memoryManager">The new memory manager to be bound</param>
         public void BindMemory(MemoryManager memoryManager)
         {
-            var oldMemoryManager = Interlocked.Exchange(ref _memoryManager, memoryManager ?? throw new ArgumentNullException(nameof(memoryManager)));
+            MemoryManager oldMemoryManager = Interlocked.Exchange(ref _memoryManager, memoryManager ?? throw new ArgumentNullException(nameof(memoryManager)));
 
             memoryManager.Physical.IncrementReferenceCount();
 
@@ -85,7 +85,7 @@ namespace Ryujinx.Graphics.Gpu
         {
             TextureManager.ReloadPools();
 
-            var memoryManager = Volatile.Read(ref _memoryManager);
+            MemoryManager memoryManager = Volatile.Read(ref _memoryManager);
             memoryManager?.Physical.BufferCache.QueuePrune();
         }
 
@@ -138,7 +138,7 @@ namespace Ryujinx.Graphics.Gpu
             _processor.Dispose();
             TextureManager.Dispose();
 
-            var oldMemoryManager = Interlocked.Exchange(ref _memoryManager, null);
+            MemoryManager oldMemoryManager = Interlocked.Exchange(ref _memoryManager, null);
             if (oldMemoryManager != null)
             {
                 oldMemoryManager.Physical.BufferCache.NotifyBuffersModified -= BufferManager.Rebind;

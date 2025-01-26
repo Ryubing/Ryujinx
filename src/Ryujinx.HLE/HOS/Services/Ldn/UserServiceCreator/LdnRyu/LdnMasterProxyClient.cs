@@ -490,7 +490,7 @@ namespace Ryujinx.HLE.HOS.Services.Ldn.UserServiceCreator.LdnRyu
             SendAsync(_protocol.Encode(PacketId.CreateAccessPoint, request, advertiseData));
 
             // Send a network change event with dummy data immediately. Necessary to avoid crashes in some games
-            var networkChangeEvent = new NetworkChangeEventArgs(new NetworkInfo()
+            NetworkChangeEventArgs networkChangeEvent = new NetworkChangeEventArgs(new NetworkInfo()
             {
                 Common = new CommonNetworkInfo()
                 {
@@ -610,7 +610,7 @@ namespace Ryujinx.HLE.HOS.Services.Ldn.UserServiceCreator.LdnRyu
 
             SendAsync(_protocol.Encode(PacketId.Connect, request));
 
-            var networkChangeEvent = new NetworkChangeEventArgs(new NetworkInfo()
+            NetworkChangeEventArgs networkChangeEvent = new NetworkChangeEventArgs(new NetworkInfo()
             {
                 Common = request.NetworkInfo.Common,
                 Ldn = request.NetworkInfo.Ldn

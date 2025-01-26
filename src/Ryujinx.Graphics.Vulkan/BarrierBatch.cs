@@ -350,7 +350,7 @@ namespace Ryujinx.Graphics.Vulkan
                     {
                         // Generic pipeline memory barriers will work for desktop GPUs.
                         // They do require a few more access flags on the subpass dependency, though.
-                        foreach (var barrier in _imageBarriers)
+                        foreach (BarrierWithStageFlags<ImageMemoryBarrier, TextureStorage> barrier in _imageBarriers)
                         {
                             _memoryBarriers.Add(new BarrierWithStageFlags<MemoryBarrier, int>(
                                 barrier.Flags,
@@ -370,7 +370,7 @@ namespace Ryujinx.Graphics.Vulkan
                 {
                     PipelineStageFlags allFlags = PipelineStageFlags.None;
 
-                    foreach (var barrier in _memoryBarriers)
+                    foreach (BarrierWithStageFlags<MemoryBarrier, int> barrier in _memoryBarriers)
                     {
                         allFlags |= barrier.Flags.Dest;
                     }

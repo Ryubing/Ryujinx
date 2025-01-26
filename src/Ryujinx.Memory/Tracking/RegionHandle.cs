@@ -199,7 +199,7 @@ namespace Ryujinx.Memory.Tracking
             _allRegions.AddRange(_regions);
             _allRegions.AddRange(_guestRegions);
 
-            foreach (var region in _allRegions)
+            foreach (VirtualRegion region in _allRegions)
             {
                 region.Handles.Add(this);
             }
@@ -217,8 +217,8 @@ namespace Ryujinx.Memory.Tracking
         {
             // Assumes the tracking lock is held, so nothing else can signal right now.
 
-            var oldBitmap = Bitmap;
-            var oldBit = DirtyBit;
+            ConcurrentBitmap oldBitmap = Bitmap;
+            int oldBit = DirtyBit;
 
             bitmap.Set(bit, Dirty);
 

@@ -159,7 +159,7 @@ namespace Ryujinx.Graphics.Gpu.Engine.GPFifo
                 int availableCount = commandBuffer.Length - offset;
                 int consumeCount = Math.Min(_state.MethodCount, availableCount);
 
-                var data = commandBuffer.Slice(offset, consumeCount);
+                ReadOnlySpan<int> data = commandBuffer.Slice(offset, consumeCount);
 
                 if (_state.SubChannel == 0)
                 {

@@ -62,7 +62,7 @@ namespace Ryujinx.HLE.Loaders.Processes.Extensions
 
                 Logger.Info?.Print(LogClass.Loader, $"Loading {name}...");
 
-                using var nsoFile = new UniqueRef<IFile>();
+                using UniqueRef<IFile> nsoFile = new UniqueRef<IFile>();
 
                 exeFs.OpenFile(ref nsoFile.Ref, $"/{name}".ToU8Span(), OpenMode.Read).ThrowIfFailure();
 

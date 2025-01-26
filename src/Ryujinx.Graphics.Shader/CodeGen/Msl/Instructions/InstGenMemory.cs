@@ -157,7 +157,7 @@ namespace Ryujinx.Graphics.Shader.CodeGen.Msl.Instructions
 
             bool isArray = (texOp.Type & SamplerType.Array) != 0;
 
-            var texCallBuilder = new StringBuilder();
+            StringBuilder texCallBuilder = new StringBuilder();
 
             int srcIndex = 0;
 
@@ -194,7 +194,7 @@ namespace Ryujinx.Graphics.Shader.CodeGen.Msl.Instructions
 
             texCallBuilder.Append('(');
 
-            var coordsBuilder = new StringBuilder();
+            StringBuilder coordsBuilder = new StringBuilder();
 
             int coordsCount = texOp.Type.GetDimensions();
 
@@ -326,8 +326,8 @@ namespace Ryujinx.Graphics.Shader.CodeGen.Msl.Instructions
                 coordsExpr = GetSourceExpr(context, texOp.GetSource(coordsIndex), AggregateType.FP32);
             }
 
-            var clamped = $"{textureName}.calculate_clamped_lod({samplerName}, {coordsExpr})";
-            var unclamped = $"{textureName}.calculate_unclamped_lod({samplerName}, {coordsExpr})";
+            string clamped = $"{textureName}.calculate_clamped_lod({samplerName}, {coordsExpr})";
+            string unclamped = $"{textureName}.calculate_unclamped_lod({samplerName}, {coordsExpr})";
 
             return $"float2({clamped}, {unclamped}){GetMask(texOp.Index)}";
         }
@@ -352,7 +352,7 @@ namespace Ryujinx.Graphics.Shader.CodeGen.Msl.Instructions
             bool isArray = (texOp.Type & SamplerType.Array) != 0;
             bool isShadow = (texOp.Type & SamplerType.Shadow) != 0;
 
-            var texCallBuilder = new StringBuilder();
+            StringBuilder texCallBuilder = new StringBuilder();
 
             bool colorIsVector = isGather || !isShadow;
 
@@ -525,8 +525,8 @@ namespace Ryujinx.Graphics.Shader.CodeGen.Msl.Instructions
 
         private static string GetSamplerName(CodeGenContext context, AstTextureOperation texOp, ref int srcIndex)
         {
-            var index = texOp.IsSeparate ? texOp.GetSamplerSetAndBinding() : texOp.GetTextureSetAndBinding();
-            var sourceIndex = texOp.IsSeparate ? srcIndex++ : srcIndex + 1;
+            SetBindingPair index = texOp.IsSeparate ? texOp.GetSamplerSetAndBinding() : texOp.GetTextureSetAndBinding();
+            int sourceIndex = texOp.IsSeparate ? srcIndex++ : srcIndex + 1;
 
             TextureDefinition samplerDefinition = context.Properties.Textures[index];
             string name = samplerDefinition.Name;
@@ -589,7 +589,7 @@ namespace Ryujinx.Graphics.Shader.CodeGen.Msl.Instructions
         {
             AstTextureOperation texOp = (AstTextureOperation)operation;
 
-            var texCallBuilder = new StringBuilder();
+            StringBuilder texCallBuilder = new StringBuilder();
 
             int srcIndex = 0;
 

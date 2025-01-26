@@ -156,7 +156,7 @@ namespace Ryujinx.Graphics.Gpu.Shader
         {
             IdTable idTable = new();
 
-            foreach (var shader in program.Shaders)
+            foreach (CachedShaderStage shader in program.Shaders)
             {
                 if (shader == null)
                 {
@@ -221,7 +221,7 @@ namespace Ryujinx.Graphics.Gpu.Shader
             out CachedShaderProgram program,
             out CachedGraphicsGuestCode guestCode)
         {
-            var memoryManager = channel.MemoryManager;
+            MemoryManager memoryManager = channel.MemoryManager;
             IdTable idTable = new();
             guestCode = new CachedGraphicsGuestCode();
 
@@ -270,9 +270,9 @@ namespace Ryujinx.Graphics.Gpu.Shader
         /// <returns>Programs added to the table</returns>
         public IEnumerable<CachedShaderProgram> GetPrograms()
         {
-            foreach (var specList in _shaderPrograms.Values)
+            foreach (ShaderSpecializationList specList in _shaderPrograms.Values)
             {
-                foreach (var program in specList)
+                foreach (CachedShaderProgram program in specList)
                 {
                     yield return program;
                 }

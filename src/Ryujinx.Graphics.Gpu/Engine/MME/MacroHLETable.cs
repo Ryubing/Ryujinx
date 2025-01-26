@@ -90,13 +90,13 @@ namespace Ryujinx.Graphics.Gpu.Engine.MME
         /// <returns>True if there is a implementation available and supported, false otherwise</returns>
         public static bool TryGetMacroHLEFunction(ReadOnlySpan<int> code, Capabilities caps, out MacroHLEFunctionName name)
         {
-            var mc = MemoryMarshal.Cast<int, byte>(code);
+            ReadOnlySpan<byte> mc = MemoryMarshal.Cast<int, byte>(code);
 
             for (int i = 0; i < _table.Length; i++)
             {
-                ref var entry = ref _table[i];
+                ref TableEntry entry = ref _table[i];
 
-                var hash = Hash128.ComputeHash(mc[..entry.Length]);
+                Hash128 hash = Hash128.ComputeHash(mc[..entry.Length]);
                 if (hash == entry.Hash)
                 {
                     if (IsMacroHLESupported(caps, entry.Name))

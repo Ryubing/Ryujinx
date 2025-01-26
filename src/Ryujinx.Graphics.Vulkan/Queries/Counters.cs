@@ -26,7 +26,7 @@ namespace Ryujinx.Graphics.Vulkan.Queries
 
         public void ResetCounterPool()
         {
-            foreach (var queue in _counterQueues)
+            foreach (CounterQueue queue in _counterQueues)
             {
                 queue.ResetCounterPool();
             }
@@ -49,7 +49,7 @@ namespace Ryujinx.Graphics.Vulkan.Queries
 
         public void Update()
         {
-            foreach (var queue in _counterQueues)
+            foreach (CounterQueue queue in _counterQueues)
             {
                 queue.Flush(false);
             }
@@ -62,7 +62,7 @@ namespace Ryujinx.Graphics.Vulkan.Queries
 
         public void Dispose()
         {
-            foreach (var queue in _counterQueues)
+            foreach (CounterQueue queue in _counterQueues)
             {
                 queue.Dispose();
             }

@@ -107,8 +107,8 @@ namespace Ryujinx.Graphics.Vulkan
 
         private void PushDataImpl(CommandBufferScoped cbs, BufferHolder dst, int dstOffset, ReadOnlySpan<byte> data)
         {
-            var srcBuffer = _buffer.GetBuffer();
-            var dstBuffer = dst.GetBuffer(cbs.CommandBuffer, dstOffset, data.Length, true);
+            Auto<DisposableBuffer> srcBuffer = _buffer.GetBuffer();
+            Auto<DisposableBuffer> dstBuffer = dst.GetBuffer(cbs.CommandBuffer, dstOffset, data.Length, true);
 
             int offset = _freeOffset;
             int capacity = BufferSize - offset;
@@ -242,7 +242,7 @@ namespace Ryujinx.Graphics.Vulkan
 
         private bool WaitFreeCompleted(CommandBufferPool cbp)
         {
-            if (_pendingCopies.TryPeek(out var pc))
+            if (_pendingCopies.TryPeek(out PendingCopy pc))
             {
                 if (!pc.Fence.IsSignaled())
                 {
@@ -254,7 +254,7 @@ namespace Ryujinx.Graphics.Vulkan
                     pc.Fence.Wait();
                 }
 
-                var dequeued = _pendingCopies.Dequeue();
+                PendingCopy dequeued = _pendingCopies.Dequeue();
                 Debug.Assert(dequeued.Fence == pc.Fence);
                 _freeSize += pc.Size;
                 pc.Fence.Put();
@@ -266,10 +266,10 @@ namespace Ryujinx.Graphics.Vulkan
         public void FreeCompleted()
         {
             FenceHolder signalledFence = null;
-            while (_pendingCopies.TryPeek(out var pc) && (pc.Fence == signalledFence || pc.Fence.IsSignaled()))
+            while (_pendingCopies.TryPeek(out PendingCopy pc) && (pc.Fence == signalledFence || pc.Fence.IsSignaled()))
             {
                 signalledFence = pc.Fence; // Already checked - don't need to do it again.
-                var dequeued = _pendingCopies.Dequeue();
+                PendingCopy dequeued = _pendingCopies.Dequeue();
                 Debug.Assert(dequeued.Fence == pc.Fence);
                 _freeSize += pc.Size;
                 pc.Fence.Put();
@@ -282,7 +282,7 @@ namespace Ryujinx.Graphics.Vulkan
             {
                 _gd.BufferManager.Delete(Handle);
 
-                while (_pendingCopies.TryDequeue(out var pc))
+                while (_pendingCopies.TryDequeue(out PendingCopy pc))
                 {
                     pc.Fence.Put();
                 }

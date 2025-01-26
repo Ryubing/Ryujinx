@@ -200,7 +200,7 @@ namespace Ryujinx.HLE.Loaders.Mods
                 }
                 else if (line.StartsWith("@flag"))
                 {
-                    var tokens = line.Split(' ', 3, StringSplitOptions.RemoveEmptyEntries);
+                    string[] tokens = line.Split(' ', 3, StringSplitOptions.RemoveEmptyEntries);
 
                     if (tokens.Length < 2)
                     {
@@ -234,7 +234,7 @@ namespace Ryujinx.HLE.Loaders.Mods
                         continue;
                     }
 
-                    var tokens = line.Split(' ', 2, StringSplitOptions.RemoveEmptyEntries);
+                    string[] tokens = line.Split(' ', 2, StringSplitOptions.RemoveEmptyEntries);
 
                     if (tokens.Length < 2)
                     {
@@ -259,12 +259,12 @@ namespace Ryujinx.HLE.Loaders.Mods
 
                     if (tokens[1][0] == '"')
                     {
-                        var patch = Encoding.ASCII.GetBytes(tokens[1].Trim('"') + "\0");
+                        byte[] patch = Encoding.ASCII.GetBytes(tokens[1].Trim('"') + "\0");
                         patches.Add((uint)offset, patch);
                     }
                     else
                     {
-                        var patch = Hex2ByteArrayBE(tokens[1]);
+                        byte[] patch = Hex2ByteArrayBE(tokens[1]);
                         patches.Add((uint)offset, patch);
                     }
                 }

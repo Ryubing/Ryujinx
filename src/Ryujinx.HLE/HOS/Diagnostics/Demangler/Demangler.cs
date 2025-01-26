@@ -32,7 +32,7 @@ namespace Ryujinx.HLE.HOS.Diagnostics.Demangler
 
         private bool ConsumeIf(string toConsume)
         {
-            var mangledPart = Mangled.AsSpan(_position);
+            ReadOnlySpan<char> mangledPart = Mangled.AsSpan(_position);
 
             if (mangledPart.StartsWith(toConsume.AsSpan()))
             {

@@ -12,6 +12,7 @@ using Ryujinx.Common.Configuration.Hid.Controller;
 using Ryujinx.Input;
 using Ryujinx.Input.Assigner;
 using System.Linq;
+using Button = Ryujinx.Input.Button;
 using StickInputId = Ryujinx.Common.Configuration.Hid.Controller.StickInputId;
 
 namespace Ryujinx.Ava.UI.Views.Input
@@ -104,7 +105,7 @@ namespace Ryujinx.Ava.UI.Views.Input
 
                         PointerPressed += MouseClick;
 
-                        var viewModel = (DataContext as ControllerInputViewModel);
+                        ControllerInputViewModel viewModel = (DataContext as ControllerInputViewModel);
 
                         IKeyboard keyboard =
                             (IKeyboard)viewModel.ParentModel.AvaloniaKeyboardDriver
@@ -115,7 +116,7 @@ namespace Ryujinx.Ava.UI.Views.Input
                         {
                             if (e.ButtonValue.HasValue)
                             {
-                                var buttonValue = e.ButtonValue.Value;
+                                Button buttonValue = e.ButtonValue.Value;
                                 viewModel.ParentModel.IsModified = true;
 
                                 switch (button.Name)
@@ -223,7 +224,7 @@ namespace Ryujinx.Ava.UI.Views.Input
         {
             IButtonAssigner assigner;
 
-            var controllerInputViewModel = DataContext as ControllerInputViewModel;
+            ControllerInputViewModel controllerInputViewModel = DataContext as ControllerInputViewModel;
 
             assigner = new GamepadButtonAssigner(
                 controllerInputViewModel.ParentModel.SelectedGamepad,
@@ -251,7 +252,8 @@ namespace Ryujinx.Ava.UI.Views.Input
             if (!args.NewColor.HasValue) return;
             if (DataContext is not ControllerInputViewModel cVm) return;
             if (!cVm.Config.EnableLedChanging) return;
-
+            if (cVm.Config.TurnOffLed) return;
+            
             cVm.ParentModel.SelectedGamepad.SetLed(args.NewColor.Value.ToUInt32());
         }
 
@@ -259,7 +261,8 @@ namespace Ryujinx.Ava.UI.Views.Input
         {
             if (DataContext is not ControllerInputViewModel cVm) return;
             if (!cVm.Config.EnableLedChanging) return;
-
+            if (cVm.Config.TurnOffLed) return;
+            
             cVm.ParentModel.SelectedGamepad.SetLed(cVm.Config.LedColor.ToUInt32());
         }
     }

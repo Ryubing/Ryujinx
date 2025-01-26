@@ -562,8 +562,8 @@ namespace Ryujinx.HLE.HOS.Kernel.Threading
             Action<KThread> removeCallback,
             Func<KThread, bool> predicate)
         {
-            var candidates = threads.Where(predicate).OrderBy(x => x.DynamicPriority);
-            var toSignal = (count > 0 ? candidates.Take(count) : candidates).ToArray();
+            IOrderedEnumerable<KThread> candidates = threads.Where(predicate).OrderBy(x => x.DynamicPriority);
+            KThread[] toSignal = (count > 0 ? candidates.Take(count) : candidates).ToArray();
 
             foreach (KThread thread in toSignal)
             {

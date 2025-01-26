@@ -36,7 +36,7 @@ namespace Ryujinx.Graphics.Nvdec
 
         public void DestroyContext(long id)
         {
-            if (_contexts.TryRemove(id, out var context))
+            if (_contexts.TryRemove(id, out NvdecDecoderContext context))
             {
                 context.Dispose();
             }
@@ -46,7 +46,7 @@ namespace Ryujinx.Graphics.Nvdec
 
         public void BindContext(long id)
         {
-            if (_contexts.TryGetValue(id, out var context))
+            if (_contexts.TryGetValue(id, out NvdecDecoderContext context))
             {
                 _currentContext = context;
             }

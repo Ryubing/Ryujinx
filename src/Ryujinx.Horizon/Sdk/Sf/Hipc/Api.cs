@@ -35,7 +35,7 @@ namespace Ryujinx.Horizon.Sdk.Sf.Hipc
 
             handles[0] = sessionHandle;
 
-            var tlsSpan = HorizonStatic.AddressSpace.GetSpan(HorizonStatic.ThreadContext.TlsAddress, TlsMessageBufferSize);
+            ReadOnlySpan<byte> tlsSpan = HorizonStatic.AddressSpace.GetSpan(HorizonStatic.ThreadContext.TlsAddress, TlsMessageBufferSize);
 
             if (messageBuffer == tlsSpan)
             {
@@ -56,7 +56,7 @@ namespace Ryujinx.Horizon.Sdk.Sf.Hipc
 
         private static Result ReplyImpl(int sessionHandle, ReadOnlySpan<byte> messageBuffer)
         {
-            var tlsSpan = HorizonStatic.AddressSpace.GetSpan(HorizonStatic.ThreadContext.TlsAddress, TlsMessageBufferSize);
+            ReadOnlySpan<byte> tlsSpan = HorizonStatic.AddressSpace.GetSpan(HorizonStatic.ThreadContext.TlsAddress, TlsMessageBufferSize);
 
             if (messageBuffer == tlsSpan)
             {

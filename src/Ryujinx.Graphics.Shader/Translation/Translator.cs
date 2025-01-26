@@ -110,8 +110,8 @@ namespace Ryujinx.Graphics.Shader.Translation
 
                 for (int tfbIndex = 0; tfbIndex < 4; tfbIndex++)
                 {
-                    var locations = gpuAccessor.QueryTransformFeedbackVaryingLocations(tfbIndex);
-                    var stride = gpuAccessor.QueryTransformFeedbackStride(tfbIndex);
+                    ReadOnlySpan<byte> locations = gpuAccessor.QueryTransformFeedbackVaryingLocations(tfbIndex);
+                    int stride = gpuAccessor.QueryTransformFeedbackStride(tfbIndex);
 
                     for (int i = 0; i < locations.Length; i++)
                     {

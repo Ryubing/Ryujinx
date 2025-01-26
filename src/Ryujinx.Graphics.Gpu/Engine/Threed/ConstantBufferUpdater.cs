@@ -1,3 +1,4 @@
+using Ryujinx.Graphics.Gpu.Memory;
 using System;
 using System.Runtime.InteropServices;
 
@@ -92,7 +93,7 @@ namespace Ryujinx.Graphics.Gpu.Engine.Threed
 
             if (enable)
             {
-                var uniformBuffer = _state.State.UniformBufferState;
+                UniformBufferState uniformBuffer = _state.State.UniformBufferState;
 
                 ulong address = uniformBuffer.Address.Pack();
 
@@ -111,7 +112,7 @@ namespace Ryujinx.Graphics.Gpu.Engine.Threed
         {
             if (_ubFollowUpAddress != 0)
             {
-                var memoryManager = _channel.MemoryManager;
+                MemoryManager memoryManager = _channel.MemoryManager;
 
                 Span<byte> data = MemoryMarshal.Cast<int, byte>(_ubData.AsSpan(0, (int)(_ubByteCount / 4)));
 
@@ -131,7 +132,7 @@ namespace Ryujinx.Graphics.Gpu.Engine.Threed
         /// <param name="argument">New uniform buffer data word</param>
         public void Update(int argument)
         {
-            var uniformBuffer = _state.State.UniformBufferState;
+            UniformBufferState uniformBuffer = _state.State.UniformBufferState;
 
             ulong address = uniformBuffer.Address.Pack() + (uint)uniformBuffer.Offset;
 
@@ -157,7 +158,7 @@ namespace Ryujinx.Graphics.Gpu.Engine.Threed
         /// <param name="data">Data to be written to the uniform buffer</param>
         public void Update(ReadOnlySpan<int> data)
         {
-            var uniformBuffer = _state.State.UniformBufferState;
+            UniformBufferState uniformBuffer = _state.State.UniformBufferState;
 
             ulong address = uniformBuffer.Address.Pack() + (uint)uniformBuffer.Offset;
 

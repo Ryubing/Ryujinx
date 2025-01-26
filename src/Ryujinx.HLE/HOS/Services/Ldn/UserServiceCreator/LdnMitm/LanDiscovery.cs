@@ -244,7 +244,7 @@ namespace Ryujinx.HLE.HOS.Services.Ldn.UserServiceCreator.LdnMitm
 
             byte[] ip = address.GetAddressBytes();
 
-            var macAddress = new Array6<byte>();
+            Array6<byte> macAddress = new Array6<byte>();
             new byte[] { 0x02, 0x00, ip[0], ip[1], ip[2], ip[3] }.CopyTo(macAddress.AsSpan());
 
             return macAddress;

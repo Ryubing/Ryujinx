@@ -69,7 +69,7 @@ namespace Ryujinx.Graphics.Shader.CodeGen.Msl
             context.AppendLine("using namespace metal;");
             context.AppendLine();
 
-            var fsi = (info.HelperFunctionsMask & HelperFunctionsMask.FSI) != 0;
+            bool fsi = (info.HelperFunctionsMask & HelperFunctionsMask.FSI) != 0;
 
             DeclareInputAttributes(context, info.IoDefinitions.Where(x => IsUserDefined(x, StorageKind.Input)));
             context.AppendLine();
@@ -79,25 +79,25 @@ namespace Ryujinx.Graphics.Shader.CodeGen.Msl
             DeclareBufferStructures(context, context.Properties.StorageBuffers.Values.OrderBy(x => x.Binding).ToArray(), false, fsi);
 
             // We need to declare each set as a new struct
-            var textureDefinitions = context.Properties.Textures.Values
+            Dictionary<int, TextureDefinition[]> textureDefinitions = context.Properties.Textures.Values
                 .GroupBy(x => x.Set)
                 .ToDictionary(x => x.Key, x => x.OrderBy(y => y.Binding).ToArray());
 
-            var imageDefinitions = context.Properties.Images.Values
+            Dictionary<int, TextureDefinition[]> imageDefinitions = context.Properties.Images.Values
                 .GroupBy(x => x.Set)
                 .ToDictionary(x => x.Key, x => x.OrderBy(y => y.Binding).ToArray());
 
-            var textureSets = textureDefinitions.Keys.ToArray();
-            var imageSets = imageDefinitions.Keys.ToArray();
+            int[] textureSets = textureDefinitions.Keys.ToArray();
+            int[] imageSets = imageDefinitions.Keys.ToArray();
 
-            var sets = textureSets.Union(imageSets).ToArray();
+            int[] sets = textureSets.Union(imageSets).ToArray();
 
-            foreach (var set in textureDefinitions)
+            foreach (KeyValuePair<int, TextureDefinition[]> set in textureDefinitions)
             {
                 DeclareTextures(context, set.Value, set.Key);
             }
 
-            foreach (var set in imageDefinitions)
+            foreach (KeyValuePair<int, TextureDefinition[]> set in imageDefinitions)
             {
                 DeclareImages(context, set.Value, set.Key, fsi);
             }
@@ -186,8 +186,8 @@ namespace Ryujinx.Graphics.Shader.CodeGen.Msl
 
         public static string GetVarTypeName(AggregateType type, bool atomic = false)
         {
-            var s32 = atomic ? "atomic_int" : "int";
-            var u32 = atomic ? "atomic_uint" : "uint";
+            string s32 = atomic ? "atomic_int" : "int";
+            string u32 = atomic ? "atomic_uint" : "uint";
 
             return type switch
             {
@@ -216,22 +216,22 @@ namespace Ryujinx.Graphics.Shader.CodeGen.Msl
         {
             string prefix = isShared ? "threadgroup " : string.Empty;
 
-            foreach (var memory in memories)
+            foreach (MemoryDefinition memory in memories)
             {
                 string arraySize = "";
                 if ((memory.Type & AggregateType.Array) != 0)
                 {
                     arraySize = $"[{memory.ArrayLength}]";
                 }
-                var typeName = GetVarTypeName(memory.Type & ~AggregateType.Array);
+                string typeName = GetVarTypeName(memory.Type & ~AggregateType.Array);
                 context.AppendLine($"{prefix}{typeName} {memory.Name}{arraySize};");
             }
         }
 
         private static void DeclareBufferStructures(CodeGenContext context, BufferDefinition[] buffers, bool constant, bool fsi)
         {
-            var name = constant ? "ConstantBuffers" : "StorageBuffers";
-            var addressSpace = constant ? "constant" : "device";
+            string name = constant ? "ConstantBuffers" : "StorageBuffers";
+            string addressSpace = constant ? "constant" : "device";
 
             string[] bufferDec = new string[buffers.Length];
 
@@ -239,7 +239,7 @@ namespace Ryujinx.Graphics.Shader.CodeGen.Msl
             {
                 BufferDefinition buffer = buffers[i];
 
-                var needsPadding = buffer.Layout == BufferLayout.Std140;
+                bool needsPadding = buffer.Layout == BufferLayout.Std140;
                 string fsiSuffix = !constant && fsi ? " [[raster_order_group(0)]]" : "";
 
                 bufferDec[i] = $"{addressSpace} {Defaults.StructPrefix}_{buffer.Name}* {buffer.Name}{fsiSuffix};";
@@ -249,7 +249,7 @@ namespace Ryujinx.Graphics.Shader.CodeGen.Msl
 
                 foreach (StructureField field in buffer.Type.Fields)
                 {
-                    var type = field.Type;
+                    AggregateType type = field.Type;
                     type |= (needsPadding && (field.Type & AggregateType.Array) != 0)
                         ? AggregateType.Vector4
                         : AggregateType.Invalid;
@@ -282,7 +282,7 @@ namespace Ryujinx.Graphics.Shader.CodeGen.Msl
             context.AppendLine($"struct {name}");
             context.EnterScope();
 
-            foreach (var declaration in bufferDec)
+            foreach (string declaration in bufferDec)
             {
                 context.AppendLine(declaration);
             }
@@ -293,7 +293,7 @@ namespace Ryujinx.Graphics.Shader.CodeGen.Msl
 
         private static void DeclareTextures(CodeGenContext context, TextureDefinition[] textures, int set)
         {
-            var setName = GetNameForSet(set);
+            string setName = GetNameForSet(set);
             context.AppendLine($"struct {setName}");
             context.EnterScope();
 
@@ -303,7 +303,7 @@ namespace Ryujinx.Graphics.Shader.CodeGen.Msl
             {
                 if (texture.Type != SamplerType.None)
                 {
-                    var textureTypeName = texture.Type.ToMslTextureType(texture.Format.GetComponentType());
+                    string textureTypeName = texture.Type.ToMslTextureType(texture.Format.GetComponentType());
 
                     if (texture.ArrayLength > 1)
                     {
@@ -315,7 +315,7 @@ namespace Ryujinx.Graphics.Shader.CodeGen.Msl
 
                 if (!texture.Separate && texture.Type != SamplerType.TextureBuffer)
                 {
-                    var samplerType = "sampler";
+                    string samplerType = "sampler";
 
                     if (texture.ArrayLength > 1)
                     {
@@ -326,7 +326,7 @@ namespace Ryujinx.Graphics.Shader.CodeGen.Msl
                 }
             }
 
-            foreach (var declaration in textureDec)
+            foreach (string declaration in textureDec)
             {
                 context.AppendLine(declaration);
             }
@@ -337,7 +337,7 @@ namespace Ryujinx.Graphics.Shader.CodeGen.Msl
 
         private static void DeclareImages(CodeGenContext context, TextureDefinition[] images, int set, bool fsi)
         {
-            var setName = GetNameForSet(set);
+            string setName = GetNameForSet(set);
             context.AppendLine($"struct {setName}");
             context.EnterScope();
 
@@ -347,7 +347,7 @@ namespace Ryujinx.Graphics.Shader.CodeGen.Msl
             {
                 TextureDefinition image = images[i];
 
-                var imageTypeName = image.Type.ToMslTextureType(image.Format.GetComponentType(), true);
+                string imageTypeName = image.Type.ToMslTextureType(image.Format.GetComponentType(), true);
                 if (image.ArrayLength > 1)
                 {
                     imageTypeName = $"array<{imageTypeName}, {image.ArrayLength}>";
@@ -358,7 +358,7 @@ namespace Ryujinx.Graphics.Shader.CodeGen.Msl
                 imageDec[i] = $"{imageTypeName} {image.Name}{fsiSuffix};";
             }
 
-            foreach (var declaration in imageDec)
+            foreach (string declaration in imageDec)
             {
                 context.AppendLine(declaration);
             }
@@ -401,14 +401,14 @@ namespace Ryujinx.Graphics.Shader.CodeGen.Msl
                 // We need to use the SPIRV-Cross workaround
                 for (int i = 0; i < Constants.MaxAttributes; i++)
                 {
-                    var suffix = context.Definitions.Stage == ShaderStage.Fragment ? $"[[user(loc{i})]]" : $"[[attribute({i})]]";
+                    string suffix = context.Definitions.Stage == ShaderStage.Fragment ? $"[[user(loc{i})]]" : $"[[attribute({i})]]";
                     context.AppendLine($"float4 {Defaults.IAttributePrefix}{i} {suffix};");
                 }
             }
 
             if (inputs.Any())
             {
-                foreach (var ioDefinition in inputs.OrderBy(x => x.Location))
+                foreach (IoDefinition ioDefinition in inputs.OrderBy(x => x.Location))
                 {
                     if (context.Definitions.IaIndexing && ioDefinition.IoVariable == IoVariable.UserDefined)
                     {
@@ -500,11 +500,11 @@ namespace Ryujinx.Graphics.Shader.CodeGen.Msl
                     IoDefinition firstOutput = outputs.ElementAtOrDefault(0);
                     IoDefinition secondOutput = outputs.ElementAtOrDefault(1);
 
-                    var type1 = GetVarTypeName(context.Definitions.GetFragmentOutputColorType(firstOutput.Location));
-                    var type2 = GetVarTypeName(context.Definitions.GetFragmentOutputColorType(secondOutput.Location));
+                    string type1 = GetVarTypeName(context.Definitions.GetFragmentOutputColorType(firstOutput.Location));
+                    string type2 = GetVarTypeName(context.Definitions.GetFragmentOutputColorType(secondOutput.Location));
 
-                    var name1 = $"color{firstOutput.Location}";
-                    var name2 = $"color{firstOutput.Location + 1}";
+                    string name1 = $"color{firstOutput.Location}";
+                    string name2 = $"color{firstOutput.Location + 1}";
 
                     context.AppendLine($"{type1} {name1} [[color({firstOutput.Location}), index(0)]];");
                     context.AppendLine($"{type2} {name2} [[color({firstOutput.Location}), index(1)]];");
@@ -512,7 +512,7 @@ namespace Ryujinx.Graphics.Shader.CodeGen.Msl
                     outputs = outputs.Skip(2);
                 }
 
-                foreach (var ioDefinition in outputs)
+                foreach (IoDefinition ioDefinition in outputs)
                 {
                     if (context.Definitions.OaIndexing && ioDefinition.IoVariable == IoVariable.UserDefined)
                     {

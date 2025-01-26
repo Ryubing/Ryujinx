@@ -97,7 +97,7 @@ namespace Ryujinx.Graphics.Metal
         {
             lock (_resources)
             {
-                foreach (var resource in _resources.Values)
+                foreach (BackgroundResource resource in _resources.Values)
                 {
                     resource.Dispose();
                 }

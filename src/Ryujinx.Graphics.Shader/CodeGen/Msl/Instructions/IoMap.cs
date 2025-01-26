@@ -15,7 +15,7 @@ namespace Ryujinx.Graphics.Shader.CodeGen.Msl.Instructions
             bool isOutput,
             bool isPerPatch)
         {
-            var returnValue = ioVariable switch
+            (string, AggregateType) returnValue = ioVariable switch
             {
                 IoVariable.BaseInstance => ("base_instance", AggregateType.U32),
                 IoVariable.BaseVertex => ("base_vertex", AggregateType.U32),

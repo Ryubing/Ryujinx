@@ -127,7 +127,7 @@ namespace Ryujinx.HLE.HOS.Kernel.Threading
         public KThread ScheduledThreadsElementAtOrDefault(int core, int index)
         {
             int currentIndex = 0;
-            foreach (var scheduledThread in ScheduledThreads(core))
+            foreach (KThread scheduledThread in ScheduledThreads(core))
             {
                 if (currentIndex == index)
                 {
@@ -144,7 +144,7 @@ namespace Ryujinx.HLE.HOS.Kernel.Threading
 
         public KThread ScheduledThreadsWithDynamicPriorityFirstOrDefault(int core, int dynamicPriority)
         {
-            foreach (var scheduledThread in ScheduledThreads(core))
+            foreach (KThread scheduledThread in ScheduledThreads(core))
             {
                 if (scheduledThread.DynamicPriority == dynamicPriority)
                 {

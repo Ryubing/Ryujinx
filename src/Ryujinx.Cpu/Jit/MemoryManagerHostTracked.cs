@@ -240,7 +240,7 @@ namespace Ryujinx.Cpu.Jit
 
             if (TryGetVirtualContiguous(va, data.Length, out MemoryBlock memoryBlock, out ulong offset))
             {
-                var target = memoryBlock.GetSpan(offset, data.Length);
+                Span<byte> target = memoryBlock.GetSpan(offset, data.Length);
 
                 bool changed = !data.SequenceEqual(target);
 
@@ -443,7 +443,7 @@ namespace Ryujinx.Cpu.Jit
                 return null;
             }
 
-            var regions = new List<HostMemoryRange>();
+            List<HostMemoryRange> regions = new List<HostMemoryRange>();
             ulong endVa = va + size;
 
             try

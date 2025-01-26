@@ -3,6 +3,7 @@ using Avalonia.Controls;
 using Avalonia.Controls.ApplicationLifetimes;
 using Avalonia.Input;
 using Avalonia.Threading;
+using DiscordRPC;
 using LibHac.Common;
 using LibHac.Ns;
 using LibHac.Tools.FsSystem;
@@ -238,10 +239,10 @@ namespace Ryujinx.Ava
                     _lastCursorMoveTime = Stopwatch.GetTimestamp();
                 }
 
-                var point = e.GetCurrentPoint(window).Position;
-                var bounds = RendererHost.EmbeddedWindow.Bounds;
-                var windowYOffset = bounds.Y + window.MenuBarHeight;
-                var windowYLimit = (int)window.Bounds.Height - window.StatusBarHeight - 1;
+                Point point = e.GetCurrentPoint(window).Position;
+                Rect bounds = RendererHost.EmbeddedWindow.Bounds;
+                double windowYOffset = bounds.Y + window.MenuBarHeight;
+                double windowYLimit = (int)window.Bounds.Height - window.StatusBarHeight - 1;
 
                 if (!_viewModel.ShowMenuAndStatusBar)
                 {
@@ -265,10 +266,10 @@ namespace Ryujinx.Ava
 
             if (sender is MainWindow window)
             {
-                var point = e.GetCurrentPoint(window).Position;
-                var bounds = RendererHost.EmbeddedWindow.Bounds;
-                var windowYOffset = bounds.Y + window.MenuBarHeight;
-                var windowYLimit = (int)window.Bounds.Height - window.StatusBarHeight - 1;
+                Point point = e.GetCurrentPoint(window).Position;
+                Rect bounds = RendererHost.EmbeddedWindow.Bounds;
+                double windowYOffset = bounds.Y + window.MenuBarHeight;
+                double windowYLimit = (int)window.Bounds.Height - window.StatusBarHeight - 1;
 
                 if (!_viewModel.ShowMenuAndStatusBar)
                 {
@@ -435,7 +436,7 @@ namespace Ryujinx.Ava
                             return;
                         }
 
-                        var colorType = e.IsBgra ? SKColorType.Bgra8888 : SKColorType.Rgba8888;
+                        SKColorType colorType = e.IsBgra ? SKColorType.Bgra8888 : SKColorType.Rgba8888;
                         using SKBitmap bitmap = new(new SKImageInfo(e.Width, e.Height, colorType, SKAlphaType.Premul));
 
                         Marshal.Copy(e.Data, 0, bitmap.GetPixels(), e.Data.Length);
@@ -448,7 +449,7 @@ namespace Ryujinx.Ava
                         float scaleX = e.FlipX ? -1 : 1;
                         float scaleY = e.FlipY ? -1 : 1;
 
-                        var matrix = SKMatrix.CreateScale(scaleX, scaleY, bitmap.Width / 2f, bitmap.Height / 2f);
+                        SKMatrix matrix = SKMatrix.CreateScale(scaleX, scaleY, bitmap.Width / 2f, bitmap.Height / 2f);
 
                         canvas.SetMatrix(matrix);
                         canvas.DrawBitmap(bitmap, SKPoint.Empty);
@@ -467,8 +468,8 @@ namespace Ryujinx.Ava
 
         private static void SaveBitmapAsPng(SKBitmap bitmap, string path)
         {
-            using var data = bitmap.Encode(SKEncodedImageFormat.Png, 100);
-            using var stream = File.OpenWrite(path);
+            using SKData data = bitmap.Encode(SKEncodedImageFormat.Png, 100);
+            using FileStream stream = File.OpenWrite(path);
 
             data.SaveTo(stream);
         }
@@ -594,6 +595,8 @@ namespace Ryujinx.Ava
                 gamepad?.ClearLed();
                 gamepad?.Dispose();
             }
+
+            DiscordIntegrationModule.GuestAppStartedAt = null;
             
             Rainbow.Disable();
             Rainbow.Reset();
@@ -685,6 +688,8 @@ namespace Ryujinx.Ava
 
         public async Task<bool> LoadGuestApplication(BlitStruct<ApplicationControlProperty>? customNacpData = null)
         {
+            DiscordIntegrationModule.GuestAppStartedAt = Timestamps.Now;
+            
             InitEmulatedSwitch();
             MainWindow.UpdateGraphicsConfig();
 
@@ -923,7 +928,7 @@ namespace Ryujinx.Ava
 
             BackendThreading threadingMode = ConfigurationState.Instance.Graphics.BackendThreading;
 
-            var isGALThreaded = threadingMode == BackendThreading.On || (threadingMode == BackendThreading.Auto && renderer.PreferThreading);
+            bool isGALThreaded = threadingMode == BackendThreading.On || (threadingMode == BackendThreading.Auto && renderer.PreferThreading);
             if (isGALThreaded)
             {
                 renderer = new ThreadedRenderer(renderer);
@@ -932,7 +937,7 @@ namespace Ryujinx.Ava
             Logger.Info?.PrintMsg(LogClass.Gpu, $"Backend Threading ({threadingMode}): {isGALThreaded}");
 
             // Initialize Configuration.
-            var memoryConfiguration = ConfigurationState.Instance.System.DramSize.Value;
+            MemoryConfiguration memoryConfiguration = ConfigurationState.Instance.System.DramSize.Value;
 
             Device = new Switch(new HLEConfiguration(
                 VirtualFileSystem,
@@ -970,7 +975,7 @@ namespace Ryujinx.Ava
 
         private static IHardwareDeviceDriver InitializeAudio()
         {
-            var availableBackends = new List<AudioBackend>
+            List<AudioBackend> availableBackends = new List<AudioBackend>
             {
                 AudioBackend.SDL2,
                 AudioBackend.SoundIo,

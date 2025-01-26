@@ -12,6 +12,7 @@ using Silk.NET.Vulkan.Extensions.KHR;
 using System;
 using System.Collections.Generic;
 using System.Runtime.InteropServices;
+using System.Text.RegularExpressions;
 using System.Threading;
 using Format = Ryujinx.Graphics.GAL.Format;
 using PrimitiveTopology = Ryujinx.Graphics.GAL.PrimitiveTopology;
@@ -163,7 +164,7 @@ namespace Ryujinx.Graphics.Vulkan
 
             if (maxQueueCount >= 2)
             {
-                Api.GetDeviceQueue(_device, queueFamilyIndex, 1, out var backgroundQueue);
+                Api.GetDeviceQueue(_device, queueFamilyIndex, 1, out Queue backgroundQueue);
                 BackgroundQueue = backgroundQueue;
                 BackgroundQueueLock = new();
             }
@@ -331,7 +332,7 @@ namespace Ryujinx.Graphics.Vulkan
             Api.GetPhysicalDeviceProperties2(_physicalDevice.PhysicalDevice, &properties2);
             Api.GetPhysicalDeviceFeatures2(_physicalDevice.PhysicalDevice, &features2);
 
-            var portabilityFlags = PortabilitySubsetFlags.None;
+            PortabilitySubsetFlags portabilityFlags = PortabilitySubsetFlags.None;
             uint vertexBufferAlignment = 1;
 
             if (usePortability)
@@ -348,9 +349,9 @@ namespace Ryujinx.Graphics.Vulkan
                                              featuresCustomBorderColor.CustomBorderColors &&
                                              featuresCustomBorderColor.CustomBorderColorWithoutFormat;
 
-            ref var properties = ref properties2.Properties;
+            ref PhysicalDeviceProperties properties = ref properties2.Properties;
 
-            var hasDriverProperties = _physicalDevice.TryGetPhysicalDeviceDriverPropertiesKHR(Api, out var driverProperties);
+            bool hasDriverProperties = _physicalDevice.TryGetPhysicalDeviceDriverPropertiesKHR(Api, out PhysicalDeviceDriverPropertiesKHR driverProperties);
 
             Vendor = VendorUtils.FromId(properties.VendorID);
 
@@ -378,7 +379,7 @@ namespace Ryujinx.Graphics.Vulkan
 
             if (Vendor == Vendor.Nvidia)
             {
-                var match = VendorUtils.NvidiaConsumerClassRegex().Match(GpuRenderer);
+                Match match = VendorUtils.NvidiaConsumerClassRegex().Match(GpuRenderer);
 
                 if (match != null && int.TryParse(match.Groups[2].Value, out int gpuNumber))
                 {
@@ -487,7 +488,7 @@ namespace Ryujinx.Graphics.Vulkan
             _surface = _getSurface(_instance.Instance, Api);
             _physicalDevice = VulkanInitialization.FindSuitablePhysicalDevice(Api, _instance, _surface, _preferredGpuId);
 
-            var queueFamilyIndex = VulkanInitialization.FindSuitableQueueFamily(Api, _physicalDevice, _surface, out uint maxQueueCount);
+            uint queueFamilyIndex = VulkanInitialization.FindSuitableQueueFamily(Api, _physicalDevice, _surface, out uint maxQueueCount);
 
             _device = VulkanInitialization.CreateDevice(Api, _physicalDevice, queueFamilyIndex, maxQueueCount);
 
@@ -496,7 +497,7 @@ namespace Ryujinx.Graphics.Vulkan
                 SwapchainApi = swapchainApi;
             }
 
-            Api.GetDeviceQueue(_device, queueFamilyIndex, 0, out var queue);
+            Api.GetDeviceQueue(_device, queueFamilyIndex, 0, out Queue queue);
             Queue = queue;
             QueueLock = new();
 
@@ -590,7 +591,7 @@ namespace Ryujinx.Graphics.Vulkan
         internal TextureView CreateTextureView(TextureCreateInfo info)
         {
             // This should be disposed when all views are destroyed.
-            var storage = CreateTextureStorage(info);
+            TextureStorage storage = CreateTextureStorage(info);
             return storage.CreateView(info, 0, 0);
         }
 
@@ -713,8 +714,8 @@ namespace Ryujinx.Graphics.Vulkan
 
             Api.GetPhysicalDeviceFeatures2(_physicalDevice.PhysicalDevice, &features2);
 
-            var limits = _physicalDevice.PhysicalDeviceProperties.Limits;
-            var mainQueueProperties = _physicalDevice.QueueFamilyProperties[QueueFamilyIndex];
+            PhysicalDeviceLimits limits = _physicalDevice.PhysicalDeviceProperties.Limits;
+            QueueFamilyProperties mainQueueProperties = _physicalDevice.QueueFamilyProperties[QueueFamilyIndex];
 
             SystemMemoryType memoryType;
 
@@ -801,7 +802,7 @@ namespace Ryujinx.Graphics.Vulkan
 
             for (int i = 0; i < memoryProperties.MemoryHeapCount; i++)
             {
-                var heap = memoryProperties.MemoryHeaps[i];
+                MemoryHeap heap = memoryProperties.MemoryHeaps[i];
                 if ((heap.Flags & MemoryHeapFlags.DeviceLocalBit) == MemoryHeapFlags.DeviceLocalBit)
                 {
                     totalMemory += heap.Size;
@@ -1030,17 +1031,17 @@ namespace Ryujinx.Graphics.Vulkan
 
             MemoryAllocator.Dispose();
 
-            foreach (var shader in Shaders)
+            foreach (ShaderCollection shader in Shaders)
             {
                 shader.Dispose();
             }
 
-            foreach (var texture in Textures)
+            foreach (ITexture texture in Textures)
             {
                 texture.Release();
             }
 
-            foreach (var sampler in Samplers)
+            foreach (SamplerHolder sampler in Samplers)
             {
                 sampler.Dispose();
             }

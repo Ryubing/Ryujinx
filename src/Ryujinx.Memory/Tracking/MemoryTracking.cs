@@ -76,7 +76,7 @@ namespace Ryujinx.Memory.Tracking
 
             lock (TrackingLock)
             {
-                ref var overlaps = ref ThreadStaticArray<VirtualRegion>.Get();
+                ref VirtualRegion[] overlaps = ref ThreadStaticArray<VirtualRegion>.Get();
 
                 for (int type = 0; type < 2; type++)
                 {
@@ -114,7 +114,7 @@ namespace Ryujinx.Memory.Tracking
 
             lock (TrackingLock)
             {
-                ref var overlaps = ref ThreadStaticArray<VirtualRegion>.Get();
+                ref VirtualRegion[] overlaps = ref ThreadStaticArray<VirtualRegion>.Get();
 
                 for (int type = 0; type < 2; type++)
                 {
@@ -228,7 +228,7 @@ namespace Ryujinx.Memory.Tracking
         /// <returns>The memory tracking handle</returns>
         public RegionHandle BeginTracking(ulong address, ulong size, int id, RegionFlags flags = RegionFlags.None)
         {
-            var (paAddress, paSize) = PageAlign(address, size);
+            (ulong paAddress, ulong paSize) = PageAlign(address, size);
 
             lock (TrackingLock)
             {
@@ -251,7 +251,7 @@ namespace Ryujinx.Memory.Tracking
         /// <returns>The memory tracking handle</returns>
         internal RegionHandle BeginTrackingBitmap(ulong address, ulong size, ConcurrentBitmap bitmap, int bit, int id, RegionFlags flags = RegionFlags.None)
         {
-            var (paAddress, paSize) = PageAlign(address, size);
+            (ulong paAddress, ulong paSize) = PageAlign(address, size);
 
             lock (TrackingLock)
             {
@@ -296,7 +296,7 @@ namespace Ryujinx.Memory.Tracking
 
             lock (TrackingLock)
             {
-                ref var overlaps = ref ThreadStaticArray<VirtualRegion>.Get();
+                ref VirtualRegion[] overlaps = ref ThreadStaticArray<VirtualRegion>.Get();
 
                 NonOverlappingRangeList<VirtualRegion> regions = guest ? _guestVirtualRegions : _virtualRegions;
 

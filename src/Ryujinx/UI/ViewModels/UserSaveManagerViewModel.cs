@@ -41,7 +41,7 @@ namespace Ryujinx.Ava.UI.ViewModels
             Saves.AsObservableChangeSet()
                 .Filter(Filter)
                 .Sort(GetComparer())
-                .Bind(out var view).AsObservableList();
+                .Bind(out ReadOnlyObservableCollection<SaveModel> view).AsObservableList();
 
 #pragma warning disable MVVMTK0034
             _views.Clear();

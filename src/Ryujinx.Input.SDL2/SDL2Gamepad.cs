@@ -148,8 +148,6 @@ namespace Ryujinx.Input.SDL2
         {
             if (disposing && _gamepadHandle != nint.Zero)
             {
-                Rainbow.Updated -= RainbowColorChanged;
-                
                 SDL_GameControllerClose(_gamepadHandle);
 
                 _gamepadHandle = nint.Zero;
@@ -227,15 +225,6 @@ namespace Ryujinx.Input.SDL2
         private static Vector3 RadToDegree(Vector3 rad) => rad * (180 / MathF.PI);
 
         private static Vector3 GsToMs2(Vector3 gs) => gs / SDL_STANDARD_GRAVITY;
-
-        private void RainbowColorChanged(int packedRgb)
-        {
-            if (!_configuration.Led.UseRainbow) return;
-            
-            SetLed((uint)packedRgb);
-        }
-
-        private bool _rainbowColorEnabled;
         
         public void SetConfiguration(InputConfig configuration)
         {
@@ -247,19 +236,10 @@ namespace Ryujinx.Input.SDL2
                 {
                     if (_configuration.Led.TurnOffLed)
                         (this as IGamepad).ClearLed();
-                    else switch (_configuration.Led.UseRainbow)
-                    {
-                        case true when !_rainbowColorEnabled:
-                            Rainbow.Updated += RainbowColorChanged;
-                            _rainbowColorEnabled = true;
-                            break;
-                        case false when _rainbowColorEnabled:
-                            Rainbow.Updated -= RainbowColorChanged;
-                            _rainbowColorEnabled = false;
-                            break;
-                    }
+                    else if (_configuration.Led.UseRainbow)
+                        SetLed((uint)Rainbow.Color.ToArgb());
                     
-                    if (!_configuration.Led.TurnOffLed && !_rainbowColorEnabled)
+                    if (!_configuration.Led.TurnOffLed && !_configuration.Led.UseRainbow)
                         SetLed(_configuration.Led.LedColor);
                 }
                 
@@ -373,7 +353,7 @@ namespace Ryujinx.Input.SDL2
 
             if (HasConfiguration)
             {
-                var joyconStickConfig = GetLogicalJoyStickConfig(inputId);
+                JoyconConfigControllerStick<GamepadInputId, Common.Configuration.Hid.Controller.StickInputId> joyconStickConfig = GetLogicalJoyStickConfig(inputId);
 
                 if (joyconStickConfig != null)
                 {

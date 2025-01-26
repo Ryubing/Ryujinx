@@ -267,7 +267,7 @@ namespace Ryujinx.Graphics.Shader.Translation.Optimizations
                         {
                             Operand value = operation.GetSource(operation.SourcesCount - 1);
 
-                            var result = FindUniqueBaseAddressCb(gtsContext, block, value, needsOffset: false);
+                            SearchResult result = FindUniqueBaseAddressCb(gtsContext, block, value, needsOffset: false);
                             if (result.Found)
                             {
                                 uint targetCb = PackCbSlotAndOffset(result.SbCbSlot, result.SbCbOffset);
@@ -1018,7 +1018,7 @@ namespace Ryujinx.Graphics.Shader.Translation.Optimizations
                     offset = src1;
                 }
 
-                var result = GetBaseAddressCbWithOffset(baseAddr, offset, 0);
+                SearchResult result = GetBaseAddressCbWithOffset(baseAddr, offset, 0);
                 if (result.Found)
                 {
                     return result;

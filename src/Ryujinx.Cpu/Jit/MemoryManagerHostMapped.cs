@@ -340,7 +340,7 @@ namespace Ryujinx.Cpu.Jit
         {
             int pages = GetPagesCount(va, (uint)size, out va);
 
-            var regions = new List<MemoryRange>();
+            List<MemoryRange> regions = new List<MemoryRange>();
 
             ulong regionStart = GetPhysicalAddressChecked(va);
             ulong regionSize = PageSize;

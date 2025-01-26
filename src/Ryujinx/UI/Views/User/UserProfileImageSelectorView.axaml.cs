@@ -63,7 +63,7 @@ namespace Ryujinx.Ava.UI.Views.User
 
         private async void Import_OnClick(object sender, RoutedEventArgs e)
         {
-            var result = await ((Window)this.GetVisualRoot()!).StorageProvider.OpenFilePickerAsync(new FilePickerOpenOptions
+            IReadOnlyList<IStorageFile> result = await ((Window)this.GetVisualRoot()!).StorageProvider.OpenFilePickerAsync(new FilePickerOpenOptions
             {
                 AllowMultiple = false,
                 FileTypeFilter = new List<FilePickerFileType>
@@ -99,16 +99,16 @@ namespace Ryujinx.Ava.UI.Views.User
 
         private static byte[] ProcessProfileImage(byte[] buffer)
         {
-            using var bitmap = SKBitmap.Decode(buffer);
+            using SKBitmap bitmap = SKBitmap.Decode(buffer);
 
-            var resizedBitmap = bitmap.Resize(new SKImageInfo(256, 256), SKFilterQuality.High);
+            SKBitmap resizedBitmap = bitmap.Resize(new SKImageInfo(256, 256), SKFilterQuality.High);
 
-            using var streamJpg = new MemoryStream();
+            using MemoryStream streamJpg = new MemoryStream();
 
             if (resizedBitmap != null)
             {
-                using var image = SKImage.FromBitmap(resizedBitmap);
-                using var dataJpeg = image.Encode(SKEncodedImageFormat.Jpeg, 100);
+                using SKImage image = SKImage.FromBitmap(resizedBitmap);
+                using SKData dataJpeg = image.Encode(SKEncodedImageFormat.Jpeg, 100);
 
                 dataJpeg.SaveTo(streamJpg);
             }

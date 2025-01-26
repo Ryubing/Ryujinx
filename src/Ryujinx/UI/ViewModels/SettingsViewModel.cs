@@ -17,6 +17,7 @@ using Ryujinx.Common.Configuration;
 using Ryujinx.Common.Configuration.Multiplayer;
 using Ryujinx.Common.GraphicsDriver;
 using Ryujinx.Common.Logging;
+using Ryujinx.Graphics.GAL;
 using Ryujinx.Graphics.Vulkan;
 using Ryujinx.HLE;
 using Ryujinx.HLE.FileSystem;
@@ -387,7 +388,7 @@ namespace Ryujinx.Ava.UI.ViewModels
         {
             AvailableGpus.Clear();
 
-            var devices = VulkanRenderer.GetPhysicalDevices();
+            DeviceInfo[] devices = VulkanRenderer.GetPhysicalDevices();
 
             if (devices.Length == 0)
             {
@@ -396,7 +397,7 @@ namespace Ryujinx.Ava.UI.ViewModels
             }
             else
             {
-                foreach (var device in devices)
+                foreach (DeviceInfo device in devices)
                 {
                     await Dispatcher.UIThread.InvokeAsync(() =>
                     {

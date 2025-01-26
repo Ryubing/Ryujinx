@@ -83,7 +83,7 @@ namespace Ryujinx.Graphics.Vulkan
                         updateAfterBindFlags[setIndex] = true;
                     }
 
-                    var descriptorSetLayoutCreateInfo = new DescriptorSetLayoutCreateInfo
+                    DescriptorSetLayoutCreateInfo descriptorSetLayoutCreateInfo = new DescriptorSetLayoutCreateInfo
                     {
                         SType = StructureType.DescriptorSetLayoutCreateInfo,
                         PBindings = pLayoutBindings,
@@ -99,7 +99,7 @@ namespace Ryujinx.Graphics.Vulkan
 
             fixed (DescriptorSetLayout* pLayouts = layouts)
             {
-                var pipelineLayoutCreateInfo = new PipelineLayoutCreateInfo
+                PipelineLayoutCreateInfo pipelineLayoutCreateInfo = new PipelineLayoutCreateInfo
                 {
                     SType = StructureType.PipelineLayoutCreateInfo,
                     PSetLayouts = pLayouts,

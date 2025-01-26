@@ -62,7 +62,7 @@ namespace Ryujinx.Graphics.Vulkan
 
         public T GetMirrorable(CommandBufferScoped cbs, ref int offset, int size, out bool mirrored)
         {
-            var mirror = _mirrorable.GetMirrorable(cbs, ref offset, size, out mirrored);
+            Auto<T> mirror = _mirrorable.GetMirrorable(cbs, ref offset, size, out mirrored);
             mirror._waitable?.AddBufferUse(cbs.CommandBufferIndex, offset, size, false);
             return mirror.Get(cbs);
         }

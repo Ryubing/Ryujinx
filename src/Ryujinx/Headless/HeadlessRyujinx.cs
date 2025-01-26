@@ -150,7 +150,7 @@ namespace Ryujinx.Headless
 
             AppDataManager.Initialize(option.BaseDataDir);
             
-            if (useLastUsedProfile && AccountSaveDataManager.GetLastUsedUser().TryGet(out var profile))
+            if (useLastUsedProfile && AccountSaveDataManager.GetLastUsedUser().TryGet(out UserProfile profile))
                 option.UserProfile = profile.Name;
             
             // Check if keys exists.

@@ -94,7 +94,7 @@ namespace Ryujinx.Ava
         private static void Initialize(string[] args)
         {
             // Ensure Discord presence timestamp begins at the absolute start of when Ryujinx is launched
-            DiscordIntegrationModule.StartedAt = Timestamps.Now;
+            DiscordIntegrationModule.EmulatorStartedAt = Timestamps.Now;
 
             // Parse arguments
             CommandLineState.ParseArguments(args);
@@ -262,7 +262,7 @@ namespace Ryujinx.Ava
                 exceptions.Add(initialException);
             }
 
-            foreach (var e in exceptions)
+            foreach (Exception e in exceptions)
             {
                 string message = $"Unhandled exception caught: {e}";
                 // ReSharper disable once ConstantConditionalAccessQualifier

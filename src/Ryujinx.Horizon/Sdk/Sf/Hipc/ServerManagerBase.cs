@@ -2,6 +2,7 @@ using Ryujinx.Horizon.Common;
 using Ryujinx.Horizon.Sdk.OsTypes;
 using Ryujinx.Horizon.Sdk.Sf.Cmif;
 using Ryujinx.Horizon.Sdk.Sm;
+using Ryujinx.Memory;
 using System;
 using System.Linq;
 using System.Threading;
@@ -257,14 +258,14 @@ namespace Ryujinx.Horizon.Sdk.Sf.Hipc
 
             ServerSession session = (ServerSession)holder;
 
-            using var tlsMessage = HorizonStatic.AddressSpace.GetWritableRegion(HorizonStatic.ThreadContext.TlsAddress, Api.TlsMessageBufferSize);
+            using WritableRegion tlsMessage = HorizonStatic.AddressSpace.GetWritableRegion(HorizonStatic.ThreadContext.TlsAddress, Api.TlsMessageBufferSize);
 
             Result result;
 
             if (_canDeferInvokeRequest)
             {
                 // If the request is deferred, we save the message on a temporary buffer to process it later.
-                using var savedMessage = HorizonStatic.AddressSpace.GetWritableRegion(session.SavedMessage.Address, (int)session.SavedMessage.Size);
+                using WritableRegion savedMessage = HorizonStatic.AddressSpace.GetWritableRegion(session.SavedMessage.Address, (int)session.SavedMessage.Size);
 
                 DebugUtil.Assert(tlsMessage.Memory.Length == savedMessage.Memory.Length);
 

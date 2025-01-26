@@ -76,7 +76,7 @@ namespace Ryujinx.Graphics.Metal
 
             int firstIndexOffset = firstIndex * indexSize;
 
-            var autoBuffer = renderer.BufferManager.GetBufferTopologyConversion(cbs, _handle, _offset + firstIndexOffset, indexCount * indexSize, pattern, indexSize);
+            Auto<DisposableBuffer> autoBuffer = renderer.BufferManager.GetBufferTopologyConversion(cbs, _handle, _offset + firstIndexOffset, indexCount * indexSize, pattern, indexSize);
 
             int size = convertedCount * 4;
 

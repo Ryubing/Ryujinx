@@ -465,7 +465,7 @@ namespace Ryujinx.Tests.Cpu
 
             opcode |= (fixImm & 0x3f) << 16;
 
-            var v0 = new V128((uint)s0, (uint)s1, (uint)s2, (uint)s3);
+            V128 v0 = new V128((uint)s0, (uint)s1, (uint)s2, (uint)s3);
 
             SingleOpcode(opcode, v0: v0);
 
@@ -505,7 +505,7 @@ namespace Ryujinx.Tests.Cpu
 
             opcode |= (fixImm & 0x3f) << 16;
 
-            var v0 = new V128(s0, s1, s2, s3);
+            V128 v0 = new V128(s0, s1, s2, s3);
 
             SingleOpcode(opcode, v0: v0);
 

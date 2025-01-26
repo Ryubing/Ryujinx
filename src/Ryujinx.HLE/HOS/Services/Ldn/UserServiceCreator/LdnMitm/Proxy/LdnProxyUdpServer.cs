@@ -112,7 +112,7 @@ namespace Ryujinx.HLE.HOS.Services.Ldn.UserServiceCreator.LdnMitm.Proxy
 
             lock (_scanLock)
             {
-                var newResults = _scanResultsLast;
+                Dictionary<ulong, NetworkInfo> newResults = _scanResultsLast;
                 newResults.Clear();
 
                 _scanResultsLast = _scanResults;
@@ -138,7 +138,7 @@ namespace Ryujinx.HLE.HOS.Services.Ldn.UserServiceCreator.LdnMitm.Proxy
 
             lock (_scanLock)
             {
-                var results = new Dictionary<ulong, NetworkInfo>();
+                Dictionary<ulong, NetworkInfo> results = new Dictionary<ulong, NetworkInfo>();
 
                 foreach (KeyValuePair<ulong, NetworkInfo> last in _scanResultsLast)
                 {

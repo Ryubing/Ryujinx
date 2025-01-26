@@ -18,7 +18,7 @@ namespace Ryujinx.Graphics.Metal
         {
             MTLPixelFormat pixelFormat = FormatTable.GetFormat(Info.Format);
 
-            var descriptor = new MTLTextureDescriptor
+            MTLTextureDescriptor descriptor = new MTLTextureDescriptor
             {
                 PixelFormat = pixelFormat,
                 Usage = MTLTextureUsage.Unknown,
@@ -65,7 +65,7 @@ namespace Ryujinx.Graphics.Metal
 
         public Texture(MTLDevice device, MetalRenderer renderer, Pipeline pipeline, TextureCreateInfo info, MTLTexture sourceTexture, int firstLayer, int firstLevel) : base(device, renderer, pipeline, info)
         {
-            var pixelFormat = FormatTable.GetFormat(Info.Format);
+            MTLPixelFormat pixelFormat = FormatTable.GetFormat(Info.Format);
 
             if (info.DepthStencilMode == DepthStencilMode.Stencil)
             {
@@ -77,7 +77,7 @@ namespace Ryujinx.Graphics.Metal
                 };
             }
 
-            var textureType = Info.Target.Convert();
+            MTLTextureType textureType = Info.Target.Convert();
             NSRange levels;
             levels.location = (ulong)firstLevel;
             levels.length = (ulong)Info.Levels;
@@ -85,7 +85,7 @@ namespace Ryujinx.Graphics.Metal
             slices.location = (ulong)firstLayer;
             slices.length = textureType == MTLTextureType.Type3D ? 1 : (ulong)info.GetDepthOrLayers();
 
-            var swizzle = GetSwizzle(info, pixelFormat);
+            MTLTextureSwizzleChannels swizzle = GetSwizzle(info, pixelFormat);
 
             _identitySwizzleHandle = sourceTexture.NewTextureView(pixelFormat, textureType, levels, slices);
 
@@ -131,10 +131,10 @@ namespace Ryujinx.Graphics.Metal
 
         private MTLTextureSwizzleChannels GetSwizzle(TextureCreateInfo info, MTLPixelFormat pixelFormat)
         {
-            var swizzleR = Info.SwizzleR.Convert();
-            var swizzleG = Info.SwizzleG.Convert();
-            var swizzleB = Info.SwizzleB.Convert();
-            var swizzleA = Info.SwizzleA.Convert();
+            MTLTextureSwizzle swizzleR = Info.SwizzleR.Convert();
+            MTLTextureSwizzle swizzleG = Info.SwizzleG.Convert();
+            MTLTextureSwizzle swizzleB = Info.SwizzleB.Convert();
+            MTLTextureSwizzle swizzleA = Info.SwizzleA.Convert();
 
             if (info.Format == Format.R5G5B5A1Unorm ||
                 info.Format == Format.R5G5B5X1Unorm ||
@@ -144,8 +144,8 @@ namespace Ryujinx.Graphics.Metal
             }
             else if (pixelFormat == MTLPixelFormat.ABGR4Unorm || info.Format == Format.A1B5G5R5Unorm)
             {
-                var tempB = swizzleB;
-                var tempA = swizzleA;
+                MTLTextureSwizzle tempB = swizzleB;
+                MTLTextureSwizzle tempA = swizzleA;
 
                 swizzleB = swizzleG;
                 swizzleA = swizzleR;
@@ -174,8 +174,8 @@ namespace Ryujinx.Graphics.Metal
                 return;
             }
 
-            var srcImage = GetHandle();
-            var dstImage = dst.GetHandle();
+            MTLTexture srcImage = GetHandle();
+            MTLTexture dstImage = dst.GetHandle();
 
             if (!dst.Info.Target.IsMultisample() && Info.Target.IsMultisample())
             {
@@ -231,8 +231,8 @@ namespace Ryujinx.Graphics.Metal
                 return;
             }
 
-            var srcImage = GetHandle();
-            var dstImage = dst.GetHandle();
+            MTLTexture srcImage = GetHandle();
+            MTLTexture dstImage = dst.GetHandle();
 
             if (!dst.Info.Target.IsMultisample() && Info.Target.IsMultisample())
             {
@@ -276,7 +276,7 @@ namespace Ryujinx.Graphics.Metal
                 return;
             }
 
-            var dst = (Texture)destination;
+            Texture dst = (Texture)destination;
 
             bool isDepthOrStencil = dst.Info.Format.IsDepthOrStencil();
 
@@ -285,15 +285,15 @@ namespace Ryujinx.Graphics.Metal
 
         public void CopyTo(BufferRange range, int layer, int level, int stride)
         {
-            var cbs = Pipeline.Cbs;
+            CommandBufferScoped cbs = Pipeline.Cbs;
 
             int outSize = Info.GetMipSize(level);
             int hostSize = GetBufferDataLength(outSize);
 
             int offset = range.Offset;
 
-            var autoBuffer = Renderer.BufferManager.GetBuffer(range.Handle, true);
-            var mtlBuffer = autoBuffer.Get(cbs, range.Offset, outSize).Value;
+            Auto<DisposableBuffer> autoBuffer = Renderer.BufferManager.GetBuffer(range.Handle, true);
+            MTLBuffer mtlBuffer = autoBuffer.Get(cbs, range.Offset, outSize).Value;
 
             if (PrepareOutputBuffer(cbs, hostSize, mtlBuffer, out MTLBuffer copyToBuffer, out BufferHolder tempCopyHolder))
             {
@@ -511,13 +511,13 @@ namespace Ryujinx.Graphics.Metal
 
         public void SetData(MemoryOwner<byte> data)
         {
-            var blitCommandEncoder = Pipeline.GetOrCreateBlitEncoder();
+            MTLBlitCommandEncoder blitCommandEncoder = Pipeline.GetOrCreateBlitEncoder();
 
-            var dataSpan = data.Memory.Span;
+            Span<byte> dataSpan = data.Memory.Span;
 
-            var buffer = Renderer.BufferManager.Create(dataSpan.Length);
+            BufferHolder buffer = Renderer.BufferManager.Create(dataSpan.Length);
             buffer.SetDataUnchecked(0, dataSpan);
-            var mtlBuffer = buffer.GetBuffer(false).Get(Pipeline.Cbs).Value;
+            MTLBuffer mtlBuffer = buffer.GetBuffer(false).Get(Pipeline.Cbs).Value;
 
             int width = Info.Width;
             int height = Info.Height;
@@ -572,16 +572,16 @@ namespace Ryujinx.Graphics.Metal
         {
             int bufferDataLength = GetBufferDataLength(data.Length);
 
-            using var bufferHolder = Renderer.BufferManager.Create(bufferDataLength);
+            using BufferHolder bufferHolder = Renderer.BufferManager.Create(bufferDataLength);
 
             // TODO: loadInline logic
 
-            var cbs = Pipeline.Cbs;
+            CommandBufferScoped cbs = Pipeline.Cbs;
 
             CopyDataToBuffer(bufferHolder.GetDataStorage(0, bufferDataLength), data);
 
-            var buffer = bufferHolder.GetBuffer().Get(cbs).Value;
-            var image = GetHandle();
+            MTLBuffer buffer = bufferHolder.GetBuffer().Get(cbs).Value;
+            MTLTexture image = GetHandle();
 
             CopyFromOrToBuffer(cbs, buffer, image, bufferDataLength, false, layer, level, layers, levels, singleSlice);
         }
@@ -595,7 +595,7 @@ namespace Ryujinx.Graphics.Metal
 
         public void SetData(MemoryOwner<byte> data, int layer, int level, Rectangle<int> region)
         {
-            var blitCommandEncoder = Pipeline.GetOrCreateBlitEncoder();
+            MTLBlitCommandEncoder blitCommandEncoder = Pipeline.GetOrCreateBlitEncoder();
 
             ulong bytesPerRow = (ulong)Info.GetMipStride(level);
             ulong bytesPerImage = 0;
@@ -604,11 +604,11 @@ namespace Ryujinx.Graphics.Metal
                 bytesPerImage = bytesPerRow * (ulong)Info.Height;
             }
 
-            var dataSpan = data.Memory.Span;
+            Span<byte> dataSpan = data.Memory.Span;
 
-            var buffer = Renderer.BufferManager.Create(dataSpan.Length);
+            BufferHolder buffer = Renderer.BufferManager.Create(dataSpan.Length);
             buffer.SetDataUnchecked(0, dataSpan);
-            var mtlBuffer = buffer.GetBuffer(false).Get(Pipeline.Cbs).Value;
+            MTLBuffer mtlBuffer = buffer.GetBuffer(false).Get(Pipeline.Cbs).Value;
 
             blitCommandEncoder.CopyFromBuffer(
                 mtlBuffer,

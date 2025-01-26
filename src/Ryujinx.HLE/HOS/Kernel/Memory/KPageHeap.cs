@@ -105,7 +105,7 @@ namespace Ryujinx.HLE.HOS.Kernel.Memory
             _blocksCount = blockShifts.Length;
             _blocks = new Block[_memoryBlockPageShifts.Length];
 
-            var currBitmapStorage = new ArraySegment<ulong>(new ulong[CalculateManagementOverheadSize(size, blockShifts)]);
+            ArraySegment<ulong> currBitmapStorage = new ArraySegment<ulong>(new ulong[CalculateManagementOverheadSize(size, blockShifts)]);
 
             for (int i = 0; i < blockShifts.Length; i++)
             {

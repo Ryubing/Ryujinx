@@ -127,7 +127,7 @@ namespace Ryujinx.Graphics.Gpu.Engine.Threed.ComputeDraw
 
             for (int index = 0; index < Constants.TotalVertexAttribs; index++)
             {
-                var vertexAttrib = _state.State.VertexAttribState[index];
+                VertexAttribState vertexAttrib = _state.State.VertexAttribState[index];
 
                 if (!FormatTable.TryGetSingleComponentAttribFormat(vertexAttrib.UnpackFormat(), out Format format, out int componentsCount))
                 {
@@ -153,7 +153,7 @@ namespace Ryujinx.Graphics.Gpu.Engine.Threed.ComputeDraw
                 int bufferIndex = vertexAttrib.UnpackBufferIndex();
 
                 GpuVa endAddress = _state.State.VertexBufferEndAddress[bufferIndex];
-                var vertexBuffer = _state.State.VertexBufferState[bufferIndex];
+                VertexBufferState vertexBuffer = _state.State.VertexBufferState[bufferIndex];
                 bool instanced = _state.State.VertexBufferInstanced[bufferIndex];
 
                 ulong address = vertexBuffer.Address.Pack();
@@ -351,7 +351,7 @@ namespace Ryujinx.Graphics.Gpu.Engine.Threed.ComputeDraw
         /// <param name="size">Size of the buffer in bytes</param>
         private readonly void SetBufferTexture(ResourceReservations reservations, int index, Format format, ulong address, ulong size)
         {
-            var memoryManager = _channel.MemoryManager;
+            MemoryManager memoryManager = _channel.MemoryManager;
 
             BufferRange range = memoryManager.Physical.BufferCache.GetBufferRange(memoryManager.GetPhysicalRegions(address, size), BufferStage.VertexBuffer);
 
@@ -392,7 +392,7 @@ namespace Ryujinx.Graphics.Gpu.Engine.Threed.ComputeDraw
             indexOffset <<= shift;
             size <<= shift;
 
-            var memoryManager = _channel.MemoryManager;
+            MemoryManager memoryManager = _channel.MemoryManager;
 
             ulong misalign = address & ((ulong)_context.Capabilities.TextureBufferOffsetAlignment - 1);
             BufferRange range = memoryManager.Physical.BufferCache.GetBufferRange(
