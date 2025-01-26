@@ -9,8 +9,8 @@ namespace Ryujinx.Ava.UI.ViewModels
     {
         public UserProfileViewModel()
         {
-            Profiles = new ObservableCollection<BaseModel>();
-            LostProfiles = new ObservableCollection<UserProfile>();
+            Profiles = [];
+            LostProfiles = [];
             IsEmpty = !LostProfiles.Any();
         }
 

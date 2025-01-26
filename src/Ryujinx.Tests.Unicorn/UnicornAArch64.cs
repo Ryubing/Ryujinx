@@ -111,7 +111,7 @@ namespace Ryujinx.Tests.Unicorn
         }
 
         private static readonly int[] _xRegisters =
-        {
+        [
             Arm64.UC_ARM64_REG_X0,
             Arm64.UC_ARM64_REG_X1,
             Arm64.UC_ARM64_REG_X2,
@@ -142,11 +142,11 @@ namespace Ryujinx.Tests.Unicorn
             Arm64.UC_ARM64_REG_X27,
             Arm64.UC_ARM64_REG_X28,
             Arm64.UC_ARM64_REG_X29,
-            Arm64.UC_ARM64_REG_X30,
-        };
+            Arm64.UC_ARM64_REG_X30
+        ];
 
         private static readonly int[] _qRegisters =
-        {
+        [
             Arm64.UC_ARM64_REG_Q0,
             Arm64.UC_ARM64_REG_Q1,
             Arm64.UC_ARM64_REG_Q2,
@@ -178,8 +178,8 @@ namespace Ryujinx.Tests.Unicorn
             Arm64.UC_ARM64_REG_Q28,
             Arm64.UC_ARM64_REG_Q29,
             Arm64.UC_ARM64_REG_Q30,
-            Arm64.UC_ARM64_REG_Q31,
-        };
+            Arm64.UC_ARM64_REG_Q31
+        ];
 
         public ulong GetX(int index)
         {
@@ -272,7 +272,7 @@ namespace Ryujinx.Tests.Unicorn
             Uc.MemWrite((long)address, value);
         }
 
-        public void MemoryWrite8(ulong address, byte value) => MemoryWrite(address, new[] { value });
+        public void MemoryWrite8(ulong address, byte value) => MemoryWrite(address, [value]);
         public void MemoryWrite16(ulong address, short value) => MemoryWrite(address, BitConverter.GetBytes(value));
         public void MemoryWrite16(ulong address, ushort value) => MemoryWrite(address, BitConverter.GetBytes(value));
         public void MemoryWrite32(ulong address, int value) => MemoryWrite(address, BitConverter.GetBytes(value));

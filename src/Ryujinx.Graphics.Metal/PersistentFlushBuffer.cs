@@ -1,4 +1,5 @@
 using Ryujinx.Graphics.GAL;
+using SharpMetal.Metal;
 using System;
 using System.Runtime.Versioning;
 
@@ -18,7 +19,7 @@ namespace Ryujinx.Graphics.Metal
 
         private BufferHolder ResizeIfNeeded(int size)
         {
-            var flushStorage = _flushStorage;
+            BufferHolder flushStorage = _flushStorage;
 
             if (flushStorage == null || size > _flushStorage.Size)
             {
@@ -33,13 +34,13 @@ namespace Ryujinx.Graphics.Metal
 
         public Span<byte> GetBufferData(CommandBufferPool cbp, BufferHolder buffer, int offset, int size)
         {
-            var flushStorage = ResizeIfNeeded(size);
+            BufferHolder flushStorage = ResizeIfNeeded(size);
             Auto<DisposableBuffer> srcBuffer;
 
-            using (var cbs = cbp.Rent())
+            using (CommandBufferScoped cbs = cbp.Rent())
             {
                 srcBuffer = buffer.GetBuffer();
-                var dstBuffer = flushStorage.GetBuffer();
+                Auto<DisposableBuffer> dstBuffer = flushStorage.GetBuffer();
 
                 if (srcBuffer.TryIncrementReferenceCount())
                 {
@@ -61,12 +62,12 @@ namespace Ryujinx.Graphics.Metal
         {
             TextureCreateInfo info = view.Info;
 
-            var flushStorage = ResizeIfNeeded(size);
+            BufferHolder flushStorage = ResizeIfNeeded(size);
 
-            using (var cbs = cbp.Rent())
+            using (CommandBufferScoped cbs = cbp.Rent())
             {
-                var buffer = flushStorage.GetBuffer().Get(cbs).Value;
-                var image = view.GetHandle();
+                MTLBuffer buffer = flushStorage.GetBuffer().Get(cbs).Value;
+                MTLTexture image = view.GetHandle();
 
                 view.CopyFromOrToBuffer(cbs, buffer, image, size, true, 0, 0, info.GetLayers(), info.Levels, singleSlice: false);
             }
@@ -77,12 +78,12 @@ namespace Ryujinx.Graphics.Metal
 
         public Span<byte> GetTextureData(CommandBufferPool cbp, Texture view, int size, int layer, int level)
         {
-            var flushStorage = ResizeIfNeeded(size);
+            BufferHolder flushStorage = ResizeIfNeeded(size);
 
-            using (var cbs = cbp.Rent())
+            using (CommandBufferScoped cbs = cbp.Rent())
             {
-                var buffer = flushStorage.GetBuffer().Get(cbs).Value;
-                var image = view.GetHandle();
+                MTLBuffer buffer = flushStorage.GetBuffer().Get(cbs).Value;
+                MTLTexture image = view.GetHandle();
 
                 view.CopyFromOrToBuffer(cbs, buffer, image, size, true, layer, level, 1, 1, singleSlice: true);
             }

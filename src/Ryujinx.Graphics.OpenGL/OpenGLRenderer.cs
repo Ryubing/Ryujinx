@@ -6,6 +6,7 @@ using Ryujinx.Graphics.OpenGL.Image;
 using Ryujinx.Graphics.OpenGL.Queries;
 using Ryujinx.Graphics.Shader.Translation;
 using System;
+using BufferAccess = Ryujinx.Graphics.GAL.BufferAccess;
 
 namespace Ryujinx.Graphics.OpenGL
 {
@@ -63,7 +64,7 @@ namespace Ryujinx.Graphics.OpenGL
         {
             BufferCount++;
 
-            var memType = access & GAL.BufferAccess.MemoryTypeMask;
+            BufferAccess memType = access & GAL.BufferAccess.MemoryTypeMask;
 
             if (memType == GAL.BufferAccess.HostMemory)
             {

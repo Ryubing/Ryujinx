@@ -70,14 +70,14 @@ namespace Ryujinx.HLE.HOS
 
         public void EnableCheats(string[] enabledCheats)
         {
-            foreach (var program in _programDictionary.Values)
+            foreach (ITamperProgram program in _programDictionary.Values)
             {
                 program.IsEnabled = false;
             }
 
-            foreach (var cheat in enabledCheats)
+            foreach (string cheat in enabledCheats)
             {
-                if (_programDictionary.TryGetValue(cheat, out var program))
+                if (_programDictionary.TryGetValue(cheat, out ITamperProgram program))
                 {
                     program.IsEnabled = true;
                 }

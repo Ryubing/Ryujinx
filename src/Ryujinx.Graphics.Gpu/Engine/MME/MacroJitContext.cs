@@ -20,7 +20,7 @@ namespace Ryujinx.Graphics.Gpu.Engine.MME
         /// <returns>The call argument, or 0 if the FIFO is empty</returns>
         public int FetchParam()
         {
-            if (!Fifo.TryDequeue(out var value))
+            if (!Fifo.TryDequeue(out FifoWord value))
             {
                 Logger.Warning?.Print(LogClass.Gpu, "Macro attempted to fetch an inexistent argument.");
 

@@ -15,134 +15,136 @@ namespace Ryujinx.Tests.Cpu
         #region "ValueSource (Opcodes)"
         private static uint[] _V_Add_Sub_Long_Wide_I_()
         {
-            return new[]
-            {
+            return
+            [
                 0xf2800000u, // VADDL.S8 Q0, D0, D0
                 0xf2800100u, // VADDW.S8 Q0, Q0, D0
                 0xf2800200u, // VSUBL.S8 Q0, D0, D0
-                0xf2800300u, // VSUBW.S8 Q0, Q0, D0
-            };
+                0xf2800300u // VSUBW.S8 Q0, Q0, D0
+            ];
         }
 
         private static uint[] _Vfma_Vfms_Vfnma_Vfnms_S_F32_()
         {
-            return new[]
-            {
+            return
+            [
                 0xEEA00A00u, // VFMA. F32 S0, S0, S0
                 0xEEA00A40u, // VFMS. F32 S0, S0, S0
                 0xEE900A40u, // VFNMA.F32 S0, S0, S0
-                0xEE900A00u, // VFNMS.F32 S0, S0, S0
-            };
+                0xEE900A00u // VFNMS.F32 S0, S0, S0
+            ];
         }
 
         private static uint[] _Vfma_Vfms_Vfnma_Vfnms_S_F64_()
         {
-            return new[]
-            {
+            return
+            [
                 0xEEA00B00u, // VFMA. F64 D0, D0, D0
                 0xEEA00B40u, // VFMS. F64 D0, D0, D0
                 0xEE900B40u, // VFNMA.F64 D0, D0, D0
-                0xEE900B00u, // VFNMS.F64 D0, D0, D0
-            };
+                0xEE900B00u // VFNMS.F64 D0, D0, D0
+            ];
         }
 
         private static uint[] _Vfma_Vfms_V_F32_()
         {
-            return new[]
-            {
+            return
+            [
                 0xF2000C10u, // VFMA.F32 D0, D0, D0
-                0xF2200C10u, // VFMS.F32 D0, D0, D0
-            };
+                0xF2200C10u // VFMS.F32 D0, D0, D0
+            ];
         }
 
         private static uint[] _Vmla_Vmls_Vnmla_Vnmls_S_F32_()
         {
-            return new[]
-            {
+            return
+            [
                 0xEE000A00u, // VMLA. F32 S0, S0, S0
                 0xEE000A40u, // VMLS. F32 S0, S0, S0
                 0xEE100A40u, // VNMLA.F32 S0, S0, S0
-                0xEE100A00u, // VNMLS.F32 S0, S0, S0
-            };
+                0xEE100A00u // VNMLS.F32 S0, S0, S0
+            ];
         }
 
         private static uint[] _Vmla_Vmls_Vnmla_Vnmls_S_F64_()
         {
-            return new[]
-            {
+            return
+            [
                 0xEE000B00u, // VMLA. F64 D0, D0, D0
                 0xEE000B40u, // VMLS. F64 D0, D0, D0
                 0xEE100B40u, // VNMLA.F64 D0, D0, D0
-                0xEE100B00u, // VNMLS.F64 D0, D0, D0
-            };
+                0xEE100B00u // VNMLS.F64 D0, D0, D0
+            ];
         }
 
         private static uint[] _Vmlal_Vmlsl_V_I_()
         {
-            return new[]
-            {
+            return
+            [
                 0xf2800800u, // VMLAL.S8 Q0, D0, D0
-                0xf2800a00u, // VMLSL.S8 Q0, D0, D0
-            };
+                0xf2800a00u // VMLSL.S8 Q0, D0, D0
+            ];
         }
 
         private static uint[] _Vp_Add_Max_Min_F_()
         {
-            return new[]
-            {
+            return
+            [
                 0xf3000d00u, // VPADD.F32 D0, D0, D0
                 0xf3000f00u, // VPMAX.F32 D0, D0, D0
-                0xf3200f00u, // VPMIN.F32 D0, D0, D0
-            };
+                0xf3200f00u // VPMIN.F32 D0, D0, D0
+            ];
         }
 
         private static uint[] _Vp_Add_I_()
         {
-            return new[]
-            {
-                0xf2000b10u, // VPADD.I8 D0, D0, D0
-            };
+            return
+            [
+                0xf2000b10u // VPADD.I8 D0, D0, D0
+            ];
         }
 
         private static uint[] _V_Pmax_Pmin_Rhadd_I_()
         {
-            return new[]
-            {
+            return
+            [
                 0xf2000a00u, // VPMAX .S8 D0, D0, D0
                 0xf2000a10u, // VPMIN .S8 D0, D0, D0
-                0xf2000100u, // VRHADD.S8 D0, D0, D0
-            };
+                0xf2000100u // VRHADD.S8 D0, D0, D0
+            ];
         }
 
         private static uint[] _Vq_Add_Sub_I_()
         {
-            return new[]
-            {
+            return
+            [
                 0xf2000050u, // VQADD.S8 Q0, Q0, Q0
-                0xf2000250u, // VQSUB.S8 Q0, Q0, Q0
-            };
+                0xf2000250u // VQSUB.S8 Q0, Q0, Q0
+            ];
         }
         #endregion
 
         #region "ValueSource (Types)"
         private static ulong[] _8B1D_()
         {
-            return new[] {
+            return
+            [
                 0x0000000000000000ul, 0x7F7F7F7F7F7F7F7Ful,
                 0x8080808080808080ul, 0x7FFFFFFFFFFFFFFFul,
-                0x8000000000000000ul, 0xFFFFFFFFFFFFFFFFul,
-            };
+                0x8000000000000000ul, 0xFFFFFFFFFFFFFFFFul
+            ];
         }
 
         private static ulong[] _8B4H2S1D_()
         {
-            return new[] {
+            return
+            [
                 0x0000000000000000ul, 0x7F7F7F7F7F7F7F7Ful,
                 0x8080808080808080ul, 0x7FFF7FFF7FFF7FFFul,
                 0x8000800080008000ul, 0x7FFFFFFF7FFFFFFFul,
                 0x8000000080000000ul, 0x7FFFFFFFFFFFFFFFul,
-                0x8000000000000000ul, 0xFFFFFFFFFFFFFFFFul,
-            };
+                0x8000000000000000ul, 0xFFFFFFFFFFFFFFFFul
+            ];
         }
 
         private static IEnumerable<ulong> _1S_F_()

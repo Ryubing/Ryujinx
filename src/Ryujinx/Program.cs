@@ -47,9 +47,9 @@ namespace Ryujinx.Ava
         {
             Version = ReleaseInformation.Version;
             
-            if (OperatingSystem.IsWindows() && !OperatingSystem.IsWindowsVersionAtLeast(10, 0, 17134))
+            if (OperatingSystem.IsWindows() && !OperatingSystem.IsWindowsVersionAtLeast(10, 0, 19041))
             {
-                _ = MessageBoxA(nint.Zero, "You are running an outdated version of Windows.\n\nRyujinx supports Windows 10 version 1803 and newer.\n", $"Ryujinx {Version}", MbIconwarning);
+                _ = MessageBoxA(nint.Zero, "You are running an outdated version of Windows.\n\nRyujinx supports Windows 10 version 20H1 and newer.\n", $"Ryujinx {Version}", MbIconwarning);
             }
 
             PreviewerDetached = true;
@@ -94,7 +94,7 @@ namespace Ryujinx.Ava
         private static void Initialize(string[] args)
         {
             // Ensure Discord presence timestamp begins at the absolute start of when Ryujinx is launched
-            DiscordIntegrationModule.StartedAt = Timestamps.Now;
+            DiscordIntegrationModule.EmulatorStartedAt = Timestamps.Now;
 
             // Parse arguments
             CommandLineState.ParseArguments(args);
@@ -262,7 +262,7 @@ namespace Ryujinx.Ava
                 exceptions.Add(initialException);
             }
 
-            foreach (var e in exceptions)
+            foreach (Exception e in exceptions)
             {
                 string message = $"Unhandled exception caught: {e}";
                 // ReSharper disable once ConstantConditionalAccessQualifier

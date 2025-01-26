@@ -429,7 +429,7 @@ namespace Ryujinx.Graphics.Shader.StructuredIr
         {
             AstBlock block = bottom;
 
-            List<AstBlock> path = new();
+            List<AstBlock> path = [];
 
             while (block != top)
             {

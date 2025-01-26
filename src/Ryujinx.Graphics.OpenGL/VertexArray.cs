@@ -177,7 +177,7 @@ namespace Ryujinx.Graphics.OpenGL
             {
                 int vbIndex = BitOperations.TrailingZeroCount(buffersInUse);
 
-                ref var vb = ref _vertexBuffers[vbIndex];
+                ref VertexBufferDescriptor vb = ref _vertexBuffers[vbIndex];
 
                 int requiredSize = vertexCount * vb.Stride;
 
@@ -232,7 +232,7 @@ namespace Ryujinx.Graphics.OpenGL
             {
                 int vbIndex = BitOperations.TrailingZeroCount(buffersLimited);
 
-                ref var vb = ref _vertexBuffers[vbIndex];
+                ref VertexBufferDescriptor vb = ref _vertexBuffers[vbIndex];
 
                 GL.BindVertexBuffer(vbIndex, vb.Buffer.Handle.ToInt32(), (nint)vb.Buffer.Offset, vb.Stride);
 

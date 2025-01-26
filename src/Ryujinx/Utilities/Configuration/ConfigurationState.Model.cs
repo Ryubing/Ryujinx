@@ -661,7 +661,7 @@ namespace Ryujinx.Ava.Utilities.Configuration
                 if (!ShowDirtyHacks) 
                     return;
                 
-                var newHacks = EnabledHacks.Select(x => x.Hack)
+                string newHacks = EnabledHacks.Select(x => x.Hack)
                     .JoinToString(", ");
 
                 if (newHacks != _lastHackCollection)

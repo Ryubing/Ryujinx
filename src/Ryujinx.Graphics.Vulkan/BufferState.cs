@@ -1,4 +1,5 @@
 using System;
+using Buffer = Silk.NET.Vulkan.Buffer;
 
 namespace Ryujinx.Graphics.Vulkan
 {
@@ -23,7 +24,7 @@ namespace Ryujinx.Graphics.Vulkan
         {
             if (_buffer != null)
             {
-                var buffer = _buffer.Get(cbs, _offset, _size, true).Value;
+                Buffer buffer = _buffer.Get(cbs, _offset, _size, true).Value;
 
                 ulong offset = (ulong)_offset;
                 ulong size = (ulong)_size;

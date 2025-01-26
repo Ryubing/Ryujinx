@@ -1,6 +1,7 @@
 using System;
 using System.Buffers;
 using System.Diagnostics;
+using System.IO;
 using System.Runtime.CompilerServices;
 using System.Runtime.InteropServices;
 
@@ -16,15 +17,15 @@ namespace Ryujinx.Common.Extensions
         /// <param name="fileFullName">The path and name of the file to create and dump to</param>
         public static void DumpToFile(this ref SequenceReader<byte> reader, string fileFullName)
         {
-            var initialConsumed = reader.Consumed;
+            long initialConsumed = reader.Consumed;
 
             reader.Rewind(initialConsumed);
 
-            using (var fileStream = System.IO.File.Create(fileFullName, 4096, System.IO.FileOptions.None))
+            using (FileStream fileStream = System.IO.File.Create(fileFullName, 4096, System.IO.FileOptions.None))
             {
                 while (reader.End == false)
                 {
-                    var span = reader.CurrentSpan;
+                    ReadOnlySpan<byte> span = reader.CurrentSpan;
                     fileStream.Write(span);
                     reader.Advance(span.Length);
                 }
@@ -163,7 +164,7 @@ namespace Ryujinx.Common.Extensions
             // Not enough data in the current segment, try to peek for the data we need.
             T buffer = default;
 
-            Span<byte> tempSpan = new Span<byte>(&buffer, sizeof(T));
+            Span<byte> tempSpan = new(&buffer, sizeof(T));
 
             if (!reader.TryCopyTo(tempSpan))
             {

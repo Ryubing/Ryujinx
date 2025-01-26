@@ -1,6 +1,7 @@
 using Avalonia.Controls;
 using Avalonia.Controls.Notifications;
 using Avalonia.Input;
+using Avalonia.Input.Platform;
 using Avalonia.Interactivity;
 using FluentAvalonia.UI.Controls;
 using Ryujinx.Ava.UI.Helpers;
@@ -38,10 +39,10 @@ namespace Ryujinx.Ava.UI.Controls
             if (sender is not Button { Content: TextBlock idText })
                 return;
 
-            if (!RyujinxApp.IsClipboardAvailable(out var clipboard))
+            if (!RyujinxApp.IsClipboardAvailable(out IClipboard clipboard))
                 return;
             
-            var appData = mwvm.Applications.FirstOrDefault(it => it.IdString == idText.Text);
+            ApplicationData appData = mwvm.Applications.FirstOrDefault(it => it.IdString == idText.Text);
             if (appData is null)
                 return;
             

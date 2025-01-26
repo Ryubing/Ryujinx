@@ -25,7 +25,7 @@ namespace Ryujinx.Graphics.Vulkan
 
                 if (SetDescriptors != null)
                 {
-                    foreach (var setDescriptor in SetDescriptors)
+                    foreach (ResourceDescriptorCollection setDescriptor in SetDescriptors)
                     {
                         hasher.Add(setDescriptor);
                     }
@@ -81,7 +81,7 @@ namespace Ryujinx.Graphics.Vulkan
             ReadOnlyCollection<ResourceDescriptorCollection> setDescriptors,
             bool usePushDescriptors)
         {
-            var key = new PlceKey(setDescriptors, usePushDescriptors);
+            PlceKey key = new(setDescriptors, usePushDescriptors);
 
             return _plces.GetOrAdd(key, newKey => new PipelineLayoutCacheEntry(gd, device, setDescriptors, usePushDescriptors));
         }
@@ -90,7 +90,7 @@ namespace Ryujinx.Graphics.Vulkan
         {
             if (disposing)
             {
-                foreach (var plce in _plces.Values)
+                foreach (PipelineLayoutCacheEntry plce in _plces.Values)
                 {
                     plce.Dispose();
                 }

@@ -56,7 +56,7 @@ namespace Ryujinx.HLE.HOS.Services.Ldn.UserServiceCreator
         public NetworkInfo[] Scan(ushort channel, ScanFilter scanFilter)
         {
             Logger.Warning?.PrintMsg(LogClass.ServiceLdn, "Attempted to scan for networks, but Multiplayer is disabled!");
-            return Array.Empty<NetworkInfo>();
+            return [];
         }
 
         public void SetAdvertiseData(byte[] data) { }

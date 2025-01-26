@@ -66,7 +66,7 @@ namespace Ryujinx.Ava.UI.Windows
             {
                 if (button.DataContext is ModModel model)
                 {
-                    var result = await ContentDialogHelper.CreateConfirmationDialog(
+                    UserResult result = await ContentDialogHelper.CreateConfirmationDialog(
                         LocaleManager.Instance[LocaleKeys.DialogWarning],
                         LocaleManager.Instance.UpdateAndGetDynamicValue(LocaleKeys.DialogModManagerDeletionWarningMessage, model.Name),
                         LocaleManager.Instance[LocaleKeys.InputDialogYes],
@@ -83,7 +83,7 @@ namespace Ryujinx.Ava.UI.Windows
 
         private async void DeleteAll(object sender, RoutedEventArgs e)
         {
-            var result = await ContentDialogHelper.CreateConfirmationDialog(
+            UserResult result = await ContentDialogHelper.CreateConfirmationDialog(
                 LocaleManager.Instance[LocaleKeys.DialogWarning],
                 LocaleManager.Instance[LocaleKeys.DialogModManagerDeletionAllWarningMessage],
                 LocaleManager.Instance[LocaleKeys.InputDialogYes],
@@ -109,11 +109,11 @@ namespace Ryujinx.Ava.UI.Windows
 
         private void OnSelectionChanged(object sender, SelectionChangedEventArgs e)
         {
-            foreach (var content in e.AddedItems)
+            foreach (object content in e.AddedItems)
             {
                 if (content is ModModel model)
                 {
-                    var index = ViewModel.Mods.IndexOf(model);
+                    int index = ViewModel.Mods.IndexOf(model);
 
                     if (index != -1)
                     {
@@ -122,11 +122,11 @@ namespace Ryujinx.Ava.UI.Windows
                 }
             }
 
-            foreach (var content in e.RemovedItems)
+            foreach (object content in e.RemovedItems)
             {
                 if (content is ModModel model)
                 {
-                    var index = ViewModel.Mods.IndexOf(model);
+                    int index = ViewModel.Mods.IndexOf(model);
 
                     if (index != -1)
                     {

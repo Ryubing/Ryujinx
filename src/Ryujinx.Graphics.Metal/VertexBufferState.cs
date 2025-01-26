@@ -49,7 +49,7 @@ namespace Ryujinx.Graphics.Metal
             if (autoBuffer != null)
             {
                 int offset = _offset;
-                var buffer = autoBuffer.Get(cbs, offset, _size).Value;
+                MTLBuffer buffer = autoBuffer.Get(cbs, offset, _size).Value;
 
                 return (buffer, offset);
             }

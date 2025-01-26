@@ -31,12 +31,12 @@ namespace Ryujinx.Ava.Utilities.Configuration
             {
                 bool noFilter = e.NewValue.Length == 0;
 
-                foreach (var logClass in Enum.GetValues<LogClass>())
+                foreach (LogClass logClass in Enum.GetValues<LogClass>())
                 {
                     Logger.SetEnable(logClass, noFilter);
                 }
 
-                foreach (var logClass in e.NewValue)
+                foreach (LogClass logClass in e.NewValue)
                 {
                     Logger.SetEnable(logClass, true);
                 }

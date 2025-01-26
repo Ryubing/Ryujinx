@@ -132,7 +132,7 @@ namespace Ryujinx.Common.Logging
                 _enabledClasses[index] = true;
             }
 
-            _logTargets = new List<ILogTarget>();
+            _logTargets = [];
 
             _time = Stopwatch.StartNew();
 
@@ -193,7 +193,7 @@ namespace Ryujinx.Common.Logging
 
             _stdErrAdapter.Dispose();
 
-            foreach (var target in _logTargets)
+            foreach (ILogTarget target in _logTargets)
             {
                 target.Dispose();
             }
@@ -203,9 +203,9 @@ namespace Ryujinx.Common.Logging
 
         public static IReadOnlyCollection<LogLevel> GetEnabledLevels()
         {
-            var logs = new[] { Debug, Info, Warning, Error, Guest, AccessLog, Stub, Trace };
+            Log?[] logs = [Debug, Info, Warning, Error, Guest, AccessLog, Stub, Trace];
             List<LogLevel> levels = new(logs.Length);
-            foreach (var log in logs)
+            foreach (Log? log in logs)
             {
                 if (log.HasValue)
                     levels.Add(log.Value.Level);

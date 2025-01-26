@@ -49,7 +49,7 @@ namespace ARMeilleure.Common
 
             public TableSparseBlock(ulong size, Action<IntPtr> ensureMapped, PageInitDelegate pageInit)
             {
-                var block = new SparseMemoryBlock(size, pageInit, null);
+                SparseMemoryBlock block = new(size, pageInit, null);
 
                 _trackingEvent = (ulong address, ulong size, bool write) =>
                 {
@@ -146,7 +146,7 @@ namespace ARMeilleure.Common
             Levels = levels;
             Mask = 0;
 
-            foreach (var level in Levels)
+            foreach (AddressTableLevel level in Levels)
             {
                 Mask |= level.Mask;
             }
@@ -164,7 +164,7 @@ namespace ARMeilleure.Common
                 _fillBottomLevel = new SparseMemoryBlock(bottomLevelSize, null, _sparseFill);
                 _fillBottomLevelPtr = (TEntry*)_fillBottomLevel.Block.Pointer;
 
-                _sparseReserved = new List<TableSparseBlock>();
+                _sparseReserved = [];
                 _sparseLock = new ReaderWriterLockSlim();
 
                 _sparseBlockSize = bottomLevelSize;
@@ -363,7 +363,7 @@ namespace ARMeilleure.Common
         /// <returns>The new sparse block that was added</returns>
         private TableSparseBlock ReserveNewSparseBlock()
         {
-            var block = new TableSparseBlock(_sparseBlockSize, EnsureMapped, InitLeafPage);
+            TableSparseBlock block = new(_sparseBlockSize, EnsureMapped, InitLeafPage);
 
             _sparseReserved.Add(block);
             _sparseReservedOffset = 0;
@@ -381,7 +381,7 @@ namespace ARMeilleure.Common
         /// <returns>Allocated block</returns>
         private IntPtr Allocate<T>(int length, T fill, bool leaf) where T : unmanaged
         {
-            var size = sizeof(T) * length;
+            int size = sizeof(T) * length;
 
             AddressTablePage page;
 
@@ -413,10 +413,10 @@ namespace ARMeilleure.Common
             }
             else
             {
-                var address = (IntPtr)NativeAllocator.Instance.Allocate((uint)size);
+                IntPtr address = (IntPtr)NativeAllocator.Instance.Allocate((uint)size);
                 page = new AddressTablePage(false, address);
 
-                var span = new Span<T>((void*)page.Address, length);
+                Span<T> span = new((void*)page.Address, length);
                 span.Fill(fill);
             }
 
@@ -445,7 +445,7 @@ namespace ARMeilleure.Common
         {
             if (!_disposed)
             {
-                foreach (var page in _pages)
+                foreach (AddressTablePage page in _pages)
                 {
                     if (!page.IsSparse)
                     {

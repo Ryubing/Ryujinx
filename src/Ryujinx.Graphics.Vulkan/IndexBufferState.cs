@@ -115,7 +115,7 @@ namespace Ryujinx.Graphics.Vulkan
             // Convert the index buffer using the given pattern.
             int indexSize = GetIndexSize();
 
-            (var indexBufferAuto, var indirectBufferAuto) = gd.BufferManager.GetBufferTopologyConversionIndirect(
+            (Auto<DisposableBuffer> indexBufferAuto, Auto<DisposableBuffer> indirectBufferAuto) = gd.BufferManager.GetBufferTopologyConversionIndirect(
                 gd,
                 cbs,
                 new BufferRange(_handle, _offset, _size),

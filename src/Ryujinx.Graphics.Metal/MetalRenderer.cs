@@ -45,8 +45,8 @@ namespace Ryujinx.Graphics.Metal
         public MetalRenderer(Func<CAMetalLayer> metalLayer)
         {
             _device = MTLDevice.CreateSystemDefaultDevice();
-            Programs = new HashSet<Program>();
-            Samplers = new HashSet<SamplerHolder>();
+            Programs = [];
+            Samplers = [];
 
             if (_device.ArgumentBuffersSupport != MTLArgumentBuffersTier.Tier2)
             {
@@ -61,7 +61,7 @@ namespace Ryujinx.Graphics.Metal
 
         public void Initialize(GraphicsDebugLevel logLevel)
         {
-            var layer = _getMetalLayer();
+            CAMetalLayer layer = _getMetalLayer();
             layer.Device = _device;
             layer.FramebufferOnly = false;
 
@@ -253,7 +253,7 @@ namespace Ryujinx.Graphics.Metal
         public ICounterEvent ReportCounter(CounterType type, EventHandler<ulong> resultHandler, float divisor, bool hostReserved)
         {
             // https://developer.apple.com/documentation/metal/gpu_counters_and_counter_sample_buffers/creating_a_counter_sample_buffer_to_store_a_gpu_s_counter_data_during_a_pass?language=objc
-            var counterEvent = new CounterEvent();
+            CounterEvent counterEvent = new();
             resultHandler?.Invoke(counterEvent, type == CounterType.SamplesPassed ? (ulong)1 : 0);
             return counterEvent;
         }
@@ -295,12 +295,12 @@ namespace Ryujinx.Graphics.Metal
         {
             BackgroundResources.Dispose();
 
-            foreach (var program in Programs)
+            foreach (Program program in Programs)
             {
                 program.Dispose();
             }
 
-            foreach (var sampler in Samplers)
+            foreach (SamplerHolder sampler in Samplers)
             {
                 sampler.Dispose();
             }

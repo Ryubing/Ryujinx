@@ -66,7 +66,7 @@ namespace Ryujinx.Graphics.Gpu.Engine.Threed.Blender
 
             descriptor = default;
 
-            if (!AdvancedBlendPreGenTable.Entries.TryGetValue(hash, out var entry))
+            if (!AdvancedBlendPreGenTable.Entries.TryGetValue(hash, out AdvancedBlendEntry entry))
             {
                 return false;
             }

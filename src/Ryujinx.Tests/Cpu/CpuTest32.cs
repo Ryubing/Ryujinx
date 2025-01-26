@@ -296,7 +296,7 @@ namespace Ryujinx.Tests.Cpu
                 FinalRegs = test.FinalRegs,
             });
 
-            foreach (var (address, value) in test.MemoryDelta)
+            foreach ((ulong address, ushort value) in test.MemoryDelta)
             {
                 testMem[address - DataBaseAddress + 0] = (byte)(value >> 0);
                 testMem[address - DataBaseAddress + 1] = (byte)(value >> 8);

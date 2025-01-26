@@ -471,7 +471,7 @@ namespace Ryujinx.Graphics.Gpu.Engine.Threed
             int textureId = _state.State.DrawTextureTextureId;
             int samplerId = _state.State.DrawTextureSamplerId;
 
-            (var texture, var sampler) = _channel.TextureManager.GetGraphicsTextureAndSampler(textureId, samplerId);
+            (Image.Texture texture, Sampler sampler) = _channel.TextureManager.GetGraphicsTextureAndSampler(textureId, samplerId);
 
             srcX0 *= texture.ScaleFactor;
             srcY0 *= texture.ScaleFactor;
@@ -684,8 +684,8 @@ namespace Ryujinx.Graphics.Gpu.Engine.Threed
 
             if (hasCount)
             {
-                var indirectBuffer = memory.BufferCache.GetBufferRange(indirectBufferRange, BufferStage.Indirect);
-                var parameterBuffer = memory.BufferCache.GetBufferRange(parameterBufferRange, BufferStage.Indirect);
+                BufferRange indirectBuffer = memory.BufferCache.GetBufferRange(indirectBufferRange, BufferStage.Indirect);
+                BufferRange parameterBuffer = memory.BufferCache.GetBufferRange(parameterBufferRange, BufferStage.Indirect);
 
                 if (indexed)
                 {
@@ -698,7 +698,7 @@ namespace Ryujinx.Graphics.Gpu.Engine.Threed
             }
             else
             {
-                var indirectBuffer = memory.BufferCache.GetBufferRange(indirectBufferRange, BufferStage.Indirect);
+                BufferRange indirectBuffer = memory.BufferCache.GetBufferRange(indirectBufferRange, BufferStage.Indirect);
 
                 if (indexed)
                 {
@@ -820,7 +820,7 @@ namespace Ryujinx.Graphics.Gpu.Engine.Threed
             // If there is a mismatch on the host clip region and the one explicitly defined by the guest
             // on the screen scissor state, then we need to force only one texture to be bound to avoid
             // host clipping.
-            var screenScissorState = _state.State.ScreenScissorState;
+            ScreenScissorState screenScissorState = _state.State.ScreenScissorState;
 
             bool clearAffectedByStencilMask = (_state.State.ClearFlags & 1) != 0;
             bool clearAffectedByScissor = (_state.State.ClearFlags & 0x100) != 0;
@@ -833,7 +833,7 @@ namespace Ryujinx.Graphics.Gpu.Engine.Threed
 
                 if (fullClear && clearAffectedByScissor && _state.State.ScissorState[0].Enable)
                 {
-                    ref var scissorState = ref _state.State.ScissorState[0];
+                    ref ScissorState scissorState = ref _state.State.ScissorState[0];
 
                     fullClear = scissorState.X1 == screenScissorState.X &&
                         scissorState.Y1 == screenScissorState.Y &&
@@ -894,7 +894,7 @@ namespace Ryujinx.Graphics.Gpu.Engine.Threed
 
                 if (clearAffectedByScissor && _state.State.ScissorState[0].Enable)
                 {
-                    ref var scissorState = ref _state.State.ScissorState[0];
+                    ref ScissorState scissorState = ref _state.State.ScissorState[0];
 
                     scissorX = Math.Max(scissorX, scissorState.X1);
                     scissorY = Math.Max(scissorY, scissorState.Y1);
@@ -911,10 +911,10 @@ namespace Ryujinx.Graphics.Gpu.Engine.Threed
                     scissorH = (int)MathF.Ceiling(scissorH * scale);
                 }
 
-                Span<Rectangle<int>> scissors = stackalloc Rectangle<int>[]
-                {
-                    new Rectangle<int>(scissorX, scissorY, scissorW, scissorH),
-                };
+                Span<Rectangle<int>> scissors =
+                [
+                    new Rectangle<int>(scissorX, scissorY, scissorW, scissorH)
+                ];
 
                 _context.Renderer.Pipeline.SetScissors(scissors);
             }
@@ -923,7 +923,7 @@ namespace Ryujinx.Graphics.Gpu.Engine.Threed
 
             if (componentMask != 0)
             {
-                var clearColor = _state.State.ClearColors;
+                ClearColors clearColor = _state.State.ClearColors;
 
                 ColorF color = new(clearColor.Red, clearColor.Green, clearColor.Blue, clearColor.Alpha);
 

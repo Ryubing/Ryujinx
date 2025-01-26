@@ -301,11 +301,11 @@ namespace Ryujinx.Graphics.Gpu.Shader.DiskCache
 
             try
             {
-                using var tocFileStream = DiskCacheCommon.OpenFile(_basePath, SharedTocFileName, writable: false);
-                using var dataFileStream = DiskCacheCommon.OpenFile(_basePath, SharedDataFileName, writable: false);
+                using FileStream tocFileStream = DiskCacheCommon.OpenFile(_basePath, SharedTocFileName, writable: false);
+                using FileStream dataFileStream = DiskCacheCommon.OpenFile(_basePath, SharedDataFileName, writable: false);
 
-                using var guestTocFileStream = _guestStorage.OpenTocFileStream();
-                using var guestDataFileStream = _guestStorage.OpenDataFileStream();
+                using Stream guestTocFileStream = _guestStorage.OpenTocFileStream();
+                using Stream guestDataFileStream = _guestStorage.OpenDataFileStream();
 
                 BinarySerializer tocReader = new(tocFileStream);
                 BinarySerializer dataReader = new(dataFileStream);
@@ -547,11 +547,11 @@ namespace Ryujinx.Graphics.Gpu.Shader.DiskCache
         /// <returns>A collection of disk cache output streams</returns>
         public DiskCacheOutputStreams GetOutputStreams(GpuContext context)
         {
-            var tocFileStream = DiskCacheCommon.OpenFile(_basePath, SharedTocFileName, writable: true);
-            var dataFileStream = DiskCacheCommon.OpenFile(_basePath, SharedDataFileName, writable: true);
+            FileStream tocFileStream = DiskCacheCommon.OpenFile(_basePath, SharedTocFileName, writable: true);
+            FileStream dataFileStream = DiskCacheCommon.OpenFile(_basePath, SharedDataFileName, writable: true);
 
-            var hostTocFileStream = DiskCacheCommon.OpenFile(_basePath, GetHostTocFileName(context), writable: true);
-            var hostDataFileStream = DiskCacheCommon.OpenFile(_basePath, GetHostDataFileName(context), writable: true);
+            FileStream hostTocFileStream = DiskCacheCommon.OpenFile(_basePath, GetHostTocFileName(context), writable: true);
+            FileStream hostDataFileStream = DiskCacheCommon.OpenFile(_basePath, GetHostDataFileName(context), writable: true);
 
             return new DiskCacheOutputStreams(tocFileStream, dataFileStream, hostTocFileStream, hostDataFileStream);
         }
@@ -569,7 +569,7 @@ namespace Ryujinx.Graphics.Gpu.Shader.DiskCache
 
             for (int index = 0; index < program.Shaders.Length; index++)
             {
-                var shader = program.Shaders[index];
+                CachedShaderStage shader = program.Shaders[index];
                 if (shader == null || (shader.Info != null && shader.Info.Stage == ShaderStage.Compute))
                 {
                     continue;
@@ -578,8 +578,8 @@ namespace Ryujinx.Graphics.Gpu.Shader.DiskCache
                 stagesBitMask |= 1u << index;
             }
 
-            var tocFileStream = streams != null ? streams.TocFileStream : DiskCacheCommon.OpenFile(_basePath, SharedTocFileName, writable: true);
-            var dataFileStream = streams != null ? streams.DataFileStream : DiskCacheCommon.OpenFile(_basePath, SharedDataFileName, writable: true);
+            FileStream tocFileStream = streams != null ? streams.TocFileStream : DiskCacheCommon.OpenFile(_basePath, SharedTocFileName, writable: true);
+            FileStream dataFileStream = streams != null ? streams.DataFileStream : DiskCacheCommon.OpenFile(_basePath, SharedDataFileName, writable: true);
 
             ulong timestamp = (ulong)DateTime.UtcNow.Subtract(DateTime.UnixEpoch).TotalSeconds;
 
@@ -610,7 +610,7 @@ namespace Ryujinx.Graphics.Gpu.Shader.DiskCache
 
             for (int index = 0; index < program.Shaders.Length; index++)
             {
-                var shader = program.Shaders[index];
+                CachedShaderStage shader = program.Shaders[index];
                 if (shader == null)
                 {
                     continue;
@@ -655,8 +655,8 @@ namespace Ryujinx.Graphics.Gpu.Shader.DiskCache
         /// <param name="context">GPU context</param>
         public void ClearSharedCache()
         {
-            using var tocFileStream = DiskCacheCommon.OpenFile(_basePath, SharedTocFileName, writable: true);
-            using var dataFileStream = DiskCacheCommon.OpenFile(_basePath, SharedDataFileName, writable: true);
+            using FileStream tocFileStream = DiskCacheCommon.OpenFile(_basePath, SharedTocFileName, writable: true);
+            using FileStream dataFileStream = DiskCacheCommon.OpenFile(_basePath, SharedDataFileName, writable: true);
 
             tocFileStream.SetLength(0);
             dataFileStream.SetLength(0);
@@ -668,8 +668,8 @@ namespace Ryujinx.Graphics.Gpu.Shader.DiskCache
         /// <param name="context">GPU context</param>
         public void ClearHostCache(GpuContext context)
         {
-            using var tocFileStream = DiskCacheCommon.OpenFile(_basePath, GetHostTocFileName(context), writable: true);
-            using var dataFileStream = DiskCacheCommon.OpenFile(_basePath, GetHostDataFileName(context), writable: true);
+            using FileStream tocFileStream = DiskCacheCommon.OpenFile(_basePath, GetHostTocFileName(context), writable: true);
+            using FileStream dataFileStream = DiskCacheCommon.OpenFile(_basePath, GetHostDataFileName(context), writable: true);
 
             tocFileStream.SetLength(0);
             dataFileStream.SetLength(0);
@@ -690,8 +690,8 @@ namespace Ryujinx.Graphics.Gpu.Shader.DiskCache
             DiskCacheOutputStreams streams,
             ulong timestamp)
         {
-            var tocFileStream = streams != null ? streams.HostTocFileStream : DiskCacheCommon.OpenFile(_basePath, GetHostTocFileName(context), writable: true);
-            var dataFileStream = streams != null ? streams.HostDataFileStream : DiskCacheCommon.OpenFile(_basePath, GetHostDataFileName(context), writable: true);
+            FileStream tocFileStream = streams != null ? streams.HostTocFileStream : DiskCacheCommon.OpenFile(_basePath, GetHostTocFileName(context), writable: true);
+            FileStream dataFileStream = streams != null ? streams.HostDataFileStream : DiskCacheCommon.OpenFile(_basePath, GetHostDataFileName(context), writable: true);
 
             if (tocFileStream.Length == 0)
             {
@@ -853,25 +853,25 @@ namespace Ryujinx.Graphics.Gpu.Shader.DiskCache
 
             for (int index = 0; index < info.CBuffers.Count; index++)
             {
-                var entry = info.CBuffers[index];
+                BufferDescriptor entry = info.CBuffers[index];
                 dataWriter.WriteWithMagicAndSize(ref entry, BufdMagic);
             }
 
             for (int index = 0; index < info.SBuffers.Count; index++)
             {
-                var entry = info.SBuffers[index];
+                BufferDescriptor entry = info.SBuffers[index];
                 dataWriter.WriteWithMagicAndSize(ref entry, BufdMagic);
             }
 
             for (int index = 0; index < info.Textures.Count; index++)
             {
-                var entry = info.Textures[index];
+                TextureDescriptor entry = info.Textures[index];
                 dataWriter.WriteWithMagicAndSize(ref entry, TexdMagic);
             }
 
             for (int index = 0; index < info.Images.Count; index++)
             {
-                var entry = info.Images[index];
+                TextureDescriptor entry = info.Images[index];
                 dataWriter.WriteWithMagicAndSize(ref entry, TexdMagic);
             }
         }

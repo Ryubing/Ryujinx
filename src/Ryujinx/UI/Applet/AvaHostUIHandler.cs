@@ -46,7 +46,7 @@ namespace Ryujinx.Ava.UI.Applet
 
             Dispatcher.UIThread.InvokeAsync(async () =>
             {
-                var response = await ControllerAppletDialog.ShowControllerAppletDialog(_parent, args);
+                UserResult response = await ControllerAppletDialog.ShowControllerAppletDialog(_parent, args);
                 if (response == UserResult.Ok)
                 {
                     okPressed = true;
@@ -172,7 +172,7 @@ namespace Ryujinx.Ava.UI.Applet
                 try
                 {
                     _parent.ViewModel.AppHost.NpadManager.BlockInputUpdates();
-                    SoftwareKeyboardUIArgs args = new SoftwareKeyboardUIArgs();
+                    SoftwareKeyboardUIArgs args = new();
                     args.KeyboardMode = KeyboardMode.Default;
                     args.InitialText = "Ryujinx";
                     args.StringLengthMin = 1;
@@ -264,7 +264,7 @@ namespace Ryujinx.Ava.UI.Applet
         {
             UserId selected = UserId.Null;
             byte[] defaultGuestImage = EmbeddedResources.Read("Ryujinx.HLE/HOS/Services/Account/Acc/GuestUserImage.jpg");
-            UserProfile guest = new UserProfile(new UserId("00000000000000000000000000000080"), "Guest", defaultGuestImage);
+            UserProfile guest = new(new UserId("00000000000000000000000000000080"), "Guest", defaultGuestImage);
     
             ManualResetEvent dialogCloseEvent = new(false);
     

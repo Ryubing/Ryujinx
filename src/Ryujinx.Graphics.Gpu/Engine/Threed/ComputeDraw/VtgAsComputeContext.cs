@@ -65,7 +65,7 @@ namespace Ryujinx.Graphics.Gpu.Engine.Threed.ComputeDraw
             {
                 if (disposing)
                 {
-                    foreach (var texture in _cache.Values)
+                    foreach (ITexture texture in _cache.Values)
                     {
                         texture.Release();
                     }
@@ -603,7 +603,7 @@ namespace Ryujinx.Graphics.Gpu.Engine.Threed.ComputeDraw
                 DestroyIfNotNull(ref _geometryIndexDataBuffer.Handle);
                 DestroyIfNotNull(ref _sequentialIndexBuffer);
 
-                foreach (var indexBuffer in _topologyRemapBuffers.Values)
+                foreach (IndexBuffer indexBuffer in _topologyRemapBuffers.Values)
                 {
                     _context.Renderer.DeleteBuffer(indexBuffer.Handle);
                 }

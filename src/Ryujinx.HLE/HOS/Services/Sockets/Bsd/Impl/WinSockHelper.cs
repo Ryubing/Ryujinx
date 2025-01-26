@@ -303,7 +303,7 @@ namespace Ryujinx.HLE.HOS.Services.Sockets.Bsd.Impl
 
         public static bool TryConvertSocketOption(BsdSocketOption option, SocketOptionLevel level, out SocketOptionName name)
         {
-            var table = level switch
+            Dictionary<BsdSocketOption, SocketOptionName> table = level switch
             {
                 SocketOptionLevel.Socket => _soSocketOptionMap,
                 SocketOptionLevel.IP => _ipSocketOptionMap,
@@ -322,7 +322,7 @@ namespace Ryujinx.HLE.HOS.Services.Sockets.Bsd.Impl
 
         public static LinuxError ValidateSocketOption(BsdSocketOption option, SocketOptionLevel level, bool write)
         {
-            var table = level switch
+            Dictionary<BsdSocketOption, OptionDir> table = level switch
             {
                 SocketOptionLevel.Socket => _validSoSocketOptionMap,
                 SocketOptionLevel.IP => _validIpSocketOptionMap,

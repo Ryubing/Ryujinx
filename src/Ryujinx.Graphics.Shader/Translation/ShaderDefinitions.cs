@@ -192,7 +192,7 @@ namespace Ryujinx.Graphics.Shader.Translation
                             component = subIndex;
                         }
 
-                        var transformFeedbackVariable = new TransformFeedbackVariable(ioVariable, location, component);
+                        TransformFeedbackVariable transformFeedbackVariable = new(ioVariable, location, component);
                         _transformFeedbackDefinitions.TryAdd(transformFeedbackVariable, transformFeedbackOutputs[wordOffset]);
                     }
                 }
@@ -219,7 +219,7 @@ namespace Ryujinx.Graphics.Shader.Translation
                 return false;
             }
 
-            var transformFeedbackVariable = new TransformFeedbackVariable(ioVariable, location, component);
+            TransformFeedbackVariable transformFeedbackVariable = new(ioVariable, location, component);
             return _transformFeedbackDefinitions.TryGetValue(transformFeedbackVariable, out transformFeedbackOutput);
         }
 
@@ -271,8 +271,8 @@ namespace Ryujinx.Graphics.Shader.Translation
 
             for (; count < 4; count++)
             {
-                ref var prev = ref _transformFeedbackOutputs[baseIndex + count - 1];
-                ref var curr = ref _transformFeedbackOutputs[baseIndex + count];
+                ref TransformFeedbackOutput prev = ref _transformFeedbackOutputs[baseIndex + count - 1];
+                ref TransformFeedbackOutput curr = ref _transformFeedbackOutputs[baseIndex + count];
 
                 int prevOffset = prev.Offset;
                 int currOffset = curr.Offset;

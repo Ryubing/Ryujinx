@@ -10,7 +10,7 @@ namespace Ryujinx.Graphics.Shader.CodeGen.Msl.Instructions
         {
             AstOperand funcId = (AstOperand)operation.GetSource(0);
 
-            var function = context.GetFunction(funcId.Value);
+            StructuredFunction function = context.GetFunction(funcId.Value);
 
             int argCount = operation.SourcesCount - 1;
             int additionalArgCount = CodeGenContext.AdditionalArgCount + (context.Definitions.Stage != ShaderStage.Compute ? 1 : 0);

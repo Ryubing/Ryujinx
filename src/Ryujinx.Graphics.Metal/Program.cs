@@ -56,12 +56,12 @@ namespace Ryujinx.Graphics.Metal
             {
                 ShaderSource shader = _shaders[i];
 
-                using var compileOptions = new MTLCompileOptions
+                using MTLCompileOptions compileOptions = new()
                 {
                     PreserveInvariance = true,
                     LanguageVersion = MTLLanguageVersion.Version31,
                 };
-                var index = i;
+                int index = i;
 
                 _handles[i] = device.NewLibrary(StringHelper.NSString(shader.Code), compileOptions, (library, error) => CompilationResultHandler(library, error, index));
             }
@@ -71,7 +71,7 @@ namespace Ryujinx.Graphics.Metal
 
         public void CompilationResultHandler(MTLLibrary library, NSError error, int index)
         {
-            var shader = _shaders[index];
+            ShaderSource shader = _shaders[index];
 
             if (_handles[index].IsAllocated)
             {
@@ -118,7 +118,7 @@ namespace Ryujinx.Graphics.Metal
 
             for (int setIndex = 0; setIndex < setUsages.Count; setIndex++)
             {
-                List<ResourceBindingSegment> currentSegments = new();
+                List<ResourceBindingSegment> currentSegments = [];
 
                 ResourceUsage currentUsage = default;
                 int currentCount = 0;
@@ -142,7 +142,7 @@ namespace Ryujinx.Graphics.Metal
                                 currentUsage.Stages,
                                 currentUsage.ArrayLength > 1));
 
-                            var size = currentCount * ResourcePointerSize(currentUsage.Type);
+                            int size = currentCount * ResourcePointerSize(currentUsage.Type);
                             if (currentUsage.Stages.HasFlag(ResourceStages.Fragment))
                             {
                                 fragArgBufferSizes[setIndex] += size;
@@ -173,7 +173,7 @@ namespace Ryujinx.Graphics.Metal
                         currentUsage.Stages,
                         currentUsage.ArrayLength > 1));
 
-                    var size = currentCount * ResourcePointerSize(currentUsage.Type);
+                    int size = currentCount * ResourcePointerSize(currentUsage.Type);
                     if (currentUsage.Stages.HasFlag(ResourceStages.Fragment))
                     {
                         fragArgBufferSizes[setIndex] += size;

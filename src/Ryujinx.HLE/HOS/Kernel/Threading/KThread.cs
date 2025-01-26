@@ -121,8 +121,8 @@ namespace Ryujinx.HLE.HOS.Kernel.Threading
 
             SiblingsPerCore = new LinkedListNode<KThread>[KScheduler.CpuCoresCount];
 
-            _mutexWaiters = new LinkedList<KThread>();
-            _pinnedWaiters = new LinkedList<KThread>();
+            _mutexWaiters = [];
+            _pinnedWaiters = [];
         }
 
         public Result Initialize(
@@ -1232,7 +1232,7 @@ namespace Ryujinx.HLE.HOS.Kernel.Threading
         {
             if (_schedulerWaitEvent == null)
             {
-                var schedulerWaitEvent = new ManualResetEvent(false);
+                ManualResetEvent schedulerWaitEvent = new(false);
 
                 if (Interlocked.Exchange(ref _schedulerWaitEvent, schedulerWaitEvent) == null)
                 {

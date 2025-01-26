@@ -285,12 +285,12 @@ namespace Ryujinx.Graphics.Gpu.Engine.MME
         /// <param name="arg0">First argument of the call</param>
         private void DrawArraysInstanced(IDeviceState state, int arg0)
         {
-            var topology = (PrimitiveTopology)arg0;
+            PrimitiveTopology topology = (PrimitiveTopology)arg0;
 
-            var count = FetchParam();
-            var instanceCount = FetchParam();
-            var firstVertex = FetchParam();
-            var firstInstance = FetchParam();
+            FifoWord count = FetchParam();
+            FifoWord instanceCount = FetchParam();
+            FifoWord firstVertex = FetchParam();
+            FifoWord firstInstance = FetchParam();
 
             if (ShouldSkipDraw(state, instanceCount.Word))
             {
@@ -314,13 +314,13 @@ namespace Ryujinx.Graphics.Gpu.Engine.MME
         /// <param name="arg0">First argument of the call</param>
         private void DrawElements(IDeviceState state, int arg0)
         {
-            var topology = (PrimitiveTopology)arg0;
+            PrimitiveTopology topology = (PrimitiveTopology)arg0;
 
-            var indexAddressHigh = FetchParam();
-            var indexAddressLow = FetchParam();
-            var indexType = FetchParam();
-            var firstIndex = 0;
-            var indexCount = FetchParam();
+            FifoWord indexAddressHigh = FetchParam();
+            FifoWord indexAddressLow = FetchParam();
+            FifoWord indexType = FetchParam();
+            int firstIndex = 0;
+            FifoWord indexCount = FetchParam();
 
             _processor.ThreedClass.UpdateIndexBuffer(
                 (uint)indexAddressHigh.Word,
@@ -344,13 +344,13 @@ namespace Ryujinx.Graphics.Gpu.Engine.MME
         /// <param name="arg0">First argument of the call</param>
         private void DrawElementsInstanced(IDeviceState state, int arg0)
         {
-            var topology = (PrimitiveTopology)arg0;
+            PrimitiveTopology topology = (PrimitiveTopology)arg0;
 
-            var count = FetchParam();
-            var instanceCount = FetchParam();
-            var firstIndex = FetchParam();
-            var firstVertex = FetchParam();
-            var firstInstance = FetchParam();
+            FifoWord count = FetchParam();
+            FifoWord instanceCount = FetchParam();
+            FifoWord firstIndex = FetchParam();
+            FifoWord firstVertex = FetchParam();
+            FifoWord firstInstance = FetchParam();
 
             if (ShouldSkipDraw(state, instanceCount.Word))
             {
@@ -374,17 +374,17 @@ namespace Ryujinx.Graphics.Gpu.Engine.MME
         /// <param name="arg0">First argument of the call</param>
         private void DrawElementsIndirect(IDeviceState state, int arg0)
         {
-            var topology = (PrimitiveTopology)arg0;
+            PrimitiveTopology topology = (PrimitiveTopology)arg0;
 
-            var count = FetchParam();
-            var instanceCount = FetchParam();
-            var firstIndex = FetchParam();
-            var firstVertex = FetchParam();
-            var firstInstance = FetchParam();
+            FifoWord count = FetchParam();
+            FifoWord instanceCount = FetchParam();
+            FifoWord firstIndex = FetchParam();
+            FifoWord firstVertex = FetchParam();
+            FifoWord firstInstance = FetchParam();
 
             ulong indirectBufferGpuVa = count.GpuVa;
 
-            var bufferCache = _processor.MemoryManager.Physical.BufferCache;
+            BufferCache bufferCache = _processor.MemoryManager.Physical.BufferCache;
 
             bool useBuffer = bufferCache.CheckModified(_processor.MemoryManager, indirectBufferGpuVa, IndirectIndexedDataEntrySize, out ulong indirectBufferAddress);
 
@@ -432,7 +432,7 @@ namespace Ryujinx.Graphics.Gpu.Engine.MME
 
             int startDraw = arg0;
             int endDraw = arg1;
-            var topology = (PrimitiveTopology)arg2;
+            PrimitiveTopology topology = (PrimitiveTopology)arg2;
             int paddingWords = arg3;
             int stride = paddingWords * 4 + 0x14;
 
@@ -468,12 +468,12 @@ namespace Ryujinx.Graphics.Gpu.Engine.MME
 
             for (int i = 0; i < maxDrawCount; i++)
             {
-                var count = FetchParam();
+                FifoWord count = FetchParam();
 #pragma warning disable IDE0059 // Remove unnecessary value assignment
-                var instanceCount = FetchParam();
-                var firstIndex = FetchParam();
-                var firstVertex = FetchParam();
-                var firstInstance = FetchParam();
+                FifoWord instanceCount = FetchParam();
+                FifoWord firstIndex = FetchParam();
+                FifoWord firstVertex = FetchParam();
+                FifoWord firstInstance = FetchParam();
 #pragma warning restore IDE0059
 
                 if (i == 0)
@@ -492,7 +492,7 @@ namespace Ryujinx.Graphics.Gpu.Engine.MME
                 }
             }
 
-            var bufferCache = _processor.MemoryManager.Physical.BufferCache;
+            BufferCache bufferCache = _processor.MemoryManager.Physical.BufferCache;
 
             ulong indirectBufferSize = (ulong)maxDrawCount * (ulong)stride;
 
@@ -526,7 +526,7 @@ namespace Ryujinx.Graphics.Gpu.Engine.MME
         /// <returns>The call argument, or a 0 value with null address if the FIFO is empty</returns>
         private FifoWord FetchParam()
         {
-            if (!Fifo.TryDequeue(out var value))
+            if (!Fifo.TryDequeue(out FifoWord value))
             {
                 Logger.Warning?.Print(LogClass.Gpu, "Macro attempted to fetch an inexistent argument.");
 

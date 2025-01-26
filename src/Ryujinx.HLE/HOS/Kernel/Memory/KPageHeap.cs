@@ -84,7 +84,7 @@ namespace Ryujinx.HLE.HOS.Kernel.Memory
             }
         }
 
-        private static readonly int[] _memoryBlockPageShifts = { 12, 16, 21, 22, 25, 29, 30 };
+        private static readonly int[] _memoryBlockPageShifts = [12, 16, 21, 22, 25, 29, 30];
 
 #pragma warning disable IDE0052 // Remove unread private member
         private readonly ulong _heapAddress;
@@ -105,7 +105,7 @@ namespace Ryujinx.HLE.HOS.Kernel.Memory
             _blocksCount = blockShifts.Length;
             _blocks = new Block[_memoryBlockPageShifts.Length];
 
-            var currBitmapStorage = new ArraySegment<ulong>(new ulong[CalculateManagementOverheadSize(size, blockShifts)]);
+            ArraySegment<ulong> currBitmapStorage = new(new ulong[CalculateManagementOverheadSize(size, blockShifts)]);
 
             for (int i = 0; i < blockShifts.Length; i++)
             {

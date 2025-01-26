@@ -41,7 +41,7 @@ namespace Ryujinx.Cpu.AppleHv
             {
                 // Calculate our time delta in ticks based on the current clock frequency.
 
-                int result = TimeApi.mach_timebase_info(out var timeBaseInfo);
+                int result = TimeApi.mach_timebase_info(out MachTimebaseInfo timeBaseInfo);
 
                 Debug.Assert(result == 0);
 

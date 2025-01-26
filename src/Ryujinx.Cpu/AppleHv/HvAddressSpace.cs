@@ -29,7 +29,7 @@ namespace Ryujinx.Cpu.AppleHv
 
         public HvAddressSpace(MemoryBlock backingMemory, ulong asSize)
         {
-            (_asBase, var ipaAllocator) = HvVm.CreateAddressSpace(backingMemory);
+            (_asBase, HvIpaAllocator ipaAllocator) = HvVm.CreateAddressSpace(backingMemory);
             _backingSize = backingMemory.Size;
 
             _userRange = new HvAddressSpaceRange(ipaAllocator);

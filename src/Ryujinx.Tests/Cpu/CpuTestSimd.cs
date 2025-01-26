@@ -101,122 +101,135 @@ namespace Ryujinx.Tests.Cpu
         #region "ValueSource (Types)"
         private static ulong[] _1B1H1S1D_()
         {
-            return new[] {
+            return
+            [
                 0x0000000000000000ul, 0x000000000000007Ful,
                 0x0000000000000080ul, 0x00000000000000FFul,
                 0x0000000000007FFFul, 0x0000000000008000ul,
                 0x000000000000FFFFul, 0x000000007FFFFFFFul,
                 0x0000000080000000ul, 0x00000000FFFFFFFFul,
                 0x7FFFFFFFFFFFFFFFul, 0x8000000000000000ul,
-                0xFFFFFFFFFFFFFFFFul,
-            };
+                0xFFFFFFFFFFFFFFFFul
+            ];
         }
 
         private static ulong[] _1D_()
         {
-            return new[] {
+            return
+            [
                 0x0000000000000000ul, 0x7FFFFFFFFFFFFFFFul,
-                0x8000000000000000ul, 0xFFFFFFFFFFFFFFFFul,
-            };
+                0x8000000000000000ul, 0xFFFFFFFFFFFFFFFFul
+            ];
         }
 
         private static ulong[] _1H1S1D_()
         {
-            return new[] {
+            return
+            [
                 0x0000000000000000ul, 0x0000000000007FFFul,
                 0x0000000000008000ul, 0x000000000000FFFFul,
                 0x000000007FFFFFFFul, 0x0000000080000000ul,
                 0x00000000FFFFFFFFul, 0x7FFFFFFFFFFFFFFFul,
-                0x8000000000000000ul, 0xFFFFFFFFFFFFFFFFul,
-            };
+                0x8000000000000000ul, 0xFFFFFFFFFFFFFFFFul
+            ];
         }
 
         private static ulong[] _1S_()
         {
-            return new[] {
+            return
+            [
                 0x0000000000000000ul, 0x000000007FFFFFFFul,
-                0x0000000080000000ul, 0x00000000FFFFFFFFul,
-            };
+                0x0000000080000000ul, 0x00000000FFFFFFFFul
+            ];
         }
 
         private static ulong[] _2S_()
         {
-            return new[] {
+            return
+            [
                 0x0000000000000000ul, 0x7FFFFFFF7FFFFFFFul,
-                0x8000000080000000ul, 0xFFFFFFFFFFFFFFFFul,
-            };
+                0x8000000080000000ul, 0xFFFFFFFFFFFFFFFFul
+            ];
         }
 
         private static ulong[] _4H_()
         {
-            return new[] {
+            return
+            [
                 0x0000000000000000ul, 0x7FFF7FFF7FFF7FFFul,
-                0x8000800080008000ul, 0xFFFFFFFFFFFFFFFFul,
-            };
+                0x8000800080008000ul, 0xFFFFFFFFFFFFFFFFul
+            ];
         }
 
         private static ulong[] _4H2S1D_()
         {
-            return new[] {
+            return
+            [
                 0x0000000000000000ul, 0x7FFF7FFF7FFF7FFFul,
                 0x8000800080008000ul, 0x7FFFFFFF7FFFFFFFul,
                 0x8000000080000000ul, 0x7FFFFFFFFFFFFFFFul,
-                0x8000000000000000ul, 0xFFFFFFFFFFFFFFFFul,
-            };
+                0x8000000000000000ul, 0xFFFFFFFFFFFFFFFFul
+            ];
         }
 
         private static ulong[] _8B_()
         {
-            return new[] {
+            return
+            [
                 0x0000000000000000ul, 0x7F7F7F7F7F7F7F7Ful,
-                0x8080808080808080ul, 0xFFFFFFFFFFFFFFFFul,
-            };
+                0x8080808080808080ul, 0xFFFFFFFFFFFFFFFFul
+            ];
         }
 
         private static ulong[] _8B4H_()
         {
-            return new[] {
+            return
+            [
                 0x0000000000000000ul, 0x7F7F7F7F7F7F7F7Ful,
                 0x8080808080808080ul, 0x7FFF7FFF7FFF7FFFul,
-                0x8000800080008000ul, 0xFFFFFFFFFFFFFFFFul,
-            };
+                0x8000800080008000ul, 0xFFFFFFFFFFFFFFFFul
+            ];
         }
 
         private static ulong[] _8B4H2S_()
         {
-            return new[] {
+            return
+            [
                 0x0000000000000000ul, 0x7F7F7F7F7F7F7F7Ful,
                 0x8080808080808080ul, 0x7FFF7FFF7FFF7FFFul,
                 0x8000800080008000ul, 0x7FFFFFFF7FFFFFFFul,
-                0x8000000080000000ul, 0xFFFFFFFFFFFFFFFFul,
-            };
+                0x8000000080000000ul, 0xFFFFFFFFFFFFFFFFul
+            ];
         }
 
         private static ulong[] _8B4H2S1D_()
         {
-            return new[] {
+            return
+            [
                 0x0000000000000000ul, 0x7F7F7F7F7F7F7F7Ful,
                 0x8080808080808080ul, 0x7FFF7FFF7FFF7FFFul,
                 0x8000800080008000ul, 0x7FFFFFFF7FFFFFFFul,
                 0x8000000080000000ul, 0x7FFFFFFFFFFFFFFFul,
-                0x8000000000000000ul, 0xFFFFFFFFFFFFFFFFul,
-            };
+                0x8000000000000000ul, 0xFFFFFFFFFFFFFFFFul
+            ];
         }
 
         private static uint[] _W_()
         {
-            return new[] {
+            return
+            [
                 0x00000000u, 0x7FFFFFFFu,
-                0x80000000u, 0xFFFFFFFFu,
-            };
+                0x80000000u, 0xFFFFFFFFu
+            ];
         }
 
         private static ulong[] _X_()
         {
-            return new[] {
+            return
+            [
                 0x0000000000000000ul, 0x7FFFFFFFFFFFFFFFul,
-                0x8000000000000000ul, 0xFFFFFFFFFFFFFFFFul,
-            };
+                0x8000000000000000ul, 0xFFFFFFFFFFFFFFFFul
+            ];
         }
 
         private static IEnumerable<ulong> _1H_F_()
@@ -694,558 +707,558 @@ namespace Ryujinx.Tests.Cpu
         #region "ValueSource (Opcodes)"
         private static uint[] _SU_Add_Max_Min_V_V_8BB_4HH_()
         {
-            return new[]
-            {
+            return
+            [
                 0x0E31B800u, // ADDV  B0, V0.8B
                 0x0E30A800u, // SMAXV B0, V0.8B
                 0x0E31A800u, // SMINV B0, V0.8B
                 0x2E30A800u, // UMAXV B0, V0.8B
-                0x2E31A800u, // UMINV B0, V0.8B
-            };
+                0x2E31A800u // UMINV B0, V0.8B
+            ];
         }
 
         private static uint[] _SU_Add_Max_Min_V_V_16BB_8HH_4SS_()
         {
-            return new[]
-            {
+            return
+            [
                 0x4E31B800u, // ADDV  B0, V0.16B
                 0x4E30A800u, // SMAXV B0, V0.16B
                 0x4E31A800u, // SMINV B0, V0.16B
                 0x6E30A800u, // UMAXV B0, V0.16B
-                0x6E31A800u, // UMINV B0, V0.16B
-            };
+                0x6E31A800u // UMINV B0, V0.16B
+            ];
         }
 
         private static uint[] _F_Abs_Neg_Recpx_Sqrt_S_S_()
         {
-            return new[]
-            {
+            return
+            [
                 0x1E20C020u, // FABS   S0, S1
                 0x1E214020u, // FNEG   S0, S1
                 0x5EA1F820u, // FRECPX S0, S1
-                0x1E21C020u, // FSQRT  S0, S1
-            };
+                0x1E21C020u // FSQRT  S0, S1
+            ];
         }
 
         private static uint[] _F_Abs_Neg_Recpx_Sqrt_S_D_()
         {
-            return new[]
-            {
+            return
+            [
                 0x1E60C020u, // FABS   D0, D1
                 0x1E614020u, // FNEG   D0, D1
                 0x5EE1F820u, // FRECPX D0, D1
-                0x1E61C020u, // FSQRT  D0, D1
-            };
+                0x1E61C020u // FSQRT  D0, D1
+            ];
         }
 
         private static uint[] _F_Abs_Neg_Sqrt_V_2S_4S_()
         {
-            return new[]
-            {
+            return
+            [
                 0x0EA0F800u, // FABS  V0.2S, V0.2S
                 0x2EA0F800u, // FNEG  V0.2S, V0.2S
-                0x2EA1F800u, // FSQRT V0.2S, V0.2S
-            };
+                0x2EA1F800u // FSQRT V0.2S, V0.2S
+            ];
         }
 
         private static uint[] _F_Abs_Neg_Sqrt_V_2D_()
         {
-            return new[]
-            {
+            return
+            [
                 0x4EE0F800u, // FABS  V0.2D, V0.2D
                 0x6EE0F800u, // FNEG  V0.2D, V0.2D
-                0x6EE1F800u, // FSQRT V0.2D, V0.2D
-            };
+                0x6EE1F800u // FSQRT V0.2D, V0.2D
+            ];
         }
 
         private static uint[] _F_Add_Max_Min_Nm_P_S_2SS_()
         {
-            return new[]
-            {
+            return
+            [
                 0x7E30D820u, // FADDP   S0, V1.2S
                 0x7E30C820u, // FMAXNMP S0, V1.2S
                 0x7E30F820u, // FMAXP   S0, V1.2S
                 0x7EB0C820u, // FMINNMP S0, V1.2S
-                0x7EB0F820u, // FMINP   S0, V1.2S
-            };
+                0x7EB0F820u // FMINP   S0, V1.2S
+            ];
         }
 
         private static uint[] _F_Add_Max_Min_Nm_P_S_2DD_()
         {
-            return new[]
-            {
+            return
+            [
                 0x7E70D820u, // FADDP   D0, V1.2D
                 0x7E70C820u, // FMAXNMP D0, V1.2D
                 0x7E70F820u, // FMAXP   D0, V1.2D
                 0x7EF0C820u, // FMINNMP D0, V1.2D
-                0x7EF0F820u, // FMINP   D0, V1.2D
-            };
+                0x7EF0F820u // FMINP   D0, V1.2D
+            ];
         }
 
         private static uint[] _F_Cm_EqGeGtLeLt_S_S_()
         {
-            return new[]
-            {
+            return
+            [
                 0x5EA0D820u, // FCMEQ S0, S1, #0.0
                 0x7EA0C820u, // FCMGE S0, S1, #0.0
                 0x5EA0C820u, // FCMGT S0, S1, #0.0
                 0x7EA0D820u, // FCMLE S0, S1, #0.0
-                0x5EA0E820u, // FCMLT S0, S1, #0.0
-            };
+                0x5EA0E820u // FCMLT S0, S1, #0.0
+            ];
         }
 
         private static uint[] _F_Cm_EqGeGtLeLt_S_D_()
         {
-            return new[]
-            {
+            return
+            [
                 0x5EE0D820u, // FCMEQ D0, D1, #0.0
                 0x7EE0C820u, // FCMGE D0, D1, #0.0
                 0x5EE0C820u, // FCMGT D0, D1, #0.0
                 0x7EE0D820u, // FCMLE D0, D1, #0.0
-                0x5EE0E820u, // FCMLT D0, D1, #0.0
-            };
+                0x5EE0E820u // FCMLT D0, D1, #0.0
+            ];
         }
 
         private static uint[] _F_Cm_EqGeGtLeLt_V_2S_4S_()
         {
-            return new[]
-            {
+            return
+            [
                 0x0EA0D800u, // FCMEQ V0.2S, V0.2S, #0.0
                 0x2EA0C800u, // FCMGE V0.2S, V0.2S, #0.0
                 0x0EA0C800u, // FCMGT V0.2S, V0.2S, #0.0
                 0x2EA0D800u, // FCMLE V0.2S, V0.2S, #0.0
-                0x0EA0E800u, // FCMLT V0.2S, V0.2S, #0.0
-            };
+                0x0EA0E800u // FCMLT V0.2S, V0.2S, #0.0
+            ];
         }
 
         private static uint[] _F_Cm_EqGeGtLeLt_V_2D_()
         {
-            return new[]
-            {
+            return
+            [
                 0x4EE0D800u, // FCMEQ V0.2D, V0.2D, #0.0
                 0x6EE0C800u, // FCMGE V0.2D, V0.2D, #0.0
                 0x4EE0C800u, // FCMGT V0.2D, V0.2D, #0.0
                 0x6EE0D800u, // FCMLE V0.2D, V0.2D, #0.0
-                0x4EE0E800u, // FCMLT V0.2D, V0.2D, #0.0
-            };
+                0x4EE0E800u // FCMLT V0.2D, V0.2D, #0.0
+            ];
         }
 
         private static uint[] _F_Cmp_Cmpe_S_S_()
         {
-            return new[]
-            {
+            return
+            [
                 0x1E202028u, // FCMP  S1, #0.0
-                0x1E202038u, // FCMPE S1, #0.0
-            };
+                0x1E202038u // FCMPE S1, #0.0
+            ];
         }
 
         private static uint[] _F_Cmp_Cmpe_S_D_()
         {
-            return new[]
-            {
+            return
+            [
                 0x1E602028u, // FCMP  D1, #0.0
-                0x1E602038u, // FCMPE D1, #0.0
-            };
+                0x1E602038u // FCMPE D1, #0.0
+            ];
         }
 
         private static uint[] _F_Cvt_S_SD_()
         {
-            return new[]
-            {
-                0x1E22C020u, // FCVT D0, S1
-            };
+            return
+            [
+                0x1E22C020u // FCVT D0, S1
+            ];
         }
 
         private static uint[] _F_Cvt_S_DS_()
         {
-            return new[]
-            {
-                0x1E624020u, // FCVT S0, D1
-            };
+            return
+            [
+                0x1E624020u // FCVT S0, D1
+            ];
         }
 
         private static uint[] _F_Cvt_S_SH_()
         {
-            return new[]
-            {
-                0x1E23C020u, // FCVT H0, S1
-            };
+            return
+            [
+                0x1E23C020u // FCVT H0, S1
+            ];
         }
 
         private static uint[] _F_Cvt_S_DH_()
         {
-            return new[]
-            {
-                0x1E63C020u, // FCVT H0, D1
-            };
+            return
+            [
+                0x1E63C020u // FCVT H0, D1
+            ];
         }
 
         private static uint[] _F_Cvt_S_HS_()
         {
-            return new[]
-            {
-                0x1EE24020u, // FCVT S0, H1
-            };
+            return
+            [
+                0x1EE24020u // FCVT S0, H1
+            ];
         }
 
         private static uint[] _F_Cvt_S_HD_()
         {
-            return new[]
-            {
-                0x1EE2C020u, // FCVT D0, H1
-            };
+            return
+            [
+                0x1EE2C020u // FCVT D0, H1
+            ];
         }
 
         private static uint[] _F_Cvt_ANZ_SU_S_S_()
         {
-            return new[]
-            {
+            return
+            [
                 0x5E21C820u, // FCVTAS S0, S1
                 0x7E21C820u, // FCVTAU S0, S1
                 0x5E21A820u, // FCVTNS S0, S1
                 0x7E21A820u, // FCVTNU S0, S1
                 0x5EA1B820u, // FCVTZS S0, S1
-                0x7EA1B820u, // FCVTZU S0, S1
-            };
+                0x7EA1B820u // FCVTZU S0, S1
+            ];
         }
 
         private static uint[] _F_Cvt_ANZ_SU_S_D_()
         {
-            return new[]
-            {
+            return
+            [
                 0x5E61C820u, // FCVTAS D0, D1
                 0x7E61C820u, // FCVTAU D0, D1
                 0x5E61A820u, // FCVTNS D0, D1
                 0x7E61A820u, // FCVTNU D0, D1
                 0x5EE1B820u, // FCVTZS D0, D1
-                0x7EE1B820u, // FCVTZU D0, D1
-            };
+                0x7EE1B820u // FCVTZU D0, D1
+            ];
         }
 
         private static uint[] _F_Cvt_ANZ_SU_V_2S_4S_()
         {
-            return new[]
-            {
+            return
+            [
                 0x0E21C800u, // FCVTAS V0.2S, V0.2S
                 0x2E21C800u, // FCVTAU V0.2S, V0.2S
                 0x0E21B800u, // FCVTMS V0.2S, V0.2S
                 0x0E21A800u, // FCVTNS V0.2S, V0.2S
                 0x2E21A800u, // FCVTNU V0.2S, V0.2S
                 0x0EA1B800u, // FCVTZS V0.2S, V0.2S
-                0x2EA1B800u, // FCVTZU V0.2S, V0.2S
-            };
+                0x2EA1B800u // FCVTZU V0.2S, V0.2S
+            ];
         }
 
         private static uint[] _F_Cvt_ANZ_SU_V_2D_()
         {
-            return new[]
-            {
+            return
+            [
                 0x4E61C800u, // FCVTAS V0.2D, V0.2D
                 0x6E61C800u, // FCVTAU V0.2D, V0.2D
                 0x4E61B800u, // FCVTMS V0.2D, V0.2D
                 0x4E61A800u, // FCVTNS V0.2D, V0.2D
                 0x6E61A800u, // FCVTNU V0.2D, V0.2D
                 0x4EE1B800u, // FCVTZS V0.2D, V0.2D
-                0x6EE1B800u, // FCVTZU V0.2D, V0.2D
-            };
+                0x6EE1B800u // FCVTZU V0.2D, V0.2D
+            ];
         }
 
         private static uint[] _F_Cvtl_V_4H4S_8H4S_()
         {
-            return new[]
-            {
-                0x0E217800u, // FCVTL V0.4S, V0.4H
-            };
+            return
+            [
+                0x0E217800u // FCVTL V0.4S, V0.4H
+            ];
         }
 
         private static uint[] _F_Cvtl_V_2S2D_4S2D_()
         {
-            return new[]
-            {
-                0x0E617800u, // FCVTL V0.2D, V0.2S
-            };
+            return
+            [
+                0x0E617800u // FCVTL V0.2D, V0.2S
+            ];
         }
 
         private static uint[] _F_Cvtn_V_4S4H_4S8H_()
         {
-            return new[]
-            {
-                0x0E216800u, // FCVTN V0.4H, V0.4S
-            };
+            return
+            [
+                0x0E216800u // FCVTN V0.4H, V0.4S
+            ];
         }
 
         private static uint[] _F_Cvtn_V_2D2S_2D4S_()
         {
-            return new[]
-            {
-                0x0E616800u, // FCVTN V0.2S, V0.2D
-            };
+            return
+            [
+                0x0E616800u // FCVTN V0.2S, V0.2D
+            ];
         }
 
         private static uint[] _F_Max_Min_Nm_V_V_4SS_()
         {
-            return new[]
-            {
+            return
+            [
                 0x6E30C800u, // FMAXNMV S0, V0.4S
                 0x6E30F800u, // FMAXV   S0, V0.4S
                 0x6EB0C800u, // FMINNMV S0, V0.4S
-                0x6EB0F800u, // FMINV   S0, V0.4S
-            };
+                0x6EB0F800u // FMINV   S0, V0.4S
+            ];
         }
 
         private static uint[] _F_Mov_Ftoi_SW_()
         {
-            return new[]
-            {
-                0x1E260000u, // FMOV W0, S0
-            };
+            return
+            [
+                0x1E260000u // FMOV W0, S0
+            ];
         }
 
         private static uint[] _F_Mov_Ftoi_DX_()
         {
-            return new[]
-            {
-                0x9E660000u, // FMOV X0, D0
-            };
+            return
+            [
+                0x9E660000u // FMOV X0, D0
+            ];
         }
 
         private static uint[] _F_Mov_Ftoi1_DX_()
         {
-            return new[]
-            {
-                0x9EAE0000u, // FMOV X0, V0.D[1]
-            };
+            return
+            [
+                0x9EAE0000u // FMOV X0, V0.D[1]
+            ];
         }
 
         private static uint[] _F_Mov_Itof_WS_()
         {
-            return new[]
-            {
-                0x1E270000u, // FMOV S0, W0
-            };
+            return
+            [
+                0x1E270000u // FMOV S0, W0
+            ];
         }
 
         private static uint[] _F_Mov_Itof_XD_()
         {
-            return new[]
-            {
-                0x9E670000u, // FMOV D0, X0
-            };
+            return
+            [
+                0x9E670000u // FMOV D0, X0
+            ];
         }
 
         private static uint[] _F_Mov_Itof1_XD_()
         {
-            return new[]
-            {
-                0x9EAF0000u, // FMOV V0.D[1], X0
-            };
+            return
+            [
+                0x9EAF0000u // FMOV V0.D[1], X0
+            ];
         }
 
         private static uint[] _F_Mov_S_S_()
         {
-            return new[]
-            {
-                0x1E204020u, // FMOV S0, S1
-            };
+            return
+            [
+                0x1E204020u // FMOV S0, S1
+            ];
         }
 
         private static uint[] _F_Mov_S_D_()
         {
-            return new[]
-            {
-                0x1E604020u, // FMOV D0, D1
-            };
+            return
+            [
+                0x1E604020u // FMOV D0, D1
+            ];
         }
 
         private static uint[] _F_Recpe_Rsqrte_S_S_()
         {
-            return new[]
-            {
+            return
+            [
                 0x5EA1D820u, // FRECPE  S0, S1
-                0x7EA1D820u, // FRSQRTE S0, S1
-            };
+                0x7EA1D820u // FRSQRTE S0, S1
+            ];
         }
 
         private static uint[] _F_Recpe_Rsqrte_S_D_()
         {
-            return new[]
-            {
+            return
+            [
                 0x5EE1D820u, // FRECPE  D0, D1
-                0x7EE1D820u, // FRSQRTE D0, D1
-            };
+                0x7EE1D820u // FRSQRTE D0, D1
+            ];
         }
 
         private static uint[] _F_Recpe_Rsqrte_V_2S_4S_()
         {
-            return new[]
-            {
+            return
+            [
                 0x0EA1D800u, // FRECPE  V0.2S, V0.2S
-                0x2EA1D800u, // FRSQRTE V0.2S, V0.2S
-            };
+                0x2EA1D800u // FRSQRTE V0.2S, V0.2S
+            ];
         }
 
         private static uint[] _F_Recpe_Rsqrte_V_2D_()
         {
-            return new[]
-            {
+            return
+            [
                 0x4EE1D800u, // FRECPE  V0.2D, V0.2D
-                0x6EE1D800u, // FRSQRTE V0.2D, V0.2D
-            };
+                0x6EE1D800u // FRSQRTE V0.2D, V0.2D
+            ];
         }
 
         private static uint[] _F_Rint_AMNPZ_S_S_()
         {
-            return new[]
-            {
+            return
+            [
                 0x1E264020u, // FRINTA S0, S1
                 0x1E254020u, // FRINTM S0, S1
                 0x1E244020u, // FRINTN S0, S1
                 0x1E24C020u, // FRINTP S0, S1
-                0x1E25C020u, // FRINTZ S0, S1
-            };
+                0x1E25C020u // FRINTZ S0, S1
+            ];
         }
 
         private static uint[] _F_Rint_AMNPZ_S_D_()
         {
-            return new[]
-            {
+            return
+            [
                 0x1E664020u, // FRINTA D0, D1
                 0x1E654020u, // FRINTM D0, D1
                 0x1E644020u, // FRINTN D0, D1
                 0x1E64C020u, // FRINTP D0, D1
-                0x1E65C020u, // FRINTZ D0, D1
-            };
+                0x1E65C020u // FRINTZ D0, D1
+            ];
         }
 
         private static uint[] _F_Rint_AMNPZ_V_2S_4S_()
         {
-            return new[]
-            {
+            return
+            [
                 0x2E218800u, // FRINTA V0.2S, V0.2S
                 0x0E219800u, // FRINTM V0.2S, V0.2S
                 0x0E218800u, // FRINTN V0.2S, V0.2S
                 0x0EA18800u, // FRINTP V0.2S, V0.2S
-                0x0EA19800u, // FRINTZ V0.2S, V0.2S
-            };
+                0x0EA19800u // FRINTZ V0.2S, V0.2S
+            ];
         }
 
         private static uint[] _F_Rint_AMNPZ_V_2D_()
         {
-            return new[]
-            {
+            return
+            [
                 0x6E618800u, // FRINTA V0.2D, V0.2D
                 0x4E619800u, // FRINTM V0.2D, V0.2D
                 0x4E618800u, // FRINTN V0.2D, V0.2D
                 0x4EE18800u, // FRINTP V0.2D, V0.2D
-                0x4EE19800u, // FRINTZ V0.2D, V0.2D
-            };
+                0x4EE19800u // FRINTZ V0.2D, V0.2D
+            ];
         }
 
         private static uint[] _F_Rint_IX_S_S_()
         {
-            return new[]
-            {
+            return
+            [
                 0x1E27C020u, // FRINTI S0, S1
-                0x1E274020u, // FRINTX S0, S1
-            };
+                0x1E274020u // FRINTX S0, S1
+            ];
         }
 
         private static uint[] _F_Rint_IX_S_D_()
         {
-            return new[]
-            {
+            return
+            [
                 0x1E67C020u, // FRINTI D0, D1
-                0x1E674020u, // FRINTX D0, D1
-            };
+                0x1E674020u // FRINTX D0, D1
+            ];
         }
 
         private static uint[] _F_Rint_IX_V_2S_4S_()
         {
-            return new[]
-            {
+            return
+            [
                 0x2EA19800u, // FRINTI V0.2S, V0.2S
-                0x2E219800u, // FRINTX V0.2S, V0.2S
-            };
+                0x2E219800u // FRINTX V0.2S, V0.2S
+            ];
         }
 
         private static uint[] _F_Rint_IX_V_2D_()
         {
-            return new[]
-            {
+            return
+            [
                 0x6EE19800u, // FRINTI V0.2D, V0.2D
-                0x6E619800u, // FRINTX V0.2D, V0.2D
-            };
+                0x6E619800u // FRINTX V0.2D, V0.2D
+            ];
         }
 
         private static uint[] _SU_Addl_V_V_8BH_4HS_()
         {
-            return new[]
-            {
+            return
+            [
                 0x0E303800u, // SADDLV H0, V0.8B
-                0x2E303800u, // UADDLV H0, V0.8B
-            };
+                0x2E303800u // UADDLV H0, V0.8B
+            ];
         }
 
         private static uint[] _SU_Addl_V_V_16BH_8HS_4SD_()
         {
-            return new[]
-            {
+            return
+            [
                 0x4E303800u, // SADDLV H0, V0.16B
-                0x6E303800u, // UADDLV H0, V0.16B
-            };
+                0x6E303800u // UADDLV H0, V0.16B
+            ];
         }
 
         private static uint[] _SU_Cvt_F_S_S_()
         {
-            return new[]
-            {
+            return
+            [
                 0x5E21D820u, // SCVTF S0, S1
-                0x7E21D820u, // UCVTF S0, S1
-            };
+                0x7E21D820u // UCVTF S0, S1
+            ];
         }
 
         private static uint[] _SU_Cvt_F_S_D_()
         {
-            return new[]
-            {
+            return
+            [
                 0x5E61D820u, // SCVTF D0, D1
-                0x7E61D820u, // UCVTF D0, D1
-            };
+                0x7E61D820u // UCVTF D0, D1
+            ];
         }
 
         private static uint[] _SU_Cvt_F_V_2S_4S_()
         {
-            return new[]
-            {
+            return
+            [
                 0x0E21D800u, // SCVTF V0.2S, V0.2S
-                0x2E21D800u, // UCVTF V0.2S, V0.2S
-            };
+                0x2E21D800u // UCVTF V0.2S, V0.2S
+            ];
         }
 
         private static uint[] _SU_Cvt_F_V_2D_()
         {
-            return new[]
-            {
+            return
+            [
                 0x4E61D800u, // SCVTF V0.2D, V0.2D
-                0x6E61D800u, // UCVTF V0.2D, V0.2D
-            };
+                0x6E61D800u // UCVTF V0.2D, V0.2D
+            ];
         }
 
         private static uint[] _Sha1h_Sha1su1_V_()
         {
-            return new[]
-            {
+            return
+            [
                 0x5E280800u, // SHA1H   S0,    S0
-                0x5E281800u, // SHA1SU1 V0.4S, V0.4S
-            };
+                0x5E281800u // SHA1SU1 V0.4S, V0.4S
+            ];
         }
 
         private static uint[] _Sha256su0_V_()
         {
-            return new[]
-            {
-                0x5E282800u, // SHA256SU0 V0.4S, V0.4S
-            };
+            return
+            [
+                0x5E282800u // SHA256SU0 V0.4S, V0.4S
+            ];
         }
         #endregion
 

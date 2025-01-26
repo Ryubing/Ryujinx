@@ -1,6 +1,7 @@
 using Ryujinx.Horizon.Common;
 using Ryujinx.Horizon.Sdk.Sf.Cmif;
 using Ryujinx.Horizon.Sdk.Sf.Hipc;
+using Ryujinx.Memory;
 using System;
 
 namespace Ryujinx.Horizon.Sdk
@@ -12,7 +13,7 @@ namespace Ryujinx.Horizon.Sdk
             ulong tlsAddress = HorizonStatic.ThreadContext.TlsAddress;
             int tlsSize = Api.TlsMessageBufferSize;
 
-            using (var tlsRegion = HorizonStatic.AddressSpace.GetWritableRegion(tlsAddress, tlsSize))
+            using (WritableRegion tlsRegion = HorizonStatic.AddressSpace.GetWritableRegion(tlsAddress, tlsSize))
             {
                 CmifRequest request = CmifMessage.CreateRequest(tlsRegion.Memory.Span, new CmifRequestFormat
                 {
@@ -48,7 +49,7 @@ namespace Ryujinx.Horizon.Sdk
             ulong tlsAddress = HorizonStatic.ThreadContext.TlsAddress;
             int tlsSize = Api.TlsMessageBufferSize;
 
-            using (var tlsRegion = HorizonStatic.AddressSpace.GetWritableRegion(tlsAddress, tlsSize))
+            using (WritableRegion tlsRegion = HorizonStatic.AddressSpace.GetWritableRegion(tlsAddress, tlsSize))
             {
                 CmifRequestFormat format = new()
                 {

@@ -9,48 +9,49 @@ namespace Ryujinx.Cpu.LightningJit.Arm32
 
         static InstTableT16()
         {
-            InstEncoding[] rmRdndnConstraints = new InstEncoding[]
-            {
+            InstEncoding[] rmRdndnConstraints =
+            [
                 new(0x00680000, 0x00780000),
-                new(0x00850000, 0x00870000),
-            };
+                new(0x00850000, 0x00870000)
+            ];
 
-            InstEncoding[] rmConstraints = new InstEncoding[]
-            {
-                new(0x00680000, 0x00780000),
-            };
+            InstEncoding[] rmConstraints =
+            [
+                new(0x00680000, 0x00780000)
+            ];
 
-            InstEncoding[] condCondConstraints = new InstEncoding[]
-            {
+            InstEncoding[] condCondConstraints =
+            [
                 new(0x0E000000, 0x0F000000),
-                new(0x0F000000, 0x0F000000),
-            };
+                new(0x0F000000, 0x0F000000)
+            ];
 
-            InstEncoding[] maskConstraints = new InstEncoding[]
-            {
-                new(0x00000000, 0x000F0000),
-            };
+            InstEncoding[] maskConstraints =
+            [
+                new(0x00000000, 0x000F0000)
+            ];
 
-            InstEncoding[] opConstraints = new InstEncoding[]
-            {
-                new(0x18000000, 0x18000000),
-            };
+            InstEncoding[] opConstraints =
+            [
+                new(0x18000000, 0x18000000)
+            ];
 
-            InstEncoding[] opOpOpOpConstraints = new InstEncoding[]
-            {
+            InstEncoding[] opOpOpOpConstraints =
+            [
                 new(0x00000000, 0x03C00000),
                 new(0x00400000, 0x03C00000),
                 new(0x01400000, 0x03C00000),
-                new(0x01800000, 0x03C00000),
-            };
+                new(0x01800000, 0x03C00000)
+            ];
 
-            List<InstInfoForTable> insts = new()
-            {
+            List<InstInfoForTable> insts =
+            [
                 new(0x41400000, 0xFFC00000, InstName.AdcR, T.AdcRT1, IsaVersion.v80, InstFlags.Rdn),
                 new(0x1C000000, 0xFE000000, InstName.AddI, T.AddIT1, IsaVersion.v80, InstFlags.Rd),
                 new(0x30000000, 0xF8000000, InstName.AddI, T.AddIT2, IsaVersion.v80, InstFlags.Rdn),
                 new(0x18000000, 0xFE000000, InstName.AddR, T.AddRT1, IsaVersion.v80, InstFlags.Rd),
-                new(0x44000000, 0xFF000000, rmRdndnConstraints, InstName.AddR, T.AddRT2, IsaVersion.v80, InstFlags.RdnDn),
+                new(0x44000000, 0xFF000000, rmRdndnConstraints, InstName.AddR, T.AddRT2, IsaVersion.v80,
+                    InstFlags.RdnDn),
                 new(0xA8000000, 0xF8000000, InstName.AddSpI, T.AddSpIT1, IsaVersion.v80, InstFlags.RdRd16),
                 new(0xB0000000, 0xFF800000, InstName.AddSpI, T.AddSpIT2, IsaVersion.v80, InstFlags.None),
                 new(0x44680000, 0xFF780000, InstName.AddSpR, T.AddSpRT1, IsaVersion.v80, InstFlags.None),
@@ -86,7 +87,8 @@ namespace Ryujinx.Cpu.LightningJit.Arm32
                 new(0x20000000, 0xF8000000, InstName.MovI, T.MovIT1, IsaVersion.v80, InstFlags.RdRd16),
                 new(0x46000000, 0xFF000000, InstName.MovR, T.MovRT1, IsaVersion.v80, InstFlags.Rd),
                 new(0x00000000, 0xE0000000, opConstraints, InstName.MovR, T.MovRT2, IsaVersion.v80, InstFlags.Rd),
-                new(0x40000000, 0xFE000000, opOpOpOpConstraints, InstName.MovRr, T.MovRrT1, IsaVersion.v80, InstFlags.None),
+                new(0x40000000, 0xFE000000, opOpOpOpConstraints, InstName.MovRr, T.MovRrT1, IsaVersion.v80,
+                    InstFlags.None),
                 new(0x43400000, 0xFFC00000, InstName.Mul, T.MulT1, IsaVersion.v80, InstFlags.None),
                 new(0x43C00000, 0xFFC00000, InstName.MvnR, T.MvnRT1, IsaVersion.v80, InstFlags.Rd),
                 new(0xBF000000, 0xFFFF0000, InstName.Nop, T.NopT1, IsaVersion.v80, InstFlags.None),
@@ -99,7 +101,8 @@ namespace Ryujinx.Cpu.LightningJit.Arm32
                 new(0x42400000, 0xFFC00000, InstName.RsbI, T.RsbIT1, IsaVersion.v80, InstFlags.Rd),
                 new(0x41800000, 0xFFC00000, InstName.SbcR, T.SbcRT1, IsaVersion.v80, InstFlags.Rdn),
                 new(0xB6500000, 0xFFF70000, InstName.Setend, T.SetendT1, IsaVersion.v80, InstFlags.None),
-                new(0xB6100000, 0xFFF70000, InstName.Setpan, T.SetpanT1, IsaVersion.v81, IsaFeature.FeatPan, InstFlags.None),
+                new(0xB6100000, 0xFFF70000, InstName.Setpan, T.SetpanT1, IsaVersion.v81, IsaFeature.FeatPan,
+                    InstFlags.None),
                 new(0xBF400000, 0xFFFF0000, InstName.Sev, T.SevT1, IsaVersion.v80, InstFlags.None),
                 new(0xBF500000, 0xFFFF0000, InstName.Sevl, T.SevlT1, IsaVersion.v80, InstFlags.None),
                 new(0xC0000000, 0xF8000000, InstName.Stm, T.StmT1, IsaVersion.v80, InstFlags.RlistRead),
@@ -123,8 +126,8 @@ namespace Ryujinx.Cpu.LightningJit.Arm32
                 new(0xB2800000, 0xFFC00000, InstName.Uxth, T.UxthT1, IsaVersion.v80, InstFlags.Rd),
                 new(0xBF200000, 0xFFFF0000, InstName.Wfe, T.WfeT1, IsaVersion.v80, InstFlags.None),
                 new(0xBF300000, 0xFFFF0000, InstName.Wfi, T.WfiT1, IsaVersion.v80, InstFlags.None),
-                new(0xBF100000, 0xFFFF0000, InstName.Yield, T.YieldT1, IsaVersion.v80, InstFlags.None),
-            };
+                new(0xBF100000, 0xFFFF0000, InstName.Yield, T.YieldT1, IsaVersion.v80, InstFlags.None)
+            ];
 
             _table = new(insts);
         }

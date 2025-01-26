@@ -19,7 +19,7 @@ namespace Ryujinx.Graphics.Vulkan.MoltenVK
 
         public static void Initialize()
         {
-            var configSize = (nint)Marshal.SizeOf<MVKConfiguration>();
+            IntPtr configSize = (nint)Marshal.SizeOf<MVKConfiguration>();
 
             vkGetMoltenVKConfigurationMVK(nint.Zero, out MVKConfiguration config, configSize);
 
@@ -40,7 +40,7 @@ namespace Ryujinx.Graphics.Vulkan.MoltenVK
                 path = path[..^VulkanLib.Length] + "libMoltenVK.dylib";
                 return [path];
             }
-            return Array.Empty<string>();
+            return [];
         }
 
         public static void InitializeResolver()

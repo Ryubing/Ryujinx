@@ -320,7 +320,7 @@ namespace Ryujinx.Memory.Tracking
 
             if (startHandle == lastHandle)
             {
-                var handle = _handles[startHandle];
+                RegionHandle handle = _handles[startHandle];
                 if (_sequenceNumberBitmap.Set(startHandle))
                 {
                     _uncheckedHandles--;
@@ -410,7 +410,7 @@ namespace Ryujinx.Memory.Tracking
         {
             GC.SuppressFinalize(this);
 
-            foreach (var handle in _handles)
+            foreach (RegionHandle handle in _handles)
             {
                 handle.Dispose();
             }

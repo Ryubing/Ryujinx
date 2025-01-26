@@ -50,7 +50,7 @@ namespace ARMeilleure.Translation.PTC
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static List<T> DeserializeList<T>(Stream stream) where T : struct
         {
-            List<T> list = new();
+            List<T> list = [];
 
             int count = DeserializeStructure<int>(stream);
 

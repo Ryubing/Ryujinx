@@ -96,7 +96,7 @@ namespace Ryujinx.HLE.HOS.Tamper
             // Instructions are multi-word, with 32bit words. Split the raw instruction
             // and parse each word into individual nybbles of bits.
 
-            var words = rawInstruction.Split((char[])null, StringSplitOptions.RemoveEmptyEntries);
+            string[] words = rawInstruction.Split((char[])null, StringSplitOptions.RemoveEmptyEntries);
 
             byte[] instruction = new byte[WordSize * words.Length];
 

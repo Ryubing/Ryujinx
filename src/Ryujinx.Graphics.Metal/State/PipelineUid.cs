@@ -114,7 +114,7 @@ namespace Ryujinx.Graphics.Metal
 
         public void Swap(ColorBlendStateUid uid)
         {
-            var format = PixelFormat;
+            MTLPixelFormat format = PixelFormat;
 
             this = uid;
             PixelFormat = format;

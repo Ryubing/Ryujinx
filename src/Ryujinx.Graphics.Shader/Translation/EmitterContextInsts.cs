@@ -631,7 +631,7 @@ namespace Ryujinx.Graphics.Shader.Translation
                 setAndBinding.SetIndex,
                 setAndBinding.Binding,
                 0,
-                new[] { dest },
+                [dest],
                 sources));
 
             return dest;
@@ -759,7 +759,7 @@ namespace Ryujinx.Graphics.Shader.Translation
                 setAndBinding.SetIndex,
                 setAndBinding.Binding,
                 compIndex,
-                new[] { dest },
+                [dest],
                 sources));
 
             return dest;
@@ -959,7 +959,7 @@ namespace Ryujinx.Graphics.Shader.Translation
                 setAndBinding.SetIndex,
                 setAndBinding.Binding,
                 0,
-                new[] { dest },
+                [dest],
                 sources));
 
             return dest;
@@ -983,7 +983,7 @@ namespace Ryujinx.Graphics.Shader.Translation
                 setAndBinding.SetIndex,
                 setAndBinding.Binding,
                 compIndex,
-                new[] { dest },
+                [dest],
                 sources));
 
             return dest;

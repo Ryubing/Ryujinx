@@ -34,7 +34,7 @@ namespace Ryujinx.Graphics.OpenGL
             {
                 if (!_textures.TryGetValue(view.Info, out List<DisposedTexture> list))
                 {
-                    list = new List<DisposedTexture>();
+                    list = [];
                     _textures.Add(view.Info, list);
                 }
 

@@ -38,10 +38,11 @@ namespace Ryujinx.Tests.Cpu
         #region "ValueSource (Types)"
         private static ulong[] _8B_()
         {
-            return new[] {
+            return
+            [
                 0x0000000000000000ul, 0x7F7F7F7F7F7F7F7Ful,
-                0x8080808080808080ul, 0xFFFFFFFFFFFFFFFFul,
-            };
+                0x8080808080808080ul, 0xFFFFFFFFFFFFFFFFul
+            ];
         }
 
         private static IEnumerable<ulong> _GenIdxsForTbl1_()
@@ -100,38 +101,38 @@ namespace Ryujinx.Tests.Cpu
         #region "ValueSource (Opcodes)"
         private static uint[] _SingleRegisterTable_V_8B_16B_()
         {
-            return new[]
-            {
+            return
+            [
                 0x0E000000u, // TBL V0.8B, { V0.16B }, V0.8B
-                0x0E001000u, // TBX V0.8B, { V0.16B }, V0.8B
-            };
+                0x0E001000u // TBX V0.8B, { V0.16B }, V0.8B
+            ];
         }
 
         private static uint[] _TwoRegisterTable_V_8B_16B_()
         {
-            return new[]
-            {
+            return
+            [
                 0x0E002000u, // TBL V0.8B, { V0.16B, V1.16B }, V0.8B
-                0x0E003000u, // TBX V0.8B, { V0.16B, V1.16B }, V0.8B
-            };
+                0x0E003000u // TBX V0.8B, { V0.16B, V1.16B }, V0.8B
+            ];
         }
 
         private static uint[] _ThreeRegisterTable_V_8B_16B_()
         {
-            return new[]
-            {
+            return
+            [
                 0x0E004000u, // TBL V0.8B, { V0.16B, V1.16B, V2.16B }, V0.8B
-                0x0E005000u, // TBX V0.8B, { V0.16B, V1.16B, V2.16B }, V0.8B
-            };
+                0x0E005000u // TBX V0.8B, { V0.16B, V1.16B, V2.16B }, V0.8B
+            ];
         }
 
         private static uint[] _FourRegisterTable_V_8B_16B_()
         {
-            return new[]
-            {
+            return
+            [
                 0x0E006000u, // TBL V0.8B, { V0.16B, V1.16B, V2.16B, V3.16B }, V0.8B
-                0x0E006000u, // TBX V0.8B, { V0.16B, V1.16B, V2.16B, V3.16B }, V0.8B
-            };
+                0x0E006000u // TBX V0.8B, { V0.16B, V1.16B, V2.16B, V3.16B }, V0.8B
+            ];
         }
         #endregion
 

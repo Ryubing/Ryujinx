@@ -1,5 +1,6 @@
 using ARMeilleure.CodeGen.Linking;
 using ARMeilleure.IntermediateRepresentation;
+using Microsoft.IO;
 using Ryujinx.Common.Memory;
 using System;
 using System.Collections.Generic;
@@ -74,9 +75,9 @@ namespace ARMeilleure.CodeGen.X86
         {
             _stream = stream;
             _labels = new Dictionary<Operand, long>();
-            _jumps = new List<Jump>();
+            _jumps = [];
 
-            _relocs = relocatable ? new List<Reloc>() : null;
+            _relocs = relocatable ? [] : null;
         }
 
         public void MarkLabel(Operand label)
@@ -1324,8 +1325,8 @@ namespace ARMeilleure.CodeGen.X86
 
         public (byte[], RelocInfo) GetCode()
         {
-            var jumps = CollectionsMarshal.AsSpan(_jumps);
-            var relocs = CollectionsMarshal.AsSpan(_relocs);
+            Span<Jump> jumps = CollectionsMarshal.AsSpan(_jumps);
+            Span<Reloc> relocs = CollectionsMarshal.AsSpan(_relocs);
 
             // Write jump relative offsets.
             bool modified;
@@ -1410,15 +1411,15 @@ namespace ARMeilleure.CodeGen.X86
             // Write the code, ignoring the dummy bytes after jumps, into a new stream.
             _stream.Seek(0, SeekOrigin.Begin);
 
-            using var codeStream = MemoryStreamManager.Shared.GetStream();
-            var assembler = new Assembler(codeStream, HasRelocs);
+            using RecyclableMemoryStream codeStream = MemoryStreamManager.Shared.GetStream();
+            Assembler assembler = new(codeStream, HasRelocs);
 
             bool hasRelocs = HasRelocs;
             int relocIndex = 0;
             int relocOffset = 0;
-            var relocEntries = hasRelocs
+            RelocEntry[] relocEntries = hasRelocs
                 ? new RelocEntry[relocs.Length]
-                : Array.Empty<RelocEntry>();
+                : [];
 
             for (int i = 0; i < jumps.Length; i++)
             {
@@ -1469,8 +1470,8 @@ namespace ARMeilleure.CodeGen.X86
 
             _stream.CopyTo(codeStream);
 
-            var code = codeStream.ToArray();
-            var relocInfo = new RelocInfo(relocEntries);
+            byte[] code = codeStream.ToArray();
+            RelocInfo relocInfo = new(relocEntries);
 
             return (code, relocInfo);
         }

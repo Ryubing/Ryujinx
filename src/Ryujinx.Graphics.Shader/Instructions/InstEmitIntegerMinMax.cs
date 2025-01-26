@@ -13,9 +13,9 @@ namespace Ryujinx.Graphics.Shader.Instructions
         {
             InstImnmxR op = context.GetOp<InstImnmxR>();
 
-            var srcA = GetSrcReg(context, op.SrcA);
-            var srcB = GetSrcReg(context, op.SrcB);
-            var srcPred = GetPredicate(context, op.SrcPred, op.SrcPredInv);
+            Operand srcA = GetSrcReg(context, op.SrcA);
+            Operand srcB = GetSrcReg(context, op.SrcB);
+            Operand srcPred = GetPredicate(context, op.SrcPred, op.SrcPredInv);
 
             EmitImnmx(context, srcA, srcB, srcPred, op.Dest, op.Signed, op.WriteCC);
         }
@@ -24,9 +24,9 @@ namespace Ryujinx.Graphics.Shader.Instructions
         {
             InstImnmxI op = context.GetOp<InstImnmxI>();
 
-            var srcA = GetSrcReg(context, op.SrcA);
-            var srcB = GetSrcImm(context, Imm20ToSInt(op.Imm20));
-            var srcPred = GetPredicate(context, op.SrcPred, op.SrcPredInv);
+            Operand srcA = GetSrcReg(context, op.SrcA);
+            Operand srcB = GetSrcImm(context, Imm20ToSInt(op.Imm20));
+            Operand srcPred = GetPredicate(context, op.SrcPred, op.SrcPredInv);
 
             EmitImnmx(context, srcA, srcB, srcPred, op.Dest, op.Signed, op.WriteCC);
         }
@@ -35,9 +35,9 @@ namespace Ryujinx.Graphics.Shader.Instructions
         {
             InstImnmxC op = context.GetOp<InstImnmxC>();
 
-            var srcA = GetSrcReg(context, op.SrcA);
-            var srcB = GetSrcCbuf(context, op.CbufSlot, op.CbufOffset);
-            var srcPred = GetPredicate(context, op.SrcPred, op.SrcPredInv);
+            Operand srcA = GetSrcReg(context, op.SrcA);
+            Operand srcB = GetSrcCbuf(context, op.CbufSlot, op.CbufOffset);
+            Operand srcPred = GetPredicate(context, op.SrcPred, op.SrcPredInv);
 
             EmitImnmx(context, srcA, srcB, srcPred, op.Dest, op.Signed, op.WriteCC);
         }

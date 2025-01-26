@@ -33,7 +33,7 @@ namespace Ryujinx.Headless
         public static void Initialize()
         {
             // Ensure Discord presence timestamp begins at the absolute start of when Ryujinx is launched
-            DiscordIntegrationModule.StartedAt = Timestamps.Now;
+            DiscordIntegrationModule.EmulatorStartedAt = Timestamps.Now;
 
             // Delete backup files after updating.
             Task.Run(Updater.CleanupUpdate);
@@ -291,9 +291,9 @@ namespace Ryujinx.Headless
                 if (!string.IsNullOrEmpty(options.PreferredGPUVendor))
                 {
                     string preferredGpuVendor = options.PreferredGPUVendor.ToLowerInvariant();
-                    var devices = VulkanRenderer.GetPhysicalDevices(api);
+                    DeviceInfo[] devices = VulkanRenderer.GetPhysicalDevices(api);
 
-                    foreach (var device in devices)
+                    foreach (DeviceInfo device in devices)
                     {
                         if (device.Vendor.ToLowerInvariant() == preferredGpuVendor)
                         {

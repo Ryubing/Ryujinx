@@ -103,7 +103,7 @@ namespace Ryujinx.Graphics.Metal
 
             if (_flushFence != null)
             {
-                var fence = _flushFence;
+                FenceHolder fence = _flushFence;
                 Interlocked.Increment(ref _flushWaiting);
 
                 // Don't wait in the lock.
@@ -219,8 +219,8 @@ namespace Ryujinx.Graphics.Metal
                     BufferHolder srcHolder = _renderer.BufferManager.Create(dataSize);
                     srcHolder.SetDataUnchecked(0, data);
 
-                    var srcBuffer = srcHolder.GetBuffer();
-                    var dstBuffer = this.GetBuffer(true);
+                    Auto<DisposableBuffer> srcBuffer = srcHolder.GetBuffer();
+                    Auto<DisposableBuffer> dstBuffer = this.GetBuffer(true);
 
                     Copy(cbs.Value, srcBuffer, dstBuffer, 0, offset, dataSize);
 
@@ -262,8 +262,8 @@ namespace Ryujinx.Graphics.Metal
             int size,
             bool registerSrcUsage = true)
         {
-            var srcBuffer = registerSrcUsage ? src.Get(cbs, srcOffset, size).Value : src.GetUnsafe().Value;
-            var dstbuffer = dst.Get(cbs, dstOffset, size, true).Value;
+            MTLBuffer srcBuffer = registerSrcUsage ? src.Get(cbs, srcOffset, size).Value : src.GetUnsafe().Value;
+            MTLBuffer dstbuffer = dst.Get(cbs, dstOffset, size, true).Value;
 
             cbs.Encoders.EnsureBlitEncoder().CopyFromBuffer(
                 srcBuffer,
@@ -302,9 +302,9 @@ namespace Ryujinx.Graphics.Metal
                 return null;
             }
 
-            var key = new I8ToI16CacheKey(_renderer);
+            I8ToI16CacheKey key = new(_renderer);
 
-            if (!_cachedConvertedBuffers.TryGetValue(offset, size, key, out var holder))
+            if (!_cachedConvertedBuffers.TryGetValue(offset, size, key, out BufferHolder holder))
             {
                 holder = _renderer.BufferManager.Create((size * 2 + 3) & ~3);
 
@@ -325,9 +325,9 @@ namespace Ryujinx.Graphics.Metal
                 return null;
             }
 
-            var key = new TopologyConversionCacheKey(_renderer, pattern, indexSize);
+            TopologyConversionCacheKey key = new(_renderer, pattern, indexSize);
 
-            if (!_cachedConvertedBuffers.TryGetValue(offset, size, key, out var holder))
+            if (!_cachedConvertedBuffers.TryGetValue(offset, size, key, out BufferHolder holder))
             {
                 // The destination index size is always I32.
 

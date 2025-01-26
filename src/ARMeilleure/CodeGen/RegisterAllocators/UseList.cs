@@ -16,12 +16,12 @@ namespace ARMeilleure.CodeGen.RegisterAllocators
         {
             if (Count + 1 > _capacity)
             {
-                var oldSpan = Span;
+                Span<int> oldSpan = Span;
 
                 _capacity = Math.Max(4, _capacity * 2);
                 _items = Allocators.Default.Allocate<int>((uint)_capacity);
 
-                var newSpan = Span;
+                Span<int> newSpan = Span;
 
                 oldSpan.CopyTo(newSpan);
             }

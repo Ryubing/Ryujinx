@@ -14,7 +14,7 @@ namespace Ryujinx.Graphics.Shader.Instructions
         {
             InstF2fR op = context.GetOp<InstF2fR>();
 
-            var src = UnpackReg(context, op.SrcFmt, op.Sh, op.SrcB);
+            Operand src = UnpackReg(context, op.SrcFmt, op.Sh, op.SrcB);
 
             EmitF2F(context, op.SrcFmt, op.DstFmt, op.RoundMode, src, op.Dest, op.AbsB, op.NegB, op.Sat);
         }
@@ -23,7 +23,7 @@ namespace Ryujinx.Graphics.Shader.Instructions
         {
             InstF2fI op = context.GetOp<InstF2fI>();
 
-            var src = UnpackImm(context, op.SrcFmt, op.Sh, Imm20ToFloat(op.Imm20));
+            Operand src = UnpackImm(context, op.SrcFmt, op.Sh, Imm20ToFloat(op.Imm20));
 
             EmitF2F(context, op.SrcFmt, op.DstFmt, op.RoundMode, src, op.Dest, op.AbsB, op.NegB, op.Sat);
         }
@@ -32,7 +32,7 @@ namespace Ryujinx.Graphics.Shader.Instructions
         {
             InstF2fC op = context.GetOp<InstF2fC>();
 
-            var src = UnpackCbuf(context, op.SrcFmt, op.Sh, op.CbufSlot, op.CbufOffset);
+            Operand src = UnpackCbuf(context, op.SrcFmt, op.Sh, op.CbufSlot, op.CbufOffset);
 
             EmitF2F(context, op.SrcFmt, op.DstFmt, op.RoundMode, src, op.Dest, op.AbsB, op.NegB, op.Sat);
         }
@@ -41,7 +41,7 @@ namespace Ryujinx.Graphics.Shader.Instructions
         {
             InstF2iR op = context.GetOp<InstF2iR>();
 
-            var src = UnpackReg(context, op.SrcFmt, op.Sh, op.SrcB);
+            Operand src = UnpackReg(context, op.SrcFmt, op.Sh, op.SrcB);
 
             EmitF2I(context, op.SrcFmt, op.IDstFmt, op.RoundMode, src, op.Dest, op.AbsB, op.NegB);
         }
@@ -50,7 +50,7 @@ namespace Ryujinx.Graphics.Shader.Instructions
         {
             InstF2iI op = context.GetOp<InstF2iI>();
 
-            var src = UnpackImm(context, op.SrcFmt, op.Sh, Imm20ToFloat(op.Imm20));
+            Operand src = UnpackImm(context, op.SrcFmt, op.Sh, Imm20ToFloat(op.Imm20));
 
             EmitF2I(context, op.SrcFmt, op.IDstFmt, op.RoundMode, src, op.Dest, op.AbsB, op.NegB);
         }
@@ -59,7 +59,7 @@ namespace Ryujinx.Graphics.Shader.Instructions
         {
             InstF2iC op = context.GetOp<InstF2iC>();
 
-            var src = UnpackCbuf(context, op.SrcFmt, op.Sh, op.CbufSlot, op.CbufOffset);
+            Operand src = UnpackCbuf(context, op.SrcFmt, op.Sh, op.CbufSlot, op.CbufOffset);
 
             EmitF2I(context, op.SrcFmt, op.IDstFmt, op.RoundMode, src, op.Dest, op.AbsB, op.NegB);
         }
@@ -68,7 +68,7 @@ namespace Ryujinx.Graphics.Shader.Instructions
         {
             InstI2fR op = context.GetOp<InstI2fR>();
 
-            var src = GetSrcReg(context, op.SrcB);
+            Operand src = GetSrcReg(context, op.SrcB);
 
             EmitI2F(context, op.ISrcFmt, op.DstFmt, src, op.ByteSel, op.Dest, op.AbsB, op.NegB);
         }
@@ -77,7 +77,7 @@ namespace Ryujinx.Graphics.Shader.Instructions
         {
             InstI2fI op = context.GetOp<InstI2fI>();
 
-            var src = GetSrcImm(context, Imm20ToSInt(op.Imm20));
+            Operand src = GetSrcImm(context, Imm20ToSInt(op.Imm20));
 
             EmitI2F(context, op.ISrcFmt, op.DstFmt, src, op.ByteSel, op.Dest, op.AbsB, op.NegB);
         }
@@ -86,7 +86,7 @@ namespace Ryujinx.Graphics.Shader.Instructions
         {
             InstI2fC op = context.GetOp<InstI2fC>();
 
-            var src = GetSrcCbuf(context, op.CbufSlot, op.CbufOffset);
+            Operand src = GetSrcCbuf(context, op.CbufSlot, op.CbufOffset);
 
             EmitI2F(context, op.ISrcFmt, op.DstFmt, src, op.ByteSel, op.Dest, op.AbsB, op.NegB);
         }
@@ -95,7 +95,7 @@ namespace Ryujinx.Graphics.Shader.Instructions
         {
             InstI2iR op = context.GetOp<InstI2iR>();
 
-            var src = GetSrcReg(context, op.SrcB);
+            Operand src = GetSrcReg(context, op.SrcB);
 
             EmitI2I(context, op.ISrcFmt, op.IDstFmt, src, op.ByteSel, op.Dest, op.AbsB, op.NegB, op.Sat, op.WriteCC);
         }
@@ -104,7 +104,7 @@ namespace Ryujinx.Graphics.Shader.Instructions
         {
             InstI2iI op = context.GetOp<InstI2iI>();
 
-            var src = GetSrcImm(context, Imm20ToSInt(op.Imm20));
+            Operand src = GetSrcImm(context, Imm20ToSInt(op.Imm20));
 
             EmitI2I(context, op.ISrcFmt, op.IDstFmt, src, op.ByteSel, op.Dest, op.AbsB, op.NegB, op.Sat, op.WriteCC);
         }
@@ -113,7 +113,7 @@ namespace Ryujinx.Graphics.Shader.Instructions
         {
             InstI2iC op = context.GetOp<InstI2iC>();
 
-            var src = GetSrcCbuf(context, op.CbufSlot, op.CbufOffset);
+            Operand src = GetSrcCbuf(context, op.CbufSlot, op.CbufOffset);
 
             EmitI2I(context, op.ISrcFmt, op.IDstFmt, src, op.ByteSel, op.Dest, op.AbsB, op.NegB, op.Sat, op.WriteCC);
         }

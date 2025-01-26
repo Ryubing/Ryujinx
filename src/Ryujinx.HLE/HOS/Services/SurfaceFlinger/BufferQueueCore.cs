@@ -66,7 +66,7 @@ namespace Ryujinx.HLE.HOS.Services.SurfaceFlinger
             ConsumerListener = null;
             ConsumerUsageBits = 0;
 
-            Queue = new List<BufferItem>();
+            Queue = [];
 
             // TODO: CreateGraphicBufferAlloc?
 

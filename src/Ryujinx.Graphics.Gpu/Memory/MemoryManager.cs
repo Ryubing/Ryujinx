@@ -458,7 +458,7 @@ namespace Ryujinx.Graphics.Gpu.Memory
 
             int pages = (int)((endVaRounded - va) / PageSize);
 
-            var regions = new List<MemoryRange>();
+            List<MemoryRange> regions = [];
 
             for (int page = 0; page < pages - 1; page++)
             {

@@ -46,7 +46,7 @@ namespace Ryujinx.Graphics.Shader.Translation.Transforms
 
             int functionId = context.Hfm.GetOrCreateFunctionId(name, memoryId.Value);
 
-            Operand[] callArgs = new Operand[] { Const(functionId), byteOffset, value };
+            Operand[] callArgs = [Const(functionId), byteOffset, value];
 
             LinkedListNode<INode> newNode = node.List.AddBefore(node, new Operation(Instruction.Call, 0, result, callArgs));
 

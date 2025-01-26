@@ -170,7 +170,7 @@ namespace Ryujinx.Graphics.Metal
 
         public static MTLPixelFormat GetFormat(Format format)
         {
-            var mtlFormat = _table[(int)format];
+            MTLPixelFormat mtlFormat = _table[(int)format];
 
             if (IsD24S8(format))
             {

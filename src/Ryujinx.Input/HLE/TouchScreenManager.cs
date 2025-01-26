@@ -2,6 +2,7 @@ using Ryujinx.HLE;
 using Ryujinx.HLE.HOS.Services.Hid;
 using Ryujinx.HLE.HOS.Services.Hid.Types.SharedMemory.TouchScreen;
 using System;
+using System.Numerics;
 
 namespace Ryujinx.Input.HLE
 {
@@ -29,7 +30,7 @@ namespace Ryujinx.Input.HLE
                 if (_wasClicking && !isClicking)
                 {
                     MouseStateSnapshot snapshot = IMouse.GetMouseStateSnapshot(_mouse);
-                    var touchPosition = IMouse.GetScreenPosition(snapshot.Position, _mouse.ClientSize, aspectRatio);
+                    Vector2 touchPosition = IMouse.GetScreenPosition(snapshot.Position, _mouse.ClientSize, aspectRatio);
 
                     TouchPoint currentPoint = new()
                     {
@@ -58,7 +59,7 @@ namespace Ryujinx.Input.HLE
             if (aspectRatio > 0)
             {
                 MouseStateSnapshot snapshot = IMouse.GetMouseStateSnapshot(_mouse);
-                var touchPosition = IMouse.GetScreenPosition(snapshot.Position, _mouse.ClientSize, aspectRatio);
+                Vector2 touchPosition = IMouse.GetScreenPosition(snapshot.Position, _mouse.ClientSize, aspectRatio);
 
                 TouchAttribute attribute = TouchAttribute.None;
 

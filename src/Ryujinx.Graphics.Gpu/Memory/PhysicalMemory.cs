@@ -102,10 +102,10 @@ namespace Ryujinx.Graphics.Gpu.Memory
         {
             if (range.Count == 1)
             {
-                var singleRange = range.GetSubRange(0);
+                MemoryRange singleRange = range.GetSubRange(0);
                 if (singleRange.Address != MemoryManager.PteUnmapped)
                 {
-                    var regions = _cpuMemory.GetHostRegions(singleRange.Address, singleRange.Size);
+                    IEnumerable<HostMemoryRange> regions = _cpuMemory.GetHostRegions(singleRange.Address, singleRange.Size);
 
                     if (regions != null && regions.Count() == 1)
                     {
@@ -139,7 +139,7 @@ namespace Ryujinx.Graphics.Gpu.Memory
         {
             if (range.Count == 1)
             {
-                var singleRange = range.GetSubRange(0);
+                MemoryRange singleRange = range.GetSubRange(0);
                 if (singleRange.Address != MemoryManager.PteUnmapped)
                 {
                     return _cpuMemory.GetSpan(singleRange.Address, (int)singleRange.Size, tracked);
@@ -152,7 +152,7 @@ namespace Ryujinx.Graphics.Gpu.Memory
 
             for (int i = 0; i < range.Count; i++)
             {
-                var currentRange = range.GetSubRange(i);
+                MemoryRange currentRange = range.GetSubRange(i);
                 int size = (int)currentRange.Size;
                 if (currentRange.Address != MemoryManager.PteUnmapped)
                 {
@@ -199,7 +199,7 @@ namespace Ryujinx.Graphics.Gpu.Memory
                 int offset = 0;
                 for (int i = 0; i < range.Count; i++)
                 {
-                    var currentRange = range.GetSubRange(i);
+                    MemoryRange currentRange = range.GetSubRange(i);
                     int size = (int)currentRange.Size;
                     if (currentRange.Address != MemoryManager.PteUnmapped)
                     {
@@ -322,7 +322,7 @@ namespace Ryujinx.Graphics.Gpu.Memory
         {
             if (range.Count == 1)
             {
-                var singleRange = range.GetSubRange(0);
+                MemoryRange singleRange = range.GetSubRange(0);
                 if (singleRange.Address != MemoryManager.PteUnmapped)
                 {
                     writeCallback(singleRange.Address, data);
@@ -334,7 +334,7 @@ namespace Ryujinx.Graphics.Gpu.Memory
 
                 for (int i = 0; i < range.Count; i++)
                 {
-                    var currentRange = range.GetSubRange(i);
+                    MemoryRange currentRange = range.GetSubRange(i);
                     int size = (int)currentRange.Size;
                     if (currentRange.Address != MemoryManager.PteUnmapped)
                     {
@@ -382,12 +382,12 @@ namespace Ryujinx.Graphics.Gpu.Memory
         /// <returns>The memory tracking handle</returns>
         public GpuRegionHandle BeginTracking(MultiRange range, ResourceKind kind)
         {
-            var cpuRegionHandles = new RegionHandle[range.Count];
+            RegionHandle[] cpuRegionHandles = new RegionHandle[range.Count];
             int count = 0;
 
             for (int i = 0; i < range.Count; i++)
             {
-                var currentRange = range.GetSubRange(i);
+                MemoryRange currentRange = range.GetSubRange(i);
                 if (currentRange.Address != MemoryManager.PteUnmapped)
                 {
                     cpuRegionHandles[count++] = _cpuMemory.BeginTracking(currentRange.Address, currentRange.Size, (int)kind);

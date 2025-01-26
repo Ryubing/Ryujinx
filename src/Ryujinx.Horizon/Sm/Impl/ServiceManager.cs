@@ -120,7 +120,7 @@ namespace Ryujinx.Horizon.Sm.Impl
                 return SmResult.NotRegistered;
             }
 
-            ref var serviceInfo = ref _services[serviceIndex];
+            ref ServiceInfo serviceInfo = ref _services[serviceIndex];
             if (serviceInfo.OwnerProcessId != processId)
             {
                 return SmResult.NotAllowed;

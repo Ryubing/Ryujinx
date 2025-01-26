@@ -27,7 +27,7 @@ namespace Ryujinx.Ava.UI.Views.User
                 switch (arg.NavigationMode)
                 {
                     case NavigationMode.New:
-                        var parent = (NavigationDialogHost)arg.Parameter;
+                        NavigationDialogHost parent = (NavigationDialogHost)arg.Parameter;
 
                         _parent = parent;
 

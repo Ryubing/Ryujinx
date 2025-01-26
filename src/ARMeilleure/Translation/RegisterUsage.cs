@@ -95,7 +95,7 @@ namespace ARMeilleure.Translation
                 // This is required because we have a implicit context load at the start of the function,
                 // but if there is a jump to the start of the function, the context load would trash the modified values.
                 // Here we insert a new entry block that will jump to the existing entry block.
-                BasicBlock newEntry = new BasicBlock(cfg.Blocks.Count);
+                BasicBlock newEntry = new(cfg.Blocks.Count);
 
                 cfg.UpdateEntry(newEntry);
             }

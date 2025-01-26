@@ -1,5 +1,6 @@
 using Ryujinx.Graphics.Shader.Decoders;
 using Ryujinx.Graphics.Shader.IntermediateRepresentation;
+using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Numerics;
@@ -53,7 +54,7 @@ namespace Ryujinx.Graphics.Shader.Translation
 
         public EmitterContext()
         {
-            _operations = new List<Operation>();
+            _operations = [];
             _labels = new Dictionary<ulong, BlockLabel>();
         }
 
@@ -126,8 +127,8 @@ namespace Ryujinx.Graphics.Shader.Translation
                         TextureFlags.IntCoords,
                         ResourceManager.Reservations.GetIndexBufferTextureSetAndBinding(),
                         1,
-                        new[] { vertexIndexVr },
-                        new[] { this.IAdd(ibBaseOffset, outputVertexOffset) });
+                        [vertexIndexVr],
+                        [this.IAdd(ibBaseOffset, outputVertexOffset)]);
 
                     this.Store(StorageKind.LocalMemory, ResourceManager.LocalVertexIndexVertexRateMemoryId, this.IAdd(firstVertex, vertexIndexVr));
                     this.Store(StorageKind.LocalMemory, ResourceManager.LocalVertexIndexInstanceRateMemoryId, this.IAdd(firstInstance, outputInstanceOffset));
@@ -147,8 +148,8 @@ namespace Ryujinx.Graphics.Shader.Translation
                             TextureFlags.IntCoords,
                             ResourceManager.Reservations.GetTopologyRemapBufferTextureSetAndBinding(),
                             1,
-                            new[] { vertexIndex },
-                            new[] { this.IAdd(baseVertex, Const(index)) });
+                            [vertexIndex],
+                            [this.IAdd(baseVertex, Const(index))]);
 
                         this.Store(StorageKind.LocalMemory, ResourceManager.LocalTopologyRemapMemoryId, Const(index), vertexIndex);
                     }
@@ -186,7 +187,7 @@ namespace Ryujinx.Graphics.Shader.Translation
 
         public (Operand, Operand) Add(Instruction inst, (Operand, Operand) dest, params Operand[] sources)
         {
-            Operand[] dests = new[] { dest.Item1, dest.Item2 };
+            Operand[] dests = [dest.Item1, dest.Item2];
 
             Operation operation = new(inst, 0, dests, sources);
 
@@ -256,8 +257,8 @@ namespace Ryujinx.Graphics.Shader.Translation
 
                 for (int tfbIndex = 0; tfbIndex < ResourceReservations.TfeBuffersCount; tfbIndex++)
                 {
-                    var locations = TranslatorContext.GpuAccessor.QueryTransformFeedbackVaryingLocations(tfbIndex);
-                    var stride = TranslatorContext.GpuAccessor.QueryTransformFeedbackStride(tfbIndex);
+                    ReadOnlySpan<byte> locations = TranslatorContext.GpuAccessor.QueryTransformFeedbackVaryingLocations(tfbIndex);
+                    int stride = TranslatorContext.GpuAccessor.QueryTransformFeedbackStride(tfbIndex);
 
                     Operand baseOffset = this.Load(StorageKind.ConstantBuffer, SupportBuffer.Binding, Const((int)SupportBufferField.TfeOffset), Const(tfbIndex));
                     Operand baseVertex = this.Load(StorageKind.Input, IoVariable.BaseVertex);

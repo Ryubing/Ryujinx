@@ -46,7 +46,7 @@ namespace Ryujinx.Audio.Renderer.Dsp.Command
             SampleRate = sampleRate;
             BufferCount = mixBufferCount + voiceChannelCountMax;
             Buffers = mixBuffer;
-            Commands = new List<ICommand>();
+            Commands = [];
             MemoryManager = memoryManager;
 
             _buffersEntryCount = Buffers.Length;

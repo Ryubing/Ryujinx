@@ -37,19 +37,18 @@ namespace Ryujinx.Graphics.Vulkan.Effects
         {
             _pipeline.Initialize();
 
-            var shader = EmbeddedResources.Read("Ryujinx.Graphics.Vulkan/Effects/Shaders/Fxaa.spv");
+            byte[] shader = EmbeddedResources.Read("Ryujinx.Graphics.Vulkan/Effects/Shaders/Fxaa.spv");
 
-            var resourceLayout = new ResourceLayoutBuilder()
+            ResourceLayout resourceLayout = new ResourceLayoutBuilder()
                 .Add(ResourceStages.Compute, ResourceType.UniformBuffer, 2)
                 .Add(ResourceStages.Compute, ResourceType.TextureAndSampler, 1)
                 .Add(ResourceStages.Compute, ResourceType.Image, 0, true).Build();
 
             _samplerLinear = _renderer.CreateSampler(SamplerCreateInfo.Create(MinFilter.Linear, MagFilter.Linear));
 
-            _shaderProgram = _renderer.CreateProgramWithMinimalLayout(new[]
-            {
-                new ShaderSource(shader, ShaderStage.Compute, TargetLanguage.Spirv),
-            }, resourceLayout);
+            _shaderProgram = _renderer.CreateProgramWithMinimalLayout([
+                new ShaderSource(shader, ShaderStage.Compute, TargetLanguage.Spirv)
+            ], resourceLayout);
         }
 
         public TextureView Run(TextureView view, CommandBufferScoped cbs, int width, int height)
@@ -64,16 +63,16 @@ namespace Ryujinx.Graphics.Vulkan.Effects
             _pipeline.SetProgram(_shaderProgram);
             _pipeline.SetTextureAndSampler(ShaderStage.Compute, 1, view, _samplerLinear);
 
-            ReadOnlySpan<float> resolutionBuffer = stackalloc float[] { view.Width, view.Height };
+            ReadOnlySpan<float> resolutionBuffer = [view.Width, view.Height];
             int rangeSize = resolutionBuffer.Length * sizeof(float);
-            using var buffer = _renderer.BufferManager.ReserveOrCreate(_renderer, cbs, rangeSize);
+            using ScopedTemporaryBuffer buffer = _renderer.BufferManager.ReserveOrCreate(_renderer, cbs, rangeSize);
 
             buffer.Holder.SetDataUnchecked(buffer.Offset, resolutionBuffer);
 
-            _pipeline.SetUniformBuffers(stackalloc[] { new BufferAssignment(2, buffer.Range) });
+            _pipeline.SetUniformBuffers([new BufferAssignment(2, buffer.Range)]);
 
-            var dispatchX = BitUtils.DivRoundUp(view.Width, IPostProcessingEffect.LocalGroupSize);
-            var dispatchY = BitUtils.DivRoundUp(view.Height, IPostProcessingEffect.LocalGroupSize);
+            int dispatchX = BitUtils.DivRoundUp(view.Width, IPostProcessingEffect.LocalGroupSize);
+            int dispatchY = BitUtils.DivRoundUp(view.Height, IPostProcessingEffect.LocalGroupSize);
 
             _pipeline.SetImage(ShaderStage.Compute, 0, _texture.GetView(FormatTable.ConvertRgba8SrgbToUnorm(view.Info.Format)));
             _pipeline.DispatchCompute(dispatchX, dispatchY, 1);

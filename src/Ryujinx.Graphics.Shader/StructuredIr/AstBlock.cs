@@ -41,7 +41,7 @@ namespace Ryujinx.Graphics.Shader.StructuredIr
             Type = type;
             Condition = condition;
 
-            _nodes = new LinkedList<IAstNode>();
+            _nodes = [];
         }
 
         public void Add(IAstNode node)

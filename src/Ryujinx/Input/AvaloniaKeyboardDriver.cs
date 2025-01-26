@@ -11,7 +11,7 @@ namespace Ryujinx.Ava.Input
 {
     internal class AvaloniaKeyboardDriver : IGamepadDriver
     {
-        private static readonly string[] _keyboardIdentifers = new string[1] { "0" };
+        private static readonly string[] _keyboardIdentifers = ["0"];
         private readonly Control _control;
         private readonly HashSet<AvaKey> _pressedKeys;
 
@@ -25,7 +25,7 @@ namespace Ryujinx.Ava.Input
         public AvaloniaKeyboardDriver(Control control)
         {
             _control = control;
-            _pressedKeys = new HashSet<AvaKey>();
+            _pressedKeys = [];
 
             _control.KeyDown += OnKeyPress;
             _control.KeyUp += OnKeyRelease;
@@ -59,6 +59,8 @@ namespace Ryujinx.Ava.Input
             return new AvaloniaKeyboard(this, _keyboardIdentifers[0], LocaleManager.Instance[LocaleKeys.AllKeyboards]);
         }
 
+        public IEnumerable<IGamepad> GetGamepads() => [GetGamepad("0")];
+
         protected virtual void Dispose(bool disposing)
         {
             if (disposing)
@@ -89,7 +91,7 @@ namespace Ryujinx.Ava.Input
                 return false;
             }
 
-            AvaloniaKeyboardMappingHelper.TryGetAvaKey(key, out var nativeKey);
+            AvaloniaKeyboardMappingHelper.TryGetAvaKey(key, out AvaKey nativeKey);
 
             return _pressedKeys.Contains(nativeKey);
         }

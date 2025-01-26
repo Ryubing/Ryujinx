@@ -44,13 +44,13 @@ namespace Ryujinx.Ava.UI.Renderer
                 throw new PlatformNotSupportedException();
             }
 
-            var flags = OpenGLContextFlags.Compat;
+            OpenGLContextFlags flags = OpenGLContextFlags.Compat;
             if (ConfigurationState.Instance.Logger.GraphicsDebugLevel != GraphicsDebugLevel.None)
             {
                 flags |= OpenGLContextFlags.Debug;
             }
 
-            var graphicsMode = Environment.OSVersion.Platform == PlatformID.Unix ? new FramebufferFormat(new ColorFormat(8, 8, 8, 0), 16, 0, ColorFormat.Zero, 0, 2, false) : FramebufferFormat.Default;
+            FramebufferFormat graphicsMode = Environment.OSVersion.Platform == PlatformID.Unix ? new FramebufferFormat(new ColorFormat(8, 8, 8, 0), 16, 0, ColorFormat.Zero, 0, 2, false) : FramebufferFormat.Default;
 
             Context = PlatformHelper.CreateOpenGLContext(graphicsMode, 3, 3, flags);
 

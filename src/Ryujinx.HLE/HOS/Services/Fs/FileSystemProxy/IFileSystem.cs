@@ -111,7 +111,7 @@ namespace Ryujinx.HLE.HOS.Services.Fs.FileSystemProxy
             uint mode = context.RequestData.ReadUInt32();
 
             ref readonly Path name = ref FileSystemProxyHelper.GetSfPath(context);
-            using var file = new SharedRef<LibHac.FsSrv.Sf.IFile>();
+            using SharedRef<LibHac.FsSrv.Sf.IFile> file = new();
 
             Result result = _fileSystem.Get.OpenFile(ref file.Ref, in name, mode);
 
@@ -132,7 +132,7 @@ namespace Ryujinx.HLE.HOS.Services.Fs.FileSystemProxy
             uint mode = context.RequestData.ReadUInt32();
 
             ref readonly Path name = ref FileSystemProxyHelper.GetSfPath(context);
-            using var dir = new SharedRef<LibHac.FsSrv.Sf.IDirectory>();
+            using SharedRef<LibHac.FsSrv.Sf.IDirectory> dir = new();
 
             Result result = _fileSystem.Get.OpenDirectory(ref dir.Ref, name, mode);
 

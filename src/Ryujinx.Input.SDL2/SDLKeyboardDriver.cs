@@ -1,5 +1,6 @@
 using Ryujinx.SDL2.Common;
 using System;
+using System.Collections.Generic;
 
 namespace Ryujinx.Input.SDL2
 {
@@ -12,7 +13,7 @@ namespace Ryujinx.Input.SDL2
 
         public string DriverName => "SDL2";
 
-        private static readonly string[] _keyboardIdentifers = new string[1] { "0" };
+        private static readonly string[] _keyboardIdentifers = ["0"];
 
         public ReadOnlySpan<string> GamepadsIds => _keyboardIdentifers;
 
@@ -50,6 +51,14 @@ namespace Ryujinx.Input.SDL2
             }
 
             return new SDL2Keyboard(this, _keyboardIdentifers[0], "All keyboards");
+        }
+
+        public IEnumerable<IGamepad> GetGamepads()
+        {
+            foreach (string keyboardId in _keyboardIdentifers)
+            {
+                yield return GetGamepad(keyboardId);
+            }
         }
     }
 }

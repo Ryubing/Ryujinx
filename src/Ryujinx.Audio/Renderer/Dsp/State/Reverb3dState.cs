@@ -6,12 +6,14 @@ namespace Ryujinx.Audio.Renderer.Dsp.State
 {
     public struct Reverb3dState
     {
-        private readonly float[] _fdnDelayMinTimes = new float[4] { 5.0f, 6.0f, 13.0f, 14.0f };
-        private readonly float[] _fdnDelayMaxTimes = new float[4] { 45.704f, 82.782f, 149.94f, 271.58f };
-        private readonly float[] _decayDelayMaxTimes1 = new float[4] { 17.0f, 13.0f, 9.0f, 7.0f };
-        private readonly float[] _decayDelayMaxTimes2 = new float[4] { 19.0f, 11.0f, 10.0f, 6.0f };
-        private readonly float[] _earlyDelayTimes = new float[20] { 0.017136f, 0.059154f, 0.16173f, 0.39019f, 0.42526f, 0.45541f, 0.68974f, 0.74591f, 0.83384f, 0.8595f, 0.0f, 0.075024f, 0.16879f, 0.2999f, 0.33744f, 0.3719f, 0.59901f, 0.71674f, 0.81786f, 0.85166f };
-        public readonly float[] EarlyGain = new float[20] { 0.67096f, 0.61027f, 1.0f, 0.35680f, 0.68361f, 0.65978f, 0.51939f, 0.24712f, 0.45945f, 0.45021f, 0.64196f, 0.54879f, 0.92925f, 0.38270f, 0.72867f, 0.69794f, 0.5464f, 0.24563f, 0.45214f, 0.44042f };
+        private readonly float[] _fdnDelayMinTimes = [5.0f, 6.0f, 13.0f, 14.0f];
+        private readonly float[] _fdnDelayMaxTimes = [45.704f, 82.782f, 149.94f, 271.58f];
+        private readonly float[] _decayDelayMaxTimes1 = [17.0f, 13.0f, 9.0f, 7.0f];
+        private readonly float[] _decayDelayMaxTimes2 = [19.0f, 11.0f, 10.0f, 6.0f];
+        private readonly float[] _earlyDelayTimes = [0.017136f, 0.059154f, 0.16173f, 0.39019f, 0.42526f, 0.45541f, 0.68974f, 0.74591f, 0.83384f, 0.8595f, 0.0f, 0.075024f, 0.16879f, 0.2999f, 0.33744f, 0.3719f, 0.59901f, 0.71674f, 0.81786f, 0.85166f
+        ];
+        public readonly float[] EarlyGain = [0.67096f, 0.61027f, 1.0f, 0.35680f, 0.68361f, 0.65978f, 0.51939f, 0.24712f, 0.45945f, 0.45021f, 0.64196f, 0.54879f, 0.92925f, 0.38270f, 0.72867f, 0.69794f, 0.5464f, 0.24563f, 0.45214f, 0.44042f
+        ];
 
         public IDelayLine[] FdnDelayLines { get; }
         public DecayDelay[] DecayDelays1 { get; }

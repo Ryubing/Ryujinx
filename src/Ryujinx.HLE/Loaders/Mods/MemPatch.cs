@@ -46,7 +46,7 @@ namespace Ryujinx.HLE.Loaders.Mods
                 return;
             }
 
-            foreach (var (patchOffset, patch) in patches._patches)
+            foreach ((uint patchOffset, byte[] patch) in patches._patches)
             {
                 _patches[patchOffset] = patch;
             }
@@ -66,7 +66,7 @@ namespace Ryujinx.HLE.Loaders.Mods
         public int Patch(Span<byte> memory, int protectedOffset = 0)
         {
             int count = 0;
-            foreach (var (offset, patch) in _patches.OrderBy(item => item.Key))
+            foreach ((uint offset, byte[] patch) in _patches.OrderBy(item => item.Key))
             {
                 int patchOffset = (int)offset;
                 int patchSize = patch.Length;

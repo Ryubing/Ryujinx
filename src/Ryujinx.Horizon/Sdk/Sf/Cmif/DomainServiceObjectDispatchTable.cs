@@ -19,7 +19,7 @@ namespace Ryujinx.Horizon.Sdk.Sf.Cmif
                 return SfResult.InvalidHeaderSize;
             }
 
-            var inHeader = MemoryMarshal.Cast<byte, CmifDomainInHeader>(inRawData)[0];
+            CmifDomainInHeader inHeader = MemoryMarshal.Cast<byte, CmifDomainInHeader>(inRawData)[0];
 
             ReadOnlySpan<byte> inDomainRawData = inRawData[Unsafe.SizeOf<CmifDomainInHeader>()..];
 
@@ -28,7 +28,7 @@ namespace Ryujinx.Horizon.Sdk.Sf.Cmif
             switch (inHeader.Type)
             {
                 case CmifDomainRequestType.SendMessage:
-                    var targetObject = domain.GetObject(targetObjectId);
+                    ServiceObjectHolder targetObject = domain.GetObject(targetObjectId);
                     if (targetObject == null)
                     {
                         return SfResult.TargetNotFound;
@@ -48,7 +48,7 @@ namespace Ryujinx.Horizon.Sdk.Sf.Cmif
 
                     int[] inObjectIds = new int[inHeader.ObjectsCount];
 
-                    var domainProcessor = new DomainServiceObjectProcessor(domain, inObjectIds);
+                    DomainServiceObjectProcessor domainProcessor = new(domain, inObjectIds);
 
                     if (context.Processor == null)
                     {

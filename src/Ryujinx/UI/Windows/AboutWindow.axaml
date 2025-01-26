@@ -182,7 +182,7 @@
                     HorizontalAlignment="Left"
                     Background="Transparent"
                     Click="Button_OnClick"
-                    Tag="https://github.com/GreemDev/Ryujinx/graphs/contributors?type=a">
+                    Tag="https://github.com/Ryubing/Ryujinx/graphs/contributors?type=a">
                     <TextBlock
                         FontSize="10"
                         Text="{ext:Locale AboutRyujinxContributorsButtonHeader}"

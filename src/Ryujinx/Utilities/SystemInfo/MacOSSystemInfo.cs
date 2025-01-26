@@ -40,10 +40,10 @@ namespace Ryujinx.Ava.Utilities.SystemInfo
 
         static ulong GetVMInfoAvailableMemory()
         {
-            var port = mach_host_self();
+            uint port = mach_host_self();
 
             uint pageSize = 0;
-            var result = host_page_size(port, ref pageSize);
+            int result = host_page_size(port, ref pageSize);
 
             if (result != 0)
             {

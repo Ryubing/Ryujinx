@@ -123,7 +123,7 @@ namespace ARMeilleure.CodeGen.Arm64
 
         public void Cset(Operand rd, ArmCondition condition)
         {
-            var zr = Factory.Register(ZrRegister, RegisterType.Integer, rd.Type);
+            Operand zr = Factory.Register(ZrRegister, RegisterType.Integer, rd.Type);
             Csinc(rd, zr, zr, (ArmCondition)((int)condition ^ 1));
         }
 

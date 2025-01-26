@@ -25,7 +25,7 @@ namespace Ryujinx.Graphics.Metal
 
             ref StencilUid frontUid = ref descriptor.FrontFace;
 
-            using var frontFaceStencil = new MTLStencilDescriptor
+            using MTLStencilDescriptor frontFaceStencil = new()
             {
                 StencilFailureOperation = frontUid.StencilFailureOperation,
                 DepthFailureOperation = frontUid.DepthFailureOperation,
@@ -37,7 +37,7 @@ namespace Ryujinx.Graphics.Metal
 
             ref StencilUid backUid = ref descriptor.BackFace;
 
-            using var backFaceStencil = new MTLStencilDescriptor
+            using MTLStencilDescriptor backFaceStencil = new()
             {
                 StencilFailureOperation = backUid.StencilFailureOperation,
                 DepthFailureOperation = backUid.DepthFailureOperation,
@@ -47,7 +47,7 @@ namespace Ryujinx.Graphics.Metal
                 WriteMask = backUid.WriteMask
             };
 
-            var mtlDescriptor = new MTLDepthStencilDescriptor
+            MTLDepthStencilDescriptor mtlDescriptor = new()
             {
                 DepthCompareFunction = descriptor.DepthCompareFunction,
                 DepthWriteEnabled = descriptor.DepthWriteEnabled

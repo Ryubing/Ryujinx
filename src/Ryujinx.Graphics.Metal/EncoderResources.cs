@@ -5,9 +5,9 @@ namespace Ryujinx.Graphics.Metal
 {
     public struct RenderEncoderBindings
     {
-        public List<Resource> Resources = new();
-        public List<BufferResource> VertexBuffers = new();
-        public List<BufferResource> FragmentBuffers = new();
+        public List<Resource> Resources = [];
+        public List<BufferResource> VertexBuffers = [];
+        public List<BufferResource> FragmentBuffers = [];
 
         public RenderEncoderBindings() { }
 
@@ -21,8 +21,8 @@ namespace Ryujinx.Graphics.Metal
 
     public struct ComputeEncoderBindings
     {
-        public List<Resource> Resources = new();
-        public List<BufferResource> Buffers = new();
+        public List<Resource> Resources = [];
+        public List<BufferResource> Buffers = [];
 
         public ComputeEncoderBindings() { }
 

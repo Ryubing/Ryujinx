@@ -132,7 +132,7 @@ namespace Ryujinx.Graphics.Shader.Translation
             public TreeNode(InstOp op, byte order)
             {
                 Op = op;
-                Uses = new List<TreeNodeUse>();
+                Uses = [];
                 Type = TreeNodeType.Op;
                 Order = order;
             }
@@ -150,7 +150,7 @@ namespace Ryujinx.Graphics.Shader.Translation
 
         private static TreeNode[] BuildTree(Block[] blocks)
         {
-            List<TreeNode> nodes = new();
+            List<TreeNode> nodes = [];
 
             Dictionary<ulong, TreeNode> labels = new();
 
@@ -382,7 +382,7 @@ namespace Ryujinx.Graphics.Shader.Translation
                 Type = type;
                 Order = order;
                 IsImm = isImm;
-                Uses = new List<PatternTreeNodeUse>();
+                Uses = [];
             }
 
             public PatternTreeNode<T> Use(PatternTreeNodeUse use)
@@ -490,8 +490,8 @@ namespace Ryujinx.Graphics.Shader.Translation
 
                 for (int index = 0; index < pTreeNode.Uses.Count; index++)
                 {
-                    var pUse = pTreeNode.Uses[index];
-                    var cUse = cTreeNode.Uses[index];
+                    PatternTreeNodeUse pUse = pTreeNode.Uses[index];
+                    TreeNodeUse cUse = cTreeNode.Uses[index];
 
                     if (pUse.Index <= -2)
                     {
@@ -524,11 +524,11 @@ namespace Ryujinx.Graphics.Shader.Translation
         {
             public static IPatternTreeNode[] GetFsiGetAddress()
             {
-                var affinityValue = S2r(SReg.Affinity).Use(PT).Out;
-                var orderingTicketValue = S2r(SReg.OrderingTicket).Use(PT).Out;
+                PatternTreeNodeUse affinityValue = S2r(SReg.Affinity).Use(PT).Out;
+                PatternTreeNodeUse orderingTicketValue = S2r(SReg.OrderingTicket).Use(PT).Out;
 
-                return new IPatternTreeNode[]
-                {
+                return
+                [
                     Iscadd(cc: true, 2, 0, 404)
                         .Use(PT)
                         .Use(Iscadd(cc: false, 8)
@@ -548,17 +548,17 @@ namespace Ryujinx.Graphics.Shader.Translation
                             .Use(PT)
                             .Use(orderingTicketValue).Out),
                     Iadd(x: true, 0, 405).Use(PT).Use(RZ),
-                    Ret().Use(PT),
-                };
+                    Ret().Use(PT)
+                ];
             }
 
             public static IPatternTreeNode[] GetFsiGetAddressV2()
             {
-                var affinityValue = S2r(SReg.Affinity).Use(PT).Out;
-                var orderingTicketValue = S2r(SReg.OrderingTicket).Use(PT).Out;
+                PatternTreeNodeUse affinityValue = S2r(SReg.Affinity).Use(PT).Out;
+                PatternTreeNodeUse orderingTicketValue = S2r(SReg.OrderingTicket).Use(PT).Out;
 
-                return new IPatternTreeNode[]
-                {
+                return
+                [
                     ShrU32W(16)
                         .Use(PT)
                         .Use(orderingTicketValue),
@@ -576,17 +576,17 @@ namespace Ryujinx.Graphics.Shader.Translation
                                 .Use(PT)
                                 .Use(orderingTicketValue).Out).Out),
                     Iadd(x: true, 0, 405).Use(PT).Use(RZ),
-                    Ret().Use(PT),
-                };
+                    Ret().Use(PT)
+                ];
             }
 
             public static IPatternTreeNode[] GetFsiIsLastWarpThread()
             {
-                var threadKillValue = S2r(SReg.ThreadKill).Use(PT).Out;
-                var laneIdValue = S2r(SReg.LaneId).Use(PT).Out;
+                PatternTreeNodeUse threadKillValue = S2r(SReg.ThreadKill).Use(PT).Out;
+                PatternTreeNodeUse laneIdValue = S2r(SReg.LaneId).Use(PT).Out;
 
-                return new IPatternTreeNode[]
-                {
+                return
+                [
                     IsetpU32(IComp.Eq)
                         .Use(PT)
                         .Use(PT)
@@ -603,17 +603,17 @@ namespace Ryujinx.Graphics.Shader.Translation
                                         .Use(threadKillValue).OutAt(1))
                                     .Use(RZ).Out).OutAt(1)).Out)
                         .Use(laneIdValue),
-                    Ret().Use(PT),
-                };
+                    Ret().Use(PT)
+                ];
             }
 
             public static IPatternTreeNode[] GetFsiBeginPattern()
             {
-                var addressLowValue = CallArg(1);
+                PatternTreeNodeUse addressLowValue = CallArg(1);
 
                 static PatternTreeNodeUse HighU16Equals(PatternTreeNodeUse x)
                 {
-                    var expectedValue = CallArg(3);
+                    PatternTreeNodeUse expectedValue = CallArg(3);
 
                     return IsetpU32(IComp.Eq)
                         .Use(PT)
@@ -624,8 +624,8 @@ namespace Ryujinx.Graphics.Shader.Translation
 
                 PatternTreeNode<byte> label;
 
-                return new IPatternTreeNode[]
-                {
+                return
+                [
                     Cal(),
                     Ret().Use(CallArg(0).Inv),
                     Ret()
@@ -638,22 +638,22 @@ namespace Ryujinx.Graphics.Shader.Translation
                             .Use(PT)
                             .Use(addressLowValue).Out).Inv)
                         .Use(label.Out),
-                    Ret().Use(PT),
-                };
+                    Ret().Use(PT)
+                ];
             }
 
             public static IPatternTreeNode[] GetFsiEndPattern()
             {
-                var voteResult = Vote(VoteMode.All).Use(PT).Use(PT).OutAt(1);
-                var popcResult = Popc().Use(PT).Use(voteResult).Out;
-                var threadKillValue = S2r(SReg.ThreadKill).Use(PT).Out;
-                var laneIdValue = S2r(SReg.LaneId).Use(PT).Out;
+                PatternTreeNodeUse voteResult = Vote(VoteMode.All).Use(PT).Use(PT).OutAt(1);
+                PatternTreeNodeUse popcResult = Popc().Use(PT).Use(voteResult).Out;
+                PatternTreeNodeUse threadKillValue = S2r(SReg.ThreadKill).Use(PT).Out;
+                PatternTreeNodeUse laneIdValue = S2r(SReg.LaneId).Use(PT).Out;
 
-                var addressLowValue = CallArg(1);
-                var incrementValue = CallArg(2);
+                PatternTreeNodeUse addressLowValue = CallArg(1);
+                PatternTreeNodeUse incrementValue = CallArg(2);
 
-                return new IPatternTreeNode[]
-                {
+                return
+                [
                     Cal(),
                     Ret().Use(CallArg(0).Inv),
                     Membar(Decoders.Membar.Vc).Use(PT),
@@ -684,8 +684,8 @@ namespace Ryujinx.Graphics.Shader.Translation
                                 .Use(incrementValue)
                                 .Use(popcResult)
                                 .Use(RZ).Out).Out),
-                    Ret().Use(PT),
-                };
+                    Ret().Use(PT)
+                ];
             }
 
             private static PatternTreeNode<InstBfiI> Bfi(int imm)

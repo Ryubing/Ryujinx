@@ -25,7 +25,7 @@ namespace Ryujinx.HLE.Loaders.Mods
             ReadOnlySpan<byte> ips32TailMagic = "EEOF"u8;
 
             MemPatch patches = new();
-            var header = reader.ReadBytes(ipsHeaderMagic.Length).AsSpan();
+            Span<byte> header = reader.ReadBytes(ipsHeaderMagic.Length).AsSpan();
 
             if (header.Length != ipsHeaderMagic.Length)
             {
@@ -94,7 +94,7 @@ namespace Ryujinx.HLE.Loaders.Mods
                 }
                 else // Copy mode
                 {
-                    var patch = reader.ReadBytes(patchSize);
+                    byte[] patch = reader.ReadBytes(patchSize);
 
                     if (patch.Length != patchSize)
                     {

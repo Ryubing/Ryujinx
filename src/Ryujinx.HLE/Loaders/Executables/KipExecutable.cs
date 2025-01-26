@@ -76,7 +76,7 @@ namespace Ryujinx.HLE.Loaders.Executables
         {
             reader.GetSegmentSize(segmentType, out int uncompressedSize).ThrowIfFailure();
 
-            var span = program.AsSpan((int)offset, uncompressedSize);
+            Span<byte> span = program.AsSpan((int)offset, uncompressedSize);
 
             reader.ReadSegment(segmentType, span).ThrowIfFailure();
 

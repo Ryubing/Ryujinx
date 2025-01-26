@@ -10,7 +10,7 @@ namespace Ryujinx.Horizon.Sdk.OsTypes
         {
             evnt = new EventType
             {
-                MultiWaitHolders = new LinkedList<MultiWaitHolderBase>(),
+                MultiWaitHolders = [],
                 Signaled = signaled,
                 InitiallySignaled = signaled,
                 ClearMode = clearMode,

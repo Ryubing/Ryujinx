@@ -4,6 +4,7 @@ using Ryujinx.Common.Logging;
 using Ryujinx.Horizon.Common;
 using Ryujinx.Horizon.Sdk.Applet;
 using Ryujinx.Horizon.Sdk.Sf;
+using Ryujinx.Memory;
 
 namespace Ryujinx.Horizon.Sdk.Audio.Detail
 {
@@ -30,11 +31,11 @@ namespace Ryujinx.Horizon.Sdk.Audio.Detail
             AppletResourceUserId appletResourceId,
             [ClientProcessId] ulong pid)
         {
-            var clientMemoryManager = HorizonStatic.Syscall.GetMemoryManagerByProcessHandle(processHandle);
+            IVirtualMemoryManager clientMemoryManager = HorizonStatic.Syscall.GetMemoryManagerByProcessHandle(processHandle);
             ulong workBufferAddress = HorizonStatic.Syscall.GetTransferMemoryAddress(workBufferHandle);
 
-            Result result = new Result((int)_impl.OpenAudioRenderer(
-                out var renderSystem,
+            Result result = new((int)_impl.OpenAudioRenderer(
+                out AudioRenderSystem renderSystem,
                 clientMemoryManager,
                 ref parameter.Configuration,
                 appletResourceId.Id,
@@ -96,10 +97,10 @@ namespace Ryujinx.Horizon.Sdk.Audio.Detail
             AppletResourceUserId appletResourceId,
             [ClientProcessId] ulong pid)
         {
-            var clientMemoryManager = HorizonStatic.Syscall.GetMemoryManagerByProcessHandle(processHandle);
+            IVirtualMemoryManager clientMemoryManager = HorizonStatic.Syscall.GetMemoryManagerByProcessHandle(processHandle);
 
-            Result result = new Result((int)_impl.OpenAudioRenderer(
-                out var renderSystem,
+            Result result = new((int)_impl.OpenAudioRenderer(
+                out AudioRenderSystem renderSystem,
                 clientMemoryManager,
                 ref parameter.Configuration,
                 appletResourceId.Id,

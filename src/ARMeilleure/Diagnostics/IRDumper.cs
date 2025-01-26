@@ -141,7 +141,7 @@ namespace ARMeilleure.Diagnostics
                     break;
 
                 case OperandKind.Memory:
-                    var memOp = operand.GetMemory();
+                    MemoryOperand memOp = operand.GetMemory();
 
                     _builder.Append('[');
 
@@ -285,7 +285,7 @@ namespace ARMeilleure.Diagnostics
 
         public static string GetDump(ControlFlowGraph cfg)
         {
-            var dumper = new IRDumper(1);
+            IRDumper dumper = new(1);
 
             for (BasicBlock block = cfg.Blocks.First; block != null; block = block.ListNext)
             {

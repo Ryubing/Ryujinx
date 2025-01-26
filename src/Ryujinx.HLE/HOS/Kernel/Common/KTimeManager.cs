@@ -34,7 +34,7 @@ namespace Ryujinx.HLE.HOS.Kernel.Common
         public KTimeManager(KernelContext context)
         {
             _context = context;
-            _waitingObjects = new List<WaitingObject>();
+            _waitingObjects = [];
             _keepRunning = true;
 
             Thread work = new(WaitAndCheckScheduledObjects)

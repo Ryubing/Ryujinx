@@ -1,3 +1,4 @@
+using Ryujinx.Common.Memory;
 using Ryujinx.Graphics.Device;
 using Ryujinx.Graphics.Vic.Image;
 using Ryujinx.Graphics.Vic.Types;
@@ -43,7 +44,7 @@ namespace Ryujinx.Graphics.Vic
                     continue;
                 }
 
-                ref var offsets = ref _state.State.SetSurfacexSlotx[i];
+                ref Array8<PlaneOffsets> offsets = ref _state.State.SetSurfacexSlotx[i];
 
                 using Surface src = SurfaceReader.Read(_rm, ref slot.SlotConfig, ref slot.SlotSurfaceConfig, ref offsets);
 

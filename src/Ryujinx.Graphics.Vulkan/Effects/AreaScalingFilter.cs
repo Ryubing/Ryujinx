@@ -41,19 +41,18 @@ namespace Ryujinx.Graphics.Vulkan.Effects
 
             _pipeline.Initialize();
 
-            var scalingShader = EmbeddedResources.Read("Ryujinx.Graphics.Vulkan/Effects/Shaders/AreaScaling.spv");
+            byte[] scalingShader = EmbeddedResources.Read("Ryujinx.Graphics.Vulkan/Effects/Shaders/AreaScaling.spv");
 
-            var scalingResourceLayout = new ResourceLayoutBuilder()
+            ResourceLayout scalingResourceLayout = new ResourceLayoutBuilder()
                 .Add(ResourceStages.Compute, ResourceType.UniformBuffer, 2)
                 .Add(ResourceStages.Compute, ResourceType.TextureAndSampler, 1)
                 .Add(ResourceStages.Compute, ResourceType.Image, 0, true).Build();
 
             _sampler = _renderer.CreateSampler(SamplerCreateInfo.Create(MinFilter.Linear, MagFilter.Linear));
 
-            _scalingProgram = _renderer.CreateProgramWithMinimalLayout(new[]
-            {
-                new ShaderSource(scalingShader, ShaderStage.Compute, TargetLanguage.Spirv),
-            }, scalingResourceLayout);
+            _scalingProgram = _renderer.CreateProgramWithMinimalLayout([
+                new ShaderSource(scalingShader, ShaderStage.Compute, TargetLanguage.Spirv)
+            ], scalingResourceLayout);
         }
 
         public void Run(
@@ -70,8 +69,8 @@ namespace Ryujinx.Graphics.Vulkan.Effects
             _pipeline.SetProgram(_scalingProgram);
             _pipeline.SetTextureAndSampler(ShaderStage.Compute, 1, view, _sampler);
 
-            ReadOnlySpan<float> dimensionsBuffer = stackalloc float[]
-            {
+            ReadOnlySpan<float> dimensionsBuffer =
+            [
                 source.X1,
                 source.X2,
                 source.Y1,
@@ -79,18 +78,18 @@ namespace Ryujinx.Graphics.Vulkan.Effects
                 destination.X1,
                 destination.X2,
                 destination.Y1,
-                destination.Y2,
-            };
+                destination.Y2
+            ];
 
             int rangeSize = dimensionsBuffer.Length * sizeof(float);
-            using var buffer = _renderer.BufferManager.ReserveOrCreate(_renderer, cbs, rangeSize);
+            using ScopedTemporaryBuffer buffer = _renderer.BufferManager.ReserveOrCreate(_renderer, cbs, rangeSize);
             buffer.Holder.SetDataUnchecked(buffer.Offset, dimensionsBuffer);
 
             int threadGroupWorkRegionDim = 16;
             int dispatchX = (width + (threadGroupWorkRegionDim - 1)) / threadGroupWorkRegionDim;
             int dispatchY = (height + (threadGroupWorkRegionDim - 1)) / threadGroupWorkRegionDim;
 
-            _pipeline.SetUniformBuffers(stackalloc[] { new BufferAssignment(2, buffer.Range) });
+            _pipeline.SetUniformBuffers([new BufferAssignment(2, buffer.Range)]);
             _pipeline.SetImage(0, destinationTexture);
             _pipeline.DispatchCompute(dispatchX, dispatchY, 1);
             _pipeline.ComputeBarrier();

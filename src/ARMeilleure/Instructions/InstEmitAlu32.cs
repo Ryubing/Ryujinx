@@ -415,7 +415,7 @@ namespace ARMeilleure.Instructions
         {
             IOpCode32AluBf op = (IOpCode32AluBf)context.CurrOp;
 
-            var msb = op.Lsb + op.Msb; // For this instruction, the msb is actually a width.
+            int msb = op.Lsb + op.Msb; // For this instruction, the msb is actually a width.
 
             Operand n = GetIntA32(context, op.Rn);
             Operand res = context.ShiftRightSI(context.ShiftLeft(n, Const(31 - msb)), Const(31 - op.Msb));
@@ -547,7 +547,7 @@ namespace ARMeilleure.Instructions
         {
             IOpCode32AluBf op = (IOpCode32AluBf)context.CurrOp;
 
-            var msb = op.Lsb + op.Msb; // For this instruction, the msb is actually a width.
+            int msb = op.Lsb + op.Msb; // For this instruction, the msb is actually a width.
 
             Operand n = GetIntA32(context, op.Rn);
             Operand res = context.ShiftRightUI(context.ShiftLeft(n, Const(31 - msb)), Const(31 - op.Msb));

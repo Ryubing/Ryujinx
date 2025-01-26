@@ -21,8 +21,8 @@ namespace Ryujinx.Ava.UI.ViewModels
         private ApplicationLibrary ApplicationLibrary { get; }
         private ApplicationData ApplicationData { get; }
 
-        [ObservableProperty] private AvaloniaList<TitleUpdateModel> _titleUpdates = new();
-        [ObservableProperty] private AvaloniaList<object> _views = new();
+        [ObservableProperty] private AvaloniaList<TitleUpdateModel> _titleUpdates = [];
+        [ObservableProperty] private AvaloniaList<object> _views = [];
         [ObservableProperty] private object _selectedUpdate = new TitleUpdateViewModelNoUpdate();
         [ObservableProperty] private bool _showBundledContentNotice;
 
@@ -41,7 +41,7 @@ namespace Ryujinx.Ava.UI.ViewModels
 
         private void LoadUpdates()
         {
-            var updates = ApplicationLibrary.TitleUpdates.Items
+            IEnumerable<(TitleUpdateModel TitleUpdate, bool IsSelected)> updates = ApplicationLibrary.TitleUpdates.Items
                 .Where(it => it.TitleUpdate.TitleIdBase == ApplicationData.IdBase);
 
             bool hasBundledContent = false;
@@ -64,11 +64,11 @@ namespace Ryujinx.Ava.UI.ViewModels
 
         public void SortUpdates()
         {
-            var sortedUpdates = TitleUpdates.OrderByDescending(update => update.Version);
+            IOrderedEnumerable<TitleUpdateModel> sortedUpdates = TitleUpdates.OrderByDescending(update => update.Version);
 
             // NOTE(jpr): this works around a bug where calling Views.Clear also clears SelectedUpdate for
             // some reason. so we save the item here and restore it after
-            var selected = SelectedUpdate;
+            object selected = SelectedUpdate;
 
             Views.Clear();
             Views.Add(new TitleUpdateViewModelNoUpdate());
@@ -96,18 +96,18 @@ namespace Ryujinx.Ava.UI.ViewModels
                 return false;
             }
 
-            if (!ApplicationLibrary.TryGetTitleUpdatesFromFile(path, out var updates))
+            if (!ApplicationLibrary.TryGetTitleUpdatesFromFile(path, out List<TitleUpdateModel> updates))
             {
                 return false;
             }
 
-            var updatesForThisGame = updates.Where(it => it.TitleIdBase == ApplicationData.Id).ToList();
+            List<TitleUpdateModel> updatesForThisGame = updates.Where(it => it.TitleIdBase == ApplicationData.Id).ToList();
             if (updatesForThisGame.Count == 0)
             {
                 return false;
             }
 
-            foreach (var update in updatesForThisGame)
+            foreach (TitleUpdateModel update in updatesForThisGame)
             {
                 if (!TitleUpdates.Contains(update))
                 {
@@ -142,24 +142,24 @@ namespace Ryujinx.Ava.UI.ViewModels
 
         public async Task Add()
         {
-            var result = await _storageProvider.OpenFilePickerAsync(new FilePickerOpenOptions
+            IReadOnlyList<IStorageFile> result = await _storageProvider.OpenFilePickerAsync(new FilePickerOpenOptions
             {
                 AllowMultiple = true,
                 FileTypeFilter = new List<FilePickerFileType>
                 {
                     new(LocaleManager.Instance[LocaleKeys.AllSupportedFormats])
                     {
-                        Patterns = new[] { "*.nsp" },
-                        AppleUniformTypeIdentifiers = new[] { "com.ryujinx.nsp" },
-                        MimeTypes = new[] { "application/x-nx-nsp" },
+                        Patterns = ["*.nsp"],
+                        AppleUniformTypeIdentifiers = ["com.ryujinx.nsp"],
+                        MimeTypes = ["application/x-nx-nsp"],
                     },
                 },
             });
 
-            var totalUpdatesAdded = 0;
-            foreach (var file in result)
+            int totalUpdatesAdded = 0;
+            foreach (IStorageFile file in result)
             {
-                if (!AddUpdate(file.Path.LocalPath, out var newUpdatesAdded))
+                if (!AddUpdate(file.Path.LocalPath, out int newUpdatesAdded))
                 {
                     await ContentDialogHelper.CreateErrorDialog(LocaleManager.Instance[LocaleKeys.DialogUpdateAddUpdateErrorMessage]);
                 }
@@ -175,13 +175,13 @@ namespace Ryujinx.Ava.UI.ViewModels
 
         public void Save()
         {
-            var updates = TitleUpdates.Select(it => (it, it == SelectedUpdate as TitleUpdateModel)).ToList();
+            List<(TitleUpdateModel it, bool)> updates = TitleUpdates.Select(it => (it, it == SelectedUpdate as TitleUpdateModel)).ToList();
             ApplicationLibrary.SaveTitleUpdatesForGame(ApplicationData, updates);
         }
 
         private Task ShowNewUpdatesAddedDialog(int numAdded)
         {
-            var msg = string.Format(LocaleManager.Instance[LocaleKeys.UpdateWindowUpdateAddedMessage], numAdded);
+            string msg = string.Format(LocaleManager.Instance[LocaleKeys.UpdateWindowUpdateAddedMessage], numAdded);
             return Dispatcher.UIThread.InvokeAsync(async () => 
                 await ContentDialogHelper.ShowTextDialog(
                     LocaleManager.Instance[LocaleKeys.DialogConfirmationTitle], 

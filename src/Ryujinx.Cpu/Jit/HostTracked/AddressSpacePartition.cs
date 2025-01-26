@@ -127,7 +127,7 @@ namespace Ryujinx.Cpu.Jit.HostTracked
                 Debug.Assert(leftSize > 0);
                 Debug.Assert(rightSize > 0);
 
-                (var leftAllocation, PrivateAllocation) = PrivateAllocation.Split(leftSize);
+                (PrivateMemoryAllocation leftAllocation, PrivateAllocation) = PrivateAllocation.Split(leftSize);
 
                 PrivateMapping left = new(Address, leftSize, leftAllocation);
 

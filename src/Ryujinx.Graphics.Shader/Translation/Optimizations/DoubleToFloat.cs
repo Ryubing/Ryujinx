@@ -28,7 +28,7 @@ namespace Ryujinx.Graphics.Shader.Translation.Optimizations
             {
                 int functionId = hfm.GetOrCreateFunctionId(HelperFunctionName.ConvertDoubleToFloat);
 
-                Operand[] callArgs = new Operand[] { Const(functionId), operation.GetSource(0), operation.GetSource(1) };
+                Operand[] callArgs = [Const(functionId), operation.GetSource(0), operation.GetSource(1)];
 
                 Operand floatValue = operation.Dest;
 
@@ -51,7 +51,7 @@ namespace Ryujinx.Graphics.Shader.Translation.Optimizations
 
                 operation.Dest = null;
 
-                Operand[] callArgs = new Operand[] { Const(functionId), operation.GetSource(0), resultLow, resultHigh };
+                Operand[] callArgs = [Const(functionId), operation.GetSource(0), resultLow, resultHigh];
 
                 LinkedListNode<INode> newNode = node.List.AddBefore(node, new Operation(Instruction.Call, 0, (Operand)null, callArgs));
 

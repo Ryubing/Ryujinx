@@ -1,5 +1,6 @@
 using Ryujinx.Graphics.GAL;
 using Ryujinx.Graphics.Gpu.Image;
+using Ryujinx.Graphics.Gpu.Memory;
 using Ryujinx.Graphics.Texture;
 using Ryujinx.Memory.Range;
 using System;
@@ -137,7 +138,7 @@ namespace Ryujinx.Graphics.Gpu
             Action<object> releaseCallback,
             object userObj)
         {
-            if (!_context.PhysicalMemoryRegistry.TryGetValue(pid, out var physicalMemory))
+            if (!_context.PhysicalMemoryRegistry.TryGetValue(pid, out PhysicalMemory physicalMemory))
             {
                 return false;
             }

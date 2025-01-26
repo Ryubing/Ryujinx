@@ -34,7 +34,7 @@ namespace Ryujinx.Ava.Utilities.SystemInfo
 
             if (cpuObjs != null)
             {
-                foreach (var cpuObj in cpuObjs)
+                foreach (ManagementBaseObject cpuObj in cpuObjs)
                 {
                     return cpuObj["Name"].ToString().Trim();
                 }

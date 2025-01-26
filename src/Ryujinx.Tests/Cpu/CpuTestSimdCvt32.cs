@@ -15,23 +15,24 @@ namespace Ryujinx.Tests.Cpu
         #region "ValueSource (Opcodes)"
         private static uint[] _Vrint_AMNP_V_F32_()
         {
-            return new[]
-            {
+            return
+            [
                 0xf3ba0500u, // VRINTA.F32 Q0, Q0
                 0xf3ba0680u, // VRINTM.F32 Q0, Q0
                 0xf3ba0400u, // VRINTN.F32 Q0, Q0
-                0xf3ba0780u, // VRINTP.F32 Q0, Q0
-            };
+                0xf3ba0780u // VRINTP.F32 Q0, Q0
+            ];
         }
         #endregion
 
         #region "ValueSource (Types)"
         private static uint[] _1S_()
         {
-            return new[] {
+            return
+            [
                 0x00000000u, 0x7FFFFFFFu,
-                0x80000000u, 0xFFFFFFFFu,
-            };
+                0x80000000u, 0xFFFFFFFFu
+            ];
         }
 
         private static IEnumerable<ulong> _1S_F_()
@@ -465,7 +466,7 @@ namespace Ryujinx.Tests.Cpu
 
             opcode |= (fixImm & 0x3f) << 16;
 
-            var v0 = new V128((uint)s0, (uint)s1, (uint)s2, (uint)s3);
+            V128 v0 = new((uint)s0, (uint)s1, (uint)s2, (uint)s3);
 
             SingleOpcode(opcode, v0: v0);
 
@@ -505,7 +506,7 @@ namespace Ryujinx.Tests.Cpu
 
             opcode |= (fixImm & 0x3f) << 16;
 
-            var v0 = new V128(s0, s1, s2, s3);
+            V128 v0 = new(s0, s1, s2, s3);
 
             SingleOpcode(opcode, v0: v0);
 

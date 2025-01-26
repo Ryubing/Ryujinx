@@ -36,8 +36,8 @@ namespace Ryujinx.Cpu.LightningJit.Arm64
             {
                 Console.WriteLine($"bb {block.Index}");
 
-                List<int> predList = new();
-                List<int> succList = new();
+                List<int> predList = [];
+                List<int> succList = [];
 
                 for (int index = 0; index < block.PredecessorsCount; index++)
                 {

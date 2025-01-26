@@ -14,7 +14,7 @@ namespace Ryujinx.Memory
 
         public BytesReadOnlySequenceSegment Append(Memory<byte> memory)
         {
-            var nextSegment = new BytesReadOnlySequenceSegment(memory)
+            BytesReadOnlySequenceSegment nextSegment = new(memory)
             {
                 RunningIndex = RunningIndex + Memory.Length
             };
@@ -34,8 +34,8 @@ namespace Ryujinx.Memory
         /// <returns>True if the segments are contiguous, otherwise false</returns>
         public unsafe bool IsContiguousWith(Memory<byte> other, out nuint contiguousStart, out int contiguousSize)
         {
-            if (MemoryMarshal.TryGetMemoryManager<byte, NativeMemoryManager<byte>>(Memory, out var thisMemoryManager) &&
-                MemoryMarshal.TryGetMemoryManager<byte, NativeMemoryManager<byte>>(other, out var otherMemoryManager) &&
+            if (MemoryMarshal.TryGetMemoryManager<byte, NativeMemoryManager<byte>>(Memory, out NativeMemoryManager<byte> thisMemoryManager) &&
+                MemoryMarshal.TryGetMemoryManager<byte, NativeMemoryManager<byte>>(other, out NativeMemoryManager<byte> otherMemoryManager) &&
                 thisMemoryManager.Pointer + thisMemoryManager.Length == otherMemoryManager.Pointer)
             {
                 contiguousStart = (nuint)thisMemoryManager.Pointer;

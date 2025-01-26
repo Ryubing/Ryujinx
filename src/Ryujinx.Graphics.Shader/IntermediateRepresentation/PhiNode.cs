@@ -35,9 +35,9 @@ namespace Ryujinx.Graphics.Shader.IntermediateRepresentation
 
         public PhiNode(Operand dest)
         {
-            _blocks = new HashSet<BasicBlock>();
+            _blocks = [];
 
-            _sources = new List<PhiSource>();
+            _sources = [];
 
             dest.AsgOp = this;
 

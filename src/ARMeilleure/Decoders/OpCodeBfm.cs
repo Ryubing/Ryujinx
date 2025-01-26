@@ -11,7 +11,7 @@ namespace ARMeilleure.Decoders
 
         public OpCodeBfm(InstDescriptor inst, ulong address, int opCode) : base(inst, address, opCode)
         {
-            var bm = DecoderHelper.DecodeBitMask(opCode, false);
+            DecoderHelper.BitMask bm = DecoderHelper.DecodeBitMask(opCode, false);
 
             if (bm.IsUndefined)
             {

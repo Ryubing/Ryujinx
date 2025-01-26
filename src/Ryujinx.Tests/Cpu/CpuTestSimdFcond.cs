@@ -99,36 +99,36 @@ namespace Ryujinx.Tests.Cpu
         #region "ValueSource (Opcodes)"
         private static uint[] _F_Ccmp_Ccmpe_S_S_()
         {
-            return new[]
-            {
+            return
+            [
                 0x1E220420u, // FCCMP  S1, S2, #0, EQ
-                0x1E220430u, // FCCMPE S1, S2, #0, EQ
-            };
+                0x1E220430u // FCCMPE S1, S2, #0, EQ
+            ];
         }
 
         private static uint[] _F_Ccmp_Ccmpe_S_D_()
         {
-            return new[]
-            {
+            return
+            [
                 0x1E620420u, // FCCMP  D1, D2, #0, EQ
-                0x1E620430u, // FCCMPE D1, D2, #0, EQ
-            };
+                0x1E620430u // FCCMPE D1, D2, #0, EQ
+            ];
         }
 
         private static uint[] _F_Csel_S_S_()
         {
-            return new[]
-            {
-                0x1E220C20u, // FCSEL S0, S1, S2, EQ
-            };
+            return
+            [
+                0x1E220C20u // FCSEL S0, S1, S2, EQ
+            ];
         }
 
         private static uint[] _F_Csel_S_D_()
         {
-            return new[]
-            {
-                0x1E620C20u, // FCSEL D0, D1, D2, EQ
-            };
+            return
+            [
+                0x1E620C20u // FCSEL D0, D1, D2, EQ
+            ];
         }
         #endregion
 

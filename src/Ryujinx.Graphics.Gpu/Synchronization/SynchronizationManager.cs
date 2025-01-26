@@ -87,7 +87,7 @@ namespace Ryujinx.Graphics.Gpu.Synchronization
             }
 
             using ManualResetEvent waitEvent = new(false);
-            var info = _syncpoints[id].RegisterCallback(threshold, (x) => waitEvent.Set());
+            SyncpointWaiterHandle info = _syncpoints[id].RegisterCallback(threshold, (x) => waitEvent.Set());
 
             if (info == null)
             {

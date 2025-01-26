@@ -26,12 +26,13 @@ namespace Ryujinx.HLE.HOS.Tamper
 
         public ITamperProgram Compile(string name, IEnumerable<string> rawInstructions)
         {
-            string[] addresses = {
+            string[] addresses =
+            [
                 $"    Executable address: 0x{_exeAddress:X16}",
                 $"    Heap address      : 0x{_heapAddress:X16}",
                 $"    Alias address     : 0x{_aliasAddress:X16}",
-                $"    Aslr address      : 0x{_aslrAddress:X16}",
-            };
+                $"    Aslr address      : 0x{_aslrAddress:X16}"
+            ];
 
             Logger.Debug?.Print(LogClass.TamperMachine, $"Compiling Atmosphere cheat {name}...\n{string.Join('\n', addresses)}");
 

@@ -8,7 +8,7 @@ namespace Ryujinx.Common.Configuration
 
         public ModMetadata()
         {
-            Mods = new List<Mod>();
+            Mods = [];
         }
     }
 }

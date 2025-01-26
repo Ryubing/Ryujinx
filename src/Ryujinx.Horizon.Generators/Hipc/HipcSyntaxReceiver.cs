@@ -12,7 +12,7 @@ namespace Ryujinx.Horizon.Generators.Hipc
 
         public HipcSyntaxReceiver()
         {
-            CommandInterfaces = new List<CommandInterface>();
+            CommandInterfaces = [];
         }
 
         public void OnVisitSyntaxNode(SyntaxNode syntaxNode)
@@ -24,9 +24,9 @@ namespace Ryujinx.Horizon.Generators.Hipc
                     return;
                 }
 
-                CommandInterface commandInterface = new CommandInterface(classDeclaration);
+                CommandInterface commandInterface = new(classDeclaration);
 
-                foreach (var memberDeclaration in classDeclaration.Members)
+                foreach (MemberDeclarationSyntax memberDeclaration in classDeclaration.Members)
                 {
                     if (memberDeclaration is MethodDeclarationSyntax methodDeclaration)
                     {
@@ -44,7 +44,7 @@ namespace Ryujinx.Horizon.Generators.Hipc
 
             if (methodDeclaration.AttributeLists.Count != 0)
             {
-                foreach (var attributeList in methodDeclaration.AttributeLists)
+                foreach (AttributeListSyntax attributeList in methodDeclaration.AttributeLists)
                 {
                     if (attributeList.Attributes.Any(x => x.Name.ToString().Contains(attributeName)))
                     {

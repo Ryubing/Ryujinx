@@ -64,7 +64,7 @@ namespace Ryujinx.Horizon.Sdk.Audio.Detail
             using MemoryHandle outputHandle = output.Pin();
             using MemoryHandle performanceOutputHandle = performanceOutput.Pin();
 
-            Result result = new Result((int)_renderSystem.Update(output, performanceOutput, input));
+            Result result = new((int)_renderSystem.Update(output, performanceOutput, input));
 
             return result;
         }

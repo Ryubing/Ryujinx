@@ -34,8 +34,8 @@ namespace Ryujinx.Graphics.Vulkan
                     return Math.Clamp(value, 0, max);
                 }
 
-                var xy1 = new Offset3D(Clamp(extents.X1, width) >> level, Clamp(extents.Y1, height) >> level, 0);
-                var xy2 = new Offset3D(Clamp(extents.X2, width) >> level, Clamp(extents.Y2, height) >> level, 1);
+                Offset3D xy1 = new(Clamp(extents.X1, width) >> level, Clamp(extents.Y1, height) >> level, 0);
+                Offset3D xy2 = new(Clamp(extents.X2, width) >> level, Clamp(extents.Y2, height) >> level, 1);
 
                 return (xy1, xy2);
             }
@@ -50,10 +50,10 @@ namespace Ryujinx.Graphics.Vulkan
                 dstAspectFlags = dstInfo.Format.ConvertAspectFlags();
             }
 
-            var srcOffsets = new ImageBlit.SrcOffsetsBuffer();
-            var dstOffsets = new ImageBlit.DstOffsetsBuffer();
+            ImageBlit.SrcOffsetsBuffer srcOffsets = new();
+            ImageBlit.DstOffsetsBuffer dstOffsets = new();
 
-            var filter = linearFilter && !dstInfo.Format.IsDepthOrStencil() ? Filter.Linear : Filter.Nearest;
+            Filter filter = linearFilter && !dstInfo.Format.IsDepthOrStencil() ? Filter.Linear : Filter.Nearest;
 
             TextureView.InsertImageBarrier(
                 api,
@@ -74,13 +74,13 @@ namespace Ryujinx.Graphics.Vulkan
 
             for (int level = 0; level < levels; level++)
             {
-                var srcSl = new ImageSubresourceLayers(srcAspectFlags, copySrcLevel, (uint)srcLayer, (uint)layers);
-                var dstSl = new ImageSubresourceLayers(dstAspectFlags, copyDstLevel, (uint)dstLayer, (uint)layers);
+                ImageSubresourceLayers srcSl = new(srcAspectFlags, copySrcLevel, (uint)srcLayer, (uint)layers);
+                ImageSubresourceLayers dstSl = new(dstAspectFlags, copyDstLevel, (uint)dstLayer, (uint)layers);
 
                 (srcOffsets.Element0, srcOffsets.Element1) = ExtentsToOffset3D(srcRegion, srcInfo.Width, srcInfo.Height, level);
                 (dstOffsets.Element0, dstOffsets.Element1) = ExtentsToOffset3D(dstRegion, dstInfo.Width, dstInfo.Height, level);
 
-                var region = new ImageBlit
+                ImageBlit region = new()
                 {
                     SrcSubresource = srcSl,
                     SrcOffsets = srcOffsets,
@@ -299,13 +299,13 @@ namespace Ryujinx.Graphics.Vulkan
                     break;
                 }
 
-                var srcSl = new ImageSubresourceLayers(
+                ImageSubresourceLayers srcSl = new(
                     srcAspect,
                     (uint)(srcViewLevel + srcLevel + level),
                     (uint)(srcViewLayer + srcLayer),
                     (uint)srcLayers);
 
-                var dstSl = new ImageSubresourceLayers(
+                ImageSubresourceLayers dstSl = new(
                     dstAspect,
                     (uint)(dstViewLevel + dstLevel + level),
                     (uint)(dstViewLayer + dstLayer),
@@ -314,17 +314,17 @@ namespace Ryujinx.Graphics.Vulkan
                 int copyWidth = sizeInBlocks ? BitUtils.DivRoundUp(width, blockWidth) : width;
                 int copyHeight = sizeInBlocks ? BitUtils.DivRoundUp(height, blockHeight) : height;
 
-                var extent = new Extent3D((uint)copyWidth, (uint)copyHeight, (uint)srcDepth);
+                Extent3D extent = new((uint)copyWidth, (uint)copyHeight, (uint)srcDepth);
 
                 if (srcInfo.Samples > 1 && srcInfo.Samples != dstInfo.Samples)
                 {
-                    var region = new ImageResolve(srcSl, new Offset3D(0, 0, srcZ), dstSl, new Offset3D(0, 0, dstZ), extent);
+                    ImageResolve region = new(srcSl, new Offset3D(0, 0, srcZ), dstSl, new Offset3D(0, 0, dstZ), extent);
 
                     api.CmdResolveImage(commandBuffer, srcImage, ImageLayout.General, dstImage, ImageLayout.General, 1, in region);
                 }
                 else
                 {
-                    var region = new ImageCopy(srcSl, new Offset3D(0, 0, srcZ), dstSl, new Offset3D(0, 0, dstZ), extent);
+                    ImageCopy region = new(srcSl, new Offset3D(0, 0, srcZ), dstSl, new Offset3D(0, 0, dstZ), extent);
 
                     api.CmdCopyImage(commandBuffer, srcImage, ImageLayout.General, dstImage, ImageLayout.General, 1, in region);
                 }
@@ -360,10 +360,10 @@ namespace Ryujinx.Graphics.Vulkan
             TextureView src,
             TextureView dst)
         {
-            var dsAttachmentReference = new AttachmentReference2(StructureType.AttachmentReference2, null, 0, ImageLayout.General);
-            var dsResolveAttachmentReference = new AttachmentReference2(StructureType.AttachmentReference2, null, 1, ImageLayout.General);
+            AttachmentReference2 dsAttachmentReference = new(StructureType.AttachmentReference2, null, 0, ImageLayout.General);
+            AttachmentReference2 dsResolveAttachmentReference = new(StructureType.AttachmentReference2, null, 1, ImageLayout.General);
 
-            var subpassDsResolve = new SubpassDescriptionDepthStencilResolve
+            SubpassDescriptionDepthStencilResolve subpassDsResolve = new()
             {
                 SType = StructureType.SubpassDescriptionDepthStencilResolve,
                 PDepthStencilResolveAttachment = &dsResolveAttachmentReference,
@@ -371,7 +371,7 @@ namespace Ryujinx.Graphics.Vulkan
                 StencilResolveMode = ResolveModeFlags.SampleZeroBit,
             };
 
-            var subpass = new SubpassDescription2
+            SubpassDescription2 subpass = new()
             {
                 SType = StructureType.SubpassDescription2,
                 PipelineBindPoint = PipelineBindPoint.Graphics,
@@ -407,11 +407,11 @@ namespace Ryujinx.Graphics.Vulkan
                 ImageLayout.General,
                 ImageLayout.General);
 
-            var subpassDependency = PipelineConverter.CreateSubpassDependency2(gd);
+            SubpassDependency2 subpassDependency = PipelineConverter.CreateSubpassDependency2(gd);
 
             fixed (AttachmentDescription2* pAttachmentDescs = attachmentDescs)
             {
-                var renderPassCreateInfo = new RenderPassCreateInfo2
+                RenderPassCreateInfo2 renderPassCreateInfo = new()
                 {
                     SType = StructureType.RenderPassCreateInfo2,
                     PAttachments = pAttachmentDescs,
@@ -422,19 +422,19 @@ namespace Ryujinx.Graphics.Vulkan
                     DependencyCount = 1,
                 };
 
-                gd.Api.CreateRenderPass2(device, in renderPassCreateInfo, null, out var renderPass).ThrowOnError();
+                gd.Api.CreateRenderPass2(device, in renderPassCreateInfo, null, out RenderPass renderPass).ThrowOnError();
 
-                using var rp = new Auto<DisposableRenderPass>(new DisposableRenderPass(gd.Api, device, renderPass));
+                using Auto<DisposableRenderPass> rp = new(new DisposableRenderPass(gd.Api, device, renderPass));
 
                 ImageView* attachments = stackalloc ImageView[2];
 
-                var srcView = src.GetImageViewForAttachment();
-                var dstView = dst.GetImageViewForAttachment();
+                Auto<DisposableImageView> srcView = src.GetImageViewForAttachment();
+                Auto<DisposableImageView> dstView = dst.GetImageViewForAttachment();
 
                 attachments[0] = srcView.Get(cbs).Value;
                 attachments[1] = dstView.Get(cbs).Value;
 
-                var framebufferCreateInfo = new FramebufferCreateInfo
+                FramebufferCreateInfo framebufferCreateInfo = new()
                 {
                     SType = StructureType.FramebufferCreateInfo,
                     RenderPass = rp.Get(cbs).Value,
@@ -445,13 +445,13 @@ namespace Ryujinx.Graphics.Vulkan
                     Layers = (uint)src.Layers,
                 };
 
-                gd.Api.CreateFramebuffer(device, in framebufferCreateInfo, null, out var framebuffer).ThrowOnError();
-                using var fb = new Auto<DisposableFramebuffer>(new DisposableFramebuffer(gd.Api, device, framebuffer), null, srcView, dstView);
+                gd.Api.CreateFramebuffer(device, in framebufferCreateInfo, null, out Framebuffer framebuffer).ThrowOnError();
+                using Auto<DisposableFramebuffer> fb = new(new DisposableFramebuffer(gd.Api, device, framebuffer), null, srcView, dstView);
 
-                var renderArea = new Rect2D(null, new Extent2D((uint)src.Info.Width, (uint)src.Info.Height));
-                var clearValue = new ClearValue();
+                Rect2D renderArea = new(null, new Extent2D((uint)src.Info.Width, (uint)src.Info.Height));
+                ClearValue clearValue = new();
 
-                var renderPassBeginInfo = new RenderPassBeginInfo
+                RenderPassBeginInfo renderPassBeginInfo = new()
                 {
                     SType = StructureType.RenderPassBeginInfo,
                     RenderPass = rp.Get(cbs).Value,

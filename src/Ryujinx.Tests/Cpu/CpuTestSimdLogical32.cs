@@ -13,20 +13,21 @@ namespace Ryujinx.Tests.Cpu
         #region "ValueSource (Types)"
         private static ulong[] _8B4H2S_()
         {
-            return new[] {
+            return
+            [
                 0x0000000000000000ul, 0x7F7F7F7F7F7F7F7Ful,
                 0x8080808080808080ul, 0x7FFF7FFF7FFF7FFFul,
                 0x8000800080008000ul, 0x7FFFFFFF7FFFFFFFul,
-                0x8000000080000000ul, 0xFFFFFFFFFFFFFFFFul,
-            };
+                0x8000000080000000ul, 0xFFFFFFFFFFFFFFFFul
+            ];
         }
         #endregion
 
         #region "ValueSource (Opcodes)"
         private static uint[] _Vbic_Vbif_Vbit_Vbsl_Vand_Vorn_Vorr_Veor_I_()
         {
-            return new[]
-            {
+            return
+            [
                 0xf2100110u, // VBIC D0, D0, D0
                 0xf3300110u, // VBIF D0, D0, D0
                 0xf3200110u, // VBIT D0, D0, D0
@@ -34,19 +35,19 @@ namespace Ryujinx.Tests.Cpu
                 0xf2000110u, // VAND D0, D0, D0
                 0xf2300110u, // VORN D0, D0, D0
                 0xf2200110u, // VORR D0, D0, D0
-                0xf3000110u, // VEOR D0, D0, D0
-            };
+                0xf3000110u // VEOR D0, D0, D0
+            ];
         }
 
         private static uint[] _Vbic_Vorr_II_()
         {
-            return new[]
-            {
+            return
+            [
                 0xf2800130u, // VBIC.I32 D0, #0 (A1)
                 0xf2800930u, // VBIC.I16 D0, #0 (A2)
                 0xf2800110u, // VORR.I32 D0, #0 (A1)
-                0xf2800910u, // VORR.I16 D0, #0 (A2)
-            };
+                0xf2800910u // VORR.I16 D0, #0 (A2)
+            ];
         }
         #endregion
 

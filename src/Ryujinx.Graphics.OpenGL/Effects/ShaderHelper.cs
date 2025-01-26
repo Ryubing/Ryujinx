@@ -7,12 +7,12 @@ namespace Ryujinx.Graphics.OpenGL.Effects
     {
         public static int CompileProgram(string shaderCode, ShaderType shaderType)
         {
-            return CompileProgram(new string[] { shaderCode }, shaderType);
+            return CompileProgram([shaderCode], shaderType);
         }
 
         public static int CompileProgram(string[] shaders, ShaderType shaderType)
         {
-            var shader = GL.CreateShader(shaderType);
+            int shader = GL.CreateShader(shaderType);
             GL.ShaderSource(shader, shaders.Length, shaders, (int[])null);
             GL.CompileShader(shader);
 
@@ -25,7 +25,7 @@ namespace Ryujinx.Graphics.OpenGL.Effects
                 return 0;
             }
 
-            var program = GL.CreateProgram();
+            int program = GL.CreateProgram();
             GL.AttachShader(program, shader);
             GL.LinkProgram(program);
 

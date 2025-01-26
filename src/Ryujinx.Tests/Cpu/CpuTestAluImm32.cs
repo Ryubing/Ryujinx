@@ -12,8 +12,8 @@ namespace Ryujinx.Tests.Cpu
         #region "ValueSource (Opcodes)"
         private static uint[] Opcodes()
         {
-            return new[]
-            {
+            return
+            [
                 0xe2a00000u, // ADC R0, R0, #0
                 0xe2b00000u, // ADCS R0, R0, #0
                 0xe2800000u, // ADD R0, R0, #0
@@ -27,8 +27,8 @@ namespace Ryujinx.Tests.Cpu
                 0xe2c00000u, // SBC R0, R0, #0
                 0xe2d00000u, // SBCS R0, R0, #0
                 0xe2400000u, // SUB R0, R0, #0
-                0xe2500000u, // SUBS R0, R0, #0
-            };
+                0xe2500000u // SUBS R0, R0, #0
+            ];
         }
         #endregion
 

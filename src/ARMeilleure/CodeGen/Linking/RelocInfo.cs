@@ -10,7 +10,7 @@ namespace ARMeilleure.CodeGen.Linking
         /// <summary>
         /// Gets an empty <see cref="RelocInfo"/>.
         /// </summary>
-        public static RelocInfo Empty { get; } = new RelocInfo(null);
+        public static RelocInfo Empty { get; } = new(null);
 
         private readonly RelocEntry[] _entries;
 

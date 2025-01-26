@@ -321,7 +321,7 @@ namespace ARMeilleure.CodeGen.X86
                 nodes.AddBefore(node, retCopyOp);
             }
 
-            node.SetSources(Array.Empty<Operand>());
+            node.SetSources([]);
         }
     }
 }

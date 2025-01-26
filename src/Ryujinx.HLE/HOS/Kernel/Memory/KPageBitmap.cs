@@ -162,7 +162,7 @@ namespace Ryujinx.HLE.HOS.Kernel.Memory
         public bool ClearRange(ulong offset, int count)
         {
             int depth = HighestDepthIndex;
-            var bits = _bitStorages[depth];
+            ArraySegment<ulong> bits = _bitStorages[depth];
 
             int bitInd = (int)(offset / UInt64BitSize);
 

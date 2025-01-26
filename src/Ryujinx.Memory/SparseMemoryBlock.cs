@@ -28,7 +28,7 @@ namespace Ryujinx.Memory
         {
             _pageSize = MemoryBlock.GetPageSize();
             _reservedBlock = new MemoryBlock(size, MemoryAllocationFlags.Reserve | MemoryAllocationFlags.ViewCompatible);
-            _mappedBlocks = new List<MemoryBlock>();
+            _mappedBlocks = [];
             _pageInit = pageInit;
 
             int pages = (int)BitUtils.DivRoundUp(size, _pageSize);

@@ -24,7 +24,7 @@ namespace Ryujinx.Common.Helper
                 return null;
             }
 
-            foreach (var searchPath in pathVar.Split(":", StringSplitOptions.TrimEntries | StringSplitOptions.RemoveEmptyEntries))
+            foreach (string searchPath in pathVar.Split(":", StringSplitOptions.TrimEntries | StringSplitOptions.RemoveEmptyEntries))
             {
                 string binaryPath = Path.Combine(searchPath, binary);
 

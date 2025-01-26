@@ -103,11 +103,11 @@ namespace Ryujinx.Graphics.Gpu.Image
 
             for (int stage = 0; stage < stages; stage++)
             {
-                _textureBindings[stage] = Array.Empty<TextureBindingInfo>();
-                _imageBindings[stage] = Array.Empty<TextureBindingInfo>();
+                _textureBindings[stage] = [];
+                _imageBindings[stage] = [];
             }
 
-            _textureCounts = Array.Empty<int>();
+            _textureCounts = [];
         }
 
         /// <summary>

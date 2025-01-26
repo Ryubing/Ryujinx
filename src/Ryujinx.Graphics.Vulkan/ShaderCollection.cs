@@ -81,7 +81,7 @@ namespace Ryujinx.Graphics.Vulkan
 
             gd.Shaders.Add(this);
 
-            var internalShaders = new Shader[shaders.Length];
+            Shader[] internalShaders = new Shader[shaders.Length];
 
             _infos = new PipelineShaderStageCreateInfo[shaders.Length];
 
@@ -93,7 +93,7 @@ namespace Ryujinx.Graphics.Vulkan
 
             for (int i = 0; i < shaders.Length; i++)
             {
-                var shader = new Shader(gd.Api, device, shaders[i]);
+                Shader shader = new(gd.Api, device, shaders[i]);
 
                 stages |= 1u << shader.StageFlags switch
                 {
@@ -168,12 +168,12 @@ namespace Ryujinx.Graphics.Vulkan
             // If binding 3 is immediately used, use an alternate set of reserved bindings.
             ReadOnlyCollection<ResourceUsage> uniformUsage = layout.SetUsages[0].Usages;
             bool hasBinding3 = uniformUsage.Any(x => x.Binding == 3);
-            int[] reserved = isCompute ? Array.Empty<int>() : gd.GetPushDescriptorReservedBindings(hasBinding3);
+            int[] reserved = isCompute ? [] : gd.GetPushDescriptorReservedBindings(hasBinding3);
 
             // Can't use any of the reserved usages.
             for (int i = 0; i < uniformUsage.Count; i++)
             {
-                var binding = uniformUsage[i].Binding;
+                int binding = uniformUsage[i].Binding;
 
                 if (reserved.Contains(binding) ||
                     binding >= Constants.MaxPushDescriptorBinding ||
@@ -203,7 +203,7 @@ namespace Ryujinx.Graphics.Vulkan
             // The reserved bindings were selected when determining if push descriptors could be used.
             int[] reserved = gd.GetPushDescriptorReservedBindings(false);
 
-            var result = new ResourceDescriptorCollection[sets.Count];
+            ResourceDescriptorCollection[] result = new ResourceDescriptorCollection[sets.Count];
 
             for (int i = 0; i < sets.Count; i++)
             {
@@ -212,7 +212,7 @@ namespace Ryujinx.Graphics.Vulkan
                     // Push descriptors apply here. Remove reserved bindings.
                     ResourceDescriptorCollection original = sets[i];
 
-                    var pdUniforms = new ResourceDescriptor[original.Descriptors.Count];
+                    ResourceDescriptor[] pdUniforms = new ResourceDescriptor[original.Descriptors.Count];
                     int j = 0;
 
                     foreach (ResourceDescriptor descriptor in original.Descriptors)
@@ -249,7 +249,7 @@ namespace Ryujinx.Graphics.Vulkan
 
             for (int setIndex = 0; setIndex < sets.Count; setIndex++)
             {
-                List<ResourceBindingSegment> currentSegments = new();
+                List<ResourceBindingSegment> currentSegments = [];
 
                 ResourceDescriptor currentDescriptor = default;
                 int currentCount = 0;
@@ -307,7 +307,7 @@ namespace Ryujinx.Graphics.Vulkan
 
             for (int setIndex = 0; setIndex < setUsages.Count; setIndex++)
             {
-                List<ResourceBindingSegment> currentSegments = new();
+                List<ResourceBindingSegment> currentSegments = [];
 
                 ResourceUsage currentUsage = default;
                 int currentCount = 0;
@@ -364,7 +364,7 @@ namespace Ryujinx.Graphics.Vulkan
 
         private DescriptorSetTemplate[] BuildTemplates(bool usePushDescriptors)
         {
-            var templates = new DescriptorSetTemplate[BindingSegments.Length];
+            DescriptorSetTemplate[] templates = new DescriptorSetTemplate[BindingSegments.Length];
 
             for (int setIndex = 0; setIndex < BindingSegments.Length; setIndex++)
             {
@@ -433,9 +433,9 @@ namespace Ryujinx.Graphics.Vulkan
             PipelineStageFlags buffer = PipelineStageFlags.None;
             PipelineStageFlags texture = PipelineStageFlags.None;
 
-            foreach (var set in setUsages)
+            foreach (ResourceUsageCollection set in setUsages)
             {
-                foreach (var range in set.Usages)
+                foreach (ResourceUsage range in set.Usages)
                 {
                     if (range.Write)
                     {
@@ -498,7 +498,7 @@ namespace Ryujinx.Graphics.Vulkan
 
                 for (int i = 0; i < _shaders.Length; i++)
                 {
-                    var shader = _shaders[i];
+                    Shader shader = _shaders[i];
 
                     if (shader.CompileStatus != ProgramLinkStatus.Success)
                     {
@@ -557,12 +557,12 @@ namespace Ryujinx.Graphics.Vulkan
 
             // First, we need to create a render pass object compatible with the one that will be used at runtime.
             // The active attachment formats have been provided by the abstraction layer.
-            var renderPass = CreateDummyRenderPass();
+            DisposableRenderPass renderPass = CreateDummyRenderPass();
 
             PipelineState pipeline = _state.ToVulkanPipelineState(_gd);
 
             // Copy the shader stage info to the pipeline.
-            var stages = pipeline.Stages.AsSpan();
+            Span<PipelineShaderStageCreateInfo> stages = pipeline.Stages.AsSpan();
 
             for (int i = 0; i < _shaders.Length; i++)
             {

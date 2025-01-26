@@ -128,7 +128,7 @@ namespace Ryujinx.Horizon.Kernel.Generators
         {
             SyscallSyntaxReceiver syntaxReceiver = (SyscallSyntaxReceiver)context.SyntaxReceiver;
 
-            CodeGenerator generator = new CodeGenerator();
+            CodeGenerator generator = new();
 
             generator.AppendLine("using Ryujinx.Common.Logging;");
             generator.AppendLine("using Ryujinx.Cpu;");
@@ -145,9 +145,9 @@ namespace Ryujinx.Horizon.Kernel.Generators
             GenerateResultCheckHelper(generator);
             generator.AppendLine();
 
-            List<SyscallIdAndName> syscalls = new List<SyscallIdAndName>();
+            List<SyscallIdAndName> syscalls = [];
 
-            foreach (var method in syntaxReceiver.SvcImplementations)
+            foreach (MethodDeclarationSyntax method in syntaxReceiver.SvcImplementations)
             {
                 GenerateMethod32(generator, context.Compilation, method);
                 GenerateMethod64(generator, context.Compilation, method);
@@ -200,13 +200,13 @@ namespace Ryujinx.Horizon.Kernel.Generators
             string[] args = new string[method.ParameterList.Parameters.Count];
             int index = 0;
 
-            RegisterAllocatorA32 regAlloc = new RegisterAllocatorA32();
+            RegisterAllocatorA32 regAlloc = new();
 
-            List<OutParameter> outParameters = new List<OutParameter>();
-            List<string> logInArgs = new List<string>();
-            List<string> logOutArgs = new List<string>();
+            List<OutParameter> outParameters = [];
+            List<string> logInArgs = [];
+            List<string> logOutArgs = [];
 
-            foreach (var methodParameter in method.ParameterList.Parameters)
+            foreach (ParameterSyntax methodParameter in method.ParameterList.Parameters)
             {
                 string name = methodParameter.Identifier.Text;
                 string argName = GetPrefixedArgName(name);
@@ -321,11 +321,11 @@ namespace Ryujinx.Horizon.Kernel.Generators
             int registerIndex = 0;
             int index = 0;
 
-            List<OutParameter> outParameters = new List<OutParameter>();
-            List<string> logInArgs = new List<string>();
-            List<string> logOutArgs = new List<string>();
+            List<OutParameter> outParameters = [];
+            List<string> logInArgs = [];
+            List<string> logOutArgs = [];
 
-            foreach (var methodParameter in method.ParameterList.Parameters)
+            foreach (ParameterSyntax methodParameter in method.ParameterList.Parameters)
             {
                 string name = methodParameter.Identifier.Text;
                 string argName = GetPrefixedArgName(name);
@@ -468,7 +468,7 @@ namespace Ryujinx.Horizon.Kernel.Generators
             generator.EnterScope($"public static void Dispatch{suffix}(Syscall syscall, {TypeExecutionContext} context, int id)");
             generator.EnterScope("switch (id)");
 
-            foreach (var syscall in syscalls)
+            foreach (SyscallIdAndName syscall in syscalls)
             {
                 generator.AppendLine($"case {syscall.Id}:");
                 generator.IncreaseIndentation();

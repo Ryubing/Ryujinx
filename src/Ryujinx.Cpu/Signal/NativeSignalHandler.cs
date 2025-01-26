@@ -98,7 +98,7 @@ namespace Ryujinx.Cpu.Signal
                         _signalHandlerPtr = customSignalHandlerFactory(UnixSignalHandlerRegistration.GetSegfaultExceptionHandler().sa_handler, _signalHandlerPtr);
                     }
 
-                    var old = UnixSignalHandlerRegistration.RegisterExceptionHandler(_signalHandlerPtr);
+                    UnixSignalHandlerRegistration.SigAction old = UnixSignalHandlerRegistration.RegisterExceptionHandler(_signalHandlerPtr);
 
                     config.UnixOldSigaction = (nuint)(ulong)old.sa_handler;
                     config.UnixOldSigaction3Arg = old.sa_flags & 4;

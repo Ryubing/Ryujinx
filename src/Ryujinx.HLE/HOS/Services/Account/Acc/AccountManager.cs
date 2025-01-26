@@ -33,7 +33,7 @@ namespace Ryujinx.HLE.HOS.Services.Account.Acc
             _horizonClient = horizonClient;
 
             _profiles = new ConcurrentDictionary<string, UserProfile>();
-            _storedOpenedUsers = Array.Empty<UserProfile>();
+            _storedOpenedUsers = [];
 
             _accountSaveDataManager = new AccountSaveDataManager(_profiles);
 
@@ -60,7 +60,7 @@ namespace Ryujinx.HLE.HOS.Services.Account.Acc
             }
         }
 
-        public void AddUser(string name, byte[] image, UserId userId = new UserId())
+        public void AddUser(string name, byte[] image, UserId userId = new())
         {
             if (userId.IsNull)
             {
@@ -191,10 +191,10 @@ namespace Ryujinx.HLE.HOS.Services.Account.Acc
 
         private void DeleteSaveData(UserId userId)
         {
-            var saveDataFilter = SaveDataFilter.Make(programId: default, saveType: default,
+            SaveDataFilter saveDataFilter = SaveDataFilter.Make(programId: default, saveType: default,
                 new LibHac.Fs.UserId((ulong)userId.High, (ulong)userId.Low), saveDataId: default, index: default);
 
-            using var saveDataIterator = new UniqueRef<SaveDataIterator>();
+            using UniqueRef<SaveDataIterator> saveDataIterator = new();
 
             _horizonClient.Fs.OpenSaveDataIterator(ref saveDataIterator.Ref, SaveDataSpaceId.User, in saveDataFilter).ThrowIfFailure();
 

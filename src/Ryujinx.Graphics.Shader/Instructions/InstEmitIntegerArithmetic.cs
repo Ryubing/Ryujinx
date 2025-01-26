@@ -14,8 +14,8 @@ namespace Ryujinx.Graphics.Shader.Instructions
         {
             InstIaddR op = context.GetOp<InstIaddR>();
 
-            var srcA = GetSrcReg(context, op.SrcA);
-            var srcB = GetSrcReg(context, op.SrcB);
+            Operand srcA = GetSrcReg(context, op.SrcA);
+            Operand srcB = GetSrcReg(context, op.SrcB);
 
             EmitIadd(context, srcA, srcB, op.Dest, op.AvgMode, op.X, op.WriteCC);
         }
@@ -24,8 +24,8 @@ namespace Ryujinx.Graphics.Shader.Instructions
         {
             InstIaddI op = context.GetOp<InstIaddI>();
 
-            var srcA = GetSrcReg(context, op.SrcA);
-            var srcB = GetSrcImm(context, Imm20ToSInt(op.Imm20));
+            Operand srcA = GetSrcReg(context, op.SrcA);
+            Operand srcB = GetSrcImm(context, Imm20ToSInt(op.Imm20));
 
             EmitIadd(context, srcA, srcB, op.Dest, op.AvgMode, op.X, op.WriteCC);
         }
@@ -34,8 +34,8 @@ namespace Ryujinx.Graphics.Shader.Instructions
         {
             InstIaddC op = context.GetOp<InstIaddC>();
 
-            var srcA = GetSrcReg(context, op.SrcA);
-            var srcB = GetSrcCbuf(context, op.CbufSlot, op.CbufOffset);
+            Operand srcA = GetSrcReg(context, op.SrcA);
+            Operand srcB = GetSrcCbuf(context, op.CbufSlot, op.CbufOffset);
 
             EmitIadd(context, srcA, srcB, op.Dest, op.AvgMode, op.X, op.WriteCC);
         }
@@ -44,8 +44,8 @@ namespace Ryujinx.Graphics.Shader.Instructions
         {
             InstIadd32i op = context.GetOp<InstIadd32i>();
 
-            var srcA = GetSrcReg(context, op.SrcA);
-            var srcB = GetSrcImm(context, op.Imm32);
+            Operand srcA = GetSrcReg(context, op.SrcA);
+            Operand srcB = GetSrcImm(context, op.Imm32);
 
             EmitIadd(context, srcA, srcB, op.Dest, op.AvgMode, op.X, op.WriteCC);
         }
@@ -54,9 +54,9 @@ namespace Ryujinx.Graphics.Shader.Instructions
         {
             InstIadd3R op = context.GetOp<InstIadd3R>();
 
-            var srcA = GetSrcReg(context, op.SrcA);
-            var srcB = GetSrcReg(context, op.SrcB);
-            var srcC = GetSrcReg(context, op.SrcC);
+            Operand srcA = GetSrcReg(context, op.SrcA);
+            Operand srcB = GetSrcReg(context, op.SrcB);
+            Operand srcC = GetSrcReg(context, op.SrcC);
 
             EmitIadd3(context, op.Lrs, srcA, srcB, srcC, op.Apart, op.Bpart, op.Cpart, op.Dest, op.NegA, op.NegB, op.NegC);
         }
@@ -65,9 +65,9 @@ namespace Ryujinx.Graphics.Shader.Instructions
         {
             InstIadd3I op = context.GetOp<InstIadd3I>();
 
-            var srcA = GetSrcReg(context, op.SrcA);
-            var srcB = GetSrcImm(context, Imm20ToSInt(op.Imm20));
-            var srcC = GetSrcReg(context, op.SrcC);
+            Operand srcA = GetSrcReg(context, op.SrcA);
+            Operand srcB = GetSrcImm(context, Imm20ToSInt(op.Imm20));
+            Operand srcC = GetSrcReg(context, op.SrcC);
 
             EmitIadd3(context, Lrs.None, srcA, srcB, srcC, HalfSelect.B32, HalfSelect.B32, HalfSelect.B32, op.Dest, op.NegA, op.NegB, op.NegC);
         }
@@ -76,9 +76,9 @@ namespace Ryujinx.Graphics.Shader.Instructions
         {
             InstIadd3C op = context.GetOp<InstIadd3C>();
 
-            var srcA = GetSrcReg(context, op.SrcA);
-            var srcB = GetSrcCbuf(context, op.CbufSlot, op.CbufOffset);
-            var srcC = GetSrcReg(context, op.SrcC);
+            Operand srcA = GetSrcReg(context, op.SrcA);
+            Operand srcB = GetSrcCbuf(context, op.CbufSlot, op.CbufOffset);
+            Operand srcC = GetSrcReg(context, op.SrcC);
 
             EmitIadd3(context, Lrs.None, srcA, srcB, srcC, HalfSelect.B32, HalfSelect.B32, HalfSelect.B32, op.Dest, op.NegA, op.NegB, op.NegC);
         }
@@ -87,9 +87,9 @@ namespace Ryujinx.Graphics.Shader.Instructions
         {
             InstImadR op = context.GetOp<InstImadR>();
 
-            var srcA = GetSrcReg(context, op.SrcA);
-            var srcB = GetSrcReg(context, op.SrcB);
-            var srcC = GetSrcReg(context, op.SrcC);
+            Operand srcA = GetSrcReg(context, op.SrcA);
+            Operand srcB = GetSrcReg(context, op.SrcB);
+            Operand srcC = GetSrcReg(context, op.SrcC);
 
             EmitImad(context, srcA, srcB, srcC, op.Dest, op.AvgMode, op.ASigned, op.BSigned, op.Hilo);
         }
@@ -98,9 +98,9 @@ namespace Ryujinx.Graphics.Shader.Instructions
         {
             InstImadI op = context.GetOp<InstImadI>();
 
-            var srcA = GetSrcReg(context, op.SrcA);
-            var srcB = GetSrcImm(context, Imm20ToSInt(op.Imm20));
-            var srcC = GetSrcReg(context, op.SrcC);
+            Operand srcA = GetSrcReg(context, op.SrcA);
+            Operand srcB = GetSrcImm(context, Imm20ToSInt(op.Imm20));
+            Operand srcC = GetSrcReg(context, op.SrcC);
 
             EmitImad(context, srcA, srcB, srcC, op.Dest, op.AvgMode, op.ASigned, op.BSigned, op.Hilo);
         }
@@ -109,9 +109,9 @@ namespace Ryujinx.Graphics.Shader.Instructions
         {
             InstImadC op = context.GetOp<InstImadC>();
 
-            var srcA = GetSrcReg(context, op.SrcA);
-            var srcB = GetSrcCbuf(context, op.CbufSlot, op.CbufOffset);
-            var srcC = GetSrcReg(context, op.SrcC);
+            Operand srcA = GetSrcReg(context, op.SrcA);
+            Operand srcB = GetSrcCbuf(context, op.CbufSlot, op.CbufOffset);
+            Operand srcC = GetSrcReg(context, op.SrcC);
 
             EmitImad(context, srcA, srcB, srcC, op.Dest, op.AvgMode, op.ASigned, op.BSigned, op.Hilo);
         }
@@ -120,9 +120,9 @@ namespace Ryujinx.Graphics.Shader.Instructions
         {
             InstImadRc op = context.GetOp<InstImadRc>();
 
-            var srcA = GetSrcReg(context, op.SrcA);
-            var srcB = GetSrcReg(context, op.SrcC);
-            var srcC = GetSrcCbuf(context, op.CbufSlot, op.CbufOffset);
+            Operand srcA = GetSrcReg(context, op.SrcA);
+            Operand srcB = GetSrcReg(context, op.SrcC);
+            Operand srcC = GetSrcCbuf(context, op.CbufSlot, op.CbufOffset);
 
             EmitImad(context, srcA, srcB, srcC, op.Dest, op.AvgMode, op.ASigned, op.BSigned, op.Hilo);
         }
@@ -131,9 +131,9 @@ namespace Ryujinx.Graphics.Shader.Instructions
         {
             InstImad32i op = context.GetOp<InstImad32i>();
 
-            var srcA = GetSrcReg(context, op.SrcA);
-            var srcB = GetSrcImm(context, op.Imm32);
-            var srcC = GetSrcReg(context, op.Dest);
+            Operand srcA = GetSrcReg(context, op.SrcA);
+            Operand srcB = GetSrcImm(context, op.Imm32);
+            Operand srcC = GetSrcReg(context, op.Dest);
 
             EmitImad(context, srcA, srcB, srcC, op.Dest, op.AvgMode, op.ASigned, op.BSigned, op.Hilo);
         }
@@ -142,8 +142,8 @@ namespace Ryujinx.Graphics.Shader.Instructions
         {
             InstImulR op = context.GetOp<InstImulR>();
 
-            var srcA = GetSrcReg(context, op.SrcA);
-            var srcB = GetSrcReg(context, op.SrcB);
+            Operand srcA = GetSrcReg(context, op.SrcA);
+            Operand srcB = GetSrcReg(context, op.SrcB);
 
             EmitImad(context, srcA, srcB, Const(0), op.Dest, AvgMode.NoNeg, op.ASigned, op.BSigned, op.Hilo);
         }
@@ -152,8 +152,8 @@ namespace Ryujinx.Graphics.Shader.Instructions
         {
             InstImulI op = context.GetOp<InstImulI>();
 
-            var srcA = GetSrcReg(context, op.SrcA);
-            var srcB = GetSrcImm(context, Imm20ToSInt(op.Imm20));
+            Operand srcA = GetSrcReg(context, op.SrcA);
+            Operand srcB = GetSrcImm(context, Imm20ToSInt(op.Imm20));
 
             EmitImad(context, srcA, srcB, Const(0), op.Dest, AvgMode.NoNeg, op.ASigned, op.BSigned, op.Hilo);
         }
@@ -162,8 +162,8 @@ namespace Ryujinx.Graphics.Shader.Instructions
         {
             InstImulC op = context.GetOp<InstImulC>();
 
-            var srcA = GetSrcReg(context, op.SrcA);
-            var srcB = GetSrcCbuf(context, op.CbufSlot, op.CbufOffset);
+            Operand srcA = GetSrcReg(context, op.SrcA);
+            Operand srcB = GetSrcCbuf(context, op.CbufSlot, op.CbufOffset);
 
             EmitImad(context, srcA, srcB, Const(0), op.Dest, AvgMode.NoNeg, op.ASigned, op.BSigned, op.Hilo);
         }
@@ -172,8 +172,8 @@ namespace Ryujinx.Graphics.Shader.Instructions
         {
             InstImul32i op = context.GetOp<InstImul32i>();
 
-            var srcA = GetSrcReg(context, op.SrcA);
-            var srcB = GetSrcImm(context, op.Imm32);
+            Operand srcA = GetSrcReg(context, op.SrcA);
+            Operand srcB = GetSrcImm(context, op.Imm32);
 
             EmitImad(context, srcA, srcB, Const(0), op.Dest, AvgMode.NoNeg, op.ASigned, op.BSigned, op.Hilo);
         }
@@ -182,8 +182,8 @@ namespace Ryujinx.Graphics.Shader.Instructions
         {
             InstIscaddR op = context.GetOp<InstIscaddR>();
 
-            var srcA = GetSrcReg(context, op.SrcA);
-            var srcB = GetSrcReg(context, op.SrcB);
+            Operand srcA = GetSrcReg(context, op.SrcA);
+            Operand srcB = GetSrcReg(context, op.SrcB);
 
             EmitIscadd(context, srcA, srcB, op.Dest, op.Imm5, op.AvgMode, op.WriteCC);
         }
@@ -192,8 +192,8 @@ namespace Ryujinx.Graphics.Shader.Instructions
         {
             InstIscaddI op = context.GetOp<InstIscaddI>();
 
-            var srcA = GetSrcReg(context, op.SrcA);
-            var srcB = GetSrcImm(context, Imm20ToSInt(op.Imm20));
+            Operand srcA = GetSrcReg(context, op.SrcA);
+            Operand srcB = GetSrcImm(context, Imm20ToSInt(op.Imm20));
 
             EmitIscadd(context, srcA, srcB, op.Dest, op.Imm5, op.AvgMode, op.WriteCC);
         }
@@ -202,8 +202,8 @@ namespace Ryujinx.Graphics.Shader.Instructions
         {
             InstIscaddC op = context.GetOp<InstIscaddC>();
 
-            var srcA = GetSrcReg(context, op.SrcA);
-            var srcB = GetSrcCbuf(context, op.CbufSlot, op.CbufOffset);
+            Operand srcA = GetSrcReg(context, op.SrcA);
+            Operand srcB = GetSrcCbuf(context, op.CbufSlot, op.CbufOffset);
 
             EmitIscadd(context, srcA, srcB, op.Dest, op.Imm5, op.AvgMode, op.WriteCC);
         }
@@ -212,8 +212,8 @@ namespace Ryujinx.Graphics.Shader.Instructions
         {
             InstIscadd32i op = context.GetOp<InstIscadd32i>();
 
-            var srcA = GetSrcReg(context, op.SrcA);
-            var srcB = GetSrcImm(context, op.Imm32);
+            Operand srcA = GetSrcReg(context, op.SrcA);
+            Operand srcB = GetSrcImm(context, op.Imm32);
 
             EmitIscadd(context, srcA, srcB, op.Dest, op.Imm5, AvgMode.NoNeg, op.WriteCC);
         }
@@ -222,8 +222,8 @@ namespace Ryujinx.Graphics.Shader.Instructions
         {
             InstLeaR op = context.GetOp<InstLeaR>();
 
-            var srcA = GetSrcReg(context, op.SrcA);
-            var srcB = GetSrcReg(context, op.SrcB);
+            Operand srcA = GetSrcReg(context, op.SrcA);
+            Operand srcB = GetSrcReg(context, op.SrcB);
 
             EmitLea(context, srcA, srcB, op.Dest, op.NegA, op.ImmU5);
         }
@@ -232,8 +232,8 @@ namespace Ryujinx.Graphics.Shader.Instructions
         {
             InstLeaI op = context.GetOp<InstLeaI>();
 
-            var srcA = GetSrcReg(context, op.SrcA);
-            var srcB = GetSrcImm(context, Imm20ToSInt(op.Imm20));
+            Operand srcA = GetSrcReg(context, op.SrcA);
+            Operand srcB = GetSrcImm(context, Imm20ToSInt(op.Imm20));
 
             EmitLea(context, srcA, srcB, op.Dest, op.NegA, op.ImmU5);
         }
@@ -242,8 +242,8 @@ namespace Ryujinx.Graphics.Shader.Instructions
         {
             InstLeaC op = context.GetOp<InstLeaC>();
 
-            var srcA = GetSrcReg(context, op.SrcA);
-            var srcB = GetSrcCbuf(context, op.CbufSlot, op.CbufOffset);
+            Operand srcA = GetSrcReg(context, op.SrcA);
+            Operand srcB = GetSrcCbuf(context, op.CbufSlot, op.CbufOffset);
 
             EmitLea(context, srcA, srcB, op.Dest, op.NegA, op.ImmU5);
         }
@@ -252,9 +252,9 @@ namespace Ryujinx.Graphics.Shader.Instructions
         {
             InstLeaHiR op = context.GetOp<InstLeaHiR>();
 
-            var srcA = GetSrcReg(context, op.SrcA);
-            var srcB = GetSrcReg(context, op.SrcB);
-            var srcC = GetSrcReg(context, op.SrcC);
+            Operand srcA = GetSrcReg(context, op.SrcA);
+            Operand srcB = GetSrcReg(context, op.SrcB);
+            Operand srcC = GetSrcReg(context, op.SrcC);
 
             EmitLeaHi(context, srcA, srcB, srcC, op.Dest, op.NegA, op.ImmU5);
         }
@@ -263,9 +263,9 @@ namespace Ryujinx.Graphics.Shader.Instructions
         {
             InstLeaHiC op = context.GetOp<InstLeaHiC>();
 
-            var srcA = GetSrcReg(context, op.SrcA);
-            var srcB = GetSrcCbuf(context, op.CbufSlot, op.CbufOffset);
-            var srcC = GetSrcReg(context, op.SrcC);
+            Operand srcA = GetSrcReg(context, op.SrcA);
+            Operand srcB = GetSrcCbuf(context, op.CbufSlot, op.CbufOffset);
+            Operand srcC = GetSrcReg(context, op.SrcC);
 
             EmitLeaHi(context, srcA, srcB, srcC, op.Dest, op.NegA, op.ImmU5);
         }
@@ -274,9 +274,9 @@ namespace Ryujinx.Graphics.Shader.Instructions
         {
             InstXmadR op = context.GetOp<InstXmadR>();
 
-            var srcA = GetSrcReg(context, op.SrcA);
-            var srcB = GetSrcReg(context, op.SrcB);
-            var srcC = GetSrcReg(context, op.SrcC);
+            Operand srcA = GetSrcReg(context, op.SrcA);
+            Operand srcB = GetSrcReg(context, op.SrcB);
+            Operand srcC = GetSrcReg(context, op.SrcC);
 
             EmitXmad(context, op.XmadCop, srcA, srcB, srcC, op.Dest, op.ASigned, op.BSigned, op.HiloA, op.HiloB, op.Psl, op.Mrg, op.X, op.WriteCC);
         }
@@ -285,9 +285,9 @@ namespace Ryujinx.Graphics.Shader.Instructions
         {
             InstXmadI op = context.GetOp<InstXmadI>();
 
-            var srcA = GetSrcReg(context, op.SrcA);
-            var srcB = GetSrcImm(context, op.Imm16);
-            var srcC = GetSrcReg(context, op.SrcC);
+            Operand srcA = GetSrcReg(context, op.SrcA);
+            Operand srcB = GetSrcImm(context, op.Imm16);
+            Operand srcC = GetSrcReg(context, op.SrcC);
 
             EmitXmad(context, op.XmadCop, srcA, srcB, srcC, op.Dest, op.ASigned, op.BSigned, op.HiloA, false, op.Psl, op.Mrg, op.X, op.WriteCC);
         }
@@ -296,9 +296,9 @@ namespace Ryujinx.Graphics.Shader.Instructions
         {
             InstXmadC op = context.GetOp<InstXmadC>();
 
-            var srcA = GetSrcReg(context, op.SrcA);
-            var srcB = GetSrcCbuf(context, op.CbufSlot, op.CbufOffset);
-            var srcC = GetSrcReg(context, op.SrcC);
+            Operand srcA = GetSrcReg(context, op.SrcA);
+            Operand srcB = GetSrcCbuf(context, op.CbufSlot, op.CbufOffset);
+            Operand srcC = GetSrcReg(context, op.SrcC);
 
             EmitXmad(context, op.XmadCop, srcA, srcB, srcC, op.Dest, op.ASigned, op.BSigned, op.HiloA, op.HiloB, op.Psl, op.Mrg, op.X, op.WriteCC);
         }
@@ -307,9 +307,9 @@ namespace Ryujinx.Graphics.Shader.Instructions
         {
             InstXmadRc op = context.GetOp<InstXmadRc>();
 
-            var srcA = GetSrcReg(context, op.SrcA);
-            var srcB = GetSrcReg(context, op.SrcC);
-            var srcC = GetSrcCbuf(context, op.CbufSlot, op.CbufOffset);
+            Operand srcA = GetSrcReg(context, op.SrcA);
+            Operand srcB = GetSrcReg(context, op.SrcC);
+            Operand srcC = GetSrcCbuf(context, op.CbufSlot, op.CbufOffset);
 
             EmitXmad(context, op.XmadCop, srcA, srcB, srcC, op.Dest, op.ASigned, op.BSigned, op.HiloA, op.HiloB, false, false, op.X, op.WriteCC);
         }
@@ -578,7 +578,7 @@ namespace Ryujinx.Graphics.Shader.Instructions
             bool extended,
             bool writeCC)
         {
-            var srcBUnmodified = srcB;
+            Operand srcBUnmodified = srcB;
 
             Operand Extend16To32(Operand src, bool high, bool signed)
             {

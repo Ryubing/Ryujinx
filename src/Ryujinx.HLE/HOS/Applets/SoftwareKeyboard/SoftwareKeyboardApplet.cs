@@ -81,8 +81,8 @@ namespace Ryujinx.HLE.HOS.Applets
 
                 _interactiveSession.DataAvailable += OnInteractiveData;
 
-                var launchParams = _normalSession.Pop();
-                var keyboardConfig = _normalSession.Pop();
+                byte[] launchParams = _normalSession.Pop();
+                byte[] keyboardConfig = _normalSession.Pop();
 
                 _isBackground = keyboardConfig.Length == Unsafe.SizeOf<SoftwareKeyboardInitialize>();
 
@@ -205,7 +205,7 @@ namespace Ryujinx.HLE.HOS.Applets
             else
             {
                 // Call the configured GUI handler to get user's input.
-                var args = new SoftwareKeyboardUIArgs
+                SoftwareKeyboardUIArgs args = new()
                 {
                     KeyboardMode = _keyboardForegroundConfig.Mode,
                     HeaderText = StripUnicodeControlCodes(_keyboardForegroundConfig.HeaderText),
@@ -265,7 +265,7 @@ namespace Ryujinx.HLE.HOS.Applets
         private void OnInteractiveData(object sender, EventArgs e)
         {
             // Obtain the validation status response.
-            var data = _interactiveSession.Pop();
+            byte[] data = _interactiveSession.Pop();
 
             if (_isBackground)
             {
@@ -320,7 +320,7 @@ namespace Ryujinx.HLE.HOS.Applets
             using MemoryStream stream = new(data);
             using BinaryReader reader = new(stream);
 
-            var request = (InlineKeyboardRequest)reader.ReadUInt32();
+            InlineKeyboardRequest request = (InlineKeyboardRequest)reader.ReadUInt32();
 
             long remaining;
 
@@ -400,14 +400,14 @@ namespace Ryujinx.HLE.HOS.Applets
                     remaining = stream.Length - stream.Position;
                     if (remaining == Marshal.SizeOf<SoftwareKeyboardCalc>())
                     {
-                        var keyboardCalcData = reader.ReadBytes((int)remaining);
-                        var keyboardCalc = ReadStruct<SoftwareKeyboardCalc>(keyboardCalcData);
+                        byte[] keyboardCalcData = reader.ReadBytes((int)remaining);
+                        SoftwareKeyboardCalc keyboardCalc = ReadStruct<SoftwareKeyboardCalc>(keyboardCalcData);
 
                         newCalc = keyboardCalc.ToExtended();
                     }
                     else if (remaining == Marshal.SizeOf<SoftwareKeyboardCalcEx>() || remaining == SoftwareKeyboardCalcEx.AlternativeSize)
                     {
-                        var keyboardCalcData = reader.ReadBytes((int)remaining);
+                        byte[] keyboardCalcData = reader.ReadBytes((int)remaining);
 
                         newCalc = ReadStruct<SoftwareKeyboardCalcEx>(keyboardCalcData);
                     }

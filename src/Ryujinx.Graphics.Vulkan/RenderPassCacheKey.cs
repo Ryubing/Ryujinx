@@ -22,7 +22,7 @@ namespace Ryujinx.Graphics.Vulkan
 
             if (_colors != null)
             {
-                foreach (var color in _colors)
+                foreach (TextureView color in _colors)
                 {
                     hc.Add(color);
                 }

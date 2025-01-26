@@ -429,7 +429,7 @@
                         </StackPanel>
                     </StackPanel>
                 </Border>
-                <!-- Motion + Rumble -->
+                <!-- Motion, Rumble, LED -->
                 <StackPanel
                     Margin="0,10,0,0"
                     Spacing="5"
@@ -495,25 +495,47 @@
                         Margin="0,-1,0,0">
                         <Grid IsVisible="{Binding ParentModel.HasLed}">
                             <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="Auto" />
+                                <ColumnDefinition Width="*" />
                                 <ColumnDefinition Width="*" />
                                 <ColumnDefinition Width="Auto" />
                             </Grid.ColumnDefinitions>
                             <CheckBox
-                                Margin="10"
+                                Margin="10, 10, 5, 10"
                                 MinWidth="0"
                                 Grid.Column="0"
                                 IsChecked="{Binding Config.EnableLedChanging, Mode=TwoWay}">
                                 <TextBlock Text="{ext:Locale ControllerSettingsLedColor}" />
                             </CheckBox>
-                            <ui:ColorPickerButton 
+                            <CheckBox
+                                Margin="5, 10, 5, 10"
+                                MinWidth="0"
                                 Grid.Column="1"
-                                Margin="10"
+                                IsVisible="{Binding ParentModel.CanClearLed}"
+                                IsChecked="{Binding Config.TurnOffLed, Mode=TwoWay}"
+                                Command="{Binding LedDisabledChanged}">
+                                <TextBlock Text="{ext:Locale ControllerSettingsLedColorDisable}" />
+                            </CheckBox>
+                            <CheckBox
+                                Margin="5, 10 5,10"
+                                MinWidth="0"
+                                Grid.Column="2"
+                                IsEnabled="{Binding !Config.TurnOffLed}"
+                                IsChecked="{Binding Config.UseRainbowLed, Mode=TwoWay}">
+                                <TextBlock Text="{ext:Locale ControllerSettingsLedColorRainbow}" />
+                            </CheckBox>
+                            <ui:ColorPickerButton 
+                                Grid.Column="3"
+                                IsEnabled="{Binding Config.ShowLedColorPicker}"
+                                Margin="5, 10, 10, 10"
                                 IsMoreButtonVisible="False"
                                 UseColorPalette="False"
                                 UseColorTriangle="False"
                                 UseColorWheel="False"
                                 ShowAcceptDismissButtons="False"
                                 IsAlphaEnabled="False"
+                                AttachedToVisualTree="ColorPickerButton_OnAttachedToVisualTree"
+                                ColorChanged="ColorPickerButton_OnColorChanged"
                                 Color="{Binding Config.LedColor, Mode=TwoWay}">
                             </ui:ColorPickerButton>
                         </Grid>

@@ -169,7 +169,7 @@ namespace Ryujinx.HLE.HOS.Services.Nv.NvDrvServices.NvHostChannel
                 {
                     NvMapHandle map = NvMapDeviceFile.GetMapFromHandle(Owner, commandBuffer.Mem);
 
-                    var data = _memory.GetSpan(map.Address + commandBuffer.Offset, commandBuffer.WordsCount * 4);
+                    ReadOnlySpan<byte> data = _memory.GetSpan(map.Address + commandBuffer.Offset, commandBuffer.WordsCount * 4);
 
                     _host1xContext.Host1x.Submit(MemoryMarshal.Cast<byte, int>(data), _contextId);
                 }

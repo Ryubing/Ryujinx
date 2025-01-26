@@ -4,11 +4,14 @@ using Avalonia.Layout;
 using Avalonia.Threading;
 using CommunityToolkit.Mvvm.Input;
 using Gommon;
+using LibHac.Common;
+using LibHac.Ns;
 using Ryujinx.Ava.Common.Locale;
 using Ryujinx.Ava.UI.Helpers;
 using Ryujinx.Ava.UI.ViewModels;
 using Ryujinx.Ava.UI.Windows;
 using Ryujinx.Ava.Utilities;
+using Ryujinx.Ava.Utilities.AppLibrary;
 using Ryujinx.Ava.Utilities.Compat;
 using Ryujinx.Ava.Utilities.Configuration;
 using Ryujinx.Common;
@@ -142,7 +145,7 @@ namespace Ryujinx.Ava.UI.Views.Main
         
         public async Task OpenMiiApplet()
         {
-            if (!MiiApplet.CanStart(out var appData, out var nacpData)) 
+            if (!MiiApplet.CanStart(out ApplicationData appData, out BlitStruct<ApplicationControlProperty> nacpData)) 
                 return;
             
             await ViewModel.LoadApplication(appData, ViewModel.IsFullScreen || ViewModel.StartGamesInFullscreen, nacpData);

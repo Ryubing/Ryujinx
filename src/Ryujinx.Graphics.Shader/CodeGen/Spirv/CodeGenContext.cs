@@ -50,7 +50,7 @@ namespace Ryujinx.Graphics.Shader.CodeGen.Spirv
         private class BlockState
         {
             private int _entryCount;
-            private readonly List<Instruction> _labels = new();
+            private readonly List<Instruction> _labels = [];
 
             public Instruction GetNextLabel(CodeGenContext context)
             {
@@ -127,7 +127,7 @@ namespace Ryujinx.Graphics.Shader.CodeGen.Spirv
 
         private BlockState GetBlockStateLazy(AstBlock block)
         {
-            if (!_labels.TryGetValue(block, out var blockState))
+            if (!_labels.TryGetValue(block, out BlockState blockState))
             {
                 blockState = new BlockState();
 
@@ -139,7 +139,7 @@ namespace Ryujinx.Graphics.Shader.CodeGen.Spirv
 
         public Instruction NewBlock()
         {
-            var label = Label();
+            Instruction label = Label();
             Branch(label);
             AddLabel(label);
             return label;
@@ -147,7 +147,7 @@ namespace Ryujinx.Graphics.Shader.CodeGen.Spirv
 
         public Instruction[] GetMainInterface()
         {
-            var mainInterface = new List<Instruction>();
+            List<Instruction> mainInterface = [];
 
             mainInterface.AddRange(Inputs.Values);
             mainInterface.AddRange(Outputs.Values);
@@ -196,7 +196,7 @@ namespace Ryujinx.Graphics.Shader.CodeGen.Spirv
         {
             if (node is AstOperation operation)
             {
-                var opResult = Instructions.Generate(this, operation);
+                OperationResult opResult = Instructions.Generate(this, operation);
                 return BitcastIfNeeded(type, opResult.Type, opResult.Value);
             }
             else if (node is AstOperand operand)
@@ -218,7 +218,7 @@ namespace Ryujinx.Graphics.Shader.CodeGen.Spirv
         {
             if (node is AstOperation operation)
             {
-                var opResult = Instructions.Generate(this, operation);
+                OperationResult opResult = Instructions.Generate(this, operation);
                 type = opResult.Type;
                 return opResult.Value;
             }
@@ -273,13 +273,13 @@ namespace Ryujinx.Graphics.Shader.CodeGen.Spirv
 
         public Instruction GetLocal(AggregateType dstType, AstOperand local)
         {
-            var srcType = local.VarType;
+            AggregateType srcType = local.VarType;
             return BitcastIfNeeded(dstType, srcType, Load(GetType(srcType), GetLocalPointer(local)));
         }
 
         public Instruction GetArgument(AggregateType dstType, AstOperand funcArg)
         {
-            var srcType = funcArg.VarType;
+            AggregateType srcType = funcArg.VarType;
             return BitcastIfNeeded(dstType, srcType, Load(GetType(srcType), GetArgumentPointer(funcArg)));
         }
 
@@ -339,8 +339,8 @@ namespace Ryujinx.Graphics.Shader.CodeGen.Spirv
             }
             else if (srcType == AggregateType.Bool)
             {
-                var intTrue = Constant(TypeS32(), IrConsts.True);
-                var intFalse = Constant(TypeS32(), IrConsts.False);
+                Instruction intTrue = Constant(TypeS32(), IrConsts.True);
+                Instruction intFalse = Constant(TypeS32(), IrConsts.False);
 
                 return BitcastIfNeeded(dstType, AggregateType.S32, Select(TypeS32(), value, intTrue, intFalse));
             }

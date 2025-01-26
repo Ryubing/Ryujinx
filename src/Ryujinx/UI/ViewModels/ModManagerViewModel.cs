@@ -12,6 +12,8 @@ using Ryujinx.Common.Logging;
 using Ryujinx.Common.Utilities;
 using Ryujinx.HLE.HOS;
 using System;
+using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.IO;
 using System.Linq;
 
@@ -21,9 +23,9 @@ namespace Ryujinx.Ava.UI.ViewModels
     {
         private readonly string _modJsonPath;
 
-        private AvaloniaList<ModModel> _mods = new();
-        [ObservableProperty] private AvaloniaList<ModModel> _views = new();
-        [ObservableProperty] private AvaloniaList<ModModel> _selectedMods = new();
+        private AvaloniaList<ModModel> _mods = [];
+        [ObservableProperty] private AvaloniaList<ModModel> _views = [];
+        [ObservableProperty] private AvaloniaList<ModModel> _selectedMods = [];
 
         private string _search;
         private readonly ulong _applicationId;
@@ -77,37 +79,37 @@ namespace Ryujinx.Ava.UI.ViewModels
 
             string[] modsBasePaths = [ModLoader.GetSdModsBasePath(), ModLoader.GetModsBasePath()];
 
-            foreach (var path in modsBasePaths)
+            foreach (string path in modsBasePaths)
             {
-                var inSd = path == ModLoader.GetSdModsBasePath();
-                var modCache = new ModLoader.ModCache();
+                bool inSd = path == ModLoader.GetSdModsBasePath();
+                ModLoader.ModCache modCache = new();
 
                 ModLoader.QueryContentsDir(modCache, new DirectoryInfo(Path.Combine(path, "contents")), applicationId);
 
-                foreach (var mod in modCache.RomfsDirs)
+                foreach (ModLoader.Mod<DirectoryInfo> mod in modCache.RomfsDirs)
                 {
-                    var modModel = new ModModel(mod.Path.Parent.FullName, mod.Name, mod.Enabled, inSd);
+                    ModModel modModel = new(mod.Path.Parent.FullName, mod.Name, mod.Enabled, inSd);
                     if (Mods.All(x => x.Path != mod.Path.Parent.FullName))
                     {
                         Mods.Add(modModel);
                     }
                 }
 
-                foreach (var mod in modCache.RomfsContainers)
+                foreach (ModLoader.Mod<FileInfo> mod in modCache.RomfsContainers)
                 {
                     Mods.Add(new ModModel(mod.Path.FullName, mod.Name, mod.Enabled, inSd));
                 }
 
-                foreach (var mod in modCache.ExefsDirs)
+                foreach (ModLoader.Mod<DirectoryInfo> mod in modCache.ExefsDirs)
                 {
-                    var modModel = new ModModel(mod.Path.Parent.FullName, mod.Name, mod.Enabled, inSd);
+                    ModModel modModel = new(mod.Path.Parent.FullName, mod.Name, mod.Enabled, inSd);
                     if (Mods.All(x => x.Path != mod.Path.Parent.FullName))
                     {
                         Mods.Add(modModel);
                     }
                 }
 
-                foreach (var mod in modCache.ExefsContainers)
+                foreach (ModLoader.Mod<FileInfo> mod in modCache.ExefsContainers)
                 {
                     Mods.Add(new ModModel(mod.Path.FullName, mod.Name, mod.Enabled, inSd));
                 }
@@ -120,7 +122,7 @@ namespace Ryujinx.Ava.UI.ViewModels
         {
             Mods.AsObservableChangeSet()
                 .Filter(Filter)
-                .Bind(out var view).AsObservableList();
+                .Bind(out ReadOnlyObservableCollection<ModModel> view).AsObservableList();
 
 #pragma warning disable MVVMTK0034 // Event to update is fired below
             _views.Clear();
@@ -163,10 +165,10 @@ namespace Ryujinx.Ava.UI.ViewModels
 
         public void Delete(ModModel model, bool removeFromList = true)
         {
-            var isSubdir = true;
-            var pathToDelete = model.Path;
-            var basePath = model.InSd ? ModLoader.GetSdModsBasePath() : ModLoader.GetModsBasePath();
-            var modsDir = ModLoader.GetApplicationDir(basePath, _applicationId.ToString("x16"));
+            bool isSubdir = true;
+            string pathToDelete = model.Path;
+            string basePath = model.InSd ? ModLoader.GetSdModsBasePath() : ModLoader.GetModsBasePath();
+            string modsDir = ModLoader.GetApplicationDir(basePath, _applicationId.ToString("x16"));
 
             if (new DirectoryInfo(model.Path).Parent?.FullName == modsDir)
             {
@@ -175,9 +177,9 @@ namespace Ryujinx.Ava.UI.ViewModels
 
             if (isSubdir)
             {
-                var parentDir = String.Empty;
+                string parentDir = String.Empty;
 
-                foreach (var dir in Directory.GetDirectories(modsDir, "*", SearchOption.TopDirectoryOnly))
+                foreach (string dir in Directory.GetDirectories(modsDir, "*", SearchOption.TopDirectoryOnly))
                 {
                     if (Directory.GetDirectories(dir, "*", SearchOption.AllDirectories).Contains(model.Path))
                     {
@@ -229,10 +231,10 @@ namespace Ryujinx.Ava.UI.ViewModels
                 return;
             }
 
-            var destinationDir = ModLoader.GetApplicationDir(ModLoader.GetSdModsBasePath(), _applicationId.ToString("x16"));
+            string destinationDir = ModLoader.GetApplicationDir(ModLoader.GetSdModsBasePath(), _applicationId.ToString("x16"));
 
             // TODO: More robust checking for valid mod folders
-            var isDirectoryValid = true;
+            bool isDirectoryValid = true;
 
             if (directories.Length == 0)
             {
@@ -248,7 +250,7 @@ namespace Ryujinx.Ava.UI.ViewModels
                 return;
             }
 
-            foreach (var dir in directories)
+            foreach (string dir in directories)
             {
                 string dirToCreate = dir.Replace(directory.Parent.ToString(), destinationDir);
 
@@ -269,9 +271,9 @@ namespace Ryujinx.Ava.UI.ViewModels
                 Directory.CreateDirectory(dirToCreate);
             }
 
-            var files = Directory.GetFiles(directory.ToString(), "*", SearchOption.AllDirectories);
+            string[] files = Directory.GetFiles(directory.ToString(), "*", SearchOption.AllDirectories);
 
-            foreach (var file in files)
+            foreach (string file in files)
             {
                 File.Copy(file, file.Replace(directory.Parent.ToString(), destinationDir), true);
             }
@@ -281,13 +283,13 @@ namespace Ryujinx.Ava.UI.ViewModels
 
         public async void Add()
         {
-            var result = await _storageProvider.OpenFolderPickerAsync(new FolderPickerOpenOptions
+            IReadOnlyList<IStorageFolder> result = await _storageProvider.OpenFolderPickerAsync(new FolderPickerOpenOptions
             {
                 Title = LocaleManager.Instance[LocaleKeys.SelectModDialogTitle],
                 AllowMultiple = true,
             });
 
-            foreach (var folder in result)
+            foreach (IStorageFolder folder in result)
             {
                 AddMod(new DirectoryInfo(folder.Path.LocalPath));
             }

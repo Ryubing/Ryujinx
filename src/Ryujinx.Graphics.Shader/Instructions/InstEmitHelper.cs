@@ -107,11 +107,11 @@ namespace Ryujinx.Graphics.Shader.Instructions
             ushort low = (ushort)(immH0 << 6);
             ushort high = (ushort)(immH1 << 6);
 
-            return new Operand[]
-            {
+            return
+            [
                 ConstF((float)Unsafe.As<ushort, Half>(ref low)),
-                ConstF((float)Unsafe.As<ushort, Half>(ref high)),
-            };
+                ConstF((float)Unsafe.As<ushort, Half>(ref high))
+            ];
         }
 
         public static Operand[] GetHalfSrc(EmitterContext context, int imm32)
@@ -119,11 +119,11 @@ namespace Ryujinx.Graphics.Shader.Instructions
             ushort low = (ushort)imm32;
             ushort high = (ushort)(imm32 >> 16);
 
-            return new Operand[]
-            {
+            return
+            [
                 ConstF((float)Unsafe.As<ushort, Half>(ref low)),
-                ConstF((float)Unsafe.As<ushort, Half>(ref high)),
-            };
+                ConstF((float)Unsafe.As<ushort, Half>(ref high))
+            ];
         }
 
         public static Operand[] FPAbsNeg(EmitterContext context, Operand[] operands, bool abs, bool neg)
@@ -140,22 +140,22 @@ namespace Ryujinx.Graphics.Shader.Instructions
         {
             return swizzle switch
             {
-                HalfSwizzle.F16 => new Operand[]
-                                    {
-                        context.UnpackHalf2x16Low (src),
-                        context.UnpackHalf2x16High(src),
-                                    },
-                HalfSwizzle.F32 => new Operand[] { src, src },
-                HalfSwizzle.H0H0 => new Operand[]
-                    {
-                        context.UnpackHalf2x16Low(src),
-                        context.UnpackHalf2x16Low(src),
-                    },
-                HalfSwizzle.H1H1 => new Operand[]
-                    {
-                        context.UnpackHalf2x16High(src),
-                        context.UnpackHalf2x16High(src),
-                    },
+                HalfSwizzle.F16 =>
+                [
+                    context.UnpackHalf2x16Low (src),
+                        context.UnpackHalf2x16High(src)
+                ],
+                HalfSwizzle.F32 => [src, src],
+                HalfSwizzle.H0H0 =>
+                [
+                    context.UnpackHalf2x16Low(src),
+                        context.UnpackHalf2x16Low(src)
+                ],
+                HalfSwizzle.H1H1 =>
+                [
+                    context.UnpackHalf2x16High(src),
+                        context.UnpackHalf2x16High(src)
+                ],
                 _ => throw new ArgumentException($"Invalid swizzle \"{swizzle}\"."),
             };
         }

@@ -15,7 +15,7 @@ namespace Ryujinx.Tests.Cpu
         }
 
         public static readonly TestCase[] TestCases =
-        {
+        [
             new() { Value = 0, Valid = false, ImmN = 0, ImmS = 0, ImmR = 0 },
             new() { Value = 0x970977f35f848714, Valid = false, ImmN = 0, ImmS = 0, ImmR = 0 },
             new() { Value = 0xffffffffffffffff, Valid = false, ImmN = 0, ImmS = 0, ImmR = 0 },
@@ -29,8 +29,8 @@ namespace Ryujinx.Tests.Cpu
             new() { Value = 0xc001c001c001c001, Valid = true, ImmN = 0, ImmS = 0x22, ImmR = 2 },
             new() { Value = 0x0000038000000380, Valid = true, ImmN = 0, ImmS = 0x02, ImmR = 25 },
             new() { Value = 0xffff8fffffff8fff, Valid = true, ImmN = 0, ImmS = 0x1c, ImmR = 17 },
-            new() { Value = 0x000000000ffff800, Valid = true, ImmN = 1, ImmS = 0x10, ImmR = 53 },
-        };
+            new() { Value = 0x000000000ffff800, Valid = true, ImmN = 1, ImmS = 0x10, ImmR = 53 }
+        ];
 
         [Test]
         public void BitImmTests([ValueSource(nameof(TestCases))] TestCase test)

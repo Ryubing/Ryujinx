@@ -72,8 +72,7 @@ namespace Ryujinx.Graphics.Shader
 
         internal static StructureType GetStructureType()
         {
-            return new StructureType(new[]
-            {
+            return new StructureType([
                 new StructureField(AggregateType.U32, "alpha_test"),
                 new StructureField(AggregateType.Array | AggregateType.U32, "is_bgra", FragmentIsBgraCount),
                 new StructureField(AggregateType.Vector4 | AggregateType.FP32, "viewport_inverse"),
@@ -81,8 +80,8 @@ namespace Ryujinx.Graphics.Shader
                 new StructureField(AggregateType.S32, "frag_scale_count"),
                 new StructureField(AggregateType.Array | AggregateType.FP32, "render_scale", RenderScaleMaxCount),
                 new StructureField(AggregateType.Vector4 | AggregateType.S32, "tfe_offset"),
-                new StructureField(AggregateType.S32, "tfe_vertex_count"),
-            });
+                new StructureField(AggregateType.S32, "tfe_vertex_count")
+            ]);
         }
 
         public Vector4<int> FragmentAlphaTest;

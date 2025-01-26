@@ -79,11 +79,11 @@ namespace Ryujinx.HLE.HOS.Applets.SoftwareKeyboard
         public void Reset(Action<float> action, int totalMilliseconds, int sleepMilliseconds)
         {
             // Create a dedicated cancel token for each task.
-            var cancelled = new TRef<bool>(false);
+            TRef<bool> cancelled = new(false);
 
             Reset(new Thread(() =>
             {
-                var substepData = new SleepSubstepData(sleepMilliseconds);
+                SleepSubstepData substepData = new(sleepMilliseconds);
 
                 int totalCount = totalMilliseconds / sleepMilliseconds;
                 int totalRemainder = totalMilliseconds - totalCount * sleepMilliseconds;
@@ -126,11 +126,11 @@ namespace Ryujinx.HLE.HOS.Applets.SoftwareKeyboard
         public void Reset(Action action, int sleepMilliseconds)
         {
             // Create a dedicated cancel token for each task.
-            var cancelled = new TRef<bool>(false);
+            TRef<bool> cancelled = new(false);
 
             Reset(new Thread(() =>
             {
-                var substepData = new SleepSubstepData(sleepMilliseconds);
+                SleepSubstepData substepData = new(sleepMilliseconds);
 
                 while (!Volatile.Read(ref cancelled.Value))
                 {
@@ -147,7 +147,7 @@ namespace Ryujinx.HLE.HOS.Applets.SoftwareKeyboard
         public void Reset(Action action)
         {
             // Create a dedicated cancel token for each task.
-            var cancelled = new TRef<bool>(false);
+            TRef<bool> cancelled = new(false);
 
             Reset(new Thread(() =>
             {

@@ -20,8 +20,8 @@ namespace Ryujinx.Graphics.Metal
 
             for (int index = 0; index < TotalSets; index++)
             {
-                _resourceDescriptors[index] = new();
-                _resourceUsages[index] = new();
+                _resourceDescriptors[index] = [];
+                _resourceUsages[index] = [];
             }
         }
 
@@ -44,8 +44,8 @@ namespace Ryujinx.Graphics.Metal
 
         public ResourceLayout Build()
         {
-            var descriptors = new ResourceDescriptorCollection[TotalSets];
-            var usages = new ResourceUsageCollection[TotalSets];
+            ResourceDescriptorCollection[] descriptors = new ResourceDescriptorCollection[TotalSets];
+            ResourceUsageCollection[] usages = new ResourceUsageCollection[TotalSets];
 
             for (int index = 0; index < TotalSets; index++)
             {

@@ -18,7 +18,7 @@ namespace Ryujinx.Common.Utilities
     {
         public override TEnum Read(ref Utf8JsonReader reader, Type typeToConvert, JsonSerializerOptions options)
         {
-            var enumValue = reader.GetString();
+            string? enumValue = reader.GetString();
 
             if (Enum.TryParse(enumValue, out TEnum value))
             {

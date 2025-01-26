@@ -118,7 +118,7 @@ namespace Ryujinx.Memory
             {
                 int copySize = (int)Math.Min(MaxChunkSize, size - subOffset);
 
-                using var writableRegion = GetWritableRegion(va + subOffset, copySize);
+                using WritableRegion writableRegion = GetWritableRegion(va + subOffset, copySize);
 
                 writableRegion.Memory.Span.Fill(value);
             }

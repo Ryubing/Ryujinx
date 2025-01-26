@@ -29,9 +29,9 @@ namespace ARMeilleure.Decoders
             }
         }
 
-        private static readonly List<InstInfo> _allInstA32 = new();
-        private static readonly List<InstInfo> _allInstT32 = new();
-        private static readonly List<InstInfo> _allInstA64 = new();
+        private static readonly List<InstInfo> _allInstA32 = [];
+        private static readonly List<InstInfo> _allInstT32 = [];
+        private static readonly List<InstInfo> _allInstA64 = [];
 
         private static readonly InstInfo[][] _instA32FastLookup = new InstInfo[FastLookupSize][];
         private static readonly InstInfo[][] _instT32FastLookup = new InstInfo[FastLookupSize][];
@@ -1330,7 +1330,7 @@ namespace ARMeilleure.Decoders
 
             for (int index = 0; index < temp.Length; index++)
             {
-                temp[index] = new List<InstInfo>();
+                temp[index] = [];
             }
 
             foreach (InstInfo inst in allInsts)

@@ -1,3 +1,4 @@
+using Ryujinx.Cpu;
 using Ryujinx.HLE.HOS.Diagnostics.Demangler;
 using Ryujinx.HLE.HOS.Kernel.Memory;
 using Ryujinx.HLE.HOS.Kernel.Threading;
@@ -40,14 +41,14 @@ namespace Ryujinx.HLE.HOS.Kernel.Process
         {
             _owner = owner;
 
-            _images = new List<Image>();
+            _images = [];
         }
 
         public string GetGuestStackTrace(KThread thread)
         {
             EnsureLoaded();
 
-            var context = thread.Context;
+            IExecutionContext context = thread.Context;
 
             StringBuilder trace = new();
 
@@ -109,13 +110,13 @@ namespace Ryujinx.HLE.HOS.Kernel.Process
         {
             EnsureLoaded();
 
-            var context = thread.Context;
+            IExecutionContext context = thread.Context;
 
             StringBuilder sb = new();
 
             string GetReg(int x)
             {
-                var v = x == 32 ? context.Pc : context.GetX(x);
+                ulong v = x == 32 ? context.Pc : context.GetX(x);
                 if (!AnalyzePointer(out PointerInfo info, v, thread))
                 {
                     return $"0x{v:x16}";
@@ -251,7 +252,7 @@ namespace Ryujinx.HLE.HOS.Kernel.Process
             info = default;
 
             ulong sp = thread.Context.GetX(31);
-            var memoryInfo = _owner.MemoryManager.QueryMemory(address);
+            KMemoryInfo memoryInfo = _owner.MemoryManager.QueryMemory(address);
             MemoryState memoryState = memoryInfo.State;
 
             if (!memoryState.HasFlag(MemoryState.Stack)) // Is this pointer within the stack?
@@ -413,7 +414,7 @@ namespace Ryujinx.HLE.HOS.Kernel.Process
             ulong strTblAddr = textOffset + strTab;
             ulong symTblAddr = textOffset + symTab;
 
-            List<ElfSymbol> symbols = new();
+            List<ElfSymbol> symbols = [];
 
             while (symTblAddr < strTblAddr)
             {

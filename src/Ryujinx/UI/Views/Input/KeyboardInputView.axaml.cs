@@ -8,6 +8,7 @@ using Ryujinx.Ava.UI.Helpers;
 using Ryujinx.Ava.UI.ViewModels.Input;
 using Ryujinx.Input;
 using Ryujinx.Input.Assigner;
+using Button = Ryujinx.Input.Button;
 using Key = Ryujinx.Common.Configuration.Hid.Key;
 
 namespace Ryujinx.Ava.UI.Views.Input
@@ -71,7 +72,7 @@ namespace Ryujinx.Ava.UI.Views.Input
                     {
                         if (e.ButtonValue.HasValue)
                         {
-                            var buttonValue = e.ButtonValue.Value;
+                            Button buttonValue = e.ButtonValue.Value;
                             viewModel.ParentModel.IsModified = true;
 
                             switch (button.Name)

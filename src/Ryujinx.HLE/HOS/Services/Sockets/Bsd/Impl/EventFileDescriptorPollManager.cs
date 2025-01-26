@@ -28,7 +28,7 @@ namespace Ryujinx.HLE.HOS.Services.Sockets.Bsd.Impl
         {
             updatedCount = 0;
 
-            List<ManualResetEvent> waiters = new();
+            List<ManualResetEvent> waiters = [];
 
             for (int i = 0; i < events.Count; i++)
             {

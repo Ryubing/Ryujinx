@@ -190,7 +190,7 @@ namespace Ryujinx.Graphics.Gpu.Engine.Dma
         /// <param name="argument">The LaunchDma call argument</param>
         private void DmaCopy(int argument)
         {
-            var memoryManager = _channel.MemoryManager;
+            MemoryManager memoryManager = _channel.MemoryManager;
 
             CopyFlags copyFlags = (CopyFlags)argument;
 
@@ -225,8 +225,8 @@ namespace Ryujinx.Graphics.Gpu.Engine.Dma
                 int srcBpp = remap ? srcComponents * componentSize : 1;
                 int dstBpp = remap ? dstComponents * componentSize : 1;
 
-                var dst = Unsafe.As<uint, DmaTexture>(ref _state.State.SetDstBlockSize);
-                var src = Unsafe.As<uint, DmaTexture>(ref _state.State.SetSrcBlockSize);
+                DmaTexture dst = Unsafe.As<uint, DmaTexture>(ref _state.State.SetDstBlockSize);
+                DmaTexture src = Unsafe.As<uint, DmaTexture>(ref _state.State.SetSrcBlockSize);
 
                 int srcRegionX = 0, srcRegionY = 0, dstRegionX = 0, dstRegionY = 0;
 
@@ -245,7 +245,7 @@ namespace Ryujinx.Graphics.Gpu.Engine.Dma
                 int srcStride = (int)_state.State.PitchIn;
                 int dstStride = (int)_state.State.PitchOut;
 
-                var srcCalculator = new OffsetCalculator(
+                OffsetCalculator srcCalculator = new(
                     src.Width,
                     src.Height,
                     srcStride,
@@ -254,7 +254,7 @@ namespace Ryujinx.Graphics.Gpu.Engine.Dma
                     src.MemoryLayout.UnpackGobBlocksInZ(),
                     srcBpp);
 
-                var dstCalculator = new OffsetCalculator(
+                OffsetCalculator dstCalculator = new(
                     dst.Width,
                     dst.Height,
                     dstStride,
@@ -293,7 +293,7 @@ namespace Ryujinx.Graphics.Gpu.Engine.Dma
 
                 if (completeSource && completeDest && !srcLinear && isIdentityRemap)
                 {
-                    var source = memoryManager.Physical.TextureCache.FindTexture(
+                    Image.Texture source = memoryManager.Physical.TextureCache.FindTexture(
                         memoryManager,
                         srcGpuVa,
                         srcBpp,
@@ -309,7 +309,7 @@ namespace Ryujinx.Graphics.Gpu.Engine.Dma
                     {
                         source.SynchronizeMemory();
 
-                        var target = memoryManager.Physical.TextureCache.FindOrCreateTexture(
+                        Image.Texture target = memoryManager.Physical.TextureCache.FindOrCreateTexture(
                             memoryManager,
                             source.Info.FormatInfo,
                             dstGpuVa,
@@ -339,7 +339,7 @@ namespace Ryujinx.Graphics.Gpu.Engine.Dma
 
                 if (completeSource && completeDest && !(dstLinear && !srcLinear) && isIdentityRemap)
                 {
-                    var target = memoryManager.Physical.TextureCache.FindTexture(
+                    Image.Texture target = memoryManager.Physical.TextureCache.FindTexture(
                         memoryManager,
                         dstGpuVa,
                         dstBpp,

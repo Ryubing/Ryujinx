@@ -189,14 +189,14 @@ namespace Ryujinx.Graphics.Metal
 
             if (indefinite)
             {
-                foreach (var fence in fences)
+                foreach (MTLCommandBuffer fence in fences)
                 {
                     fence.WaitUntilCompleted();
                 }
             }
             else
             {
-                foreach (var fence in fences)
+                foreach (MTLCommandBuffer fence in fences)
                 {
                     if (fence.Status != MTLCommandBufferStatus.Completed)
                     {
@@ -224,7 +224,7 @@ namespace Ryujinx.Graphics.Metal
 
             for (int i = 0; i < _fences.Length; i++)
             {
-                var fence = _fences[i];
+                FenceHolder fence = _fences[i];
 
                 if (fence != null)
                 {
@@ -248,7 +248,7 @@ namespace Ryujinx.Graphics.Metal
 
             for (int i = 0; i < _fences.Length; i++)
             {
-                var fence = _fences[i];
+                FenceHolder fence = _fences[i];
 
                 if (fence != null && _bufferUsageBitmap.OverlapsWith(i, offset, size))
                 {

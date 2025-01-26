@@ -6,10 +6,12 @@ using Ryujinx.Graphics.Gpu.Shader.DiskCache;
 using Ryujinx.Graphics.Shader;
 using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Linq;
 using System.Numerics;
 using System.Runtime.CompilerServices;
 using System.Runtime.InteropServices;
+using TextureDescriptor = Ryujinx.Graphics.Shader.TextureDescriptor;
 
 namespace Ryujinx.Graphics.Gpu.Shader
 {
@@ -214,23 +216,23 @@ namespace Ryujinx.Graphics.Gpu.Shader
                 CachedShaderStage stage = stages[i];
                 if (stage?.Info != null)
                 {
-                    var textures = stage.Info.Textures;
-                    var images = stage.Info.Images;
+                    ReadOnlyCollection<TextureDescriptor> textures = stage.Info.Textures;
+                    ReadOnlyCollection<TextureDescriptor> images = stage.Info.Images;
 
-                    var texBindings = new Box<TextureSpecializationState>[textures.Count];
-                    var imageBindings = new Box<TextureSpecializationState>[images.Count];
+                    Box<TextureSpecializationState>[] texBindings = new Box<TextureSpecializationState>[textures.Count];
+                    Box<TextureSpecializationState>[] imageBindings = new Box<TextureSpecializationState>[images.Count];
 
                     int stageIndex = Math.Max(i - 1, 0); // Don't count VertexA for looking up spec state. No-Op for compute.
 
                     for (int j = 0; j < textures.Count; j++)
                     {
-                        var texture = textures[j];
+                        TextureDescriptor texture = textures[j];
                         texBindings[j] = GetTextureSpecState(stageIndex, texture.HandleIndex, texture.CbufSlot);
                     }
 
                     for (int j = 0; j < images.Count; j++)
                     {
-                        var image = images[j];
+                        TextureDescriptor image = images[j];
                         imageBindings[j] = GetTextureSpecState(stageIndex, image.HandleIndex, image.CbufSlot);
                     }
 
@@ -753,7 +755,7 @@ namespace Ryujinx.Graphics.Gpu.Shader
                 ReadOnlySpan<int> cachedTextureBuffer = Span<int>.Empty;
                 ReadOnlySpan<int> cachedSamplerBuffer = Span<int>.Empty;
 
-                foreach (var kv in _allTextures)
+                foreach (KeyValuePair<TextureKey, Box<TextureSpecializationState>> kv in _allTextures)
                 {
                     TextureKey textureKey = kv.Key;
 
@@ -1009,10 +1011,10 @@ namespace Ryujinx.Graphics.Gpu.Shader
             ushort count = (ushort)_textureSpecialization.Count;
             dataWriter.Write(ref count);
 
-            foreach (var kv in _textureSpecialization)
+            foreach (KeyValuePair<TextureKey, Box<TextureSpecializationState>> kv in _textureSpecialization)
             {
-                var textureKey = kv.Key;
-                var textureState = kv.Value;
+                TextureKey textureKey = kv.Key;
+                Box<TextureSpecializationState> textureState = kv.Value;
 
                 dataWriter.WriteWithMagicAndSize(ref textureKey, TexkMagic);
                 dataWriter.WriteWithMagicAndSize(ref textureState.Value, TexsMagic);
@@ -1023,10 +1025,10 @@ namespace Ryujinx.Graphics.Gpu.Shader
                 count = (ushort)_textureArrayFromBufferSpecialization.Count;
                 dataWriter.Write(ref count);
 
-                foreach (var kv in _textureArrayFromBufferSpecialization)
+                foreach (KeyValuePair<TextureKey, int> kv in _textureArrayFromBufferSpecialization)
                 {
-                    var textureKey = kv.Key;
-                    var length = kv.Value;
+                    TextureKey textureKey = kv.Key;
+                    int length = kv.Value;
 
                     dataWriter.WriteWithMagicAndSize(ref textureKey, TexkMagic);
                     dataWriter.Write(ref length);
@@ -1038,10 +1040,10 @@ namespace Ryujinx.Graphics.Gpu.Shader
                 count = (ushort)_textureArrayFromPoolSpecialization.Count;
                 dataWriter.Write(ref count);
 
-                foreach (var kv in _textureArrayFromPoolSpecialization)
+                foreach (KeyValuePair<bool, int> kv in _textureArrayFromPoolSpecialization)
                 {
-                    var textureKey = kv.Key;
-                    var length = kv.Value;
+                    bool textureKey = kv.Key;
+                    int length = kv.Value;
 
                     dataWriter.WriteWithMagicAndSize(ref textureKey, TexkMagic);
                     dataWriter.Write(ref length);

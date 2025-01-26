@@ -143,8 +143,8 @@ namespace ARMeilleure.Instructions
 
             Operand address = context.Copy(GetIntA32(context, op.Rn));
 
-            var exclusive = (accType & AccessType.Exclusive) != 0;
-            var ordered = (accType & AccessType.Ordered) != 0;
+            bool exclusive = (accType & AccessType.Exclusive) != 0;
+            bool ordered = (accType & AccessType.Ordered) != 0;
 
             if ((accType & AccessType.Load) != 0)
             {

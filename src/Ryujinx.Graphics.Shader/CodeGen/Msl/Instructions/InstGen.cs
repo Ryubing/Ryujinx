@@ -49,7 +49,7 @@ namespace Ryujinx.Graphics.Shader.CodeGen.Msl.Instructions
                         ? AggregateType.S32
                         : AggregateType.U32;
 
-                    var shared = operation.StorageKind == StorageKind.SharedMemory;
+                    bool shared = operation.StorageKind == StorageKind.SharedMemory;
 
                     builder.Append($"({(shared ? "threadgroup" : "device")} {Declarations.GetVarTypeName(dstType, true)}*)&{GenerateLoadOrStore(context, operation, isStore: false)}");
 
@@ -120,7 +120,7 @@ namespace Ryujinx.Graphics.Shader.CodeGen.Msl.Instructions
                     case 2:
                         if (operation.ForcePrecise)
                         {
-                            var func = (inst & Instruction.Mask) switch
+                            string func = (inst & Instruction.Mask) switch
                             {
                                 Instruction.Add => "PreciseFAdd",
                                 Instruction.Subtract => "PreciseFSub",

@@ -102,7 +102,7 @@ namespace Ryujinx.Memory
 
         public static nint CreateSharedMemory(nint size, bool reserve)
         {
-            var prot = reserve ? FileMapProtection.SectionReserve : FileMapProtection.SectionCommit;
+            FileMapProtection prot = reserve ? FileMapProtection.SectionReserve : FileMapProtection.SectionCommit;
 
             nint handle = WindowsApi.CreateFileMapping(
                 WindowsApi.InvalidHandleValue,

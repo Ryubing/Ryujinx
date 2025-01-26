@@ -9,6 +9,7 @@ using Ryujinx.Common.Logging;
 using Ryujinx.Common.Memory;
 using System;
 using System.Buffers.Binary;
+using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
@@ -153,7 +154,7 @@ namespace ARMeilleure.Translation.PTC
         private void InitializeCarriers()
         {
             _infosStream = MemoryStreamManager.Shared.GetStream();
-            _codesList = new List<byte[]>();
+            _codesList = [];
             _relocsStream = MemoryStreamManager.Shared.GetStream();
             _unwindInfosStream = MemoryStreamManager.Shared.GetStream();
         }
@@ -562,7 +563,7 @@ namespace ARMeilleure.Translation.PTC
 
                     bool isEntryChanged = infoEntry.Hash != ComputeHash(translator.Memory, infoEntry.Address, infoEntry.GuestSize);
 
-                    if (isEntryChanged || (!infoEntry.HighCq && Profiler.ProfiledFuncs.TryGetValue(infoEntry.Address, out var value) && value.HighCq))
+                    if (isEntryChanged || (!infoEntry.HighCq && Profiler.ProfiledFuncs.TryGetValue(infoEntry.Address, out PtcProfiler.FuncProfile value) && value.HighCq))
                     {
                         infoEntry.Stubbed = true;
                         infoEntry.CodeLength = 0;
@@ -749,8 +750,8 @@ namespace ARMeilleure.Translation.PTC
             UnwindInfo unwindInfo,
             bool highCq)
         {
-            var cFunc = new CompiledFunction(code, unwindInfo, RelocInfo.Empty);
-            var gFunc = cFunc.MapWithPointer<GuestFunction>(out nint gFuncPointer);
+            CompiledFunction cFunc = new(code, unwindInfo, RelocInfo.Empty);
+            GuestFunction gFunc = cFunc.MapWithPointer<GuestFunction>(out nint gFuncPointer);
 
             return new TranslatedFunction(gFunc, gFuncPointer, callCounter, guestSize, highCq);
         }
@@ -764,7 +765,7 @@ namespace ARMeilleure.Translation.PTC
 
         private void StubCode(int index)
         {
-            _codesList[index] = Array.Empty<byte>();
+            _codesList[index] = [];
         }
 
         private void StubReloc(int relocEntriesCount)
@@ -787,7 +788,7 @@ namespace ARMeilleure.Translation.PTC
 
         public void MakeAndSaveTranslations(Translator translator)
         {
-            var profiledFuncsToTranslate = Profiler.GetProfiledFuncsToTranslate(translator.Functions);
+            ConcurrentQueue<(ulong address, PtcProfiler.FuncProfile funcProfile)> profiledFuncsToTranslate = Profiler.GetProfiledFuncsToTranslate(translator.Functions);
 
             _translateCount = 0;
             _translateTotalCount = profiledFuncsToTranslate.Count;
@@ -831,7 +832,7 @@ namespace ARMeilleure.Translation.PTC
 
             void TranslateFuncs()
             {
-                while (profiledFuncsToTranslate.TryDequeue(out var item))
+                while (profiledFuncsToTranslate.TryDequeue(out (ulong address, PtcProfiler.FuncProfile funcProfile) item))
                 {
                     ulong address = item.address;
 
@@ -866,11 +867,11 @@ namespace ARMeilleure.Translation.PTC
 
             Stopwatch sw = Stopwatch.StartNew();
 
-            foreach (var thread in threads)
+            foreach (Thread thread in threads)
             {
                 thread.Start();
             }
-            foreach (var thread in threads)
+            foreach (Thread thread in threads)
             {
                 thread.Join();
             }
@@ -944,7 +945,7 @@ namespace ARMeilleure.Translation.PTC
                 WriteCode(code.AsSpan());
 
                 // WriteReloc.
-                using var relocInfoWriter = new BinaryWriter(_relocsStream, EncodingCache.UTF8NoBOM, true);
+                using BinaryWriter relocInfoWriter = new(_relocsStream, EncodingCache.UTF8NoBOM, true);
 
                 foreach (RelocEntry entry in relocInfo.Entries)
                 {
@@ -954,7 +955,7 @@ namespace ARMeilleure.Translation.PTC
                 }
 
                 // WriteUnwindInfo.
-                using var unwindInfoWriter = new BinaryWriter(_unwindInfosStream, EncodingCache.UTF8NoBOM, true);
+                using BinaryWriter unwindInfoWriter = new(_unwindInfosStream, EncodingCache.UTF8NoBOM, true);
 
                 unwindInfoWriter.Write(unwindInfo.PushEntries.Length);
 

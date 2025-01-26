@@ -15,8 +15,8 @@ namespace Ryujinx.Cpu.LightningJit.Arm64.Target.Arm64
 
         public static MultiBlock DecodeMulti(CpuPreset cpuPreset, IMemoryManager memoryManager, ulong address)
         {
-            List<Block> blocks = new();
-            List<ulong> branchTargets = new();
+            List<Block> blocks = [];
+            List<ulong> branchTargets = [];
 
             RegisterMask useMask = RegisterMask.Zero;
 
@@ -238,7 +238,7 @@ namespace Ryujinx.Cpu.LightningJit.Arm64.Target.Arm64
         {
             ulong startAddress = address;
 
-            List<InstInfo> insts = new();
+            List<InstInfo> insts = [];
 
             uint gprUseMask = useMask.GprMask;
             uint fpSimdUseMask = useMask.FpSimdMask;

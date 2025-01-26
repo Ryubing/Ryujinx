@@ -31,7 +31,7 @@ namespace Ryujinx.Horizon
 
         public HeapAllocator()
         {
-            _freeRanges = new List<Range>();
+            _freeRanges = [];
             _currentHeapSize = 0;
         }
 
@@ -67,7 +67,7 @@ namespace Ryujinx.Horizon
         {
             for (int i = 0; i < _freeRanges.Count; i++)
             {
-                var range = _freeRanges[i];
+                Range range = _freeRanges[i];
 
                 ulong alignedOffset = BitUtils.AlignUp(range.Offset, alignment);
                 ulong sizeDelta = alignedOffset - range.Offset;
@@ -103,7 +103,7 @@ namespace Ryujinx.Horizon
 
         private void InsertFreeRange(ulong offset, ulong size)
         {
-            var range = new Range(offset, size);
+            Range range = new(offset, size);
             int index = _freeRanges.BinarySearch(range);
             if (index < 0)
             {
@@ -116,7 +116,7 @@ namespace Ryujinx.Horizon
         private void InsertFreeRangeComingled(ulong offset, ulong size)
         {
             ulong endOffset = offset + size;
-            var range = new Range(offset, size);
+            Range range = new(offset, size);
             int index = _freeRanges.BinarySearch(range);
             if (index < 0)
             {

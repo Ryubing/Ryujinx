@@ -57,7 +57,7 @@ namespace Ryujinx.Graphics.Shader.Instructions
 
         private static IReadOnlyDictionary<int, AttributeEntry> CreateMap()
         {
-            var map = new Dictionary<int, AttributeEntry>();
+            Dictionary<int, AttributeEntry> map = new();
 
             Add(map, 0x060, AggregateType.S32, IoVariable.PrimitiveId, StagesMask.TessellationGeometryFragment, StagesMask.Geometry);
             Add(map, 0x064, AggregateType.S32, IoVariable.Layer, StagesMask.Fragment, StagesMask.VertexTessellationGeometry);
@@ -84,7 +84,7 @@ namespace Ryujinx.Graphics.Shader.Instructions
 
         private static IReadOnlyDictionary<int, AttributeEntry> CreatePerPatchMap()
         {
-            var map = new Dictionary<int, AttributeEntry>();
+            Dictionary<int, AttributeEntry> map = new();
 
             Add(map, 0x000, AggregateType.Vector4 | AggregateType.FP32, IoVariable.TessellationLevelOuter, StagesMask.TessellationEvaluation, StagesMask.TessellationControl);
             Add(map, 0x010, AggregateType.Vector2 | AggregateType.FP32, IoVariable.TessellationLevelInner, StagesMask.TessellationEvaluation, StagesMask.TessellationControl);

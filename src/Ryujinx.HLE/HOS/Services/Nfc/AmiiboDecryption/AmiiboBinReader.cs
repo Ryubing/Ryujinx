@@ -131,7 +131,7 @@ namespace Ryujinx.HLE.HOS.Services.Nfc.AmiiboDecryption
             string nickName = amiiboDump.AmiiboNickname;
             LogFinalData(titleId, appId, head, tail, finalID, nickName, initDateTime, writeDateTime, settingsValue, writeCounterValue, applicationAreas);
 
-            VirtualAmiiboFile virtualAmiiboFile = new VirtualAmiiboFile
+            VirtualAmiiboFile virtualAmiiboFile = new()
             {
                 FileVersion = 1,
                 TagUuid = uid,
@@ -182,7 +182,7 @@ namespace Ryujinx.HLE.HOS.Services.Nfc.AmiiboDecryption
                 readBytes = newFileBytes;
             }
 
-            AmiiboDecryptor amiiboDecryptor = new AmiiboDecryptor(keyRetailBinPath);
+            AmiiboDecryptor amiiboDecryptor = new(keyRetailBinPath);
             AmiiboDump amiiboDump = amiiboDecryptor.DecryptAmiiboDump(readBytes);
 
             byte[] oldData = amiiboDump.GetData();
@@ -250,7 +250,7 @@ namespace Ryujinx.HLE.HOS.Services.Nfc.AmiiboDecryption
                 readBytes = newFileBytes;
             }
 
-            AmiiboDecryptor amiiboDecryptor = new AmiiboDecryptor(keyRetailBinPath);
+            AmiiboDecryptor amiiboDecryptor = new(keyRetailBinPath);
             AmiiboDump amiiboDump = amiiboDecryptor.DecryptAmiiboDump(readBytes);
             amiiboDump.AmiiboNickname = newNickName;
             byte[] oldData = amiiboDump.GetData();

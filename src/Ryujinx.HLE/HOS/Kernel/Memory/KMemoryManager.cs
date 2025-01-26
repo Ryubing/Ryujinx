@@ -16,7 +16,7 @@ namespace Ryujinx.HLE.HOS.Kernel.Memory
         {
             for (int i = 0; i < MemoryRegions.Length; i++)
             {
-                var region = MemoryRegions[i];
+                KMemoryRegionManager region = MemoryRegions[i];
 
                 if (address >= region.Address && address < region.EndAddr)
                 {
@@ -41,7 +41,7 @@ namespace Ryujinx.HLE.HOS.Kernel.Memory
         {
             while (pagesCount != 0)
             {
-                var region = GetMemoryRegion(address);
+                KMemoryRegionManager region = GetMemoryRegion(address);
 
                 ulong countToProcess = Math.Min(pagesCount, region.GetPageOffsetFromEnd(address));
 

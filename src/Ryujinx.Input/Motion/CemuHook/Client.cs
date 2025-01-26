@@ -48,7 +48,7 @@ namespace Ryujinx.Input.Motion.CemuHook
 
             lock (_clients)
             {
-                foreach (var client in _clients)
+                foreach (KeyValuePair<int, UdpClient> client in _clients)
                 {
                     try
                     {
@@ -209,7 +209,7 @@ namespace Ryujinx.Input.Motion.CemuHook
                 {
                     client.Client.ReceiveTimeout = timeout;
 
-                    var result = client?.Receive(ref endPoint);
+                    byte[] result = client?.Receive(ref endPoint);
 
                     if (result.Length > 0)
                     {
@@ -225,7 +225,7 @@ namespace Ryujinx.Input.Motion.CemuHook
 
         private void SetRetryTimer(int clientId)
         {
-            var elapsedMs = PerformanceCounter.ElapsedMilliseconds;
+            long elapsedMs = PerformanceCounter.ElapsedMilliseconds;
 
             _clientRetryTimer[clientId] = elapsedMs;
         }
@@ -338,9 +338,9 @@ namespace Ryujinx.Input.Motion.CemuHook
                         {
                             int slot = inputData.Shared.Slot;
 
-                            if (_motionData.TryGetValue(clientId, out var motionDataItem))
+                            if (_motionData.TryGetValue(clientId, out Dictionary<int, MotionInput> motionDataItem))
                             {
-                                if (motionDataItem.TryGetValue(slot, out var previousData))
+                                if (motionDataItem.TryGetValue(slot, out MotionInput previousData))
                                 {
                                     previousData.Update(accelerometer, gyroscrope, timestamp, cemuHookConfig.Sensitivity, (float)cemuHookConfig.GyroDeadzone);
                                 }

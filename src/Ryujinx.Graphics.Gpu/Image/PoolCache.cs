@@ -45,7 +45,7 @@ namespace Ryujinx.Graphics.Gpu.Image
         public PoolCache(GpuContext context)
         {
             _context = context;
-            _pools = new LinkedList<T>();
+            _pools = [];
         }
 
         /// <summary>

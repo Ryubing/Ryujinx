@@ -18,6 +18,10 @@ gpu:
 - changed-files:
   - any-glob-to-any-file: ['src/Ryujinx.Graphics.Vulkan/**', 'src/Spv.Generator/**']
 
+'graphics-backend:metal':
+  - changed-files:
+      - any-glob-to-any-file: ['src/Ryujinx.Graphics.Metal/**', 'src/Ryujinx.Graphics.Metal.SharpMetalExtensions/**']
+
 gui:
 - changed-files:
   - any-glob-to-any-file: ['src/Ryujinx/**', 'src/Ryujinx.UI.Common/**', 'src/Ryujinx.UI.LocaleGenerator/**']

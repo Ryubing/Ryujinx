@@ -100,13 +100,13 @@ namespace ARMeilleure.Translation.Cache
                 return null; // Not found.
             }
 
-            var unwindInfo = funcEntry.UnwindInfo;
+            CodeGen.Unwinding.UnwindInfo unwindInfo = funcEntry.UnwindInfo;
 
             int codeIndex = 0;
 
             for (int index = unwindInfo.PushEntries.Length - 1; index >= 0; index--)
             {
-                var entry = unwindInfo.PushEntries[index];
+                UnwindPushEntry entry = unwindInfo.PushEntries[index];
 
                 switch (entry.PseudoOp)
                 {

@@ -39,13 +39,13 @@ namespace Ryujinx.Graphics.Shader.Instructions
 
             Operand address = context.IAdd(Register(op.SrcA, RegisterType.Gpr), Const(offset));
 
-            var targets = context.CurrBlock.Successors.Skip(startIndex);
+            IEnumerable<Block> targets = context.CurrBlock.Successors.Skip(startIndex);
 
             bool allTargetsSinglePred = true;
             int total = context.CurrBlock.Successors.Count - startIndex;
             int count = 0;
 
-            foreach (var target in targets.OrderBy(x => x.Address))
+            foreach (Block target in targets.OrderBy(x => x.Address))
             {
                 if (++count < total && (target.Predecessors.Count > 1 || target.Address <= context.CurrBlock.Address))
                 {
@@ -64,7 +64,7 @@ namespace Ryujinx.Graphics.Shader.Instructions
                 // since it will be too late to insert a label, but this is something that can be improved
                 // in the future if necessary.
 
-                var sortedTargets = targets.OrderBy(x => x.Address);
+                IOrderedEnumerable<Block> sortedTargets = targets.OrderBy(x => x.Address);
 
                 Block currentTarget = null;
                 ulong firstTargetAddress = 0;
@@ -93,7 +93,7 @@ namespace Ryujinx.Graphics.Shader.Instructions
                 // Emit the branches sequentially.
                 // This generates slightly worse code, but should work for all cases.
 
-                var sortedTargets = targets.OrderByDescending(x => x.Address);
+                IOrderedEnumerable<Block> sortedTargets = targets.OrderByDescending(x => x.Address);
                 ulong lastTargetAddress = ulong.MaxValue;
 
                 count = 0;
@@ -238,7 +238,7 @@ namespace Ryujinx.Graphics.Shader.Instructions
 
         private static void EmitPbkPcntSsy(EmitterContext context)
         {
-            var consumers = context.CurrBlock.PushOpCodes.First(x => x.Op.Address == context.CurrOp.Address).Consumers;
+            Dictionary<Block, Operand> consumers = context.CurrBlock.PushOpCodes.First(x => x.Op.Address == context.CurrOp.Address).Consumers;
 
             foreach (KeyValuePair<Block, Operand> kv in consumers)
             {
@@ -253,7 +253,7 @@ namespace Ryujinx.Graphics.Shader.Instructions
 
         private static void EmitBrkContSync(EmitterContext context)
         {
-            var targets = context.CurrBlock.SyncTargets;
+            Dictionary<ulong, SyncTarget> targets = context.CurrBlock.SyncTargets;
 
             if (targets.Count == 1)
             {

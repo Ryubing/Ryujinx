@@ -2,7 +2,7 @@ namespace Ryujinx.Graphics.GAL
 {
     public readonly struct ComputeSize
     {
-        public readonly static ComputeSize VtgAsCompute = new ComputeSize(32, 32, 1);
+        public readonly static ComputeSize VtgAsCompute = new(32, 32, 1);
 
         public readonly int X;
         public readonly int Y;

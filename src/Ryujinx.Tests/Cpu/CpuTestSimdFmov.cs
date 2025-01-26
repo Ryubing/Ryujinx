@@ -13,18 +13,18 @@ namespace Ryujinx.Tests.Cpu
         #region "ValueSource"
         private static uint[] _F_Mov_Si_S_()
         {
-            return new[]
-            {
-                0x1E201000u, // FMOV S0, #2.0
-            };
+            return
+            [
+                0x1E201000u // FMOV S0, #2.0
+            ];
         }
 
         private static uint[] _F_Mov_Si_D_()
         {
-            return new[]
-            {
-                0x1E601000u, // FMOV D0, #2.0
-            };
+            return
+            [
+                0x1E601000u // FMOV D0, #2.0
+            ];
         }
         #endregion
 

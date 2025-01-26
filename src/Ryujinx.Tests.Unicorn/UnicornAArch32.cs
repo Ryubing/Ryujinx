@@ -122,7 +122,7 @@ namespace Ryujinx.Tests.Unicorn
         }
 
         private static readonly int[] _xRegisters =
-        {
+        [
             Arm.UC_ARM_REG_R0,
             Arm.UC_ARM_REG_R1,
             Arm.UC_ARM_REG_R2,
@@ -138,12 +138,12 @@ namespace Ryujinx.Tests.Unicorn
             Arm.UC_ARM_REG_R12,
             Arm.UC_ARM_REG_R13,
             Arm.UC_ARM_REG_R14,
-            Arm.UC_ARM_REG_R15,
-        };
+            Arm.UC_ARM_REG_R15
+        ];
 
 #pragma warning disable IDE0051, IDE0052 // Remove unused private member
         private static readonly int[] _qRegisters =
-        {
+        [
             Arm.UC_ARM_REG_Q0,
             Arm.UC_ARM_REG_Q1,
             Arm.UC_ARM_REG_Q2,
@@ -159,8 +159,8 @@ namespace Ryujinx.Tests.Unicorn
             Arm.UC_ARM_REG_Q12,
             Arm.UC_ARM_REG_Q13,
             Arm.UC_ARM_REG_Q14,
-            Arm.UC_ARM_REG_Q15,
-        };
+            Arm.UC_ARM_REG_Q15
+        ];
 #pragma warning restore IDE0051, IDE0052
 
         public uint GetX(int index)
@@ -259,7 +259,7 @@ namespace Ryujinx.Tests.Unicorn
             Uc.MemWrite((long)address, value);
         }
 
-        public void MemoryWrite8(ulong address, byte value) => MemoryWrite(address, new[] { value });
+        public void MemoryWrite8(ulong address, byte value) => MemoryWrite(address, [value]);
         public void MemoryWrite16(ulong address, short value) => MemoryWrite(address, BitConverter.GetBytes(value));
         public void MemoryWrite16(ulong address, ushort value) => MemoryWrite(address, BitConverter.GetBytes(value));
         public void MemoryWrite32(ulong address, int value) => MemoryWrite(address, BitConverter.GetBytes(value));

@@ -117,8 +117,8 @@ namespace Ryujinx.HLE.HOS.Applets.SoftwareKeyboard
                 _state.OverwriteMode = overwriteMode.GetValueOrDefault(_state.OverwriteMode);
                 _state.TypingEnabled = typingEnabled.GetValueOrDefault(_state.TypingEnabled);
 
-                var begin = _state.CursorBegin;
-                var end = _state.CursorEnd;
+                int begin = _state.CursorBegin;
+                int end = _state.CursorEnd;
                 _state.CursorBegin = Math.Min(begin, end);
                 _state.CursorEnd = Math.Max(begin, end);
 

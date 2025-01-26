@@ -29,7 +29,7 @@ namespace Ryujinx.Graphics.Vulkan
 
             for (int i = 0; i < Map.Length; ++i)
             {
-                var typeSize = SizeOf(description[i].Type);
+                uint typeSize = SizeOf(description[i].Type);
                 Map[i] = new SpecializationMapEntry(description[i].Id, structSize, typeSize);
                 structSize += typeSize;
             }
@@ -89,7 +89,7 @@ namespace Ryujinx.Graphics.Vulkan
             _data = new byte[data.Length];
             data.CopyTo(_data);
 
-            var hc = new HashCode();
+            HashCode hc = new();
             hc.AddBytes(data);
             _hash = hc.ToHashCode();
         }

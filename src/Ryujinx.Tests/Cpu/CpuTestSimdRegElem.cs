@@ -13,70 +13,72 @@ namespace Ryujinx.Tests.Cpu
         #region "ValueSource (Types)"
         private static ulong[] _2S_()
         {
-            return new[] {
+            return
+            [
                 0x0000000000000000ul, 0x7FFFFFFF7FFFFFFFul,
-                0x8000000080000000ul, 0xFFFFFFFFFFFFFFFFul,
-            };
+                0x8000000080000000ul, 0xFFFFFFFFFFFFFFFFul
+            ];
         }
 
         private static ulong[] _4H_()
         {
-            return new[] {
+            return
+            [
                 0x0000000000000000ul, 0x7FFF7FFF7FFF7FFFul,
-                0x8000800080008000ul, 0xFFFFFFFFFFFFFFFFul,
-            };
+                0x8000800080008000ul, 0xFFFFFFFFFFFFFFFFul
+            ];
         }
         #endregion
 
         #region "ValueSource (Opcodes)"
         private static uint[] _Mla_Mls_Mul_Sqdmulh_Sqrdmulh_Ve_4H_8H_()
         {
-            return new[]
-            {
+            return
+            [
                 0x2F400000u, // MLA      V0.4H, V0.4H, V0.H[0]
                 0x2F404000u, // MLS      V0.4H, V0.4H, V0.H[0]
                 0x0F408000u, // MUL      V0.4H, V0.4H, V0.H[0]
                 0x0F40C000u, // SQDMULH  V0.4H, V0.4H, V0.H[0]
-                0x0F40D000u, // SQRDMULH V0.4H, V0.4H, V0.H[0]
-            };
+                0x0F40D000u // SQRDMULH V0.4H, V0.4H, V0.H[0]
+            ];
         }
 
         private static uint[] _Mla_Mls_Mul_Sqdmulh_Sqrdmulh_Ve_2S_4S_()
         {
-            return new[]
-            {
+            return
+            [
                 0x2F800000u, // MLA      V0.2S, V0.2S, V0.S[0]
                 0x2F804000u, // MLS      V0.2S, V0.2S, V0.S[0]
                 0x0F808000u, // MUL      V0.2S, V0.2S, V0.S[0]
                 0x0F80C000u, // SQDMULH  V0.2S, V0.2S, V0.S[0]
-                0x0F80D000u, // SQRDMULH V0.2S, V0.2S, V0.S[0]
-            };
+                0x0F80D000u // SQRDMULH V0.2S, V0.2S, V0.S[0]
+            ];
         }
 
         private static uint[] _SU_Mlal_Mlsl_Mull_Ve_4H4S_8H4S_()
         {
-            return new[]
-            {
+            return
+            [
                 0x0F402000u, // SMLAL V0.4S, V0.4H, V0.H[0]
                 0x0F406000u, // SMLSL V0.4S, V0.4H, V0.H[0]
                 0x0F40A000u, // SMULL V0.4S, V0.4H, V0.H[0]
                 0x2F402000u, // UMLAL V0.4S, V0.4H, V0.H[0]
                 0x2F406000u, // UMLSL V0.4S, V0.4H, V0.H[0]
-                0x2F40A000u, // UMULL V0.4S, V0.4H, V0.H[0]
-            };
+                0x2F40A000u // UMULL V0.4S, V0.4H, V0.H[0]
+            ];
         }
 
         private static uint[] _SU_Mlal_Mlsl_Mull_Ve_2S2D_4S2D_()
         {
-            return new[]
-            {
+            return
+            [
                 0x0F802000u, // SMLAL V0.2D, V0.2S, V0.S[0]
                 0x0F806000u, // SMLSL V0.2D, V0.2S, V0.S[0]
                 0x0F80A000u, // SMULL V0.2D, V0.2S, V0.S[0]
                 0x2F802000u, // UMLAL V0.2D, V0.2S, V0.S[0]
                 0x2F806000u, // UMLSL V0.2D, V0.2S, V0.S[0]
-                0x2F80A000u, // UMULL V0.2D, V0.2S, V0.S[0]
-            };
+                0x2F80A000u // UMULL V0.2D, V0.2S, V0.S[0]
+            ];
         }
         #endregion
 

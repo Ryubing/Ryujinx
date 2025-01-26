@@ -16,7 +16,7 @@ namespace Ryujinx.Ava.Common.Models
     {
         public static XCITrimmerFileModel FromApplicationData(ApplicationData applicationData, XCIFileTrimmerLog logger)
         {
-            var trimmer = new XCIFileTrimmer(applicationData.Path, logger);
+            XCIFileTrimmer trimmer = new(applicationData.Path, logger);
 
             return new XCITrimmerFileModel(
                 applicationData.Name,

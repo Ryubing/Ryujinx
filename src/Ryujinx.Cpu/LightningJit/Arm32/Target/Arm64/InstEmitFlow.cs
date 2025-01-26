@@ -205,7 +205,7 @@ namespace Ryujinx.Cpu.LightningJit.Arm32.Target.Arm64
 
                 for (int i = 0; i < funcTable.Levels.Length; i++)
                 {
-                    var level = funcTable.Levels[i];
+                    AddressTableLevel level = funcTable.Levels[i];
                     asm.Ubfx(indexReg, guestAddress, level.Index, level.Length);
                     asm.Lsl(indexReg, indexReg, Const(3));
 

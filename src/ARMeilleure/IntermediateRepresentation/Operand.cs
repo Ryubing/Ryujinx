@@ -304,7 +304,7 @@ namespace ARMeilleure.IntermediateRepresentation
                 ushort newCount = checked((ushort)(count + 1));
                 ushort newCapacity = (ushort)Math.Min(capacity * 2, ushort.MaxValue);
 
-                var oldSpan = new Span<T>(data, count);
+                Span<T> oldSpan = new(data, count);
 
                 capacity = newCapacity;
                 data = Allocators.References.Allocate<T>(capacity);
@@ -338,7 +338,7 @@ namespace ARMeilleure.IntermediateRepresentation
                     throw new OverflowException();
                 }
 
-                var oldSpan = new Span<T>(data, (int)count);
+                Span<T> oldSpan = new(data, (int)count);
 
                 capacity = newCapacity;
                 data = Allocators.References.Allocate<T>(capacity);
@@ -352,7 +352,7 @@ namespace ARMeilleure.IntermediateRepresentation
 
         private static void Remove<T>(in T item, ref T* data, ref ushort count) where T : unmanaged
         {
-            var span = new Span<T>(data, count);
+            Span<T> span = new(data, count);
 
             for (int i = 0; i < span.Length; i++)
             {
@@ -372,7 +372,7 @@ namespace ARMeilleure.IntermediateRepresentation
 
         private static void Remove<T>(in T item, ref T* data, ref uint count) where T : unmanaged
         {
-            var span = new Span<T>(data, (int)count);
+            Span<T> span = new(data, (int)count);
 
             for (int i = 0; i < span.Length; i++)
             {

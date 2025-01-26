@@ -1,5 +1,8 @@
 using Avalonia.Svg.Skia;
 using CommunityToolkit.Mvvm.ComponentModel;
+using CommunityToolkit.Mvvm.Input;
+using FluentAvalonia.UI.Controls;
+using Ryujinx.Ava.UI.Helpers;
 using Ryujinx.Ava.UI.Models.Input;
 using Ryujinx.Ava.UI.Views.Input;
 
@@ -56,6 +59,16 @@ namespace Ryujinx.Ava.UI.ViewModels.Input
         {
             await RumbleInputView.Show(this);
         }
+
+        public RelayCommand LedDisabledChanged => Commands.Create(() =>
+        {
+            if (!Config.EnableLedChanging) return;
+
+            if (Config.TurnOffLed)
+                ParentModel.SelectedGamepad.ClearLed();
+            else
+                ParentModel.SelectedGamepad.SetLed(Config.LedColor.ToUInt32());
+        });
 
         public void OnParentModelChanged()
         {

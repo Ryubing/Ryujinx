@@ -9,7 +9,7 @@ namespace Ryujinx.Horizon.Common
         private const int ModuleMax = 1 << ModuleBits;
         private const int DescriptionMax = 1 << DescriptionBits;
 
-        public static Result Success { get; } = new Result(0, 0);
+        public static Result Success { get; } = new(0, 0);
 
         public int ErrorCode { get; }
 

@@ -1,6 +1,7 @@
 using Ryujinx.Common.Configuration;
 using Ryujinx.Common.Logging;
 using System;
+using System.Collections.Generic;
 using System.Diagnostics;
 using System.Drawing;
 using System.Numerics;
@@ -163,6 +164,8 @@ namespace Ryujinx.Input.SDL2
         {
             return new SDL2Mouse(this);
         }
+
+        public IEnumerable<IGamepad> GetGamepads() => [GetGamepad("0")];
 
         public void Dispose()
         {

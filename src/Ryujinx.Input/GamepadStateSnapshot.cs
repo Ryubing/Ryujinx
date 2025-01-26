@@ -49,7 +49,7 @@ namespace Ryujinx.Input
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public (float, float) GetStick(StickInputId inputId)
         {
-            var result = _joysticksState[(int)inputId];
+            Array2<float> result = _joysticksState[(int)inputId];
 
             return (result[0], result[1]);
         }

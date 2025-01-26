@@ -9,8 +9,8 @@ namespace Ryujinx.HLE.HOS.Services.Nfc.AmiiboDecryption
 
         public AmiiboDecryptor(string keyRetailBinPath)
         {
-            var combinedKeys = File.ReadAllBytes(keyRetailBinPath);
-            var keys = AmiiboMasterKey.FromCombinedBin(combinedKeys);
+            byte[] combinedKeys = File.ReadAllBytes(keyRetailBinPath);
+            (AmiiboMasterKey DataKey, AmiiboMasterKey TagKey) keys = AmiiboMasterKey.FromCombinedBin(combinedKeys);
             DataKey = keys.DataKey;
             TagKey = keys.TagKey;
         }

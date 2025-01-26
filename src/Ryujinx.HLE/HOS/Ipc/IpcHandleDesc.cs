@@ -24,7 +24,7 @@ namespace Ryujinx.HLE.HOS.Ipc
             PId = HasPId ? reader.ReadUInt64() : 0;
 
             int toCopySize = (word >> 1) & 0xf;
-            int[] toCopy = toCopySize == 0 ? Array.Empty<int>() : new int[toCopySize];
+            int[] toCopy = toCopySize == 0 ? [] : new int[toCopySize];
 
             for (int index = 0; index < toCopy.Length; index++)
             {
@@ -34,7 +34,7 @@ namespace Ryujinx.HLE.HOS.Ipc
             ToCopy = toCopy;
 
             int toMoveSize = (word >> 5) & 0xf;
-            int[] toMove = toMoveSize == 0 ? Array.Empty<int>() : new int[toMoveSize];
+            int[] toMove = toMoveSize == 0 ? [] : new int[toMoveSize];
 
             for (int index = 0; index < toMove.Length; index++)
             {
@@ -59,12 +59,12 @@ namespace Ryujinx.HLE.HOS.Ipc
 
         public static IpcHandleDesc MakeCopy(params int[] handles)
         {
-            return new IpcHandleDesc(handles, Array.Empty<int>());
+            return new IpcHandleDesc(handles, []);
         }
 
         public static IpcHandleDesc MakeMove(params int[] handles)
         {
-            return new IpcHandleDesc(Array.Empty<int>(), handles);
+            return new IpcHandleDesc([], handles);
         }
 
         public RecyclableMemoryStream GetStream()

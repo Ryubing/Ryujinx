@@ -37,7 +37,7 @@ namespace Ryujinx.Ava.UI.Views.Input
             {
                 _dialogOpen = true;
 
-                var result = await ContentDialogHelper.CreateDeniableConfirmationDialog(
+                UserResult result = await ContentDialogHelper.CreateDeniableConfirmationDialog(
                     LocaleManager.Instance[LocaleKeys.DialogControllerSettingsModifiedConfirmMessage],
                     LocaleManager.Instance[LocaleKeys.DialogControllerSettingsModifiedConfirmSubMessage],
                     LocaleManager.Instance[LocaleKeys.InputDialogYes],

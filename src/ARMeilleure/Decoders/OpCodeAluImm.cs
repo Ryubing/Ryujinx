@@ -20,7 +20,7 @@ namespace ARMeilleure.Decoders
             }
             else if (DataOp == DataOp.Logical)
             {
-                var bm = DecoderHelper.DecodeBitMask(opCode, true);
+                DecoderHelper.BitMask bm = DecoderHelper.DecodeBitMask(opCode, true);
 
                 if (bm.IsUndefined)
                 {

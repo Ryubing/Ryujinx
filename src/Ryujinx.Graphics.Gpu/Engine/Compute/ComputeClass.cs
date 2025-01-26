@@ -2,6 +2,7 @@ using Ryujinx.Graphics.Device;
 using Ryujinx.Graphics.Gpu.Engine.InlineToMemory;
 using Ryujinx.Graphics.Gpu.Engine.Threed;
 using Ryujinx.Graphics.Gpu.Engine.Types;
+using Ryujinx.Graphics.Gpu.Memory;
 using Ryujinx.Graphics.Gpu.Shader;
 using Ryujinx.Graphics.Shader;
 using System;
@@ -90,7 +91,7 @@ namespace Ryujinx.Graphics.Gpu.Engine.Compute
         /// <param name="argument">Method call argument</param>
         private void SendSignalingPcasB(int argument)
         {
-            var memoryManager = _channel.MemoryManager;
+            MemoryManager memoryManager = _channel.MemoryManager;
 
             // Since we're going to change the state, make sure any pending instanced draws are done.
             _3dEngine.PerformDeferredDraws();
@@ -100,7 +101,7 @@ namespace Ryujinx.Graphics.Gpu.Engine.Compute
 
             uint qmdAddress = _state.State.SendPcasA;
 
-            var qmd = _channel.MemoryManager.Read<ComputeQmd>((ulong)qmdAddress << 8);
+            ComputeQmd qmd = _channel.MemoryManager.Read<ComputeQmd>((ulong)qmdAddress << 8);
 
             ulong shaderGpuVa = ((ulong)_state.State.SetProgramRegionAAddressUpper << 32) | _state.State.SetProgramRegionB;
 

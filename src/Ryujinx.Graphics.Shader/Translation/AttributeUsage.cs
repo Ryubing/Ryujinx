@@ -25,8 +25,8 @@ namespace Ryujinx.Graphics.Shader.Translation
         {
             _gpuAccessor = gpuAccessor;
 
-            UsedInputAttributesPerPatch = new();
-            UsedOutputAttributesPerPatch = new();
+            UsedInputAttributesPerPatch = [];
+            UsedOutputAttributesPerPatch = [];
         }
 
         public void SetInputUserAttribute(int index, int component)

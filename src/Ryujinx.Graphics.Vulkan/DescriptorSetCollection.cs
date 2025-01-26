@@ -33,7 +33,7 @@ namespace Ryujinx.Graphics.Vulkan
         {
             if (bufferInfo.Buffer.Handle != 0UL)
             {
-                var writeDescriptorSet = new WriteDescriptorSet
+                WriteDescriptorSet writeDescriptorSet = new()
                 {
                     SType = StructureType.WriteDescriptorSet,
                     DstSet = _descriptorSets[setIndex],
@@ -56,7 +56,7 @@ namespace Ryujinx.Graphics.Vulkan
 
             fixed (DescriptorBufferInfo* pBufferInfo = bufferInfo)
             {
-                var writeDescriptorSet = new WriteDescriptorSet
+                WriteDescriptorSet writeDescriptorSet = new()
                 {
                     SType = StructureType.WriteDescriptorSet,
                     DstSet = _descriptorSets[setIndex],
@@ -74,7 +74,7 @@ namespace Ryujinx.Graphics.Vulkan
         {
             if (imageInfo.ImageView.Handle != 0UL)
             {
-                var writeDescriptorSet = new WriteDescriptorSet
+                WriteDescriptorSet writeDescriptorSet = new()
                 {
                     SType = StructureType.WriteDescriptorSet,
                     DstSet = _descriptorSets[setIndex],
@@ -97,7 +97,7 @@ namespace Ryujinx.Graphics.Vulkan
 
             fixed (DescriptorImageInfo* pImageInfo = imageInfo)
             {
-                var writeDescriptorSet = new WriteDescriptorSet
+                WriteDescriptorSet writeDescriptorSet = new()
                 {
                     SType = StructureType.WriteDescriptorSet,
                     DstSet = _descriptorSets[setIndex],
@@ -134,7 +134,7 @@ namespace Ryujinx.Graphics.Vulkan
                             count++;
                         }
 
-                        var writeDescriptorSet = new WriteDescriptorSet
+                        WriteDescriptorSet writeDescriptorSet = new()
                         {
                             SType = StructureType.WriteDescriptorSet,
                             DstSet = _descriptorSets[setIndex],
@@ -156,7 +156,7 @@ namespace Ryujinx.Graphics.Vulkan
         {
             if (texelBufferView.Handle != 0UL)
             {
-                var writeDescriptorSet = new WriteDescriptorSet
+                WriteDescriptorSet writeDescriptorSet = new()
                 {
                     SType = StructureType.WriteDescriptorSet,
                     DstSet = _descriptorSets[setIndex],
@@ -190,7 +190,7 @@ namespace Ryujinx.Graphics.Vulkan
                             count++;
                         }
 
-                        var writeDescriptorSet = new WriteDescriptorSet
+                        WriteDescriptorSet writeDescriptorSet = new()
                         {
                             SType = StructureType.WriteDescriptorSet,
                             DstSet = _descriptorSets[setIndex],

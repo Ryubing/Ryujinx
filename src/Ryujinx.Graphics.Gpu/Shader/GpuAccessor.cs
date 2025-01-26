@@ -4,6 +4,7 @@ using Ryujinx.Graphics.Shader;
 using Ryujinx.Graphics.Shader.Translation;
 using System;
 using System.Runtime.InteropServices;
+using TextureDescriptor = Ryujinx.Graphics.Gpu.Image.TextureDescriptor;
 
 namespace Ryujinx.Graphics.Gpu.Shader
 {
@@ -177,7 +178,7 @@ namespace Ryujinx.Graphics.Gpu.Shader
         public TextureFormat QueryTextureFormat(int handle, int cbufSlot)
         {
             _state.SpecializationState?.RecordTextureFormat(_stageIndex, handle, cbufSlot);
-            var descriptor = GetTextureDescriptor(handle, cbufSlot);
+            TextureDescriptor descriptor = GetTextureDescriptor(handle, cbufSlot);
             return ConvertToTextureFormat(descriptor.UnpackFormat(), descriptor.UnpackSrgb());
         }
 

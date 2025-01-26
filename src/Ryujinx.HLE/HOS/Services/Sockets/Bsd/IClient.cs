@@ -16,11 +16,11 @@ namespace Ryujinx.HLE.HOS.Services.Sockets.Bsd
     [Service("bsd:u", false)]
     class IClient : IpcService
     {
-        private static readonly List<IPollManager> _pollManagers = new()
-        {
+        private static readonly List<IPollManager> _pollManagers =
+        [
             EventFileDescriptorPollManager.Instance,
-            ManagedSocketPollManager.Instance,
-        };
+            ManagedSocketPollManager.Instance
+        ];
 
         private BsdContext _context;
         private readonly bool _isPrivileged;
@@ -265,7 +265,7 @@ namespace Ryujinx.HLE.HOS.Services.Sockets.Bsd
 
             for (int i = 0; i < eventsByPollManager.Length; i++)
             {
-                eventsByPollManager[i] = new List<PollEvent>();
+                eventsByPollManager[i] = [];
 
                 foreach (PollEvent evnt in events)
                 {
@@ -315,9 +315,9 @@ namespace Ryujinx.HLE.HOS.Services.Sockets.Bsd
                 }
             }
 
-            using var readFdsOut = context.Memory.GetWritableRegion(readFdsOutBufferPosition, (int)readFdsOutBufferSize);
-            using var writeFdsOut = context.Memory.GetWritableRegion(writeFdsOutBufferPosition, (int)writeFdsOutBufferSize);
-            using var errorFdsOut = context.Memory.GetWritableRegion(errorFdsOutBufferPosition, (int)errorFdsOutBufferSize);
+            using WritableRegion readFdsOut = context.Memory.GetWritableRegion(readFdsOutBufferPosition, (int)readFdsOutBufferSize);
+            using WritableRegion writeFdsOut = context.Memory.GetWritableRegion(writeFdsOutBufferPosition, (int)writeFdsOutBufferSize);
+            using WritableRegion errorFdsOut = context.Memory.GetWritableRegion(errorFdsOutBufferPosition, (int)errorFdsOutBufferSize);
 
             _context.BuildMask(readFds, readFdsOut.Memory.Span);
             _context.BuildMask(writeFds, writeFdsOut.Memory.Span);
@@ -361,12 +361,12 @@ namespace Ryujinx.HLE.HOS.Services.Sockets.Bsd
                 events[i] = new PollEvent(pollEventData, fileDescriptor);
             }
 
-            List<PollEvent> discoveredEvents = new();
+            List<PollEvent> discoveredEvents = [];
             List<PollEvent>[] eventsByPollManager = new List<PollEvent>[_pollManagers.Count];
 
             for (int i = 0; i < eventsByPollManager.Length; i++)
             {
-                eventsByPollManager[i] = new List<PollEvent>();
+                eventsByPollManager[i] = [];
 
                 foreach (PollEvent evnt in events)
                 {

@@ -7,8 +7,8 @@ namespace Ryujinx.Audio.Renderer.Dsp.State
 {
     public struct ReverbState
     {
-        private static readonly float[] _fdnDelayTimes = new float[20]
-        {
+        private static readonly float[] _fdnDelayTimes =
+        [
             // Room
             53.953247f, 79.192566f, 116.238770f, 130.615295f,
             // Hall
@@ -18,11 +18,11 @@ namespace Ryujinx.Audio.Renderer.Dsp.State
             // Cathedral
             47.03f, 71f, 103f, 170f,
             // Max delay (Hall is the one with the highest values so identical to Hall)
-            53.953247f, 79.192566f, 116.238770f, 170.615295f,
-        };
+            53.953247f, 79.192566f, 116.238770f, 170.615295f
+        ];
 
-        private static readonly float[] _decayDelayTimes = new float[20]
-        {
+        private static readonly float[] _decayDelayTimes =
+        [
             // Room
             7f, 9f, 13f, 17f,
             // Hall
@@ -32,11 +32,11 @@ namespace Ryujinx.Audio.Renderer.Dsp.State
             // Cathedral
             7f, 7f, 13f, 9f,
             // Max delay (Hall is the one with the highest values so identical to Hall)
-            7f, 9f, 13f, 17f,
-        };
+            7f, 9f, 13f, 17f
+        ];
 
-        private static readonly float[] _earlyDelayTimes = new float[50]
-        {
+        private static readonly float[] _earlyDelayTimes =
+        [
             // Room
             0.0f, 3.5f, 2.8f, 3.9f, 2.7f, 13.4f, 7.9f, 8.4f, 9.9f, 12.0f,
             // Chamber
@@ -46,11 +46,11 @@ namespace Ryujinx.Audio.Renderer.Dsp.State
             // Cathedral
             33.1f, 43.3f, 22.8f, 37.9f, 14.9f, 35.3f, 17.9f, 34.2f, 0.0f, 43.3f,
             // Disabled
-            0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f,
-        };
+            0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f
+        ];
 
-        private static readonly float[] _earlyGainBase = new float[50]
-        {
+        private static readonly float[] _earlyGainBase =
+        [
             // Room
             0.70f, 0.68f, 0.70f, 0.68f, 0.70f, 0.68f, 0.70f, 0.68f, 0.68f, 0.68f,
             // Chamber
@@ -60,11 +60,11 @@ namespace Ryujinx.Audio.Renderer.Dsp.State
             // Cathedral
             0.93f, 0.92f, 0.87f, 0.86f, 0.94f, 0.81f, 0.80f, 0.77f, 0.76f, 0.65f,
             // Disabled
-            0.00f, 0.00f, 0.00f, 0.00f, 0.00f, 0.00f, 0.00f, 0.00f, 0.00f, 0.00f,
-        };
+            0.00f, 0.00f, 0.00f, 0.00f, 0.00f, 0.00f, 0.00f, 0.00f, 0.00f, 0.00f
+        ];
 
-        private static readonly float[] _preDelayTimes = new float[5]
-        {
+        private static readonly float[] _preDelayTimes =
+        [
             // Room
             12.5f,
             // Chamber
@@ -74,8 +74,8 @@ namespace Ryujinx.Audio.Renderer.Dsp.State
             // Cathedral
             50.0f,
             // Disabled
-            0.0f,
-        };
+            0.0f
+        ];
 
         public DelayLine[] FdnDelayLines { get; }
         public DecayDelay[] DecayDelays { get; }

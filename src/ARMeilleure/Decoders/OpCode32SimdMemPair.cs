@@ -5,12 +5,12 @@ namespace ARMeilleure.Decoders
     class OpCode32SimdMemPair : OpCode32, IOpCode32Simd
     {
         private static readonly int[] _regsMap =
-        {
+        [
             1, 1, 4, 2,
             1, 1, 3, 1,
             1, 1, 2, 1,
-            1, 1, 1, 1,
-        };
+            1, 1, 1, 1
+        ];
 
         public int Vd { get; }
         public int Rn { get; }

@@ -35,13 +35,13 @@ namespace Ryujinx.Horizon.Sdk.Ngc.Detail
         {
             get
             {
-                var ranges = GetBitfieldRanges();
+                ReadOnlySpan<BitfieldRange> ranges = GetBitfieldRanges();
 
                 int rangeBlockIndex = index / CompressedEntriesPerBlock;
 
                 if (rangeBlockIndex < ranges.Length)
                 {
-                    var range = ranges[rangeBlockIndex];
+                    BitfieldRange range = ranges[rangeBlockIndex];
 
                     int bitfieldLength = range.BitfieldLength;
                     int bitfieldOffset = (index % CompressedEntriesPerBlock) * bitfieldLength;

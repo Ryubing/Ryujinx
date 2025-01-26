@@ -12,8 +12,8 @@ namespace Ryujinx.Horizon.Sdk.Ngc.Detail
 
         public Utf8Text()
         {
-            _text = Array.Empty<byte>();
-            _charOffsets = Array.Empty<int>();
+            _text = [];
+            _charOffsets = [];
         }
 
         public Utf8Text(byte[] text)

@@ -66,6 +66,15 @@ namespace Ryujinx.Input
         void SetConfiguration(InputConfig configuration);
 
         /// <summary>
+        /// Set the LED on the gamepad to a given color.
+        /// </summary>
+        /// <remarks>Does nothing on a controller without LED functionality.</remarks>
+        /// <param name="packedRgb">The packed RGB integer.</param>
+        void SetLed(uint packedRgb);
+
+        public void ClearLed() => SetLed(0);
+
+        /// <summary>
         /// Starts a rumble effect on the gamepad.
         /// </summary>
         /// <param name="lowFrequency">The intensity of the low frequency from 0.0f to 1.0f</param>

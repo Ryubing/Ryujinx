@@ -7,6 +7,7 @@ using System.Buffers;
 using System.Collections.Generic;
 using System.Runtime.CompilerServices;
 using System.Runtime.InteropServices;
+using Buffer = Silk.NET.Vulkan.Buffer;
 using CompareOp = Ryujinx.Graphics.GAL.CompareOp;
 using Format = Ryujinx.Graphics.GAL.Format;
 using SamplerCreateInfo = Ryujinx.Graphics.GAL.SamplerCreateInfo;
@@ -141,11 +142,11 @@ namespace Ryujinx.Graphics.Vulkan
             _bufferTextureRefs = new TextureBuffer[Constants.MaxTextureBindings * 2];
             _bufferImageRefs = new TextureBuffer[Constants.MaxImageBindings * 2];
 
-            _textureArrayRefs = Array.Empty<ArrayRef<TextureArray>>();
-            _imageArrayRefs = Array.Empty<ArrayRef<ImageArray>>();
+            _textureArrayRefs = [];
+            _imageArrayRefs = [];
 
-            _textureArrayExtraRefs = Array.Empty<ArrayRef<TextureArray>>();
-            _imageArrayExtraRefs = Array.Empty<ArrayRef<ImageArray>>();
+            _textureArrayExtraRefs = [];
+            _imageArrayExtraRefs = [];
 
             _uniformBuffers = new DescriptorBufferInfo[Constants.MaxUniformBufferBindings];
             _storageBuffers = new DescriptorBufferInfo[Constants.MaxStorageBufferBindings];
@@ -156,7 +157,7 @@ namespace Ryujinx.Graphics.Vulkan
 
             _uniformSetPd = new int[Constants.MaxUniformBufferBindings];
 
-            var initialImageInfo = new DescriptorImageInfo
+            DescriptorImageInfo initialImageInfo = new()
             {
                 ImageLayout = ImageLayout.General,
             };
@@ -217,7 +218,7 @@ namespace Ryujinx.Graphics.Vulkan
 
             if (isMainPipeline)
             {
-                FeedbackLoopHazards = new();
+                FeedbackLoopHazards = [];
             }
         }
 
@@ -301,13 +302,13 @@ namespace Ryujinx.Graphics.Vulkan
                     {
                         for (int i = 0; i < segment.Count; i++)
                         {
-                            ref var texture = ref _textureRefs[segment.Binding + i];
+                            ref TextureRef texture = ref _textureRefs[segment.Binding + i];
                             texture.View?.PrepareForUsage(cbs, texture.Stage.ConvertToPipelineStageFlags(), FeedbackLoopHazards);
                         }
                     }
                     else
                     {
-                        ref var arrayRef = ref _textureArrayRefs[segment.Binding];
+                        ref ArrayRef<TextureArray> arrayRef = ref _textureArrayRefs[segment.Binding];
                         PipelineStageFlags stageFlags = arrayRef.Stage.ConvertToPipelineStageFlags();
                         arrayRef.Array?.QueueWriteToReadBarriers(cbs, stageFlags);
                     }
@@ -322,13 +323,13 @@ namespace Ryujinx.Graphics.Vulkan
                     {
                         for (int i = 0; i < segment.Count; i++)
                         {
-                            ref var image = ref _imageRefs[segment.Binding + i];
+                            ref ImageRef image = ref _imageRefs[segment.Binding + i];
                             image.View?.PrepareForUsage(cbs, image.Stage.ConvertToPipelineStageFlags(), FeedbackLoopHazards);
                         }
                     }
                     else
                     {
-                        ref var arrayRef = ref _imageArrayRefs[segment.Binding];
+                        ref ArrayRef<ImageArray> arrayRef = ref _imageArrayRefs[segment.Binding];
                         PipelineStageFlags stageFlags = arrayRef.Stage.ConvertToPipelineStageFlags();
                         arrayRef.Array?.QueueWriteToReadBarriers(cbs, stageFlags);
                     }
@@ -337,7 +338,7 @@ namespace Ryujinx.Graphics.Vulkan
 
             for (int setIndex = PipelineBase.DescriptorSetLayouts; setIndex < _program.BindingSegments.Length; setIndex++)
             {
-                var bindingSegments = _program.BindingSegments[setIndex];
+                ResourceBindingSegment[] bindingSegments = _program.BindingSegments[setIndex];
 
                 if (bindingSegments.Length == 0)
                 {
@@ -353,13 +354,13 @@ namespace Ryujinx.Graphics.Vulkan
                         segment.Type == ResourceType.TextureAndSampler ||
                         segment.Type == ResourceType.BufferTexture)
                     {
-                        ref var arrayRef = ref _textureArrayExtraRefs[setIndex - PipelineBase.DescriptorSetLayouts];
+                        ref ArrayRef<TextureArray> arrayRef = ref _textureArrayExtraRefs[setIndex - PipelineBase.DescriptorSetLayouts];
                         PipelineStageFlags stageFlags = arrayRef.Stage.ConvertToPipelineStageFlags();
                         arrayRef.Array?.QueueWriteToReadBarriers(cbs, stageFlags);
                     }
                     else if (segment.Type == ResourceType.Image || segment.Type == ResourceType.BufferImage)
                     {
-                        ref var arrayRef = ref _imageArrayExtraRefs[setIndex - PipelineBase.DescriptorSetLayouts];
+                        ref ArrayRef<ImageArray> arrayRef = ref _imageArrayExtraRefs[setIndex - PipelineBase.DescriptorSetLayouts];
                         PipelineStageFlags stageFlags = arrayRef.Stage.ConvertToPipelineStageFlags();
                         arrayRef.Array?.QueueWriteToReadBarriers(cbs, stageFlags);
                     }
@@ -424,8 +425,8 @@ namespace Ryujinx.Graphics.Vulkan
         {
             for (int i = 0; i < buffers.Length; i++)
             {
-                var assignment = buffers[i];
-                var buffer = assignment.Range;
+                BufferAssignment assignment = buffers[i];
+                BufferRange buffer = assignment.Range;
                 int index = assignment.Binding;
 
                 Auto<DisposableBuffer> vkBuffer = buffer.Handle == BufferHandle.Null
@@ -440,7 +441,7 @@ namespace Ryujinx.Graphics.Vulkan
                     Range = (ulong)buffer.Size,
                 };
 
-                var newRef = new BufferRef(vkBuffer, ref buffer);
+                BufferRef newRef = new(vkBuffer, ref buffer);
 
                 ref DescriptorBufferInfo currentInfo = ref _storageBuffers[index];
 
@@ -460,7 +461,7 @@ namespace Ryujinx.Graphics.Vulkan
         {
             for (int i = 0; i < buffers.Length; i++)
             {
-                var vkBuffer = buffers[i];
+                Auto<DisposableBuffer> vkBuffer = buffers[i];
                 int index = first + i;
 
                 ref BufferRef currentBufferRef = ref _storageBufferRefs[index];
@@ -633,8 +634,8 @@ namespace Ryujinx.Graphics.Vulkan
         {
             for (int i = 0; i < buffers.Length; i++)
             {
-                var assignment = buffers[i];
-                var buffer = assignment.Range;
+                BufferAssignment assignment = buffers[i];
+                BufferRange buffer = assignment.Range;
                 int index = assignment.Binding;
 
                 Auto<DisposableBuffer> vkBuffer = buffer.Handle == BufferHandle.Null
@@ -678,7 +679,7 @@ namespace Ryujinx.Graphics.Vulkan
                 return;
             }
 
-            var program = _program;
+            ShaderCollection program = _program;
 
             if (_dirty.HasFlag(DirtyFlags.Uniform))
             {
@@ -760,14 +761,14 @@ namespace Ryujinx.Graphics.Vulkan
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         private void UpdateAndBind(CommandBufferScoped cbs, ShaderCollection program, int setIndex, PipelineBindPoint pbp)
         {
-            var bindingSegments = program.BindingSegments[setIndex];
+            ResourceBindingSegment[] bindingSegments = program.BindingSegments[setIndex];
 
             if (bindingSegments.Length == 0)
             {
                 return;
             }
 
-            var dummyBuffer = _dummyBuffer?.GetBuffer();
+            Auto<DisposableBuffer> dummyBuffer = _dummyBuffer?.GetBuffer();
 
             if (_updateDescriptorCacheCbIndex)
             {
@@ -775,7 +776,7 @@ namespace Ryujinx.Graphics.Vulkan
                 program.UpdateDescriptorCacheCommandBufferIndex(cbs.CommandBufferIndex);
             }
 
-            var dsc = program.GetNewDescriptorSetCollection(setIndex, out var isNew).Get(cbs);
+            DescriptorSetCollection dsc = program.GetNewDescriptorSetCollection(setIndex, out bool isNew).Get(cbs);
 
             if (!program.HasMinimalLayout)
             {
@@ -824,7 +825,7 @@ namespace Ryujinx.Graphics.Vulkan
 
                         if (_storageSet.Set(index))
                         {
-                            ref var info = ref _storageBuffers[index];
+                            ref DescriptorBufferInfo info = ref _storageBuffers[index];
 
                             bool mirrored = UpdateBuffer(cbs,
                                 ref info,
@@ -850,8 +851,8 @@ namespace Ryujinx.Graphics.Vulkan
 
                             for (int i = 0; i < count; i++)
                             {
-                                ref var texture = ref textures[i];
-                                ref var refs = ref _textureRefs[binding + i];
+                                ref DescriptorImageInfo texture = ref textures[i];
+                                ref TextureRef refs = ref _textureRefs[binding + i];
 
                                 texture.ImageView = refs.ImageView?.Get(cbs).Value ?? default;
                                 texture.Sampler = refs.Sampler?.Get(cbs).Value ?? default;
@@ -934,7 +935,7 @@ namespace Ryujinx.Graphics.Vulkan
                 }
             }
 
-            var sets = dsc.GetSets();
+            DescriptorSet[] sets = dsc.GetSets();
             _templateUpdater.Commit(_gd, _device, sets[0]);
 
             _gd.Api.CmdBindDescriptorSets(cbs.CommandBuffer, pbp, _program.PipelineLayout, (uint)setIndex, 1, sets, 0, ReadOnlySpan<uint>.Empty);
@@ -943,7 +944,7 @@ namespace Ryujinx.Graphics.Vulkan
         private void UpdateAndBindTexturesWithoutTemplate(CommandBufferScoped cbs, ShaderCollection program, PipelineBindPoint pbp)
         {
             int setIndex = PipelineBase.TextureSetIndex;
-            var bindingSegments = program.BindingSegments[setIndex];
+            ResourceBindingSegment[] bindingSegments = program.BindingSegments[setIndex];
 
             if (bindingSegments.Length == 0)
             {
@@ -956,7 +957,7 @@ namespace Ryujinx.Graphics.Vulkan
                 program.UpdateDescriptorCacheCommandBufferIndex(cbs.CommandBufferIndex);
             }
 
-            var dsc = program.GetNewDescriptorSetCollection(setIndex, out _).Get(cbs);
+            DescriptorSetCollection dsc = program.GetNewDescriptorSetCollection(setIndex, out _).Get(cbs);
 
             foreach (ResourceBindingSegment segment in bindingSegments)
             {
@@ -971,8 +972,8 @@ namespace Ryujinx.Graphics.Vulkan
 
                         for (int i = 0; i < count; i++)
                         {
-                            ref var texture = ref textures[i];
-                            ref var refs = ref _textureRefs[binding + i];
+                            ref DescriptorImageInfo texture = ref textures[i];
+                            ref TextureRef refs = ref _textureRefs[binding + i];
 
                             texture.ImageView = refs.ImageView?.Get(cbs).Value ?? default;
                             texture.Sampler = refs.Sampler?.Get(cbs).Value ?? default;
@@ -1015,7 +1016,7 @@ namespace Ryujinx.Graphics.Vulkan
                 }
             }
 
-            var sets = dsc.GetSets();
+            DescriptorSet[] sets = dsc.GetSets();
 
             _gd.Api.CmdBindDescriptorSets(cbs.CommandBuffer, pbp, _program.PipelineLayout, (uint)setIndex, 1, sets, 0, ReadOnlySpan<uint>.Empty);
         }
@@ -1024,8 +1025,8 @@ namespace Ryujinx.Graphics.Vulkan
         private void UpdateAndBindUniformBufferPd(CommandBufferScoped cbs)
         {
             int sequence = _pdSequence;
-            var bindingSegments = _program.BindingSegments[PipelineBase.UniformSetIndex];
-            var dummyBuffer = _dummyBuffer?.GetBuffer();
+            ResourceBindingSegment[] bindingSegments = _program.BindingSegments[PipelineBase.UniformSetIndex];
+            Auto<DisposableBuffer> dummyBuffer = _dummyBuffer?.GetBuffer();
 
             long updatedBindings = 0;
             DescriptorSetTemplateWriter writer = _templateUpdater.Begin(32 * Unsafe.SizeOf<DescriptorBufferInfo>());
@@ -1077,7 +1078,7 @@ namespace Ryujinx.Graphics.Vulkan
                 return;
             }
 
-            var dummyBuffer = _dummyBuffer?.GetBuffer().Get(cbs).Value ?? default;
+            Buffer dummyBuffer = _dummyBuffer?.GetBuffer().Get(cbs).Value ?? default;
 
             foreach (ResourceBindingSegment segment in _program.ClearSegments[setIndex])
             {
@@ -1089,7 +1090,7 @@ namespace Ryujinx.Graphics.Vulkan
         {
             for (int setIndex = PipelineBase.DescriptorSetLayouts; setIndex < program.BindingSegments.Length; setIndex++)
             {
-                var bindingSegments = program.BindingSegments[setIndex];
+                ResourceBindingSegment[] bindingSegments = program.BindingSegments[setIndex];
 
                 if (bindingSegments.Length == 0)
                 {

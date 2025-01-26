@@ -26,7 +26,7 @@ namespace Ryujinx.Memory.Range
             // For instance, while a virtual mapping could cover 0-2 in physical space, the space 0-1 may have already been reserved...
             // So we need to return both the split 0-1 and 1-2 ranges.
 
-            var results = new T[1];
+            T[] results = new T[1];
             int count = FindOverlapsNonOverlapping(address, size, ref results);
 
             if (count == 0)

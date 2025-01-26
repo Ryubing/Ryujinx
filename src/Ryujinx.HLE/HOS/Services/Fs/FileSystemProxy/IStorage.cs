@@ -3,6 +3,7 @@ using LibHac.Common;
 using LibHac.Sf;
 using Ryujinx.Common;
 using Ryujinx.Common.Configuration;
+using Ryujinx.Memory;
 using System.Threading;
 
 namespace Ryujinx.HLE.HOS.Services.Fs.FileSystemProxy
@@ -38,7 +39,7 @@ namespace Ryujinx.HLE.HOS.Services.Fs.FileSystemProxy
                     size = bufferLen;
                 }
 
-                using var region = context.Memory.GetWritableRegion(bufferAddress, (int)bufferLen, true);
+                using WritableRegion region = context.Memory.GetWritableRegion(bufferAddress, (int)bufferLen, true);
                 Result result = _baseStorage.Get.Read((long)offset, new OutBuffer(region.Memory.Span), (long)size);
                 
                 if (context.Device.DirtyHacks.IsEnabled(DirtyHack.Xc2MenuSoftlockFix) && IsXc2)

@@ -94,37 +94,37 @@ namespace Ryujinx.Cpu.LightningJit.Arm64.Target.Arm64
 
         static InstTable()
         {
-            InstEncoding[] qsizeConstraints = new InstEncoding[]
-            {
-                new(0x00C00000, 0x40C00000),
-            };
+            InstEncoding[] qsizeConstraints =
+            [
+                new(0x00C00000, 0x40C00000)
+            ];
 
-            InstEncoding[] sizeConstraints = new InstEncoding[]
-            {
-                new(0x00C00000, 0x00C00000),
-            };
+            InstEncoding[] sizeConstraints =
+            [
+                new(0x00C00000, 0x00C00000)
+            ];
 
-            InstEncoding[] opuOpuOpuConstraints = new InstEncoding[]
-            {
+            InstEncoding[] opuOpuOpuConstraints =
+            [
                 new(0x00001400, 0x00001C00),
                 new(0x00001800, 0x00001C00),
-                new(0x00001C00, 0x00001C00),
-            };
+                new(0x00001C00, 0x00001C00)
+            ];
 
-            InstEncoding[] shiftSfimm6Constraints = new InstEncoding[]
-            {
+            InstEncoding[] shiftSfimm6Constraints =
+            [
                 new(0x00C00000, 0x00C00000),
-                new(0x00008000, 0x80008000),
-            };
+                new(0x00008000, 0x80008000)
+            ];
 
-            InstEncoding[] qsizeSizeConstraints = new InstEncoding[]
-            {
+            InstEncoding[] qsizeSizeConstraints =
+            [
                 new(0x00800000, 0x40C00000),
-                new(0x00C00000, 0x00C00000),
-            };
+                new(0x00C00000, 0x00C00000)
+            ];
 
-            InstEncoding[] nimmsNimmsNimmsNimmsNimmsNimmsNimmsNimmsSfnConstraints = new InstEncoding[]
-            {
+            InstEncoding[] nimmsNimmsNimmsNimmsNimmsNimmsNimmsNimmsSfnConstraints =
+            [
                 new(0x0040FC00, 0x0040FC00),
                 new(0x00007C00, 0x0040FC00),
                 new(0x0000BC00, 0x0040FC00),
@@ -133,326 +133,326 @@ namespace Ryujinx.Cpu.LightningJit.Arm64.Target.Arm64
                 new(0x0000F400, 0x0040FC00),
                 new(0x0000F800, 0x0040FC00),
                 new(0x0000FC00, 0x0040FC00),
-                new(0x00400000, 0x80400000),
-            };
+                new(0x00400000, 0x80400000)
+            ];
 
-            InstEncoding[] sfimm6Constraints = new InstEncoding[]
-            {
-                new(0x00008000, 0x80008000),
-            };
+            InstEncoding[] sfimm6Constraints =
+            [
+                new(0x00008000, 0x80008000)
+            ];
 
-            InstEncoding[] sfnSfnSfimmr5Sfimms5Constraints = new InstEncoding[]
-            {
+            InstEncoding[] sfnSfnSfimmr5Sfimms5Constraints =
+            [
                 new(0x80000000, 0x80400000),
                 new(0x00400000, 0x80400000),
                 new(0x00200000, 0x80200000),
-                new(0x00008000, 0x80008000),
-            };
+                new(0x00008000, 0x80008000)
+            ];
 
-            InstEncoding[] cmodeopqConstraints = new InstEncoding[]
-            {
-                new(0x2000F000, 0x6000F000),
-            };
+            InstEncoding[] cmodeopqConstraints =
+            [
+                new(0x2000F000, 0x6000F000)
+            ];
 
-            InstEncoding[] rsRtConstraints = new InstEncoding[]
-            {
+            InstEncoding[] rsRtConstraints =
+            [
                 new(0x00010000, 0x00010000),
-                new(0x00000001, 0x00000001),
-            };
+                new(0x00000001, 0x00000001)
+            ];
 
-            InstEncoding[] sfszSfszSfszSfszConstraints = new InstEncoding[]
-            {
+            InstEncoding[] sfszSfszSfszSfszConstraints =
+            [
                 new(0x80000000, 0x80000C00),
                 new(0x80000400, 0x80000C00),
                 new(0x80000800, 0x80000C00),
-                new(0x00000C00, 0x80000C00),
-            };
+                new(0x00000C00, 0x80000C00)
+            ];
 
-            InstEncoding[] imm5Constraints = new InstEncoding[]
-            {
+            InstEncoding[] imm5Constraints =
+            [
+                new(0x00000000, 0x000F0000)
+            ];
+
+            InstEncoding[] imm5Imm5qConstraints =
+            [
                 new(0x00000000, 0x000F0000),
-            };
+                new(0x00080000, 0x400F0000)
+            ];
 
-            InstEncoding[] imm5Imm5qConstraints = new InstEncoding[]
-            {
-                new(0x00000000, 0x000F0000),
-                new(0x00080000, 0x400F0000),
-            };
-
-            InstEncoding[] nsfNsfSfimmsConstraints = new InstEncoding[]
-            {
+            InstEncoding[] nsfNsfSfimmsConstraints =
+            [
                 new(0x00400000, 0x80400000),
                 new(0x80000000, 0x80400000),
-                new(0x00008000, 0x80008000),
-            };
+                new(0x00008000, 0x80008000)
+            ];
 
-            InstEncoding[] qimm4Constraints = new InstEncoding[]
-            {
-                new(0x00004000, 0x40004000),
-            };
+            InstEncoding[] qimm4Constraints =
+            [
+                new(0x00004000, 0x40004000)
+            ];
 
-            InstEncoding[] qszConstraints = new InstEncoding[]
-            {
-                new(0x00400000, 0x40400000),
-            };
+            InstEncoding[] qszConstraints =
+            [
+                new(0x00400000, 0x40400000)
+            ];
 
-            InstEncoding[] euacEuacEuacConstraints = new InstEncoding[]
-            {
+            InstEncoding[] euacEuacEuacConstraints =
+            [
                 new(0x00000800, 0x20800800),
                 new(0x00800000, 0x20800800),
-                new(0x00800800, 0x20800800),
-            };
+                new(0x00800800, 0x20800800)
+            ];
 
-            InstEncoding[] qszEuacEuacEuacConstraints = new InstEncoding[]
-            {
+            InstEncoding[] qszEuacEuacEuacConstraints =
+            [
                 new(0x00400000, 0x40400000),
                 new(0x00000800, 0x20800800),
                 new(0x00800000, 0x20800800),
-                new(0x00800800, 0x20800800),
-            };
+                new(0x00800800, 0x20800800)
+            ];
 
-            InstEncoding[] szConstraints = new InstEncoding[]
-            {
-                new(0x00400000, 0x00400000),
-            };
+            InstEncoding[] szConstraints =
+            [
+                new(0x00400000, 0x00400000)
+            ];
 
-            InstEncoding[] sizeQsizeConstraints = new InstEncoding[]
-            {
+            InstEncoding[] sizeQsizeConstraints =
+            [
                 new(0x00000000, 0x00C00000),
-                new(0x00C00000, 0x40C00000),
-            };
+                new(0x00C00000, 0x40C00000)
+            ];
 
-            InstEncoding[] sizeSizeSizelSizeqSizehqConstraints = new InstEncoding[]
-            {
+            InstEncoding[] sizeSizeSizelSizeqSizehqConstraints =
+            [
                 new(0x00000000, 0x00C00000),
                 new(0x00C00000, 0x00C00000),
                 new(0x00A00000, 0x00E00000),
                 new(0x00800000, 0x40C00000),
-                new(0x00400800, 0x40C00800),
-            };
+                new(0x00400800, 0x40C00800)
+            ];
 
-            InstEncoding[] szConstraints2 = new InstEncoding[]
-            {
-                new(0x00000000, 0x00400000),
-            };
+            InstEncoding[] szConstraints2 =
+            [
+                new(0x00000000, 0x00400000)
+            ];
 
-            InstEncoding[] immhConstraints = new InstEncoding[]
-            {
+            InstEncoding[] immhConstraints =
+            [
+                new(0x00000000, 0x00780000)
+            ];
+
+            InstEncoding[] immhQimmhConstraints =
+            [
                 new(0x00000000, 0x00780000),
-            };
+                new(0x00400000, 0x40400000)
+            ];
 
-            InstEncoding[] immhQimmhConstraints = new InstEncoding[]
-            {
-                new(0x00000000, 0x00780000),
-                new(0x00400000, 0x40400000),
-            };
+            InstEncoding[] sfscaleConstraints =
+            [
+                new(0x00000000, 0x80008000)
+            ];
 
-            InstEncoding[] sfscaleConstraints = new InstEncoding[]
-            {
-                new(0x00000000, 0x80008000),
-            };
-
-            InstEncoding[] ftypeopcFtypeopcFtypeopcFtypeopcFtypeOpcConstraints = new InstEncoding[]
-            {
+            InstEncoding[] ftypeopcFtypeopcFtypeopcFtypeopcFtypeOpcConstraints =
+            [
                 new(0x00000000, 0x00C18000),
                 new(0x00408000, 0x00C18000),
                 new(0x00810000, 0x00C18000),
                 new(0x00C18000, 0x00C18000),
                 new(0x00800000, 0x00C00000),
-                new(0x00010000, 0x00018000),
-            };
+                new(0x00010000, 0x00018000)
+            ];
 
-            InstEncoding[] szlConstraints = new InstEncoding[]
-            {
+            InstEncoding[] szlConstraints =
+            [
+                new(0x00600000, 0x00600000)
+            ];
+
+            InstEncoding[] szlQszConstraints =
+            [
                 new(0x00600000, 0x00600000),
-            };
+                new(0x00400000, 0x40400000)
+            ];
 
-            InstEncoding[] szlQszConstraints = new InstEncoding[]
-            {
-                new(0x00600000, 0x00600000),
-                new(0x00400000, 0x40400000),
-            };
+            InstEncoding[] qConstraints =
+            [
+                new(0x00000000, 0x40000000)
+            ];
 
-            InstEncoding[] qConstraints = new InstEncoding[]
-            {
-                new(0x00000000, 0x40000000),
-            };
-
-            InstEncoding[] sfftypermodeSfftypermodeConstraints = new InstEncoding[]
-            {
+            InstEncoding[] sfftypermodeSfftypermodeConstraints =
+            [
                 new(0x00400000, 0x80C80000),
-                new(0x80000000, 0x80C80000),
-            };
+                new(0x80000000, 0x80C80000)
+            ];
 
-            InstEncoding[] uo1o2Constraints = new InstEncoding[]
-            {
-                new(0x20800000, 0x20801000),
-            };
+            InstEncoding[] uo1o2Constraints =
+            [
+                new(0x20800000, 0x20801000)
+            ];
 
-            InstEncoding[] qszUo1o2Constraints = new InstEncoding[]
-            {
+            InstEncoding[] qszUo1o2Constraints =
+            [
                 new(0x00400000, 0x40400000),
-                new(0x20800000, 0x20801000),
-            };
+                new(0x20800000, 0x20801000)
+            ];
 
-            InstEncoding[] sConstraints = new InstEncoding[]
-            {
-                new(0x00001000, 0x00001000),
-            };
+            InstEncoding[] sConstraints =
+            [
+                new(0x00001000, 0x00001000)
+            ];
 
-            InstEncoding[] opcodesizeOpcodesizeOpcodesizesOpcodesizeConstraints = new InstEncoding[]
-            {
+            InstEncoding[] opcodesizeOpcodesizeOpcodesizesOpcodesizeConstraints =
+            [
                 new(0x00004400, 0x0000C400),
                 new(0x00008800, 0x0000C800),
                 new(0x00009400, 0x0000D400),
-                new(0x0000C000, 0x0000C000),
-            };
+                new(0x0000C000, 0x0000C000)
+            ];
 
-            InstEncoding[] qsizeConstraints2 = new InstEncoding[]
-            {
-                new(0x00000C00, 0x40000C00),
-            };
+            InstEncoding[] qsizeConstraints2 =
+            [
+                new(0x00000C00, 0x40000C00)
+            ];
 
-            InstEncoding[] rtRtConstraints = new InstEncoding[]
-            {
+            InstEncoding[] rtRtConstraints =
+            [
                 new(0x00000018, 0x00000018),
-                new(0x00000001, 0x00000001),
-            };
+                new(0x00000001, 0x00000001)
+            ];
 
-            InstEncoding[] opc1sizeOpc1sizeOpc1sizeConstraints = new InstEncoding[]
-            {
+            InstEncoding[] opc1sizeOpc1sizeOpc1sizeConstraints =
+            [
                 new(0x40800000, 0xC0800000),
                 new(0x80800000, 0xC0800000),
-                new(0xC0800000, 0xC0800000),
-            };
+                new(0xC0800000, 0xC0800000)
+            ];
 
-            InstEncoding[] rtRt2Constraints = new InstEncoding[]
-            {
+            InstEncoding[] rtRt2Constraints =
+            [
                 new(0x0000001F, 0x0000001F),
-                new(0x001F0000, 0x001F0000),
-            };
+                new(0x001F0000, 0x001F0000)
+            ];
 
-            InstEncoding[] opcConstraints = new InstEncoding[]
-            {
-                new(0xC0000000, 0xC0000000),
-            };
+            InstEncoding[] opcConstraints =
+            [
+                new(0xC0000000, 0xC0000000)
+            ];
 
-            InstEncoding[] opcConstraints2 = new InstEncoding[]
-            {
-                new(0x40000000, 0x40000000),
-            };
+            InstEncoding[] opcConstraints2 =
+            [
+                new(0x40000000, 0x40000000)
+            ];
 
-            InstEncoding[] opclOpcConstraints = new InstEncoding[]
-            {
+            InstEncoding[] opclOpcConstraints =
+            [
                 new(0x40000000, 0x40400000),
-                new(0xC0000000, 0xC0000000),
-            };
+                new(0xC0000000, 0xC0000000)
+            ];
 
-            InstEncoding[] optionConstraints = new InstEncoding[]
-            {
-                new(0x00000000, 0x00004000),
-            };
+            InstEncoding[] optionConstraints =
+            [
+                new(0x00000000, 0x00004000)
+            ];
 
-            InstEncoding[] opc1sizeOpc1sizeOpc1sizeOptionConstraints = new InstEncoding[]
-            {
+            InstEncoding[] opc1sizeOpc1sizeOpc1sizeOptionConstraints =
+            [
                 new(0x40800000, 0xC0800000),
                 new(0x80800000, 0xC0800000),
                 new(0xC0800000, 0xC0800000),
-                new(0x00000000, 0x00004000),
-            };
+                new(0x00000000, 0x00004000)
+            ];
 
-            InstEncoding[] sizeSizeConstraints = new InstEncoding[]
-            {
+            InstEncoding[] sizeSizeConstraints =
+            [
                 new(0x00000000, 0x00C00000),
-                new(0x00C00000, 0x00C00000),
-            };
+                new(0x00C00000, 0x00C00000)
+            ];
 
-            InstEncoding[] sfhwConstraints = new InstEncoding[]
-            {
-                new(0x00400000, 0x80400000),
-            };
+            InstEncoding[] sfhwConstraints =
+            [
+                new(0x00400000, 0x80400000)
+            ];
 
-            InstEncoding[] rtConstraints = new InstEncoding[]
-            {
-                new(0x00000001, 0x00000001),
-            };
+            InstEncoding[] rtConstraints =
+            [
+                new(0x00000001, 0x00000001)
+            ];
 
-            InstEncoding[] usizeUsizeUsizeSizeConstraints = new InstEncoding[]
-            {
+            InstEncoding[] usizeUsizeUsizeSizeConstraints =
+            [
                 new(0x20400000, 0x20C00000),
                 new(0x20800000, 0x20C00000),
                 new(0x20C00000, 0x20C00000),
-                new(0x00C00000, 0x00C00000),
-            };
+                new(0x00C00000, 0x00C00000)
+            ];
 
-            InstEncoding[] sizeSizeConstraints2 = new InstEncoding[]
-            {
+            InstEncoding[] sizeSizeConstraints2 =
+            [
+                new(0x00400000, 0x00C00000),
+                new(0x00800000, 0x00C00000)
+            ];
+
+            InstEncoding[] rtConstraints2 =
+            [
+                new(0x00000018, 0x00000018)
+            ];
+
+            InstEncoding[] sfopcConstraints =
+            [
+                new(0x00000400, 0x80000400)
+            ];
+
+            InstEncoding[] sizeSizeSizeConstraints =
+            [
                 new(0x00400000, 0x00C00000),
                 new(0x00800000, 0x00C00000),
-            };
+                new(0x00C00000, 0x00C00000)
+            ];
 
-            InstEncoding[] rtConstraints2 = new InstEncoding[]
-            {
-                new(0x00000018, 0x00000018),
-            };
-
-            InstEncoding[] sfopcConstraints = new InstEncoding[]
-            {
-                new(0x00000400, 0x80000400),
-            };
-
-            InstEncoding[] sizeSizeSizeConstraints = new InstEncoding[]
-            {
-                new(0x00400000, 0x00C00000),
+            InstEncoding[] sizeSizeConstraints3 =
+            [
                 new(0x00800000, 0x00C00000),
-                new(0x00C00000, 0x00C00000),
-            };
+                new(0x00C00000, 0x00C00000)
+            ];
 
-            InstEncoding[] sizeSizeConstraints3 = new InstEncoding[]
-            {
-                new(0x00800000, 0x00C00000),
-                new(0x00C00000, 0x00C00000),
-            };
+            InstEncoding[] sfConstraints =
+            [
+                new(0x00000000, 0x80000000)
+            ];
 
-            InstEncoding[] sfConstraints = new InstEncoding[]
-            {
-                new(0x00000000, 0x80000000),
-            };
-
-            InstEncoding[] immhImmhConstraints = new InstEncoding[]
-            {
+            InstEncoding[] immhImmhConstraints =
+            [
                 new(0x00000000, 0x00780000),
-                new(0x00400000, 0x00400000),
-            };
+                new(0x00400000, 0x00400000)
+            ];
 
-            InstEncoding[] sizeSizeConstraints4 = new InstEncoding[]
-            {
+            InstEncoding[] sizeSizeConstraints4 =
+            [
                 new(0x00C00000, 0x00C00000),
-                new(0x00000000, 0x00C00000),
-            };
+                new(0x00000000, 0x00C00000)
+            ];
 
-            InstEncoding[] ssizeSsizeSsizeConstraints = new InstEncoding[]
-            {
+            InstEncoding[] ssizeSsizeSsizeConstraints =
+            [
                 new(0x00000000, 0x00C00800),
                 new(0x00400000, 0x00C00800),
-                new(0x00800000, 0x00C00800),
-            };
+                new(0x00800000, 0x00C00800)
+            ];
 
-            InstEncoding[] immhOpuConstraints = new InstEncoding[]
-            {
+            InstEncoding[] immhOpuConstraints =
+            [
                 new(0x00000000, 0x00780000),
-                new(0x00000000, 0x20001000),
-            };
+                new(0x00000000, 0x20001000)
+            ];
 
-            InstEncoding[] immhQimmhOpuConstraints = new InstEncoding[]
-            {
+            InstEncoding[] immhQimmhOpuConstraints =
+            [
                 new(0x00000000, 0x00780000),
                 new(0x00400000, 0x40400000),
-                new(0x00000000, 0x20001000),
-            };
+                new(0x00000000, 0x20001000)
+            ];
 
-            List<InstInfo> insts = new()
-            {
+            List<InstInfo> insts = 
+            [
                 new(0x5AC02000, 0x7FFFFC00, InstName.Abs, IsaVersion.v89, InstFlags.RdRn),
                 new(0x5EE0B800, 0xFFFFFC00, InstName.AbsAdvsimdS, IsaVersion.v80, InstFlags.RdRnFpSimd),
                 new(0x0E20B800, 0xBF3FFC00, qsizeConstraints, InstName.AbsAdvsimdV, IsaVersion.v80, InstFlags.RdRnFpSimd),
@@ -1587,7 +1587,7 @@ namespace Ryujinx.Cpu.LightningJit.Arm64.Target.Arm64
                 new(0xD503203F, 0xFFFFFFFF, InstName.Yield, IsaVersion.v80, InstFlags.None),
                 new(0x0E003800, 0xBF20FC00, qsizeConstraints, InstName.Zip1Advsimd, IsaVersion.v80, InstFlags.RdRnRmFpSimd),
                 new(0x0E007800, 0xBF20FC00, qsizeConstraints, InstName.Zip2Advsimd, IsaVersion.v80, InstFlags.RdRnRmFpSimd),
-            };
+            ];
 
             _table = new(insts);
         }

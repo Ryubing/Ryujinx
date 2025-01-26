@@ -36,8 +36,8 @@ namespace Ryujinx.Tests.Cpu
             //  - bytes in order of increasing significance
             //  - xor 0
 
-            return new[]
-            {
+            return
+            [
                 new CrcTest32(0x00000000u, 0x00_00_00_00u, false, 0x00000000, 0x00000000, 0x00000000),
                 new CrcTest32(0x00000000u, 0x7f_ff_ff_ffu, false, 0x2d02ef8d, 0xbe2612ff, 0x3303a3c3),
                 new CrcTest32(0x00000000u, 0x80_00_00_00u, false, 0x00000000, 0x00000000, 0xedb88320),
@@ -60,8 +60,8 @@ namespace Ryujinx.Tests.Cpu
                 new CrcTest32(0xffffffffu, 0x7f_ff_ff_ffu, true, 0x00ffffff, 0x0000ffff, 0x82f63b78),
                 new CrcTest32(0xffffffffu, 0x80_00_00_00u, true, 0xad82acae, 0x0e9e882d, 0x356e8f40),
                 new CrcTest32(0xffffffffu, 0xff_ff_ff_ffu, true, 0x00ffffff, 0x0000ffff, 0x00000000),
-                new CrcTest32(0xffffffffu, 0x9d_cb_12_f0u, true, 0x5eecc3db, 0xbb6111cb, 0xcfb54fc9),
-            };
+                new CrcTest32(0xffffffffu, 0x9d_cb_12_f0u, true, 0x5eecc3db, 0xbb6111cb, 0xcfb54fc9)
+            ];
         }
         #endregion
 

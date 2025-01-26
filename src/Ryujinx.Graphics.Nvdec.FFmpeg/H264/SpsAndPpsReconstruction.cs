@@ -118,8 +118,8 @@ namespace Ryujinx.Graphics.Nvdec.FFmpeg.H264
         }
 
         // ZigZag LUTs from libavcodec.
-        private static ReadOnlySpan<byte> ZigZagDirect => new byte[]
-        {
+        private static ReadOnlySpan<byte> ZigZagDirect =>
+        [
             0,   1,  8, 16,  9,  2,  3, 10,
             17, 24, 32, 25, 18, 11,  4,  5,
             12, 19, 26, 33, 40, 48, 41, 34,
@@ -127,16 +127,16 @@ namespace Ryujinx.Graphics.Nvdec.FFmpeg.H264
             35, 42, 49, 56, 57, 50, 43, 36,
             29, 22, 15, 23, 30, 37, 44, 51,
             58, 59, 52, 45, 38, 31, 39, 46,
-            53, 60, 61, 54, 47, 55, 62, 63,
-        };
+            53, 60, 61, 54, 47, 55, 62, 63
+        ];
 
-        private static ReadOnlySpan<byte> ZigZagScan => new byte[]
-        {
+        private static ReadOnlySpan<byte> ZigZagScan =>
+        [
             0 + 0 * 4, 1 + 0 * 4, 0 + 1 * 4, 0 + 2 * 4,
             1 + 1 * 4, 2 + 0 * 4, 3 + 0 * 4, 2 + 1 * 4,
             1 + 2 * 4, 0 + 3 * 4, 1 + 3 * 4, 2 + 2 * 4,
-            3 + 1 * 4, 3 + 2 * 4, 2 + 3 * 4, 3 + 3 * 4,
-        };
+            3 + 1 * 4, 3 + 2 * 4, 2 + 3 * 4, 3 + 3 * 4
+        ];
 
         private static void WriteScalingList(ref H264BitStreamWriter writer, IArray<byte> list)
         {

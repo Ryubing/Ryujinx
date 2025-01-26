@@ -2,6 +2,7 @@ using Ryujinx.Graphics.GAL;
 using Silk.NET.Vulkan;
 using System;
 using System.Linq;
+using Format = Ryujinx.Graphics.GAL.Format;
 using VkFormat = Silk.NET.Vulkan.Format;
 
 namespace Ryujinx.Graphics.Vulkan
@@ -33,12 +34,12 @@ namespace Ryujinx.Graphics.Vulkan
 
         public FramebufferParams(Device device, TextureView view, uint width, uint height)
         {
-            var format = view.Info.Format;
+            Format format = view.Info.Format;
 
             bool isDepthStencil = format.IsDepthOrStencil();
 
             _device = device;
-            _attachments = new[] { view.GetImageViewForAttachment() };
+            _attachments = [view.GetImageViewForAttachment()];
             _validColorAttachments = isDepthStencil ? 0u : 1u;
             _baseAttachment = view;
 
@@ -48,7 +49,7 @@ namespace Ryujinx.Graphics.Vulkan
             }
             else
             {
-                _colors = new TextureView[] { view };
+                _colors = [view];
                 _colorsCanonical = _colors;
             }
 
@@ -56,9 +57,9 @@ namespace Ryujinx.Graphics.Vulkan
             Height = height;
             Layers = 1;
 
-            AttachmentSamples = new[] { (uint)view.Info.Samples };
-            AttachmentFormats = new[] { view.VkFormat };
-            AttachmentIndices = isDepthStencil ? Array.Empty<int>() : new[] { 0 };
+            AttachmentSamples = [(uint)view.Info.Samples];
+            AttachmentFormats = [view.VkFormat];
+            AttachmentIndices = isDepthStencil ? [] : [0];
             AttachmentIntegerFormatMask = format.IsInteger() ? 1u : 0u;
             LogicOpsAllowed = !format.IsFloatOrSrgb();
 
@@ -96,7 +97,7 @@ namespace Ryujinx.Graphics.Vulkan
             {
                 if (IsValidTextureView(color))
                 {
-                    var texture = (TextureView)color;
+                    TextureView texture = (TextureView)color;
 
                     _attachments[index] = texture.GetImageViewForAttachment();
                     _colors[index] = texture;
@@ -107,7 +108,7 @@ namespace Ryujinx.Graphics.Vulkan
                     AttachmentFormats[index] = texture.VkFormat;
                     AttachmentIndices[index] = bindIndex;
 
-                    var format = texture.Info.Format;
+                    Format format = texture.Info.Format;
 
                     if (format.IsInteger())
                     {
@@ -184,7 +185,7 @@ namespace Ryujinx.Graphics.Vulkan
         {
             if (_colors != null && (uint)index < _colors.Length)
             {
-                var format = _colors[index].Info.Format;
+                Format format = _colors[index].Info.Format;
 
                 if (format.IsSint())
                 {
@@ -239,7 +240,7 @@ namespace Ryujinx.Graphics.Vulkan
                 attachments[i] = _attachments[i].Get(cbs).Value;
             }
 
-            var framebufferCreateInfo = new FramebufferCreateInfo
+            FramebufferCreateInfo framebufferCreateInfo = new()
             {
                 SType = StructureType.FramebufferCreateInfo,
                 RenderPass = renderPass.Get(cbs).Value,
@@ -250,13 +251,13 @@ namespace Ryujinx.Graphics.Vulkan
                 Layers = Layers,
             };
 
-            api.CreateFramebuffer(_device, in framebufferCreateInfo, null, out var framebuffer).ThrowOnError();
+            api.CreateFramebuffer(_device, in framebufferCreateInfo, null, out Framebuffer framebuffer).ThrowOnError();
             return new Auto<DisposableFramebuffer>(new DisposableFramebuffer(api, _device, framebuffer), null, _attachments);
         }
 
         public TextureView[] GetAttachmentViews()
         {
-            var result = new TextureView[_attachments.Length];
+            TextureView[] result = new TextureView[_attachments.Length];
 
             _colors?.CopyTo(result, 0);
 
@@ -277,7 +278,7 @@ namespace Ryujinx.Graphics.Vulkan
         {
             if (_colors != null)
             {
-                foreach (var color in _colors)
+                foreach (TextureView color in _colors)
                 {
                     // If Clear or DontCare were used, this would need to be write bit.
                     color.Storage?.QueueLoadOpBarrier(cbs, false);
@@ -293,7 +294,7 @@ namespace Ryujinx.Graphics.Vulkan
         {
             if (_colors != null)
             {
-                foreach (var color in _colors)
+                foreach (TextureView color in _colors)
                 {
                     color.Storage?.AddStoreOpUsage(false);
                 }

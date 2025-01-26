@@ -46,7 +46,7 @@ namespace Ryujinx.Horizon.Sdk.Sf
                 switch (argInfo.Type)
                 {
                     case CommandArgType.Buffer:
-                        var flags = argInfo.BufferFlags;
+                        HipcBufferFlags flags = argInfo.BufferFlags;
 
                         if (flags.HasFlag(HipcBufferFlags.In))
                         {
@@ -146,7 +146,7 @@ namespace Ryujinx.Horizon.Sdk.Sf
                     continue;
                 }
 
-                var flags = _args[i].BufferFlags;
+                HipcBufferFlags flags = _args[i].BufferFlags;
                 bool isMapAlias;
 
                 if (flags.HasFlag(HipcBufferFlags.MapAlias))
@@ -159,7 +159,7 @@ namespace Ryujinx.Horizon.Sdk.Sf
                 }
                 else /* if (flags.HasFlag(HipcBufferFlags.HipcAutoSelect)) */
                 {
-                    var descriptor = flags.HasFlag(HipcBufferFlags.In)
+                    HipcBufferDescriptor descriptor = flags.HasFlag(HipcBufferFlags.In)
                         ? context.Request.Data.SendBuffers[sendMapAliasIndex]
                         : context.Request.Data.ReceiveBuffers[recvMapAliasIndex];
 
@@ -170,7 +170,7 @@ namespace Ryujinx.Horizon.Sdk.Sf
 
                 if (isMapAlias)
                 {
-                    var descriptor = flags.HasFlag(HipcBufferFlags.In)
+                    HipcBufferDescriptor descriptor = flags.HasFlag(HipcBufferFlags.In)
                         ? context.Request.Data.SendBuffers[sendMapAliasIndex++]
                         : context.Request.Data.ReceiveBuffers[recvMapAliasIndex++];
 
@@ -185,7 +185,7 @@ namespace Ryujinx.Horizon.Sdk.Sf
                 {
                     if (flags.HasFlag(HipcBufferFlags.In))
                     {
-                        var descriptor = context.Request.Data.SendStatics[sendPointerIndex++];
+                        HipcStaticDescriptor descriptor = context.Request.Data.SendStatics[sendPointerIndex++];
                         ulong address = descriptor.Address;
                         ulong size = descriptor.Size;
 
@@ -206,8 +206,8 @@ namespace Ryujinx.Horizon.Sdk.Sf
                         }
                         else
                         {
-                            var data = MemoryMarshal.Cast<uint, byte>(context.Request.Data.DataWordsPadded);
-                            var recvPointerSizes = MemoryMarshal.Cast<byte, ushort>(data[runtimeMetadata.UnfixedOutPointerSizeOffset..]);
+                            Span<byte> data = MemoryMarshal.Cast<uint, byte>(context.Request.Data.DataWordsPadded);
+                            Span<ushort> recvPointerSizes = MemoryMarshal.Cast<byte, ushort>(data[runtimeMetadata.UnfixedOutPointerSizeOffset..]);
 
                             size = recvPointerSizes[unfixedRecvPointerIndex++];
                         }
@@ -257,13 +257,13 @@ namespace Ryujinx.Horizon.Sdk.Sf
                     continue;
                 }
 
-                var flags = _args[i].BufferFlags;
+                HipcBufferFlags flags = _args[i].BufferFlags;
                 if (!flags.HasFlag(HipcBufferFlags.Out))
                 {
                     continue;
                 }
 
-                var buffer = _bufferRanges[i];
+                PointerAndSize buffer = _bufferRanges[i];
 
                 if (flags.HasFlag(HipcBufferFlags.Pointer))
                 {
@@ -303,7 +303,7 @@ namespace Ryujinx.Horizon.Sdk.Sf
 
         public override Result PrepareForProcess(ref ServiceDispatchContext context, ServerMessageRuntimeMetadata runtimeMetadata)
         {
-            ref var meta = ref context.Request.Meta;
+            ref HipcMetadata meta = ref context.Request.Meta;
             bool requestValid = true;
             requestValid &= meta.SendPid == _hasInProcessIdHolder;
             requestValid &= meta.SendStaticsCount == _inPointerBuffersCount;
@@ -346,7 +346,7 @@ namespace Ryujinx.Horizon.Sdk.Sf
                 }
 
                 int index = inObjectIndex++;
-                var inObject = inObjects[index];
+                ServiceObjectHolder inObject = inObjects[index];
 
                 objects[index] = inObject?.ServiceObject;
             }
@@ -362,7 +362,7 @@ namespace Ryujinx.Horizon.Sdk.Sf
         public override HipcMessageData PrepareForReply(scoped ref ServiceDispatchContext context, out Span<byte> outRawData, ServerMessageRuntimeMetadata runtimeMetadata)
         {
             int rawDataSize = OutRawDataSize + runtimeMetadata.OutHeadersSize;
-            var response = HipcMessage.WriteResponse(
+            HipcMessageData response = HipcMessage.WriteResponse(
                 context.OutMessageBuffer,
                 _outPointerBuffersCount,
                 (BitUtils.AlignUp(rawDataSize, 4) + 0x10) / sizeof(uint),
@@ -376,7 +376,7 @@ namespace Ryujinx.Horizon.Sdk.Sf
         public override void PrepareForErrorReply(scoped ref ServiceDispatchContext context, out Span<byte> outRawData, ServerMessageRuntimeMetadata runtimeMetadata)
         {
             int rawDataSize = runtimeMetadata.OutHeadersSize;
-            var response = HipcMessage.WriteResponse(
+            HipcMessageData response = HipcMessage.WriteResponse(
                 context.OutMessageBuffer,
                 0,
                 (BitUtils.AlignUp(rawDataSize, 4) + 0x10) / sizeof(uint),

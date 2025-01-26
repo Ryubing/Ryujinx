@@ -180,7 +180,7 @@ namespace Ryujinx.HLE.Loaders.Processes
 
             KProcess process = new(context);
 
-            var processContextFactory = new ArmProcessContextFactory(
+            ArmProcessContextFactory processContextFactory = new(
                 context.Device.System.TickSource,
                 context.Device.Gpu,
                 string.Empty,
@@ -235,7 +235,7 @@ namespace Ryujinx.HLE.Loaders.Processes
         {
             context.Device.System.ServiceTable.WaitServicesReady();
 
-            LibHac.Result resultCode = metaLoader.GetNpdm(out var npdm);
+            LibHac.Result resultCode = metaLoader.GetNpdm(out LibHac.Loader.Npdm npdm);
 
             if (resultCode.IsFailure())
             {
@@ -244,14 +244,14 @@ namespace Ryujinx.HLE.Loaders.Processes
                 return ProcessResult.Failed;
             }
 
-            ref readonly var meta = ref npdm.Meta;
+            ref readonly Meta meta = ref npdm.Meta;
 
             ulong argsStart = 0;
             uint argsSize = 0;
             ulong codeStart = ((meta.Flags & 1) != 0 ? 0x8000000UL : 0x200000UL) + CodeStartOffset;
             uint codeSize = 0;
 
-            var buildIds = new string[executables.Length];
+            string[] buildIds = new string[executables.Length];
 
             for (int i = 0; i < executables.Length; i++)
             {
@@ -373,7 +373,7 @@ namespace Ryujinx.HLE.Loaders.Processes
                 displayVersion = device.System.ContentManager.GetCurrentFirmwareVersion()?.VersionString ?? string.Empty;
             }
 
-            var processContextFactory = new ArmProcessContextFactory(
+            ArmProcessContextFactory processContextFactory = new(
                 context.Device.System.TickSource,
                 context.Device.Gpu,
                 $"{programId:x16}",

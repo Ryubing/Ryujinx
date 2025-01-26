@@ -41,7 +41,7 @@ namespace Ryujinx.Graphics.OpenGL.Effects
 
         private void Initialize()
         {
-            var scalingShader = EmbeddedResources.ReadAllText("Ryujinx.Graphics.OpenGL/Effects/Shaders/area_scaling.glsl");
+            string scalingShader = EmbeddedResources.ReadAllText("Ryujinx.Graphics.OpenGL/Effects/Shaders/area_scaling.glsl");
 
             _scalingShaderProgram = CompileProgram(scalingShader, ShaderType.ComputeShader);
 

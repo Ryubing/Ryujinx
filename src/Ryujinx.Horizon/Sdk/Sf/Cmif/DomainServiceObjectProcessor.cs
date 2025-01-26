@@ -44,7 +44,7 @@ namespace Ryujinx.Horizon.Sdk.Sf.Cmif
 
         public override ServerMessageRuntimeMetadata GetRuntimeMetadata()
         {
-            var runtimeMetadata = _implProcessor.GetRuntimeMetadata();
+            ServerMessageRuntimeMetadata runtimeMetadata = _implProcessor.GetRuntimeMetadata();
 
             return new ServerMessageRuntimeMetadata(
                 (ushort)(runtimeMetadata.InDataSize + runtimeMetadata.InObjectsCount * sizeof(int)),
@@ -84,7 +84,7 @@ namespace Ryujinx.Horizon.Sdk.Sf.Cmif
 
         public override HipcMessageData PrepareForReply(scoped ref ServiceDispatchContext context, out Span<byte> outRawData, ServerMessageRuntimeMetadata runtimeMetadata)
         {
-            var response = _implProcessor.PrepareForReply(ref context, out outRawData, runtimeMetadata);
+            HipcMessageData response = _implProcessor.PrepareForReply(ref context, out outRawData, runtimeMetadata);
 
             int outHeaderSize = Unsafe.SizeOf<CmifDomainOutHeader>();
             int implOutDataTotalSize = ImplOutDataTotalSize;

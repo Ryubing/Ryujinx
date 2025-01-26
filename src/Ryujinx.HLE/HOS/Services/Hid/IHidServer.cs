@@ -872,8 +872,8 @@ namespace Ryujinx.HLE.HOS.Services.Hid
 
             // Initialize entries to avoid issues with some games.
 
-            List<GamepadInput> emptyGamepadInputs = new();
-            List<SixAxisInput> emptySixAxisInputs = new();
+            List<GamepadInput> emptyGamepadInputs = [];
+            List<SixAxisInput> emptySixAxisInputs = [];
 
             for (int player = 0; player < NpadDevices.MaxControllers; player++)
             {

@@ -261,7 +261,7 @@ namespace Ryujinx.Graphics.Shader.Instructions
             {
                 if (context.TranslatorContext.Definitions.LastInVertexPipeline)
                 {
-                    context.PrepareForVertexReturn(out var tempXLocal, out var tempYLocal, out var tempZLocal);
+                    context.PrepareForVertexReturn(out Operand tempXLocal, out Operand tempYLocal, out Operand tempZLocal);
 
                     context.EmitVertex();
 

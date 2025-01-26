@@ -26,7 +26,7 @@ namespace Ryujinx.Common.Logging.Targets
 
         public void Log(object sender, LogEventArgs e)
         {
-            var logEventArgsJson = LogEventArgsJson.FromLogEventArgs(e);
+            LogEventArgsJson logEventArgsJson = LogEventArgsJson.FromLogEventArgs(e);
             JsonHelper.SerializeToStream(_stream, logEventArgsJson, LogEventJsonSerializerContext.Default.LogEventArgsJson);
         }
 

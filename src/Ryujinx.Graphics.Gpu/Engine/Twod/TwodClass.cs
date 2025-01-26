@@ -3,6 +3,7 @@ using Ryujinx.Graphics.Device;
 using Ryujinx.Graphics.GAL;
 using Ryujinx.Graphics.Gpu.Engine.Types;
 using Ryujinx.Graphics.Gpu.Image;
+using Ryujinx.Graphics.Gpu.Memory;
 using Ryujinx.Graphics.Texture;
 using Ryujinx.Memory;
 using System;
@@ -123,7 +124,7 @@ namespace Ryujinx.Graphics.Gpu.Engine.Twod
         /// <param name="bpp">Bytes per pixel</param>
         private void UnscaledFullCopy(TwodTexture src, TwodTexture dst, int w, int h, int bpp)
         {
-            var srcCalculator = new OffsetCalculator(
+            OffsetCalculator srcCalculator = new(
                 w,
                 h,
                 src.Stride,
@@ -134,7 +135,7 @@ namespace Ryujinx.Graphics.Gpu.Engine.Twod
 
             (int _, int srcSize) = srcCalculator.GetRectangleRange(0, 0, w, h);
 
-            var memoryManager = _channel.MemoryManager;
+            MemoryManager memoryManager = _channel.MemoryManager;
 
             ulong srcGpuVa = src.Address.Pack();
             ulong dstGpuVa = dst.Address.Pack();
@@ -228,10 +229,10 @@ namespace Ryujinx.Graphics.Gpu.Engine.Twod
         /// <param name="argument">Method call argument</param>
         private void PixelsFromMemorySrcY0Int(int argument)
         {
-            var memoryManager = _channel.MemoryManager;
+            MemoryManager memoryManager = _channel.MemoryManager;
 
-            var dstCopyTexture = Unsafe.As<uint, TwodTexture>(ref _state.State.SetDstFormat);
-            var srcCopyTexture = Unsafe.As<uint, TwodTexture>(ref _state.State.SetSrcFormat);
+            TwodTexture dstCopyTexture = Unsafe.As<uint, TwodTexture>(ref _state.State.SetDstFormat);
+            TwodTexture srcCopyTexture = Unsafe.As<uint, TwodTexture>(ref _state.State.SetSrcFormat);
 
             long srcX = ((long)_state.State.SetPixelsFromMemorySrcX0Int << 32) | (long)(ulong)_state.State.SetPixelsFromMemorySrcX0Frac;
             long srcY = ((long)_state.State.PixelsFromMemorySrcY0Int << 32) | (long)(ulong)_state.State.SetPixelsFromMemorySrcY0Frac;
@@ -268,10 +269,10 @@ namespace Ryujinx.Graphics.Gpu.Engine.Twod
 
             // The source and destination textures should at least be as big as the region being requested.
             // The hints will only resize within alignment constraints, so out of bound copies won't resize in most cases.
-            var srcHint = new Size(srcX2, srcY2, 1);
-            var dstHint = new Size(dstX2, dstY2, 1);
+            Size srcHint = new(srcX2, srcY2, 1);
+            Size dstHint = new(dstX2, dstY2, 1);
 
-            var srcCopyTextureFormat = srcCopyTexture.Format.Convert();
+            FormatInfo srcCopyTextureFormat = srcCopyTexture.Format.Convert();
 
             int srcWidthAligned = srcCopyTexture.Stride / srcCopyTextureFormat.BytesPerPixel;
 
@@ -304,7 +305,7 @@ namespace Ryujinx.Graphics.Gpu.Engine.Twod
             // are the same, as we can't blit between different depth formats.
             bool srcDepthAlias = srcCopyTexture.Format == dstCopyTexture.Format;
 
-            var srcTexture = memoryManager.Physical.TextureCache.FindOrCreateTexture(
+            Image.Texture srcTexture = memoryManager.Physical.TextureCache.FindOrCreateTexture(
                 memoryManager,
                 srcCopyTexture,
                 offset,
@@ -341,7 +342,7 @@ namespace Ryujinx.Graphics.Gpu.Engine.Twod
                 dstCopyTextureFormat = dstCopyTexture.Format.Convert();
             }
 
-            var dstTexture = memoryManager.Physical.TextureCache.FindOrCreateTexture(
+            Image.Texture dstTexture = memoryManager.Physical.TextureCache.FindOrCreateTexture(
                 memoryManager,
                 dstCopyTexture,
                 0,

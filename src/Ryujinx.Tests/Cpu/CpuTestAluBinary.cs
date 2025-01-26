@@ -36,8 +36,8 @@ namespace Ryujinx.Tests.Cpu
             //  - xor 0
             // Only includes non-C variant, as the other can be tested with unicorn.
 
-            return new[]
-            {
+            return
+            [
                 new CrcTest(0x00000000u, 0x00_00_00_00_00_00_00_00u, false, 0x00000000, 0x00000000, 0x00000000, 0x00000000),
                 new CrcTest(0x00000000u, 0x7f_ff_ff_ff_ff_ff_ff_ffu, false, 0x2d02ef8d, 0xbe2612ff, 0xdebb20e3, 0xa9de8355),
                 new CrcTest(0x00000000u, 0x80_00_00_00_00_00_00_00u, false, 0x00000000, 0x00000000, 0x00000000, 0xedb88320),
@@ -48,8 +48,8 @@ namespace Ryujinx.Tests.Cpu
                 new CrcTest(0xffffffffu, 0x7f_ff_ff_ff_ff_ff_ff_ffu, false, 0x00ffffff, 0x0000ffff, 0x00000000, 0x3303a3c3),
                 new CrcTest(0xffffffffu, 0x80_00_00_00_00_00_00_00u, false, 0x2dfd1072, 0xbe26ed00, 0xdebb20e3, 0x7765a3b6),
                 new CrcTest(0xffffffffu, 0xff_ff_ff_ff_ff_ff_ff_ffu, false, 0x00ffffff, 0x0000ffff, 0x00000000, 0xdebb20e3),
-                new CrcTest(0xffffffffu, 0xa0_02_f1_ca_52_78_8c_1cu, false, 0x39fc4c3d, 0xbc5f7f56, 0x4ed8e906, 0x12cb419c),
-            };
+                new CrcTest(0xffffffffu, 0xa0_02_f1_ca_52_78_8c_1cu, false, 0x39fc4c3d, 0xbc5f7f56, 0x4ed8e906, 0x12cb419c)
+            ];
         }
         #endregion
 

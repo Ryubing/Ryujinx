@@ -28,7 +28,7 @@ namespace Ryujinx.HLE.Loaders.Processes.Extensions
         {
             fileSystem.ImportTickets(partitionFileSystem);
 
-            var programs = new Dictionary<ulong, ContentMetaData>();
+            Dictionary<ulong, ContentMetaData> programs = new();
 
             foreach (DirectoryEntryEx fileEntry in partitionFileSystem.EnumerateEntries("/", "*.cnmt.nca"))
             {
@@ -152,7 +152,7 @@ namespace Ryujinx.HLE.Loaders.Processes.Extensions
 
         public static Nca GetNca(this IFileSystem fileSystem, KeySet keySet, string path)
         {
-            using var ncaFile = new UniqueRef<IFile>();
+            using UniqueRef<IFile> ncaFile = new();
 
             fileSystem.OpenFile(ref ncaFile.Ref, path.ToU8Span(), OpenMode.Read).ThrowIfFailure();
 

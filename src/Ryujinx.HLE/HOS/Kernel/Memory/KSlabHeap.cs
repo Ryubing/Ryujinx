@@ -8,7 +8,7 @@ namespace Ryujinx.HLE.HOS.Kernel.Memory
 
         public KSlabHeap(ulong pa, ulong itemSize, ulong size)
         {
-            _items = new LinkedList<ulong>();
+            _items = [];
 
             int itemsCount = (int)(size / itemSize);
 

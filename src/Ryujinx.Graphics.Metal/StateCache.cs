@@ -25,14 +25,14 @@ namespace Ryujinx.Graphics.Metal
 
         public T GetOrCreate(TDescriptor descriptor)
         {
-            var hash = GetHash(descriptor);
+            THash hash = GetHash(descriptor);
             if (_cache.TryGetValue(hash, out T value))
             {
                 return value;
             }
             else
             {
-                var newValue = CreateValue(descriptor);
+                T newValue = CreateValue(descriptor);
                 _cache.Add(hash, newValue);
 
                 return newValue;
