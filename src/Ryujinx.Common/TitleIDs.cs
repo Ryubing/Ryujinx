@@ -30,10 +30,12 @@ namespace Ryujinx.Common
         
         public static readonly string[] GreatMetalTitles =
         [
+            "01009b500007c000", // ARMS
             "010076f0049a2000", // Bayonetta
             "0100a5c00d162000", // Cuphead
             "010023800d64a000", // Deltarune
             "01003a30012c0000", // LEGO City Undercover
+            "010048701995e000", // Luigi's Manion 2 HD
             "010028600EBDA000", // Mario 3D World
             "0100152000022000", // Mario Kart 8 Deluxe
             "010075a016a3a000", // Persona 4 Arena Ultimax
@@ -50,7 +52,7 @@ namespace Ryujinx.Common
             "01005CA01580E000", // Persona 5 Royale
             "0100000000010000", // Super Mario Odyssey
 
-            //Isaac claims it has a issue in level 2, but I am not able to replicate it on my M3. More testing would be appreciated:
+            // Isaac claims it has an issue in level 2, but I am not able to replicate it on my M3. More testing would be appreciated:
             "010015100b514000", // Super Mario Bros. Wonder
         ];
         
