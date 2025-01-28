@@ -172,81 +172,9 @@ namespace Ryujinx.Input.HLE
                     {
                         NpadController controller;
                         int index = controllers.FindIndex(x => x == activeController);
-                
-                        // TODO: Implement a function to determine if pro controller or single joycon (L/R) and create the appropriate config.
+                        
                         // Also if old controller exists, try to reuse it (and create their config too).
-                        bool isNintendoStyle = controllers.FirstOrDefault(x => x.Id == activeController.Id).Name.Contains("Nintendo");
-                        string id = activeController.Id.Split(" ")[0];
-                        InputConfig config = new StandardControllerInputConfig
-                        {
-                            Version = InputConfig.CurrentVersion,
-                            Backend = InputBackendType.GamepadSDL2,
-                            Id = id,
-                            ControllerType = ControllerType.ProController,
-                            DeadzoneLeft = 0.1f,
-                            DeadzoneRight = 0.1f,
-                            RangeLeft = 1.0f,
-                            RangeRight = 1.0f,
-                            TriggerThreshold = 0.5f,
-                            LeftJoycon = new LeftJoyconCommonConfig<ConfigGamepadInputId>
-                            {
-                                DpadUp = ConfigGamepadInputId.DpadUp,
-                                DpadDown = ConfigGamepadInputId.DpadDown,
-                                DpadLeft = ConfigGamepadInputId.DpadLeft,
-                                DpadRight = ConfigGamepadInputId.DpadRight,
-                                ButtonMinus = ConfigGamepadInputId.Minus,
-                                ButtonL = ConfigGamepadInputId.LeftShoulder,
-                                ButtonZl = ConfigGamepadInputId.LeftTrigger,
-                                ButtonSl = ConfigGamepadInputId.Unbound,
-                                ButtonSr = ConfigGamepadInputId.Unbound,
-                            },
-                            LeftJoyconStick = new JoyconConfigControllerStick<ConfigGamepadInputId, ConfigStickInputId>
-                            {
-                                Joystick = ConfigStickInputId.Left,
-                                StickButton = ConfigGamepadInputId.LeftStick,
-                                InvertStickX = false,
-                                InvertStickY = false,
-                            },
-                            RightJoycon = new RightJoyconCommonConfig<ConfigGamepadInputId>
-                            {
-                                ButtonA = isNintendoStyle ? ConfigGamepadInputId.A : ConfigGamepadInputId.B,
-                                ButtonB = isNintendoStyle ? ConfigGamepadInputId.B : ConfigGamepadInputId.A,
-                                ButtonX = isNintendoStyle ? ConfigGamepadInputId.X : ConfigGamepadInputId.Y,
-                                ButtonY = isNintendoStyle ? ConfigGamepadInputId.Y : ConfigGamepadInputId.X,
-                                ButtonPlus = ConfigGamepadInputId.Plus,
-                                ButtonR = ConfigGamepadInputId.RightShoulder,
-                                ButtonZr = ConfigGamepadInputId.RightTrigger,
-                                ButtonSl = ConfigGamepadInputId.Unbound,
-                                ButtonSr = ConfigGamepadInputId.Unbound,
-                            },
-                            RightJoyconStick = new JoyconConfigControllerStick<ConfigGamepadInputId, ConfigStickInputId>
-                            {
-                                Joystick = ConfigStickInputId.Right,
-                                StickButton = ConfigGamepadInputId.RightStick,
-                                InvertStickX = false,
-                                InvertStickY = false,
-                            },
-                            Motion = new StandardMotionConfigController
-                            {
-                                MotionBackend = MotionInputBackendType.GamepadDriver,
-                                EnableMotion = true,
-                                Sensitivity = 100,
-                                GyroDeadzone = 1,
-                            },
-                            Rumble = new RumbleConfigController
-                            {
-                                StrongRumble = 1f,
-                                WeakRumble = 1f,
-                                EnableRumble = false,
-                            },
-                            Led = new LedConfigController
-                            {
-                                EnableLed = false,
-                                TurnOffLed = false,
-                                UseRainbow = false,
-                                LedColor = 0,
-                            },
-                        };
+                        InputConfig config = CreateConfigFromController(activeController);
                         
                         config.PlayerIndex = (Common.Configuration.Hid.PlayerIndex)index;
                         
@@ -298,9 +226,107 @@ namespace Ryujinx.Input.HLE
 
         private InputConfig CreateConfigFromController(IGamepad controller)
         {
-            InputConfig config;
+            if (controller == null) return null;
             
-            return null;
+            string id = controller.Id.Split(" ")[0];
+            bool isNintendoStyle = controller.Name.Contains("Nintendo");
+            ControllerType controllerType;
+            
+            if (isNintendoStyle && !controller.Name.Contains("(L/R)"))
+            {
+                if (controller.Name.Contains("(L)"))
+                {
+                    controllerType = ControllerType.JoyconLeft;
+                }
+                else if (controller.Name.Contains("(R)"))
+                {
+                    controllerType = ControllerType.JoyconRight;
+                }
+                else
+                {
+                    controllerType = ControllerType.ProController;
+                }
+            }
+            else
+            {
+                // if it's not a nintendo controller, we assume it's a pro controller or a joycon pair
+                controllerType = ControllerType.ProController;
+            }
+            
+            InputConfig config = new StandardControllerInputConfig
+            {
+                Version = InputConfig.CurrentVersion,
+                Backend = InputBackendType.GamepadSDL2,
+                Id = id,
+                ControllerType = controllerType,
+                DeadzoneLeft = 0.1f,
+                DeadzoneRight = 0.1f,
+                RangeLeft = 1.0f,
+                RangeRight = 1.0f,
+                TriggerThreshold = 0.5f,
+                LeftJoycon = new LeftJoyconCommonConfig<ConfigGamepadInputId>
+                {
+                    DpadUp = (controllerType == ControllerType.JoyconLeft) ? ConfigGamepadInputId.Y : ConfigGamepadInputId.DpadUp,
+                    DpadDown = (controllerType == ControllerType.JoyconLeft) ? ConfigGamepadInputId.A : ConfigGamepadInputId.DpadDown,
+                    DpadLeft = (controllerType == ControllerType.JoyconLeft) ? ConfigGamepadInputId.B : ConfigGamepadInputId.DpadLeft,
+                    DpadRight = (controllerType == ControllerType.JoyconLeft) ? ConfigGamepadInputId.X : ConfigGamepadInputId.DpadRight,
+                    ButtonMinus = (controllerType == ControllerType.JoyconLeft) ? ConfigGamepadInputId.Plus : ConfigGamepadInputId.Minus,
+                    ButtonL = ConfigGamepadInputId.LeftShoulder,
+                    ButtonZl = ConfigGamepadInputId.LeftTrigger,
+                    ButtonSl = (controllerType == ControllerType.JoyconLeft) ? ConfigGamepadInputId.LeftShoulder : ConfigGamepadInputId.Unbound,
+                    ButtonSr = (controllerType == ControllerType.JoyconLeft) ? ConfigGamepadInputId.RightShoulder : ConfigGamepadInputId.Unbound,
+                },
+                LeftJoyconStick = new JoyconConfigControllerStick<ConfigGamepadInputId, ConfigStickInputId>
+                {
+                    Joystick = ConfigStickInputId.Left,
+                    StickButton = ConfigGamepadInputId.LeftStick,
+                    InvertStickX = false,
+                    InvertStickY = false,
+                    Rotate90CW = (controllerType == ControllerType.JoyconLeft),
+                },
+                RightJoycon = new RightJoyconCommonConfig<ConfigGamepadInputId>
+                {
+                    ButtonA = ConfigGamepadInputId.B,
+                    ButtonB = (controllerType == ControllerType.JoyconRight) ? ConfigGamepadInputId.Y : ConfigGamepadInputId.A,
+                    ButtonX = (controllerType == ControllerType.JoyconRight) ? ConfigGamepadInputId.A : ConfigGamepadInputId.Y,
+                    ButtonY = ConfigGamepadInputId.X,
+                    ButtonPlus = ConfigGamepadInputId.Plus,
+                    ButtonR = ConfigGamepadInputId.RightShoulder,
+                    ButtonZr = ConfigGamepadInputId.RightTrigger,
+                    ButtonSl = (controllerType == ControllerType.JoyconRight) ? ConfigGamepadInputId.LeftShoulder : ConfigGamepadInputId.Unbound,
+                    ButtonSr = (controllerType == ControllerType.JoyconRight) ? ConfigGamepadInputId.RightShoulder : ConfigGamepadInputId.Unbound,
+                },
+                RightJoyconStick = new JoyconConfigControllerStick<ConfigGamepadInputId, ConfigStickInputId>
+                {
+                    Joystick = (controllerType == ControllerType.JoyconRight) ? ConfigStickInputId.Left : ConfigStickInputId.Right,
+                    StickButton = ConfigGamepadInputId.RightStick,
+                    InvertStickX = (controllerType == ControllerType.JoyconRight),
+                    InvertStickY = (controllerType == ControllerType.JoyconRight),
+                    Rotate90CW = (controllerType == ControllerType.JoyconRight),
+                },
+                Motion = new StandardMotionConfigController
+                {
+                    MotionBackend = MotionInputBackendType.GamepadDriver,
+                    EnableMotion = true,
+                    Sensitivity = 100,
+                    GyroDeadzone = 1,
+                },
+                Rumble = new RumbleConfigController
+                {
+                    StrongRumble = 1f,
+                    WeakRumble = 1f,
+                    EnableRumble = false,
+                },
+                Led = new LedConfigController
+                {
+                    EnableLed = false,
+                    TurnOffLed = false,
+                    UseRainbow = false,
+                    LedColor = 0,
+                },
+            };
+            
+            return config;
         }
 
         public void UnblockInputUpdates()
