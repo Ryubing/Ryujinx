@@ -31,7 +31,6 @@ namespace Ryujinx.Common
         public static readonly string[] GreatMetalTitles =
         [
             "01009b500007c000", // ARMS
-            "010076f0049a2000", // Bayonetta
             "0100a5c00d162000", // Cuphead
             "010023800d64a000", // Deltarune
             "01003a30012c0000", // LEGO City Undercover
@@ -53,8 +52,9 @@ namespace Ryujinx.Common
             "010015100b514000", // Super Mario Bros. Wonder
             "0100000000010000", // Super Mario Odyssey
 
-            // Further testing is appreciated:
-            "01007300020fa000", // ASTRAL CHAIN
+            // Further testing is appreciated, I only tested the beginning:
+            "01007300020fa000", // Astral Chain
+            "010076f0049a2000", // Bayonetta
             "0100cf5010fec000", // Bayonetta Origins: Cereza and the Lost Demon
             "0100f4300bf2c000", // New Pokemon Snap
         ];
