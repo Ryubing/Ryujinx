@@ -50,10 +50,13 @@ namespace Ryujinx.Common
             "01009bf0072d4000", // Captain Toad: Treasure Tracker
             "01009510001ca000", // Fast RMX
             "01005CA01580E000", // Persona 5 Royale
+            "010015100b514000", // Super Mario Bros. Wonder
             "0100000000010000", // Super Mario Odyssey
 
-            // Isaac claims it has an issue in level 2, but I am not able to replicate it on my M3. More testing would be appreciated:
-            "010015100b514000", // Super Mario Bros. Wonder
+            // Further testing is appreciated:
+            "01007300020fa000", // ASTRAL CHAIN
+            "0100cf5010fec000", // Bayonetta Origins: Cereza and the Lost Demon
+            "0100f4300bf2c000", // New Pokemon Snap
         ];
         
         public static string GetDiscordGameAsset(string titleId) 
