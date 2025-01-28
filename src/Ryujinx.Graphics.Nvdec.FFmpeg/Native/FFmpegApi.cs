@@ -41,7 +41,7 @@ namespace Ryujinx.Graphics.Nvdec.FFmpeg.Native
         {
             handle = nint.Zero;
 
-            if (_librariesWhitelist.TryGetValue(libraryName, out var value))
+            if (_librariesWhitelist.TryGetValue(libraryName, out (int, int) value))
             {
                 (int minVersion, int maxVersion) = value;
 

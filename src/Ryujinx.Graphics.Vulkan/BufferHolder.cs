@@ -113,7 +113,7 @@ namespace Ryujinx.Graphics.Vulkan
 
         public unsafe Auto<DisposableBufferView> CreateView(VkFormat format, int offset, int size, Action invalidateView)
         {
-            var bufferViewCreateInfo = new BufferViewCreateInfo
+            BufferViewCreateInfo bufferViewCreateInfo = new()
             {
                 SType = StructureType.BufferViewCreateInfo,
                 Buffer = new VkBuffer(_bufferHandle),
@@ -122,7 +122,7 @@ namespace Ryujinx.Graphics.Vulkan
                 Range = (uint)size,
             };
 
-            _gd.Api.CreateBufferView(_device, in bufferViewCreateInfo, null, out var bufferView).ThrowOnError();
+            _gd.Api.CreateBufferView(_device, in bufferViewCreateInfo, null, out BufferView bufferView).ThrowOnError();
 
             return new Auto<DisposableBufferView>(new DisposableBufferView(_gd.Api, _device, bufferView), this, _waitable, _buffer);
         }
@@ -183,7 +183,7 @@ namespace Ryujinx.Graphics.Vulkan
                 return false;
             }
 
-            var key = ToMirrorKey(offset, size);
+            ulong key = ToMirrorKey(offset, size);
 
             if (_mirrors.TryGetValue(key, out StagingBufferReserved reserved))
             {
@@ -205,14 +205,14 @@ namespace Ryujinx.Graphics.Vulkan
 
             // Build data for the new mirror.
 
-            var baseData = new Span<byte>((void*)(_map + offset), size);
-            var modData = _pendingData.AsSpan(offset, size);
+            Span<byte> baseData = new((void*)(_map + offset), size);
+            Span<byte> modData = _pendingData.AsSpan(offset, size);
 
             StagingBufferReserved? newMirror = _gd.BufferManager.StagingBuffer.TryReserveData(cbs, size);
 
             if (newMirror != null)
             {
-                var mirror = newMirror.Value;
+                StagingBufferReserved mirror = newMirror.Value;
                 _pendingDataRanges.FillData(baseData, modData, offset, new Span<byte>((void*)(mirror.Buffer._map + mirror.Offset), size));
 
                 if (_mirrors.Count == 0)
@@ -319,13 +319,13 @@ namespace Ryujinx.Graphics.Vulkan
 
         private void UploadPendingData(CommandBufferScoped cbs, int offset, int size)
         {
-            var ranges = _pendingDataRanges.FindOverlaps(offset, size);
+            List<BufferMirrorRangeList.Range> ranges = _pendingDataRanges.FindOverlaps(offset, size);
 
             if (ranges != null)
             {
                 _pendingDataRanges.Remove(offset, size);
 
-                foreach (var range in ranges)
+                foreach (BufferMirrorRangeList.Range range in ranges)
                 {
                     int rangeOffset = Math.Max(offset, range.Offset);
                     int rangeSize = Math.Min(offset + size, range.End) - rangeOffset;
@@ -366,7 +366,7 @@ namespace Ryujinx.Graphics.Vulkan
 
         public BufferHandle GetHandle()
         {
-            var handle = _bufferHandle;
+            ulong handle = _bufferHandle;
             return Unsafe.As<ulong, BufferHandle>(ref handle);
         }
 
@@ -403,7 +403,7 @@ namespace Ryujinx.Graphics.Vulkan
 
             if (_flushFence != null)
             {
-                var fence = _flushFence;
+                FenceHolder fence = _flushFence;
                 Interlocked.Increment(ref _flushWaiting);
 
                 // Don't wait in the lock.
@@ -481,12 +481,12 @@ namespace Ryujinx.Graphics.Vulkan
         public bool RemoveOverlappingMirrors(int offset, int size)
         {
             List<ulong> toRemove = null;
-            foreach (var key in _mirrors.Keys)
+            foreach (ulong key in _mirrors.Keys)
             {
                 (int keyOffset, int keySize) = FromMirrorKey(key);
                 if (!(offset + size <= keyOffset || offset >= keyOffset + keySize))
                 {
-                    toRemove ??= new List<ulong>();
+                    toRemove ??= [];
 
                     toRemove.Add(key);
                 }
@@ -494,7 +494,7 @@ namespace Ryujinx.Graphics.Vulkan
 
             if (toRemove != null)
             {
-                foreach (var key in toRemove)
+                foreach (ulong key in toRemove)
                 {
                     _mirrors.Remove(key);
                 }
@@ -606,8 +606,8 @@ namespace Ryujinx.Graphics.Vulkan
                         BufferHolder srcHolder = _gd.BufferManager.Create(_gd, dataSize, baseType: BufferAllocationType.HostMapped);
                         srcHolder.SetDataUnchecked(0, data);
 
-                        var srcBuffer = srcHolder.GetBuffer();
-                        var dstBuffer = this.GetBuffer(cbs.Value.CommandBuffer, true);
+                        Auto<DisposableBuffer> srcBuffer = srcHolder.GetBuffer();
+                        Auto<DisposableBuffer> dstBuffer = this.GetBuffer(cbs.Value.CommandBuffer, true);
 
                         Copy(_gd, cbs.Value, srcBuffer, dstBuffer, 0, offset, dataSize);
 
@@ -662,7 +662,7 @@ namespace Ryujinx.Graphics.Vulkan
 
             endRenderPass?.Invoke();
 
-            var dstBuffer = GetBuffer(cbs.CommandBuffer, dstOffset, data.Length, true).Get(cbs, dstOffset, data.Length, true).Value;
+            VkBuffer dstBuffer = GetBuffer(cbs.CommandBuffer, dstOffset, data.Length, true).Get(cbs, dstOffset, data.Length, true).Value;
 
             InsertBufferBarrier(
                 _gd,
@@ -709,8 +709,8 @@ namespace Ryujinx.Graphics.Vulkan
             int size,
             bool registerSrcUsage = true)
         {
-            var srcBuffer = registerSrcUsage ? src.Get(cbs, srcOffset, size).Value : src.GetUnsafe().Value;
-            var dstBuffer = dst.Get(cbs, dstOffset, size, true).Value;
+            VkBuffer srcBuffer = registerSrcUsage ? src.Get(cbs, srcOffset, size).Value : src.GetUnsafe().Value;
+            VkBuffer dstBuffer = dst.Get(cbs, dstOffset, size, true).Value;
 
             InsertBufferBarrier(
                 gd,
@@ -723,7 +723,7 @@ namespace Ryujinx.Graphics.Vulkan
                 dstOffset,
                 size);
 
-            var region = new BufferCopy((ulong)srcOffset, (ulong)dstOffset, (ulong)size);
+            BufferCopy region = new((ulong)srcOffset, (ulong)dstOffset, (ulong)size);
 
             gd.Api.CmdCopyBuffer(cbs.CommandBuffer, srcBuffer, dstBuffer, 1, &region);
 
@@ -804,9 +804,9 @@ namespace Ryujinx.Graphics.Vulkan
                 return null;
             }
 
-            var key = new I8ToI16CacheKey(_gd);
+            I8ToI16CacheKey key = new(_gd);
 
-            if (!_cachedConvertedBuffers.TryGetValue(offset, size, key, out var holder))
+            if (!_cachedConvertedBuffers.TryGetValue(offset, size, key, out BufferHolder holder))
             {
                 holder = _gd.BufferManager.Create(_gd, (size * 2 + 3) & ~3, baseType: BufferAllocationType.DeviceLocal);
 
@@ -828,9 +828,9 @@ namespace Ryujinx.Graphics.Vulkan
                 return null;
             }
 
-            var key = new AlignedVertexBufferCacheKey(_gd, stride, alignment);
+            AlignedVertexBufferCacheKey key = new(_gd, stride, alignment);
 
-            if (!_cachedConvertedBuffers.TryGetValue(offset, size, key, out var holder))
+            if (!_cachedConvertedBuffers.TryGetValue(offset, size, key, out BufferHolder holder))
             {
                 int alignedStride = (stride + (alignment - 1)) & -alignment;
 
@@ -854,9 +854,9 @@ namespace Ryujinx.Graphics.Vulkan
                 return null;
             }
 
-            var key = new TopologyConversionCacheKey(_gd, pattern, indexSize);
+            TopologyConversionCacheKey key = new(_gd, pattern, indexSize);
 
-            if (!_cachedConvertedBuffers.TryGetValue(offset, size, key, out var holder))
+            if (!_cachedConvertedBuffers.TryGetValue(offset, size, key, out BufferHolder holder))
             {
                 // The destination index size is always I32.
 

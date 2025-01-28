@@ -86,7 +86,7 @@ namespace Ryujinx.Graphics.Vulkan
 
             Size = (int)structureOffset;
 
-            var info = new DescriptorUpdateTemplateCreateInfo()
+            DescriptorUpdateTemplateCreateInfo info = new()
             {
                 SType = StructureType.DescriptorUpdateTemplateCreateInfo,
                 DescriptorUpdateEntryCount = (uint)segments.Length,
@@ -173,7 +173,7 @@ namespace Ryujinx.Graphics.Vulkan
 
             Size = (int)structureOffset;
 
-            var info = new DescriptorUpdateTemplateCreateInfo()
+            DescriptorUpdateTemplateCreateInfo info = new()
             {
                 SType = StructureType.DescriptorUpdateTemplateCreateInfo,
                 DescriptorUpdateEntryCount = (uint)entry,

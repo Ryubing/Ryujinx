@@ -244,6 +244,15 @@ namespace Ryujinx.HLE.HOS.Services.Settings
             return ResultCode.Success;
         }
 
+        [CommandCmif(68)]
+        // GetSerialNumber() -> buffer<nn::settings::system::SerialNumber, 0x16>
+        public ResultCode GetSerialNumber(ServiceCtx context)
+        {
+            context.ResponseData.Write(Encoding.ASCII.GetBytes("RYU00000000000"));
+
+            return ResultCode.Success;
+        }
+
         [CommandCmif(77)]
         // GetDeviceNickName() -> buffer<nn::settings::system::DeviceNickName, 0x16>
         public ResultCode GetDeviceNickName(ServiceCtx context)
@@ -317,7 +326,7 @@ namespace Ryujinx.HLE.HOS.Services.Settings
 
             IFileSystem firmwareRomFs = firmwareContent.OpenFileSystem(NcaSectionType.Data, device.System.FsIntegrityCheckLevel);
 
-            using var firmwareFile = new UniqueRef<IFile>();
+            using UniqueRef<IFile> firmwareFile = new();
 
             Result result = firmwareRomFs.OpenFile(ref firmwareFile.Ref, "/file".ToU8Span(), OpenMode.Read);
             if (result.IsFailure())

@@ -108,7 +108,7 @@ namespace ARMeilleure.Translation
         /// <returns>A list of all values sorted by Key Order</returns>
         public List<TV> AsList()
         {
-            List<TV> list = new();
+            List<TV> list = [];
 
             AddToList(_root, list);
 

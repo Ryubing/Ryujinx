@@ -42,7 +42,7 @@ namespace Ryujinx.Graphics.Vulkan
                 return true;
             }
 
-            var dsc = program.GetNewManualDescriptorSetCollection(cbs, setIndex, out _cachedDscIndex).Get(cbs);
+            DescriptorSetCollection dsc = program.GetNewManualDescriptorSetCollection(cbs, setIndex, out _cachedDscIndex).Get(cbs);
 
             sets = dsc.GetSets();
 

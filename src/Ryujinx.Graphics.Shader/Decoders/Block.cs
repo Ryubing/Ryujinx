@@ -45,11 +45,11 @@ namespace Ryujinx.Graphics.Shader.Decoders
         {
             Address = address;
 
-            Predecessors = new List<Block>();
-            Successors = new List<Block>();
+            Predecessors = [];
+            Successors = [];
 
-            OpCodes = new List<InstOp>();
-            PushOpCodes = new List<PushOpInfo>();
+            OpCodes = [];
+            PushOpCodes = [];
             SyncTargets = new Dictionary<ulong, SyncTarget>();
         }
 

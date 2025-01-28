@@ -14,7 +14,7 @@ namespace Ryujinx.Graphics.Shader.Translation
         private const int DefaultLocalMemorySize = 128;
         private const int DefaultSharedMemorySize = 4096;
 
-        private static readonly string[] _stagePrefixes = new string[] { "cp", "vp", "tcp", "tep", "gp", "fp" };
+        private static readonly string[] _stagePrefixes = ["cp", "vp", "tcp", "tep", "gp", "fp"];
 
         private readonly IGpuAccessor _gpuAccessor;
         private readonly ShaderStage _stage;
@@ -78,15 +78,15 @@ namespace Ryujinx.Graphics.Shader.Translation
             _sbSlots = new();
             _sbSlotsReverse = new();
 
-            _usedConstantBufferBindings = new();
+            _usedConstantBufferBindings = [];
 
             _usedTextures = new();
             _usedImages = new();
 
-            _vacConstantBuffers = new();
-            _vacStorageBuffers = new();
-            _vacTextures = new();
-            _vacImages = new();
+            _vacConstantBuffers = [];
+            _vacStorageBuffers = [];
+            _vacTextures = [];
+            _vacImages = [];
 
             Properties.AddOrUpdateConstantBuffer(new(BufferLayout.Std140, 0, SupportBuffer.Binding, "support_buffer", SupportBuffer.GetStructureType()));
 
@@ -103,7 +103,7 @@ namespace Ryujinx.Graphics.Shader.Translation
                     size = DefaultLocalMemorySize;
                 }
 
-                var lmem = new MemoryDefinition("local_memory", AggregateType.Array | AggregateType.U32, BitUtils.DivRoundUp(size, sizeof(uint)));
+                MemoryDefinition lmem = new("local_memory", AggregateType.Array | AggregateType.U32, BitUtils.DivRoundUp(size, sizeof(uint)));
 
                 LocalMemoryId = Properties.AddLocalMemory(lmem);
             }
@@ -122,7 +122,7 @@ namespace Ryujinx.Graphics.Shader.Translation
                     size = DefaultSharedMemorySize;
                 }
 
-                var smem = new MemoryDefinition("shared_memory", AggregateType.Array | AggregateType.U32, BitUtils.DivRoundUp(size, sizeof(uint)));
+                MemoryDefinition smem = new("shared_memory", AggregateType.Array | AggregateType.U32, BitUtils.DivRoundUp(size, sizeof(uint)));
 
                 SharedMemoryId = Properties.AddSharedMemory(smem);
             }
@@ -283,16 +283,16 @@ namespace Ryujinx.Graphics.Shader.Translation
             bool coherent,
             bool separate)
         {
-            var dimensions = type == SamplerType.None ? 0 : type.GetDimensions();
-            var dict = isImage ? _usedImages : _usedTextures;
+            int dimensions = type == SamplerType.None ? 0 : type.GetDimensions();
+            Dictionary<TextureInfo, TextureMeta> dict = isImage ? _usedImages : _usedTextures;
 
-            var usageFlags = TextureUsageFlags.None;
+            TextureUsageFlags usageFlags = TextureUsageFlags.None;
 
             if (intCoords)
             {
                 usageFlags |= TextureUsageFlags.NeedsScaleValue;
 
-                var canScale = _stage.SupportsRenderScale() && arrayLength == 1 && !write && dimensions == 2;
+                bool canScale = _stage.SupportsRenderScale() && arrayLength == 1 && !write && dimensions == 2;
 
                 if (!canScale)
                 {
@@ -314,9 +314,9 @@ namespace Ryujinx.Graphics.Shader.Translation
 
             // For array textures, we also want to use type as key,
             // since we may have texture handles stores in the same buffer, but for textures with different types.
-            var keyType = arrayLength > 1 ? type : SamplerType.None;
-            var info = new TextureInfo(cbufSlot, handle, arrayLength, separate, keyType, format);
-            var meta = new TextureMeta()
+            SamplerType keyType = arrayLength > 1 ? type : SamplerType.None;
+            TextureInfo info = new(cbufSlot, handle, arrayLength, separate, keyType, format);
+            TextureMeta meta = new()
             {
                 AccurateType = accurateType,
                 Type = type,
@@ -326,7 +326,7 @@ namespace Ryujinx.Graphics.Shader.Translation
             int setIndex;
             int binding;
 
-            if (dict.TryGetValue(info, out var existingMeta))
+            if (dict.TryGetValue(info, out TextureMeta existingMeta))
             {
                 dict[info] = MergeTextureMeta(meta, existingMeta);
                 setIndex = existingMeta.Set;
@@ -383,7 +383,7 @@ namespace Ryujinx.Graphics.Shader.Translation
                 nameSuffix = cbufSlot < 0 ? $"{prefix}_tcb_{handle:X}" : $"{prefix}_cb{cbufSlot}_{handle:X}";
             }
 
-            var definition = new TextureDefinition(
+            TextureDefinition definition = new(
                 setIndex,
                 binding,
                 arrayLength,
@@ -443,8 +443,8 @@ namespace Ryujinx.Graphics.Shader.Translation
             {
                 selectedMeta.UsageFlags |= TextureUsageFlags.NeedsScaleValue;
 
-                var dimensions = type.GetDimensions();
-                var canScale = _stage.SupportsRenderScale() && selectedInfo.ArrayLength == 1 && dimensions == 2;
+                int dimensions = type.GetDimensions();
+                bool canScale = _stage.SupportsRenderScale() && selectedInfo.ArrayLength == 1 && dimensions == 2;
 
                 if (!canScale)
                 {
@@ -464,7 +464,7 @@ namespace Ryujinx.Graphics.Shader.Translation
 
         public BufferDescriptor[] GetConstantBufferDescriptors()
         {
-            var descriptors = new BufferDescriptor[_usedConstantBufferBindings.Count];
+            BufferDescriptor[] descriptors = new BufferDescriptor[_usedConstantBufferBindings.Count];
 
             int descriptorIndex = 0;
 
@@ -488,7 +488,7 @@ namespace Ryujinx.Graphics.Shader.Translation
 
         public BufferDescriptor[] GetStorageBufferDescriptors()
         {
-            var descriptors = new BufferDescriptor[_sbSlots.Count];
+            BufferDescriptor[] descriptors = new BufferDescriptor[_sbSlots.Count];
 
             int descriptorIndex = 0;
 
@@ -524,7 +524,7 @@ namespace Ryujinx.Graphics.Shader.Translation
 
         private static TextureDescriptor[] GetDescriptors(IReadOnlyDictionary<TextureInfo, TextureMeta> usedResources, bool includeArrays)
         {
-            List<TextureDescriptor> descriptors = new();
+            List<TextureDescriptor> descriptors = [];
 
             bool hasAnyArray = false;
 
@@ -575,7 +575,7 @@ namespace Ryujinx.Graphics.Shader.Translation
 
         public ShaderProgramInfo GetVertexAsComputeInfo(bool isVertex = false)
         {
-            var cbDescriptors = new BufferDescriptor[_vacConstantBuffers.Count];
+            BufferDescriptor[] cbDescriptors = new BufferDescriptor[_vacConstantBuffers.Count];
             int cbDescriptorIndex = 0;
 
             foreach (BufferDefinition definition in _vacConstantBuffers)
@@ -583,7 +583,7 @@ namespace Ryujinx.Graphics.Shader.Translation
                 cbDescriptors[cbDescriptorIndex++] = new BufferDescriptor(definition.Set, definition.Binding, 0, 0, 0, BufferUsageFlags.None);
             }
 
-            var sbDescriptors = new BufferDescriptor[_vacStorageBuffers.Count];
+            BufferDescriptor[] sbDescriptors = new BufferDescriptor[_vacStorageBuffers.Count];
             int sbDescriptorIndex = 0;
 
             foreach (BufferDefinition definition in _vacStorageBuffers)
@@ -591,7 +591,7 @@ namespace Ryujinx.Graphics.Shader.Translation
                 sbDescriptors[sbDescriptorIndex++] = new BufferDescriptor(definition.Set, definition.Binding, 0, 0, 0, BufferUsageFlags.Write);
             }
 
-            var tDescriptors = new TextureDescriptor[_vacTextures.Count];
+            TextureDescriptor[] tDescriptors = new TextureDescriptor[_vacTextures.Count];
             int tDescriptorIndex = 0;
 
             foreach (TextureDefinition definition in _vacTextures)
@@ -608,7 +608,7 @@ namespace Ryujinx.Graphics.Shader.Translation
                     definition.Flags);
             }
 
-            var iDescriptors = new TextureDescriptor[_vacImages.Count];
+            TextureDescriptor[] iDescriptors = new TextureDescriptor[_vacImages.Count];
             int iDescriptorIndex = 0;
 
             foreach (TextureDefinition definition in _vacImages)
@@ -690,20 +690,18 @@ namespace Ryujinx.Graphics.Shader.Translation
 
         private void AddNewConstantBuffer(int setIndex, int binding, string name)
         {
-            StructureType type = new(new[]
-            {
-                new StructureField(AggregateType.Array | AggregateType.Vector4 | AggregateType.FP32, "data", Constants.ConstantBufferSize / 16),
-            });
+            StructureType type = new([
+                new StructureField(AggregateType.Array | AggregateType.Vector4 | AggregateType.FP32, "data", Constants.ConstantBufferSize / 16)
+            ]);
 
             Properties.AddOrUpdateConstantBuffer(new(BufferLayout.Std140, setIndex, binding, name, type));
         }
 
         private void AddNewStorageBuffer(int setIndex, int binding, string name)
         {
-            StructureType type = new(new[]
-            {
-                new StructureField(AggregateType.Array | AggregateType.U32, "data", 0),
-            });
+            StructureType type = new([
+                new StructureField(AggregateType.Array | AggregateType.U32, "data", 0)
+            ]);
 
             Properties.AddOrUpdateStorageBuffer(new(BufferLayout.Std430, setIndex, binding, name, type));
         }

@@ -1,6 +1,7 @@
 using Ryujinx.Common;
 using Ryujinx.Common.Memory;
 using Ryujinx.Graphics.Device;
+using Ryujinx.Graphics.Gpu.Memory;
 using Ryujinx.Graphics.Texture;
 using System;
 using System.Collections.Generic;
@@ -168,9 +169,9 @@ namespace Ryujinx.Graphics.Gpu.Engine.InlineToMemory
         /// </summary>
         private void FinishTransfer()
         {
-            var memoryManager = _channel.MemoryManager;
+            MemoryManager memoryManager = _channel.MemoryManager;
 
-            var data = MemoryMarshal.Cast<int, byte>(_buffer)[.._size];
+            Span<byte> data = MemoryMarshal.Cast<int, byte>(_buffer)[.._size];
 
             if (_isLinear && _lineCount == 1)
             {
@@ -184,7 +185,7 @@ namespace Ryujinx.Graphics.Gpu.Engine.InlineToMemory
                 // Right now the copy code at the bottom assumes that it is used on both which might be incorrect.
                 if (!_isLinear)
                 {
-                    var target = memoryManager.Physical.TextureCache.FindTexture(
+                    Image.Texture target = memoryManager.Physical.TextureCache.FindTexture(
                         memoryManager,
                         _dstGpuVa,
                         1,
@@ -199,7 +200,7 @@ namespace Ryujinx.Graphics.Gpu.Engine.InlineToMemory
                     if (target != null)
                     {
                         target.SynchronizeMemory();
-                        var dataCopy = MemoryOwner<byte>.RentCopy(data);
+                        MemoryOwner<byte> dataCopy = MemoryOwner<byte>.RentCopy(data);
                         target.SetData(dataCopy, 0, 0, new GAL.Rectangle<int>(_dstX, _dstY, _lineLengthIn / target.Info.FormatInfo.BytesPerPixel, _lineCount));
                         target.SignalModified();
 
@@ -207,7 +208,7 @@ namespace Ryujinx.Graphics.Gpu.Engine.InlineToMemory
                     }
                 }
 
-                var dstCalculator = new OffsetCalculator(
+                OffsetCalculator dstCalculator = new(
                     _dstWidth,
                     _dstHeight,
                     _dstStride,

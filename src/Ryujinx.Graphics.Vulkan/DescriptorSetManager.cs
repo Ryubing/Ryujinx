@@ -24,14 +24,14 @@ namespace Ryujinx.Graphics.Vulkan
                 Api = api;
                 Device = device;
 
-                foreach (var poolSize in poolSizes)
+                foreach (DescriptorPoolSize poolSize in poolSizes)
                 {
                     _freeDescriptors += (int)poolSize.DescriptorCount;
                 }
 
                 fixed (DescriptorPoolSize* pPoolsSize = poolSizes)
                 {
-                    var descriptorPoolCreateInfo = new DescriptorPoolCreateInfo
+                    DescriptorPoolCreateInfo descriptorPoolCreateInfo = new()
                     {
                         SType = StructureType.DescriptorPoolCreateInfo,
                         Flags = updateAfterBind ? DescriptorPoolCreateFlags.UpdateAfterBindBit : DescriptorPoolCreateFlags.None,
@@ -46,7 +46,7 @@ namespace Ryujinx.Graphics.Vulkan
 
             public unsafe DescriptorSetCollection AllocateDescriptorSets(ReadOnlySpan<DescriptorSetLayout> layouts, int consumedDescriptors)
             {
-                TryAllocateDescriptorSets(layouts, consumedDescriptors, isTry: false, out var dsc);
+                TryAllocateDescriptorSets(layouts, consumedDescriptors, isTry: false, out DescriptorSetCollection dsc);
                 return dsc;
             }
 
@@ -69,7 +69,7 @@ namespace Ryujinx.Graphics.Vulkan
                 {
                     fixed (DescriptorSetLayout* pLayouts = layouts)
                     {
-                        var descriptorSetAllocateInfo = new DescriptorSetAllocateInfo
+                        DescriptorSetAllocateInfo descriptorSetAllocateInfo = new()
                         {
                             SType = StructureType.DescriptorSetAllocateInfo,
                             DescriptorPool = _pool,
@@ -77,7 +77,7 @@ namespace Ryujinx.Graphics.Vulkan
                             PSetLayouts = pLayouts,
                         };
 
-                        var result = Api.AllocateDescriptorSets(Device, &descriptorSetAllocateInfo, pDescriptorSets);
+                        Result result = Api.AllocateDescriptorSets(Device, &descriptorSetAllocateInfo, pDescriptorSets);
                         if (isTry && result == Result.ErrorOutOfPoolMemory)
                         {
                             _totalSets = (int)MaxSets;
@@ -182,8 +182,8 @@ namespace Ryujinx.Graphics.Vulkan
         {
             // If we fail the first time, just create a new pool and try again.
 
-            var pool = GetPool(api, poolSizes, poolIndex, layouts.Length, consumedDescriptors, updateAfterBind);
-            if (!pool.TryAllocateDescriptorSets(layouts, consumedDescriptors, out var dsc))
+            DescriptorPoolHolder pool = GetPool(api, poolSizes, poolIndex, layouts.Length, consumedDescriptors, updateAfterBind);
+            if (!pool.TryAllocateDescriptorSets(layouts, consumedDescriptors, out DescriptorSetCollection dsc))
             {
                 pool = GetPool(api, poolSizes, poolIndex, layouts.Length, consumedDescriptors, updateAfterBind);
                 dsc = pool.AllocateDescriptorSets(layouts, consumedDescriptors);

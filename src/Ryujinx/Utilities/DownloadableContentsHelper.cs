@@ -22,7 +22,7 @@ namespace Ryujinx.Ava.Utilities
 
         public static List<(DownloadableContentModel, bool IsEnabled)> LoadDownloadableContentsJson(VirtualFileSystem vfs, ulong applicationIdBase)
         {
-            var downloadableContentJsonPath = PathToGameDLCJson(applicationIdBase);
+            string downloadableContentJsonPath = PathToGameDLCJson(applicationIdBase);
 
             if (!File.Exists(downloadableContentJsonPath))
             {
@@ -31,7 +31,7 @@ namespace Ryujinx.Ava.Utilities
 
             try
             {
-                var downloadableContentContainerList = JsonHelper.DeserializeFromFile(downloadableContentJsonPath,
+                List<DownloadableContentContainer> downloadableContentContainerList = JsonHelper.DeserializeFromFile(downloadableContentJsonPath,
                     _serializerContext.ListDownloadableContentContainer);
                 return LoadDownloadableContents(vfs, downloadableContentContainerList);
             }
@@ -45,7 +45,7 @@ namespace Ryujinx.Ava.Utilities
         public static void SaveDownloadableContentsJson(ulong applicationIdBase, List<(DownloadableContentModel, bool IsEnabled)> dlcs)
         {
             DownloadableContentContainer container = default;
-            List<DownloadableContentContainer> downloadableContentContainerList = new();
+            List<DownloadableContentContainer> downloadableContentContainerList = [];
 
             foreach ((DownloadableContentModel dlc, bool isEnabled) in dlcs)
             {
@@ -76,13 +76,13 @@ namespace Ryujinx.Ava.Utilities
                 downloadableContentContainerList.Add(container);
             }
 
-            var downloadableContentJsonPath = PathToGameDLCJson(applicationIdBase);
+            string downloadableContentJsonPath = PathToGameDLCJson(applicationIdBase);
             JsonHelper.SerializeToFile(downloadableContentJsonPath, downloadableContentContainerList, _serializerContext.ListDownloadableContentContainer);
         }
 
         private static List<(DownloadableContentModel, bool IsEnabled)> LoadDownloadableContents(VirtualFileSystem vfs, List<DownloadableContentContainer> downloadableContentContainers)
         {
-            var result = new List<(DownloadableContentModel, bool IsEnabled)>();
+            List<(DownloadableContentModel, bool IsEnabled)> result = [];
 
             foreach (DownloadableContentContainer downloadableContentContainer in downloadableContentContainers)
             {
@@ -105,7 +105,7 @@ namespace Ryujinx.Ava.Utilities
                         continue;
                     }
 
-                    var content = new DownloadableContentModel(nca.Header.TitleId,
+                    DownloadableContentModel content = new(nca.Header.TitleId,
                         downloadableContentContainer.ContainerPath,
                         downloadableContentNca.FullPath);
 

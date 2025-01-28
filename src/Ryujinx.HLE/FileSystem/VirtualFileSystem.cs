@@ -61,7 +61,7 @@ namespace Ryujinx.HLE.FileSystem
 
         public void LoadRomFs(ulong pid, string fileName)
         {
-            var romfsStream = new FileStream(fileName, FileMode.Open, FileAccess.Read);
+            FileStream romfsStream = new(fileName, FileMode.Open, FileAccess.Read);
 
             _romFsByPid.AddOrUpdate(pid, romfsStream, (pid, oldStream) =>
             {
@@ -140,8 +140,8 @@ namespace Ryujinx.HLE.FileSystem
                     return $"{rawPath}:/";
                 }
 
-                var basePath = rawPath.AsSpan(0, firstSeparatorOffset);
-                var fileName = rawPath.AsSpan(firstSeparatorOffset + 1);
+                ReadOnlySpan<char> basePath = rawPath.AsSpan(0, firstSeparatorOffset);
+                ReadOnlySpan<char> fileName = rawPath.AsSpan(firstSeparatorOffset + 1);
 
                 return $"{basePath}:/{fileName}";
             }
@@ -194,7 +194,7 @@ namespace Ryujinx.HLE.FileSystem
             }
 
             fsServerClient = horizon.CreatePrivilegedHorizonClient();
-            var fsServer = new FileSystemServer(fsServerClient);
+            FileSystemServer fsServer = new(fsServerClient);
 
             RandomDataGenerator randomGenerator = Random.Shared.NextBytes;
 
@@ -208,7 +208,7 @@ namespace Ryujinx.HLE.FileSystem
 
             SdCard.SetSdCardInserted(true);
 
-            var fsServerConfig = new FileSystemServerConfig
+            FileSystemServerConfig fsServerConfig = new()
             {
                 ExternalKeySet = KeySet.ExternalKeySet,
                 FsCreators = fsServerObjects.FsCreators,
@@ -270,7 +270,7 @@ namespace Ryujinx.HLE.FileSystem
         {
             foreach (DirectoryEntryEx ticketEntry in fs.EnumerateEntries("/", "*.tik"))
             {
-                using var ticketFile = new UniqueRef<IFile>();
+                using UniqueRef<IFile> ticketFile = new();
 
                 Result result = fs.OpenFile(ref ticketFile.Ref, ticketEntry.FullPath.ToU8Span(), OpenMode.Read);
 
@@ -286,7 +286,7 @@ namespace Ryujinx.HLE.FileSystem
                         continue;
 
                     Ticket ticket = new(new MemoryStream(ticketData));
-                    var titleKey = ticket.GetTitleKey(KeySet);
+                    byte[] titleKey = ticket.GetTitleKey(KeySet);
 
                     if (titleKey != null)
                     {
@@ -334,7 +334,7 @@ namespace Ryujinx.HLE.FileSystem
         {
             Span<SaveDataInfo> info = stackalloc SaveDataInfo[8];
 
-            using var iterator = new UniqueRef<SaveDataIterator>();
+            using UniqueRef<SaveDataIterator> iterator = new();
 
             Result rc = hos.Fs.OpenSaveDataIterator(ref iterator.Ref, spaceId);
             if (rc.IsFailure())
@@ -398,7 +398,7 @@ namespace Ryujinx.HLE.FileSystem
             }
 
             const string MountName = "SaveDir";
-            var mountNameU8 = MountName.ToU8Span();
+            U8Span mountNameU8 = MountName.ToU8Span();
 
             BisPartitionId partitionId = info.SpaceId switch
             {
@@ -415,7 +415,7 @@ namespace Ryujinx.HLE.FileSystem
 
             try
             {
-                var path = $"{MountName}:/save/{info.SaveDataId:x16}".ToU8Span();
+                U8Span path = $"{MountName}:/save/{info.SaveDataId:x16}".ToU8Span();
 
                 rc = hos.Fs.GetEntryType(out _, path);
 
@@ -437,9 +437,9 @@ namespace Ryujinx.HLE.FileSystem
         {
             list = null;
 
-            var mountName = "system".ToU8Span();
+            U8Span mountName = "system".ToU8Span();
             DirectoryHandle handle = default;
-            List<ulong> localList = new();
+            List<ulong> localList = [];
 
             try
             {
@@ -498,7 +498,7 @@ namespace Ryujinx.HLE.FileSystem
         // Only save data IDs added to SystemExtraDataFixInfo will be fixed.
         private static Result FixUnindexedSystemSaves(HorizonClient hos, List<ulong> existingSaveIds)
         {
-            foreach (var fixInfo in _systemExtraDataFixInfo)
+            foreach (ExtraDataFixInfo fixInfo in _systemExtraDataFixInfo)
             {
                 if (!existingSaveIds.Contains(fixInfo.StaticSaveDataId))
                 {
@@ -665,7 +665,7 @@ namespace Ryujinx.HLE.FileSystem
         {
             if (disposing)
             {
-                foreach (var stream in _romFsByPid.Values)
+                foreach (Stream stream in _romFsByPid.Values)
                 {
                     stream.Close();
                 }

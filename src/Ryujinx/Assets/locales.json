@@ -393,7 +393,7 @@
         "th_TH": "โหลด DLC จากโฟลเดอร์",
         "tr_TR": "",
         "uk_UA": "Завантажити DLC з теки",
-        "zh_CN": "从文件夹加载DLC",
+        "zh_CN": "从文件夹加载 DLC",
         "zh_TW": "從資料夾中載入 DLC"
       }
     },
@@ -573,6 +573,31 @@
       }
     },
     {
+      "ID": "MenuBarOptionsStartGamesWithoutUI",
+      "Translations": {
+        "ar_SA": "",
+        "de_DE": "",
+        "el_GR": "",
+        "en_US": "Start Games with UI Hidden",
+        "es_ES": "",
+        "fr_FR": "",
+        "he_IL": "",
+        "it_IT": "",
+        "ja_JP": "",
+        "ko_KR": "",
+        "no_NO": "",
+        "pl_PL": "",
+        "pt_BR": "",
+        "ru_RU": "",
+        "sv_SE": "",
+        "th_TH": "",
+        "tr_TR": "",
+        "uk_UA": "",
+        "zh_CN": "启动游戏时隐藏 UI",
+        "zh_TW": ""
+      }
+    },
+    {
       "ID": "MenuBarOptionsStopEmulation",
       "Translations": {
         "ar_SA": "إيقاف المحاكاة",
@@ -743,37 +768,12 @@
         "th_TH": "",
         "tr_TR": "",
         "uk_UA": "Сканувати Amiibo (з теки Bin)",
-        "zh_CN": "从bin文件扫描 Amiibo",
+        "zh_CN": "扫描 Amiibo (从 bin 文件)",
         "zh_TW": "掃瞄 Amiibo (從 Bin 檔案)"
       }
     },
     {
-      "ID": "MenuBarTools",
-      "Translations": {
-        "ar_SA": "_الأدوات",
-        "de_DE": "",
-        "el_GR": "_Εργαλεία",
-        "en_US": "_Tools",
-        "es_ES": "_Herramientas",
-        "fr_FR": "_Outils",
-        "he_IL": "_כלים",
-        "it_IT": "_Strumenti",
-        "ja_JP": "ツール(_T)",
-        "ko_KR": "도구(_T)",
-        "no_NO": "_Verktøy",
-        "pl_PL": "_Narzędzia",
-        "pt_BR": "_Ferramentas",
-        "ru_RU": "_Инструменты",
-        "sv_SE": "V_erktyg",
-        "th_TH": "_เครื่องมือ",
-        "tr_TR": "_Araçlar",
-        "uk_UA": "_Інструменти",
-        "zh_CN": "工具(_T)",
-        "zh_TW": "工具(_T)"
-      }
-    },
-    {
-      "ID": "MenuBarToolsInstallFirmware",
+      "ID": "MenuBarActionsInstallFirmware",
       "Translations": {
         "ar_SA": "تثبيت البرنامج الثابت",
         "de_DE": "Firmware installieren",
@@ -798,7 +798,7 @@
       }
     },
     {
-      "ID": "MenuBarFileToolsInstallFirmwareFromFile",
+      "ID": "MenuBarActionsInstallFirmwareFromFile",
       "Translations": {
         "ar_SA": "تثبيت برنامج ثابت من XCI أو ZIP",
         "de_DE": "Firmware von einer XCI- oder einer ZIP-Datei installieren",
@@ -818,12 +818,12 @@
         "th_TH": "ติดตั้งเฟิร์มแวร์จาก ไฟล์ XCI หรือ ไฟล์ ZIP",
         "tr_TR": "XCI veya ZIP'ten Yazılım Yükle",
         "uk_UA": "Встановити прошивку з XCI або ZIP",
-        "zh_CN": "从 XCI 或 ZIP 文件中安装系统固件",
+        "zh_CN": "从 XCI 或 ZIP 文件安装系统固件",
         "zh_TW": "從 XCI 或 ZIP 安裝韌體"
       }
     },
     {
-      "ID": "MenuBarFileToolsInstallFirmwareFromDirectory",
+      "ID": "MenuBarActionsInstallFirmwareFromDirectory",
       "Translations": {
         "ar_SA": "تثبيت برنامج ثابت من مجلد",
         "de_DE": "Firmware aus einem Verzeichnis installieren",
@@ -843,12 +843,12 @@
         "th_TH": "ติดตั้งเฟิร์มแวร์จากไดเร็กทอรี",
         "tr_TR": "Bir Dizin Üzerinden Yazılım Yükle",
         "uk_UA": "Встановити прошивку з теки",
-        "zh_CN": "从文件夹中安装系统固件",
+        "zh_CN": "从文件夹安装系统固件",
         "zh_TW": "從資料夾安裝韌體"
       }
     },
     {
-      "ID": "MenuBarToolsInstallKeys",
+      "ID": "MenuBarActionsInstallKeys",
       "Translations": {
         "ar_SA": "",
         "de_DE": "",
@@ -873,7 +873,7 @@
       }
     },
     {
-      "ID": "MenuBarFileToolsInstallKeysFromFile",
+      "ID": "MenuBarFileActionsInstallKeysFromFile",
       "Translations": {
         "ar_SA": "",
         "de_DE": "",
@@ -893,12 +893,12 @@
         "th_TH": "",
         "tr_TR": "",
         "uk_UA": "Встановити ключі з файлу .KEYS або .ZIP",
-        "zh_CN": "从.KEYS文件或ZIP压缩包安装密匙",
+        "zh_CN": "从 .KEYS 文件或 .ZIP 压缩包安装密匙",
         "zh_TW": "從 .KEYS 或 .ZIP 安裝金鑰"
       }
     },
     {
-      "ID": "MenuBarFileToolsInstallKeysFromFolder",
+      "ID": "MenuBarFileActionsInstallKeysFromFolder",
       "Translations": {
         "ar_SA": "",
         "de_DE": "",
@@ -923,7 +923,7 @@
       }
     },
     {
-      "ID": "MenuBarToolsManageFileTypes",
+      "ID": "MenuBarActionsManageFileTypes",
       "Translations": {
         "ar_SA": "إدارة أنواع الملفات",
         "de_DE": "Dateitypen verwalten",
@@ -948,7 +948,7 @@
       }
     },
     {
-      "ID": "MenuBarToolsInstallFileTypes",
+      "ID": "MenuBarActionsInstallFileTypes",
       "Translations": {
         "ar_SA": "تثبيت أنواع الملفات",
         "de_DE": "Dateitypen installieren",
@@ -973,7 +973,7 @@
       }
     },
     {
-      "ID": "MenuBarToolsUninstallFileTypes",
+      "ID": "MenuBarActionsUninstallFileTypes",
       "Translations": {
         "ar_SA": "إزالة أنواع الملفات",
         "de_DE": "Dateitypen deinstallieren",
@@ -998,7 +998,7 @@
       }
     },
     {
-      "ID": "MenuBarToolsXCITrimmer",
+      "ID": "MenuBarActionsXCITrimmer",
       "Translations": {
         "ar_SA": "",
         "de_DE": "",
@@ -1018,7 +1018,7 @@
         "th_TH": "",
         "tr_TR": "",
         "uk_UA": "Обрізати XCI файли",
-        "zh_CN": "XCI文件瘦身",
+        "zh_CN": "瘦身 XCI 文件",
         "zh_TW": "修剪 XCI 檔案"
       }
     },
@@ -1293,7 +1293,7 @@
         "th_TH": "",
         "tr_TR": "",
         "uk_UA": "Відкриває сторінку з Посібником по усуненню помилок та несправностей на офіційній вікі-сторінці Ryujinx (англійською)",
-        "zh_CN": "打开Ryujinx官方wiki的常见问题和问题排除页面",
+        "zh_CN": "打开 Ryujinx 官方 Wiki 的常见问题和问题排除页面",
         "zh_TW": "開啟官方 Ryujinx Wiki 常見問題 (FAQ) 和疑難排解頁面"
       }
     },
@@ -1343,7 +1343,7 @@
         "th_TH": "",
         "tr_TR": "",
         "uk_UA": "Відкриває посібник з Налаштування та конфігурації на офіційній вікі-сторінці Ryujinx (англійською)",
-        "zh_CN": "打开Ryujinx官方wiki的安装与配置指南",
+        "zh_CN": "打开 Ryujinx 官方 Wiki 的安装与配置指南",
         "zh_TW": "開啟官方 Ryujinx Wiki 設定和配置指南"
       }
     },
@@ -1393,7 +1393,7 @@
         "th_TH": "",
         "tr_TR": "",
         "uk_UA": "Відкриває посібник з налаштування Мультиплеєру на офіційній вікі-сторінці Ryujinx (англійською)",
-        "zh_CN": "打开Ryujinx官方wiki的多人游戏指南",
+        "zh_CN": "打开 Ryujinx 官方 Wiki 的多人游戏指南",
         "zh_TW": "開啟官方 Ryujinx Wiki 多人遊戲 (LDN/LAN) 指南"
       }
     },
@@ -1443,7 +1443,7 @@
         "th_TH": "กำลังค้นหา...",
         "tr_TR": "Ara...",
         "uk_UA": "Пошук...",
-        "zh_CN": "搜索…",
+        "zh_CN": "搜索...",
         "zh_TW": "搜尋..."
       }
     },
@@ -2298,6 +2298,56 @@
       }
     },
     {
+      "ID": "GameListContextMenuExtractDataAocRomFS",
+      "Translations": {
+        "ar_SA": "",
+        "de_DE": "",
+        "el_GR": "",
+        "en_US": "DLC RomFS",
+        "es_ES": "",
+        "fr_FR": "RomFS de DLC",
+        "he_IL": "",
+        "it_IT": "",
+        "ja_JP": "",
+        "ko_KR": "",
+        "no_NO": "",
+        "pl_PL": "",
+        "pt_BR": "",
+        "ru_RU": "",
+        "sv_SE": "",
+        "th_TH": "",
+        "tr_TR": "",
+        "uk_UA": "",
+        "zh_CN": "",
+        "zh_TW": ""
+      }
+    },
+    {
+      "ID": "GameListContextMenuExtractDataAocRomFSToolTip",
+      "Translations": {
+        "ar_SA": "",
+        "de_DE": "",
+        "el_GR": "",
+        "en_US": "Extract the RomFS from a selected DLC file",
+        "es_ES": "",
+        "fr_FR": "Extraire les RomFS d'un fichier DLC choisi",
+        "he_IL": "",
+        "it_IT": "",
+        "ja_JP": "",
+        "ko_KR": "",
+        "no_NO": "Pakk ut RomFS filene fra valgt DLC fil",
+        "pl_PL": "",
+        "pt_BR": "",
+        "ru_RU": "",
+        "sv_SE": "",
+        "th_TH": "",
+        "tr_TR": "",
+        "uk_UA": "",
+        "zh_CN": "从选定的 DLC 文件中解压 RomFS",
+        "zh_TW": ""
+      }
+    },
+    {
       "ID": "GameListContextMenuExtractDataLogo",
       "Translations": {
         "ar_SA": "شعار",
@@ -2543,7 +2593,7 @@
         "th_TH": "",
         "tr_TR": "",
         "uk_UA": "Перевірка та нарізка XCI Файлу",
-        "zh_CN": "检查并瘦身XCI文件",
+        "zh_CN": "检查并瘦身 XCI 文件",
         "zh_TW": "檢查及修剪 XCI 檔案"
       }
     },
@@ -2568,7 +2618,7 @@
         "th_TH": "",
         "tr_TR": "",
         "uk_UA": "Перевірити та обрізати XCI Файл задля збереження місця на диску",
-        "zh_CN": "检查并瘦身XCI文件以节约磁盘空间",
+        "zh_CN": "检查并瘦身 XCI 文件以节约磁盘空间",
         "zh_TW": "檢查及修剪 XCI 檔案以節省儲存空間"
       }
     },
@@ -2643,7 +2693,7 @@
         "th_TH": "",
         "tr_TR": "",
         "uk_UA": "Обрізається XCI Файлів '{0}'",
-        "zh_CN": "XCI文件瘦身中'{0}'",
+        "zh_CN": "正在瘦身 XCI 文件 '{0}'",
         "zh_TW": "正在修剪 XCI 檔案 '{0}'"
       }
     },
@@ -3168,7 +3218,7 @@
         "th_TH": "โหลดไดเรกทอรี DLC/ไฟล์อัปเดต อัตโนมัติ",
         "tr_TR": "",
         "uk_UA": "Автозавантаження теки DLC/Оновлень",
-        "zh_CN": "自动加载DLC/游戏更新目录",
+        "zh_CN": "自动加载 DLC 及 游戏更新 的目录",
         "zh_TW": "自動載入 DLC/遊戲更新資料夾"
       }
     },
@@ -3193,7 +3243,7 @@
         "th_TH": "",
         "tr_TR": "",
         "uk_UA": "DLC та Оновлення, які посилаються на відсутні файли, будуть автоматично вимкнуті.",
-        "zh_CN": "DLC/游戏更新可自动加载和卸载",
+        "zh_CN": "DLC 及 游戏更新 可自动加载和卸载",
         "zh_TW": "遺失的 DLC 及遊戲更新檔案將會在自動載入中移除"
       }
     },
@@ -7621,6 +7671,106 @@
       }
     },
     {
+      "ID": "ControllerSettingsLed",
+      "Translations": {
+        "ar_SA": "",
+        "de_DE": "",
+        "el_GR": "",
+        "en_US": "LED",
+        "es_ES": "",
+        "fr_FR": "",
+        "he_IL": "",
+        "it_IT": "",
+        "ja_JP": "",
+        "ko_KR": "",
+        "no_NO": "",
+        "pl_PL": "",
+        "pt_BR": "",
+        "ru_RU": "",
+        "sv_SE": "",
+        "th_TH": "",
+        "tr_TR": "",
+        "uk_UA": "",
+        "zh_CN": "",
+        "zh_TW": ""
+      }
+    },
+    {
+      "ID": "ControllerSettingsLedColorDisable",
+      "Translations": {
+        "ar_SA": "",
+        "de_DE": "",
+        "el_GR": "",
+        "en_US": "Disable",
+        "es_ES": "",
+        "fr_FR": "",
+        "he_IL": "",
+        "it_IT": "",
+        "ja_JP": "",
+        "ko_KR": "",
+        "no_NO": "",
+        "pl_PL": "",
+        "pt_BR": "",
+        "ru_RU": "",
+        "sv_SE": "",
+        "th_TH": "",
+        "tr_TR": "",
+        "uk_UA": "",
+        "zh_CN": "关闭",
+        "zh_TW": ""
+      }
+    },
+    {
+      "ID": "ControllerSettingsLedColorRainbow",
+      "Translations": {
+        "ar_SA": "",
+        "de_DE": "",
+        "el_GR": "",
+        "en_US": "Rainbow",
+        "es_ES": "",
+        "fr_FR": "",
+        "he_IL": "",
+        "it_IT": "",
+        "ja_JP": "",
+        "ko_KR": "",
+        "no_NO": "",
+        "pl_PL": "",
+        "pt_BR": "",
+        "ru_RU": "",
+        "sv_SE": "",
+        "th_TH": "",
+        "tr_TR": "",
+        "uk_UA": "",
+        "zh_CN": "彩虹",
+        "zh_TW": ""
+      }
+    },
+    {
+      "ID": "ControllerSettingsLedColor",
+      "Translations": {
+        "ar_SA": "",
+        "de_DE": "",
+        "el_GR": "",
+        "en_US": "Color",
+        "es_ES": "",
+        "fr_FR": "",
+        "he_IL": "",
+        "it_IT": "",
+        "ja_JP": "",
+        "ko_KR": "",
+        "no_NO": "",
+        "pl_PL": "",
+        "pt_BR": "",
+        "ru_RU": "",
+        "sv_SE": "",
+        "th_TH": "",
+        "tr_TR": "",
+        "uk_UA": "",
+        "zh_CN": "",
+        "zh_TW": ""
+      }
+    },
+    {
       "ID": "ControllerSettingsSave",
       "Translations": {
         "ar_SA": "حفظ",
@@ -11266,7 +11416,7 @@
         "th_TH": "ไม่มีข้อมูลบันทึกไว้สำหรับ {0} [{1:x16}]",
         "tr_TR": "{0} [{1:x16}] için kayıt verisi bulunamadı",
         "uk_UA": "Немає збережених даних для {0} [{1:x16}]",
-        "zh_CN": "没有{0} [{1:x16}]的游戏存档",
+        "zh_CN": "没有 {0} [{1:x16}] 的游戏存档",
         "zh_TW": "沒有 {0} [{1:x16}] 的存檔"
       }
     },
@@ -12416,7 +12566,7 @@
         "th_TH": "",
         "tr_TR": "",
         "uk_UA": "Вікно XCI Тримера",
-        "zh_CN": "XCI文件瘦身窗口",
+        "zh_CN": "XCI 文件瘦身窗口",
         "zh_TW": "XCI 修剪器視窗"
       }
     },
@@ -13141,7 +13291,7 @@
         "th_TH": "",
         "tr_TR": "",
         "uk_UA": "",
-        "zh_CN": "在{0}发现了一个无效的密匙文件",
+        "zh_CN": "在 {0} 发现了一个无效的密匙文件",
         "zh_TW": "找到無效的金鑰檔案 {0}"
       }
     },
@@ -14491,7 +14641,7 @@
         "th_TH": "แฮ็ค: สุ่มแท็ก Uuid",
         "tr_TR": "Hack: Rastgele bir Uuid kullan",
         "uk_UA": "Хитрість: Використовувати випадковий тег Uuid",
-        "zh_CN": "修改：使用随机生成的Amiibo ID",
+        "zh_CN": "修改：使用随机生成的 Amiibo ID",
         "zh_TW": "補釘修正：使用隨機標記的 Uuid"
       }
     },
@@ -15441,7 +15591,7 @@
         "th_TH": "โหลด PPTC โดยใช้หนึ่งในสามของจำนวนคอร์",
         "tr_TR": "",
         "uk_UA": "Завантажувати PPTC використовуючи третину від кількості ядер.",
-        "zh_CN": "使用三分之一的核心数加载PPTC.",
+        "zh_CN": "使用三分之一的核心数加载 PPTC.",
         "zh_TW": "使用 CPU 核心數量的三分之一載入 PPTC。"
       }
     },
@@ -16266,7 +16416,7 @@
         "th_TH": "เปิดตัวสำรวจไฟล์เพื่อเลือกหนึ่งโฟลเดอร์ขึ้นไปเพื่อโหลด DLC จำนวนมาก",
         "tr_TR": "",
         "uk_UA": "Відкриває Файловий провідник для обрання однієї або декількох тек для масового завантаження DLC",
-        "zh_CN": "打开文件资源管理器以选择一个或多个文件夹来批量加载DLC。",
+        "zh_CN": "打开文件资源管理器以选择一个或多个文件夹来批量加载 DLC。",
         "zh_TW": "開啟檔案總管，選擇一個或多個資料夾來大量載入 DLC"
       }
     },
@@ -18821,6 +18971,31 @@
       }
     },
     {
+      "ID": "ControllerLedTitle",
+      "Translations": {
+        "ar_SA": "",
+        "de_DE": "",
+        "el_GR": "",
+        "en_US": "LED Settings",
+        "es_ES": "",
+        "fr_FR": "",
+        "he_IL": "",
+        "it_IT": "",
+        "ja_JP": "",
+        "ko_KR": "",
+        "no_NO": "",
+        "pl_PL": "",
+        "pt_BR": "",
+        "ru_RU": "",
+        "sv_SE": "",
+        "th_TH": "",
+        "tr_TR": "",
+        "uk_UA": "",
+        "zh_CN": "",
+        "zh_TW": ""
+      }
+    },
+    {
       "ID": "SettingsSelectThemeFileDialogTitle",
       "Translations": {
         "ar_SA": "حدد ملف السمة",
@@ -19091,7 +19266,7 @@
         "th_TH": "",
         "tr_TR": "",
         "uk_UA": "Перевірити та Обрізати XCI файл",
-        "zh_CN": "检查并瘦身XCI文件",
+        "zh_CN": "检查并瘦身 XCI 文件",
         "zh_TW": "檢查及修剪 XCI 檔案"
       }
     },
@@ -19116,7 +19291,7 @@
         "th_TH": "",
         "tr_TR": "",
         "uk_UA": "Ця функція спочатку перевірить наявність порожнього місця, після чого обріже файл XCI для економії місця на диску.",
-        "zh_CN": "这个功能将会先检查XCI文件，再对其执行瘦身操作以节约磁盘空间。",
+        "zh_CN": "这个功能将会先检查 XCI 文件，再对其执行瘦身操作以节约磁盘空间。",
         "zh_TW": "此功能首先檢查 XCI 檔案是否有可修剪的字元，然後修剪檔案以節省儲存空間。"
       }
     },
@@ -19166,7 +19341,7 @@
         "th_TH": "",
         "tr_TR": "",
         "uk_UA": "XCI файл не потребує обрізання. Перевірте журнали (logs) для отримання додаткової інформації",
-        "zh_CN": "XCI文件不需要被瘦身。查看日志以获得更多细节。",
+        "zh_CN": "XCI 文件不需要被瘦身。查看日志以获得更多细节。",
         "zh_TW": "XCI 檔案不需要修剪。檢查日誌以取得更多資訊"
       }
     },
@@ -19191,7 +19366,7 @@
         "th_TH": "",
         "tr_TR": "",
         "uk_UA": "XCI файл не може бути обрізаний. Перевірте журнали (logs) для отримання додаткової інформації",
-        "zh_CN": "XCI文件不能被瘦身。查看日志以获得更多细节。",
+        "zh_CN": "XCI 文件不能被瘦身。查看日志以获得更多细节。",
         "zh_TW": "XCI 檔案不能被修剪。檢查日誌以取得更多資訊"
       }
     },
@@ -19216,7 +19391,7 @@
         "th_TH": "",
         "tr_TR": "",
         "uk_UA": "XCI файл Тільки для Читання і не може бути прочитаним. Перевірте журнали (logs) для отримання додаткової інформації",
-        "zh_CN": "XCI文件是只读的，且不可以被标记为可读取的。查看日志以获得更多细节。",
+        "zh_CN": "XCI 文件是只读的，且不可以被标记为可读取的。查看日志以获得更多细节。",
         "zh_TW": "XCI 檔案是唯讀，並且無法改成可寫入。檢查日誌以取得更多資訊"
       }
     },
@@ -19241,7 +19416,7 @@
         "th_TH": "",
         "tr_TR": "",
         "uk_UA": "Розмір файлу XCI змінився з моменту сканування. Перевірте, чи не записується файл, та спробуйте знову",
-        "zh_CN": "XCI文件在扫描后大小发生了变化。请检查文件是否未被写入，然后重试。",
+        "zh_CN": "XCI 文件在扫描后大小发生了变化。请检查文件是否未被写入，然后重试。",
         "zh_TW": "XCI 檔案大小比較上次的掃瞄已經改變。請檢查檔案是否未被寫入，然後再嘗試。"
       }
     },
@@ -19266,7 +19441,7 @@
         "th_TH": "",
         "tr_TR": "",
         "uk_UA": "Файл XCI містить дані в зоні вільного простору, тому обрізка небезпечна",
-        "zh_CN": "XCI文件的空闲区域内有数据，不能安全瘦身。",
+        "zh_CN": "XCI 文件的空闲区域内有数据，不能安全瘦身。",
         "zh_TW": "XCI 檔案有數據儲存於可節省儲存空間的區域，所以試圖修剪並不安全"
       }
     },
@@ -19291,7 +19466,7 @@
         "th_TH": "",
         "tr_TR": "",
         "uk_UA": "XCI Файл містить недійсні дані. Перевірте журнали (logs) для отримання додаткової інформації",
-        "zh_CN": "XCI文件含有无效数据。查看日志以获得更多细节。",
+        "zh_CN": "XCI 文件含有无效数据。查看日志以获得更多细节。",
         "zh_TW": "XCI 檔案帶有無效的數據。檢查日誌以取得更多資訊"
       }
     },
@@ -19316,7 +19491,7 @@
         "th_TH": "",
         "tr_TR": "",
         "uk_UA": "XCI Файл файл не вдалося відкрити для запису. Перевірте журнали для додаткової інформації",
-        "zh_CN": "XCI文件不能被读写。查看日志以获得更多细节。",
+        "zh_CN": "XCI 文件不能被读写。查看日志以获得更多细节。",
         "zh_TW": "XCI 檔案不能被寫入。檢查日誌以取得更多資訊"
       }
     },
@@ -19341,7 +19516,7 @@
         "th_TH": "",
         "tr_TR": "",
         "uk_UA": "Не вдалося обрізати файл XCI",
-        "zh_CN": "XCI文件瘦身失败",
+        "zh_CN": "XCI 文件瘦身失败",
         "zh_TW": "修剪 XCI 檔案失敗"
       }
     },
@@ -19541,7 +19716,7 @@
         "th_TH": "",
         "tr_TR": "",
         "uk_UA": "Обрізка XCI Файлів",
-        "zh_CN": "XCI文件瘦身器",
+        "zh_CN": "XCI 文件瘦身器",
         "zh_TW": "XCI 檔案修剪器"
       }
     },
@@ -20016,7 +20191,7 @@
         "th_TH": "แพ็ค DLC ไม่สามารถลบทิ้งได้ สามารถปิดใช้งานได้เท่านั้น",
         "tr_TR": "",
         "uk_UA": "Комплектні DLC (бандли) не можуть бути видаленими, лише вимкненими.",
-        "zh_CN": "游戏整合的DLC无法移除，可尝试禁用。",
+        "zh_CN": "游戏整合的 DLC 无法移除，可尝试禁用。",
         "zh_TW": "附帶的 DLC 只能被停用而無法被刪除。"
       }
     },
@@ -20066,7 +20241,7 @@
         "th_TH": "{0} DLC ใหม่ที่เพิ่มเข้ามา",
         "tr_TR": "",
         "uk_UA": "{0} нового завантажувального вмісту додано",
-        "zh_CN": "{0} 个DLC被添加",
+        "zh_CN": "{0} 个 DLC 被添加",
         "zh_TW": "已加入 {0} 個 DLC"
       }
     },
@@ -20091,7 +20266,7 @@
         "th_TH": "{0} ใหม่ที่เพิ่มเข้ามา",
         "tr_TR": "",
         "uk_UA": "{0} нового завантажувального вмісту додано",
-        "zh_CN": "{0} 个DLC被添加",
+        "zh_CN": "{0} 个 DLC 被添加",
         "zh_TW": "已加入 {0} 個 DLC"
       }
     },
@@ -20116,7 +20291,7 @@
         "th_TH": "",
         "tr_TR": "",
         "uk_UA": "{0} відсутнього завантажувального вмісту видалено",
-        "zh_CN": "{0} 个失效的DLC已移除",
+        "zh_CN": "{0} 个失效的 DLC 已移除",
         "zh_TW": "已刪除 {0} 個遺失的 DLC"
       }
     },
@@ -20641,7 +20816,7 @@
         "th_TH": "",
         "tr_TR": "",
         "uk_UA": "",
-        "zh_CN": "使用Vulkan。\n在ARM Mac上，当玩在其下运行良好的游戏时，使用Metal后端。",
+        "zh_CN": "使用 Vulkan。\n在 ARM Mac 上，当玩在其下运行良好的游戏时，使用 Metal 后端。",
         "zh_TW": "使用Vulkan。\n在 ARM Mac 上，如果遊戲執行性能良好時，則將使用 Metal 後端。"
       }
     },
@@ -22041,7 +22216,7 @@
         "th_TH": "",
         "tr_TR": "",
         "uk_UA": "Вимкнути хостинг P2P мережі (може збільшити затримку)",
-        "zh_CN": "禁用P2P网络连接 （也许会增加延迟）",
+        "zh_CN": "禁用 P2P 网络连接 （也许会增加延迟）",
         "zh_TW": "停用對等網路代管 (P2P Network Hosting) (可能增加網路延遲)"
       }
     },
@@ -22066,7 +22241,7 @@
         "th_TH": "",
         "tr_TR": "",
         "uk_UA": "Вимкнути хостинг P2P мережі, піри будуть підключатися через майстер-сервер замість прямого з'єднання з вами.",
-        "zh_CN": "禁用P2P网络连接，对方将通过主服务器进行连接，而不是直接连接到您。",
+        "zh_CN": "禁用 P2P 网络连接，对方将通过主服务器进行连接，而不是直接连接到您。",
         "zh_TW": "停用對等網路代管 (P2P Network Hosting), 用戶群會經過代理何服器而非直接連線至你的主機。"
       }
     },
@@ -22141,7 +22316,7 @@
         "th_TH": "",
         "tr_TR": "",
         "uk_UA": "Введіть пароль у форматі Ryujinx-<8 символів>. Ви зможете бачити лише ті ігри, які мають такий самий пароль, як і у вас.",
-        "zh_CN": "以Ryujinx-<8个十六进制字符>的格式输入密码。您只能看到与您使用相同密码的游戏房间。",
+        "zh_CN": "以 Ryujinx-<8个十六进制字符> 的格式输入密码。您只能看到与您使用相同密码的游戏房间。",
         "zh_TW": "以「Ryujinx-<8 個十六進制數字>」的格式輸入密碼片語 (passphrase)。你只會看到與你的密碼片語 (passphrase) 相同的遊戲房間。"
       }
     },
@@ -22441,7 +22616,7 @@
         "th_TH": "",
         "tr_TR": "",
         "uk_UA": "Емульована вертикальна синхронізація кадрів. 'Switch' емулює частоту оновлення консолі Nintendo Switch (60 Гц). 'Необмежена' — частота оновлення не матиме обмежень.",
-        "zh_CN": "模拟垂直同步。“Switch”模拟了Switch的60Hz刷新率。“无限制”没有刷新率限制。",
+        "zh_CN": "模拟垂直同步。“Switch”模拟了 Switch 的 60Hz 刷新率。“无限制”没有刷新率限制。",
         "zh_TW": "模擬垂直同步。「Switch」 模擬 Nintendo Switch 的 60Hz 重新整理頻率。「沒有限制」是沒有限制的重新整理頻率。"
       }
     },
@@ -22466,7 +22641,7 @@
         "th_TH": "",
         "tr_TR": "",
         "uk_UA": "Емульована вертикальна синхронізація кадрів. 'Switch' емулює частоту оновлення консолі Nintendo Switch (60 Гц). 'Необмежена' — частота оновлення не матиме обмежень. 'Користувацька' емулює вказану користувацьку частоту оновлення.",
-        "zh_CN": "模拟垂直同步。“Switch”模拟了Switch的60Hz刷新率。“无限制”没有刷新率限制。“自定义刷新率”模拟指定的自定义刷新率。",
+        "zh_CN": "模拟垂直同步。“Switch”模拟了 Switch 的 60Hz 刷新率。“无限制”没有刷新率限制。“自定义刷新率”模拟指定的自定义刷新率。",
         "zh_TW": "模擬垂直同步。「Switch」 模擬 Nintendo Switch 的 60Hz 重新整理頻率。「沒有限制」是沒有限制的重新整理頻率。「自訂的重新整理頻率」模擬所自訂的重新整理頻率。"
       }
     },
@@ -22491,7 +22666,7 @@
         "th_TH": "",
         "tr_TR": "",
         "uk_UA": "Дозволяє користувачу вказати емульовану частоту оновлення. У деяких іграх це може прискорити або сповільнити логіку гри. Натомість в інших іграх ця функція може дозволити обмежити FPS на певні кратні частоти оновлення або призвести до непередбачуваної поведінки. Це експериментальна функція, без гарантій того, як вона вплине на ігровий процес. \n\nЗалиште ВИМКНЕНИМ, якщо не впевнені.",
-        "zh_CN": "允许用户指定模拟刷新率。在某些游戏中，这可能会加快或减慢游戏逻辑的速度。在其他游戏中，它可能允许将FPS限制在刷新率的某个倍数，或者导致不可预测的行为。这是一个实验性功能，无法保证游戏会受到怎样的影响。\n\n如果不确定，请关闭。",
+        "zh_CN": "允许用户指定模拟刷新率。在某些游戏中，这可能会加快或减慢游戏逻辑的速度。在其他游戏中，它可能允许将 FPS 限制在刷新率的某个倍数，或者导致不可预测的行为。这是一个实验性功能，无法保证游戏会受到怎样的影响。\n\n如果不确定，请关闭。",
         "zh_TW": "容許使用者自訂模擬的重新整理頻率。你可能會在某些遊戲裡感受到加快或減慢的遊戲速度；其他遊戲裡則可能會容許限制最高的 FPS 至重新整理頻率的倍數，或引起未知遊戲行為。這是實驗性功能，且沒有保證遊戲會穩定執行。\n\n如果不確定，請保持關閉狀態。"
       }
     },
@@ -22943,6 +23118,31 @@
         "uk_UA": "",
         "zh_CN": "什么都没有",
         "zh_TW": "無法啟動 (Nothing)"
+      }
+    },
+    {
+      "ID": "ExtractAocListHeader",
+      "Translations": {
+        "ar_SA": "",
+        "de_DE": "",
+        "el_GR": "",
+        "en_US": "Select a DLC to Extract",
+        "es_ES": "",
+        "fr_FR": "Choisissez un DLC à extraire",
+        "he_IL": "",
+        "it_IT": "",
+        "ja_JP": "",
+        "ko_KR": "",
+        "no_NO": "Velg en DLC og hente ut",
+        "pl_PL": "",
+        "pt_BR": "",
+        "ru_RU": "",
+        "sv_SE": "",
+        "th_TH": "",
+        "tr_TR": "",
+        "uk_UA": "",
+        "zh_CN": "选择一个要解压的 DLC",
+        "zh_TW": ""
       }
     }
   ]

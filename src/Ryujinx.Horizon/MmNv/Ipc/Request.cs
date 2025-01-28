@@ -8,7 +8,7 @@ namespace Ryujinx.Horizon.MmNv.Ipc
 {
     partial class Request : IRequest
     {
-        private readonly List<Session> _sessionList = new();
+        private readonly List<Session> _sessionList = [];
 
         private uint _uniqueId = 1;
 

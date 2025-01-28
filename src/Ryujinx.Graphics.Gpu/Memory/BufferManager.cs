@@ -141,9 +141,9 @@ namespace Ryujinx.Graphics.Gpu.Memory
                 _gpUniformBuffers[index] = new BuffersPerStage(Constants.TotalGpUniformBuffers);
             }
 
-            _bufferTextures = new List<BufferTextureBinding>();
-            _bufferTextureArrays = new List<BufferTextureArrayBinding<ITextureArray>>();
-            _bufferImageArrays = new List<BufferTextureArrayBinding<IImageArray>>();
+            _bufferTextures = [];
+            _bufferTextureArrays = [];
+            _bufferImageArrays = [];
 
             _ranges = new BufferAssignment[Constants.TotalGpUniformBuffers * Constants.ShaderStages];
         }
@@ -478,7 +478,7 @@ namespace Ryujinx.Graphics.Gpu.Memory
         /// </summary>
         public void CommitComputeBindings()
         {
-            var bufferCache = _channel.MemoryManager.Physical.BufferCache;
+            BufferCache bufferCache = _channel.MemoryManager.Physical.BufferCache;
 
             BindBuffers(bufferCache, _cpStorageBuffers, isStorage: true);
             BindBuffers(bufferCache, _cpUniformBuffers, isStorage: false);
@@ -499,10 +499,10 @@ namespace Ryujinx.Graphics.Gpu.Memory
         {
             if (_bufferTextures.Count > 0)
             {
-                foreach (var binding in _bufferTextures)
+                foreach (BufferTextureBinding binding in _bufferTextures)
                 {
-                    var isStore = binding.BindingInfo.Flags.HasFlag(TextureUsageFlags.ImageStore);
-                    var range = bufferCache.GetBufferRange(binding.Range, BufferStageUtils.TextureBuffer(binding.Stage, binding.BindingInfo.Flags), isStore);
+                    bool isStore = binding.BindingInfo.Flags.HasFlag(TextureUsageFlags.ImageStore);
+                    BufferRange range = bufferCache.GetBufferRange(binding.Range, BufferStageUtils.TextureBuffer(binding.Stage, binding.BindingInfo.Flags), isStore);
                     binding.Texture.SetStorage(range);
 
                     // The texture must be rebound to use the new storage if it was updated.
@@ -524,19 +524,19 @@ namespace Ryujinx.Graphics.Gpu.Memory
             {
                 ITexture[] textureArray = new ITexture[1];
 
-                foreach (var binding in _bufferTextureArrays)
+                foreach (BufferTextureArrayBinding<ITextureArray> binding in _bufferTextureArrays)
                 {
-                    var range = bufferCache.GetBufferRange(binding.Range, BufferStage.None);
+                    BufferRange range = bufferCache.GetBufferRange(binding.Range, BufferStage.None);
                     binding.Texture.SetStorage(range);
 
                     textureArray[0] = binding.Texture;
                     binding.Array.SetTextures(binding.Index, textureArray);
                 }
 
-                foreach (var binding in _bufferImageArrays)
+                foreach (BufferTextureArrayBinding<IImageArray> binding in _bufferImageArrays)
                 {
-                    var isStore = binding.BindingInfo.Flags.HasFlag(TextureUsageFlags.ImageStore);
-                    var range = bufferCache.GetBufferRange(binding.Range, BufferStage.None, isStore);
+                    bool isStore = binding.BindingInfo.Flags.HasFlag(TextureUsageFlags.ImageStore);
+                    BufferRange range = bufferCache.GetBufferRange(binding.Range, BufferStage.None, isStore);
                     binding.Texture.SetStorage(range);
 
                     textureArray[0] = binding.Texture;
@@ -555,7 +555,7 @@ namespace Ryujinx.Graphics.Gpu.Memory
         /// <param name="indexed">True if the index buffer is in use</param>
         public void CommitGraphicsBindings(bool indexed)
         {
-            var bufferCache = _channel.MemoryManager.Physical.BufferCache;
+            BufferCache bufferCache = _channel.MemoryManager.Physical.BufferCache;
 
             if (indexed)
             {
@@ -750,19 +750,19 @@ namespace Ryujinx.Graphics.Gpu.Memory
 
             for (ShaderStage stage = ShaderStage.Vertex; stage <= ShaderStage.Fragment; stage++)
             {
-                ref var buffers = ref bindings[(int)stage - 1];
+                ref BuffersPerStage buffers = ref bindings[(int)stage - 1];
                 BufferStage bufferStage = BufferStageUtils.FromShaderStage(stage);
 
                 for (int index = 0; index < buffers.Count; index++)
                 {
-                    ref var bindingInfo = ref buffers.Bindings[index];
+                    ref BufferDescriptor bindingInfo = ref buffers.Bindings[index];
 
                     BufferBounds bounds = buffers.Buffers[bindingInfo.Slot];
 
                     if (!bounds.IsUnmapped)
                     {
-                        var isWrite = bounds.Flags.HasFlag(BufferUsageFlags.Write);
-                        var range = isStorage
+                        bool isWrite = bounds.Flags.HasFlag(BufferUsageFlags.Write);
+                        BufferRange range = isStorage
                             ? bufferCache.GetBufferRangeAligned(bounds.Range, bufferStage | BufferStageUtils.FromUsage(bounds.Flags), isWrite)
                             : bufferCache.GetBufferRange(bounds.Range, bufferStage);
 
@@ -792,14 +792,14 @@ namespace Ryujinx.Graphics.Gpu.Memory
 
             for (int index = 0; index < buffers.Count; index++)
             {
-                ref var bindingInfo = ref buffers.Bindings[index];
+                ref BufferDescriptor bindingInfo = ref buffers.Bindings[index];
 
                 BufferBounds bounds = buffers.Buffers[bindingInfo.Slot];
 
                 if (!bounds.IsUnmapped)
                 {
-                    var isWrite = bounds.Flags.HasFlag(BufferUsageFlags.Write);
-                    var range = isStorage
+                    bool isWrite = bounds.Flags.HasFlag(BufferUsageFlags.Write);
+                    BufferRange range = isStorage
                         ? bufferCache.GetBufferRangeAligned(bounds.Range, BufferStageUtils.ComputeStorage(bounds.Flags), isWrite)
                         : bufferCache.GetBufferRange(bounds.Range, BufferStage.Compute);
 
@@ -841,11 +841,11 @@ namespace Ryujinx.Graphics.Gpu.Memory
         {
             for (ShaderStage stage = ShaderStage.Vertex; stage <= ShaderStage.Fragment; stage++)
             {
-                ref var buffers = ref bindings[(int)stage - 1];
+                ref BuffersPerStage buffers = ref bindings[(int)stage - 1];
 
                 for (int index = 0; index < buffers.Count; index++)
                 {
-                    ref var binding = ref buffers.Bindings[index];
+                    ref BufferDescriptor binding = ref buffers.Bindings[index];
 
                     BufferBounds bounds = buffers.Buffers[binding.Slot];
 

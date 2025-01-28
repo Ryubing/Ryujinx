@@ -48,18 +48,20 @@ namespace Ryujinx.Tests.Cpu
         #region "ValueSource (Types)"
         private static ulong[] _2S_()
         {
-            return new[] {
+            return
+            [
                 0x0000000000000000ul, 0x7FFFFFFF7FFFFFFFul,
-                0x8000000080000000ul, 0xFFFFFFFFFFFFFFFFul,
-            };
+                0x8000000080000000ul, 0xFFFFFFFFFFFFFFFFul
+            ];
         }
 
         private static ulong[] _4H_()
         {
-            return new[] {
+            return
+            [
                 0x0000000000000000ul, 0x7FFF7FFF7FFF7FFFul,
-                0x8000800080008000ul, 0xFFFFFFFFFFFFFFFFul,
-            };
+                0x8000800080008000ul, 0xFFFFFFFFFFFFFFFFul
+            ];
         }
 
         private static IEnumerable<byte> _8BIT_IMM_()
@@ -96,95 +98,95 @@ namespace Ryujinx.Tests.Cpu
         #region "ValueSource (Opcodes)"
         private static uint[] _Bic_Orr_Vi_16bit_()
         {
-            return new[]
-            {
+            return
+            [
                 0x2F009400u, // BIC V0.4H, #0
-                0x0F009400u, // ORR V0.4H, #0
-            };
+                0x0F009400u // ORR V0.4H, #0
+            ];
         }
 
         private static uint[] _Bic_Orr_Vi_32bit_()
         {
-            return new[]
-            {
+            return
+            [
                 0x2F001400u, // BIC V0.2S, #0
-                0x0F001400u, // ORR V0.2S, #0
-            };
+                0x0F001400u // ORR V0.2S, #0
+            ];
         }
 
         private static uint[] _F_Mov_Vi_2S_()
         {
-            return new[]
-            {
-                0x0F00F400u, // FMOV V0.2S, #2.0
-            };
+            return
+            [
+                0x0F00F400u // FMOV V0.2S, #2.0
+            ];
         }
 
         private static uint[] _F_Mov_Vi_4S_()
         {
-            return new[]
-            {
-                0x4F00F400u, // FMOV V0.4S, #2.0
-            };
+            return
+            [
+                0x4F00F400u // FMOV V0.4S, #2.0
+            ];
         }
 
         private static uint[] _F_Mov_Vi_2D_()
         {
-            return new[]
-            {
-                0x6F00F400u, // FMOV V0.2D, #2.0
-            };
+            return
+            [
+                0x6F00F400u // FMOV V0.2D, #2.0
+            ];
         }
 
         private static uint[] _Movi_V_8bit_()
         {
-            return new[]
-            {
-                0x0F00E400u, // MOVI V0.8B, #0
-            };
+            return
+            [
+                0x0F00E400u // MOVI V0.8B, #0
+            ];
         }
 
         private static uint[] _Movi_Mvni_V_16bit_shifted_imm_()
         {
-            return new[]
-            {
+            return
+            [
                 0x0F008400u, // MOVI V0.4H, #0
-                0x2F008400u, // MVNI V0.4H, #0
-            };
+                0x2F008400u // MVNI V0.4H, #0
+            ];
         }
 
         private static uint[] _Movi_Mvni_V_32bit_shifted_imm_()
         {
-            return new[]
-            {
+            return
+            [
                 0x0F000400u, // MOVI V0.2S, #0
-                0x2F000400u, // MVNI V0.2S, #0
-            };
+                0x2F000400u // MVNI V0.2S, #0
+            ];
         }
 
         private static uint[] _Movi_Mvni_V_32bit_shifting_ones_()
         {
-            return new[]
-            {
+            return
+            [
                 0x0F00C400u, // MOVI V0.2S, #0, MSL #8
-                0x2F00C400u, // MVNI V0.2S, #0, MSL #8
-            };
+                0x2F00C400u // MVNI V0.2S, #0, MSL #8
+            ];
         }
 
         private static uint[] _Movi_V_64bit_scalar_()
         {
-            return new[]
-            {
-                0x2F00E400u, // MOVI D0, #0
-            };
+            return
+            [
+                0x2F00E400u // MOVI D0, #0
+            ];
         }
 
         private static uint[] _Movi_V_64bit_vector_()
         {
-            return new[]
-            {
-                0x6F00E400u, // MOVI V0.2D, #0
-            };
+            return
+            [
+                0x6F00E400u // MOVI V0.2D, #0
+            ];
         }
         #endregion
 

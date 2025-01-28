@@ -109,7 +109,7 @@ namespace Ryujinx.Memory
                 yield break;
             }
 
-            foreach (var hostRegion in GetHostRegionsImpl(va, size))
+            foreach (HostMemoryRange hostRegion in GetHostRegionsImpl(va, size))
             {
                 yield return hostRegion;
             }
@@ -123,7 +123,7 @@ namespace Ryujinx.Memory
                 yield break;
             }
 
-            var hostRegions = GetHostRegionsImpl(va, size);
+            IEnumerable<HostMemoryRange> hostRegions = GetHostRegionsImpl(va, size);
             if (hostRegions == null)
             {
                 yield break;
@@ -132,7 +132,7 @@ namespace Ryujinx.Memory
             ulong backingStart = (ulong)_backingMemory.Pointer;
             ulong backingEnd = backingStart + _backingMemory.Size;
 
-            foreach (var hostRegion in hostRegions)
+            foreach (HostMemoryRange hostRegion in hostRegions)
             {
                 if (hostRegion.Address >= backingStart && hostRegion.Address < backingEnd)
                 {
@@ -234,8 +234,7 @@ namespace Ryujinx.Memory
         protected unsafe override Memory<byte> GetPhysicalAddressMemory(nuint pa, int size)
             => new NativeMemoryManager<byte>((byte*)pa, size).Memory;
 
-        protected override unsafe Span<byte> GetPhysicalAddressSpan(nuint pa, int size)
-            => new Span<byte>((void*)pa, size);
+        protected override unsafe Span<byte> GetPhysicalAddressSpan(nuint pa, int size) => new((void*)pa, size);
 
         protected override nuint TranslateVirtualAddressChecked(ulong va)
             => GetHostAddress(va);

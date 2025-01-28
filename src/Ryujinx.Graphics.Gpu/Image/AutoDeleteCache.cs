@@ -80,7 +80,7 @@ namespace Ryujinx.Graphics.Gpu.Image
         /// <param name="cpuMemorySize">The amount of physical CPU Memory Avaiable on the device.</param>
         public void Initialize(GpuContext context, ulong cpuMemorySize)
         {
-            var cpuMemorySizeGiB = cpuMemorySize / GiB;
+            ulong cpuMemorySizeGiB = cpuMemorySize / GiB;
 
             if (cpuMemorySizeGiB < 6 || context.Capabilities.MaximumGpuMemory == 0)
             {
@@ -100,7 +100,7 @@ namespace Ryujinx.Graphics.Gpu.Image
                 MaxTextureSizeCapacity = TextureSizeCapacity12GiB;
             }
 
-            var cacheMemory = (ulong)(context.Capabilities.MaximumGpuMemory * MemoryScaleFactor);
+            ulong cacheMemory = (ulong)(context.Capabilities.MaximumGpuMemory * MemoryScaleFactor);
 
             _maxCacheMemoryUsage = Math.Clamp(cacheMemory, MinTextureSizeCapacity, MaxTextureSizeCapacity);
 
@@ -112,10 +112,10 @@ namespace Ryujinx.Graphics.Gpu.Image
         /// </summary>
         public AutoDeleteCache()
         {
-            _textures = new LinkedList<Texture>();
+            _textures = [];
 
-            _shortCacheBuilder = new HashSet<ShortTextureCacheEntry>();
-            _shortCache = new HashSet<ShortTextureCacheEntry>();
+            _shortCacheBuilder = [];
+            _shortCache = [];
 
             _shortCacheLookup = new Dictionary<TextureDescriptor, ShortTextureCacheEntry>();
         }
@@ -232,7 +232,7 @@ namespace Ryujinx.Graphics.Gpu.Image
         /// <returns>The texture if found, null otherwise</returns>
         public Texture FindShortCache(in TextureDescriptor descriptor)
         {
-            if (_shortCacheLookup.Count > 0 && _shortCacheLookup.TryGetValue(descriptor, out var entry))
+            if (_shortCacheLookup.Count > 0 && _shortCacheLookup.TryGetValue(descriptor, out ShortTextureCacheEntry entry))
             {
                 if (entry.InvalidatedSequence == entry.Texture.InvalidatedSequence)
                 {
@@ -277,7 +277,7 @@ namespace Ryujinx.Graphics.Gpu.Image
         /// <param name="descriptor">Last used texture descriptor</param>
         public void AddShortCache(Texture texture, ref TextureDescriptor descriptor)
         {
-            var entry = new ShortTextureCacheEntry(descriptor, texture);
+            ShortTextureCacheEntry entry = new(descriptor, texture);
 
             _shortCacheBuilder.Add(entry);
             _shortCacheLookup.Add(entry.Descriptor, entry);
@@ -296,7 +296,7 @@ namespace Ryujinx.Graphics.Gpu.Image
         {
             if (texture.ShortCacheEntry != null)
             {
-                var entry = new ShortTextureCacheEntry(texture);
+                ShortTextureCacheEntry entry = new(texture);
 
                 _shortCacheBuilder.Add(entry);
 
@@ -314,7 +314,7 @@ namespace Ryujinx.Graphics.Gpu.Image
         {
             HashSet<ShortTextureCacheEntry> toRemove = _shortCache;
 
-            foreach (var entry in toRemove)
+            foreach (ShortTextureCacheEntry entry in toRemove)
             {
                 entry.Texture.DecrementReferenceCount();
 

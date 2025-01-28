@@ -107,7 +107,7 @@ namespace Ryujinx.HLE.HOS.Kernel.Process
             // TODO: Remove once we no longer need to initialize it externally.
             HandleTable = new KHandleTable();
 
-            _threads = new LinkedList<KThread>();
+            _threads = [];
 
             Debugger = new HleProcessDebugger(this);
         }

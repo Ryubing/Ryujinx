@@ -47,14 +47,14 @@ namespace Ryujinx.Graphics.Vulkan
 
             AttachmentDescription[] attachmentDescs = null;
 
-            var subpass = new SubpassDescription
+            SubpassDescription subpass = new()
             {
                 PipelineBindPoint = PipelineBindPoint.Graphics,
             };
 
             AttachmentReference* attachmentReferences = stackalloc AttachmentReference[MaxAttachments];
 
-            var hasFramebuffer = fb != null;
+            bool hasFramebuffer = fb != null;
 
             if (hasFramebuffer && fb.AttachmentsCount != 0)
             {
@@ -110,11 +110,11 @@ namespace Ryujinx.Graphics.Vulkan
                 }
             }
 
-            var subpassDependency = PipelineConverter.CreateSubpassDependency(gd);
+            SubpassDependency subpassDependency = PipelineConverter.CreateSubpassDependency(gd);
 
             fixed (AttachmentDescription* pAttachmentDescs = attachmentDescs)
             {
-                var renderPassCreateInfo = new RenderPassCreateInfo
+                RenderPassCreateInfo renderPassCreateInfo = new()
                 {
                     SType = StructureType.RenderPassCreateInfo,
                     PAttachments = pAttachmentDescs,
@@ -125,7 +125,7 @@ namespace Ryujinx.Graphics.Vulkan
                     DependencyCount = 1,
                 };
 
-                gd.Api.CreateRenderPass(device, in renderPassCreateInfo, null, out var renderPass).ThrowOnError();
+                gd.Api.CreateRenderPass(device, in renderPassCreateInfo, null, out RenderPass renderPass).ThrowOnError();
 
                 _renderPass = new Auto<DisposableRenderPass>(new DisposableRenderPass(gd.Api, device, renderPass));
             }
@@ -134,9 +134,9 @@ namespace Ryujinx.Graphics.Vulkan
 
             // Register this render pass with all render target views.
 
-            var textures = fb.GetAttachmentViews();
+            TextureView[] textures = fb.GetAttachmentViews();
 
-            foreach (var texture in textures)
+            foreach (TextureView texture in textures)
             {
                 texture.AddRenderPass(key, this);
             }
@@ -144,12 +144,12 @@ namespace Ryujinx.Graphics.Vulkan
             _textures = textures;
             _key = key;
 
-            _forcedFences = new List<ForcedFence>();
+            _forcedFences = [];
         }
 
         public Auto<DisposableFramebuffer> GetFramebuffer(VulkanRenderer gd, CommandBufferScoped cbs, FramebufferParams fb)
         {
-            var key = new FramebufferCacheKey(fb.Width, fb.Height, fb.Layers);
+            FramebufferCacheKey key = new(fb.Width, fb.Height, fb.Layers);
 
             if (!_framebuffers.TryGetValue(ref key, out Auto<DisposableFramebuffer> result))
             {
@@ -201,14 +201,14 @@ namespace Ryujinx.Graphics.Vulkan
         {
             // Dispose all framebuffers.
 
-            foreach (var fb in _framebuffers.Values)
+            foreach (Auto<DisposableFramebuffer> fb in _framebuffers.Values)
             {
                 fb.Dispose();
             }
 
             // Notify all texture views that this render pass has been disposed.
 
-            foreach (var texture in _textures)
+            foreach (TextureView texture in _textures)
             {
                 texture.RemoveRenderPass(_key);
             }

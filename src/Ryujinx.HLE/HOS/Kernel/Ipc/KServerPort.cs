@@ -16,8 +16,8 @@ namespace Ryujinx.HLE.HOS.Kernel.Ipc
         {
             _parent = parent;
 
-            _incomingConnections = new LinkedList<KServerSession>();
-            _lightIncomingConnections = new LinkedList<KLightServerSession>();
+            _incomingConnections = [];
+            _lightIncomingConnections = [];
         }
 
         public void EnqueueIncomingSession(KServerSession session)

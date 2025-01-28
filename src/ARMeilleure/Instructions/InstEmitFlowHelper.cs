@@ -1,4 +1,5 @@
 using ARMeilleure.CodeGen.Linking;
+using ARMeilleure.Common;
 using ARMeilleure.Decoders;
 using ARMeilleure.IntermediateRepresentation;
 using ARMeilleure.State;
@@ -193,7 +194,7 @@ namespace ARMeilleure.Instructions
 
             Operand hostAddress;
 
-            var table = context.FunctionTable;
+            IAddressTable<ulong> table = context.FunctionTable;
 
             // If address is mapped onto the function table, we can skip the table walk. Otherwise we fallback
             // onto the dispatch stub.
@@ -218,7 +219,7 @@ namespace ARMeilleure.Instructions
 
                 for (int i = 0; i < table.Levels.Length; i++)
                 {
-                    var level = table.Levels[i];
+                    AddressTableLevel level = table.Levels[i];
                     int clearBits = 64 - (level.Index + level.Length);
 
                     Operand index = context.ShiftLeft(

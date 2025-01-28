@@ -57,10 +57,10 @@ namespace Ryujinx.Graphics.OpenGL.Effects
 
         private void Initialize()
         {
-            var scalingShader = EmbeddedResources.ReadAllText("Ryujinx.Graphics.OpenGL/Effects/Shaders/fsr_scaling.glsl");
-            var sharpeningShader = EmbeddedResources.ReadAllText("Ryujinx.Graphics.OpenGL/Effects/Shaders/fsr_sharpening.glsl");
-            var fsrA = EmbeddedResources.ReadAllText("Ryujinx.Graphics.OpenGL/Effects/Shaders/ffx_a.h");
-            var fsr1 = EmbeddedResources.ReadAllText("Ryujinx.Graphics.OpenGL/Effects/Shaders/ffx_fsr1.h");
+            string scalingShader = EmbeddedResources.ReadAllText("Ryujinx.Graphics.OpenGL/Effects/Shaders/fsr_scaling.glsl");
+            string sharpeningShader = EmbeddedResources.ReadAllText("Ryujinx.Graphics.OpenGL/Effects/Shaders/fsr_sharpening.glsl");
+            string fsrA = EmbeddedResources.ReadAllText("Ryujinx.Graphics.OpenGL/Effects/Shaders/ffx_a.h");
+            string fsr1 = EmbeddedResources.ReadAllText("Ryujinx.Graphics.OpenGL/Effects/Shaders/ffx_fsr1.h");
 
             scalingShader = scalingShader.Replace("#include \"ffx_a.h\"", fsrA);
             scalingShader = scalingShader.Replace("#include \"ffx_fsr1.h\"", fsr1);
@@ -97,8 +97,8 @@ namespace Ryujinx.Graphics.OpenGL.Effects
             if (_intermediaryTexture == null || _intermediaryTexture.Info.Width != width || _intermediaryTexture.Info.Height != height)
             {
                 _intermediaryTexture?.Dispose();
-                var originalInfo = view.Info;
-                var info = new TextureCreateInfo(width,
+                TextureCreateInfo originalInfo = view.Info;
+                TextureCreateInfo info = new(width,
                     height,
                     originalInfo.Depth,
                     originalInfo.Levels,
@@ -118,7 +118,7 @@ namespace Ryujinx.Graphics.OpenGL.Effects
                 _intermediaryTexture.CreateDefaultView();
             }
 
-            var textureView = _intermediaryTexture.CreateView(_intermediaryTexture.Info, 0, 0) as TextureView;
+            TextureView textureView = _intermediaryTexture.CreateView(_intermediaryTexture.Info, 0, 0) as TextureView;
 
             int previousProgram = GL.GetInteger(GetPName.CurrentProgram);
             int previousUnit = GL.GetInteger(GetPName.ActiveTexture);

@@ -260,8 +260,8 @@ namespace Ryujinx.Graphics.Gpu.Image
 
             _viewStorage = this;
 
-            _views = new List<Texture>();
-            _poolOwners = new List<TexturePoolOwner>();
+            _views = [];
+            _poolOwners = [];
         }
 
         /// <summary>
@@ -536,7 +536,7 @@ namespace Ryujinx.Graphics.Gpu.Image
 
                 // All views must be recreated against the new storage.
 
-                foreach (var view in _views)
+                foreach (Texture view in _views)
                 {
                     Logger.Debug?.Print(LogClass.Gpu, $"  Recreating view {Info.Width}x{Info.Height} {Info.FormatInfo.Format}.");
                     view.ScaleFactor = scale;
@@ -553,7 +553,7 @@ namespace Ryujinx.Graphics.Gpu.Image
             {
                 ScaleMode = newScaleMode;
 
-                foreach (var view in _views)
+                foreach (Texture view in _views)
                 {
                     view.ScaleMode = newScaleMode;
                 }
@@ -899,7 +899,7 @@ namespace Ryujinx.Graphics.Gpu.Image
             {
                 using (result)
                 {
-                    var converted = PixelConverter.ConvertR4G4ToR4G4B4A4(result.Span, width);
+                    MemoryOwner<byte> converted = PixelConverter.ConvertR4G4ToR4G4B4A4(result.Span, width);
 
                     if (_context.Capabilities.SupportsR4G4B4A4Format)
                     {
@@ -1650,7 +1650,7 @@ namespace Ryujinx.Graphics.Gpu.Image
         {
             lock (_poolOwners)
             {
-                foreach (var owner in _poolOwners)
+                foreach (TexturePoolOwner owner in _poolOwners)
                 {
                     owner.Pool.ForceRemove(this, owner.ID, deferred);
                 }
@@ -1680,7 +1680,7 @@ namespace Ryujinx.Graphics.Gpu.Image
             {
                 ulong address = 0;
 
-                foreach (var owner in _poolOwners)
+                foreach (TexturePoolOwner owner in _poolOwners)
                 {
                     if (address == 0 || address == owner.GpuAddress)
                     {

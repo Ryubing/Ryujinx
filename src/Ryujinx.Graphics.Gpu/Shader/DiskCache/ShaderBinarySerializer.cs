@@ -31,7 +31,7 @@ namespace Ryujinx.Graphics.Gpu.Shader.DiskCache
             using MemoryStream input = new(code);
             using BinaryReader reader = new(input);
 
-            List<ShaderSource> output = new();
+            List<ShaderSource> output = [];
 
             int count = reader.ReadInt32();
 

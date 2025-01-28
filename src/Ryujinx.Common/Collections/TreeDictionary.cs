@@ -139,7 +139,7 @@ namespace Ryujinx.Common.Collections
         /// <param name="list">List to add the tree pairs into</param>
         public List<KeyValuePair<TKey, TValue>> AsLevelOrderList()
         {
-            List<KeyValuePair<TKey, TValue>> list = new();
+            List<KeyValuePair<TKey, TValue>> list = [];
 
             Queue<Node<TKey, TValue>> nodes = new();
 
@@ -168,7 +168,7 @@ namespace Ryujinx.Common.Collections
         /// <returns>A list of all KeyValuePairs sorted by Key Order</returns>
         public List<KeyValuePair<TKey, TValue>> AsList()
         {
-            List<KeyValuePair<TKey, TValue>> list = new();
+            List<KeyValuePair<TKey, TValue>> list = [];
 
             AddToList(Root, list);
 

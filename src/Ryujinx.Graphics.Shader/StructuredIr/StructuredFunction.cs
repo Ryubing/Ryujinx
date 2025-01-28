@@ -29,7 +29,7 @@ namespace Ryujinx.Graphics.Shader.StructuredIr
             InArguments = inArguments;
             OutArguments = outArguments;
 
-            Locals = new HashSet<AstOperand>();
+            Locals = [];
         }
 
         public AggregateType GetArgumentType(int index)

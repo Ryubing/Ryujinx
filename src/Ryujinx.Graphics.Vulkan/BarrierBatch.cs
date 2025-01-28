@@ -19,9 +19,9 @@ namespace Ryujinx.Graphics.Vulkan
         private readonly NativeArray<BufferMemoryBarrier> _bufferBarrierBatch = new(MaxBarriersPerCall);
         private readonly NativeArray<ImageMemoryBarrier> _imageBarrierBatch = new(MaxBarriersPerCall);
 
-        private readonly List<BarrierWithStageFlags<MemoryBarrier, int>> _memoryBarriers = new();
-        private readonly List<BarrierWithStageFlags<BufferMemoryBarrier, int>> _bufferBarriers = new();
-        private readonly List<BarrierWithStageFlags<ImageMemoryBarrier, TextureStorage>> _imageBarriers = new();
+        private readonly List<BarrierWithStageFlags<MemoryBarrier, int>> _memoryBarriers = [];
+        private readonly List<BarrierWithStageFlags<BufferMemoryBarrier, int>> _bufferBarriers = [];
+        private readonly List<BarrierWithStageFlags<ImageMemoryBarrier, TextureStorage>> _imageBarriers = [];
         private int _queuedBarrierCount;
 
         private enum IncoherentBarrierType
@@ -145,7 +145,7 @@ namespace Ryujinx.Graphics.Vulkan
                         stages |= PipelineStageFlags.DrawIndirectBit;
                     }
 
-                    MemoryBarrier barrier = new MemoryBarrier()
+                    MemoryBarrier barrier = new()
                     {
                         SType = StructureType.MemoryBarrier,
                         SrcAccessMask = access,
@@ -175,7 +175,7 @@ namespace Ryujinx.Graphics.Vulkan
                 {
                     // Feedback loop barrier.
 
-                    MemoryBarrier barrier = new MemoryBarrier()
+                    MemoryBarrier barrier = new()
                     {
                         SType = StructureType.MemoryBarrier,
                         SrcAccessMask = AccessFlags.ShaderWriteBit,
@@ -350,7 +350,7 @@ namespace Ryujinx.Graphics.Vulkan
                     {
                         // Generic pipeline memory barriers will work for desktop GPUs.
                         // They do require a few more access flags on the subpass dependency, though.
-                        foreach (var barrier in _imageBarriers)
+                        foreach (BarrierWithStageFlags<ImageMemoryBarrier, TextureStorage> barrier in _imageBarriers)
                         {
                             _memoryBarriers.Add(new BarrierWithStageFlags<MemoryBarrier, int>(
                                 barrier.Flags,
@@ -370,7 +370,7 @@ namespace Ryujinx.Graphics.Vulkan
                 {
                     PipelineStageFlags allFlags = PipelineStageFlags.None;
 
-                    foreach (var barrier in _memoryBarriers)
+                    foreach (BarrierWithStageFlags<MemoryBarrier, int> barrier in _memoryBarriers)
                     {
                         allFlags |= barrier.Flags.Dest;
                     }

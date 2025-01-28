@@ -115,7 +115,7 @@ namespace ARMeilleure.CodeGen.RegisterAllocators
         {
             NumberLocals(cfg, regMasks.RegistersCount);
 
-            var context = new AllocationContext(stackAlloc, regMasks, _intervals.Count);
+            AllocationContext context = new(stackAlloc, regMasks, _intervals.Count);
 
             BuildIntervals(cfg, context);
 
@@ -799,8 +799,8 @@ namespace ARMeilleure.CodeGen.RegisterAllocators
 
         private void NumberLocals(ControlFlowGraph cfg, int registersCount)
         {
-            _operationNodes = new List<(IntrusiveList<Operation>, Operation)>();
-            _intervals = new List<LiveInterval>();
+            _operationNodes = [];
+            _intervals = [];
 
             for (int index = 0; index < registersCount; index++)
             {
@@ -839,7 +839,7 @@ namespace ARMeilleure.CodeGen.RegisterAllocators
                         {
                             dest.NumberLocal(_intervals.Count);
 
-                            LiveInterval interval = new LiveInterval(dest);
+                            LiveInterval interval = new(dest);
                             _intervals.Add(interval);
 
                             SetVisited(dest);
@@ -980,7 +980,7 @@ namespace ARMeilleure.CodeGen.RegisterAllocators
 
             _blockLiveIn = blkLiveIn;
 
-            _blockEdges = new HashSet<int>();
+            _blockEdges = [];
 
             // Compute lifetime intervals.
             int operationPos = _operationsCount;

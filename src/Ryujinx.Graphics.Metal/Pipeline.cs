@@ -149,8 +149,8 @@ namespace Ryujinx.Graphics.Metal
         public void Present(CAMetalDrawable drawable, Texture src, Extents2D srcRegion, Extents2D dstRegion, bool isLinear)
         {
             // TODO: Clean this up
-            var textureInfo = new TextureCreateInfo((int)drawable.Texture.Width, (int)drawable.Texture.Height, (int)drawable.Texture.Depth, (int)drawable.Texture.MipmapLevelCount, (int)drawable.Texture.SampleCount, 0, 0, 0, Format.B8G8R8A8Unorm, 0, Target.Texture2D, SwizzleComponent.Red, SwizzleComponent.Green, SwizzleComponent.Blue, SwizzleComponent.Alpha);
-            var dst = new Texture(_device, _renderer, this, textureInfo, drawable.Texture, 0, 0);
+            TextureCreateInfo textureInfo = new((int)drawable.Texture.Width, (int)drawable.Texture.Height, (int)drawable.Texture.Depth, (int)drawable.Texture.MipmapLevelCount, (int)drawable.Texture.SampleCount, 0, 0, 0, Format.B8G8R8A8Unorm, 0, Target.Texture2D, SwizzleComponent.Red, SwizzleComponent.Green, SwizzleComponent.Blue, SwizzleComponent.Alpha);
+            Texture dst = new(_device, _renderer, this, textureInfo, drawable.Texture, 0, 0);
 
             _renderer.HelperShader.BlitColor(Cbs, src, dst, srcRegion, dstRegion, isLinear, true);
 
@@ -248,14 +248,14 @@ namespace Ryujinx.Graphics.Metal
             {
                 case EncoderType.Render:
                     {
-                        var scope = MTLBarrierScope.Buffers | MTLBarrierScope.Textures | MTLBarrierScope.RenderTargets;
+                        MTLBarrierScope scope = MTLBarrierScope.Buffers | MTLBarrierScope.Textures | MTLBarrierScope.RenderTargets;
                         MTLRenderStages stages = MTLRenderStages.RenderStageVertex | MTLRenderStages.RenderStageFragment;
                         Encoders.RenderEncoder.MemoryBarrier(scope, stages, stages);
                         break;
                     }
                 case EncoderType.Compute:
                     {
-                        var scope = MTLBarrierScope.Buffers | MTLBarrierScope.Textures | MTLBarrierScope.RenderTargets;
+                        MTLBarrierScope scope = MTLBarrierScope.Buffers | MTLBarrierScope.Textures | MTLBarrierScope.RenderTargets;
                         Encoders.ComputeEncoder.MemoryBarrier(scope);
                         break;
                     }
@@ -264,9 +264,9 @@ namespace Ryujinx.Graphics.Metal
 
         public void ClearBuffer(BufferHandle destination, int offset, int size, uint value)
         {
-            var blitCommandEncoder = GetOrCreateBlitEncoder();
+            MTLBlitCommandEncoder blitCommandEncoder = GetOrCreateBlitEncoder();
 
-            var mtlBuffer = _renderer.BufferManager.GetBuffer(destination, offset, size, true).Get(Cbs, offset, size, true).Value;
+            MTLBuffer mtlBuffer = _renderer.BufferManager.GetBuffer(destination, offset, size, true).Get(Cbs, offset, size, true).Value;
 
             // Might need a closer look, range's count, lower, and upper bound
             // must be a multiple of 4
@@ -282,7 +282,7 @@ namespace Ryujinx.Graphics.Metal
         public void ClearRenderTargetColor(int index, int layer, int layerCount, uint componentMask, ColorF color)
         {
             float[] colors = [color.Red, color.Green, color.Blue, color.Alpha];
-            var dst = _encoderStateManager.RenderTargets[index];
+            Texture dst = _encoderStateManager.RenderTargets[index];
 
             // TODO: Remove workaround for Wonder which has an invalid texture due to unsupported format
             if (dst == null)
@@ -296,7 +296,7 @@ namespace Ryujinx.Graphics.Metal
 
         public void ClearRenderTargetDepthStencil(int layer, int layerCount, float depthValue, bool depthMask, int stencilValue, int stencilMask)
         {
-            var depthStencil = _encoderStateManager.DepthStencil;
+            Texture depthStencil = _encoderStateManager.DepthStencil;
 
             if (depthStencil == null)
             {
@@ -313,16 +313,16 @@ namespace Ryujinx.Graphics.Metal
 
         public void CopyBuffer(BufferHandle src, BufferHandle dst, int srcOffset, int dstOffset, int size)
         {
-            var srcBuffer = _renderer.BufferManager.GetBuffer(src, srcOffset, size, false);
-            var dstBuffer = _renderer.BufferManager.GetBuffer(dst, dstOffset, size, true);
+            Auto<DisposableBuffer> srcBuffer = _renderer.BufferManager.GetBuffer(src, srcOffset, size, false);
+            Auto<DisposableBuffer> dstBuffer = _renderer.BufferManager.GetBuffer(dst, dstOffset, size, true);
 
             BufferHolder.Copy(Cbs, srcBuffer, dstBuffer, srcOffset, dstOffset, size);
         }
 
         public void PushDebugGroup(string name)
         {
-            var encoder = Encoders.CurrentEncoder;
-            var debugGroupName = StringHelper.NSString(name);
+            MTLCommandEncoder? encoder = Encoders.CurrentEncoder;
+            NSString debugGroupName = StringHelper.NSString(name);
 
             if (encoder == null)
             {
@@ -345,7 +345,7 @@ namespace Ryujinx.Graphics.Metal
 
         public void PopDebugGroup()
         {
-            var encoder = Encoders.CurrentEncoder;
+            MTLCommandEncoder? encoder = Encoders.CurrentEncoder;
 
             if (encoder == null)
             {
@@ -373,7 +373,7 @@ namespace Ryujinx.Graphics.Metal
 
         public void DispatchCompute(int groupsX, int groupsY, int groupsZ, string debugGroupName)
         {
-            var computeCommandEncoder = GetOrCreateComputeEncoder(true);
+            MTLComputeCommandEncoder computeCommandEncoder = GetOrCreateComputeEncoder(true);
 
             ComputeSize localSize = _encoderStateManager.ComputeLocalSize;
 
@@ -404,17 +404,17 @@ namespace Ryujinx.Graphics.Metal
                 return;
             }
 
-            var primitiveType = TopologyRemap(_encoderStateManager.Topology).Convert();
+            MTLPrimitiveType primitiveType = TopologyRemap(_encoderStateManager.Topology).Convert();
 
             if (TopologyUnsupported(_encoderStateManager.Topology))
             {
-                var pattern = GetIndexBufferPattern();
+                IndexBufferPattern pattern = GetIndexBufferPattern();
 
                 BufferHandle handle = pattern.GetRepeatingBuffer(vertexCount, out int indexCount);
-                var buffer = _renderer.BufferManager.GetBuffer(handle, false);
-                var mtlBuffer = buffer.Get(Cbs, 0, indexCount * sizeof(int)).Value;
+                Auto<DisposableBuffer> buffer = _renderer.BufferManager.GetBuffer(handle, false);
+                MTLBuffer mtlBuffer = buffer.Get(Cbs, 0, indexCount * sizeof(int)).Value;
 
-                var renderCommandEncoder = GetOrCreateRenderEncoder(true);
+                MTLRenderCommandEncoder renderCommandEncoder = GetOrCreateRenderEncoder(true);
 
                 renderCommandEncoder.DrawIndexedPrimitives(
                     primitiveType,
@@ -425,7 +425,7 @@ namespace Ryujinx.Graphics.Metal
             }
             else
             {
-                var renderCommandEncoder = GetOrCreateRenderEncoder(true);
+                MTLRenderCommandEncoder renderCommandEncoder = GetOrCreateRenderEncoder(true);
 
                 if (debugGroupName != String.Empty)
                 {
@@ -488,11 +488,11 @@ namespace Ryujinx.Graphics.Metal
             MTLIndexType type;
             int finalIndexCount = indexCount;
 
-            var primitiveType = TopologyRemap(_encoderStateManager.Topology).Convert();
+            MTLPrimitiveType primitiveType = TopologyRemap(_encoderStateManager.Topology).Convert();
 
             if (TopologyUnsupported(_encoderStateManager.Topology))
             {
-                var pattern = GetIndexBufferPattern();
+                IndexBufferPattern pattern = GetIndexBufferPattern();
                 int convertedCount = pattern.GetConvertedCount(indexCount);
 
                 finalIndexCount = convertedCount;
@@ -506,7 +506,7 @@ namespace Ryujinx.Graphics.Metal
 
             if (mtlBuffer.NativePtr != IntPtr.Zero)
             {
-                var renderCommandEncoder = GetOrCreateRenderEncoder(true);
+                MTLRenderCommandEncoder renderCommandEncoder = GetOrCreateRenderEncoder(true);
 
                 renderCommandEncoder.DrawIndexedPrimitives(
                     primitiveType,
@@ -533,17 +533,17 @@ namespace Ryujinx.Graphics.Metal
                 Logger.Warning?.Print(LogClass.Gpu, $"Drawing indexed with unsupported topology: {_encoderStateManager.Topology}");
             }
 
-            var buffer = _renderer.BufferManager
+            MTLBuffer buffer = _renderer.BufferManager
                 .GetBuffer(indirectBuffer.Handle, indirectBuffer.Offset, indirectBuffer.Size, false)
                 .Get(Cbs, indirectBuffer.Offset, indirectBuffer.Size).Value;
 
-            var primitiveType = TopologyRemap(_encoderStateManager.Topology).Convert();
+            MTLPrimitiveType primitiveType = TopologyRemap(_encoderStateManager.Topology).Convert();
 
             (MTLBuffer indexBuffer, int indexOffset, MTLIndexType type) = _encoderStateManager.IndexBuffer.GetIndexBuffer(_renderer, Cbs);
 
             if (indexBuffer.NativePtr != IntPtr.Zero && buffer.NativePtr != IntPtr.Zero)
             {
-                var renderCommandEncoder = GetOrCreateRenderEncoder(true);
+                MTLRenderCommandEncoder renderCommandEncoder = GetOrCreateRenderEncoder(true);
 
                 renderCommandEncoder.DrawIndexedPrimitives(
                     primitiveType,
@@ -576,12 +576,12 @@ namespace Ryujinx.Graphics.Metal
                 Logger.Warning?.Print(LogClass.Gpu, $"Drawing indirect with unsupported topology: {_encoderStateManager.Topology}");
             }
 
-            var buffer = _renderer.BufferManager
+            MTLBuffer buffer = _renderer.BufferManager
                 .GetBuffer(indirectBuffer.Handle, indirectBuffer.Offset, indirectBuffer.Size, false)
                 .Get(Cbs, indirectBuffer.Offset, indirectBuffer.Size).Value;
 
-            var primitiveType = TopologyRemap(_encoderStateManager.Topology).Convert();
-            var renderCommandEncoder = GetOrCreateRenderEncoder(true);
+            MTLPrimitiveType primitiveType = TopologyRemap(_encoderStateManager.Topology).Convert();
+            MTLRenderCommandEncoder renderCommandEncoder = GetOrCreateRenderEncoder(true);
 
             renderCommandEncoder.DrawPrimitives(
                 primitiveType,

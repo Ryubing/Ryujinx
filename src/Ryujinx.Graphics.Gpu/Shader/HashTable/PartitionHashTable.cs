@@ -122,7 +122,7 @@ namespace Ryujinx.Graphics.Gpu.Shader.HashTable
         /// </summary>
         public PartitionHashTable()
         {
-            _buckets = Array.Empty<Bucket>();
+            _buckets = [];
         }
 
         /// <summary>
@@ -234,7 +234,7 @@ namespace Ryujinx.Graphics.Gpu.Shader.HashTable
             }
             else
             {
-                (bucket.MoreEntries ??= new List<Entry>()).Add(entry);
+                (bucket.MoreEntries ??= []).Add(entry);
             }
         }
 

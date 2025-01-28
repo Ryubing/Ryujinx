@@ -10,7 +10,7 @@ namespace Ryujinx.Graphics.Metal
 
         public IdList()
         {
-            _list = new List<T>();
+            _list = [];
             _freeMin = 0;
         }
 

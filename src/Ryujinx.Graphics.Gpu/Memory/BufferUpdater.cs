@@ -73,8 +73,8 @@ namespace Ryujinx.Graphics.Gpu.Memory
 
                     if (binding >= 0)
                     {
-                        var range = new BufferRange(_handle, 0, data.Length);
-                        _renderer.Pipeline.SetUniformBuffers(stackalloc[] { new BufferAssignment(0, range) });
+                        BufferRange range = new(_handle, 0, data.Length);
+                        _renderer.Pipeline.SetUniformBuffers([new BufferAssignment(0, range)]);
                     }
                 };
 

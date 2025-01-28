@@ -55,8 +55,8 @@ namespace Ryujinx.HLE.HOS
 
                         Nca nca = new(_system.KeySet, ncaStorage);
 
-                        using var ncaFileSystem = nca.OpenFileSystem(NcaSectionType.Data, _system.FsIntegrityCheckLevel);
-                        using var ncaFsRef = new UniqueRef<IFileSystem>(ncaFileSystem);
+                        using IFileSystem ncaFileSystem = nca.OpenFileSystem(NcaSectionType.Data, _system.FsIntegrityCheckLevel);
+                        using UniqueRef<IFileSystem> ncaFsRef = new(ncaFileSystem);
 
                         Result result = _fsClient.Register(mountName.ToU8Span(), ref ncaFsRef.Ref).ToHorizonResult();
                         if (result.IsFailure)
@@ -86,7 +86,7 @@ namespace Ryujinx.HLE.HOS
 
         public Result OpenFile(out FileHandle handle, string path, OpenMode openMode)
         {
-            var result = _fsClient.OpenFile(out var libhacHandle, path.ToU8Span(), (LibHac.Fs.OpenMode)openMode);
+            LibHac.Result result = _fsClient.OpenFile(out LibHac.Fs.FileHandle libhacHandle, path.ToU8Span(), (LibHac.Fs.OpenMode)openMode);
             handle = new(libhacHandle);
 
             return result.ToHorizonResult();

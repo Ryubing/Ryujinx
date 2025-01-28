@@ -604,7 +604,7 @@ namespace Ryujinx.HLE.HOS.Services.Sockets.Sfdnsres
 
         private static List<AddrInfoSerialized> DeserializeAddrInfos(IVirtualMemoryManager memory, ulong address, ulong size)
         {
-            List<AddrInfoSerialized> result = new();
+            List<AddrInfoSerialized> result = [];
 
             ReadOnlySpan<byte> data = memory.GetSpan(address, (int)size);
 

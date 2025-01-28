@@ -66,8 +66,8 @@ namespace Ryujinx.Graphics.Shader.Translation.Transforms
                                 setAndBinding.SetIndex,
                                 setAndBinding.Binding,
                                 1 << component,
-                                new[] { temp },
-                                new[] { vertexElemOffset }));
+                                [temp],
+                                [vertexElemOffset]));
 
                             if (needsSextNorm)
                             {
@@ -89,8 +89,8 @@ namespace Ryujinx.Graphics.Shader.Translation.Transforms
                                 setAndBinding.SetIndex,
                                 setAndBinding.Binding,
                                 1,
-                                new[] { temp },
-                                new[] { vertexElemOffset }));
+                                [temp],
+                                [vertexElemOffset]));
 
                             if (component > 0)
                             {
@@ -312,21 +312,21 @@ namespace Ryujinx.Graphics.Shader.Translation.Transforms
 
         private static LinkedListNode<INode> GenerateVertexIdVertexRateLoad(ResourceManager resourceManager, LinkedListNode<INode> node, Operand dest)
         {
-            Operand[] sources = new Operand[] { Const(resourceManager.LocalVertexIndexVertexRateMemoryId) };
+            Operand[] sources = [Const(resourceManager.LocalVertexIndexVertexRateMemoryId)];
 
             return node.List.AddBefore(node, new Operation(Instruction.Load, StorageKind.LocalMemory, dest, sources));
         }
 
         private static LinkedListNode<INode> GenerateVertexIdInstanceRateLoad(ResourceManager resourceManager, LinkedListNode<INode> node, Operand dest)
         {
-            Operand[] sources = new Operand[] { Const(resourceManager.LocalVertexIndexInstanceRateMemoryId) };
+            Operand[] sources = [Const(resourceManager.LocalVertexIndexInstanceRateMemoryId)];
 
             return node.List.AddBefore(node, new Operation(Instruction.Load, StorageKind.LocalMemory, dest, sources));
         }
 
         private static LinkedListNode<INode> GenerateInstanceIdLoad(LinkedListNode<INode> node, Operand dest)
         {
-            Operand[] sources = new Operand[] { Const((int)IoVariable.GlobalId), Const(1) };
+            Operand[] sources = [Const((int)IoVariable.GlobalId), Const(1)];
 
             return node.List.AddBefore(node, new Operation(Instruction.Load, StorageKind.Input, dest, sources));
         }

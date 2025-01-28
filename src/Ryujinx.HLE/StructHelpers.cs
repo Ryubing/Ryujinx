@@ -18,7 +18,7 @@ namespace Ryujinx.HLE
             const int OffsetOfApplicationPublisherStrings = 0x200;
             
             
-            var nacpData = new BlitStruct<ApplicationControlProperty>(1);
+            BlitStruct<ApplicationControlProperty> nacpData = new(1);
 
             // name and publisher buffer
             // repeat once for each locale (the ApplicationControlProperty has 16 locales)

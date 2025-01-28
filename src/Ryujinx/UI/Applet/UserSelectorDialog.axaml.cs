@@ -60,11 +60,11 @@ namespace Ryujinx.Ava.UI.Applet
 
                         ObservableCollection<BaseModel> newProfiles = [];
 
-                        foreach (var item in ViewModel.Profiles)
+                        foreach (BaseModel item in ViewModel.Profiles)
                         {
                             if (item is UserProfile originalItem)
                             {
-                                var profile = new UserProfileSft(originalItem.UserId, originalItem.Name, originalItem.Image);
+                                UserProfileSft profile = new(originalItem.UserId, originalItem.Name, originalItem.Image);
                                 
                                 if (profile.UserId == ViewModel.SelectedUserId)
                                 {

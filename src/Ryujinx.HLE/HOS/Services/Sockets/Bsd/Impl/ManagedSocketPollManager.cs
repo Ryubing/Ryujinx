@@ -27,9 +27,9 @@ namespace Ryujinx.HLE.HOS.Services.Sockets.Bsd.Impl
 
         public LinuxError Poll(List<PollEvent> events, int timeoutMilliseconds, out int updatedCount)
         {
-            List<ISocketImpl> readEvents = new();
-            List<ISocketImpl> writeEvents = new();
-            List<ISocketImpl> errorEvents = new();
+            List<ISocketImpl> readEvents = [];
+            List<ISocketImpl> writeEvents = [];
+            List<ISocketImpl> errorEvents = [];
 
             updatedCount = 0;
 
@@ -123,9 +123,9 @@ namespace Ryujinx.HLE.HOS.Services.Sockets.Bsd.Impl
 
         public LinuxError Select(List<PollEvent> events, int timeout, out int updatedCount)
         {
-            List<ISocketImpl> readEvents = new();
-            List<ISocketImpl> writeEvents = new();
-            List<ISocketImpl> errorEvents = new();
+            List<ISocketImpl> readEvents = [];
+            List<ISocketImpl> writeEvents = [];
+            List<ISocketImpl> errorEvents = [];
 
             updatedCount = 0;
 

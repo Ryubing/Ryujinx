@@ -85,7 +85,7 @@ namespace Ryujinx.HLE.HOS.Applets.Cabinet
         {
             _system.Device.UIHandler.DisplayCabinetDialog(out string newName);
             byte[] nameBytes = Encoding.UTF8.GetBytes(newName);
-            Array41<byte> nickName = new Array41<byte>();
+            Array41<byte> nickName = new();
             nameBytes.CopyTo(nickName.AsSpan());
             startParam.RegisterInfo.Nickname = nickName;
             NfpDevice devicePlayer1 = new()

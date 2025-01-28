@@ -186,7 +186,7 @@ namespace Ryujinx.Horizon.Sdk.Sf.Hipc
         {
             CommandType commandType = GetCmifCommandType(inMessage);
 
-            using var _ = new ScopedInlineContextChange(GetInlineContext(commandType, inMessage));
+            using ScopedInlineContextChange _ = new(GetInlineContext(commandType, inMessage));
 
             return commandType switch
             {
@@ -282,7 +282,7 @@ namespace Ryujinx.Horizon.Sdk.Sf.Hipc
                 return HipcResult.InvalidRequestSize;
             }
 
-            var dispatchCtx = new ServiceDispatchContext
+            ServiceDispatchContext dispatchCtx = new()
             {
                 ServiceObject = objectHolder.ServiceObject,
                 Manager = this,
@@ -312,7 +312,7 @@ namespace Ryujinx.Horizon.Sdk.Sf.Hipc
 
             result = Api.Reply(session.SessionHandle, outMessage);
 
-            ref var handlesToClose = ref dispatchCtx.HandlesToClose;
+            ref HandlesToClose handlesToClose = ref dispatchCtx.HandlesToClose;
 
             for (int i = 0; i < handlesToClose.Count; i++)
             {

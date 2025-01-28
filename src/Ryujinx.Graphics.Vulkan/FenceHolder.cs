@@ -20,7 +20,7 @@ namespace Ryujinx.Graphics.Vulkan
             _device = device;
             _concurrentWaitUnsupported = concurrentWaitUnsupported;
 
-            var fenceCreateInfo = new FenceCreateInfo
+            FenceCreateInfo fenceCreateInfo = new()
             {
                 SType = StructureType.FenceCreateInfo,
             };
@@ -110,7 +110,7 @@ namespace Ryujinx.Graphics.Vulkan
 
                 try
                 {
-                    FenceHelper.WaitAllIndefinitely(_api, _device, stackalloc Fence[] { _fence });
+                    FenceHelper.WaitAllIndefinitely(_api, _device, [_fence]);
                 }
                 finally
                 {
@@ -119,7 +119,7 @@ namespace Ryujinx.Graphics.Vulkan
             }
             else
             {
-                FenceHelper.WaitAllIndefinitely(_api, _device, stackalloc Fence[] { _fence });
+                FenceHelper.WaitAllIndefinitely(_api, _device, [_fence]);
             }
         }
 
@@ -134,7 +134,7 @@ namespace Ryujinx.Graphics.Vulkan
 
                 try
                 {
-                    return FenceHelper.AllSignaled(_api, _device, stackalloc Fence[] { _fence });
+                    return FenceHelper.AllSignaled(_api, _device, [_fence]);
                 }
                 finally
                 {
@@ -143,7 +143,7 @@ namespace Ryujinx.Graphics.Vulkan
             }
             else
             {
-                return FenceHelper.AllSignaled(_api, _device, stackalloc Fence[] { _fence });
+                return FenceHelper.AllSignaled(_api, _device, [_fence]);
             }
         }
 

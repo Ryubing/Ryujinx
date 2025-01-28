@@ -76,13 +76,13 @@ namespace Ryujinx.Graphics.OpenGL
 
             if (_antiAliasing != null)
             {
-                var oldView = viewConverted;
+                TextureView oldView = viewConverted;
 
                 viewConverted = _antiAliasing.Run(viewConverted, _width, _height);
 
                 if (viewConverted.Format.IsBgr())
                 {
-                    var swappedView = _renderer.TextureCopy.BgraSwap(viewConverted);
+                    TextureView swappedView = _renderer.TextureCopy.BgraSwap(viewConverted);
 
                     viewConverted?.Dispose();
 
@@ -330,7 +330,7 @@ namespace Ryujinx.Graphics.OpenGL
                     case AntiAliasing.SmaaMedium:
                     case AntiAliasing.SmaaHigh:
                     case AntiAliasing.SmaaUltra:
-                        var quality = _currentAntiAliasing - AntiAliasing.SmaaLow;
+                        int quality = _currentAntiAliasing - AntiAliasing.SmaaLow;
                         if (_antiAliasing is SmaaPostProcessingEffect smaa)
                         {
                             smaa.Quality = quality;
@@ -394,7 +394,7 @@ namespace Ryujinx.Graphics.OpenGL
         {
             _upscaledTexture?.Dispose();
 
-            var info = new TextureCreateInfo(
+            TextureCreateInfo info = new(
                 _width,
                 _height,
                 1,

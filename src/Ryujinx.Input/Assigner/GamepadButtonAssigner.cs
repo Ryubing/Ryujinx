@@ -144,7 +144,7 @@ namespace Ryujinx.Input.Assigner
             {
                 StringWriter writer = new();
 
-                foreach (var kvp in _stats)
+                foreach (KeyValuePair<GamepadButtonInputId, InputSummary> kvp in _stats)
                 {
                     writer.WriteLine($"Button {kvp.Key} -> {kvp.Value}");
                 }

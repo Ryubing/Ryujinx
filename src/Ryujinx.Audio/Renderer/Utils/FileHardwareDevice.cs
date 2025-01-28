@@ -27,7 +27,7 @@ namespace Ryujinx.Audio.Renderer.Utils
 
         private void UpdateHeader()
         {
-            var writer = new BinaryWriter(_stream);
+            BinaryWriter writer = new(_stream);
 
             long currentPos = writer.Seek(0, SeekOrigin.Current);
 

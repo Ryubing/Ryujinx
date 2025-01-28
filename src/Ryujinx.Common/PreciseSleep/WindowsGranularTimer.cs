@@ -51,7 +51,7 @@ namespace Ryujinx.Common.SystemInterop
         private long _lastId;
 
         private readonly Lock _lock = new();
-        private readonly List<WaitingObject> _waitingObjects = new();
+        private readonly List<WaitingObject> _waitingObjects = [];
 
         private WindowsGranularTimer()
         {

@@ -3,6 +3,7 @@ using ARMeilleure.Memory;
 using ARMeilleure.Signal;
 using ARMeilleure.Translation;
 using NUnit.Framework;
+using Ryujinx.Common.Memory;
 using Ryujinx.Common.Memory.PartialUnmaps;
 using Ryujinx.Cpu;
 using Ryujinx.Cpu.Jit;
@@ -26,11 +27,11 @@ namespace Ryujinx.Tests.Memory
         {
             MemoryAllocationFlags asFlags = MemoryAllocationFlags.Reserve | MemoryAllocationFlags.ViewCompatible;
 
-            var addressSpace = new MemoryBlock(asSize, asFlags);
-            var addressSpaceMirror = new MemoryBlock(asSize, asFlags);
+            MemoryBlock addressSpace = new(asSize, asFlags);
+            MemoryBlock addressSpaceMirror = new(asSize, asFlags);
 
-            var tracking = new MemoryTracking(new MockVirtualMemoryManager(asSize, 0x1000), 0x1000);
-            var exceptionHandler = new MemoryEhMeilleure(addressSpace, addressSpaceMirror, tracking);
+            MemoryTracking tracking = new(new MockVirtualMemoryManager(asSize, 0x1000), 0x1000);
+            MemoryEhMeilleure exceptionHandler = new(addressSpace, addressSpaceMirror, tracking);
 
             return (addressSpace, addressSpaceMirror, exceptionHandler);
         }
@@ -39,7 +40,7 @@ namespace Ryujinx.Tests.Memory
         {
             int count = 0;
 
-            ref var ids = ref state.LocalCounts.ThreadIds;
+            ref Array20<int> ids = ref state.LocalCounts.ThreadIds;
 
             for (int i = 0; i < ids.Length; i++)
             {
@@ -71,13 +72,13 @@ namespace Ryujinx.Tests.Memory
             ulong vaSize = 0x100000;
 
             // The first 0x100000 is mapped to start. It is replaced from the center with the 0x200000 mapping.
-            var backing = new MemoryBlock(vaSize * 2, MemoryAllocationFlags.Mirrorable);
+            MemoryBlock backing = new(vaSize * 2, MemoryAllocationFlags.Mirrorable);
 
             (MemoryBlock unusedMainMemory, MemoryBlock memory, MemoryEhMeilleure exceptionHandler) = GetVirtual(vaSize * 2);
 
             EnsureTranslator();
 
-            ref var state = ref PartialUnmapState.GetRef();
+            ref PartialUnmapState state = ref PartialUnmapState.GetRef();
 
             Thread testThread = null;
             bool shouldAccess = true;
@@ -216,17 +217,17 @@ namespace Ryujinx.Tests.Memory
             ulong vaSize = 0x100000;
 
             // The first 0x100000 is mapped to start. It is replaced from the center with the 0x200000 mapping.
-            var backing = new MemoryBlock(vaSize * 2, MemoryAllocationFlags.Mirrorable);
+            MemoryBlock backing = new(vaSize * 2, MemoryAllocationFlags.Mirrorable);
 
             (MemoryBlock mainMemory, MemoryBlock unusedMirror, MemoryEhMeilleure exceptionHandler) = GetVirtual(vaSize * 2);
 
             EnsureTranslator();
 
-            ref var state = ref PartialUnmapState.GetRef();
+            ref PartialUnmapState state = ref PartialUnmapState.GetRef();
 
             // Create some state to be used for managing the native writing loop.
             int stateSize = Unsafe.SizeOf<NativeWriteLoopState>();
-            var statePtr = Marshal.AllocHGlobal(stateSize);
+            IntPtr statePtr = Marshal.AllocHGlobal(stateSize);
             Unsafe.InitBlockUnaligned((void*)statePtr, 0, (uint)stateSize);
 
             ref NativeWriteLoopState writeLoopState = ref Unsafe.AsRef<NativeWriteLoopState>((void*)statePtr);
@@ -241,7 +242,7 @@ namespace Ryujinx.Tests.Memory
                 // Create a large mapping.
                 mainMemory.MapView(backing, 0, 0, vaSize);
 
-                var writeFunc = TestMethods.GenerateDebugNativeWriteLoop();
+                TestMethods.DebugNativeWriteLoop writeFunc = TestMethods.GenerateDebugNativeWriteLoop();
                 nint writePtr = mainMemory.GetPointer(vaSize - 0x1000, 4);
 
                 Thread testThread = new(() =>
@@ -292,10 +293,10 @@ namespace Ryujinx.Tests.Memory
         public void ThreadLocalMap()
         {
             PartialUnmapState.Reset();
-            ref var state = ref PartialUnmapState.GetRef();
+            ref PartialUnmapState state = ref PartialUnmapState.GetRef();
 
             bool running = true;
-            var testThread = new Thread(() =>
+            Thread testThread = new(() =>
             {
                 PartialUnmapState.GetRef().RetryFromAccessViolation();
                 while (running)
@@ -331,11 +332,11 @@ namespace Ryujinx.Tests.Memory
 
             PartialUnmapState.Reset();
 
-            ref var state = ref PartialUnmapState.GetRef();
+            ref PartialUnmapState state = ref PartialUnmapState.GetRef();
 
             fixed (void* localMap = &state.LocalCounts)
             {
-                var getOrReserve = TestMethods.GenerateDebugThreadLocalMapGetOrReserve((nint)localMap);
+                TestMethods.DebugThreadLocalMapGetOrReserve getOrReserve = TestMethods.GenerateDebugThreadLocalMapGetOrReserve((nint)localMap);
 
                 for (int i = 0; i < ThreadLocalMap<int>.MapSize; i++)
                 {
@@ -375,8 +376,8 @@ namespace Ryujinx.Tests.Memory
         [Test]
         public void NativeReaderWriterLock()
         {
-            var rwLock = new NativeReaderWriterLock();
-            var threads = new List<Thread>();
+            NativeReaderWriterLock rwLock = new();
+            List<Thread> threads = [];
 
             int value = 0;
 
@@ -386,7 +387,7 @@ namespace Ryujinx.Tests.Memory
 
             for (int i = 0; i < 5; i++)
             {
-                var readThread = new Thread(() =>
+                Thread readThread = new(() =>
                 {
                     int count = 0;
                     while (running)
@@ -423,7 +424,7 @@ namespace Ryujinx.Tests.Memory
 
             for (int i = 0; i < 2; i++)
             {
-                var writeThread = new Thread(() =>
+                Thread writeThread = new(() =>
                 {
                     int count = 0;
                     while (running)
@@ -453,7 +454,7 @@ namespace Ryujinx.Tests.Memory
                 threads.Add(writeThread);
             }
 
-            foreach (var thread in threads)
+            foreach (Thread thread in threads)
             {
                 thread.Start();
             }
@@ -462,7 +463,7 @@ namespace Ryujinx.Tests.Memory
 
             running = false;
 
-            foreach (var thread in threads)
+            foreach (Thread thread in threads)
             {
                 thread.Join();
             }

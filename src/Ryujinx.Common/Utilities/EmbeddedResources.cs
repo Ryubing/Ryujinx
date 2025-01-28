@@ -19,21 +19,21 @@ namespace Ryujinx.Common
 
         public static byte[] Read(string filename)
         {
-            var (assembly, path) = ResolveManifestPath(filename);
+            (Assembly assembly, string path) = ResolveManifestPath(filename);
 
             return Read(assembly, path);
         }
 
         public static Task<byte[]> ReadAsync(string filename)
         {
-            var (assembly, path) = ResolveManifestPath(filename);
+            (Assembly assembly, string path) = ResolveManifestPath(filename);
 
             return ReadAsync(assembly, path);
         }
 
         public static byte[] Read(Assembly assembly, string filename)
         {
-            using var stream = GetStream(assembly, filename);
+            using Stream stream = GetStream(assembly, filename);
             if (stream == null)
             {
                 return null;
@@ -44,14 +44,14 @@ namespace Ryujinx.Common
 
         public static MemoryOwner<byte> ReadFileToRentedMemory(string filename)
         {
-            var (assembly, path) = ResolveManifestPath(filename);
+            (Assembly assembly, string path) = ResolveManifestPath(filename);
 
             return ReadFileToRentedMemory(assembly, path);
         }
 
         public static MemoryOwner<byte> ReadFileToRentedMemory(Assembly assembly, string filename)
         {
-            using var stream = GetStream(assembly, filename);
+            using Stream stream = GetStream(assembly, filename);
 
             return stream is null
                 ? null
@@ -60,7 +60,7 @@ namespace Ryujinx.Common
 
         public async static Task<byte[]> ReadAsync(Assembly assembly, string filename)
         {
-            using var stream = GetStream(assembly, filename);
+            using Stream stream = GetStream(assembly, filename);
             if (stream == null)
             {
                 return null;
@@ -71,55 +71,55 @@ namespace Ryujinx.Common
 
         public static string ReadAllText(string filename)
         {
-            var (assembly, path) = ResolveManifestPath(filename);
+            (Assembly assembly, string path) = ResolveManifestPath(filename);
 
             return ReadAllText(assembly, path);
         }
 
         public static Task<string> ReadAllTextAsync(string filename)
         {
-            var (assembly, path) = ResolveManifestPath(filename);
+            (Assembly assembly, string path) = ResolveManifestPath(filename);
 
             return ReadAllTextAsync(assembly, path);
         }
 
         public static string ReadAllText(Assembly assembly, string filename)
         {
-            using var stream = GetStream(assembly, filename);
+            using Stream stream = GetStream(assembly, filename);
             if (stream == null)
             {
                 return null;
             }
 
-            using var reader = new StreamReader(stream);
+            using StreamReader reader = new(stream);
             return reader.ReadToEnd();
         }
 
         public async static Task<string> ReadAllTextAsync(Assembly assembly, string filename)
         {
-            using var stream = GetStream(assembly, filename);
+            using Stream stream = GetStream(assembly, filename);
             if (stream == null)
             {
                 return null;
             }
 
-            using var reader = new StreamReader(stream);
+            using StreamReader reader = new(stream);
             return await reader.ReadToEndAsync();
         }
 
         public static Stream GetStream(string filename)
         {
-            var (assembly, path) = ResolveManifestPath(filename);
+            (Assembly assembly, string path) = ResolveManifestPath(filename);
 
             return GetStream(assembly, path);
         }
 
         public static Stream GetStream(Assembly assembly, string filename)
         {
-            var @namespace = assembly.GetName().Name;
-            var manifestUri = @namespace + "." + filename.Replace('/', '.');
+            string @namespace = assembly.GetName().Name;
+            string manifestUri = @namespace + "." + filename.Replace('/', '.');
 
-            var stream = assembly.GetManifestResourceStream(manifestUri);
+            Stream stream = assembly.GetManifestResourceStream(manifestUri);
 
             return stream;
         }
@@ -133,11 +133,11 @@ namespace Ryujinx.Common
 
         private static (Assembly, string) ResolveManifestPath(string filename)
         {
-            var segments = filename.Split('/', 2, StringSplitOptions.RemoveEmptyEntries);
+            string[] segments = filename.Split('/', 2, StringSplitOptions.RemoveEmptyEntries);
 
             if (segments.Length >= 2)
             {
-                foreach (var assembly in AppDomain.CurrentDomain.GetAssemblies())
+                foreach (Assembly assembly in AppDomain.CurrentDomain.GetAssemblies())
                 {
                     if (assembly.GetName().Name == segments[0])
                     {

@@ -17,7 +17,7 @@ namespace Ryujinx.Graphics.Gpu.Memory
 
         public void AddRemapAction(Action action)
         {
-            RemapActions ??= new List<Action>();
+            RemapActions ??= [];
             RemapActions.Add(action);
         }
     }

@@ -3,6 +3,7 @@ using LibHac.Common;
 using LibHac.Fs;
 using LibHac.Sf;
 using Ryujinx.Common;
+using Ryujinx.Memory;
 
 namespace Ryujinx.HLE.HOS.Services.Fs.FileSystemProxy
 {
@@ -28,7 +29,7 @@ namespace Ryujinx.HLE.HOS.Services.Fs.FileSystemProxy
             long offset = context.RequestData.ReadInt64();
             long size = context.RequestData.ReadInt64();
 
-            using var region = context.Memory.GetWritableRegion(bufferAddress, (int)bufferLen, true);
+            using WritableRegion region = context.Memory.GetWritableRegion(bufferAddress, (int)bufferLen, true);
             Result result = _baseFile.Get.Read(out long bytesRead, offset, new OutBuffer(region.Memory.Span), size, readOption);
 
             context.ResponseData.Write(bytesRead);

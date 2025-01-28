@@ -32,7 +32,7 @@ namespace Ryujinx.Ava.Common.Locale
 
         private void Load()
         {
-            var localeLanguageCode = !string.IsNullOrEmpty(ConfigurationState.Instance.UI.LanguageCode.Value) ?
+            string localeLanguageCode = !string.IsNullOrEmpty(ConfigurationState.Instance.UI.LanguageCode.Value) ?
                 ConfigurationState.Instance.UI.LanguageCode.Value : CultureInfo.CurrentCulture.Name.Replace('-', '_');
             
             LoadLanguage(localeLanguageCode);
@@ -54,7 +54,7 @@ namespace Ryujinx.Ava.Common.Locale
                 if (_localeStrings.TryGetValue(key, out string value))
                 {
                     // Check if the localized string needs to be formatted.
-                    if (_dynamicValues.TryGetValue(key, out var dynamicValue))
+                    if (_dynamicValues.TryGetValue(key, out object[] dynamicValue))
                         try
                         {
                             return string.Format(value, dynamicValue);
@@ -99,7 +99,7 @@ namespace Ryujinx.Ava.Common.Locale
 
         public void LoadLanguage(string languageCode)
         {
-            var locale = LoadJsonLanguage(languageCode);
+            Dictionary<LocaleKeys, string> locale = LoadJsonLanguage(languageCode);
 
             if (locale == null)
             {
@@ -125,7 +125,7 @@ namespace Ryujinx.Ava.Common.Locale
 
         private static Dictionary<LocaleKeys, string> LoadJsonLanguage(string languageCode)
         {
-            var localeStrings = new Dictionary<LocaleKeys, string>();
+            Dictionary<LocaleKeys, string> localeStrings = new();
 
             _localeData ??= EmbeddedResources.ReadAllText("Ryujinx/Assets/locales.json")
                 .Into(it => JsonHelper.Deserialize(it, LocalesJsonContext.Default.LocalesJson));
@@ -142,10 +142,10 @@ namespace Ryujinx.Ava.Common.Locale
                     throw new Exception($"Locale key {{{locale.ID}}} has too many languages! Has {locale.Translations.Count} translations, expected {_localeData.Value.Languages.Count}!");
                 }
 
-                if (!Enum.TryParse<LocaleKeys>(locale.ID, out var localeKey))
+                if (!Enum.TryParse<LocaleKeys>(locale.ID, out LocaleKeys localeKey))
                     continue;
 
-                var str = locale.Translations.TryGetValue(languageCode, out string val) && !string.IsNullOrEmpty(val)
+                string str = locale.Translations.TryGetValue(languageCode, out string val) && !string.IsNullOrEmpty(val)
                     ? val
                     : locale.Translations[DefaultLanguageCode];
                 

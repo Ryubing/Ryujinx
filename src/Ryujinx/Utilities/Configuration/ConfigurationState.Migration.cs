@@ -1,3 +1,4 @@
+using Avalonia.Media;
 using Gommon;
 using Ryujinx.Ava.Utilities.Configuration.System;
 using Ryujinx.Ava.Utilities.Configuration.UI;
@@ -45,7 +46,6 @@ namespace Ryujinx.Ava.Utilities.Configuration
             EnableDiscordIntegration.Value = cff.EnableDiscordIntegration;
             CheckUpdatesOnStart.Value = cff.CheckUpdatesOnStart;
             ShowConfirmExit.Value = cff.ShowConfirmExit;
-            IgnoreApplet.Value = cff.IgnoreApplet;
             RememberWindowState.Value = cff.RememberWindowState;
             ShowTitleBar.Value = cff.ShowTitleBar;
             EnableHardwareAcceleration.Value = cff.EnableHardwareAcceleration;
@@ -97,6 +97,7 @@ namespace Ryujinx.Ava.Utilities.Configuration
             System.MemoryManagerMode.Value = cff.MemoryManagerMode;
             System.DramSize.Value = cff.DramSize;
             System.IgnoreMissingServices.Value = cff.IgnoreMissingServices;
+            System.IgnoreApplet.Value = cff.IgnoreApplet;
             System.UseHypervisor.Value = cff.UseHypervisor;
             
             UI.GuiColumns.FavColumn.Value = cff.GuiColumns.FavColumn;
@@ -127,6 +128,7 @@ namespace Ryujinx.Ava.Utilities.Configuration
             UI.GridSize.Value = cff.GridSize;
             UI.ApplicationSort.Value = cff.ApplicationSort;
             UI.StartFullscreen.Value = cff.StartFullscreen;
+            UI.StartNoUI.Value = cff.StartNoUI;
             UI.ShowConsole.Value = cff.ShowConsole;
             UI.WindowStartup.WindowSizeWidth.Value = cff.WindowStartup.WindowSizeWidth;
             UI.WindowStartup.WindowSizeHeight.Value = cff.WindowStartup.WindowSizeHeight;
@@ -262,15 +264,12 @@ namespace Ryujinx.Ava.Utilities.Configuration
                         }),
                 (30, static cff =>
                 {
-                    foreach (InputConfig config in cff.InputConfig)
+                    foreach (StandardControllerInputConfig config in cff.InputConfig.OfType<StandardControllerInputConfig>())
                     {
-                        if (config is StandardControllerInputConfig controllerConfig)
+                        config.Rumble = new RumbleConfigController
                         {
-                            controllerConfig.Rumble = new RumbleConfigController
-                            {
-                                EnableRumble = false, StrongRumble = 1f, WeakRumble = 1f,
-                            };
-                        }
+                            EnableRumble = false, StrongRumble = 1f, WeakRumble = 1f,
+                        };
                     }
                 }),
                 (31, static cff => cff.BackendThreading = BackendThreading.Auto),
@@ -414,6 +413,20 @@ namespace Ryujinx.Ava.Utilities.Configuration
                     // This was accidentally enabled by default when it was PRed. That is not what we want,
                     // so as a compromise users who want to use it will simply need to re-enable it once after updating.
                     cff.IgnoreApplet = false;
+                }),
+                (60, static cff => cff.StartNoUI = false),
+                (61, static cff =>
+                {
+                    foreach (StandardControllerInputConfig config in cff.InputConfig.OfType<StandardControllerInputConfig>())
+                    {
+                        config.Led = new LedConfigController
+                        {
+                            EnableLed = false,
+                            TurnOffLed = false,
+                            UseRainbow = false,
+                            LedColor = new Color(255, 5, 1, 253).ToUInt32()
+                        };
+                    }
                 })
             );
     }

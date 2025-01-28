@@ -117,7 +117,7 @@ namespace Ryujinx.Graphics.Gpu.Memory
             lock (_lock)
             {
                 // Slices a given region using the modified regions in the list. Calls the action for the new slices.
-                ref var overlaps = ref ThreadStaticArray<BufferModifiedRange>.Get();
+                ref BufferModifiedRange[] overlaps = ref ThreadStaticArray<BufferModifiedRange>.Get();
 
                 int count = FindOverlapsNonOverlapping(address, size, ref overlaps);
 
@@ -156,7 +156,7 @@ namespace Ryujinx.Graphics.Gpu.Memory
             lock (_lock)
             {
                 // We may overlap with some existing modified regions. They must be cut into by the new entry.
-                ref var overlaps = ref ThreadStaticArray<BufferModifiedRange>.Get();
+                ref BufferModifiedRange[] overlaps = ref ThreadStaticArray<BufferModifiedRange>.Get();
 
                 int count = FindOverlapsNonOverlapping(address, size, ref overlaps);
 
@@ -210,7 +210,7 @@ namespace Ryujinx.Graphics.Gpu.Memory
         {
             int count = 0;
 
-            ref var overlaps = ref ThreadStaticArray<BufferModifiedRange>.Get();
+            ref BufferModifiedRange[] overlaps = ref ThreadStaticArray<BufferModifiedRange>.Get();
 
             // Range list must be consistent for this operation.
             lock (_lock)
@@ -239,7 +239,7 @@ namespace Ryujinx.Graphics.Gpu.Memory
         {
             int count = 0;
 
-            ref var overlaps = ref ThreadStaticArray<BufferModifiedRange>.Get();
+            ref BufferModifiedRange[] overlaps = ref ThreadStaticArray<BufferModifiedRange>.Get();
 
             // Range list must be consistent for this operation.
             lock (_lock)
@@ -355,7 +355,7 @@ namespace Ryujinx.Graphics.Gpu.Memory
 
             int rangeCount = 0;
 
-            ref var overlaps = ref ThreadStaticArray<BufferModifiedRange>.Get();
+            ref BufferModifiedRange[] overlaps = ref ThreadStaticArray<BufferModifiedRange>.Get();
 
             // Range list must be consistent for this operation
             lock (_lock)
@@ -431,13 +431,13 @@ namespace Ryujinx.Graphics.Gpu.Memory
 
                     BufferMigration oldMigration = ranges._source;
 
-                    BufferMigrationSpan span = new BufferMigrationSpan(ranges._parent, ranges._flushAction, oldMigration);
+                    BufferMigrationSpan span = new(ranges._parent, ranges._flushAction, oldMigration);
                     ranges._parent.IncrementReferenceCount();
 
                     if (_source == null)
                     {
                         // Create a new migration.
-                        _source = new BufferMigration(new BufferMigrationSpan[] { span }, this, _context.SyncNumber);
+                        _source = new BufferMigration([span], this, _context.SyncNumber);
 
                         _context.RegisterBufferMigration(_source);
                     }
@@ -476,7 +476,7 @@ namespace Ryujinx.Graphics.Gpu.Memory
             lock (_lock)
             {
                 BufferMigrationSpan span = new(_parent, _parent.GetSnapshotDisposeAction(), _parent.GetSnapshotFlushAction(), _source);
-                BufferMigration migration = new(new BufferMigrationSpan[] { span }, this, _context.SyncNumber);
+                BufferMigration migration = new([span], this, _context.SyncNumber);
 
                 // Migration target is used to redirect flush actions to the latest range list,
                 // so we don't need to set it here. (this range list is still the latest)

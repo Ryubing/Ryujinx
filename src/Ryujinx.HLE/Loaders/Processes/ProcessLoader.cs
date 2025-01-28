@@ -161,7 +161,7 @@ namespace Ryujinx.HLE.Loaders.Processes
 
         public bool LoadNxo(string path)
         {
-            var nacpData = new BlitStruct<ApplicationControlProperty>(1);
+            BlitStruct<ApplicationControlProperty> nacpData = new(1);
             IFileSystem dummyExeFs = null;
             Stream romfsStream = null;
 

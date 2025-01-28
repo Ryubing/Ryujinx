@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 
 namespace Ryujinx.Input
 {
@@ -33,6 +34,11 @@ namespace Ryujinx.Input
         /// <param name="id">The unique id of the gamepad</param>
         /// <returns>An instance of <see cref="IGamepad"/> associated to the gamepad id given or null if not found</returns>
         IGamepad GetGamepad(string id);
+        
+        /// <summary>
+        /// Returns an <see cref="IEnumerable{T}"/> of the connected gamepads.
+        /// </summary>
+        IEnumerable<IGamepad> GetGamepads();
 
         /// <summary>
         /// Clear the internal state of the driver.

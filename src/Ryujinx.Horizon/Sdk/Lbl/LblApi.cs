@@ -12,7 +12,7 @@ namespace Ryujinx.Horizon.Sdk.Lbl
 
         public LblApi()
         {
-            using var smApi = new SmApi();
+            using SmApi smApi = new();
 
             smApi.Initialize();
             smApi.GetServiceHandle(out _sessionHandle, ServiceName.Encode(LblName)).AbortOnFailure();

@@ -8,7 +8,7 @@ namespace Ryujinx.Ava.UI.Models
     public class CheatNode : BaseModel
     {
         private bool _isEnabled = false;
-        public ObservableCollection<CheatNode> SubNodes { get; } = new();
+        public ObservableCollection<CheatNode> SubNodes { get; } = [];
         public string CleanName => Name[1..^7];
         public string BuildIdKey => $"{BuildId}-{Name}";
         public bool IsRootNode { get; }
@@ -28,7 +28,7 @@ namespace Ryujinx.Ava.UI.Models
             }
             set
             {
-                foreach (var cheat in SubNodes)
+                foreach (CheatNode cheat in SubNodes)
                 {
                     cheat.IsEnabled = value;
                     cheat.OnPropertyChanged();

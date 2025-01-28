@@ -436,7 +436,7 @@ namespace Ryujinx.Audio.Renderer.Server
                     return result;
                 }
 
-                PoolMapper poolMapper = new PoolMapper(_processHandle, _memoryPools, _behaviourContext.IsMemoryPoolForceMappingEnabled());
+                PoolMapper poolMapper = new(_processHandle, _memoryPools, _behaviourContext.IsMemoryPoolForceMappingEnabled());
 
                 result = stateUpdater.UpdateVoices(_voiceContext, poolMapper);
 

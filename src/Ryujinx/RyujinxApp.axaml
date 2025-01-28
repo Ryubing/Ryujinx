@@ -16,5 +16,6 @@
     <Application.Styles>
         <sty:FluentAvaloniaTheme PreferUserAccentColor="True" PreferSystemTheme="False" />
         <StyleInclude Source="/Assets/Styles/Styles.xaml" />
+        <StyleInclude Source="/Assets/Styles/CheckboxMenuItemStyle.axaml"/>
     </Application.Styles>
 </Application>

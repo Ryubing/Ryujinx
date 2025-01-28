@@ -9,7 +9,7 @@ namespace Ryujinx.Common.Utilities
         public static void CopyDirectory(string sourceDir, string destinationDir, bool recursive)
         {
             // Get information about the source directory
-            var dir = new DirectoryInfo(sourceDir);
+            DirectoryInfo dir = new(sourceDir);
 
             // Check if the source directory exists
             if (!dir.Exists)
@@ -49,7 +49,7 @@ namespace Ryujinx.Common.Utilities
 
         public static string SanitizeFileName(string fileName)
         {
-            var reservedChars = new HashSet<char>(Path.GetInvalidFileNameChars());
+            HashSet<char> reservedChars = new(Path.GetInvalidFileNameChars());
             return string.Concat(fileName.Select(c => reservedChars.Contains(c) ? '_' : c));
         }
     }

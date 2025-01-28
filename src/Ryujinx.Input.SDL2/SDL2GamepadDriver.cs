@@ -31,7 +31,7 @@ namespace Ryujinx.Input.SDL2
         public SDL2GamepadDriver()
         {
             _gamepadsInstanceIdsMapping = new Dictionary<int, string>();
-            _gamepadsIds = new List<string>();
+            _gamepadsIds = [];
 
             SDL2Driver.Instance.Initialize();
             SDL2Driver.Instance.OnJoyStickConnected += HandleJoyStickConnected;
@@ -172,6 +172,17 @@ namespace Ryujinx.Input.SDL2
             }
 
             return new SDL2Gamepad(gamepadHandle, id);
+        }
+
+        public IEnumerable<IGamepad> GetGamepads()
+        {
+            lock (_gamepadsIds)
+            {
+                foreach (string gamepadId in _gamepadsIds)
+                {
+                    yield return GetGamepad(gamepadId);
+                }
+            }
         }
     }
 }

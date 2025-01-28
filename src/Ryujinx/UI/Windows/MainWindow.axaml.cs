@@ -8,6 +8,7 @@ using DynamicData;
 using FluentAvalonia.UI.Controls;
 using FluentAvalonia.UI.Windowing;
 using Gommon;
+using LibHac.Ns;
 using LibHac.Tools.FsSystem;
 using Ryujinx.Ava.Common;
 using Ryujinx.Ava.Common.Locale;
@@ -171,11 +172,11 @@ namespace Ryujinx.Ava.UI.Windows
         {
             Dispatcher.UIThread.Post(() =>
             {
-                var ldnGameDataArray = e.LdnData.ToList();
+                List<LdnGameData> ldnGameDataArray = e.LdnData.ToList();
                 ViewModel.LdnData.Clear();
-                foreach (var application in ViewModel.Applications.Where(it => it.HasControlHolder))
+                foreach (ApplicationData application in ViewModel.Applications.Where(it => it.HasControlHolder))
                 {
-                    ref var controlHolder = ref application.ControlHolder.Value;
+                    ref ApplicationControlProperty controlHolder = ref application.ControlHolder.Value;
                     
                     ViewModel.LdnData[application.IdString] = 
                         LdnGameData.GetArrayForApp(
@@ -192,7 +193,7 @@ namespace Ryujinx.Ava.UI.Windows
 
         private void UpdateApplicationWithLdnData(ApplicationData application)
         {
-            if (application.HasControlHolder && ViewModel.LdnData.TryGetValue(application.IdString, out var ldnGameDatas))
+            if (application.HasControlHolder && ViewModel.LdnData.TryGetValue(application.IdString, out LdnGameData.Array ldnGameDatas))
             {
                 application.PlayerCount = ldnGameDatas.PlayerCount;
                 application.GameCount = ldnGameDatas.GameCount;
@@ -690,11 +691,12 @@ namespace Ryujinx.Ava.UI.Windows
 
                 ApplicationLibrary.LoadApplications(ConfigurationState.Instance.UI.GameDirs);
 
-                var autoloadDirs = ConfigurationState.Instance.UI.AutoloadDirs.Value;
+                List<string> autoloadDirs = ConfigurationState.Instance.UI.AutoloadDirs.Value;
+                autoloadDirs.ForEach(dir => Logger.Info?.Print(LogClass.Application, $"Auto loading DLC & updates from: {dir}"));
                 if (autoloadDirs.Count > 0)
                 {
-                    var updatesLoaded = ApplicationLibrary.AutoLoadTitleUpdates(autoloadDirs, out int updatesRemoved);
-                    var dlcLoaded = ApplicationLibrary.AutoLoadDownloadableContents(autoloadDirs, out int dlcRemoved);
+                    int updatesLoaded = ApplicationLibrary.AutoLoadTitleUpdates(autoloadDirs, out int updatesRemoved);
+                    int dlcLoaded = ApplicationLibrary.AutoLoadDownloadableContents(autoloadDirs, out int dlcRemoved);
 
                     ShowNewContentAddedDialog(dlcLoaded, dlcRemoved, updatesLoaded, updatesRemoved);
                 }
@@ -710,12 +712,13 @@ namespace Ryujinx.Ava.UI.Windows
 
         private void ShowNewContentAddedDialog(int numDlcAdded, int numDlcRemoved, int numUpdatesAdded, int numUpdatesRemoved)
         {
-            string[] messages = {
+            string[] messages =
+            [
                 numDlcRemoved > 0 ? string.Format(LocaleManager.Instance[LocaleKeys.AutoloadDlcRemovedMessage], numDlcRemoved): null,
                 numDlcAdded > 0 ? string.Format(LocaleManager.Instance[LocaleKeys.AutoloadDlcAddedMessage], numDlcAdded): null,
                 numUpdatesRemoved > 0 ? string.Format(LocaleManager.Instance[LocaleKeys.AutoloadUpdateRemovedMessage], numUpdatesRemoved): null,
                 numUpdatesAdded > 0 ? string.Format(LocaleManager.Instance[LocaleKeys.AutoloadUpdateAddedMessage], numUpdatesAdded) : null
-            };
+            ];
 
             string msg = String.Join("\r\n", messages);
 
@@ -735,9 +738,7 @@ namespace Ryujinx.Ava.UI.Windows
             });
         }
 
-        private static bool _intelMacWarningShown = !(OperatingSystem.IsMacOS() &&
-                                                     (RuntimeInformation.OSArchitecture == Architecture.X64 ||
-                                                      RuntimeInformation.OSArchitecture == Architecture.X86));
+        private static bool _intelMacWarningShown = !RunningPlatform.IsIntelMac;
 
         public static async Task ShowIntelMacWarningAsync()
         {

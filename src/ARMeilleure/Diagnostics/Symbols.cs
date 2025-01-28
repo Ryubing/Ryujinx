@@ -29,7 +29,7 @@ namespace ARMeilleure.Diagnostics
         static Symbols()
         {
             _symbols = new ConcurrentDictionary<ulong, string>();
-            _rangedSymbols = new List<RangedSymbol>();
+            _rangedSymbols = [];
         }
 
         public static string Get(ulong address)

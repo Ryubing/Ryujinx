@@ -153,6 +153,11 @@ namespace Ryujinx.Ava.Utilities.Configuration
             public ReactiveObject<bool> StartFullscreen { get; private set; }
 
             /// <summary>
+            /// Start games with UI hidden
+            /// </summary>
+            public ReactiveObject<bool> StartNoUI { get; private set; }
+
+            /// <summary>
             /// Hide / Show Console Window
             /// </summary>
             public ReactiveObject<bool> ShowConsole { get; private set; }
@@ -192,6 +197,7 @@ namespace Ryujinx.Ava.Utilities.Configuration
                 WindowStartup = new WindowStartupSettings();
                 BaseStyle = new ReactiveObject<string>();
                 StartFullscreen = new ReactiveObject<bool>();
+                StartNoUI = new ReactiveObject<bool>();
                 GameListViewMode = new ReactiveObject<int>();
                 ShowNames = new ReactiveObject<bool>();
                 GridSize = new ReactiveObject<int>();
@@ -360,6 +366,11 @@ namespace Ryujinx.Ava.Utilities.Configuration
             /// Enable or disable ignoring missing services
             /// </summary>
             public ReactiveObject<bool> IgnoreMissingServices { get; private set; }
+            
+            /// <summary>
+            ///  Ignore Controller Applet
+            /// </summary>
+            public ReactiveObject<bool> IgnoreApplet { get; private set; }
 
             /// <summary>
             /// Uses Hypervisor over JIT if available
@@ -398,6 +409,8 @@ namespace Ryujinx.Ava.Utilities.Configuration
                 DramSize.LogChangesToValue(nameof(DramSize));
                 IgnoreMissingServices = new ReactiveObject<bool>();
                 IgnoreMissingServices.LogChangesToValue(nameof(IgnoreMissingServices));
+                IgnoreApplet = new ReactiveObject<bool>();
+                IgnoreApplet.LogChangesToValue(nameof(IgnoreApplet));
                 AudioVolume = new ReactiveObject<float>();
                 AudioVolume.LogChangesToValue(nameof(AudioVolume));
                 UseHypervisor = new ReactiveObject<bool>();
@@ -648,7 +661,7 @@ namespace Ryujinx.Ava.Utilities.Configuration
                 if (!ShowDirtyHacks) 
                     return;
                 
-                var newHacks = EnabledHacks.Select(x => x.Hack)
+                string newHacks = EnabledHacks.Select(x => x.Hack)
                     .JoinToString(", ");
 
                 if (newHacks != _lastHackCollection)
@@ -740,11 +753,6 @@ namespace Ryujinx.Ava.Utilities.Configuration
         public ReactiveObject<bool> ShowConfirmExit { get; private set; }
 
         /// <summary>
-        /// Ignore Applet
-        /// </summary>
-        public ReactiveObject<bool> IgnoreApplet { get; private set; }
-
-        /// <summary>
         /// Enables or disables save window size, position and state on close.
         /// </summary>
         public ReactiveObject<bool> RememberWindowState { get; private set; }
@@ -776,8 +784,6 @@ namespace Ryujinx.Ava.Utilities.Configuration
             EnableDiscordIntegration = new ReactiveObject<bool>();
             CheckUpdatesOnStart = new ReactiveObject<bool>();
             ShowConfirmExit = new ReactiveObject<bool>();
-            IgnoreApplet = new ReactiveObject<bool>();
-            IgnoreApplet.LogChangesToValue(nameof(IgnoreApplet));
             RememberWindowState = new ReactiveObject<bool>();
             ShowTitleBar = new ReactiveObject<bool>();
             EnableHardwareAcceleration = new ReactiveObject<bool>();

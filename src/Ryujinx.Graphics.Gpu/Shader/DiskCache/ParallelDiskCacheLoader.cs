@@ -303,10 +303,10 @@ namespace Ryujinx.Graphics.Gpu.Shader.DiskCache
 
                         Logger.Info?.Print(LogClass.Gpu, $"Rebuilding {_programList.Count} shaders...");
 
-                        using var streams = _hostStorage.GetOutputStreams(_context);
+                        using DiskCacheOutputStreams streams = _hostStorage.GetOutputStreams(_context);
 
                         int packagedShaders = 0;
-                        foreach (var kv in _programList)
+                        foreach (KeyValuePair<int, (CachedShaderProgram, byte[])> kv in _programList)
                         {
                             if (!Active)
                             {
@@ -657,7 +657,7 @@ namespace Ryujinx.Graphics.Gpu.Shader.DiskCache
             }
 
             CachedShaderStage[] shaders = new CachedShaderStage[guestShaders.Length];
-            List<ShaderProgram> translatedStages = new();
+            List<ShaderProgram> translatedStages = [];
 
             TranslatorContext previousStage = null;
 
@@ -729,9 +729,9 @@ namespace Ryujinx.Graphics.Gpu.Shader.DiskCache
 
             ShaderProgram program = translatorContext.Translate();
 
-            CachedShaderStage[] shaders = new[] { new CachedShaderStage(program.Info, shader.Code, shader.Cb1Data) };
+            CachedShaderStage[] shaders = [new CachedShaderStage(program.Info, shader.Code, shader.Cb1Data)];
 
-            _compilationQueue.Enqueue(new ProgramCompilation(new[] { program }, shaders, newSpecState, programIndex, isCompute: true));
+            _compilationQueue.Enqueue(new ProgramCompilation([program], shaders, newSpecState, programIndex, isCompute: true));
         }
 
         /// <summary>

@@ -27,7 +27,7 @@ namespace Ryujinx.Horizon.Sdk.Sf
 
         public static ref T GetRef<T>(PointerAndSize bufferRange) where T : unmanaged
         {
-            var writableRegion = GetWritableRegion(bufferRange);
+            WritableRegion writableRegion = GetWritableRegion(bufferRange);
 
             return ref MemoryMarshal.Cast<byte, T>(writableRegion.Memory.Span)[0];
         }

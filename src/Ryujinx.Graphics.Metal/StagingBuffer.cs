@@ -108,8 +108,8 @@ namespace Ryujinx.Graphics.Metal
 
         private void PushDataImpl(CommandBufferScoped cbs, BufferHolder dst, int dstOffset, ReadOnlySpan<byte> data)
         {
-            var srcBuffer = _buffer.GetBuffer();
-            var dstBuffer = dst.GetBuffer(dstOffset, data.Length, true);
+            Auto<DisposableBuffer> srcBuffer = _buffer.GetBuffer();
+            Auto<DisposableBuffer> dstBuffer = dst.GetBuffer(dstOffset, data.Length, true);
 
             int offset = _freeOffset;
             int capacity = BufferSize - offset;
@@ -241,7 +241,7 @@ namespace Ryujinx.Graphics.Metal
 
         private bool WaitFreeCompleted(CommandBufferPool cbp)
         {
-            if (_pendingCopies.TryPeek(out var pc))
+            if (_pendingCopies.TryPeek(out PendingCopy pc))
             {
                 if (!pc.Fence.IsSignaled())
                 {
@@ -253,7 +253,7 @@ namespace Ryujinx.Graphics.Metal
                     pc.Fence.Wait();
                 }
 
-                var dequeued = _pendingCopies.Dequeue();
+                PendingCopy dequeued = _pendingCopies.Dequeue();
                 Debug.Assert(dequeued.Fence == pc.Fence);
                 _freeSize += pc.Size;
                 pc.Fence.Put();
@@ -265,10 +265,10 @@ namespace Ryujinx.Graphics.Metal
         public void FreeCompleted()
         {
             FenceHolder signalledFence = null;
-            while (_pendingCopies.TryPeek(out var pc) && (pc.Fence == signalledFence || pc.Fence.IsSignaled()))
+            while (_pendingCopies.TryPeek(out PendingCopy pc) && (pc.Fence == signalledFence || pc.Fence.IsSignaled()))
             {
                 signalledFence = pc.Fence; // Already checked - don't need to do it again.
-                var dequeued = _pendingCopies.Dequeue();
+                PendingCopy dequeued = _pendingCopies.Dequeue();
                 Debug.Assert(dequeued.Fence == pc.Fence);
                 _freeSize += pc.Size;
                 pc.Fence.Put();
@@ -279,7 +279,7 @@ namespace Ryujinx.Graphics.Metal
         {
             _renderer.BufferManager.Delete(Handle);
 
-            while (_pendingCopies.TryDequeue(out var pc))
+            while (_pendingCopies.TryDequeue(out PendingCopy pc))
             {
                 pc.Fence.Put();
             }

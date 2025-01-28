@@ -66,11 +66,11 @@ namespace Ryujinx.Ava.UI.Views.User
         {
             if (ViewModel.SelectedImage != null)
             {
-                using var streamJpg = new MemoryStream();
-                using var bitmap = SKBitmap.Decode(ViewModel.SelectedImage);
-                using var newBitmap = new SKBitmap(bitmap.Width, bitmap.Height);
+                using MemoryStream streamJpg = new();
+                using SKBitmap bitmap = SKBitmap.Decode(ViewModel.SelectedImage);
+                using SKBitmap newBitmap = new(bitmap.Width, bitmap.Height);
 
-                using (var canvas = new SKCanvas(newBitmap))
+                using (SKCanvas canvas = new(newBitmap))
                 {
                     canvas.Clear(new SKColor(
                         ViewModel.BackgroundColor.R,
@@ -80,8 +80,8 @@ namespace Ryujinx.Ava.UI.Views.User
                     canvas.DrawBitmap(bitmap, 0, 0);
                 }
 
-                using (var image = SKImage.FromBitmap(newBitmap))
-                using (var dataJpeg = image.Encode(SKEncodedImageFormat.Jpeg, 100))
+                using (SKImage image = SKImage.FromBitmap(newBitmap))
+                using (SKData dataJpeg = image.Encode(SKEncodedImageFormat.Jpeg, 100))
                 {
                     dataJpeg.SaveTo(streamJpg);
                 }

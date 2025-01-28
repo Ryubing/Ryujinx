@@ -73,11 +73,11 @@ namespace Ryujinx.HLE.HOS.Tamper.CodeEmitters
 
             void Emit(Type operationType, IOperand rhs = null)
             {
-                List<IOperand> operandList = new()
-                {
+                List<IOperand> operandList =
+                [
                     destinationRegister,
-                    leftHandSideRegister,
-                };
+                    leftHandSideRegister
+                ];
 
                 if (rhs != null)
                 {

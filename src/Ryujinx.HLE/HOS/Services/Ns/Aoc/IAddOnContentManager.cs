@@ -15,7 +15,7 @@ namespace Ryujinx.HLE.HOS.Services.Ns.Aoc
 
         private ulong _addOnContentBaseId;
 
-        private readonly List<ulong> _mountedAocTitleIds = new();
+        private readonly List<ulong> _mountedAocTitleIds = [];
 
         public IAddOnContentManager(ServiceCtx context)
         {

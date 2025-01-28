@@ -73,7 +73,7 @@ namespace Ryujinx.Graphics.Shader.StructuredIr
                 return TextureFormat.Unknown;
             }
 
-            var format = gpuAccessor.QueryTextureFormat(handle, cbufSlot);
+            TextureFormat format = gpuAccessor.QueryTextureFormat(handle, cbufSlot);
 
             if (format == TextureFormat.Unknown)
             {
@@ -95,7 +95,7 @@ namespace Ryujinx.Graphics.Shader.StructuredIr
             // Atomic image instructions do not support GL_EXT_shader_image_load_formatted,
             // and must have a type specified. Default to R32Sint if not available.
 
-            var format = gpuAccessor.QueryTextureFormat(handle, cbufSlot);
+            TextureFormat format = gpuAccessor.QueryTextureFormat(handle, cbufSlot);
 
             if (!FormatSupportsAtomic(format))
             {

@@ -70,7 +70,7 @@ namespace Ryujinx.Graphics.Shader.StructuredIr
             AggregateType[] inArguments,
             AggregateType[] outArguments)
         {
-            _loopTails = new HashSet<BasicBlock>();
+            _loopTails = [];
 
             _blockStack = new Stack<(AstBlock, int, int)>();
 
@@ -78,7 +78,7 @@ namespace Ryujinx.Graphics.Shader.StructuredIr
 
             _gotoTempAsgs = new Dictionary<int, AstAssignment>();
 
-            _gotos = new List<GotoStatement>();
+            _gotos = [];
 
             _currBlock = new AstBlock(AstBlockType.Main);
 
@@ -314,13 +314,13 @@ namespace Ryujinx.Graphics.Shader.StructuredIr
 
                 ResourceManager.SetUsedConstantBufferBinding(binding);
 
-                IAstNode[] sources = new IAstNode[]
-                {
+                IAstNode[] sources =
+                [
                     new AstOperand(OperandType.Constant, binding),
                     new AstOperand(OperandType.Constant, 0),
                     new AstOperand(OperandType.Constant, vecIndex),
-                    new AstOperand(OperandType.Constant, elemIndex),
-                };
+                    new AstOperand(OperandType.Constant, elemIndex)
+                ];
 
                 return new AstOperation(Instruction.Load, StorageKind.ConstantBuffer, false, sources, sources.Length);
             }

@@ -28,7 +28,7 @@ namespace Ryujinx.Horizon.Sdk.Ngc.Detail
         {
             _capacity = 0;
             _count = 0;
-            _ranges = Array.Empty<MatchRange>();
+            _ranges = [];
         }
 
         public void Add(int startOffset, int endOffset)

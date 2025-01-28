@@ -161,5 +161,20 @@ namespace Ryujinx.HLE
         {
             return 1000 / _frameRate[FrameTypeGame];
         }
+        
+        public string FormatGameFrameRate()
+        {
+            double frameRate = GetGameFrameRate();
+            double frameTime = GetGameFrameTime();
+
+            return $"{frameRate:00.00} FPS ({frameTime:00.00}ms)";
+        }
+        
+        public string FormatFifoPercent()
+        {
+            double fifoPercent = GetFifoPercent();
+
+            return $"FIFO: {fifoPercent:00.00}%";
+        }
     }
 }

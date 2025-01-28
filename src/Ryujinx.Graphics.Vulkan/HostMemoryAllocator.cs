@@ -44,7 +44,7 @@ namespace Ryujinx.Graphics.Vulkan
             _hostMemoryApi = hostMemoryApi;
             _device = device;
 
-            _allocations = new List<HostMemoryAllocation>();
+            _allocations = [];
             _allocationTree = new IntervalTree<ulong, HostMemoryAllocation>();
         }
 
@@ -57,7 +57,7 @@ namespace Ryujinx.Graphics.Vulkan
             lock (_lock)
             {
                 // Does a compatible allocation exist in the tree?
-                var allocations = new HostMemoryAllocation[10];
+                HostMemoryAllocation[] allocations = new HostMemoryAllocation[10];
 
                 ulong start = (ulong)pointer;
                 ulong end = start + size;
@@ -108,7 +108,7 @@ namespace Ryujinx.Graphics.Vulkan
                     PHostPointer = (void*)pageAlignedPointer,
                 };
 
-                var memoryAllocateInfo = new MemoryAllocateInfo
+                MemoryAllocateInfo memoryAllocateInfo = new()
                 {
                     SType = StructureType.MemoryAllocateInfo,
                     AllocationSize = pageAlignedSize,
@@ -116,7 +116,7 @@ namespace Ryujinx.Graphics.Vulkan
                     PNext = &importInfo,
                 };
 
-                Result result = _api.AllocateMemory(_device, in memoryAllocateInfo, null, out var deviceMemory);
+                Result result = _api.AllocateMemory(_device, in memoryAllocateInfo, null, out DeviceMemory deviceMemory);
 
                 if (result < Result.Success)
                 {
@@ -124,9 +124,9 @@ namespace Ryujinx.Graphics.Vulkan
                     return false;
                 }
 
-                var allocation = new MemoryAllocation(this, deviceMemory, pageAlignedPointer, 0, pageAlignedSize);
-                var allocAuto = new Auto<MemoryAllocation>(allocation);
-                var hostAlloc = new HostMemoryAllocation(allocAuto, pageAlignedPointer, pageAlignedSize);
+                MemoryAllocation allocation = new(this, deviceMemory, pageAlignedPointer, 0, pageAlignedSize);
+                Auto<MemoryAllocation> allocAuto = new(allocation);
+                HostMemoryAllocation hostAlloc = new(allocAuto, pageAlignedPointer, pageAlignedSize);
 
                 allocAuto.IncrementReferenceCount();
                 allocAuto.Dispose(); // Kept alive by ref count only.
@@ -145,7 +145,7 @@ namespace Ryujinx.Graphics.Vulkan
             lock (_lock)
             {
                 // Does a compatible allocation exist in the tree?
-                var allocations = new HostMemoryAllocation[10];
+                HostMemoryAllocation[] allocations = new HostMemoryAllocation[10];
 
                 ulong start = (ulong)pointer;
                 ulong end = start + size;

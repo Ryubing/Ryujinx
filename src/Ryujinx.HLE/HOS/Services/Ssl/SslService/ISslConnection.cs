@@ -145,7 +145,7 @@ namespace Ryujinx.HLE.HOS.Services.Ssl.SslService
             ulong bufferAddress = context.Request.ReceiveBuff[0].Position;
             ulong bufferLen = context.Request.ReceiveBuff[0].Size;
 
-            using (var region = context.Memory.GetWritableRegion(bufferAddress, (int)bufferLen, true))
+            using (WritableRegion region = context.Memory.GetWritableRegion(bufferAddress, (int)bufferLen, true))
             {
                 Encoding.ASCII.GetBytes(_hostName, region.Memory.Span);
             }

@@ -129,13 +129,13 @@ namespace ARMeilleure.Common
 
             if (count > _count)
             {
-                var oldMask = _masks;
-                var oldSpan = new Span<long>(_masks, _count);
+                long* oldMask = _masks;
+                Span<long> oldSpan = new(_masks, _count);
 
                 _masks = _allocator.Allocate<long>((uint)count);
                 _count = count;
 
-                var newSpan = new Span<long>(_masks, _count);
+                Span<long> newSpan = new(_masks, _count);
 
                 oldSpan.CopyTo(newSpan);
                 newSpan[oldSpan.Length..].Clear();

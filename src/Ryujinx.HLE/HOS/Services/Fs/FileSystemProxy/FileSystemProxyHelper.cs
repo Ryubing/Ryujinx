@@ -26,7 +26,7 @@ namespace Ryujinx.HLE.HOS.Services.Fs.FileSystemProxy
             try
             {
                 LocalStorage storage = new(pfsPath, FileAccess.Read, FileMode.Open);
-                var pfs = new PartitionFileSystem();
+                PartitionFileSystem pfs = new();
                 using SharedRef<LibHac.Fs.Fsa.IFileSystem> nsp = new(pfs);
                 pfs.Initialize(storage).ThrowIfFailure();
 
@@ -58,7 +58,7 @@ namespace Ryujinx.HLE.HOS.Services.Fs.FileSystemProxy
                 }
 
                 LibHac.Fs.Fsa.IFileSystem fileSystem = nca.OpenFileSystem(NcaSectionType.Data, context.Device.System.FsIntegrityCheckLevel);
-                using var sharedFs = new SharedRef<LibHac.Fs.Fsa.IFileSystem>(fileSystem);
+                using SharedRef<LibHac.Fs.Fsa.IFileSystem> sharedFs = new(fileSystem);
 
                 using SharedRef<LibHac.FsSrv.Sf.IFileSystem> adapter = FileSystemInterfaceAdapter.CreateShared(ref sharedFs.Ref, true);
 
@@ -99,7 +99,7 @@ namespace Ryujinx.HLE.HOS.Services.Fs.FileSystemProxy
 
                     string filename = fullPath.Replace(archivePath.FullName, string.Empty).TrimStart('\\');
 
-                    using var ncaFile = new UniqueRef<LibHac.Fs.Fsa.IFile>();
+                    using UniqueRef<LibHac.Fs.Fsa.IFile> ncaFile = new();
 
                     Result result = nsp.OpenFile(ref ncaFile.Ref, filename.ToU8Span(), OpenMode.Read);
                     if (result.IsFailure())
@@ -122,14 +122,14 @@ namespace Ryujinx.HLE.HOS.Services.Fs.FileSystemProxy
         {
             foreach (DirectoryEntryEx ticketEntry in nsp.EnumerateEntries("/", "*.tik"))
             {
-                using var ticketFile = new UniqueRef<LibHac.Fs.Fsa.IFile>();
+                using UniqueRef<LibHac.Fs.Fsa.IFile> ticketFile = new();
 
                 Result result = nsp.OpenFile(ref ticketFile.Ref, ticketEntry.FullPath.ToU8Span(), OpenMode.Read);
 
                 if (result.IsSuccess())
                 {
                     Ticket ticket = new(ticketFile.Get.AsStream());
-                    var titleKey = ticket.GetTitleKey(keySet);
+                    byte[] titleKey = ticket.GetTitleKey(keySet);
 
                     if (titleKey != null)
                     {

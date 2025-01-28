@@ -3,52 +3,46 @@ namespace ARMeilleure.Common
     public static class AddressTablePresets
     {
         private static readonly AddressTableLevel[] _levels64Bit =
-            new AddressTableLevel[]
-            {
-                new(31, 17),
+        [
+            new(31, 17),
                 new(23,  8),
                 new(15,  8),
                 new( 7,  8),
-                new( 2,  5),
-            };
+                new( 2,  5)
+        ];
 
         private static readonly AddressTableLevel[] _levels32Bit =
-            new AddressTableLevel[]
-            {
-                new(31, 17),
+        [
+            new(31, 17),
                 new(23,  8),
                 new(15,  8),
                 new( 7,  8),
-                new( 1,  6),
-            };
+                new( 1,  6)
+        ];
 
         private static readonly AddressTableLevel[] _levels64BitSparseTiny =
-            new AddressTableLevel[]
-            {
-                new( 11, 28),
-                new( 2, 9),
-            };
+        [
+            new( 11, 28),
+                new( 2, 9)
+        ];
 
         private static readonly AddressTableLevel[] _levels32BitSparseTiny =
-            new AddressTableLevel[]
-            {
-                new( 10, 22),
-                new( 1, 9),
-            };
+        [
+            new( 10, 22),
+                new( 1, 9)
+        ];
 
         private static readonly AddressTableLevel[] _levels64BitSparseGiant =
-            new AddressTableLevel[]
-            {
-                new( 38, 1),
-                new( 2, 36),
-            };
+        [
+            new( 38, 1),
+                new( 2, 36)
+        ];
 
         private static readonly AddressTableLevel[] _levels32BitSparseGiant =
-            new AddressTableLevel[]
-            {
-                new( 31, 1),
-                new( 1, 30),
-            };
+        [
+            new( 31, 1),
+                new( 1, 30)
+        ];
 
         //high power will run worse on DDR3 systems and some DDR4 systems due to the higher ram utilization
         //low power will never run worse than non-sparse, but for most systems it won't be necessary

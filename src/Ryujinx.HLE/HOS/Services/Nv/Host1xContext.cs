@@ -18,8 +18,8 @@ namespace Ryujinx.HLE.HOS.Services.Nv
             MemoryAllocator = new NvMemoryAllocator();
             Host1x = new Host1xDevice(gpu.Synchronization);
             Smmu = gpu.CreateDeviceMemoryManager(pid);
-            var nvdec = new NvdecDevice(Smmu);
-            var vic = new VicDevice(Smmu);
+            NvdecDevice nvdec = new(Smmu);
+            VicDevice vic = new(Smmu);
             Host1x.RegisterDevice(ClassId.Nvdec, nvdec);
             Host1x.RegisterDevice(ClassId.Vic, vic);
         }

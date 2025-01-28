@@ -14,7 +14,7 @@ namespace Ryujinx.Tests.Cpu
 #if SimdMemory32
 
         private readonly uint[] _ldStModes =
-        {
+        [
             // LD1
             0b0111,
             0b1010,
@@ -32,8 +32,8 @@ namespace Ryujinx.Tests.Cpu
 
             // LD4
             0b0000,
-            0b0001,
-        };
+            0b0001
+        ];
 
         [Test, Pairwise, Description("VLDn.<size> <list>, [<Rn> {:<align>}]{ /!/, <Rm>} (single n element structure)")]
         public void Vldn_Single([Values(0u, 1u, 2u)] uint size,
@@ -44,7 +44,7 @@ namespace Ryujinx.Tests.Cpu
                                 [Range(0u, 3u)] uint n,
                                 [Values(0x0u)] uint offset)
         {
-            var data = GenerateVectorSequence((int)MemoryBlock.GetPageSize());
+            byte[] data = GenerateVectorSequence((int)MemoryBlock.GetPageSize());
             SetWorkingMemory(0, data);
 
             uint opcode = 0xf4a00000u; // VLD1.8 {D0[0]}, [R0], R0
@@ -74,7 +74,7 @@ namespace Ryujinx.Tests.Cpu
                              [Values] bool t,
                              [Values(0x0u)] uint offset)
         {
-            var data = GenerateVectorSequence((int)MemoryBlock.GetPageSize());
+            byte[] data = GenerateVectorSequence((int)MemoryBlock.GetPageSize());
             SetWorkingMemory(0, data);
 
             uint opcode = 0xf4a00c00u; // VLD1.8 {D0[0]}, [R0], R0
@@ -103,7 +103,7 @@ namespace Ryujinx.Tests.Cpu
                               [Range(0u, 10u)] uint mode,
                               [Values(0x0u)] uint offset)
         {
-            var data = GenerateVectorSequence((int)MemoryBlock.GetPageSize());
+            byte[] data = GenerateVectorSequence((int)MemoryBlock.GetPageSize());
             SetWorkingMemory(0, data);
 
             uint opcode = 0xf4200000u; // VLD4.8 {D0, D1, D2, D3}, [R0], R0
@@ -133,7 +133,7 @@ namespace Ryujinx.Tests.Cpu
                                 [Range(0u, 3u)] uint n,
                                 [Values(0x0u)] uint offset)
         {
-            var data = GenerateVectorSequence((int)MemoryBlock.GetPageSize());
+            byte[] data = GenerateVectorSequence((int)MemoryBlock.GetPageSize());
             SetWorkingMemory(0, data);
 
             (V128 vec1, V128 vec2, V128 vec3, V128 vec4) = GenerateTestVectors();
@@ -164,7 +164,7 @@ namespace Ryujinx.Tests.Cpu
                               [Range(0u, 10u)] uint mode,
                               [Values(0x0u)] uint offset)
         {
-            var data = GenerateVectorSequence((int)MemoryBlock.GetPageSize());
+            byte[] data = GenerateVectorSequence((int)MemoryBlock.GetPageSize());
             SetWorkingMemory(0, data);
 
             (V128 vec1, V128 vec2, V128 vec3, V128 vec4) = GenerateTestVectors();
@@ -194,18 +194,18 @@ namespace Ryujinx.Tests.Cpu
                          [Values(0x1u, 0x32u)] uint regs,
                          [Values] bool single)
         {
-            var data = GenerateVectorSequence((int)MemoryBlock.GetPageSize());
+            byte[] data = GenerateVectorSequence((int)MemoryBlock.GetPageSize());
             SetWorkingMemory(0, data);
 
             uint opcode = 0xec100a00u; // VST4.8 {D0, D1, D2, D3}, [R0], R0
 
             uint[] vldmModes =
-            {
+            [
                 // Note: 3rd 0 leaves a space for "D".
                 0b0100, // Increment after.
                 0b0101, // Increment after. (!)
-                0b1001, // Decrement before. (!)
-            };
+                0b1001 // Decrement before. (!)
+            ];
 
             opcode |= ((vldmModes[mode] & 15) << 21);
             opcode |= ((rn & 15) << 16);
@@ -246,7 +246,7 @@ namespace Ryujinx.Tests.Cpu
                          [Values(0x0u)] uint imm,
                          [Values] bool sub)
         {
-            var data = GenerateVectorSequence((int)MemoryBlock.GetPageSize());
+            byte[] data = GenerateVectorSequence((int)MemoryBlock.GetPageSize());
             SetWorkingMemory(0, data);
 
             uint opcode = 0xed900a00u; // VLDR.32 S0, [R0, #0]
@@ -281,7 +281,7 @@ namespace Ryujinx.Tests.Cpu
                 [Values(0x0u)] uint imm,
                 [Values] bool sub)
         {
-            var data = GenerateVectorSequence((int)MemoryBlock.GetPageSize());
+            byte[] data = GenerateVectorSequence((int)MemoryBlock.GetPageSize());
             SetWorkingMemory(0, data);
 
             uint opcode = 0xed800a00u; // VSTR.32 S0, [R0, #0]
@@ -331,7 +331,7 @@ namespace Ryujinx.Tests.Cpu
                 data[i] = i + (i / 9f);
             }
 
-            var result = new byte[length];
+            byte[] result = new byte[length];
             Buffer.BlockCopy(data, 0, result, 0, result.Length);
             return result;
         }

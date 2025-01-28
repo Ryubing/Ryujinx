@@ -49,7 +49,7 @@ namespace Ryujinx.HLE.Loaders.Processes.Extensions
                 ModLoader.GetSdModsBasePath());
 
             // Load Nacp file.
-            var nacpData = new BlitStruct<ApplicationControlProperty>(1);
+            BlitStruct<ApplicationControlProperty> nacpData = new(1);
 
             if (controlNca != null)
             {
@@ -214,9 +214,9 @@ namespace Ryujinx.HLE.Loaders.Processes.Extensions
 
         public static BlitStruct<ApplicationControlProperty> GetNacp(this Nca controlNca, Switch device)
         {
-            var nacpData = new BlitStruct<ApplicationControlProperty>(1);
+            BlitStruct<ApplicationControlProperty> nacpData = new(1);
 
-            using var controlFile = new UniqueRef<IFile>();
+            using UniqueRef<IFile> controlFile = new();
 
             Result result = controlNca.OpenFileSystem(NcaSectionType.Data, device.System.FsIntegrityCheckLevel)
                                       .OpenFile(ref controlFile.Ref, "/control.nacp".ToU8Span(), OpenMode.Read);
@@ -236,7 +236,7 @@ namespace Ryujinx.HLE.Loaders.Processes.Extensions
         public static Cnmt GetCnmt(this Nca cnmtNca, IntegrityCheckLevel checkLevel, ContentMetaType metaType)
         {
             string path = $"/{metaType}_{cnmtNca.Header.TitleId:x16}.cnmt";
-            using var cnmtFile = new UniqueRef<IFile>();
+            using UniqueRef<IFile> cnmtFile = new();
 
             try
             {

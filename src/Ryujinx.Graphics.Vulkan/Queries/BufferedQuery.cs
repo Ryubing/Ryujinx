@@ -4,6 +4,7 @@ using Silk.NET.Vulkan;
 using System;
 using System.Runtime.InteropServices;
 using System.Threading;
+using Buffer = Silk.NET.Vulkan.Buffer;
 
 namespace Ryujinx.Graphics.Vulkan.Queries
 {
@@ -44,7 +45,7 @@ namespace Ryujinx.Graphics.Vulkan.Queries
                 QueryPipelineStatisticFlags flags = type == CounterType.PrimitivesGenerated ?
                     QueryPipelineStatisticFlags.GeometryShaderPrimitivesBit : 0;
 
-                var queryPoolCreateInfo = new QueryPoolCreateInfo
+                QueryPoolCreateInfo queryPoolCreateInfo = new()
                 {
                     SType = StructureType.QueryPoolCreateInfo,
                     QueryCount = 1,
@@ -55,7 +56,7 @@ namespace Ryujinx.Graphics.Vulkan.Queries
                 gd.Api.CreateQueryPool(device, in queryPoolCreateInfo, null, out _queryPool).ThrowOnError();
             }
 
-            var buffer = gd.BufferManager.Create(gd, sizeof(long), forConditionalRendering: true);
+            BufferHolder buffer = gd.BufferManager.Create(gd, sizeof(long), forConditionalRendering: true);
 
             _bufferMap = buffer.Map(0, sizeof(long));
             _defaultValue = result32Bit ? DefaultValueInt : DefaultValue;
@@ -183,7 +184,7 @@ namespace Ryujinx.Graphics.Vulkan.Queries
 
         public void PoolCopy(CommandBufferScoped cbs)
         {
-            var buffer = _buffer.GetBuffer(cbs.CommandBuffer, true).Get(cbs, 0, sizeof(long), true).Value;
+            Buffer buffer = _buffer.GetBuffer(cbs.CommandBuffer, true).Get(cbs, 0, sizeof(long), true).Value;
 
             QueryResultFlags flags = QueryResultFlags.ResultWaitBit;
 

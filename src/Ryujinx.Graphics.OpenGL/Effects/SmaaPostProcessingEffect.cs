@@ -1,5 +1,6 @@
 using OpenTK.Graphics.OpenGL;
 using Ryujinx.Common;
+using Ryujinx.Common.Memory;
 using Ryujinx.Graphics.GAL;
 using Ryujinx.Graphics.OpenGL.Image;
 using System;
@@ -43,11 +44,11 @@ namespace Ryujinx.Graphics.OpenGL.Effects.Smaa
         {
             _renderer = renderer;
 
-            _edgeShaderPrograms = Array.Empty<int>();
-            _blendShaderPrograms = Array.Empty<int>();
-            _neighbourShaderPrograms = Array.Empty<int>();
+            _edgeShaderPrograms = [];
+            _blendShaderPrograms = [];
+            _neighbourShaderPrograms = [];
 
-            _qualities = new string[] { "SMAA_PRESET_LOW", "SMAA_PRESET_MEDIUM", "SMAA_PRESET_HIGH", "SMAA_PRESET_ULTRA" };
+            _qualities = ["SMAA_PRESET_LOW", "SMAA_PRESET_MEDIUM", "SMAA_PRESET_HIGH", "SMAA_PRESET_ULTRA"];
 
             Quality = quality;
 
@@ -78,7 +79,7 @@ namespace Ryujinx.Graphics.OpenGL.Effects.Smaa
         private unsafe void RecreateShaders(int width, int height)
         {
             string baseShader = EmbeddedResources.ReadAllText("Ryujinx.Graphics.OpenGL/Effects/Shaders/smaa.hlsl");
-            var pixelSizeDefine = $"#define SMAA_RT_METRICS float4(1.0 / {width}.0, 1.0 / {height}.0, {width}, {height}) \n";
+            string pixelSizeDefine = $"#define SMAA_RT_METRICS float4(1.0 / {width}.0, 1.0 / {height}.0, {width}, {height}) \n";
 
             _edgeShaderPrograms = new int[_qualities.Length];
             _blendShaderPrograms = new int[_qualities.Length];
@@ -86,20 +87,20 @@ namespace Ryujinx.Graphics.OpenGL.Effects.Smaa
 
             for (int i = 0; i < +_edgeShaderPrograms.Length; i++)
             {
-                var presets = $"#version 430 core \n#define {_qualities[i]} 1 \n{pixelSizeDefine}#define SMAA_GLSL_4 1 \nlayout (local_size_x = 16, local_size_y = 16) in;\n{baseShader}";
+                string presets = $"#version 430 core \n#define {_qualities[i]} 1 \n{pixelSizeDefine}#define SMAA_GLSL_4 1 \nlayout (local_size_x = 16, local_size_y = 16) in;\n{baseShader}";
 
-                var edgeShaderData = EmbeddedResources.ReadAllText("Ryujinx.Graphics.OpenGL/Effects/Shaders/smaa_edge.glsl");
-                var blendShaderData = EmbeddedResources.ReadAllText("Ryujinx.Graphics.OpenGL/Effects/Shaders/smaa_blend.glsl");
-                var neighbourShaderData = EmbeddedResources.ReadAllText("Ryujinx.Graphics.OpenGL/Effects/Shaders/smaa_neighbour.glsl");
+                string edgeShaderData = EmbeddedResources.ReadAllText("Ryujinx.Graphics.OpenGL/Effects/Shaders/smaa_edge.glsl");
+                string blendShaderData = EmbeddedResources.ReadAllText("Ryujinx.Graphics.OpenGL/Effects/Shaders/smaa_blend.glsl");
+                string neighbourShaderData = EmbeddedResources.ReadAllText("Ryujinx.Graphics.OpenGL/Effects/Shaders/smaa_neighbour.glsl");
 
-                var shaders = new string[] { presets, edgeShaderData };
-                var edgeProgram = ShaderHelper.CompileProgram(shaders, ShaderType.ComputeShader);
+                string[] shaders = [presets, edgeShaderData];
+                int edgeProgram = ShaderHelper.CompileProgram(shaders, ShaderType.ComputeShader);
 
                 shaders[1] = blendShaderData;
-                var blendProgram = ShaderHelper.CompileProgram(shaders, ShaderType.ComputeShader);
+                int blendProgram = ShaderHelper.CompileProgram(shaders, ShaderType.ComputeShader);
 
                 shaders[1] = neighbourShaderData;
-                var neighbourProgram = ShaderHelper.CompileProgram(shaders, ShaderType.ComputeShader);
+                int neighbourProgram = ShaderHelper.CompileProgram(shaders, ShaderType.ComputeShader);
 
                 _edgeShaderPrograms[i] = edgeProgram;
                 _blendShaderPrograms[i] = blendProgram;
@@ -116,7 +117,7 @@ namespace Ryujinx.Graphics.OpenGL.Effects.Smaa
 
         private void Initialize()
         {
-            var areaInfo = new TextureCreateInfo(AreaWidth,
+            TextureCreateInfo areaInfo = new(AreaWidth,
                 AreaHeight,
                 1,
                 1,
@@ -132,7 +133,7 @@ namespace Ryujinx.Graphics.OpenGL.Effects.Smaa
                 SwizzleComponent.Blue,
                 SwizzleComponent.Alpha);
 
-            var searchInfo = new TextureCreateInfo(SearchWidth,
+            TextureCreateInfo searchInfo = new(SearchWidth,
                 SearchHeight,
                 1,
                 1,
@@ -151,11 +152,11 @@ namespace Ryujinx.Graphics.OpenGL.Effects.Smaa
             _areaTexture = new TextureStorage(_renderer, areaInfo);
             _searchTexture = new TextureStorage(_renderer, searchInfo);
 
-            var areaTexture = EmbeddedResources.ReadFileToRentedMemory("Ryujinx.Graphics.OpenGL/Effects/Textures/SmaaAreaTexture.bin");
-            var searchTexture = EmbeddedResources.ReadFileToRentedMemory("Ryujinx.Graphics.OpenGL/Effects/Textures/SmaaSearchTexture.bin");
+            MemoryOwner<byte> areaTexture = EmbeddedResources.ReadFileToRentedMemory("Ryujinx.Graphics.OpenGL/Effects/Textures/SmaaAreaTexture.bin");
+            MemoryOwner<byte> searchTexture = EmbeddedResources.ReadFileToRentedMemory("Ryujinx.Graphics.OpenGL/Effects/Textures/SmaaSearchTexture.bin");
 
-            var areaView = _areaTexture.CreateDefaultView();
-            var searchView = _searchTexture.CreateDefaultView();
+            ITexture areaView = _areaTexture.CreateDefaultView();
+            ITexture searchView = _searchTexture.CreateDefaultView();
 
             areaView.SetData(areaTexture);
             searchView.SetData(searchTexture);
@@ -178,13 +179,13 @@ namespace Ryujinx.Graphics.OpenGL.Effects.Smaa
                 RecreateShaders(view.Width, view.Height);
             }
 
-            var textureView = _outputTexture.CreateView(view.Info, 0, 0) as TextureView;
-            var edgeOutput = _edgeOutputTexture.DefaultView as TextureView;
-            var blendOutput = _blendOutputTexture.DefaultView as TextureView;
-            var areaTexture = _areaTexture.DefaultView as TextureView;
-            var searchTexture = _searchTexture.DefaultView as TextureView;
+            TextureView textureView = _outputTexture.CreateView(view.Info, 0, 0) as TextureView;
+            TextureView edgeOutput = _edgeOutputTexture.DefaultView as TextureView;
+            TextureView blendOutput = _blendOutputTexture.DefaultView as TextureView;
+            TextureView areaTexture = _areaTexture.DefaultView as TextureView;
+            TextureView searchTexture = _searchTexture.DefaultView as TextureView;
 
-            var previousFramebuffer = GL.GetInteger(GetPName.FramebufferBinding);
+            int previousFramebuffer = GL.GetInteger(GetPName.FramebufferBinding);
             int previousUnit = GL.GetInteger(GetPName.ActiveTexture);
             GL.ActiveTexture(TextureUnit.Texture0);
             int previousTextureBinding0 = GL.GetInteger(GetPName.TextureBinding2D);
@@ -193,7 +194,7 @@ namespace Ryujinx.Graphics.OpenGL.Effects.Smaa
             GL.ActiveTexture(TextureUnit.Texture2);
             int previousTextureBinding2 = GL.GetInteger(GetPName.TextureBinding2D);
 
-            var framebuffer = new Framebuffer();
+            Framebuffer framebuffer = new();
             framebuffer.Bind();
             framebuffer.AttachColor(0, edgeOutput);
             GL.Clear(ClearBufferMask.ColorBufferBit);
@@ -206,8 +207,8 @@ namespace Ryujinx.Graphics.OpenGL.Effects.Smaa
 
             framebuffer.Dispose();
 
-            var dispatchX = BitUtils.DivRoundUp(view.Width, IPostProcessingEffect.LocalGroupSize);
-            var dispatchY = BitUtils.DivRoundUp(view.Height, IPostProcessingEffect.LocalGroupSize);
+            int dispatchX = BitUtils.DivRoundUp(view.Width, IPostProcessingEffect.LocalGroupSize);
+            int dispatchY = BitUtils.DivRoundUp(view.Height, IPostProcessingEffect.LocalGroupSize);
 
             int previousProgram = GL.GetInteger(GetPName.CurrentProgram);
             GL.BindImageTexture(0, edgeOutput.Handle, 0, false, 0, TextureAccess.ReadWrite, SizedInternalFormat.Rgba8);

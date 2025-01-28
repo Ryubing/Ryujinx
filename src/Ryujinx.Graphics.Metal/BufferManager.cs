@@ -65,7 +65,7 @@ namespace Ryujinx.Graphics.Metal
         public BufferHandle Create(nint pointer, int size)
         {
             // TODO: This is the wrong Metal method, we need no-copy which SharpMetal isn't giving us.
-            var buffer = _device.NewBuffer(pointer, (ulong)size, MTLResourceOptions.ResourceStorageModeShared);
+            MTLBuffer buffer = _device.NewBuffer(pointer, (ulong)size, MTLResourceOptions.ResourceStorageModeShared);
 
             if (buffer == IntPtr.Zero)
             {
@@ -74,7 +74,7 @@ namespace Ryujinx.Graphics.Metal
                 return BufferHandle.Null;
             }
 
-            var holder = new BufferHolder(_renderer, _pipeline, buffer, size);
+            BufferHolder holder = new(_renderer, _pipeline, buffer, size);
 
             BufferCount++;
 
@@ -123,7 +123,7 @@ namespace Ryujinx.Graphics.Metal
 
         public BufferHolder Create(int size)
         {
-            var buffer = _device.NewBuffer((ulong)size, MTLResourceOptions.ResourceStorageModeShared);
+            MTLBuffer buffer = _device.NewBuffer((ulong)size, MTLResourceOptions.ResourceStorageModeShared);
 
             if (buffer != IntPtr.Zero)
             {
@@ -137,7 +137,7 @@ namespace Ryujinx.Graphics.Metal
 
         public Auto<DisposableBuffer> GetBuffer(BufferHandle handle, bool isWrite, out int size)
         {
-            if (TryGetBuffer(handle, out var holder))
+            if (TryGetBuffer(handle, out BufferHolder holder))
             {
                 size = holder.Size;
                 return holder.GetBuffer(isWrite);
@@ -149,7 +149,7 @@ namespace Ryujinx.Graphics.Metal
 
         public Auto<DisposableBuffer> GetBuffer(BufferHandle handle, int offset, int size, bool isWrite)
         {
-            if (TryGetBuffer(handle, out var holder))
+            if (TryGetBuffer(handle, out BufferHolder holder))
             {
                 return holder.GetBuffer(offset, size, isWrite);
             }
@@ -159,7 +159,7 @@ namespace Ryujinx.Graphics.Metal
 
         public Auto<DisposableBuffer> GetBuffer(BufferHandle handle, bool isWrite)
         {
-            if (TryGetBuffer(handle, out var holder))
+            if (TryGetBuffer(handle, out BufferHolder holder))
             {
                 return holder.GetBuffer(isWrite);
             }
@@ -169,7 +169,7 @@ namespace Ryujinx.Graphics.Metal
 
         public Auto<DisposableBuffer> GetBufferI8ToI16(CommandBufferScoped cbs, BufferHandle handle, int offset, int size)
         {
-            if (TryGetBuffer(handle, out var holder))
+            if (TryGetBuffer(handle, out BufferHolder holder))
             {
                 return holder.GetBufferI8ToI16(cbs, offset, size);
             }
@@ -179,7 +179,7 @@ namespace Ryujinx.Graphics.Metal
 
         public Auto<DisposableBuffer> GetBufferTopologyConversion(CommandBufferScoped cbs, BufferHandle handle, int offset, int size, IndexBufferPattern pattern, int indexSize)
         {
-            if (TryGetBuffer(handle, out var holder))
+            if (TryGetBuffer(handle, out BufferHolder holder))
             {
                 return holder.GetBufferTopologyConversion(cbs, offset, size, pattern, indexSize);
             }
@@ -189,7 +189,7 @@ namespace Ryujinx.Graphics.Metal
 
         public PinnedSpan<byte> GetData(BufferHandle handle, int offset, int size)
         {
-            if (TryGetBuffer(handle, out var holder))
+            if (TryGetBuffer(handle, out BufferHolder holder))
             {
                 return holder.GetData(offset, size);
             }
@@ -204,7 +204,7 @@ namespace Ryujinx.Graphics.Metal
 
         public void SetData(BufferHandle handle, int offset, ReadOnlySpan<byte> data, CommandBufferScoped? cbs)
         {
-            if (TryGetBuffer(handle, out var holder))
+            if (TryGetBuffer(handle, out BufferHolder holder))
             {
                 holder.SetData(offset, data, cbs);
             }
@@ -212,7 +212,7 @@ namespace Ryujinx.Graphics.Metal
 
         public void Delete(BufferHandle handle)
         {
-            if (TryGetBuffer(handle, out var holder))
+            if (TryGetBuffer(handle, out BufferHolder holder))
             {
                 holder.Dispose();
                 _buffers.Remove((int)Unsafe.As<BufferHandle, ulong>(ref handle));
@@ -228,7 +228,7 @@ namespace Ryujinx.Graphics.Metal
         {
             StagingBuffer.Dispose();
 
-            foreach (var buffer in _buffers)
+            foreach (BufferHolder buffer in _buffers)
             {
                 buffer.Dispose();
             }

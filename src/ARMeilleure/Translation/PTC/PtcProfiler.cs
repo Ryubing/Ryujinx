@@ -26,9 +26,10 @@ namespace ARMeilleure.Translation.PTC
 
         private const uint InternalVersion = 5518; //! Not to be incremented manually for each change to the ARMeilleure project.
 
-        private static readonly uint[] _migrateInternalVersions = {
-            1866,
-        };
+        private static readonly uint[] _migrateInternalVersions =
+        [
+            1866
+        ];
 
         private const int SaveInterval = 30; // Seconds.
 
@@ -111,9 +112,9 @@ namespace ARMeilleure.Translation.PTC
 
         public ConcurrentQueue<(ulong address, FuncProfile funcProfile)> GetProfiledFuncsToTranslate(TranslatorCache<TranslatedFunction> funcs)
         {
-            var profiledFuncsToTranslate = new ConcurrentQueue<(ulong address, FuncProfile funcProfile)>();
+            ConcurrentQueue<(ulong address, FuncProfile funcProfile)> profiledFuncsToTranslate = new();
 
-            foreach (var profiledFunc in ProfiledFuncs)
+            foreach (KeyValuePair<ulong, FuncProfile> profiledFunc in ProfiledFuncs)
             {
                 if (!funcs.ContainsKey(profiledFunc.Key))
                 {

@@ -9,10 +9,10 @@ namespace Ryujinx.HLE.HOS.Diagnostics.Demangler
     class Demangler
     {
         private const string Base36 = "0123456789abcdefghijklmnopqrstuvwxyz";
-        private readonly List<BaseNode> _substitutionList = new();
-        private List<BaseNode> _templateParamList = new();
+        private readonly List<BaseNode> _substitutionList = [];
+        private List<BaseNode> _templateParamList = [];
 
-        private readonly List<ForwardTemplateReference> _forwardTemplateReferenceList = new();
+        private readonly List<ForwardTemplateReference> _forwardTemplateReferenceList = [];
 
         public string Mangled { get; private set; }
 
@@ -32,7 +32,7 @@ namespace Ryujinx.HLE.HOS.Diagnostics.Demangler
 
         private bool ConsumeIf(string toConsume)
         {
-            var mangledPart = Mangled.AsSpan(_position);
+            ReadOnlySpan<char> mangledPart = Mangled.AsSpan(_position);
 
             if (mangledPart.StartsWith(toConsume.AsSpan()))
             {
@@ -274,7 +274,7 @@ namespace Ryujinx.HLE.HOS.Diagnostics.Demangler
             }
             else if (ConsumeIf("Dw"))
             {
-                List<BaseNode> types = new();
+                List<BaseNode> types = [];
 
                 while (!ConsumeIf("E"))
                 {
@@ -308,7 +308,7 @@ namespace Ryujinx.HLE.HOS.Diagnostics.Demangler
             }
 
             Reference referenceQualifier = Reference.None;
-            List<BaseNode> paramsList = new();
+            List<BaseNode> paramsList = [];
 
             while (true)
             {
@@ -1588,7 +1588,7 @@ namespace Ryujinx.HLE.HOS.Diagnostics.Demangler
                 return null;
             }
 
-            List<BaseNode> expressions = new();
+            List<BaseNode> expressions = [];
             if (ConsumeIf("_"))
             {
                 while (!ConsumeIf("E"))
@@ -1730,8 +1730,8 @@ namespace Ryujinx.HLE.HOS.Diagnostics.Demangler
                 return null;
             }
 
-            List<BaseNode> expressions = new();
-            List<BaseNode> initializers = new();
+            List<BaseNode> expressions = [];
+            List<BaseNode> initializers = [];
 
             while (!ConsumeIf("_"))
             {
@@ -1899,7 +1899,7 @@ namespace Ryujinx.HLE.HOS.Diagnostics.Demangler
                                 return null;
                             }
 
-                            List<BaseNode> names = new();
+                            List<BaseNode> names = [];
                             while (!ConsumeIf("E"))
                             {
                                 expression = ParseExpression();
@@ -2048,7 +2048,7 @@ namespace Ryujinx.HLE.HOS.Diagnostics.Demangler
                         case 'l':
                             _position += 2;
 
-                            List<BaseNode> bracedExpressions = new();
+                            List<BaseNode> bracedExpressions = [];
                             while (!ConsumeIf("E"))
                             {
                                 expression = ParseBracedExpression();
@@ -2327,7 +2327,7 @@ namespace Ryujinx.HLE.HOS.Diagnostics.Demangler
                             return null;
                         case 'P':
                             _position += 2;
-                            List<BaseNode> arguments = new();
+                            List<BaseNode> arguments = [];
                             while (!ConsumeIf("E"))
                             {
                                 BaseNode argument = ParseTemplateArgument();
@@ -2368,7 +2368,7 @@ namespace Ryujinx.HLE.HOS.Diagnostics.Demangler
                                 return null;
                             }
 
-                            List<BaseNode> bracedExpressions = new();
+                            List<BaseNode> bracedExpressions = [];
                             while (!ConsumeIf("E"))
                             {
                                 expression = ParseBracedExpression();
@@ -2600,7 +2600,7 @@ namespace Ryujinx.HLE.HOS.Diagnostics.Demangler
                 _templateParamList.Clear();
             }
 
-            List<BaseNode> args = new();
+            List<BaseNode> args = [];
             while (!ConsumeIf("E"))
             {
                 if (hasContext)
@@ -2659,7 +2659,7 @@ namespace Ryujinx.HLE.HOS.Diagnostics.Demangler
                 // J <template-arg>* E
                 case 'J':
                     _position++;
-                    List<BaseNode> templateArguments = new();
+                    List<BaseNode> templateArguments = [];
                     while (!ConsumeIf("E"))
                     {
                         BaseNode templateArgument = ParseTemplateArgument();
@@ -3298,7 +3298,7 @@ namespace Ryujinx.HLE.HOS.Diagnostics.Demangler
                 return new EncodedFunction(name, null, context.Cv, context.Ref, null, returnType);
             }
 
-            List<BaseNode> paramsList = new();
+            List<BaseNode> paramsList = [];
 
             // backup because that can be destroyed by parseType
             CvType cv = context.Cv;

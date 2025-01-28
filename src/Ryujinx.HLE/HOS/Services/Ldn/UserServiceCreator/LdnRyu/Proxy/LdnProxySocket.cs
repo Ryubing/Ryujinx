@@ -18,21 +18,21 @@ namespace Ryujinx.HLE.HOS.Services.Ldn.UserServiceCreator.LdnRyu.Proxy
         private readonly LdnProxy _proxy;
 
         private bool _isListening;
-        private readonly List<LdnProxySocket> _listenSockets = new List<LdnProxySocket>();
+        private readonly List<LdnProxySocket> _listenSockets = [];
 
-        private readonly Queue<ProxyConnectRequest> _connectRequests = new Queue<ProxyConnectRequest>();
+        private readonly Queue<ProxyConnectRequest> _connectRequests = new();
 
-        private readonly AutoResetEvent _acceptEvent = new AutoResetEvent(false);
+        private readonly AutoResetEvent _acceptEvent = new(false);
         private readonly int _acceptTimeout = -1;
 
-        private readonly Queue<int> _errors = new Queue<int>();
+        private readonly Queue<int> _errors = new();
 
-        private readonly AutoResetEvent _connectEvent = new AutoResetEvent(false);
+        private readonly AutoResetEvent _connectEvent = new(false);
         private ProxyConnectResponse _connectResponse;
 
         private int _receiveTimeout = -1;
-        private readonly AutoResetEvent _receiveEvent = new AutoResetEvent(false);
-        private readonly Queue<ProxyDataPacket> _receiveQueue = new Queue<ProxyDataPacket>();
+        private readonly AutoResetEvent _receiveEvent = new(false);
+        private readonly Queue<ProxyDataPacket> _receiveQueue = new();
 
         // private int _sendTimeout = -1; // Sends are techically instant right now, so not _really_ used.
 
@@ -42,7 +42,7 @@ namespace Ryujinx.HLE.HOS.Services.Ldn.UserServiceCreator.LdnRyu.Proxy
         // private bool _writeShutdown;
         private bool _closed;
 
-        private readonly Dictionary<SocketOptionName, int> _socketOptions = new Dictionary<SocketOptionName, int>()
+        private readonly Dictionary<SocketOptionName, int> _socketOptions = new()
         {
             { SocketOptionName.Broadcast,       0 }, //TODO: honor this value
             { SocketOptionName.DontLinger,      0 },
@@ -147,7 +147,7 @@ namespace Ryujinx.HLE.HOS.Services.Ldn.UserServiceCreator.LdnRyu.Proxy
                 }
             }
 
-            IPEndPoint localEp = new IPEndPoint(_proxy.LocalAddress, _proxy.GetEphemeralPort(ProtocolType));
+            IPEndPoint localEp = new(_proxy.LocalAddress, _proxy.GetEphemeralPort(ProtocolType));
             LocalEndPoint = localEp;
 
             return localEp;
@@ -256,7 +256,7 @@ namespace Ryujinx.HLE.HOS.Services.Ldn.UserServiceCreator.LdnRyu.Proxy
             {
                 _proxy.ReturnEphemeralPort(ProtocolType, (ushort)((IPEndPoint)LocalEndPoint).Port);
             }
-            var asIPEndpoint = (IPEndPoint)localEP;
+            IPEndPoint asIPEndpoint = (IPEndPoint)localEP;
             if (asIPEndpoint.Port == 0)
             {
                 asIPEndpoint.Port = (ushort)_proxy.GetEphemeralPort(ProtocolType);

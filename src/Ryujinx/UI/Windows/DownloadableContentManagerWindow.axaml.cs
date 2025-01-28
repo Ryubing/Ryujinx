@@ -2,6 +2,8 @@ using Avalonia.Controls;
 using Avalonia.Interactivity;
 using Avalonia.Styling;
 using FluentAvalonia.UI.Controls;
+using LibHac.Tools.FsSystem.NcaUtils;
+using Ryujinx.Ava.Common;
 using Ryujinx.Ava.Common.Locale;
 using Ryujinx.Ava.Common.Models;
 using Ryujinx.Ava.UI.ViewModels;
@@ -77,7 +79,7 @@ namespace Ryujinx.Ava.UI.Windows
 
         private void OnSelectionChanged(object sender, SelectionChangedEventArgs e)
         {
-            foreach (var content in e.AddedItems)
+            foreach (object content in e.AddedItems)
             {
                 if (content is DownloadableContentModel model)
                 {
@@ -85,7 +87,7 @@ namespace Ryujinx.Ava.UI.Windows
                 }
             }
 
-            foreach (var content in e.RemovedItems)
+            foreach (object content in e.RemovedItems)
             {
                 if (content is DownloadableContentModel model)
                 {

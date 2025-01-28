@@ -34,11 +34,11 @@ namespace Ryujinx.Graphics.Shader.IntermediateRepresentation
 
         public BasicBlock()
         {
-            Operations = new LinkedList<INode>();
+            Operations = [];
 
-            Predecessors = new List<BasicBlock>();
+            Predecessors = [];
 
-            DominanceFrontiers = new HashSet<BasicBlock>();
+            DominanceFrontiers = [];
         }
 
         public BasicBlock(int index) : this()

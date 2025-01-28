@@ -28,7 +28,7 @@ namespace Ryujinx.Memory.Range
 
             for (int i = 0; i < range.Count; i++)
             {
-                var subrange = range.GetSubRange(i);
+                MemoryRange subrange = range.GetSubRange(i);
 
                 if (MemoryRange.IsInvalid(ref subrange))
                 {
@@ -54,7 +54,7 @@ namespace Ryujinx.Memory.Range
 
             for (int i = 0; i < range.Count; i++)
             {
-                var subrange = range.GetSubRange(i);
+                MemoryRange subrange = range.GetSubRange(i);
 
                 if (MemoryRange.IsInvalid(ref subrange))
                 {
@@ -97,7 +97,7 @@ namespace Ryujinx.Memory.Range
 
             for (int i = 0; i < range.Count; i++)
             {
-                var subrange = range.GetSubRange(i);
+                MemoryRange subrange = range.GetSubRange(i);
 
                 if (MemoryRange.IsInvalid(ref subrange))
                 {
@@ -172,8 +172,8 @@ namespace Ryujinx.Memory.Range
 
         private List<T> GetList()
         {
-            var items = _items.AsList();
-            var result = new List<T>();
+            List<RangeNode<ulong, T>> items = _items.AsList();
+            List<T> result = [];
 
             foreach (RangeNode<ulong, T> item in items)
             {

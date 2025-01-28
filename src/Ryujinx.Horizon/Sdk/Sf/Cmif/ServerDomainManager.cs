@@ -27,7 +27,7 @@ namespace Ryujinx.Horizon.Sdk.Sf.Cmif
 
             public EntryManager(int count)
             {
-                _freeList = new LinkedList<Entry>();
+                _freeList = [];
                 _entries = new Entry[count];
 
                 for (int i = 0; i < count; i++)
@@ -45,7 +45,7 @@ namespace Ryujinx.Horizon.Sdk.Sf.Cmif
                         return null;
                     }
 
-                    var entry = _freeList.First.Value;
+                    Entry entry = _freeList.First.Value;
                     _freeList.RemoveFirst();
                     return entry;
                 }
@@ -87,12 +87,12 @@ namespace Ryujinx.Horizon.Sdk.Sf.Cmif
             public Domain(ServerDomainManager manager)
             {
                 _manager = manager;
-                _entries = new LinkedList<EntryManager.Entry>();
+                _entries = [];
             }
 
             public override ServiceObjectHolder GetObject(int id)
             {
-                var entry = _manager._entryManager.GetEntry(id);
+                EntryManager.Entry entry = _manager._entryManager.GetEntry(id);
                 if (entry == null)
                 {
                     return null;
@@ -116,7 +116,7 @@ namespace Ryujinx.Horizon.Sdk.Sf.Cmif
 
             public override void RegisterObject(int id, ServiceObjectHolder obj)
             {
-                var entry = _manager._entryManager.GetEntry(id);
+                EntryManager.Entry entry = _manager._entryManager.GetEntry(id);
                 DebugUtil.Assert(entry != null);
 
                 lock (_manager._entryOwnerLock)
@@ -133,7 +133,7 @@ namespace Ryujinx.Horizon.Sdk.Sf.Cmif
             {
                 for (int i = 0; i < outIds.Length; i++)
                 {
-                    var entry = _manager._entryManager.AllocateEntry();
+                    EntryManager.Entry entry = _manager._entryManager.AllocateEntry();
                     if (entry == null)
                     {
                         return SfResult.OutOfDomainEntries;
@@ -149,7 +149,7 @@ namespace Ryujinx.Horizon.Sdk.Sf.Cmif
 
             public override ServiceObjectHolder UnregisterObject(int id)
             {
-                var entry = _manager._entryManager.GetEntry(id);
+                EntryManager.Entry entry = _manager._entryManager.GetEntry(id);
                 if (entry == null)
                 {
                     return null;
@@ -186,7 +186,7 @@ namespace Ryujinx.Horizon.Sdk.Sf.Cmif
             {
                 for (int i = 0; i < ids.Length; i++)
                 {
-                    var entry = _manager._entryManager.GetEntry(ids[i]);
+                    EntryManager.Entry entry = _manager._entryManager.GetEntry(ids[i]);
 
                     DebugUtil.Assert(entry != null);
                     DebugUtil.Assert(entry.Owner == null);
@@ -197,7 +197,7 @@ namespace Ryujinx.Horizon.Sdk.Sf.Cmif
 
             public void Dispose()
             {
-                foreach (var entry in _entries)
+                foreach (EntryManager.Entry entry in _entries)
                 {
                     if (entry.Obj.ServiceObject is IDisposable disposableObj)
                     {
@@ -217,7 +217,7 @@ namespace Ryujinx.Horizon.Sdk.Sf.Cmif
         public ServerDomainManager(int entryCount, int maxDomains)
         {
             _entryManager = new EntryManager(entryCount);
-            _domains = new HashSet<Domain>();
+            _domains = [];
             _maxDomains = maxDomains;
         }
 
@@ -230,7 +230,7 @@ namespace Ryujinx.Horizon.Sdk.Sf.Cmif
                     return null;
                 }
 
-                var domain = new Domain(this);
+                Domain domain = new(this);
                 _domains.Add(domain);
                 return domain;
             }

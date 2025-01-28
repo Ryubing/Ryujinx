@@ -57,17 +57,17 @@ namespace Ryujinx.Graphics.Texture.Encoders
             }
         }
 
-        private static readonly int[] _mostFrequentPartitions = new int[]
-        {
-            0, 13, 2, 1, 15, 14, 10, 23,
-        };
+        private static readonly int[] _mostFrequentPartitions =
+        [
+            0, 13, 2, 1, 15, 14, 10, 23
+        ];
 
         private static Block CompressBlock(ReadOnlySpan<byte> data, int x, int y, int width, int height, bool fastMode)
         {
             int w = Math.Min(4, width - x);
             int h = Math.Min(4, height - y);
 
-            var dataUint = MemoryMarshal.Cast<byte, uint>(data);
+            ReadOnlySpan<uint> dataUint = MemoryMarshal.Cast<byte, uint>(data);
 
             int baseOffset = y * width + x;
 

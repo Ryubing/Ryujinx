@@ -22,7 +22,7 @@ namespace Ryujinx.HLE.HOS.Services.Ldn.UserServiceCreator.LdnRyu
     {
         public bool NeedsRealId => true;
 
-        private static InitializeMessage InitializeMemory = new InitializeMessage();
+        private static InitializeMessage InitializeMemory = new();
 
         private const int InactiveTimeout = 6000;
         private const int FailureTimeout = 4000;
@@ -31,16 +31,16 @@ namespace Ryujinx.HLE.HOS.Services.Ldn.UserServiceCreator.LdnRyu
         private bool _useP2pProxy;
         private NetworkError _lastError;
 
-        private readonly ManualResetEvent _connected = new ManualResetEvent(false);
-        private readonly ManualResetEvent _error = new ManualResetEvent(false);
-        private readonly ManualResetEvent _scan = new ManualResetEvent(false);
-        private readonly ManualResetEvent _reject = new ManualResetEvent(false);
-        private readonly AutoResetEvent _apConnected = new AutoResetEvent(false);
+        private readonly ManualResetEvent _connected = new(false);
+        private readonly ManualResetEvent _error = new(false);
+        private readonly ManualResetEvent _scan = new(false);
+        private readonly ManualResetEvent _reject = new(false);
+        private readonly AutoResetEvent _apConnected = new(false);
 
         private readonly RyuLdnProtocol _protocol;
         private readonly NetworkTimeout _timeout;
 
-        private readonly List<NetworkInfo> _availableGames = new List<NetworkInfo>();
+        private readonly List<NetworkInfo> _availableGames = [];
         private DisconnectReason _disconnectReason;
 
         private P2pProxyServer _hostedProxy;
@@ -109,7 +109,7 @@ namespace Ryujinx.HLE.HOS.Services.Ldn.UserServiceCreator.LdnRyu
 
             ConnectAsync();
 
-            int index = WaitHandle.WaitAny(new WaitHandle[] { _connected, _error }, FailureTimeout);
+            int index = WaitHandle.WaitAny([_connected, _error], FailureTimeout);
 
             if (IsConnected)
             {
@@ -326,7 +326,7 @@ namespace Ryujinx.HLE.HOS.Services.Ldn.UserServiceCreator.LdnRyu
 
                 SendAsync(_protocol.Encode(PacketId.Reject, new RejectRequest(disconnectReason, nodeId)));
 
-                int index = WaitHandle.WaitAny(new WaitHandle[] { _reject, _error }, InactiveTimeout);
+                int index = WaitHandle.WaitAny([_reject, _error], InactiveTimeout);
 
                 if (index == 0)
                 {
@@ -490,7 +490,7 @@ namespace Ryujinx.HLE.HOS.Services.Ldn.UserServiceCreator.LdnRyu
             SendAsync(_protocol.Encode(PacketId.CreateAccessPoint, request, advertiseData));
 
             // Send a network change event with dummy data immediately. Necessary to avoid crashes in some games
-            var networkChangeEvent = new NetworkChangeEventArgs(new NetworkInfo()
+            NetworkChangeEventArgs networkChangeEvent = new(new NetworkInfo()
             {
                 Common = new CommonNetworkInfo()
                 {
@@ -566,13 +566,13 @@ namespace Ryujinx.HLE.HOS.Services.Ldn.UserServiceCreator.LdnRyu
 
                 SendAsync(_protocol.Encode(PacketId.Scan, scanFilter));
 
-                index = WaitHandle.WaitAny(new WaitHandle[] { _scan, _error }, ScanTimeout);
+                index = WaitHandle.WaitAny([_scan, _error], ScanTimeout);
             }
 
             if (index != 0)
             {
                 // An error occurred or timeout. Write 0 games.
-                return Array.Empty<NetworkInfo>();
+                return [];
             }
 
             return _availableGames.ToArray();
@@ -610,7 +610,7 @@ namespace Ryujinx.HLE.HOS.Services.Ldn.UserServiceCreator.LdnRyu
 
             SendAsync(_protocol.Encode(PacketId.Connect, request));
 
-            var networkChangeEvent = new NetworkChangeEventArgs(new NetworkInfo()
+            NetworkChangeEventArgs networkChangeEvent = new(new NetworkInfo()
             {
                 Common = request.NetworkInfo.Common,
                 Ldn = request.NetworkInfo.Ldn

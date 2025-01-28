@@ -4,9 +4,14 @@ using Avalonia.Input;
 using FluentAvalonia.Core;
 using FluentAvalonia.UI.Controls;
 using Ryujinx.Ava.Common.Locale;
+using Ryujinx.Ava.UI.Models;
 using Ryujinx.Ava.UI.ViewModels;
+using Ryujinx.Ava.UI.ViewModels.Input;
 using Ryujinx.HLE.FileSystem;
+using Ryujinx.Input;
 using System;
+using System.Linq;
+using Key = Avalonia.Input.Key;
 
 namespace Ryujinx.Ava.UI.Windows
 {
@@ -106,6 +111,12 @@ namespace Ryujinx.Ava.UI.Windows
         protected override void OnClosing(WindowClosingEventArgs e)
         {
             HotkeysPage.Dispose();
+            
+            foreach (IGamepad gamepad in RyujinxApp.MainWindow.InputManager.GamepadDriver.GetGamepads())
+            {
+                gamepad?.ClearLed();
+            }
+            
             InputPage.Dispose();
             base.OnClosing(e);
         }

@@ -20,7 +20,7 @@ namespace Ryujinx.Graphics.Shader.CodeGen.Msl
 
             CodeGenContext context = new(info, parameters);
 
-            var sets = Declarations.Declare(context, info);
+            int[] sets = Declarations.Declare(context, info);
 
             if (info.Functions.Count != 0)
             {
@@ -168,15 +168,15 @@ namespace Ryujinx.Graphics.Shader.CodeGen.Msl
                 args = args.Append($"constant ConstantBuffers &constant_buffers [[buffer({Defaults.ConstantBuffersIndex})]]").ToArray();
                 args = args.Append($"device StorageBuffers &storage_buffers [[buffer({Defaults.StorageBuffersIndex})]]").ToArray();
 
-                foreach (var set in sets)
+                foreach (int set in sets)
                 {
-                    var bindingIndex = set + Defaults.BaseSetIndex;
+                    long bindingIndex = set + Defaults.BaseSetIndex;
                     args = args.Append($"constant {Declarations.GetNameForSet(set)} &{Declarations.GetNameForSet(set, true)} [[buffer({bindingIndex})]]").ToArray();
                 }
             }
 
-            var funcPrefix = $"{funcKeyword} {returnType} {funcName ?? function.Name}(";
-            var indent = new string(' ', funcPrefix.Length);
+            string funcPrefix = $"{funcKeyword} {returnType} {funcName ?? function.Name}(";
+            string indent = new(' ', funcPrefix.Length);
 
             return $"{funcPrefix}{string.Join($", \n{indent}", args)})";
         }

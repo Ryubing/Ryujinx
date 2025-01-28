@@ -57,7 +57,7 @@ namespace Ryujinx.Graphics.OpenGL.Image
         /// <inheritdoc/>
         public void SetData(MemoryOwner<byte> data)
         {
-            var dataSpan = data.Span;
+            Span<byte> dataSpan = data.Span;
 
             Buffer.SetData(_buffer, _bufferOffset, dataSpan[..Math.Min(dataSpan.Length, _bufferSize)]);
 

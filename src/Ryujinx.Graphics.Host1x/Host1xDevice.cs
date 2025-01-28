@@ -46,7 +46,7 @@ namespace Ryujinx.Graphics.Host1x
 
         public void RegisterDevice(ClassId classId, IDeviceState device)
         {
-            var thi = new ThiDevice(classId, device ?? throw new ArgumentNullException(nameof(device)), _syncptIncrMgr);
+            ThiDevice thi = new(classId, device ?? throw new ArgumentNullException(nameof(device)), _syncptIncrMgr);
             _devices.RegisterDevice(classId, thi);
         }
 

@@ -83,7 +83,7 @@ namespace Ryujinx.Graphics.Vulkan
 
                 for (int j = 0; j < _dsCache[i].Length; j++)
                 {
-                    _dsCache[i][j] = new List<Auto<DescriptorSetCollection>>();
+                    _dsCache[i][j] = [];
                 }
             }
 
@@ -114,7 +114,7 @@ namespace Ryujinx.Graphics.Vulkan
             {
                 int count = 0;
 
-                foreach (var descriptor in setDescriptors[setIndex].Descriptors)
+                foreach (ResourceDescriptor descriptor in setDescriptors[setIndex].Descriptors)
                 {
                     count += descriptor.Count;
                 }
@@ -148,11 +148,11 @@ namespace Ryujinx.Graphics.Vulkan
 
         public Auto<DescriptorSetCollection> GetNewDescriptorSetCollection(int setIndex, out bool isNew)
         {
-            var list = _currentDsCache[setIndex];
+            List<Auto<DescriptorSetCollection>> list = _currentDsCache[setIndex];
             int index = _dsCacheCursor[setIndex]++;
             if (index == list.Count)
             {
-                var dsc = _descriptorSetManager.AllocateDescriptorSet(
+                Auto<DescriptorSetCollection> dsc = _descriptorSetManager.AllocateDescriptorSet(
                     _gd.Api,
                     DescriptorSetLayouts[setIndex],
                     _poolSizes[setIndex],
@@ -173,8 +173,8 @@ namespace Ryujinx.Graphics.Vulkan
         {
             FreeCompletedManualDescriptorSets();
 
-            var list = _manualDsCache[setIndex] ??= new();
-            var span = CollectionsMarshal.AsSpan(list);
+            List<ManualDescriptorSetEntry> list = _manualDsCache[setIndex] ??= [];
+            Span<ManualDescriptorSetEntry> span = CollectionsMarshal.AsSpan(list);
 
             Queue<int> freeQueue = _freeManualDsCacheEntries[setIndex];
 
@@ -195,7 +195,7 @@ namespace Ryujinx.Graphics.Vulkan
             }
 
             // Otherwise create a new descriptor set, and add to our pending queue for command buffer consumption tracking.
-            var dsc = _descriptorSetManager.AllocateDescriptorSet(
+            Auto<DescriptorSetCollection> dsc = _descriptorSetManager.AllocateDescriptorSet(
                 _gd.Api,
                 DescriptorSetLayouts[setIndex],
                 _poolSizes[setIndex],
@@ -214,9 +214,9 @@ namespace Ryujinx.Graphics.Vulkan
         {
             FreeCompletedManualDescriptorSets();
 
-            var list = _manualDsCache[setIndex];
-            var span = CollectionsMarshal.AsSpan(list);
-            ref var entry = ref span[cacheIndex];
+            List<ManualDescriptorSetEntry> list = _manualDsCache[setIndex];
+            Span<ManualDescriptorSetEntry> span = CollectionsMarshal.AsSpan(list);
+            ref ManualDescriptorSetEntry entry = ref span[cacheIndex];
 
             uint cbMask = 1u << cbs.CommandBufferIndex;
 
@@ -231,15 +231,15 @@ namespace Ryujinx.Graphics.Vulkan
         private void FreeCompletedManualDescriptorSets()
         {
             FenceHolder signalledFence = null;
-            while (_pendingManualDsConsumptions.TryPeek(out var pds) && (pds.Fence == signalledFence || pds.Fence.IsSignaled()))
+            while (_pendingManualDsConsumptions.TryPeek(out PendingManualDsConsumption pds) && (pds.Fence == signalledFence || pds.Fence.IsSignaled()))
             {
                 signalledFence = pds.Fence; // Already checked - don't need to do it again.
-                var dequeued = _pendingManualDsConsumptions.Dequeue();
+                PendingManualDsConsumption dequeued = _pendingManualDsConsumptions.Dequeue();
                 Debug.Assert(dequeued.Fence == pds.Fence);
                 pds.Fence.Put();
 
-                var span = CollectionsMarshal.AsSpan(_manualDsCache[dequeued.SetIndex]);
-                ref var entry = ref span[dequeued.CacheIndex];
+                Span<ManualDescriptorSetEntry> span = CollectionsMarshal.AsSpan(_manualDsCache[dequeued.SetIndex]);
+                ref ManualDescriptorSetEntry entry = ref span[dequeued.CacheIndex];
                 entry.CbRefMask &= ~(1u << dequeued.CommandBufferIndex);
 
                 if (!entry.InUse && entry.CbRefMask == 0)
@@ -252,8 +252,8 @@ namespace Ryujinx.Graphics.Vulkan
 
         public void ReleaseManualDescriptorSetCollection(int setIndex, int cacheIndex)
         {
-            var list = _manualDsCache[setIndex];
-            var span = CollectionsMarshal.AsSpan(list);
+            List<ManualDescriptorSetEntry> list = _manualDsCache[setIndex];
+            Span<ManualDescriptorSetEntry> span = CollectionsMarshal.AsSpan(list);
 
             span[cacheIndex].InUse = false;
 
@@ -366,7 +366,7 @@ namespace Ryujinx.Graphics.Vulkan
                     _gd.Api.DestroyDescriptorSetLayout(_device, DescriptorSetLayouts[i], null);
                 }
 
-                while (_pendingManualDsConsumptions.TryDequeue(out var pds))
+                while (_pendingManualDsConsumptions.TryDequeue(out PendingManualDsConsumption pds))
                 {
                     pds.Fence.Put();
                 }

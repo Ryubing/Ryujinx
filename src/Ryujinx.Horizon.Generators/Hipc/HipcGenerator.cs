@@ -61,14 +61,14 @@ namespace Ryujinx.Horizon.Generators.Hipc
         {
             HipcSyntaxReceiver syntaxReceiver = (HipcSyntaxReceiver)context.SyntaxReceiver;
 
-            foreach (var commandInterface in syntaxReceiver.CommandInterfaces)
+            foreach (CommandInterface commandInterface in syntaxReceiver.CommandInterfaces)
             {
                 if (!NeedsIServiceObjectImplementation(context.Compilation, commandInterface.ClassDeclarationSyntax))
                 {
                     continue;
                 }
 
-                CodeGenerator generator = new CodeGenerator();
+                CodeGenerator generator = new();
                 string className = commandInterface.ClassDeclarationSyntax.Identifier.ToString();
 
                 generator.AppendLine("using Ryujinx.Horizon.Common;");
@@ -86,7 +86,7 @@ namespace Ryujinx.Horizon.Generators.Hipc
 
                 GenerateMethodTable(generator, context.Compilation, commandInterface);
 
-                foreach (var method in commandInterface.CommandImplementations)
+                foreach (MethodDeclarationSyntax method in commandInterface.CommandImplementations)
                 {
                     generator.AppendLine();
 
@@ -127,9 +127,9 @@ namespace Ryujinx.Horizon.Generators.Hipc
             {
                 generator.EnterScope($"return FrozenDictionary.ToFrozenDictionary(new []");
 
-                foreach (var method in commandInterface.CommandImplementations)
+                foreach (MethodDeclarationSyntax method in commandInterface.CommandImplementations)
                 {
-                    foreach (var commandId in GetAttributeArguments(compilation, method, TypeCommandAttribute, 0))
+                    foreach (string commandId in GetAttributeArguments(compilation, method, TypeCommandAttribute, 0))
                     {
                         string[] args = new string[method.ParameterList.Parameters.Count];
 
@@ -141,7 +141,7 @@ namespace Ryujinx.Horizon.Generators.Hipc
                         {
                             int index = 0;
 
-                            foreach (var parameter in method.ParameterList.Parameters)
+                            foreach (ParameterSyntax parameter in method.ParameterList.Parameters)
                             {
                                 string canonicalTypeName = GetCanonicalTypeNameWithGenericArguments(compilation, parameter.Type);
                                 CommandArgType argType = GetCommandArgType(compilation, parameter);
@@ -191,7 +191,7 @@ namespace Ryujinx.Horizon.Generators.Hipc
         {
             ISymbol symbol = compilation.GetSemanticModel(syntaxNode.SyntaxTree).GetDeclaredSymbol(syntaxNode);
 
-            foreach (var attribute in symbol.GetAttributes())
+            foreach (AttributeData attribute in symbol.GetAttributes())
             {
                 if (attribute.AttributeClass.ToDisplayString() == attributeName && (uint)argIndex < (uint)attribute.ConstructorArguments.Length)
                 {
@@ -211,7 +211,7 @@ namespace Ryujinx.Horizon.Generators.Hipc
             int outObjectsCount = 0;
             int buffersCount = 0;
 
-            foreach (var parameter in method.ParameterList.Parameters)
+            foreach (ParameterSyntax parameter in method.ParameterList.Parameters)
             {
                 if (IsObject(compilation, parameter))
                 {
@@ -257,7 +257,7 @@ namespace Ryujinx.Horizon.Generators.Hipc
                 generator.AppendLine();
             }
 
-            List<OutParameter> outParameters = new List<OutParameter>();
+            List<OutParameter> outParameters = [];
 
             string[] args = new string[method.ParameterList.Parameters.Count];
 
@@ -285,7 +285,7 @@ namespace Ryujinx.Horizon.Generators.Hipc
             int inMoveHandleIndex = 0;
             int inObjectIndex = 0;
 
-            foreach (var parameter in method.ParameterList.Parameters)
+            foreach (ParameterSyntax parameter in method.ParameterList.Parameters)
             {
                 string name = parameter.Identifier.Text;
                 string argName = GetPrefixedArgName(name);
@@ -555,11 +555,11 @@ namespace Ryujinx.Horizon.Generators.Hipc
         {
             ISymbol symbol = compilation.GetSemanticModel(syntaxNode.SyntaxTree).GetTypeInfo(syntaxNode).Type;
 
-            foreach (var attribute in symbol.GetAttributes())
+            foreach (AttributeData attribute in symbol.GetAttributes())
             {
                 if (attribute.AttributeClass.ToDisplayString() == attributeName)
                 {
-                    foreach (var kv in attribute.NamedArguments)
+                    foreach (KeyValuePair<string, TypedConstant> kv in attribute.NamedArguments)
                     {
                         if (kv.Key == argName)
                         {
@@ -764,9 +764,9 @@ namespace Ryujinx.Horizon.Generators.Hipc
 
         private static bool HasAttribute(Compilation compilation, ParameterSyntax parameterSyntax, string fullAttributeName)
         {
-            foreach (var attributeList in parameterSyntax.AttributeLists)
+            foreach (AttributeListSyntax attributeList in parameterSyntax.AttributeLists)
             {
-                foreach (var attribute in attributeList.Attributes)
+                foreach (AttributeSyntax attribute in attributeList.Attributes)
                 {
                     if (GetCanonicalTypeName(compilation, attribute) == fullAttributeName)
                     {
@@ -781,8 +781,8 @@ namespace Ryujinx.Horizon.Generators.Hipc
         private static bool NeedsIServiceObjectImplementation(Compilation compilation, ClassDeclarationSyntax classDeclarationSyntax)
         {
             ITypeSymbol type = compilation.GetSemanticModel(classDeclarationSyntax.SyntaxTree).GetDeclaredSymbol(classDeclarationSyntax);
-            var serviceObjectInterface = type.AllInterfaces.FirstOrDefault(x => x.ToDisplayString() == TypeIServiceObject);
-            var interfaceMember = serviceObjectInterface?.GetMembers().FirstOrDefault(x => x.Name == "GetCommandHandlers");
+            INamedTypeSymbol serviceObjectInterface = type.AllInterfaces.FirstOrDefault(x => x.ToDisplayString() == TypeIServiceObject);
+            ISymbol interfaceMember = serviceObjectInterface?.GetMembers().FirstOrDefault(x => x.Name == "GetCommandHandlers");
 
             // Return true only if the class implements IServiceObject but does not actually implement the method
             // that the interface defines, since this is the only case we want to handle, if the method already exists

@@ -55,7 +55,7 @@ namespace ARMeilleure.Translation
         public Aarch32Mode Mode { get; }
 
         private int _ifThenBlockStateIndex = 0;
-        private Condition[] _ifThenBlockState = Array.Empty<Condition>();
+        private Condition[] _ifThenBlockState = [];
         public bool IsInIfThenBlock => _ifThenBlockStateIndex < _ifThenBlockState.Length;
         public Condition CurrentIfThenBlockCond => _ifThenBlockState[_ifThenBlockStateIndex];
 

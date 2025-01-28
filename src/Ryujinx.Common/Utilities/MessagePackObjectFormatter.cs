@@ -1,5 +1,6 @@
 using MsgPack;
 using System;
+using System.Collections.Generic;
 using System.Text;
 
 namespace Ryujinx.Common.Utilities
@@ -18,7 +19,7 @@ namespace Ryujinx.Common.Utilities
 
         public static string Format(MessagePackObject obj)
         {
-            var builder = new IndentedStringBuilder();
+            IndentedStringBuilder builder = new();
 
             FormatMsgPackObj(obj, builder);
 
@@ -41,7 +42,7 @@ namespace Ryujinx.Common.Utilities
             }
             else
             {
-                var literal = obj.ToObject();
+                object literal = obj.ToObject();
 
                 if (literal is String)
                 {
@@ -88,7 +89,7 @@ namespace Ryujinx.Common.Utilities
         {
             builder.Append("[ ");
 
-            foreach (var b in arr)
+            foreach (byte b in arr)
             {
                 builder.Append("0x");
                 builder.Append(ToHexChar(b >> 4));
@@ -111,7 +112,7 @@ namespace Ryujinx.Common.Utilities
                 builder.Append("0x");
             }
 
-            foreach (var b in arr)
+            foreach (byte b in arr)
             {
                 builder.Append(ToHexChar(b >> 4));
                 builder.Append(ToHexChar(b & 0xF));
@@ -122,7 +123,7 @@ namespace Ryujinx.Common.Utilities
 
         private static void FormatMsgPackMap(MessagePackObject obj, IndentedStringBuilder builder)
         {
-            var map = obj.AsDictionary();
+            MessagePackObjectDictionary map = obj.AsDictionary();
 
             builder.Append('{');
 
@@ -130,7 +131,7 @@ namespace Ryujinx.Common.Utilities
             builder.IncreaseIndent()
                    .AppendLine();
 
-            foreach (var item in map)
+            foreach (KeyValuePair<MessagePackObject, MessagePackObject> item in map)
             {
                 FormatMsgPackObj(item.Key, builder);
 
@@ -154,11 +155,11 @@ namespace Ryujinx.Common.Utilities
 
         private static void FormatMsgPackArray(MessagePackObject obj, IndentedStringBuilder builder)
         {
-            var arr = obj.AsList();
+            IList<MessagePackObject> arr = obj.AsList();
 
             builder.Append("[ ");
 
-            foreach (var item in arr)
+            foreach (MessagePackObject item in arr)
             {
                 FormatMsgPackObj(item, builder);
 

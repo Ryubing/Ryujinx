@@ -137,7 +137,7 @@ class CommandBufferEncoder
     {
         EndCurrentPass();
 
-        var renderCommandEncoder = _encoderFactory.CreateRenderCommandEncoder();
+        MTLRenderCommandEncoder renderCommandEncoder = _encoderFactory.CreateRenderCommandEncoder();
 
         CurrentEncoder = renderCommandEncoder;
         CurrentEncoderType = EncoderType.Render;
@@ -149,8 +149,8 @@ class CommandBufferEncoder
     {
         EndCurrentPass();
 
-        using var descriptor = new MTLBlitPassDescriptor();
-        var blitCommandEncoder = _commandBuffer.BlitCommandEncoder(descriptor);
+        using MTLBlitPassDescriptor descriptor = new();
+        MTLBlitCommandEncoder blitCommandEncoder = _commandBuffer.BlitCommandEncoder(descriptor);
 
         CurrentEncoder = blitCommandEncoder;
         CurrentEncoderType = EncoderType.Blit;
@@ -161,7 +161,7 @@ class CommandBufferEncoder
     {
         EndCurrentPass();
 
-        var computeCommandEncoder = _encoderFactory.CreateComputeCommandEncoder();
+        MTLComputeCommandEncoder computeCommandEncoder = _encoderFactory.CreateComputeCommandEncoder();
 
         CurrentEncoder = computeCommandEncoder;
         CurrentEncoderType = EncoderType.Compute;

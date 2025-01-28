@@ -3,6 +3,7 @@ using Avalonia.Controls;
 using Avalonia.Svg.Skia;
 using Avalonia.Threading;
 using CommunityToolkit.Mvvm.ComponentModel;
+using Gommon;
 using Ryujinx.Ava.Common.Locale;
 using Ryujinx.Ava.Input;
 using Ryujinx.Ava.UI.Helpers;
@@ -54,7 +55,18 @@ namespace Ryujinx.Ava.UI.ViewModels.Input
         private static readonly InputConfigJsonSerializerContext _serializerContext = new(JsonHelper.GetDefaultSerializerOptions());
 
         public IGamepadDriver AvaloniaKeyboardDriver { get; }
-        public IGamepad SelectedGamepad { get; private set; }
+
+        private IGamepad _selectedGamepad;
+
+        public IGamepad SelectedGamepad
+        {
+            get => _selectedGamepad;
+            private set
+            {
+                _selectedGamepad = value;
+                OnPropertiesChanged(nameof(HasLed), nameof(CanClearLed));
+            }
+        }
 
         public ObservableCollection<PlayerModel> PlayerIndexes { get; set; }
         public ObservableCollection<(DeviceType Type, string Id, string Name)> Devices { get; set; }
@@ -68,6 +80,9 @@ namespace Ryujinx.Ava.UI.ViewModels.Input
         public bool IsKeyboard => !IsController;
         public bool IsRight { get; set; }
         public bool IsLeft { get; set; }
+
+        public bool HasLed => SelectedGamepad.Features.HasFlag(GamepadFeaturesFlag.Led);
+        public bool CanClearLed => SelectedGamepad.Name.ContainsIgnoreCase("DualSense");
 
         public bool IsModified { get; set; }
         public event Action NotifyChangesEvent;
@@ -200,7 +215,7 @@ namespace Ryujinx.Ava.UI.ViewModels.Input
                     return;
                 }
 
-                var selected = Devices[_device].Type;
+                DeviceType selected = Devices[_device].Type;
 
                 if (selected != DeviceType.None)
                 {
@@ -242,11 +257,11 @@ namespace Ryujinx.Ava.UI.ViewModels.Input
 
         public InputViewModel()
         {
-            PlayerIndexes = new ObservableCollection<PlayerModel>();
-            Controllers = new ObservableCollection<ControllerModel>();
-            Devices = new ObservableCollection<(DeviceType Type, string Id, string Name)>();
-            ProfilesList = new AvaloniaList<string>();
-            DeviceList = new AvaloniaList<string>();
+            PlayerIndexes = [];
+            Controllers = [];
+            Devices = [];
+            ProfilesList = [];
+            DeviceList = [];
 
             ControllerImage = ProControllerResource;
 
@@ -284,7 +299,7 @@ namespace Ryujinx.Ava.UI.ViewModels.Input
             }
             else
             {
-                var type = DeviceType.None;
+                DeviceType type = DeviceType.None;
 
                 if (Config is StandardKeyboardInputConfig)
                 {
@@ -296,7 +311,7 @@ namespace Ryujinx.Ava.UI.ViewModels.Input
                     type = DeviceType.Controller;
                 }
 
-                var item = Devices.FirstOrDefault(x => x.Type == type && x.Id == Config.Id);
+                (DeviceType Type, string Id, string Name) item = Devices.FirstOrDefault(x => x.Type == type && x.Id == Config.Id);
                 if (item != default)
                 {
                     Device = Devices.ToList().FindIndex(x => x.Id == item.Id);
@@ -316,7 +331,7 @@ namespace Ryujinx.Ava.UI.ViewModels.Input
             }
 
             string id = GetCurrentGamepadId();
-            var type = Devices[Device].Type;
+            DeviceType type = Devices[Device].Type;
 
             if (type == DeviceType.None)
             {
@@ -358,7 +373,7 @@ namespace Ryujinx.Ava.UI.ViewModels.Input
                 return string.Empty;
             }
 
-            var device = Devices[Device];
+            (DeviceType Type, string Id, string Name) device = Devices[Device];
 
             if (device.Type == DeviceType.None)
             {
@@ -470,7 +485,7 @@ namespace Ryujinx.Ava.UI.ViewModels.Input
         private string GetProfileBasePath()
         {
             string path = AppDataManager.ProfilesDirPath;
-            var type = Devices[Device == -1 ? 0 : Device].Type;
+            DeviceType type = Devices[Device == -1 ? 0 : Device].Type;
 
             if (type == DeviceType.Keyboard)
             {
@@ -510,7 +525,7 @@ namespace Ryujinx.Ava.UI.ViewModels.Input
 
         public InputConfig LoadDefaultConfiguration()
         {
-            var activeDevice = Devices.FirstOrDefault();
+            (DeviceType Type, string Id, string Name) activeDevice = Devices.FirstOrDefault();
 
             if (Devices.Count > 0 && Device < Devices.Count && Device >= 0)
             {
@@ -795,7 +810,7 @@ namespace Ryujinx.Ava.UI.ViewModels.Input
         {
             IsModified = false;
 
-            List<InputConfig> newConfig = new();
+            List<InputConfig> newConfig = [];
 
             newConfig.AddRange(ConfigurationState.Instance.Hid.InputConfig.Value);
 
@@ -807,20 +822,20 @@ namespace Ryujinx.Ava.UI.ViewModels.Input
             }
             else
             {
-                var device = Devices[Device];
+                (DeviceType Type, string Id, string Name) device = Devices[Device];
 
                 if (device.Type == DeviceType.Keyboard)
                 {
-                    var inputConfig = (ConfigViewModel as KeyboardInputViewModel).Config;
+                    KeyboardInputConfig inputConfig = (ConfigViewModel as KeyboardInputViewModel).Config;
                     inputConfig.Id = device.Id;
                 }
                 else
                 {
-                    var inputConfig = (ConfigViewModel as ControllerInputViewModel).Config;
+                    GamepadInputConfig inputConfig = (ConfigViewModel as ControllerInputViewModel).Config;
                     inputConfig.Id = device.Id.Split(" ")[0];
                 }
 
-                var config = !IsController
+                InputConfig config = !IsController
                     ? (ConfigViewModel as KeyboardInputViewModel).Config.GetConfig()
                     : (ConfigViewModel as ControllerInputViewModel).Config.GetConfig();
                 config.ControllerType = Controllers[_controller].Type;

@@ -11,7 +11,7 @@ namespace Ryujinx.Horizon.Generators.Hipc
         public CommandInterface(ClassDeclarationSyntax classDeclarationSyntax)
         {
             ClassDeclarationSyntax = classDeclarationSyntax;
-            CommandImplementations = new List<MethodDeclarationSyntax>();
+            CommandImplementations = [];
         }
     }
 }

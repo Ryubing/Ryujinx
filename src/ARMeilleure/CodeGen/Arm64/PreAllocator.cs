@@ -261,10 +261,10 @@ namespace ARMeilleure.CodeGen.Arm64
 
             Operand dest = operation.Destination;
 
-            List<Operand> sources = new()
-            {
-                operation.GetSource(0),
-            };
+            List<Operand> sources =
+            [
+                operation.GetSource(0)
+            ];
 
             int argsCount = operation.SourcesCount - 1;
 
@@ -365,10 +365,10 @@ namespace ARMeilleure.CodeGen.Arm64
             Operation node,
             Operation operation)
         {
-            List<Operand> sources = new()
-            {
-                operation.GetSource(0),
-            };
+            List<Operand> sources =
+            [
+                operation.GetSource(0)
+            ];
 
             int argsCount = operation.SourcesCount - 1;
 
@@ -468,8 +468,8 @@ namespace ARMeilleure.CodeGen.Arm64
 
                 // Update the sources and destinations with split 64-bit halfs of the whole 128-bit values.
                 // We also need a additional registers that will be used to store temporary information.
-                operation.SetDestinations(new[] { actualLow, actualHigh, Local(OperandType.I64), Local(OperandType.I64) });
-                operation.SetSources(new[] { address, expectedLow, expectedHigh, desiredLow, desiredHigh });
+                operation.SetDestinations([actualLow, actualHigh, Local(OperandType.I64), Local(OperandType.I64)]);
+                operation.SetSources([address, expectedLow, expectedHigh, desiredLow, desiredHigh]);
 
                 // Add some dummy uses of the input operands, as the CAS operation will be a loop,
                 // so they can't be used as destination operand.
@@ -486,7 +486,7 @@ namespace ARMeilleure.CodeGen.Arm64
             else
             {
                 // We need a additional register where the store result will be written to.
-                node.SetDestinations(new[] { node.Destination, Local(OperandType.I32) });
+                node.SetDestinations([node.Destination, Local(OperandType.I32)]);
 
                 // Add some dummy uses of the input operands, as the CAS operation will be a loop,
                 // so they can't be used as destination operand.
@@ -847,7 +847,7 @@ namespace ARMeilleure.CodeGen.Arm64
 
                         Debug.Assert(comp.Kind == OperandKind.Constant);
 
-                        var compType = (Comparison)comp.AsInt32();
+                        Comparison compType = (Comparison)comp.AsInt32();
 
                         return compType == Comparison.Equal || compType == Comparison.NotEqual;
                     }

@@ -38,11 +38,11 @@ namespace Ryujinx.Tests.Cpu
         #region "ValueSource (Opcodes)"
         private static uint[] _MrsMsr_Nzcv_()
         {
-            return new[]
-            {
+            return
+            [
                 0xD53B4200u, // MRS X0, NZCV
-                0xD51B4200u, // MSR NZCV, X0
-            };
+                0xD51B4200u // MSR NZCV, X0
+            ];
         }
         #endregion
 

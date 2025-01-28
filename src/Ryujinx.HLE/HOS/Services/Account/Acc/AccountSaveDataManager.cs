@@ -29,7 +29,7 @@ namespace Ryujinx.HLE.HOS.Services.Account.Acc
                 {
                     ProfilesJson profilesJson = JsonHelper.DeserializeFromFile(_profilesJsonPath, _serializerContext.ProfilesJson);
 
-                    foreach (var profile in profilesJson.Profiles)
+                    foreach (UserProfileJson profile in profilesJson.Profiles)
                     {
                         UserProfile addedProfile = new(new UserId(profile.UserId), profile.Name, profile.Image, profile.LastModifiedTimestamp);
 
@@ -56,7 +56,7 @@ namespace Ryujinx.HLE.HOS.Services.Account.Acc
             ProfilesJson profilesJson = JsonHelper.DeserializeFromFile(_profilesJsonPath, _serializerContext.ProfilesJson);
 
             return profilesJson.Profiles
-                .FindFirst(profile => profile.AccountState == AccountState.Open)
+                .FindFirst(profile => profile.UserId == profilesJson.LastOpened)
                 .Convert(profileJson => new UserProfile(new UserId(profileJson.UserId), profileJson.Name,
                     profileJson.Image, profileJson.LastModifiedTimestamp));
         }
@@ -65,11 +65,11 @@ namespace Ryujinx.HLE.HOS.Services.Account.Acc
         {
             ProfilesJson profilesJson = new()
             {
-                Profiles = new List<UserProfileJson>(),
+                Profiles = [],
                 LastOpened = LastOpened.ToString(),
             };
 
-            foreach (var profile in profiles)
+            foreach (KeyValuePair<string, UserProfile> profile in profiles)
             {
                 profilesJson.Profiles.Add(new UserProfileJson()
                 {

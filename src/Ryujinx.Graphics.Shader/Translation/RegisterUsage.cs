@@ -128,8 +128,8 @@ namespace Ryujinx.Graphics.Shader.Translation
 
         public static FunctionRegisterUsage RunPass(ControlFlowGraph cfg)
         {
-            List<Register> inArguments = new();
-            List<Register> outArguments = new();
+            List<Register> inArguments = [];
+            List<Register> outArguments = [];
 
             // Compute local register inputs and outputs used inside blocks.
             RegisterMask[] localInputs = new RegisterMask[cfg.Blocks.Length];
@@ -302,7 +302,7 @@ namespace Ryujinx.Graphics.Shader.Translation
 
                         Debug.Assert(funcId.Type == OperandType.Constant);
 
-                        var fru = frus[funcId.Value];
+                        FunctionRegisterUsage fru = frus[funcId.Value];
 
                         Operand[] inRegs = new Operand[fru.InArguments.Length];
 

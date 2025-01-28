@@ -2,6 +2,7 @@
 
 using ARMeilleure.State;
 using NUnit.Framework;
+using NUnit.Framework.Internal;
 
 namespace Ryujinx.Tests.Cpu
 {
@@ -18,7 +19,7 @@ namespace Ryujinx.Tests.Cpu
                            [Values] bool q)
         {
             uint[] variants =
-            {
+            [
                 // I32
                 0b0000_0,
                 0b0010_0,
@@ -35,8 +36,8 @@ namespace Ryujinx.Tests.Cpu
                 0b1110_0,
                 0b1111_0,
 
-                0b1110_1,
-            };
+                0b1110_1
+            ];
 
             uint opcode = 0xf2800010u; // VMOV.I32 D0, #0
 
@@ -299,7 +300,7 @@ namespace Ryujinx.Tests.Cpu
                            [Values] bool q)
         {
             uint[] variants =
-            {
+            [
                 // I32
                 0b0000,
                 0b0010,
@@ -312,8 +313,8 @@ namespace Ryujinx.Tests.Cpu
 
                 // I32
                 0b1100,
-                0b1101,
-            };
+                0b1101
+            ];
 
             uint opcode = 0xf2800030u; // VMVN.I32 D0, #0
 
@@ -467,7 +468,7 @@ namespace Ryujinx.Tests.Cpu
             opcode |= (vn & 0xf) << 16;
             opcode |= (length & 0x3) << 8;
 
-            var rnd = TestContext.CurrentContext.Random;
+            Randomizer rnd = TestContext.CurrentContext.Random;
             V128 v2 = new(TestContext.CurrentContext.Random.NextULong(), TestContext.CurrentContext.Random.NextULong());
             V128 v3 = new(TestContext.CurrentContext.Random.NextULong(), TestContext.CurrentContext.Random.NextULong());
             V128 v4 = new(TestContext.CurrentContext.Random.NextULong(), TestContext.CurrentContext.Random.NextULong());

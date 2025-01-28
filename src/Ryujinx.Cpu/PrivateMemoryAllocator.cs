@@ -38,17 +38,17 @@ namespace Ryujinx.Cpu
             {
                 Memory = memory;
                 Size = size;
-                _freeRanges = new List<Range>
-                {
-                    new Range(0, size),
-                };
+                _freeRanges =
+                [
+                    new(0, size)
+                ];
             }
 
             public ulong Allocate(ulong size, ulong alignment)
             {
                 for (int i = 0; i < _freeRanges.Count; i++)
                 {
-                    var range = _freeRanges[i];
+                    Range range = _freeRanges[i];
 
                     ulong alignedOffset = BitUtils.AlignUp(range.Offset, alignment);
                     ulong sizeDelta = alignedOffset - range.Offset;
@@ -84,7 +84,7 @@ namespace Ryujinx.Cpu
 
             private void InsertFreeRange(ulong offset, ulong size)
             {
-                var range = new Range(offset, size);
+                Range range = new(offset, size);
                 int index = _freeRanges.BinarySearch(range);
                 if (index < 0)
                 {
@@ -97,7 +97,7 @@ namespace Ryujinx.Cpu
             private void InsertFreeRangeComingled(ulong offset, ulong size)
             {
                 ulong endOffset = offset + size;
-                var range = new Range(offset, size);
+                Range range = new(offset, size);
                 int index = _freeRanges.BinarySearch(range);
                 if (index < 0)
                 {
@@ -149,7 +149,7 @@ namespace Ryujinx.Cpu
 
         public PrivateMemoryAllocation Allocate(ulong size, ulong alignment)
         {
-            var allocation = Allocate(size, alignment, CreateBlock);
+            Allocation allocation = Allocate(size, alignment, CreateBlock);
 
             return new PrivateMemoryAllocation(this, allocation.Block, allocation.Offset, allocation.Size);
         }
@@ -185,7 +185,7 @@ namespace Ryujinx.Cpu
 
         public PrivateMemoryAllocatorImpl(ulong blockAlignment, MemoryAllocationFlags allocationFlags)
         {
-            _blocks = new List<T>();
+            _blocks = [];
             _blockAlignment = blockAlignment;
             _allocationFlags = allocationFlags;
         }
@@ -200,7 +200,7 @@ namespace Ryujinx.Cpu
 
             for (int i = 0; i < _blocks.Count; i++)
             {
-                var block = _blocks[i];
+                T block = _blocks[i];
 
                 if (block.Size >= size)
                 {
@@ -214,8 +214,8 @@ namespace Ryujinx.Cpu
 
             ulong blockAlignedSize = BitUtils.AlignUp(size, _blockAlignment);
 
-            var memory = new MemoryBlock(blockAlignedSize, _allocationFlags);
-            var newBlock = createBlock(memory, blockAlignedSize);
+            MemoryBlock memory = new(blockAlignedSize, _allocationFlags);
+            T newBlock = createBlock(memory, blockAlignedSize);
 
             InsertBlock(newBlock);
 

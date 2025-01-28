@@ -12,9 +12,9 @@ namespace Ryujinx.Graphics.Shader.StructuredIr
 
         public StructuredProgramInfo(bool precise)
         {
-            Functions = new List<StructuredFunction>();
+            Functions = [];
 
-            IoDefinitions = new HashSet<IoDefinition>();
+            IoDefinitions = [];
 
             if (precise)
             {

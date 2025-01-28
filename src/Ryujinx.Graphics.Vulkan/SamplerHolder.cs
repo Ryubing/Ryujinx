@@ -26,9 +26,9 @@ namespace Ryujinx.Graphics.Vulkan
                 maxLod = 0.25f;
             }
 
-            var borderColor = GetConstrainedBorderColor(info.BorderColor, out var cantConstrain);
+            BorderColor borderColor = GetConstrainedBorderColor(info.BorderColor, out bool cantConstrain);
 
-            var samplerCreateInfo = new Silk.NET.Vulkan.SamplerCreateInfo
+            Silk.NET.Vulkan.SamplerCreateInfo samplerCreateInfo = new()
             {
                 SType = StructureType.SamplerCreateInfo,
                 MagFilter = info.MagFilter.Convert(),
@@ -52,7 +52,7 @@ namespace Ryujinx.Graphics.Vulkan
 
             if (cantConstrain && gd.Capabilities.SupportsCustomBorderColor)
             {
-                var color = new ClearColorValue(
+                ClearColorValue color = new(
                     info.BorderColor.Red,
                     info.BorderColor.Green,
                     info.BorderColor.Blue,
@@ -68,7 +68,7 @@ namespace Ryujinx.Graphics.Vulkan
                 samplerCreateInfo.BorderColor = BorderColor.FloatCustomExt;
             }
 
-            gd.Api.CreateSampler(device, in samplerCreateInfo, null, out var sampler).ThrowOnError();
+            gd.Api.CreateSampler(device, in samplerCreateInfo, null, out Sampler sampler).ThrowOnError();
 
             _sampler = new Auto<DisposableSampler>(new DisposableSampler(gd.Api, device, sampler));
         }

@@ -1,3 +1,4 @@
+using Avalonia.Media;
 using Ryujinx.Ava.UI.ViewModels;
 using Ryujinx.Common.Configuration.Hid;
 using Ryujinx.Common.Configuration.Hid.Controller;
@@ -408,6 +409,58 @@ namespace Ryujinx.Ava.UI.Models.Input
                 OnPropertyChanged();
             }
         }
+        
+        private bool _enableLedChanging;
+
+        public bool EnableLedChanging
+        {
+            get => _enableLedChanging;
+            set
+            {
+                _enableLedChanging = value;
+                OnPropertyChanged();
+            }
+        }
+        
+        public bool ShowLedColorPicker => !TurnOffLed && !UseRainbowLed;
+        
+        private bool _turnOffLed;
+        
+        public bool TurnOffLed
+        {
+            get => _turnOffLed;
+            set
+            {
+                _turnOffLed = value;
+                OnPropertyChanged();
+                OnPropertyChanged(nameof(ShowLedColorPicker));
+            }
+        }
+        
+        private bool _useRainbowLed;
+        
+        public bool UseRainbowLed
+        {
+            get => _useRainbowLed;
+            set
+            {
+                _useRainbowLed = value;
+                OnPropertyChanged();
+                OnPropertyChanged(nameof(ShowLedColorPicker));
+            }
+        }
+        
+        private Color _ledColor;
+
+        public Color LedColor
+        {
+            get => _ledColor;
+            set
+            {
+                _ledColor = value;
+                OnPropertyChanged();
+            }
+        }
 
         public GamepadInputConfig(InputConfig config)
         {
@@ -483,12 +536,25 @@ namespace Ryujinx.Ava.UI.Models.Input
                     WeakRumble = controllerInput.Rumble.WeakRumble;
                     StrongRumble = controllerInput.Rumble.StrongRumble;
                 }
+                
+                if (controllerInput.Led != null)
+                {
+                    EnableLedChanging = controllerInput.Led.EnableLed;
+                    TurnOffLed = controllerInput.Led.TurnOffLed;
+                    UseRainbowLed = controllerInput.Led.UseRainbow;
+                    uint rawColor = controllerInput.Led.LedColor;
+                    byte alpha = (byte)(rawColor >> 24);
+                    byte red = (byte)(rawColor >> 16);
+                    byte green = (byte)(rawColor >> 8);
+                    byte blue = (byte)(rawColor % 256);
+                    LedColor = new Color(alpha, red, green, blue);
+                }
             }
         }
 
         public InputConfig GetConfig()
         {
-            var config = new StandardControllerInputConfig
+            StandardControllerInputConfig config = new()
             {
                 Id = Id,
                 Backend = InputBackendType.GamepadSDL2,
@@ -539,6 +605,13 @@ namespace Ryujinx.Ava.UI.Models.Input
                     EnableRumble = EnableRumble,
                     WeakRumble = WeakRumble,
                     StrongRumble = StrongRumble,
+                },
+                Led = new LedConfigController
+                {
+                    EnableLed = EnableLedChanging,
+                    TurnOffLed = this.TurnOffLed,
+                    UseRainbow = UseRainbowLed,
+                    LedColor = LedColor.ToUInt32()
                 },
                 Version = InputConfig.CurrentVersion,
                 DeadzoneLeft = DeadzoneLeft,

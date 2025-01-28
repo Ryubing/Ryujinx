@@ -79,7 +79,7 @@ namespace Ryujinx.Ava
             {
                 if (ApplicationLifetime is IClassicDesktopStyleApplicationLifetime desktop)
                 {
-                    var result = await ContentDialogHelper.CreateConfirmationDialog(
+                    UserResult result = await ContentDialogHelper.CreateConfirmationDialog(
                         LocaleManager.Instance[LocaleKeys.DialogThemeRestartMessage],
                         LocaleManager.Instance[LocaleKeys.DialogThemeRestartSubMessage],
                         LocaleManager.Instance[LocaleKeys.InputDialogYes],

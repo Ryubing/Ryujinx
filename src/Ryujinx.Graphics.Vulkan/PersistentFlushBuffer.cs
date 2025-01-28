@@ -1,5 +1,7 @@
 using Ryujinx.Graphics.GAL;
+using Silk.NET.Vulkan;
 using System;
+using Buffer = Silk.NET.Vulkan.Buffer;
 
 namespace Ryujinx.Graphics.Vulkan
 {
@@ -16,7 +18,7 @@ namespace Ryujinx.Graphics.Vulkan
 
         private BufferHolder ResizeIfNeeded(int size)
         {
-            var flushStorage = _flushStorage;
+            BufferHolder flushStorage = _flushStorage;
 
             if (flushStorage == null || size > _flushStorage.Size)
             {
@@ -31,13 +33,13 @@ namespace Ryujinx.Graphics.Vulkan
 
         public Span<byte> GetBufferData(CommandBufferPool cbp, BufferHolder buffer, int offset, int size)
         {
-            var flushStorage = ResizeIfNeeded(size);
+            BufferHolder flushStorage = ResizeIfNeeded(size);
             Auto<DisposableBuffer> srcBuffer;
 
-            using (var cbs = cbp.Rent())
+            using (CommandBufferScoped cbs = cbp.Rent())
             {
                 srcBuffer = buffer.GetBuffer(cbs.CommandBuffer);
-                var dstBuffer = flushStorage.GetBuffer(cbs.CommandBuffer);
+                Auto<DisposableBuffer> dstBuffer = flushStorage.GetBuffer(cbs.CommandBuffer);
 
                 if (srcBuffer.TryIncrementReferenceCount())
                 {
@@ -59,12 +61,12 @@ namespace Ryujinx.Graphics.Vulkan
         {
             TextureCreateInfo info = view.Info;
 
-            var flushStorage = ResizeIfNeeded(size);
+            BufferHolder flushStorage = ResizeIfNeeded(size);
 
-            using (var cbs = cbp.Rent())
+            using (CommandBufferScoped cbs = cbp.Rent())
             {
-                var buffer = flushStorage.GetBuffer(cbs.CommandBuffer).Get(cbs).Value;
-                var image = view.GetImage().Get(cbs).Value;
+                Buffer buffer = flushStorage.GetBuffer(cbs.CommandBuffer).Get(cbs).Value;
+                Image image = view.GetImage().Get(cbs).Value;
 
                 view.CopyFromOrToBuffer(cbs.CommandBuffer, buffer, image, size, true, 0, 0, info.GetLayers(), info.Levels, singleSlice: false);
             }
@@ -75,12 +77,12 @@ namespace Ryujinx.Graphics.Vulkan
 
         public Span<byte> GetTextureData(CommandBufferPool cbp, TextureView view, int size, int layer, int level)
         {
-            var flushStorage = ResizeIfNeeded(size);
+            BufferHolder flushStorage = ResizeIfNeeded(size);
 
-            using (var cbs = cbp.Rent())
+            using (CommandBufferScoped cbs = cbp.Rent())
             {
-                var buffer = flushStorage.GetBuffer(cbs.CommandBuffer).Get(cbs).Value;
-                var image = view.GetImage().Get(cbs).Value;
+                Buffer buffer = flushStorage.GetBuffer(cbs.CommandBuffer).Get(cbs).Value;
+                Image image = view.GetImage().Get(cbs).Value;
 
                 view.CopyFromOrToBuffer(cbs.CommandBuffer, buffer, image, size, true, layer, level, 1, 1, singleSlice: true);
             }

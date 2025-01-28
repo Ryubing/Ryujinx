@@ -69,7 +69,7 @@ namespace ARMeilleure.Decoders.Optimizations
                 }
             }
 
-            var newBlocks = new List<Block>(blocks.Count);
+            List<Block> newBlocks = new(blocks.Count);
 
             // Finally, rebuild decoded block list, ignoring blocks outside the contiguous range.
             for (int i = 0; i < blocks.Count; i++)

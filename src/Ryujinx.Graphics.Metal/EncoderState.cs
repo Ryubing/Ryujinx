@@ -165,7 +165,7 @@ namespace Ryujinx.Graphics.Metal
         {
             // Inherit render target related information without causing a render encoder split.
 
-            var oldState = new RenderTargetCopy
+            RenderTargetCopy oldState = new()
             {
                 Scissors = other.Scissors,
                 RenderTargets = other.RenderTargets,
@@ -180,7 +180,7 @@ namespace Ryujinx.Graphics.Metal
             Pipeline.Internal.ColorBlendState = other.Pipeline.Internal.ColorBlendState;
             Pipeline.DepthStencilFormat = other.Pipeline.DepthStencilFormat;
 
-            ref var blendStates = ref Pipeline.Internal.ColorBlendState;
+            ref Array8<ColorBlendStateUid> blendStates = ref Pipeline.Internal.ColorBlendState;
 
             // Mask out irrelevant attachments.
             for (int i = 0; i < blendStates.Length; i++)

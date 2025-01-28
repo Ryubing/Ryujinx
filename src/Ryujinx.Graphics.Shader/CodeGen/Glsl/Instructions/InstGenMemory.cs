@@ -16,7 +16,7 @@ namespace Ryujinx.Graphics.Shader.CodeGen.Glsl.Instructions
 
             bool isArray = (texOp.Type & SamplerType.Array) != 0;
 
-            var texCallBuilder = new StringBuilder();
+            StringBuilder texCallBuilder = new();
 
             if (texOp.Inst == Instruction.ImageAtomic)
             {

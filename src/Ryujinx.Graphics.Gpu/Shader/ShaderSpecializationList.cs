@@ -8,7 +8,7 @@ namespace Ryujinx.Graphics.Gpu.Shader
     /// </summary>
     class ShaderSpecializationList : IEnumerable<CachedShaderProgram>
     {
-        private readonly List<CachedShaderProgram> _entries = new();
+        private readonly List<CachedShaderProgram> _entries = [];
 
         /// <summary>
         /// Adds a program to the list.
@@ -33,7 +33,7 @@ namespace Ryujinx.Graphics.Gpu.Shader
             ref GpuChannelGraphicsState graphicsState,
             out CachedShaderProgram program)
         {
-            foreach (var entry in _entries)
+            foreach (CachedShaderProgram entry in _entries)
             {
                 bool vertexAsCompute = entry.VertexAsCompute != null;
                 bool usesDrawParameters = entry.Shaders[1]?.Info.UsesDrawParameters ?? false;
@@ -65,7 +65,7 @@ namespace Ryujinx.Graphics.Gpu.Shader
         /// <returns>True if a compatible program is found, false otherwise</returns>
         public bool TryFindForCompute(GpuChannel channel, GpuChannelPoolState poolState, GpuChannelComputeState computeState, out CachedShaderProgram program)
         {
-            foreach (var entry in _entries)
+            foreach (CachedShaderProgram entry in _entries)
             {
                 if (entry.SpecializationState.MatchesCompute(channel, ref poolState, computeState, true))
                 {

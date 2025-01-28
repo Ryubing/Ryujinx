@@ -104,7 +104,7 @@ namespace Ryujinx.Graphics.Gpu.Shader.HashTable
         /// </summary>
         public PartitionedHashTable()
         {
-            _sizeTable = new List<SizeEntry>();
+            _sizeTable = [];
         }
 
         /// <summary>

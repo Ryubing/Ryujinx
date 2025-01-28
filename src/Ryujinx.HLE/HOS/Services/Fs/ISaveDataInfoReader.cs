@@ -1,6 +1,7 @@
 using LibHac;
 using LibHac.Common;
 using LibHac.Sf;
+using Ryujinx.Memory;
 
 namespace Ryujinx.HLE.HOS.Services.Fs
 {
@@ -20,7 +21,7 @@ namespace Ryujinx.HLE.HOS.Services.Fs
             ulong bufferAddress = context.Request.ReceiveBuff[0].Position;
             ulong bufferLen = context.Request.ReceiveBuff[0].Size;
 
-            using var region = context.Memory.GetWritableRegion(bufferAddress, (int)bufferLen, true);
+            using WritableRegion region = context.Memory.GetWritableRegion(bufferAddress, (int)bufferLen, true);
             Result result = _baseReader.Get.Read(out long readCount, new OutBuffer(region.Memory.Span));
 
             context.ResponseData.Write(readCount);

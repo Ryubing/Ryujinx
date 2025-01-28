@@ -10,7 +10,7 @@ namespace Ryujinx.HLE.HOS.Kernel.Memory
 
         public KPageList()
         {
-            Nodes = new LinkedList<KPageNode>();
+            Nodes = [];
         }
 
         public Result AddRange(ulong address, ulong pagesCount)
@@ -70,7 +70,7 @@ namespace Ryujinx.HLE.HOS.Kernel.Memory
 
         public void IncrementPagesReferenceCount(KMemoryManager manager)
         {
-            foreach (var node in this)
+            foreach (KPageNode node in this)
             {
                 manager.IncrementPagesReferenceCount(node.Address, node.PagesCount);
             }
@@ -78,7 +78,7 @@ namespace Ryujinx.HLE.HOS.Kernel.Memory
 
         public void DecrementPagesReferenceCount(KMemoryManager manager)
         {
-            foreach (var node in this)
+            foreach (KPageNode node in this)
             {
                 manager.DecrementPagesReferenceCount(node.Address, node.PagesCount);
             }

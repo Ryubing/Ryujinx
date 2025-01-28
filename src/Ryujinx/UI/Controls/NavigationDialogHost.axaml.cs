@@ -69,7 +69,7 @@ namespace Ryujinx.Ava.UI.Controls
             VirtualFileSystem ownerVirtualFileSystem,
             HorizonClient ownerHorizonClient)
         {
-            var content = new NavigationDialogHost(ownerAccountManager, ownerContentManager, ownerVirtualFileSystem, ownerHorizonClient);
+            NavigationDialogHost content = new(ownerAccountManager, ownerContentManager, ownerVirtualFileSystem, ownerHorizonClient);
             ContentDialog contentDialog = new()
             {
                 Title = LocaleManager.Instance[LocaleKeys.UserProfileWindowTitle],
@@ -106,15 +106,15 @@ namespace Ryujinx.Ava.UI.Controls
                 .OrderBy(x => x.Name)
                 .ForEach(profile => ViewModel.Profiles.Add(new UserProfile(profile, this)));
 
-            var saveDataFilter = SaveDataFilter.Make(programId: default, saveType: SaveDataType.Account, default, saveDataId: default, index: default);
+            SaveDataFilter saveDataFilter = SaveDataFilter.Make(programId: default, saveType: SaveDataType.Account, default, saveDataId: default, index: default);
 
-            using var saveDataIterator = new UniqueRef<SaveDataIterator>();
+            using UniqueRef<SaveDataIterator> saveDataIterator = new();
 
             HorizonClient.Fs.OpenSaveDataIterator(ref saveDataIterator.Ref, SaveDataSpaceId.User, in saveDataFilter).ThrowIfFailure();
 
             Span<SaveDataInfo> saveDataInfo = stackalloc SaveDataInfo[10];
 
-            HashSet<UserId> lostAccounts = new();
+            HashSet<UserId> lostAccounts = [];
 
             while (true)
             {
@@ -127,8 +127,8 @@ namespace Ryujinx.Ava.UI.Controls
 
                 for (int i = 0; i < readCount; i++)
                 {
-                    var save = saveDataInfo[i];
-                    var id = new UserId((long)save.UserId.Id.Low, (long)save.UserId.Id.High);
+                    SaveDataInfo save = saveDataInfo[i];
+                    UserId id = new((long)save.UserId.Id.Low, (long)save.UserId.Id.High);
                     if (ViewModel.Profiles.Cast<UserProfile>().FirstOrDefault(x => x.UserId == id) == null)
                     {
                         lostAccounts.Add(id);
@@ -136,7 +136,7 @@ namespace Ryujinx.Ava.UI.Controls
                 }
             }
 
-            foreach (var account in lostAccounts)
+            foreach (UserId account in lostAccounts)
             {
                 ViewModel.LostProfiles.Add(new UserProfile(new HLE.HOS.Services.Account.Acc.UserProfile(account, string.Empty, null), this));
             }
@@ -146,12 +146,12 @@ namespace Ryujinx.Ava.UI.Controls
 
         public async void DeleteUser(UserProfile userProfile)
         {
-            var lastUserId = AccountManager.LastOpenedUser.UserId;
+            UserId lastUserId = AccountManager.LastOpenedUser.UserId;
 
             if (userProfile.UserId == lastUserId)
             {
                 // If we are deleting the currently open profile, then we must open something else before deleting.
-                var profile = ViewModel.Profiles.Cast<UserProfile>().FirstOrDefault(x => x.UserId != lastUserId);
+                UserProfile profile = ViewModel.Profiles.Cast<UserProfile>().FirstOrDefault(x => x.UserId != lastUserId);
 
                 if (profile == null)
                 {
@@ -165,7 +165,7 @@ namespace Ryujinx.Ava.UI.Controls
                 AccountManager.OpenUser(profile.UserId);
             }
 
-            var result = await ContentDialogHelper.CreateConfirmationDialog(
+            UserResult result = await ContentDialogHelper.CreateConfirmationDialog(
                 LocaleManager.Instance[LocaleKeys.DialogUserProfileDeletionConfirmMessage],
                 string.Empty,
                 LocaleManager.Instance[LocaleKeys.InputDialogYes],

@@ -76,7 +76,7 @@ namespace Ryujinx.HLE.HOS.Services.Sdb.Pl
                                 Nca nca = new(_device.System.KeySet, ncaFileStream);
                                 IFileSystem romfs = nca.OpenFileSystem(NcaSectionType.Data, _device.System.FsIntegrityCheckLevel);
 
-                                using var fontFile = new UniqueRef<IFile>();
+                                using UniqueRef<IFile> fontFile = new();
 
                                 romfs.OpenFile(ref fontFile.Ref, ("/" + fontFilename).ToU8Span(), OpenMode.Read).ThrowIfFailure();
 
@@ -105,7 +105,7 @@ namespace Ryujinx.HLE.HOS.Services.Sdb.Pl
                                 titleName = "Unknown";
                             }
 
-                            throw new InvalidSystemResourceException($"{titleName} ({fontTitle:x8}) system title not found! This font will not work, provide the system archive to fix this error. (See https://github.com/GreemDev/Ryujinx#requirements for more information)");
+                            throw new InvalidSystemResourceException($"{titleName} ({fontTitle:x8}) system title not found! This font will not work, provide the system archive to fix this error. (See https://github.com/Ryubing/Ryujinx#requirements for more information)");
                         }
                     }
                     else

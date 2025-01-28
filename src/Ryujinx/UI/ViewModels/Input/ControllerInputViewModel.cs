@@ -1,7 +1,11 @@
 using Avalonia.Svg.Skia;
 using CommunityToolkit.Mvvm.ComponentModel;
+using CommunityToolkit.Mvvm.Input;
+using FluentAvalonia.UI.Controls;
+using Ryujinx.Ava.UI.Helpers;
 using Ryujinx.Ava.UI.Models.Input;
 using Ryujinx.Ava.UI.Views.Input;
+using Ryujinx.UI.Views.Input;
 
 namespace Ryujinx.Ava.UI.ViewModels.Input
 {
@@ -37,7 +41,7 @@ namespace Ryujinx.Ava.UI.ViewModels.Input
 
         [ObservableProperty] private SvgImage _image;
 
-        public readonly InputViewModel ParentModel;
+        public InputViewModel ParentModel { get; }
 
         public ControllerInputViewModel(InputViewModel model, GamepadInputConfig config)
         {
@@ -55,6 +59,11 @@ namespace Ryujinx.Ava.UI.ViewModels.Input
         public async void ShowRumbleConfig()
         {
             await RumbleInputView.Show(this);
+        }
+        
+        public async void ShowLedConfig()
+        {
+            await LedInputView.Show(this);
         }
 
         public void OnParentModelChanged()

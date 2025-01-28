@@ -11,7 +11,7 @@ namespace Ryujinx.HLE.HOS.Tamper
         public OperationBlock(byte[] baseInstruction)
         {
             BaseInstruction = baseInstruction;
-            Operations = new List<IOperation>();
+            Operations = [];
         }
     }
 }

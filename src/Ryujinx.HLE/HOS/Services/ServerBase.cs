@@ -1,3 +1,4 @@
+using Microsoft.IO;
 using Ryujinx.Common;
 using Ryujinx.Common.Logging;
 using Ryujinx.Common.Memory;
@@ -235,7 +236,7 @@ namespace Ryujinx.HLE.HOS.Services
                     }
                 }
 
-                var rc = _context.Syscall.ReplyAndReceive(out int signaledIndex, handles.AsSpan(0, handleCount), replyTargetHandle, -1);
+                Result rc = _context.Syscall.ReplyAndReceive(out int signaledIndex, handles.AsSpan(0, handleCount), replyTargetHandle, -1);
 
                 _selfThread.HandlePostSyscall();
 
@@ -307,7 +308,7 @@ namespace Ryujinx.HLE.HOS.Services
         {
             _context.Syscall.CloseHandle(serverSessionHandle);
 
-            if (RemoveSessionObj(serverSessionHandle, out var session))
+            if (RemoveSessionObj(serverSessionHandle, out IpcService session))
             {
                 (session as IDisposable)?.Dispose();
             }
@@ -453,7 +454,7 @@ namespace Ryujinx.HLE.HOS.Services
 
                 response.RawData = _responseDataStream.ToArray();
 
-                using var responseStream = response.GetStreamTipc();
+                using RecyclableMemoryStream responseStream = response.GetStreamTipc();
                 _selfProcess.CpuMemory.Write(_selfThread.TlsAddress, responseStream.GetReadOnlySequence());
             }
             else
@@ -463,7 +464,7 @@ namespace Ryujinx.HLE.HOS.Services
 
             if (!isTipcCommunication)
             {
-                using var responseStream = response.GetStream((long)_selfThread.TlsAddress, recvListAddr | ((ulong)PointerBufferSize << 48));
+                using RecyclableMemoryStream responseStream = response.GetStream((long)_selfThread.TlsAddress, recvListAddr | ((ulong)PointerBufferSize << 48));
                 _selfProcess.CpuMemory.Write(_selfThread.TlsAddress, responseStream.GetReadOnlySequence());
             }
 

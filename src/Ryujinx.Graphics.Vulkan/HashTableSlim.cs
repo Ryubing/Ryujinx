@@ -65,7 +65,7 @@ namespace Ryujinx.Graphics.Vulkan
 
         public void Add(ref TKey key, TValue value)
         {
-            var entry = new Entry
+            Entry entry = new()
             {
                 Hash = key.GetHashCode(),
                 Key = key,
@@ -75,7 +75,7 @@ namespace Ryujinx.Graphics.Vulkan
             int hashCode = key.GetHashCode();
             int bucketIndex = hashCode & TotalBucketsMask;
 
-            ref var bucket = ref _hashTable[bucketIndex];
+            ref Bucket bucket = ref _hashTable[bucketIndex];
             if (bucket.Entries != null)
             {
                 int index = bucket.Length;
@@ -89,10 +89,10 @@ namespace Ryujinx.Graphics.Vulkan
             }
             else
             {
-                bucket.Entries = new[]
-                {
-                    entry,
-                };
+                bucket.Entries =
+                [
+                    entry
+                ];
             }
 
             bucket.Length++;
@@ -102,11 +102,11 @@ namespace Ryujinx.Graphics.Vulkan
         {
             int hashCode = key.GetHashCode();
 
-            ref var bucket = ref _hashTable[hashCode & TotalBucketsMask];
-            var entries = bucket.AsSpan();
+            ref Bucket bucket = ref _hashTable[hashCode & TotalBucketsMask];
+            Span<Entry> entries = bucket.AsSpan();
             for (int i = 0; i < entries.Length; i++)
             {
-                ref var entry = ref entries[i];
+                ref Entry entry = ref entries[i];
 
                 if (entry.Hash == hashCode && entry.Key.Equals(ref key))
                 {
@@ -124,10 +124,10 @@ namespace Ryujinx.Graphics.Vulkan
         {
             int hashCode = key.GetHashCode();
 
-            var entries = _hashTable[hashCode & TotalBucketsMask].AsSpan();
+            Span<Entry> entries = _hashTable[hashCode & TotalBucketsMask].AsSpan();
             for (int i = 0; i < entries.Length; i++)
             {
-                ref var entry = ref entries[i];
+                ref Entry entry = ref entries[i];
 
                 if (entry.Hash == hashCode && entry.Key.Equals(ref key))
                 {

@@ -488,6 +488,19 @@ namespace Ryujinx.Ava.UI.ViewModels
             }
         }
 
+        public bool StartGamesWithoutUI
+        {
+            get => ConfigurationState.Instance.UI.StartNoUI;
+            set
+            {
+                ConfigurationState.Instance.UI.StartNoUI.Value = value;
+
+                ConfigurationState.Instance.ToFileFormat().SaveConfig(Program.ConfigurationPath);
+
+                OnPropertyChanged();
+            }
+        }
+
         public bool ShowConsole
         {
             get => ConfigurationState.Instance.UI.ShowConsole;
@@ -624,6 +637,7 @@ namespace Ryujinx.Ava.UI.ViewModels
                     ApplicationSort.FileSize => LocaleManager.Instance[LocaleKeys.GameListHeaderFileSize],
                     ApplicationSort.Path => LocaleManager.Instance[LocaleKeys.GameListHeaderPath],
                     ApplicationSort.Favorite => LocaleManager.Instance[LocaleKeys.CommonFavorite],
+                    ApplicationSort.TitleId => LocaleManager.Instance[LocaleKeys.DlcManagerTableHeadingTitleIdLabel],
                     _ => string.Empty,
                 };
             }
@@ -694,6 +708,7 @@ namespace Ryujinx.Ava.UI.ViewModels
         public IHostUIHandler UiHandler { get; internal set; }
         public bool IsSortedByFavorite => SortMode == ApplicationSort.Favorite;
         public bool IsSortedByTitle => SortMode == ApplicationSort.Title;
+        public bool IsSortedByTitleId => SortMode == ApplicationSort.TitleId;
         public bool IsSortedByDeveloper => SortMode == ApplicationSort.Developer;
         public bool IsSortedByLastPlayed => SortMode == ApplicationSort.LastPlayed;
         public bool IsSortedByTimePlayed => SortMode == ApplicationSort.TotalTimePlayed;
@@ -726,6 +741,7 @@ namespace Ryujinx.Ava.UI.ViewModels
                 ApplicationSort.FileSize        => CreateComparer(IsAscending, app => app.FileSize),
                 ApplicationSort.Path            => CreateComparer(IsAscending, app => app.Path),
                 ApplicationSort.Favorite        => CreateComparer(IsAscending, app => new AppListFavoriteComparable(app)),
+                ApplicationSort.TitleId         => CreateComparer(IsAscending, app => app.Id),
                 _ => null,
 #pragma warning restore IDE0055
             };
@@ -1030,9 +1046,9 @@ namespace Ryujinx.Ava.UI.ViewModels
         private void PrepareLoadScreen()
         {
             using MemoryStream stream = new(SelectedIcon);
-            using var gameIconBmp = SKBitmap.Decode(stream);
+            using SKBitmap gameIconBmp = SKBitmap.Decode(stream);
 
-            var dominantColor = IconColorPicker.GetFilteredColor(gameIconBmp);
+            SKColor dominantColor = IconColorPicker.GetFilteredColor(gameIconBmp);
 
             const float ColorMultiple = 0.5f;
 
@@ -1116,7 +1132,7 @@ namespace Ryujinx.Ava.UI.ViewModels
 
         private async Task LoadContentFromFolder(LocaleKeys localeMessageAddedKey, LocaleKeys localeMessageRemovedKey, LoadContentFromFolderDelegate onDirsSelected)
         {
-            var result = await StorageProvider.OpenFolderPickerAsync(new FolderPickerOpenOptions
+            IReadOnlyList<IStorageFolder> result = await StorageProvider.OpenFolderPickerAsync(new FolderPickerOpenOptions
             {
                 Title = LocaleManager.Instance[LocaleKeys.OpenFolderDialogTitle],
                 AllowMultiple = true,
@@ -1124,10 +1140,10 @@ namespace Ryujinx.Ava.UI.ViewModels
 
             if (result.Count > 0)
             {
-                var dirs = result.Select(it => it.Path.LocalPath).ToList();
-                var numAdded = onDirsSelected(dirs, out int numRemoved);
+                List<string> dirs = result.Select(it => it.Path.LocalPath).ToList();
+                int numAdded = onDirsSelected(dirs, out int numRemoved);
 
-                var msg = String.Join("\r\n", new string[] {
+                string msg = String.Join("\r\n", new string[] {
                     string.Format(LocaleManager.Instance[localeMessageRemovedKey], numRemoved),
                     string.Format(LocaleManager.Instance[localeMessageAddedKey], numAdded)
                 });
@@ -1164,17 +1180,17 @@ namespace Ryujinx.Ava.UI.ViewModels
 
         public void LoadConfigurableHotKeys()
         {
-            if (AvaloniaKeyboardMappingHelper.TryGetAvaKey((Key)ConfigurationState.Instance.Hid.Hotkeys.Value.ShowUI, out var showUiKey))
+            if (AvaloniaKeyboardMappingHelper.TryGetAvaKey((Key)ConfigurationState.Instance.Hid.Hotkeys.Value.ShowUI, out Avalonia.Input.Key showUiKey))
             {
                 ShowUiKey = new KeyGesture(showUiKey);
             }
 
-            if (AvaloniaKeyboardMappingHelper.TryGetAvaKey((Key)ConfigurationState.Instance.Hid.Hotkeys.Value.Screenshot, out var screenshotKey))
+            if (AvaloniaKeyboardMappingHelper.TryGetAvaKey((Key)ConfigurationState.Instance.Hid.Hotkeys.Value.Screenshot, out Avalonia.Input.Key screenshotKey))
             {
                 ScreenshotKey = new KeyGesture(screenshotKey);
             }
 
-            if (AvaloniaKeyboardMappingHelper.TryGetAvaKey((Key)ConfigurationState.Instance.Hid.Hotkeys.Value.Pause, out var pauseKey))
+            if (AvaloniaKeyboardMappingHelper.TryGetAvaKey((Key)ConfigurationState.Instance.Hid.Hotkeys.Value.Pause, out Avalonia.Input.Key pauseKey))
             {
                 PauseKey = new KeyGesture(pauseKey);
             }
@@ -1193,6 +1209,11 @@ namespace Ryujinx.Ava.UI.ViewModels
         public void ToggleStartGamesInFullscreen()
         {
             StartGamesInFullscreen = !StartGamesInFullscreen;
+        }
+
+        public void ToggleStartGamesWithoutUI()
+        {
+            StartGamesWithoutUI = !StartGamesWithoutUI;
         }
 
         public void ToggleShowConsole()
@@ -1217,28 +1238,28 @@ namespace Ryujinx.Ava.UI.ViewModels
 
         public async Task InstallFirmwareFromFile()
         {
-            var result = await StorageProvider.OpenFilePickerAsync(new FilePickerOpenOptions
+            IReadOnlyList<IStorageFile> result = await StorageProvider.OpenFilePickerAsync(new FilePickerOpenOptions
             {
                 AllowMultiple = false,
                 FileTypeFilter = new List<FilePickerFileType>
                 {
                     new(LocaleManager.Instance[LocaleKeys.FileDialogAllTypes])
                     {
-                        Patterns = new[] { "*.xci", "*.zip" },
-                        AppleUniformTypeIdentifiers = new[] { "com.ryujinx.xci", "public.zip-archive" },
-                        MimeTypes = new[] { "application/x-nx-xci", "application/zip" },
+                        Patterns = ["*.xci", "*.zip"],
+                        AppleUniformTypeIdentifiers = ["com.ryujinx.xci", "public.zip-archive"],
+                        MimeTypes = ["application/x-nx-xci", "application/zip"],
                     },
                     new("XCI")
                     {
-                        Patterns = new[] { "*.xci" },
-                        AppleUniformTypeIdentifiers = new[] { "com.ryujinx.xci" },
-                        MimeTypes = new[] { "application/x-nx-xci" },
+                        Patterns = ["*.xci"],
+                        AppleUniformTypeIdentifiers = ["com.ryujinx.xci"],
+                        MimeTypes = ["application/x-nx-xci"],
                     },
                     new("ZIP")
                     {
-                        Patterns = new[] { "*.zip" },
-                        AppleUniformTypeIdentifiers = new[] { "public.zip-archive" },
-                        MimeTypes = new[] { "application/zip" },
+                        Patterns = ["*.zip"],
+                        AppleUniformTypeIdentifiers = ["public.zip-archive"],
+                        MimeTypes = ["application/zip"],
                     },
                 },
             });
@@ -1251,7 +1272,7 @@ namespace Ryujinx.Ava.UI.ViewModels
 
         public async Task InstallFirmwareFromFolder()
         {
-            var result = await StorageProvider.OpenFolderPickerAsync(new FolderPickerOpenOptions
+            IReadOnlyList<IStorageFolder> result = await StorageProvider.OpenFolderPickerAsync(new FolderPickerOpenOptions
             {
                 AllowMultiple = false,
             });
@@ -1264,28 +1285,28 @@ namespace Ryujinx.Ava.UI.ViewModels
 
         public async Task InstallKeysFromFile()
         {
-            var result = await StorageProvider.OpenFilePickerAsync(new FilePickerOpenOptions
+            IReadOnlyList<IStorageFile> result = await StorageProvider.OpenFilePickerAsync(new FilePickerOpenOptions
             {
                 AllowMultiple = false,
                 FileTypeFilter = new List<FilePickerFileType>
                 {
                     new(LocaleManager.Instance[LocaleKeys.FileDialogAllTypes])
                     {
-                        Patterns = new[] { "*.keys", "*.zip" },
-                        AppleUniformTypeIdentifiers = new[] { "com.ryujinx.xci", "public.zip-archive" },
-                        MimeTypes = new[] { "application/keys", "application/zip" },
+                        Patterns = ["*.keys", "*.zip"],
+                        AppleUniformTypeIdentifiers = ["com.ryujinx.xci", "public.zip-archive"],
+                        MimeTypes = ["application/keys", "application/zip"],
                     },
                     new("KEYS")
                     {
-                        Patterns = new[] { "*.keys" },
-                        AppleUniformTypeIdentifiers = new[] { "com.ryujinx.xci" },
-                        MimeTypes = new[] { "application/keys" },
+                        Patterns = ["*.keys"],
+                        AppleUniformTypeIdentifiers = ["com.ryujinx.xci"],
+                        MimeTypes = ["application/keys"],
                     },
                     new("ZIP")
                     {
-                        Patterns = new[] { "*.zip" },
-                        AppleUniformTypeIdentifiers = new[] { "public.zip-archive" },
-                        MimeTypes = new[] { "application/zip" },
+                        Patterns = ["*.zip"],
+                        AppleUniformTypeIdentifiers = ["public.zip-archive"],
+                        MimeTypes = ["application/zip"],
                     },
                 },
             });
@@ -1298,7 +1319,7 @@ namespace Ryujinx.Ava.UI.ViewModels
 
         public async Task InstallKeysFromFolder()
         {
-            var result = await StorageProvider.OpenFolderPickerAsync(new FolderPickerOpenOptions
+            IReadOnlyList<IStorageFolder> result = await StorageProvider.OpenFolderPickerAsync(new FolderPickerOpenOptions
             {
                 AllowMultiple = false,
             });
@@ -1389,7 +1410,7 @@ namespace Ryujinx.Ava.UI.ViewModels
 
         public async Task OpenFile()
         {
-            var result = await StorageProvider.OpenFilePickerAsync(new FilePickerOpenOptions
+            IReadOnlyList<IStorageFile> result = await StorageProvider.OpenFilePickerAsync(new FilePickerOpenOptions
             {
                 Title = LocaleManager.Instance[LocaleKeys.OpenFileDialogTitle],
                 AllowMultiple = false,
@@ -1397,53 +1418,53 @@ namespace Ryujinx.Ava.UI.ViewModels
                 {
                     new(LocaleManager.Instance[LocaleKeys.AllSupportedFormats])
                     {
-                        Patterns = new[] { "*.nsp", "*.xci", "*.nca", "*.nro", "*.nso" },
-                        AppleUniformTypeIdentifiers = new[]
-                        {
+                        Patterns = ["*.nsp", "*.xci", "*.nca", "*.nro", "*.nso"],
+                        AppleUniformTypeIdentifiers =
+                        [
                             "com.ryujinx.nsp",
                             "com.ryujinx.xci",
                             "com.ryujinx.nca",
                             "com.ryujinx.nro",
-                            "com.ryujinx.nso",
-                        },
-                        MimeTypes = new[]
-                        {
+                            "com.ryujinx.nso"
+                        ],
+                        MimeTypes =
+                        [
                             "application/x-nx-nsp",
                             "application/x-nx-xci",
                             "application/x-nx-nca",
                             "application/x-nx-nro",
-                            "application/x-nx-nso",
-                        },
+                            "application/x-nx-nso"
+                        ],
                     },
                     new("NSP")
                     {
-                        Patterns = new[] { "*.nsp" },
-                        AppleUniformTypeIdentifiers = new[] { "com.ryujinx.nsp" },
-                        MimeTypes = new[] { "application/x-nx-nsp" },
+                        Patterns = ["*.nsp"],
+                        AppleUniformTypeIdentifiers = ["com.ryujinx.nsp"],
+                        MimeTypes = ["application/x-nx-nsp"],
                     },
                     new("XCI")
                     {
-                        Patterns = new[] { "*.xci" },
-                        AppleUniformTypeIdentifiers = new[] { "com.ryujinx.xci" },
-                        MimeTypes = new[] { "application/x-nx-xci" },
+                        Patterns = ["*.xci"],
+                        AppleUniformTypeIdentifiers = ["com.ryujinx.xci"],
+                        MimeTypes = ["application/x-nx-xci"],
                     },
                     new("NCA")
                     {
-                        Patterns = new[] { "*.nca" },
-                        AppleUniformTypeIdentifiers = new[] { "com.ryujinx.nca" },
-                        MimeTypes = new[] { "application/x-nx-nca" },
+                        Patterns = ["*.nca"],
+                        AppleUniformTypeIdentifiers = ["com.ryujinx.nca"],
+                        MimeTypes = ["application/x-nx-nca"],
                     },
                     new("NRO")
                     {
-                        Patterns = new[] { "*.nro" },
-                        AppleUniformTypeIdentifiers = new[] { "com.ryujinx.nro" },
-                        MimeTypes = new[] { "application/x-nx-nro" },
+                        Patterns = ["*.nro"],
+                        AppleUniformTypeIdentifiers = ["com.ryujinx.nro"],
+                        MimeTypes = ["application/x-nx-nro"],
                     },
                     new("NSO")
                     {
-                        Patterns = new[] { "*.nso" },
-                        AppleUniformTypeIdentifiers = new[] { "com.ryujinx.nso" },
-                        MimeTypes = new[] { "application/x-nx-nso" },
+                        Patterns = ["*.nso"],
+                        AppleUniformTypeIdentifiers = ["com.ryujinx.nso"],
+                        MimeTypes = ["application/x-nx-nso"],
                     },
                 },
             });
@@ -1480,7 +1501,7 @@ namespace Ryujinx.Ava.UI.ViewModels
 
         public async Task OpenFolder()
         {
-            var result = await StorageProvider.OpenFolderPickerAsync(new FolderPickerOpenOptions
+            IReadOnlyList<IStorageFolder> result = await StorageProvider.OpenFolderPickerAsync(new FolderPickerOpenOptions
             {
                 Title = LocaleManager.Instance[LocaleKeys.OpenFolderDialogTitle],
                 AllowMultiple = false,
@@ -1641,10 +1662,7 @@ namespace Ryujinx.Ava.UI.ViewModels
 
         public async Task OpenAmiiboWindow()
         {
-            if (!IsAmiiboRequested)
-                return;
-
-            if (AppHost.Device.System.SearchingForAmiibo(out int deviceId))
+            if (AppHost.Device.System.SearchingForAmiibo(out int deviceId) && IsGameRunning)
             {
                 string titleId = AppHost.Device.Processes.ActiveApplication.ProgramIdText.ToUpper();
                 AmiiboWindow window = new(ShowAll, LastScannedAmiiboId, titleId);
@@ -1662,12 +1680,9 @@ namespace Ryujinx.Ava.UI.ViewModels
         }
         public async Task OpenBinFile()
         {
-            if (!IsAmiiboRequested)
-                return;
-
-            if (AppHost.Device.System.SearchingForAmiibo(out int deviceId))
+            if (AppHost.Device.System.SearchingForAmiibo(out _) && IsGameRunning)
             {
-                var result = await StorageProvider.OpenFilePickerAsync(new FilePickerOpenOptions
+                IReadOnlyList<IStorageFile> result = await StorageProvider.OpenFilePickerAsync(new FilePickerOpenOptions
                 {
                     Title = LocaleManager.Instance[LocaleKeys.OpenFileDialogTitle],
                     AllowMultiple = false,
@@ -1675,7 +1690,7 @@ namespace Ryujinx.Ava.UI.ViewModels
                     {
                         new(LocaleManager.Instance[LocaleKeys.AllSupportedFormats])
                         {
-                            Patterns = new[] { "*.bin" },
+                            Patterns = ["*.bin"],
                         }
                     }
                 });
@@ -1787,16 +1802,16 @@ namespace Ryujinx.Ava.UI.ViewModels
                 return;
             }
 
-            var trimmer = new XCIFileTrimmer(filename, new XCITrimmerLog.MainWindow(this));
+            XCIFileTrimmer trimmer = new(filename, new XCITrimmerLog.MainWindow(this));
 
             if (trimmer.CanBeTrimmed)
             {
-                var savings = (double)trimmer.DiskSpaceSavingsB / 1024.0 / 1024.0;
-                var currentFileSize = (double)trimmer.FileSizeB / 1024.0 / 1024.0;
-                var cartDataSize = (double)trimmer.DataSizeB / 1024.0 / 1024.0;
+                double savings = (double)trimmer.DiskSpaceSavingsB / 1024.0 / 1024.0;
+                double currentFileSize = (double)trimmer.FileSizeB / 1024.0 / 1024.0;
+                double cartDataSize = (double)trimmer.DataSizeB / 1024.0 / 1024.0;
                 string secondaryText = LocaleManager.Instance.UpdateAndGetDynamicValue(LocaleKeys.TrimXCIFileDialogSecondaryText, currentFileSize, cartDataSize, savings);
 
-                var result = await ContentDialogHelper.CreateConfirmationDialog(
+                UserResult result = await ContentDialogHelper.CreateConfirmationDialog(
                     LocaleManager.Instance[LocaleKeys.TrimXCIFileDialogPrimaryText],
                     secondaryText,
                     LocaleManager.Instance[LocaleKeys.Continue],

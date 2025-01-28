@@ -118,13 +118,13 @@ namespace Ryujinx.Graphics.Metal
 
         private readonly MTLVertexDescriptor BuildVertexDescriptor()
         {
-            var vertexDescriptor = new MTLVertexDescriptor();
+            MTLVertexDescriptor vertexDescriptor = new();
 
             for (int i = 0; i < VertexAttributeDescriptionsCount; i++)
             {
                 VertexInputAttributeUid uid = Internal.VertexAttributes[i];
 
-                var attrib = vertexDescriptor.Attributes.Object((ulong)i);
+                MTLVertexAttributeDescriptor attrib = vertexDescriptor.Attributes.Object((ulong)i);
                 attrib.Format = uid.Format;
                 attrib.Offset = uid.Offset;
                 attrib.BufferIndex = uid.BufferIndex;
@@ -134,7 +134,7 @@ namespace Ryujinx.Graphics.Metal
             {
                 VertexInputLayoutUid uid = Internal.VertexBindings[i];
 
-                var layout = vertexDescriptor.Layouts.Object((ulong)i);
+                MTLVertexBufferLayoutDescriptor layout = vertexDescriptor.Layouts.Object((ulong)i);
 
                 layout.StepFunction = uid.StepFunction;
                 layout.StepRate = uid.StepRate;
@@ -146,15 +146,15 @@ namespace Ryujinx.Graphics.Metal
 
         private MTLRenderPipelineDescriptor CreateRenderDescriptor(Program program)
         {
-            var renderPipelineDescriptor = new MTLRenderPipelineDescriptor();
+            MTLRenderPipelineDescriptor renderPipelineDescriptor = new();
 
             for (int i = 0; i < Constants.MaxColorAttachments; i++)
             {
-                var blendState = Internal.ColorBlendState[i];
+                ColorBlendStateUid blendState = Internal.ColorBlendState[i];
 
                 if (blendState.PixelFormat != MTLPixelFormat.Invalid)
                 {
-                    var pipelineAttachment = renderPipelineDescriptor.ColorAttachments.Object((ulong)i);
+                    MTLRenderPipelineColorAttachmentDescriptor pipelineAttachment = renderPipelineDescriptor.ColorAttachments.Object((ulong)i);
 
                     BuildColorAttachment(pipelineAttachment, blendState);
                 }
@@ -195,7 +195,7 @@ namespace Ryujinx.Graphics.Metal
             renderPipelineDescriptor.RasterizationEnabled = !RasterizerDiscardEnable;
             renderPipelineDescriptor.SampleCount = Math.Max(1, SamplesCount);
 
-            var vertexDescriptor = BuildVertexDescriptor();
+            MTLVertexDescriptor vertexDescriptor = BuildVertexDescriptor();
             renderPipelineDescriptor.VertexDescriptor = vertexDescriptor;
 
             renderPipelineDescriptor.VertexFunction = program.VertexFunction;
@@ -210,14 +210,14 @@ namespace Ryujinx.Graphics.Metal
 
         public MTLRenderPipelineState CreateRenderPipeline(MTLDevice device, Program program)
         {
-            if (program.TryGetGraphicsPipeline(ref Internal, out var pipelineState))
+            if (program.TryGetGraphicsPipeline(ref Internal, out MTLRenderPipelineState pipelineState))
             {
                 return pipelineState;
             }
 
-            using var descriptor = CreateRenderDescriptor(program);
+            using MTLRenderPipelineDescriptor descriptor = CreateRenderDescriptor(program);
 
-            var error = new NSError(IntPtr.Zero);
+            NSError error = new(IntPtr.Zero);
             pipelineState = device.NewRenderPipelineState(descriptor, ref error);
             if (error != IntPtr.Zero)
             {
@@ -240,7 +240,7 @@ namespace Ryujinx.Graphics.Metal
                 throw new InvalidOperationException($"Local thread size for compute cannot be 0 in any dimension.");
             }
 
-            var descriptor = new MTLComputePipelineDescriptor
+            MTLComputePipelineDescriptor descriptor = new()
             {
                 ComputeFunction = program.ComputeFunction,
                 MaxTotalThreadsPerThreadgroup = maxThreads,
@@ -252,14 +252,14 @@ namespace Ryujinx.Graphics.Metal
 
         public static MTLComputePipelineState CreateComputePipeline(MTLDevice device, Program program)
         {
-            if (program.TryGetComputePipeline(out var pipelineState))
+            if (program.TryGetComputePipeline(out MTLComputePipelineState pipelineState))
             {
                 return pipelineState;
             }
 
             using MTLComputePipelineDescriptor descriptor = CreateComputeDescriptor(program);
 
-            var error = new NSError(IntPtr.Zero);
+            NSError error = new(IntPtr.Zero);
             pipelineState = device.NewComputePipelineState(descriptor, MTLPipelineOption.None, 0, ref error);
             if (error != IntPtr.Zero)
             {

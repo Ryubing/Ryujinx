@@ -44,10 +44,10 @@ namespace ARMeilleure.Translation
 
         public static void Construct(ControlFlowGraph cfg)
         {
-            var globalDefs = new DefMap[cfg.Blocks.Count];
-            var localDefs = new Operand[cfg.LocalsCount + RegisterConsts.TotalCount];
+            DefMap[] globalDefs = new DefMap[cfg.Blocks.Count];
+            Operand[] localDefs = new Operand[cfg.LocalsCount + RegisterConsts.TotalCount];
 
-            var dfPhiBlocks = new Queue<BasicBlock>();
+            Queue<BasicBlock> dfPhiBlocks = new();
 
             for (BasicBlock block = cfg.Blocks.First; block != null; block = block.ListNext)
             {

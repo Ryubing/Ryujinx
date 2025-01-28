@@ -180,8 +180,8 @@ namespace Ryujinx.Graphics.Gpu.Shader.DiskCache
         /// </summary>
         public void ClearCache()
         {
-            using var tocFileStream = DiskCacheCommon.OpenFile(_basePath, TocFileName, writable: true);
-            using var dataFileStream = DiskCacheCommon.OpenFile(_basePath, DataFileName, writable: true);
+            using FileStream tocFileStream = DiskCacheCommon.OpenFile(_basePath, TocFileName, writable: true);
+            using FileStream dataFileStream = DiskCacheCommon.OpenFile(_basePath, DataFileName, writable: true);
 
             tocFileStream.SetLength(0);
             dataFileStream.SetLength(0);
@@ -258,8 +258,8 @@ namespace Ryujinx.Graphics.Gpu.Shader.DiskCache
         /// <returns>Index of the shader on the cache</returns>
         public int AddShader(ReadOnlySpan<byte> data, ReadOnlySpan<byte> cb1Data)
         {
-            using var tocFileStream = DiskCacheCommon.OpenFile(_basePath, TocFileName, writable: true);
-            using var dataFileStream = DiskCacheCommon.OpenFile(_basePath, DataFileName, writable: true);
+            using FileStream tocFileStream = DiskCacheCommon.OpenFile(_basePath, TocFileName, writable: true);
+            using FileStream dataFileStream = DiskCacheCommon.OpenFile(_basePath, DataFileName, writable: true);
 
             TocHeader header = new();
 
@@ -267,9 +267,9 @@ namespace Ryujinx.Graphics.Gpu.Shader.DiskCache
 
             uint hash = CalcHash(data, cb1Data);
 
-            if (_toc.TryGetValue(hash, out var list))
+            if (_toc.TryGetValue(hash, out List<TocMemoryEntry> list))
             {
-                foreach (var entry in list)
+                foreach (TocMemoryEntry entry in list)
                 {
                     if (data.Length != entry.CodeSize || cb1Data.Length != entry.Cb1DataSize)
                     {
@@ -427,9 +427,9 @@ namespace Ryujinx.Graphics.Gpu.Shader.DiskCache
         /// <param name="index">Index of the data on the cache</param>
         private void AddTocMemoryEntry(uint dataOffset, uint codeSize, uint cb1DataSize, uint hash, int index)
         {
-            if (!_toc.TryGetValue(hash, out var list))
+            if (!_toc.TryGetValue(hash, out List<TocMemoryEntry> list))
             {
-                _toc.Add(hash, list = new List<TocMemoryEntry>());
+                _toc.Add(hash, list = []);
             }
 
             list.Add(new TocMemoryEntry(dataOffset, codeSize, cb1DataSize, index));

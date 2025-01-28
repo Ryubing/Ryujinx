@@ -130,7 +130,7 @@ namespace Ryujinx.HLE.HOS
 
             PerformanceState = new PerformanceState();
 
-            NfpDevices = new List<NfpDevice>();
+            NfpDevices = [];
 
             // Note: This is not really correct, but with HLE of services, the only memory
             // region used that is used is Application, so we can use the other ones for anything.
@@ -154,11 +154,11 @@ namespace Ryujinx.HLE.HOS
             timePageList.AddRange(timePa, TimeSize / KPageTableBase.PageSize);
             appletCaptureBufferPageList.AddRange(appletCaptureBufferPa, AppletCaptureBufferSize / KPageTableBase.PageSize);
 
-            var hidStorage = new SharedMemoryStorage(KernelContext, hidPageList);
-            var fontStorage = new SharedMemoryStorage(KernelContext, fontPageList);
-            var iirsStorage = new SharedMemoryStorage(KernelContext, iirsPageList);
-            var timeStorage = new SharedMemoryStorage(KernelContext, timePageList);
-            var appletCaptureBufferStorage = new SharedMemoryStorage(KernelContext, appletCaptureBufferPageList);
+            SharedMemoryStorage hidStorage = new(KernelContext, hidPageList);
+            SharedMemoryStorage fontStorage = new(KernelContext, fontPageList);
+            SharedMemoryStorage iirsStorage = new(KernelContext, iirsPageList);
+            SharedMemoryStorage timeStorage = new(KernelContext, timePageList);
+            SharedMemoryStorage appletCaptureBufferStorage = new(KernelContext, appletCaptureBufferPageList);
 
             HidStorage = hidStorage;
 
@@ -265,7 +265,7 @@ namespace Ryujinx.HLE.HOS
             HorizonFsClient fsClient = new(this);
 
             ServiceTable = new ServiceTable();
-            var services = ServiceTable.GetServices(new HorizonOptions
+            IEnumerable<ServiceEntry> services = ServiceTable.GetServices(new HorizonOptions
                 (Device.Configuration.IgnoreMissingServices,
                 LibHacHorizonManager.BcatClient,
                 fsClient,
@@ -273,7 +273,7 @@ namespace Ryujinx.HLE.HOS
                 Device.AudioDeviceDriver,
                 TickSource));
 
-            foreach (var service in services)
+            foreach (ServiceEntry service in services)
             {
                 const ProcessCreationFlags Flags =
                     ProcessCreationFlags.EnableAslr |
@@ -283,14 +283,15 @@ namespace Ryujinx.HLE.HOS
 
                 ProcessCreationInfo creationInfo = new("Service", 1, 0, 0x8000000, 1, Flags, 0, 0);
 
-                uint[] defaultCapabilities = {
+                uint[] defaultCapabilities =
+                [
                     (((uint)KScheduler.CpuCoresCount - 1) << 24) + (((uint)KScheduler.CpuCoresCount - 1) << 16) + 0x63F7u,
                     0x1FFFFFCF,
                     0x207FFFEF,
                     0x47E0060F,
                     0x0048BFFF,
-                    0x01007FFF,
-                };
+                    0x01007FFF
+                ];
 
                 // TODO:
                 // - Pass enough information (capabilities, process creation info, etc) on ServiceEntry for proper initialization.
@@ -304,7 +305,7 @@ namespace Ryujinx.HLE.HOS
 
         public bool LoadKip(string kipPath)
         {
-            using var kipFile = new SharedRef<IStorage>(new LocalStorage(kipPath, FileAccess.Read));
+            using SharedRef<IStorage> kipFile = new(new LocalStorage(kipPath, FileAccess.Read));
 
             return ProcessLoaderHelper.LoadKip(KernelContext, new KipExecutable(in kipFile));
         }
@@ -341,7 +342,7 @@ namespace Ryujinx.HLE.HOS
         {
             if (VirtualAmiibo.ApplicationBytes.Length > 0)
             {
-                VirtualAmiibo.ApplicationBytes = Array.Empty<byte>();
+                VirtualAmiibo.ApplicationBytes = [];
                 VirtualAmiibo.InputBin = string.Empty;
             }
             if (NfpDevices[nfpDeviceId].State == NfpDeviceState.SearchingForTag)
@@ -356,7 +357,7 @@ namespace Ryujinx.HLE.HOS
             VirtualAmiibo.InputBin = path;
             if (VirtualAmiibo.ApplicationBytes.Length > 0)
             {
-                VirtualAmiibo.ApplicationBytes = Array.Empty<byte>();
+                VirtualAmiibo.ApplicationBytes = [];
             }
             byte[] encryptedData = File.ReadAllBytes(path);
             VirtualAmiiboFile newFile = AmiiboBinReader.ReadBinFile(encryptedData);

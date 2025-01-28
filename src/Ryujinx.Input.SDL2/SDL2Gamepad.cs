@@ -1,6 +1,9 @@
 using Ryujinx.Common.Configuration.Hid;
 using Ryujinx.Common.Configuration.Hid.Controller;
 using Ryujinx.Common.Logging;
+using Ryujinx.Common.Utilities;
+using Ryujinx.HLE.HOS.Services.Hid;
+using SDL2;
 using System;
 using System.Collections.Generic;
 using System.Numerics;
@@ -20,8 +23,8 @@ namespace Ryujinx.Input.SDL2
 
         private StandardControllerInputConfig _configuration;
 
-        private static readonly SDL_GameControllerButton[] _buttonsDriverMapping = new SDL_GameControllerButton[(int)GamepadButtonInputId.Count]
-        {
+        private static readonly SDL_GameControllerButton[] _buttonsDriverMapping =
+        [
             // Unbound, ignored.
             SDL_GameControllerButton.SDL_CONTROLLER_BUTTON_INVALID,
 
@@ -56,19 +59,19 @@ namespace Ryujinx.Input.SDL2
             SDL_GameControllerButton.SDL_CONTROLLER_BUTTON_INVALID,
             SDL_GameControllerButton.SDL_CONTROLLER_BUTTON_INVALID,
             SDL_GameControllerButton.SDL_CONTROLLER_BUTTON_INVALID,
-            SDL_GameControllerButton.SDL_CONTROLLER_BUTTON_INVALID,
-        };
+            SDL_GameControllerButton.SDL_CONTROLLER_BUTTON_INVALID
+        ];
 
         private readonly Lock _userMappingLock = new();
 
         private readonly List<ButtonMappingEntry> _buttonsUserMapping;
 
-        private readonly StickInputId[] _stickUserMapping = new StickInputId[(int)StickInputId.Count]
-        {
+        private readonly StickInputId[] _stickUserMapping =
+        [
             StickInputId.Unbound,
             StickInputId.Left,
-            StickInputId.Right,
-        };
+            StickInputId.Right
+        ];
 
         public GamepadFeaturesFlag Features { get; }
 
@@ -85,7 +88,7 @@ namespace Ryujinx.Input.SDL2
             Id = driverId;
             Features = GetFeaturesFlag();
             _triggerThreshold = 0.0f;
-
+            
             // Enable motion tracking
             if (Features.HasFlag(GamepadFeaturesFlag.Motion))
             {
@@ -101,6 +104,18 @@ namespace Ryujinx.Input.SDL2
             }
         }
 
+        public void SetLed(uint packedRgb)
+        {
+            if (!Features.HasFlag(GamepadFeaturesFlag.Led)) return;
+
+            byte red = packedRgb > 0 ? (byte)(packedRgb >> 16) : (byte)0;
+            byte green = packedRgb > 0 ? (byte)(packedRgb >> 8) : (byte)0;
+            byte blue = packedRgb > 0 ? (byte)(packedRgb % 256) : (byte)0;
+            
+            if (SDL_GameControllerSetLED(_gamepadHandle, red, green, blue) != 0)
+                Logger.Error?.Print(LogClass.Hid, "LED is not supported on this game controller.");
+        }
+
         private GamepadFeaturesFlag GetFeaturesFlag()
         {
             GamepadFeaturesFlag result = GamepadFeaturesFlag.None;
@@ -111,11 +126,14 @@ namespace Ryujinx.Input.SDL2
                 result |= GamepadFeaturesFlag.Motion;
             }
 
-            int error = SDL_GameControllerRumble(_gamepadHandle, 0, 0, 100);
-
-            if (error == 0)
+            if (SDL_GameControllerHasRumble(_gamepadHandle) == SDL_bool.SDL_TRUE)
             {
                 result |= GamepadFeaturesFlag.Rumble;
+            }
+
+            if (SDL_GameControllerHasLED(_gamepadHandle) == SDL_bool.SDL_TRUE)
+            {
+                result |= GamepadFeaturesFlag.Led;
             }
 
             return result;
@@ -207,13 +225,24 @@ namespace Ryujinx.Input.SDL2
         private static Vector3 RadToDegree(Vector3 rad) => rad * (180 / MathF.PI);
 
         private static Vector3 GsToMs2(Vector3 gs) => gs / SDL_STANDARD_GRAVITY;
-
+        
         public void SetConfiguration(InputConfig configuration)
         {
             lock (_userMappingLock)
             {
                 _configuration = (StandardControllerInputConfig)configuration;
 
+                if (Features.HasFlag(GamepadFeaturesFlag.Led) && _configuration.Led.EnableLed)
+                {
+                    if (_configuration.Led.TurnOffLed)
+                        (this as IGamepad).ClearLed();
+                    else if (_configuration.Led.UseRainbow)
+                        SetLed((uint)Rainbow.Color.ToArgb());
+                    
+                    if (!_configuration.Led.TurnOffLed && !_configuration.Led.UseRainbow)
+                        SetLed(_configuration.Led.LedColor);
+                }
+                
                 _buttonsUserMapping.Clear();
 
                 // First update sticks
@@ -324,7 +353,7 @@ namespace Ryujinx.Input.SDL2
 
             if (HasConfiguration)
             {
-                var joyconStickConfig = GetLogicalJoyStickConfig(inputId);
+                JoyconConfigControllerStick<GamepadInputId, Common.Configuration.Hid.Controller.StickInputId> joyconStickConfig = GetLogicalJoyStickConfig(inputId);
 
                 if (joyconStickConfig != null)
                 {

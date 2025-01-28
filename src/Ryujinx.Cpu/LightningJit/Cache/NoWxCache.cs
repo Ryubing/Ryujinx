@@ -190,7 +190,7 @@ namespace Ryujinx.Cpu.LightningJit.Cache
 
         private bool TryGetThreadLocalFunction(ulong guestAddress, out nint funcPtr)
         {
-            if ((_threadLocalCache ??= new()).TryGetValue(guestAddress, out var entry))
+            if ((_threadLocalCache ??= new()).TryGetValue(guestAddress, out ThreadLocalCacheEntry entry))
             {
                 if (entry.IncrementUseCount() >= MinCallsForPad)
                 {
@@ -231,7 +231,7 @@ namespace Ryujinx.Cpu.LightningJit.Cache
                 _sharedCache.Pointer,
                 SharedCacheSize);
 
-            List<(ulong, ThreadLocalCacheEntry)> toDelete = new();
+            List<(ulong, ThreadLocalCacheEntry)> toDelete = [];
 
             foreach ((ulong address, ThreadLocalCacheEntry entry) in _threadLocalCache)
             {

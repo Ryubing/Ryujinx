@@ -81,7 +81,7 @@ namespace Ryujinx.HLE.HOS.Services.Hid.Irs
         {
             IrCameraHandle irCameraHandle = context.RequestData.ReadStruct<IrCameraHandle>();
             ulong appletResourceUserId = context.RequestData.ReadUInt64();
-            var packedMomentProcessorConfig = context.RequestData.ReadStruct<PackedMomentProcessorConfig>();
+            PackedMomentProcessorConfig packedMomentProcessorConfig = context.RequestData.ReadStruct<PackedMomentProcessorConfig>();
 
             CheckCameraHandle(irCameraHandle);
 
@@ -96,7 +96,7 @@ namespace Ryujinx.HLE.HOS.Services.Hid.Irs
         {
             IrCameraHandle irCameraHandle = context.RequestData.ReadStruct<IrCameraHandle>();
             ulong appletResourceUserId = context.RequestData.ReadUInt64();
-            var packedClusteringProcessorConfig = context.RequestData.ReadStruct<PackedClusteringProcessorConfig>();
+            PackedClusteringProcessorConfig packedClusteringProcessorConfig = context.RequestData.ReadStruct<PackedClusteringProcessorConfig>();
 
             CheckCameraHandle(irCameraHandle);
 
@@ -111,7 +111,7 @@ namespace Ryujinx.HLE.HOS.Services.Hid.Irs
         {
             IrCameraHandle irCameraHandle = context.RequestData.ReadStruct<IrCameraHandle>();
             ulong appletResourceUserId = context.RequestData.ReadUInt64();
-            var packedImageTransferProcessorConfig = context.RequestData.ReadStruct<PackedImageTransferProcessorConfig>();
+            PackedImageTransferProcessorConfig packedImageTransferProcessorConfig = context.RequestData.ReadStruct<PackedImageTransferProcessorConfig>();
 
             CheckCameraHandle(irCameraHandle);
 
@@ -157,7 +157,7 @@ namespace Ryujinx.HLE.HOS.Services.Hid.Irs
         {
             IrCameraHandle irCameraHandle = context.RequestData.ReadStruct<IrCameraHandle>();
             ulong appletResourceUserId = context.RequestData.ReadUInt64();
-            var packedTeraPluginProcessorConfig = context.RequestData.ReadStruct<PackedTeraPluginProcessorConfig>();
+            PackedTeraPluginProcessorConfig packedTeraPluginProcessorConfig = context.RequestData.ReadStruct<PackedTeraPluginProcessorConfig>();
 
             CheckCameraHandle(irCameraHandle);
 

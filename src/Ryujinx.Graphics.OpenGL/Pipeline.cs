@@ -35,8 +35,8 @@ namespace Ryujinx.Graphics.OpenGL
         private bool _stencilTestEnable;
         private bool _cullEnable;
 
-        private float[] _viewportArray = Array.Empty<float>();
-        private double[] _depthRangeArray = Array.Empty<double>();
+        private float[] _viewportArray = [];
+        private double[] _depthRangeArray = [];
 
         private int _boundDrawFramebuffer;
         private int _boundReadFramebuffer;
@@ -111,7 +111,7 @@ namespace Ryujinx.Graphics.OpenGL
                 (componentMask & 4) != 0,
                 (componentMask & 8) != 0);
 
-            float[] colors = new float[] { color.Red, color.Green, color.Blue, color.Alpha };
+            float[] colors = [color.Red, color.Green, color.Blue, color.Alpha];
 
             if (layer != 0 || layerCount != _framebuffer.GetColorLayerCount(index))
             {
@@ -1205,7 +1205,7 @@ namespace Ryujinx.Graphics.OpenGL
             {
                 int vIndex = index * 4;
 
-                var region = regions[index];
+                Rectangle<int> region = regions[index];
 
                 bool enabled = (region.X | region.Y) != 0 || region.Width != 0xffff || region.Height != 0xffff;
                 uint mask = 1u << index;

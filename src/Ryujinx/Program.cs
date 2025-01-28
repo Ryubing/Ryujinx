@@ -47,9 +47,9 @@ namespace Ryujinx.Ava
         {
             Version = ReleaseInformation.Version;
             
-            if (OperatingSystem.IsWindows() && !OperatingSystem.IsWindowsVersionAtLeast(10, 0, 17134))
+            if (OperatingSystem.IsWindows() && !OperatingSystem.IsWindowsVersionAtLeast(10, 0, 19041))
             {
-                _ = MessageBoxA(nint.Zero, "You are running an outdated version of Windows.\n\nRyujinx supports Windows 10 version 1803 and newer.\n", $"Ryujinx {Version}", MbIconwarning);
+                _ = MessageBoxA(nint.Zero, "You are running an outdated version of Windows.\n\nRyujinx supports Windows 10 version 20H1 and newer.\n", $"Ryujinx {Version}", MbIconwarning);
             }
 
             PreviewerDetached = true;
@@ -94,7 +94,7 @@ namespace Ryujinx.Ava
         private static void Initialize(string[] args)
         {
             // Ensure Discord presence timestamp begins at the absolute start of when Ryujinx is launched
-            DiscordIntegrationModule.StartedAt = Timestamps.Now;
+            DiscordIntegrationModule.EmulatorStartedAt = Timestamps.Now;
 
             // Parse arguments
             CommandLineState.ParseArguments(args);
@@ -230,13 +230,16 @@ namespace Ryujinx.Ava
         internal static void PrintSystemInfo()
         {
             Logger.Notice.Print(LogClass.Application, $"{RyujinxApp.FullAppName} Version: {Version}");
+            Logger.Notice.Print(LogClass.Application, $".NET Runtime: {RuntimeInformation.FrameworkDescription}");
             SystemInfo.Gather().Print();
 
-            var enabledLogLevels = Logger.GetEnabledLevels().ToArray();
-
-            Logger.Notice.Print(LogClass.Application, $"Logs Enabled: {(enabledLogLevels.Length is 0
-                    ? "<None>"
-                    : enabledLogLevels.JoinToString(", "))}");
+            Logger.Notice.Print(LogClass.Application, $"Logs Enabled: {
+                Logger.GetEnabledLevels()
+                    .FormatCollection(
+                        x => x.ToString(), 
+                        separator: ", ", 
+                        emptyCollectionFallback: "<None>")
+            }");
 
             Logger.Notice.Print(LogClass.Application,
                 AppDataManager.Mode == AppDataManager.LaunchMode.Custom
@@ -259,7 +262,7 @@ namespace Ryujinx.Ava
                 exceptions.Add(initialException);
             }
 
-            foreach (var e in exceptions)
+            foreach (Exception e in exceptions)
             {
                 string message = $"Unhandled exception caught: {e}";
                 // ReSharper disable once ConstantConditionalAccessQualifier

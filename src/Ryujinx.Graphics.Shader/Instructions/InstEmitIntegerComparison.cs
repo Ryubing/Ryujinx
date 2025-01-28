@@ -14,9 +14,9 @@ namespace Ryujinx.Graphics.Shader.Instructions
         {
             InstIcmpR op = context.GetOp<InstIcmpR>();
 
-            var srcA = GetSrcReg(context, op.SrcA);
-            var srcB = GetSrcReg(context, op.SrcB);
-            var srcC = GetSrcReg(context, op.SrcC);
+            Operand srcA = GetSrcReg(context, op.SrcA);
+            Operand srcB = GetSrcReg(context, op.SrcB);
+            Operand srcC = GetSrcReg(context, op.SrcC);
 
             EmitIcmp(context, op.IComp, srcA, srcB, srcC, op.Dest, op.Signed);
         }
@@ -25,9 +25,9 @@ namespace Ryujinx.Graphics.Shader.Instructions
         {
             InstIcmpI op = context.GetOp<InstIcmpI>();
 
-            var srcA = GetSrcReg(context, op.SrcA);
-            var srcB = GetSrcImm(context, Imm20ToSInt(op.Imm20));
-            var srcC = GetSrcReg(context, op.SrcC);
+            Operand srcA = GetSrcReg(context, op.SrcA);
+            Operand srcB = GetSrcImm(context, Imm20ToSInt(op.Imm20));
+            Operand srcC = GetSrcReg(context, op.SrcC);
 
             EmitIcmp(context, op.IComp, srcA, srcB, srcC, op.Dest, op.Signed);
         }
@@ -36,9 +36,9 @@ namespace Ryujinx.Graphics.Shader.Instructions
         {
             InstIcmpC op = context.GetOp<InstIcmpC>();
 
-            var srcA = GetSrcReg(context, op.SrcA);
-            var srcB = GetSrcCbuf(context, op.CbufSlot, op.CbufOffset);
-            var srcC = GetSrcReg(context, op.SrcC);
+            Operand srcA = GetSrcReg(context, op.SrcA);
+            Operand srcB = GetSrcCbuf(context, op.CbufSlot, op.CbufOffset);
+            Operand srcC = GetSrcReg(context, op.SrcC);
 
             EmitIcmp(context, op.IComp, srcA, srcB, srcC, op.Dest, op.Signed);
         }
@@ -47,9 +47,9 @@ namespace Ryujinx.Graphics.Shader.Instructions
         {
             InstIcmpRc op = context.GetOp<InstIcmpRc>();
 
-            var srcA = GetSrcReg(context, op.SrcA);
-            var srcB = GetSrcReg(context, op.SrcC);
-            var srcC = GetSrcCbuf(context, op.CbufSlot, op.CbufOffset);
+            Operand srcA = GetSrcReg(context, op.SrcA);
+            Operand srcB = GetSrcReg(context, op.SrcC);
+            Operand srcC = GetSrcCbuf(context, op.CbufSlot, op.CbufOffset);
 
             EmitIcmp(context, op.IComp, srcA, srcB, srcC, op.Dest, op.Signed);
         }
@@ -58,8 +58,8 @@ namespace Ryujinx.Graphics.Shader.Instructions
         {
             InstIsetR op = context.GetOp<InstIsetR>();
 
-            var srcA = GetSrcReg(context, op.SrcA);
-            var srcB = GetSrcReg(context, op.SrcB);
+            Operand srcA = GetSrcReg(context, op.SrcA);
+            Operand srcB = GetSrcReg(context, op.SrcB);
 
             EmitIset(context, op.IComp, op.Bop, srcA, srcB, op.SrcPred, op.SrcPredInv, op.Dest, op.BVal, op.Signed, op.X, op.WriteCC);
         }
@@ -68,8 +68,8 @@ namespace Ryujinx.Graphics.Shader.Instructions
         {
             InstIsetI op = context.GetOp<InstIsetI>();
 
-            var srcA = GetSrcReg(context, op.SrcA);
-            var srcB = GetSrcImm(context, Imm20ToSInt(op.Imm20));
+            Operand srcA = GetSrcReg(context, op.SrcA);
+            Operand srcB = GetSrcImm(context, Imm20ToSInt(op.Imm20));
 
             EmitIset(context, op.IComp, op.Bop, srcA, srcB, op.SrcPred, op.SrcPredInv, op.Dest, op.BVal, op.Signed, op.X, op.WriteCC);
         }
@@ -78,8 +78,8 @@ namespace Ryujinx.Graphics.Shader.Instructions
         {
             InstIsetC op = context.GetOp<InstIsetC>();
 
-            var srcA = GetSrcReg(context, op.SrcA);
-            var srcB = GetSrcCbuf(context, op.CbufSlot, op.CbufOffset);
+            Operand srcA = GetSrcReg(context, op.SrcA);
+            Operand srcB = GetSrcCbuf(context, op.CbufSlot, op.CbufOffset);
 
             EmitIset(context, op.IComp, op.Bop, srcA, srcB, op.SrcPred, op.SrcPredInv, op.Dest, op.BVal, op.Signed, op.X, op.WriteCC);
         }
@@ -88,8 +88,8 @@ namespace Ryujinx.Graphics.Shader.Instructions
         {
             InstIsetpR op = context.GetOp<InstIsetpR>();
 
-            var srcA = GetSrcReg(context, op.SrcA);
-            var srcB = GetSrcReg(context, op.SrcB);
+            Operand srcA = GetSrcReg(context, op.SrcA);
+            Operand srcB = GetSrcReg(context, op.SrcB);
 
             EmitIsetp(context, op.IComp, op.Bop, srcA, srcB, op.SrcPred, op.SrcPredInv, op.DestPred, op.DestPredInv, op.Signed, op.X);
         }
@@ -98,8 +98,8 @@ namespace Ryujinx.Graphics.Shader.Instructions
         {
             InstIsetpI op = context.GetOp<InstIsetpI>();
 
-            var srcA = GetSrcReg(context, op.SrcA);
-            var srcB = GetSrcImm(context, Imm20ToSInt(op.Imm20));
+            Operand srcA = GetSrcReg(context, op.SrcA);
+            Operand srcB = GetSrcImm(context, Imm20ToSInt(op.Imm20));
 
             EmitIsetp(context, op.IComp, op.Bop, srcA, srcB, op.SrcPred, op.SrcPredInv, op.DestPred, op.DestPredInv, op.Signed, op.X);
         }
@@ -108,8 +108,8 @@ namespace Ryujinx.Graphics.Shader.Instructions
         {
             InstIsetpC op = context.GetOp<InstIsetpC>();
 
-            var srcA = GetSrcReg(context, op.SrcA);
-            var srcB = GetSrcCbuf(context, op.CbufSlot, op.CbufOffset);
+            Operand srcA = GetSrcReg(context, op.SrcA);
+            Operand srcB = GetSrcCbuf(context, op.CbufSlot, op.CbufOffset);
 
             EmitIsetp(context, op.IComp, op.Bop, srcA, srcB, op.SrcPred, op.SrcPredInv, op.DestPred, op.DestPredInv, op.Signed, op.X);
         }
@@ -280,7 +280,7 @@ namespace Ryujinx.Graphics.Shader.Instructions
             }
             else
             {
-                var inst = cond switch
+                Instruction inst = cond switch
                 {
                     IComp.Lt => Instruction.CompareLessU32,
                     IComp.Eq => Instruction.CompareEqual,

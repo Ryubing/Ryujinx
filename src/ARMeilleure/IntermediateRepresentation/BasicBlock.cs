@@ -27,7 +27,7 @@ namespace ARMeilleure.IntermediateRepresentation
         {
             get
             {
-                _domFrontiers ??= new HashSet<BasicBlock>();
+                _domFrontiers ??= [];
 
                 return _domFrontiers;
             }
@@ -38,7 +38,7 @@ namespace ARMeilleure.IntermediateRepresentation
         public BasicBlock(int index)
         {
             Operations = new IntrusiveList<Operation>();
-            Predecessors = new List<BasicBlock>();
+            Predecessors = [];
 
             Index = index;
         }

@@ -8,7 +8,7 @@ namespace Ryujinx.Memory.Tracking
     /// </summary>
     class VirtualRegion : AbstractRegion
     {
-        public List<RegionHandle> Handles = new();
+        public List<RegionHandle> Handles = [];
 
         private readonly MemoryTracking _tracking;
         private MemoryPermission _lastPermission;
@@ -90,7 +90,7 @@ namespace Ryujinx.Memory.Tracking
 
             MemoryPermission result = MemoryPermission.ReadAndWrite;
 
-            foreach (var handle in Handles)
+            foreach (RegionHandle handle in Handles)
             {
                 result &= handle.RequiredPermission;
                 if (result == 0)
@@ -143,7 +143,7 @@ namespace Ryujinx.Memory.Tracking
 
             // The new region inherits all of our parents.
             newRegion.Handles = new List<RegionHandle>(Handles);
-            foreach (var parent in Handles)
+            foreach (RegionHandle parent in Handles)
             {
                 parent.AddChild(newRegion);
             }

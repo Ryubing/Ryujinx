@@ -40,12 +40,12 @@ namespace ARMeilleure.CodeGen.X86
                 return 0;
             }
 
-            ReadOnlySpan<byte> asmGetXcr0 = new byte[]
-            {
+            ReadOnlySpan<byte> asmGetXcr0 =
+            [
                 0x31, 0xc9, // xor ecx, ecx
                 0xf, 0x01, 0xd0, // xgetbv
-                0xc3, // ret
-            };
+                0xc3 // ret
+            ];
 
             using MemoryBlock memGetXcr0 = new((ulong)asmGetXcr0.Length);
 
@@ -53,7 +53,7 @@ namespace ARMeilleure.CodeGen.X86
 
             memGetXcr0.Reprotect(0, (ulong)asmGetXcr0.Length, MemoryPermission.ReadAndExecute);
 
-            var fGetXcr0 = Marshal.GetDelegateForFunctionPointer<GetXcr0>(memGetXcr0.Pointer);
+            GetXcr0 fGetXcr0 = Marshal.GetDelegateForFunctionPointer<GetXcr0>(memGetXcr0.Pointer);
 
             return fGetXcr0();
         }

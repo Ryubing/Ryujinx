@@ -14,7 +14,7 @@ namespace Ryujinx.Graphics.Shader.CodeGen.Glsl.Instructions
 
             Debug.Assert(funcId.Type == OperandType.Constant);
 
-            var function = context.GetFunction(funcId.Value);
+            StructuredFunction function = context.GetFunction(funcId.Value);
 
             string[] args = new string[operation.SourcesCount - 1];
 

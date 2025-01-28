@@ -149,7 +149,7 @@ namespace Ryujinx.Graphics.Shader.CodeGen.Glsl
 
                 if (context.Definitions.TransformFeedbackEnabled && context.Definitions.LastInVertexPipeline)
                 {
-                    var tfOutput = context.Definitions.GetTransformFeedbackOutput(AttributeConsts.PositionX);
+                    TransformFeedbackOutput tfOutput = context.Definitions.GetTransformFeedbackOutput(AttributeConsts.PositionX);
                     if (tfOutput.Valid)
                     {
                         context.AppendLine($"layout (xfb_buffer = {tfOutput.Buffer}, xfb_offset = {tfOutput.Offset}, xfb_stride = {tfOutput.Stride}) out gl_PerVertex");
@@ -338,7 +338,7 @@ namespace Ryujinx.Graphics.Shader.CodeGen.Glsl
 
         private static void DeclareSamplers(CodeGenContext context, IEnumerable<TextureDefinition> definitions)
         {
-            foreach (var definition in definitions)
+            foreach (TextureDefinition definition in definitions)
             {
                 string arrayDecl = string.Empty;
 
@@ -366,7 +366,7 @@ namespace Ryujinx.Graphics.Shader.CodeGen.Glsl
 
         private static void DeclareImages(CodeGenContext context, IEnumerable<TextureDefinition> definitions)
         {
-            foreach (var definition in definitions)
+            foreach (TextureDefinition definition in definitions)
             {
                 string arrayDecl = string.Empty;
 
@@ -413,7 +413,7 @@ namespace Ryujinx.Graphics.Shader.CodeGen.Glsl
             }
             else
             {
-                foreach (var ioDefinition in inputs.OrderBy(x => x.Location))
+                foreach (IoDefinition ioDefinition in inputs.OrderBy(x => x.Location))
                 {
                     DeclareInputAttribute(context, ioDefinition.Location, ioDefinition.Component);
                 }
@@ -427,7 +427,7 @@ namespace Ryujinx.Graphics.Shader.CodeGen.Glsl
 
         private static void DeclareInputAttributesPerPatch(CodeGenContext context, IEnumerable<IoDefinition> inputs)
         {
-            foreach (var ioDefinition in inputs.OrderBy(x => x.Location))
+            foreach (IoDefinition ioDefinition in inputs.OrderBy(x => x.Location))
             {
                 DeclareInputAttributePerPatch(context, ioDefinition.Location);
             }
@@ -521,7 +521,7 @@ namespace Ryujinx.Graphics.Shader.CodeGen.Glsl
                     }
                 }
 
-                foreach (var ioDefinition in outputs)
+                foreach (IoDefinition ioDefinition in outputs)
                 {
                     DeclareOutputAttribute(context, ioDefinition.Location, ioDefinition.Component);
                 }
@@ -548,7 +548,7 @@ namespace Ryujinx.Graphics.Shader.CodeGen.Glsl
 
                     string xfb = string.Empty;
 
-                    var tfOutput = context.Definitions.GetTransformFeedbackOutput(location, component);
+                    TransformFeedbackOutput tfOutput = context.Definitions.GetTransformFeedbackOutput(location, component);
                     if (tfOutput.Valid)
                     {
                         xfb = $", xfb_buffer = {tfOutput.Buffer}, xfb_offset = {tfOutput.Offset}, xfb_stride = {tfOutput.Stride}";
@@ -570,7 +570,7 @@ namespace Ryujinx.Graphics.Shader.CodeGen.Glsl
 
                     string xfb = string.Empty;
 
-                    var tfOutput = context.Definitions.GetTransformFeedbackOutput(location, 0);
+                    TransformFeedbackOutput tfOutput = context.Definitions.GetTransformFeedbackOutput(location, 0);
                     if (tfOutput.Valid)
                     {
                         xfb = $", xfb_buffer = {tfOutput.Buffer}, xfb_offset = {tfOutput.Offset}, xfb_stride = {tfOutput.Stride}";
@@ -606,7 +606,7 @@ namespace Ryujinx.Graphics.Shader.CodeGen.Glsl
 
         private static void DeclareOutputAttributesPerPatch(CodeGenContext context, IEnumerable<IoDefinition> outputs)
         {
-            foreach (var ioDefinition in outputs)
+            foreach (IoDefinition ioDefinition in outputs)
             {
                 DeclareOutputAttributePerPatch(context, ioDefinition.Location);
             }

@@ -12,8 +12,8 @@ namespace Ryujinx.Graphics.Shader.Instructions
     {
         private static readonly int[][] _maskLut = new int[][]
         {
-            new int[] { 0b0001, 0b0010, 0b0100, 0b1000, 0b0011, 0b1001, 0b1010, 0b1100 },
-            new int[] { 0b0111, 0b1011, 0b1101, 0b1110, 0b1111, 0b0000, 0b0000, 0b0000 },
+            [0b0001, 0b0010, 0b0100, 0b1000, 0b0011, 0b1001, 0b1010, 0b1100], [0b0111, 0b1011, 0b1101, 0b1110, 0b1111, 0b0000, 0b0000, 0b0000
+            ],
         };
 
         public const bool Sample1DAs2D = true;
@@ -57,7 +57,7 @@ namespace Ryujinx.Graphics.Shader.Instructions
         {
             InstTld op = context.GetOp<InstTld>();
 
-            var lod = op.Lod ? Lod.Ll : Lod.Lz;
+            Lod lod = op.Lod ? Lod.Ll : Lod.Lz;
 
             EmitTex(context, TextureFlags.IntCoords, op.Dim, lod, op.TidB, op.WMask, op.SrcA, op.SrcB, op.Dest, op.Ms, false, op.Toff);
         }
@@ -66,8 +66,8 @@ namespace Ryujinx.Graphics.Shader.Instructions
         {
             InstTldB op = context.GetOp<InstTldB>();
 
-            var flags = TextureFlags.IntCoords | TextureFlags.Bindless;
-            var lod = op.Lod ? Lod.Ll : Lod.Lz;
+            TextureFlags flags = TextureFlags.IntCoords | TextureFlags.Bindless;
+            Lod lod = op.Lod ? Lod.Ll : Lod.Lz;
 
             EmitTex(context, flags, op.Dim, lod, 0, op.WMask, op.SrcA, op.SrcB, op.Dest, op.Ms, false, op.Toff);
         }
@@ -202,7 +202,7 @@ namespace Ryujinx.Graphics.Shader.Instructions
 
             Operand arrayIndex = isArray ? Ra() : null;
 
-            List<Operand> sourcesList = new();
+            List<Operand> sourcesList = [];
 
             if (isBindless)
             {
@@ -339,7 +339,7 @@ namespace Ryujinx.Graphics.Shader.Instructions
                 return;
             }
 
-            List<Operand> sourcesList = new();
+            List<Operand> sourcesList = [];
 
             Operand Ra()
             {
@@ -376,7 +376,7 @@ namespace Ryujinx.Graphics.Shader.Instructions
 
             if (texsType == TexsType.Texs)
             {
-                var texsOp = context.GetOp<InstTexs>();
+                InstTexs texsOp = context.GetOp<InstTexs>();
 
                 type = ConvertSamplerType(texsOp.Target);
 
@@ -468,7 +468,7 @@ namespace Ryujinx.Graphics.Shader.Instructions
             }
             else if (texsType == TexsType.Tlds)
             {
-                var tldsOp = context.GetOp<InstTlds>();
+                InstTlds tldsOp = context.GetOp<InstTlds>();
 
                 type = ConvertSamplerType(tldsOp.Target);
 
@@ -562,7 +562,7 @@ namespace Ryujinx.Graphics.Shader.Instructions
             }
             else if (texsType == TexsType.Tld4s)
             {
-                var tld4sOp = context.GetOp<InstTld4s>();
+                InstTld4s tld4sOp = context.GetOp<InstTld4s>();
 
                 if (!(tld4sOp.Dc || tld4sOp.Aoffi))
                 {
@@ -605,8 +605,8 @@ namespace Ryujinx.Graphics.Shader.Instructions
 
             Operand[] sources = sourcesList.ToArray();
 
-            Operand[] rd0 = new Operand[2] { ConstF(0), ConstF(0) };
-            Operand[] rd1 = new Operand[2] { ConstF(0), ConstF(0) };
+            Operand[] rd0 = [ConstF(0), ConstF(0)];
+            Operand[] rd1 = [ConstF(0), ConstF(0)];
 
             int handle = imm;
             int componentMask = _maskLut[dest2 == RegisterConsts.RegisterZeroIndex ? 0 : 1][writeMask];
@@ -701,7 +701,7 @@ namespace Ryujinx.Graphics.Shader.Instructions
 
             Operand arrayIndex = isArray ? Ra() : null;
 
-            List<Operand> sourcesList = new();
+            List<Operand> sourcesList = [];
 
             SamplerType type = ConvertSamplerType(dimensions);
             TextureFlags flags = TextureFlags.Gather;
@@ -835,7 +835,7 @@ namespace Ryujinx.Graphics.Shader.Instructions
 
             TextureFlags flags = TextureFlags.None;
 
-            List<Operand> sourcesList = new();
+            List<Operand> sourcesList = [];
 
             if (isBindless)
             {
@@ -963,7 +963,7 @@ namespace Ryujinx.Graphics.Shader.Instructions
 
             TextureFlags flags = TextureFlags.Derivatives;
 
-            List<Operand> sourcesList = new();
+            List<Operand> sourcesList = [];
 
             if (isBindless)
             {
@@ -1076,7 +1076,7 @@ namespace Ryujinx.Graphics.Shader.Instructions
                 return context.Copy(Register(srcA++, RegisterType.Gpr));
             }
 
-            List<Operand> sourcesList = new();
+            List<Operand> sourcesList = [];
 
             if (isBindless)
             {

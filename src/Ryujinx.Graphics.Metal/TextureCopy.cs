@@ -33,8 +33,8 @@ namespace Ryujinx.Graphics.Metal
             ulong bytesPerRow = (ulong)BitUtils.AlignUp(blockWidth * info.BytesPerPixel, 4);
             ulong bytesPerImage = bytesPerRow * (ulong)blockHeight;
 
-            MTLOrigin origin = new MTLOrigin { x = (ulong)x, y = (ulong)y, z = is3D ? (ulong)dstLayer : 0 };
-            MTLSize region = new MTLSize { width = (ulong)width, height = (ulong)height, depth = 1 };
+            MTLOrigin origin = new() { x = (ulong)x, y = (ulong)y, z = is3D ? (ulong)dstLayer : 0 };
+            MTLSize region = new() { width = (ulong)width, height = (ulong)height, depth = 1 };
 
             uint layer = is3D ? 0 : (uint)dstLayer;
 

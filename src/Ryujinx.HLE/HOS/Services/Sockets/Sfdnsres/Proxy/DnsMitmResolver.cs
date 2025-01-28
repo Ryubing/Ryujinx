@@ -44,7 +44,7 @@ namespace Ryujinx.HLE.HOS.Services.Sockets.Sfdnsres.Proxy
                         continue;
                     }
 
-                    string[] entry = line.Split(new[] { ' ', '\t' }, StringSplitOptions.TrimEntries | StringSplitOptions.RemoveEmptyEntries);
+                    string[] entry = line.Split([' ', '\t'], StringSplitOptions.TrimEntries | StringSplitOptions.RemoveEmptyEntries);
 
                     // Hosts file example entry:
                     // 127.0.0.1  localhost loopback
@@ -82,7 +82,7 @@ namespace Ryujinx.HLE.HOS.Services.Sockets.Sfdnsres.Proxy
 
         public IPHostEntry ResolveAddress(string host)
         {
-            foreach (var hostEntry in _mitmHostEntries)
+            foreach (KeyValuePair<string, IPAddress> hostEntry in _mitmHostEntries)
             {
                 // Check for AMS hosts file extension: "*"
                 // NOTE: MatchesSimpleExpression also allows "?" as a wildcard
@@ -92,9 +92,9 @@ namespace Ryujinx.HLE.HOS.Services.Sockets.Sfdnsres.Proxy
 
                     return new IPHostEntry
                     {
-                        AddressList = new[] { hostEntry.Value },
+                        AddressList = [hostEntry.Value],
                         HostName = hostEntry.Key,
-                        Aliases = Array.Empty<string>(),
+                        Aliases = [],
                     };
                 }
             }

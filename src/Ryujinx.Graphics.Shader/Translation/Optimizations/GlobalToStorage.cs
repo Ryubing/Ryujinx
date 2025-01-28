@@ -77,7 +77,7 @@ namespace Ryujinx.Graphics.Shader.Translation.Optimizations
 
             public GtsContext(HelperFunctionManager hfm)
             {
-                _entries = new List<Entry>();
+                _entries = [];
                 _sharedEntries = new Dictionary<LsKey, Dictionary<uint, SearchResult>>();
                 _hfm = hfm;
             }
@@ -267,7 +267,7 @@ namespace Ryujinx.Graphics.Shader.Translation.Optimizations
                         {
                             Operand value = operation.GetSource(operation.SourcesCount - 1);
 
-                            var result = FindUniqueBaseAddressCb(gtsContext, block, value, needsOffset: false);
+                            SearchResult result = FindUniqueBaseAddressCb(gtsContext, block, value, needsOffset: false);
                             if (result.Found)
                             {
                                 uint targetCb = PackCbSlotAndOffset(result.SbCbSlot, result.SbCbOffset);
@@ -420,22 +420,22 @@ namespace Ryujinx.Graphics.Shader.Translation.Optimizations
 
             if (operation.Inst == Instruction.AtomicCompareAndSwap)
             {
-                sources = new[]
-                {
+                sources =
+                [
                     Const(binding),
                     Const(0),
                     wordOffset,
                     operation.GetSource(operation.SourcesCount - 2),
-                    operation.GetSource(operation.SourcesCount - 1),
-                };
+                    operation.GetSource(operation.SourcesCount - 1)
+                ];
             }
             else if (isStore)
             {
-                sources = new[] { Const(binding), Const(0), wordOffset, operation.GetSource(operation.SourcesCount - 1) };
+                sources = [Const(binding), Const(0), wordOffset, operation.GetSource(operation.SourcesCount - 1)];
             }
             else
             {
-                sources = new[] { Const(binding), Const(0), wordOffset };
+                sources = [Const(binding), Const(0), wordOffset];
             }
 
             Operation shiftOp = new(Instruction.ShiftRightU32, wordOffset, offset, Const(2));
@@ -507,7 +507,7 @@ namespace Ryujinx.Graphics.Shader.Translation.Optimizations
             SearchResult result,
             out int functionId)
         {
-            List<uint> targetCbs = new() { PackCbSlotAndOffset(result.SbCbSlot, result.SbCbOffset) };
+            List<uint> targetCbs = [PackCbSlotAndOffset(result.SbCbSlot, result.SbCbOffset)];
 
             if (gtsContext.TryGetFunctionId(operation, isMultiTarget: false, targetCbs, out functionId))
             {
@@ -592,8 +592,8 @@ namespace Ryujinx.Graphics.Shader.Translation.Optimizations
             out int functionId)
         {
             Queue<PhiNode> phis = new();
-            HashSet<PhiNode> visited = new();
-            List<uint> targetCbs = new();
+            HashSet<PhiNode> visited = [];
+            List<uint> targetCbs = [];
 
             Operand globalAddress = operation.GetSource(0);
 
@@ -1018,7 +1018,7 @@ namespace Ryujinx.Graphics.Shader.Translation.Optimizations
                     offset = src1;
                 }
 
-                var result = GetBaseAddressCbWithOffset(baseAddr, offset, 0);
+                SearchResult result = GetBaseAddressCbWithOffset(baseAddr, offset, 0);
                 if (result.Found)
                 {
                     return result;

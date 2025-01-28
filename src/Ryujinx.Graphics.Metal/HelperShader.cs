@@ -27,9 +27,9 @@ namespace Ryujinx.Graphics.Metal
         private readonly IProgram _programColorBlitMsF;
         private readonly IProgram _programColorBlitMsI;
         private readonly IProgram _programColorBlitMsU;
-        private readonly List<IProgram> _programsColorClearF = new();
-        private readonly List<IProgram> _programsColorClearI = new();
-        private readonly List<IProgram> _programsColorClearU = new();
+        private readonly List<IProgram> _programsColorClearF = [];
+        private readonly List<IProgram> _programsColorClearI = [];
+        private readonly List<IProgram> _programsColorClearU = [];
         private readonly IProgram _programDepthStencilClear;
         private readonly IProgram _programStrideChange;
         private readonly IProgram _programConvertD32S8ToD24S8;
@@ -50,58 +50,58 @@ namespace Ryujinx.Graphics.Metal
             _samplerNearest = new SamplerHolder(renderer, _device, SamplerCreateInfo.Create(MinFilter.Nearest, MagFilter.Nearest));
             _samplerLinear = new SamplerHolder(renderer, _device, SamplerCreateInfo.Create(MinFilter.Linear, MagFilter.Linear));
 
-            var blitResourceLayout = new ResourceLayoutBuilder()
+            ResourceLayout blitResourceLayout = new ResourceLayoutBuilder()
                 .Add(ResourceStages.Vertex, ResourceType.UniformBuffer, 0)
                 .Add(ResourceStages.Fragment, ResourceType.TextureAndSampler, 0).Build();
 
-            var blitSource = ReadMsl("Blit.metal");
+            string blitSource = ReadMsl("Blit.metal");
 
-            var blitSourceF = blitSource.Replace("FORMAT", "float", StringComparison.Ordinal);
+            string blitSourceF = blitSource.Replace("FORMAT", "float", StringComparison.Ordinal);
             _programColorBlitF = new Program(renderer, device, [
                 new ShaderSource(blitSourceF, ShaderStage.Fragment, TargetLanguage.Msl),
                 new ShaderSource(blitSourceF, ShaderStage.Vertex, TargetLanguage.Msl)
             ], blitResourceLayout);
 
-            var blitSourceI = blitSource.Replace("FORMAT", "int");
+            string blitSourceI = blitSource.Replace("FORMAT", "int");
             _programColorBlitI = new Program(renderer, device, [
                 new ShaderSource(blitSourceI, ShaderStage.Fragment, TargetLanguage.Msl),
                 new ShaderSource(blitSourceI, ShaderStage.Vertex, TargetLanguage.Msl)
             ], blitResourceLayout);
 
-            var blitSourceU = blitSource.Replace("FORMAT", "uint");
+            string blitSourceU = blitSource.Replace("FORMAT", "uint");
             _programColorBlitU = new Program(renderer, device, [
                 new ShaderSource(blitSourceU, ShaderStage.Fragment, TargetLanguage.Msl),
                 new ShaderSource(blitSourceU, ShaderStage.Vertex, TargetLanguage.Msl)
             ], blitResourceLayout);
 
-            var blitMsSource = ReadMsl("BlitMs.metal");
+            string blitMsSource = ReadMsl("BlitMs.metal");
 
-            var blitMsSourceF = blitMsSource.Replace("FORMAT", "float");
+            string blitMsSourceF = blitMsSource.Replace("FORMAT", "float");
             _programColorBlitMsF = new Program(renderer, device, [
                 new ShaderSource(blitMsSourceF, ShaderStage.Fragment, TargetLanguage.Msl),
                 new ShaderSource(blitMsSourceF, ShaderStage.Vertex, TargetLanguage.Msl)
             ], blitResourceLayout);
 
-            var blitMsSourceI = blitMsSource.Replace("FORMAT", "int");
+            string blitMsSourceI = blitMsSource.Replace("FORMAT", "int");
             _programColorBlitMsI = new Program(renderer, device, [
                 new ShaderSource(blitMsSourceI, ShaderStage.Fragment, TargetLanguage.Msl),
                 new ShaderSource(blitMsSourceI, ShaderStage.Vertex, TargetLanguage.Msl)
             ], blitResourceLayout);
 
-            var blitMsSourceU = blitMsSource.Replace("FORMAT", "uint");
+            string blitMsSourceU = blitMsSource.Replace("FORMAT", "uint");
             _programColorBlitMsU = new Program(renderer, device, [
                 new ShaderSource(blitMsSourceU, ShaderStage.Fragment, TargetLanguage.Msl),
                 new ShaderSource(blitMsSourceU, ShaderStage.Vertex, TargetLanguage.Msl)
             ], blitResourceLayout);
 
-            var colorClearResourceLayout = new ResourceLayoutBuilder()
+            ResourceLayout colorClearResourceLayout = new ResourceLayoutBuilder()
                 .Add(ResourceStages.Fragment, ResourceType.UniformBuffer, 0).Build();
 
-            var colorClearSource = ReadMsl("ColorClear.metal");
+            string colorClearSource = ReadMsl("ColorClear.metal");
 
             for (int i = 0; i < Constants.MaxColorAttachments; i++)
             {
-                var crntSource = colorClearSource.Replace("COLOR_ATTACHMENT_INDEX", i.ToString()).Replace("FORMAT", "float");
+                string crntSource = colorClearSource.Replace("COLOR_ATTACHMENT_INDEX", i.ToString()).Replace("FORMAT", "float");
                 _programsColorClearF.Add(new Program(renderer, device, [
                     new ShaderSource(crntSource, ShaderStage.Fragment, TargetLanguage.Msl),
                     new ShaderSource(crntSource, ShaderStage.Vertex, TargetLanguage.Msl)
@@ -110,7 +110,7 @@ namespace Ryujinx.Graphics.Metal
 
             for (int i = 0; i < Constants.MaxColorAttachments; i++)
             {
-                var crntSource = colorClearSource.Replace("COLOR_ATTACHMENT_INDEX", i.ToString()).Replace("FORMAT", "int");
+                string crntSource = colorClearSource.Replace("COLOR_ATTACHMENT_INDEX", i.ToString()).Replace("FORMAT", "int");
                 _programsColorClearI.Add(new Program(renderer, device, [
                     new ShaderSource(crntSource, ShaderStage.Fragment, TargetLanguage.Msl),
                     new ShaderSource(crntSource, ShaderStage.Vertex, TargetLanguage.Msl)
@@ -119,68 +119,68 @@ namespace Ryujinx.Graphics.Metal
 
             for (int i = 0; i < Constants.MaxColorAttachments; i++)
             {
-                var crntSource = colorClearSource.Replace("COLOR_ATTACHMENT_INDEX", i.ToString()).Replace("FORMAT", "uint");
+                string crntSource = colorClearSource.Replace("COLOR_ATTACHMENT_INDEX", i.ToString()).Replace("FORMAT", "uint");
                 _programsColorClearU.Add(new Program(renderer, device, [
                     new ShaderSource(crntSource, ShaderStage.Fragment, TargetLanguage.Msl),
                     new ShaderSource(crntSource, ShaderStage.Vertex, TargetLanguage.Msl)
                 ], colorClearResourceLayout));
             }
 
-            var depthStencilClearSource = ReadMsl("DepthStencilClear.metal");
+            string depthStencilClearSource = ReadMsl("DepthStencilClear.metal");
             _programDepthStencilClear = new Program(renderer, device, [
                 new ShaderSource(depthStencilClearSource, ShaderStage.Fragment, TargetLanguage.Msl),
                 new ShaderSource(depthStencilClearSource, ShaderStage.Vertex, TargetLanguage.Msl)
             ], colorClearResourceLayout);
 
-            var strideChangeResourceLayout = new ResourceLayoutBuilder()
+            ResourceLayout strideChangeResourceLayout = new ResourceLayoutBuilder()
                 .Add(ResourceStages.Compute, ResourceType.UniformBuffer, 0)
                 .Add(ResourceStages.Compute, ResourceType.StorageBuffer, 1)
                 .Add(ResourceStages.Compute, ResourceType.StorageBuffer, 2, true).Build();
 
-            var strideChangeSource = ReadMsl("ChangeBufferStride.metal");
+            string strideChangeSource = ReadMsl("ChangeBufferStride.metal");
             _programStrideChange = new Program(renderer, device, [
                 new ShaderSource(strideChangeSource, ShaderStage.Compute, TargetLanguage.Msl)
             ], strideChangeResourceLayout, new ComputeSize(64, 1, 1));
 
-            var convertD32S8ToD24S8ResourceLayout = new ResourceLayoutBuilder()
+            ResourceLayout convertD32S8ToD24S8ResourceLayout = new ResourceLayoutBuilder()
                 .Add(ResourceStages.Compute, ResourceType.UniformBuffer, 0)
                 .Add(ResourceStages.Compute, ResourceType.StorageBuffer, 1)
                 .Add(ResourceStages.Compute, ResourceType.StorageBuffer, 2, true).Build();
 
-            var convertD32S8ToD24S8Source = ReadMsl("ConvertD32S8ToD24S8.metal");
+            string convertD32S8ToD24S8Source = ReadMsl("ConvertD32S8ToD24S8.metal");
             _programConvertD32S8ToD24S8 = new Program(renderer, device, [
                 new ShaderSource(convertD32S8ToD24S8Source, ShaderStage.Compute, TargetLanguage.Msl)
             ], convertD32S8ToD24S8ResourceLayout, new ComputeSize(64, 1, 1));
 
-            var convertIndexBufferLayout = new ResourceLayoutBuilder()
+            ResourceLayout convertIndexBufferLayout = new ResourceLayoutBuilder()
                 .Add(ResourceStages.Compute, ResourceType.StorageBuffer, 1)
                 .Add(ResourceStages.Compute, ResourceType.StorageBuffer, 2, true)
                 .Add(ResourceStages.Compute, ResourceType.StorageBuffer, 3).Build();
 
-            var convertIndexBufferSource = ReadMsl("ConvertIndexBuffer.metal");
+            string convertIndexBufferSource = ReadMsl("ConvertIndexBuffer.metal");
             _programConvertIndexBuffer = new Program(renderer, device, [
                 new ShaderSource(convertIndexBufferSource, ShaderStage.Compute, TargetLanguage.Msl)
             ], convertIndexBufferLayout, new ComputeSize(16, 1, 1));
 
-            var depthBlitSource = ReadMsl("DepthBlit.metal");
+            string depthBlitSource = ReadMsl("DepthBlit.metal");
             _programDepthBlit = new Program(renderer, device, [
                 new ShaderSource(depthBlitSource, ShaderStage.Fragment, TargetLanguage.Msl),
                 new ShaderSource(blitSourceF, ShaderStage.Vertex, TargetLanguage.Msl)
             ], blitResourceLayout);
 
-            var depthBlitMsSource = ReadMsl("DepthBlitMs.metal");
+            string depthBlitMsSource = ReadMsl("DepthBlitMs.metal");
             _programDepthBlitMs = new Program(renderer, device, [
                 new ShaderSource(depthBlitMsSource, ShaderStage.Fragment, TargetLanguage.Msl),
                 new ShaderSource(blitSourceF, ShaderStage.Vertex, TargetLanguage.Msl)
             ], blitResourceLayout);
 
-            var stencilBlitSource = ReadMsl("StencilBlit.metal");
+            string stencilBlitSource = ReadMsl("StencilBlit.metal");
             _programStencilBlit = new Program(renderer, device, [
                 new ShaderSource(stencilBlitSource, ShaderStage.Fragment, TargetLanguage.Msl),
                 new ShaderSource(blitSourceF, ShaderStage.Vertex, TargetLanguage.Msl)
             ], blitResourceLayout);
 
-            var stencilBlitMsSource = ReadMsl("StencilBlitMs.metal");
+            string stencilBlitMsSource = ReadMsl("StencilBlitMs.metal");
             _programStencilBlitMs = new Program(renderer, device, [
                 new ShaderSource(stencilBlitMsSource, ShaderStage.Fragment, TargetLanguage.Msl),
                 new ShaderSource(blitSourceF, ShaderStage.Vertex, TargetLanguage.Msl)
@@ -189,7 +189,7 @@ namespace Ryujinx.Graphics.Metal
 
         private static string ReadMsl(string fileName)
         {
-            var msl = EmbeddedResources.ReadAllText(string.Join('/', ShadersSourcePath, fileName));
+            string msl = EmbeddedResources.ReadAllText(string.Join('/', ShadersSourcePath, fileName));
 
 #pragma warning disable IDE0055 // Disable formatting
             msl = msl.Replace("CONSTANT_BUFFERS_INDEX", $"{Constants.ConstantBuffersIndex}")
@@ -214,7 +214,7 @@ namespace Ryujinx.Graphics.Metal
 
             const int RegionBufferSize = 16;
 
-            var sampler = linearFilter ? _samplerLinear : _samplerNearest;
+            ISampler sampler = linearFilter ? _samplerLinear : _samplerNearest;
 
             _pipeline.SetTextureAndSampler(ShaderStage.Fragment, 0, src, sampler);
 
@@ -235,11 +235,11 @@ namespace Ryujinx.Graphics.Metal
                 (region[2], region[3]) = (region[3], region[2]);
             }
 
-            using var buffer = _renderer.BufferManager.ReserveOrCreate(cbs, RegionBufferSize);
+            using ScopedTemporaryBuffer buffer = _renderer.BufferManager.ReserveOrCreate(cbs, RegionBufferSize);
             buffer.Holder.SetDataUnchecked<float>(buffer.Offset, region);
             _pipeline.SetUniformBuffers([new BufferAssignment(0, buffer.Range)]);
 
-            var rect = new Rectangle<float>(
+            Rectangle<float> rect = new(
                 MathF.Min(dstRegion.X1, dstRegion.X2),
                 MathF.Min(dstRegion.Y1, dstRegion.Y2),
                 MathF.Abs(dstRegion.X2 - dstRegion.X1),
@@ -266,7 +266,7 @@ namespace Ryujinx.Graphics.Metal
                 return;
             }
 
-            var debugGroupName = "Blit Color ";
+            string debugGroupName = "Blit Color ";
 
             if (src.Info.Target.IsMultisample())
             {
@@ -359,13 +359,13 @@ namespace Ryujinx.Graphics.Metal
                 (region[2], region[3]) = (region[3], region[2]);
             }
 
-            using var buffer = _renderer.BufferManager.ReserveOrCreate(cbs, RegionBufferSize);
+            using ScopedTemporaryBuffer buffer = _renderer.BufferManager.ReserveOrCreate(cbs, RegionBufferSize);
             buffer.Holder.SetDataUnchecked<float>(buffer.Offset, region);
             _pipeline.SetUniformBuffers([new BufferAssignment(0, buffer.Range)]);
 
             Span<Viewport> viewports = stackalloc Viewport[16];
 
-            var rect = new Rectangle<float>(
+            Rectangle<float> rect = new(
                 MathF.Min(dstRegion.X1, dstRegion.X2),
                 MathF.Min(dstRegion.Y1, dstRegion.Y2),
                 MathF.Abs(dstRegion.X2 - dstRegion.X1),
@@ -400,7 +400,7 @@ namespace Ryujinx.Graphics.Metal
                 Format.D32FloatS8Uint or
                 Format.S8UintD24Unorm)
             {
-                var depthTexture = CreateDepthOrStencilView(src, DepthStencilMode.Depth);
+                Texture depthTexture = CreateDepthOrStencilView(src, DepthStencilMode.Depth);
 
                 BlitDepthStencilDraw(depthTexture, isDepth: true);
 
@@ -416,7 +416,7 @@ namespace Ryujinx.Graphics.Metal
                 Format.D32FloatS8Uint or
                 Format.S8UintD24Unorm)
             {
-                var stencilTexture = CreateDepthOrStencilView(src, DepthStencilMode.Stencil);
+                Texture stencilTexture = CreateDepthOrStencilView(src, DepthStencilMode.Stencil);
 
                 BlitDepthStencilDraw(stencilTexture, isDepth: false);
 
@@ -494,7 +494,7 @@ namespace Ryujinx.Graphics.Metal
             Extents2DF dstRegion)
         {
             // Save current state
-            var state = _pipeline.SavePredrawState();
+            PredrawState state = _pipeline.SavePredrawState();
 
             _pipeline.SetFaceCulling(false, Face.Front);
             _pipeline.SetStencilTest(new StencilTestDescriptor());
@@ -521,13 +521,13 @@ namespace Ryujinx.Graphics.Metal
                 (region[2], region[3]) = (region[3], region[2]);
             }
 
-            var bufferHandle = _renderer.BufferManager.CreateWithHandle(RegionBufferSize);
+            BufferHandle bufferHandle = _renderer.BufferManager.CreateWithHandle(RegionBufferSize);
             _renderer.BufferManager.SetData<float>(bufferHandle, 0, region);
             _pipeline.SetUniformBuffers([new BufferAssignment(0, new BufferRange(bufferHandle, 0, RegionBufferSize))]);
 
             Span<Viewport> viewports = stackalloc Viewport[16];
 
-            var rect = new Rectangle<float>(
+            Rectangle<float> rect = new(
                 MathF.Min(dstRegion.X1, dstRegion.X2),
                 MathF.Min(dstRegion.Y1, dstRegion.Y2),
                 MathF.Abs(dstRegion.X2 - dstRegion.X1),
@@ -569,8 +569,8 @@ namespace Ryujinx.Graphics.Metal
         {
             int elems = size / stride;
 
-            var srcBuffer = src.GetBuffer();
-            var dstBuffer = dst.GetBuffer();
+            Auto<DisposableBuffer> srcBuffer = src.GetBuffer();
+            Auto<DisposableBuffer> dstBuffer = dst.GetBuffer();
 
             const int ParamsBufferSize = 4 * sizeof(int);
 
@@ -584,7 +584,7 @@ namespace Ryujinx.Graphics.Metal
             shaderParams[2] = size;
             shaderParams[3] = srcOffset;
 
-            using var buffer = _renderer.BufferManager.ReserveOrCreate(cbs, ParamsBufferSize);
+            using ScopedTemporaryBuffer buffer = _renderer.BufferManager.ReserveOrCreate(cbs, ParamsBufferSize);
             buffer.Holder.SetDataUnchecked<int>(buffer.Offset, shaderParams);
             _pipeline.SetUniformBuffers([new BufferAssignment(0, buffer.Range)]);
 
@@ -605,7 +605,7 @@ namespace Ryujinx.Graphics.Metal
         {
             int inSize = pixelCount * 2 * sizeof(int);
 
-            var srcBuffer = src.GetBuffer();
+            Auto<DisposableBuffer> srcBuffer = src.GetBuffer();
 
             const int ParamsBufferSize = sizeof(int) * 2;
 
@@ -617,7 +617,7 @@ namespace Ryujinx.Graphics.Metal
             shaderParams[0] = pixelCount;
             shaderParams[1] = dstOffset;
 
-            using var buffer = _renderer.BufferManager.ReserveOrCreate(cbs, ParamsBufferSize);
+            using ScopedTemporaryBuffer buffer = _renderer.BufferManager.ReserveOrCreate(cbs, ParamsBufferSize);
             buffer.Holder.SetDataUnchecked<int>(buffer.Offset, shaderParams);
             _pipeline.SetUniformBuffers([new BufferAssignment(0, buffer.Range)]);
 
@@ -648,8 +648,8 @@ namespace Ryujinx.Graphics.Metal
             int primitiveCount = pattern.GetPrimitiveCount(indexCount);
             int outputIndexSize = 4;
 
-            var srcBuffer = src.GetBuffer();
-            var dstBuffer = dst.GetBuffer();
+            Auto<DisposableBuffer> srcBuffer = src.GetBuffer();
+            Auto<DisposableBuffer> dstBuffer = dst.GetBuffer();
 
             const int ParamsBufferSize = 16 * sizeof(int);
 
@@ -669,7 +669,7 @@ namespace Ryujinx.Graphics.Metal
 
             pattern.OffsetIndex.CopyTo(shaderParams[..pattern.OffsetIndex.Length]);
 
-            using var patternScoped = _renderer.BufferManager.ReserveOrCreate(cbs, ParamsBufferSize);
+            using ScopedTemporaryBuffer patternScoped = _renderer.BufferManager.ReserveOrCreate(cbs, ParamsBufferSize);
             patternScoped.Holder.SetDataUnchecked<int>(patternScoped.Offset, shaderParams);
 
             Span<Auto<DisposableBuffer>> sbRanges = new Auto<DisposableBuffer>[2];
@@ -707,7 +707,7 @@ namespace Ryujinx.Graphics.Metal
 
             // TODO: Flush
 
-            using var buffer = _renderer.BufferManager.ReserveOrCreate(_pipeline.Cbs, ClearColorBufferSize);
+            using ScopedTemporaryBuffer buffer = _renderer.BufferManager.ReserveOrCreate(_pipeline.Cbs, ClearColorBufferSize);
             buffer.Holder.SetDataUnchecked(buffer.Offset, clearColor);
             _pipeline.SetUniformBuffers([new BufferAssignment(0, buffer.Range)]);
 
@@ -726,7 +726,7 @@ namespace Ryujinx.Graphics.Metal
             Span<uint> componentMasks = stackalloc uint[index + 1];
             componentMasks[index] = componentMask;
 
-            var debugGroupName = "Clear Color ";
+            string debugGroupName = "Clear Color ";
 
             if (format.IsSint())
             {
@@ -768,7 +768,7 @@ namespace Ryujinx.Graphics.Metal
         {
             // Keep original scissor
             DirtyFlags clearFlags = DirtyFlags.All & (~DirtyFlags.Scissors);
-            var helperScissors = _helperShaderState.Scissors;
+            MTLScissorRect[] helperScissors = _helperShaderState.Scissors;
 
             // Save current state
             EncoderState originalState = _pipeline.SwapState(_helperShaderState, clearFlags, false);
@@ -778,7 +778,7 @@ namespace Ryujinx.Graphics.Metal
 
             const int ClearDepthBufferSize = 16;
 
-            using var buffer = _renderer.BufferManager.ReserveOrCreate(_pipeline.Cbs, ClearDepthBufferSize);
+            using ScopedTemporaryBuffer buffer = _renderer.BufferManager.ReserveOrCreate(_pipeline.Cbs, ClearDepthBufferSize);
             buffer.Holder.SetDataUnchecked(buffer.Offset, new ReadOnlySpan<float>(ref depthValue));
             _pipeline.SetUniformBuffers([new BufferAssignment(0, buffer.Range)]);
 
@@ -844,17 +844,17 @@ namespace Ryujinx.Graphics.Metal
             _programColorBlitMsI.Dispose();
             _programColorBlitMsU.Dispose();
 
-            foreach (var programColorClear in _programsColorClearF)
+            foreach (IProgram programColorClear in _programsColorClearF)
             {
                 programColorClear.Dispose();
             }
 
-            foreach (var programColorClear in _programsColorClearU)
+            foreach (IProgram programColorClear in _programsColorClearU)
             {
                 programColorClear.Dispose();
             }
 
-            foreach (var programColorClear in _programsColorClearI)
+            foreach (IProgram programColorClear in _programsColorClearI)
             {
                 programColorClear.Dispose();
             }

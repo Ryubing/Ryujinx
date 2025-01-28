@@ -27,7 +27,8 @@ namespace Ryujinx.Input.HLE
             }
         }
 
-        private static readonly HLEButtonMappingEntry[] _hleButtonMapping = {
+        private static readonly HLEButtonMappingEntry[] _hleButtonMapping =
+        [
             new(GamepadButtonInputId.A, ControllerKeys.A),
             new(GamepadButtonInputId.B, ControllerKeys.B),
             new(GamepadButtonInputId.X, ControllerKeys.X),
@@ -48,8 +49,8 @@ namespace Ryujinx.Input.HLE
             new(GamepadButtonInputId.SingleLeftTrigger0, ControllerKeys.SlLeft),
             new(GamepadButtonInputId.SingleRightTrigger0, ControllerKeys.SrLeft),
             new(GamepadButtonInputId.SingleLeftTrigger1, ControllerKeys.SlRight),
-            new(GamepadButtonInputId.SingleRightTrigger1, ControllerKeys.SrRight),
-        };
+            new(GamepadButtonInputId.SingleRightTrigger1, ControllerKeys.SrRight)
+        ];
 
         private class HLEKeyboardMappingEntry
         {
@@ -63,7 +64,8 @@ namespace Ryujinx.Input.HLE
             }
         }
 
-        private static readonly HLEKeyboardMappingEntry[] _keyMapping = {
+        private static readonly HLEKeyboardMappingEntry[] _keyMapping =
+        [
             new(Key.A, 0x4),
             new(Key.B, 0x5),
             new(Key.C, 0x6),
@@ -186,10 +188,11 @@ namespace Ryujinx.Input.HLE
             new(Key.ControlRight, 0xE4),
             new(Key.ShiftRight,   0xE5),
             new(Key.AltRight,     0xE6),
-            new(Key.WinRight,     0xE7),
-        };
+            new(Key.WinRight,     0xE7)
+        ];
 
-        private static readonly HLEKeyboardMappingEntry[] _keyModifierMapping = {
+        private static readonly HLEKeyboardMappingEntry[] _keyModifierMapping =
+        [
             new(Key.ControlLeft,  0),
             new(Key.ShiftLeft,    1),
             new(Key.AltLeft,      2),
@@ -200,8 +203,8 @@ namespace Ryujinx.Input.HLE
             new(Key.WinRight,     7),
             new(Key.CapsLock,     8),
             new(Key.ScrollLock,   9),
-            new(Key.NumLock,      10),
-        };
+            new(Key.NumLock,      10)
+        ];
 
         private MotionInput _leftMotionInput;
         private MotionInput _rightMotionInput;
@@ -276,7 +279,7 @@ namespace Ryujinx.Input.HLE
         public void Update()
         {
             // _gamepad may be altered by other threads
-            var gamepad = _gamepad;
+            IGamepad gamepad = _gamepad;
 
             if (gamepad != null && GamepadDriver != null)
             {
@@ -489,7 +492,7 @@ namespace Ryujinx.Input.HLE
 
         public static KeyboardInput GetHLEKeyboardInput(IGamepadDriver KeyboardDriver)
         {
-            var keyboard = KeyboardDriver.GetGamepad("0") as IKeyboard;
+            IKeyboard keyboard = KeyboardDriver.GetGamepad("0") as IKeyboard;
 
             KeyboardStateSnapshot keyboardState = keyboard.GetKeyboardStateSnapshot();
 

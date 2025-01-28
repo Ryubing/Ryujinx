@@ -1,12 +1,17 @@
+using Avalonia.Collections;
 using Avalonia.Controls;
 using Avalonia.Interactivity;
 using Avalonia.Platform.Storage;
 using Avalonia.VisualTree;
+using Gommon;
+using Ryujinx.Ava.UI.Helpers;
 using Ryujinx.Ava.UI.ViewModels;
+using Ryujinx.Ava.Utilities;
 using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using System.Threading.Tasks;
 
 namespace Ryujinx.Ava.UI.Views.Settings
 {
@@ -18,31 +23,39 @@ namespace Ryujinx.Ava.UI.Views.Settings
         {
             InitializeComponent();
             ShowTitleBarBox.IsVisible = OperatingSystem.IsWindows();
+            AddGameDirButton.Command =
+                Commands.Create(() => AddDirButton(GameDirPathBox, ViewModel.GameDirectories, true));
+            AddAutoloadDirButton.Command =
+                Commands.Create(() => AddDirButton(AutoloadDirPathBox, ViewModel.AutoloadDirectories, false));
         }
 
-        private async void AddGameDirButton_OnClick(object sender, RoutedEventArgs e)
+        private async Task AddDirButton(TextBox addDirBox, AvaloniaList<string> directories, bool isGameList)
         {
-            string path = GameDirPathBox.Text;
+            string path = addDirBox.Text;
 
-            if (!string.IsNullOrWhiteSpace(path) && Directory.Exists(path) && !ViewModel.GameDirectories.Contains(path))
+            if (!string.IsNullOrWhiteSpace(path) && Directory.Exists(path) && !directories.Contains(path))
             {
-                ViewModel.GameDirectories.Add(path);
-                ViewModel.GameDirectoryChanged = true;
+                directories.Add(path);
+                
+                addDirBox.Clear();
+                
+                if (isGameList)
+                    ViewModel.GameDirectoryChanged = true;
+                else
+                    ViewModel.AutoloadDirectoryChanged = true;
             }
             else
             {
-                if (this.GetVisualRoot() is Window window)
-                {
-                    var result = await window.StorageProvider.OpenFolderPickerAsync(new FolderPickerOpenOptions
-                    {
-                        AllowMultiple = false,
-                    });
+                Optional<IStorageFolder> folder = await RyujinxApp.MainWindow.ViewModel.StorageProvider.OpenSingleFolderPickerAsync();
 
-                    if (result.Count > 0)
-                    {
-                        ViewModel.GameDirectories.Add(result[0].Path.LocalPath);
+                if (folder.HasValue)
+                {
+                    directories.Add(folder.Value.Path.LocalPath);
+                        
+                    if (isGameList)
                         ViewModel.GameDirectoryChanged = true;
-                    }
+                    else
+                        ViewModel.AutoloadDirectoryChanged = true;
                 }
             }
         }
@@ -60,33 +73,6 @@ namespace Ryujinx.Ava.UI.Views.Settings
             if (GameDirsList.ItemCount > 0)
             {
                 GameDirsList.SelectedIndex = oldIndex < GameDirsList.ItemCount ? oldIndex : 0;
-            }
-        }
-
-        private async void AddAutoloadDirButton_OnClick(object sender, RoutedEventArgs e)
-        {
-            string path = AutoloadDirPathBox.Text;
-
-            if (!string.IsNullOrWhiteSpace(path) && Directory.Exists(path) && !ViewModel.AutoloadDirectories.Contains(path))
-            {
-                ViewModel.AutoloadDirectories.Add(path);
-                ViewModel.AutoloadDirectoryChanged = true;
-            }
-            else
-            {
-                if (this.GetVisualRoot() is Window window)
-                {
-                    var result = await window.StorageProvider.OpenFolderPickerAsync(new FolderPickerOpenOptions
-                    {
-                        AllowMultiple = false,
-                    });
-
-                    if (result.Count > 0)
-                    {
-                        ViewModel.AutoloadDirectories.Add(result[0].Path.LocalPath);
-                        ViewModel.AutoloadDirectoryChanged = true;
-                    }
-                }
             }
         }
 

@@ -53,7 +53,7 @@ namespace Spv.Generator
         }
 
         private readonly IEnumerable<IOperand> AllOperands => new[] { Operand1, Operand2, Operand3, Operand4, Operand5 }
-            .Concat(Overflow ?? Array.Empty<IOperand>())
+            .Concat(Overflow ?? [])
             .Take(Count);
 
         public readonly override string ToString()
@@ -63,9 +63,9 @@ namespace Spv.Generator
 
         public readonly string ToString(string[] labels)
         {
-            var labeledParams = AllOperands.Zip(labels, (op, label) => $"{label}: {op}");
-            var unlabeledParams = AllOperands.Skip(labels.Length).Select(op => op.ToString());
-            var paramsToPrint = labeledParams.Concat(unlabeledParams);
+            IEnumerable<string> labeledParams = AllOperands.Zip(labels, (op, label) => $"{label}: {op}");
+            IEnumerable<string> unlabeledParams = AllOperands.Skip(labels.Length).Select(op => op.ToString());
+            IEnumerable<string> paramsToPrint = labeledParams.Concat(unlabeledParams);
             return $"({string.Join(", ", paramsToPrint)})";
         }
     }

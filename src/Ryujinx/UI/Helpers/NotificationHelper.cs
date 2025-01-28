@@ -28,7 +28,7 @@ namespace Ryujinx.Ava.UI.Helpers
                 Margin = new Thickness(0, 0, 15, 40),
             };
 
-            var maybeAsyncWorkQueue = new Lazy<AsyncWorkQueue<Notification>>(
+            Lazy<AsyncWorkQueue<Notification>> maybeAsyncWorkQueue = new(
                 () => new AsyncWorkQueue<Notification>(notification =>
                     {
                         Dispatcher.UIThread.Post(() =>
@@ -57,7 +57,7 @@ namespace Ryujinx.Ava.UI.Helpers
 
         public static void Show(string title, string text, NotificationType type, bool waitingExit = false, Action onClick = null, Action onClose = null)
         {
-            var delay = waitingExit ? TimeSpan.FromMilliseconds(0) : TimeSpan.FromMilliseconds(NotificationDelayInMs);
+            TimeSpan delay = waitingExit ? TimeSpan.FromMilliseconds(0) : TimeSpan.FromMilliseconds(NotificationDelayInMs);
 
             _notifications.Add(new Notification(title, text, type, delay, onClick, onClose));
         }
