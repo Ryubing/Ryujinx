@@ -52,7 +52,7 @@ namespace Ryujinx.Common
             "010015100b514000", // Super Mario Bros. Wonder
             "0100000000010000", // Super Mario Odyssey
 
-            // Further testing is appreciated, I only tested the beginning:
+            // Further testing is appreciated, I did not test the entire game:
             "01007300020fa000", // Astral Chain
             "010076f0049a2000", // Bayonetta
             "0100cf5010fec000", // Bayonetta Origins: Cereza and the Lost Demon
