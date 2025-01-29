@@ -280,6 +280,7 @@ namespace Ryujinx.Headless
             }
 
             // Setup graphics configuration
+            GraphicsConfig.CurrentBackend = option.GraphicsBackend is GraphicsBackend.Auto ? GraphicsBackend.Vulkan : option.GraphicsBackend;
             GraphicsConfig.EnableShaderCache = !option.DisableShaderCache;
             GraphicsConfig.EnableTextureRecompression = option.EnableTextureRecompression;
             GraphicsConfig.ResScale = option.ResScale;
@@ -356,11 +357,15 @@ namespace Ryujinx.Headless
         {
             return options.GraphicsBackend switch
             {
-                GraphicsBackend.Vulkan => new VulkanWindow(_inputManager, options.LoggingGraphicsDebugLevel, options.AspectRatio, options.EnableMouse, options.HideCursorMode, options.IgnoreControllerApplet),
-                GraphicsBackend.Metal => OperatingSystem.IsMacOS() ?
-                    new MetalWindow(_inputManager, options.LoggingGraphicsDebugLevel, options.AspectRatio, options.EnableKeyboard, options.HideCursorMode, options.IgnoreControllerApplet) :
-                    throw new Exception("Attempted to use Metal renderer on non-macOS platform!"),
-                _ => new OpenGLWindow(_inputManager, options.LoggingGraphicsDebugLevel, options.AspectRatio, options.EnableMouse, options.HideCursorMode, options.IgnoreControllerApplet)
+                GraphicsBackend.OpenGl => 
+                    !OperatingSystem.IsMacOS() 
+                        ? new OpenGLWindow(_inputManager, options.LoggingGraphicsDebugLevel, options.AspectRatio, options.EnableMouse, options.HideCursorMode, options.IgnoreControllerApplet)
+                        : throw new InvalidOperationException("Attempted to use OpenGL renderer on macOS platform!"),
+                GraphicsBackend.Metal => 
+                    OperatingSystem.IsMacOS() 
+                        ? new MetalWindow(_inputManager, options.LoggingGraphicsDebugLevel, options.AspectRatio, options.EnableKeyboard, options.HideCursorMode, options.IgnoreControllerApplet) 
+                        : throw new InvalidOperationException("Attempted to use Metal renderer on non-macOS platform!"),
+                _ => new VulkanWindow(_inputManager, options.LoggingGraphicsDebugLevel, options.AspectRatio, options.EnableMouse, options.HideCursorMode, options.IgnoreControllerApplet),
             };
         }
 

@@ -20,6 +20,7 @@ using Ryujinx.Ava.Utilities;
 using Ryujinx.Ava.Utilities.AppLibrary;
 using Ryujinx.Ava.Utilities.Configuration;
 using Ryujinx.Common;
+using Ryujinx.Common.Configuration;
 using Ryujinx.Common.Helper;
 using Ryujinx.Common.Logging;
 using Ryujinx.Common.UI;
@@ -541,12 +542,11 @@ namespace Ryujinx.Ava.UI.Windows
             }
         }
 
-        public static void UpdateGraphicsConfig()
+        public static void UpdateGraphicsConfig(string titleId = null)
         {
 #pragma warning disable IDE0055 // Disable formatting
-            GraphicsConfig.ResScale                   = ConfigurationState.Instance.Graphics.ResScale == -1 
-                ? ConfigurationState.Instance.Graphics.ResScaleCustom 
-                : ConfigurationState.Instance.Graphics.ResScale;
+            GraphicsConfig.CurrentBackend                = TitleIDs.SelectGraphicsBackend(titleId, ConfigurationState.Instance.Graphics.GraphicsBackend);
+            GraphicsConfig.ResScale                      = ConfigurationState.Instance.Graphics.GetScalingFactor(titleId);
             GraphicsConfig.MaxAnisotropy              = ConfigurationState.Instance.Graphics.MaxAnisotropy;
             GraphicsConfig.ShadersDumpPath            = ConfigurationState.Instance.Graphics.ShadersDumpPath;
             GraphicsConfig.EnableShaderCache          = ConfigurationState.Instance.Graphics.EnableShaderCache;

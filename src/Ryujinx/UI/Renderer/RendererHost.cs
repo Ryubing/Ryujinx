@@ -1,6 +1,7 @@
 ﻿using Avalonia;
 using Avalonia.Controls;
 using Avalonia.Media;
+using Ryujinx.Ava.UI.Windows;
 using Ryujinx.Ava.Utilities.Configuration;
 using Ryujinx.Common;
 using Ryujinx.Common.Configuration;
@@ -43,6 +44,8 @@ namespace Ryujinx.Ava.UI.Renderer
 
         public RendererHost(string titleId)
         {
+            MainWindow.UpdateGraphicsConfig(titleId);
+            
             switch (TitleIDs.SelectGraphicsBackend(titleId, ConfigurationState.Instance.Graphics.GraphicsBackend))
             {
                 case GraphicsBackend.OpenGl:

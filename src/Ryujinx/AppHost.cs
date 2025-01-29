@@ -691,7 +691,6 @@ namespace Ryujinx.Ava
             DiscordIntegrationModule.GuestAppStartedAt = Timestamps.Now;
             
             InitEmulatedSwitch();
-            MainWindow.UpdateGraphicsConfig();
 
             SystemVersion firmwareVersion = ContentManager.GetCurrentFirmwareVersion();
 
@@ -1307,11 +1306,12 @@ namespace Ryujinx.Ava
                             _viewModel.Volume = Device.GetVolume();
                             break;
                         case KeyboardHotkeyState.ResScaleUp:
-                            GraphicsConfig.ResScale = GraphicsConfig.ResScale % MaxResolutionScale + 1;
+                            if (GraphicsConfig.CurrentBackend is not GraphicsBackend.Metal)
+                                GraphicsConfig.ResScale = GraphicsConfig.ResScale % MaxResolutionScale + 1;
                             break;
                         case KeyboardHotkeyState.ResScaleDown:
-                            GraphicsConfig.ResScale =
-                            (MaxResolutionScale + GraphicsConfig.ResScale - 2) % MaxResolutionScale + 1;
+                            if (GraphicsConfig.CurrentBackend is not GraphicsBackend.Metal)
+                                GraphicsConfig.ResScale = (MaxResolutionScale + GraphicsConfig.ResScale - 2) % MaxResolutionScale + 1;
                             break;
                         case KeyboardHotkeyState.VolumeUp:
                             _newVolume = MathF.Round((Device.GetVolume() + VolumeDelta), 2);

@@ -1,3 +1,5 @@
+using Ryujinx.Common.Configuration;
+
 namespace Ryujinx.Graphics.Gpu
 {
 #pragma warning disable CA2211 // Non-constant fields should not be visible
@@ -7,9 +9,20 @@ namespace Ryujinx.Graphics.Gpu
     public static class GraphicsConfig
     {
         /// <summary>
+        /// The graphics backend currently in use.
+        /// </summary>
+        public static GraphicsBackend CurrentBackend;
+
+        private static float _resScale = 1f;
+
+        /// <summary>
         /// Resolution scale.
         /// </summary>
-        public static float ResScale = 1f;
+        public static float ResScale
+        {
+            get => CurrentBackend is GraphicsBackend.Metal ? 1 : _resScale;
+            set => _resScale = value;
+        }
 
         /// <summary>
         /// Max Anisotropy. Values range from 0 - 16. Set to -1 to let the game decide.

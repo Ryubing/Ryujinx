@@ -479,6 +479,16 @@ namespace Ryujinx.Ava.Utilities.Configuration
             /// </summary>
             public ReactiveObject<int> ResScale { get; private set; }
 
+            public float GetScalingFactor(string titleId = null)
+            {
+                if (titleId is null) return 1;
+                
+                if (TitleIDs.SelectGraphicsBackend(titleId, GraphicsBackend) is Ryujinx.Common.Configuration.GraphicsBackend.Metal)
+                    return 1;
+                
+                return ResScale == -1 ? ResScaleCustom : ResScale;
+            }
+
             /// <summary>
             /// Custom Resolution Scale. A custom floating point scale applied to applicable render targets. Only active when Resolution Scale is -1.
             /// </summary>
