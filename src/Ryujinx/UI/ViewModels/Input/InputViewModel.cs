@@ -897,5 +897,13 @@ namespace Ryujinx.Ava.UI.ViewModels.Input
 
             AvaloniaKeyboardDriver.Dispose();
         }
+
+        public void CyclePlayerDevice(int player)
+        {
+            LoadDevices();
+            PlayerId = (PlayerIndex)player;
+            Device = (Device + 1) % Devices.Count;
+            Save();
+        }
     }
 }
