@@ -1,3 +1,5 @@
+using System.Collections.Generic;
+
 namespace Ryujinx.Common.Configuration.Hid
 {
     public class KeyboardHotkeys
@@ -13,5 +15,6 @@ namespace Ryujinx.Common.Configuration.Hid
         public Key VolumeDown { get; set; }
         public Key CustomVSyncIntervalIncrement { get; set; }
         public Key CustomVSyncIntervalDecrement { get; set; }
+        public List<Key> CycleControllers { get; set; }
     }
 }
