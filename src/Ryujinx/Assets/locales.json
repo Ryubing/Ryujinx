@@ -589,7 +589,7 @@
         "pl_PL": "",
         "pt_BR": "",
         "ru_RU": "",
-        "sv_SE": "",
+        "sv_SE": "Starta spel med dolt användargränssnitt",
         "th_TH": "",
         "tr_TR": "",
         "uk_UA": "",
@@ -2389,7 +2389,7 @@
         "pl_PL": "",
         "pt_BR": "",
         "ru_RU": "",
-        "sv_SE": "",
+        "sv_SE": "Extrahera RomFS från en vald DLC-fil",
         "th_TH": "",
         "tr_TR": "",
         "uk_UA": "",
@@ -4046,8 +4046,7 @@
         "zh_CN": "繁体中文（推荐）",
         "zh_TW": "正體中文 (建議)"
       }
-    },
-    {
+    },    {
       "ID": "SettingsTabSystemSystemLanguageSwedish",
       "Translations": {
         "ar_SA": "",
@@ -4071,8 +4070,7 @@
         "zh_CN": "",
         "zh_TW": ""
       }
-    },
-    {
+    },    {
       "ID": "SettingsTabSystemSystemLanguageNorwegian",
       "Translations": {
         "ar_SA": "",
@@ -5814,7 +5812,7 @@
         "pl_PL": "",
         "pt_BR": "",
         "ru_RU": "",
-        "sv_SE": "",
+        "sv_SE": "Ok",
         "th_TH": "ตกลง",
         "tr_TR": "Tamam",
         "uk_UA": "",
@@ -7714,7 +7712,7 @@
         "pl_PL": "",
         "pt_BR": "",
         "ru_RU": "",
-        "sv_SE": "",
+        "sv_SE": "Inaktivera",
         "th_TH": "",
         "tr_TR": "",
         "uk_UA": "",
@@ -7739,7 +7737,7 @@
         "pl_PL": "",
         "pt_BR": "",
         "ru_RU": "",
-        "sv_SE": "",
+        "sv_SE": "Regnbåge",
         "th_TH": "",
         "tr_TR": "",
         "uk_UA": "",
@@ -7789,7 +7787,7 @@
         "pl_PL": "",
         "pt_BR": "",
         "ru_RU": "",
-        "sv_SE": "",
+        "sv_SE": "Färg",
         "th_TH": "",
         "tr_TR": "",
         "uk_UA": "",
@@ -14589,7 +14587,7 @@
         "pl_PL": "Seria Amiibo",
         "pt_BR": "Franquia Amiibo",
         "ru_RU": "Серия Amiibo",
-        "sv_SE": "",
+        "sv_SE": "Amiibo-serie",
         "th_TH": "",
         "tr_TR": "Amiibo Serisi",
         "uk_UA": "Серія Amiibo",
@@ -17964,7 +17962,7 @@
         "pl_PL": "",
         "pt_BR": "Ryujinx - Informação",
         "ru_RU": "Ryujinx - Информация",
-        "sv_SE": "",
+        "sv_SE": "Ryujinx - Information",
         "th_TH": "Ryujinx – ข้อมูล",
         "tr_TR": "Ryujinx - Bilgi",
         "uk_UA": "Ryujin x - Інформація",
@@ -19039,7 +19037,7 @@
         "pl_PL": "",
         "pt_BR": "",
         "ru_RU": "",
-        "sv_SE": "",
+        "sv_SE": "LED-inställningar",
         "th_TH": "",
         "tr_TR": "",
         "uk_UA": "",
@@ -21239,7 +21237,7 @@
         "pl_PL": "Głoś",
         "pt_BR": "",
         "ru_RU": "Громкость",
-        "sv_SE": "",
+        "sv_SE": "Volym",
         "th_TH": "ระดับเสียง",
         "tr_TR": "Ses",
         "uk_UA": "Гуч.",
@@ -23189,7 +23187,7 @@
         "pl_PL": "",
         "pt_BR": "",
         "ru_RU": "",
-        "sv_SE": "",
+        "sv_SE": "Välj en DLC att extrahera",
         "th_TH": "",
         "tr_TR": "",
         "uk_UA": "",
