@@ -377,15 +377,11 @@ namespace Ryujinx.Ava.UI.Controls
             png.SaveTo(fileStream);
         }
 
-        public void CreateApplicationShortcut_Click(object sender, RoutedEventArgs args)
+        public async void CreateApplicationShortcut_Click(object sender, RoutedEventArgs args)
         {
             if (sender is MenuItem { DataContext: MainWindowViewModel { SelectedApplication: not null } viewModel })
-                ShortcutHelper.CreateAppShortcut(
-                    viewModel.SelectedApplication.Path,
-                    viewModel.SelectedApplication.Name,
-                    viewModel.SelectedApplication.IdString,
-                    viewModel.SelectedApplication.Icon
-                );
+                await new ArgumentsConfigWindows(viewModel).ShowDialog((Window)viewModel.TopLevel);
+
         }
 
         public async void RunApplication_Click(object sender, RoutedEventArgs args)

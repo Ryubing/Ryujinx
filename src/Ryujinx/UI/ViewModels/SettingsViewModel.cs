@@ -1,8 +1,10 @@
 using Avalonia.Collections;
 using Avalonia.Controls;
+using Avalonia.Media.Imaging;
 using Avalonia.Threading;
 using CommunityToolkit.Mvvm.ComponentModel;
 using Gommon;
+using LibHac.Tools.Fs;
 using LibHac.Tools.FsSystem;
 using Ryujinx.Audio.Backends.OpenAL;
 using Ryujinx.Audio.Backends.SDL2;
@@ -25,6 +27,7 @@ using Ryujinx.HLE.HOS.Services.Time.TimeZone;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.IO;
 using System.Linq;
 using System.Net.NetworkInformation;
 using System.Runtime.InteropServices;
@@ -62,12 +65,56 @@ namespace Ryujinx.Ava.UI.ViewModels
 
         public event Action CloseWindow;
         public event Action SaveSettingsEvent;
+        public event Action CompareSettingsEvent; 
         private int _networkInterfaceIndex;
         private int _multiplayerModeIndex;
         private string _ldnPassphrase;
         [ObservableProperty] private string _ldnServer;
 
         public SettingsHacksViewModel DirtyHacks { get; }
+        public string GamePath { get; }
+        public string GameName { get; }
+
+        private Bitmap _gameIcon;
+
+        private string _gameTitle;
+        private string _gameId;
+        public Bitmap GameIcon
+        {
+            get => _gameIcon;
+            set
+            {
+                if (_gameIcon != value)
+                {
+                    _gameIcon = value;
+                }
+            }
+        }
+
+        public string GameTitle
+        {
+            get => _gameTitle;
+            set
+            {
+                if (_gameTitle != value)
+                {
+                    _gameTitle = value;
+                }
+            }
+        }
+
+        public string GameId
+        {
+            get => _gameId;
+            set
+            {
+                if (_gameId != value)
+                {
+                    _gameId = value;
+                }
+            }
+        }
+
 
         public int ResolutionScale
         {
@@ -344,6 +391,30 @@ namespace Ryujinx.Ava.UI.ViewModels
             {
                 Task.Run(LoadTimeZones);
                 
+                DirtyHacks = new SettingsHacksViewModel(this);
+            }
+        }
+
+        public SettingsViewModel(VirtualFileSystem virtualFileSystem, ContentManager contentManager, string gamePath, string gameName, string gameId, byte[] gameIconData) : this()
+        {
+            _virtualFileSystem = virtualFileSystem;
+            _contentManager = contentManager;
+  
+            if (gameIconData != null && gameIconData.Length > 0)
+            {
+                using (var ms = new MemoryStream(gameIconData))
+                {
+                    GameIcon = new Bitmap(ms);
+                }
+            }
+
+            GameTitle = gameName;
+            GameId = gameId;
+
+            if (Program.PreviewerDetached)
+            {
+                Task.Run(LoadTimeZones);
+
                 DirtyHacks = new SettingsHacksViewModel(this);
             }
         }
@@ -726,6 +797,11 @@ namespace Ryujinx.Ava.UI.ViewModels
         public void ApplyButton()
         {
             SaveSettings();
+        }
+
+        public void CreateShortcut()
+        {
+            CompareSettingsEvent?.Invoke(); //raises an event to create a shortcut with arguments
         }
 
         public void OkButton()

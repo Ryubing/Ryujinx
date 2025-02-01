@@ -19,6 +19,7 @@ namespace Ryujinx.Common
         public const string ReleaseChannelRepo = "%%RYUJINX_TARGET_RELEASE_CHANNEL_REPO%%";
 
         public static string ConfigName => !ConfigFileName.StartsWith("%%") ? ConfigFileName : "Config.json";
+        public static string CustomConfigNameOverride => !ConfigFileName.StartsWith("%%") ? ConfigFileName : "CustomConfigOverride.json";
 
         public static bool IsValid =>
             !BuildGitHash.StartsWith("%%") &&

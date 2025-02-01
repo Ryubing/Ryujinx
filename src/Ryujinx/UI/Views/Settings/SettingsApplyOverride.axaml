@@ -1,0 +1,236 @@
+<UserControl
+    x:Class="Ryujinx.Ava.UI.Views.Settings.SettingsApplyOverride"
+    xmlns="https://github.com/avaloniaui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:ext="clr-namespace:Ryujinx.Ava.Common.Markup"
+    xmlns:viewModels="clr-namespace:Ryujinx.Ava.UI.ViewModels"
+    mc:Ignorable="d"
+    x:DataType="viewModels:SettingsViewModel">
+    <Design.DataContext>
+        <viewModels:SettingsViewModel />
+    </Design.DataContext>
+
+    <ScrollViewer      
+        Name="AllSettings"
+        HorizontalAlignment="Stretch"
+        VerticalAlignment="Stretch"
+        HorizontalScrollBarVisibility="Disabled"
+        VerticalScrollBarVisibility="Auto">
+        <Border Classes="settings">
+            <StackPanel
+                Margin="10"
+                HorizontalAlignment="Stretch"
+                Orientation="Vertical"
+                Spacing="10">
+                <TextBlock Classes="h1" Text="{ext:Locale SettingsTabSystemCore}" />
+                <StackPanel
+                        Margin="10,0,0,0"
+                        Orientation="Horizontal">
+                    <TextBlock VerticalAlignment="Center" Text="{ext:Locale SettingsTabSystemSystemRegion}" Width="250" />
+                    <ComboBox
+                        SelectedIndex="{Binding Region}"
+                        ToolTip.Tip="{ext:Locale RegionTooltip}"
+                        HorizontalContentAlignment="Left"
+                        Width="350">
+                        <ComboBoxItem>
+                            <TextBlock Text="{ext:Locale SettingsTabSystemSystemRegionJapan}" />
+                        </ComboBoxItem>
+                        <ComboBoxItem>
+                            <TextBlock Text="{ext:Locale SettingsTabSystemSystemRegionUSA}" />
+                        </ComboBoxItem>
+                        <ComboBoxItem>
+                            <TextBlock Text="{ext:Locale SettingsTabSystemSystemRegionEurope}" />
+                        </ComboBoxItem>
+                        <ComboBoxItem>
+                            <TextBlock Text="{ext:Locale SettingsTabSystemSystemRegionAustralia}" />
+                        </ComboBoxItem>
+                        <ComboBoxItem>
+                            <TextBlock Text="{ext:Locale SettingsTabSystemSystemRegionChina}" />
+                        </ComboBoxItem>
+                        <ComboBoxItem>
+                            <TextBlock Text="{ext:Locale SettingsTabSystemSystemRegionKorea}" />
+                        </ComboBoxItem>
+                        <ComboBoxItem>
+                            <TextBlock Text="{ext:Locale SettingsTabSystemSystemRegionTaiwan}" />
+                        </ComboBoxItem>
+                    </ComboBox>
+                </StackPanel>
+                <StackPanel
+                        Margin="10,0,0,0"
+                        Orientation="Horizontal">
+                    <TextBlock
+                        VerticalAlignment="Center"
+                        Text="{ext:Locale SettingsTabSystemSystemLanguage}"
+                        ToolTip.Tip="{ext:Locale LanguageTooltip}"
+                        Width="250" />
+                    <ComboBox
+                        SelectedIndex="{Binding Language}"
+                        ToolTip.Tip="{ext:Locale LanguageTooltip}"
+                        HorizontalContentAlignment="Left"
+                        Width="350">
+                        <ComboBoxItem>
+                            <TextBlock Text="{ext:Locale SettingsTabSystemSystemLanguageJapanese}" />
+                        </ComboBoxItem>
+                        <ComboBoxItem>
+                            <TextBlock Text="{ext:Locale SettingsTabSystemSystemLanguageAmericanEnglish}" />
+                        </ComboBoxItem>
+                        <ComboBoxItem>
+                            <TextBlock Text="{ext:Locale SettingsTabSystemSystemLanguageFrench}" />
+                        </ComboBoxItem>
+                        <ComboBoxItem>
+                            <TextBlock Text="{ext:Locale SettingsTabSystemSystemLanguageGerman}" />
+                        </ComboBoxItem>
+                        <ComboBoxItem>
+                            <TextBlock Text="{ext:Locale SettingsTabSystemSystemLanguageItalian}" />
+                        </ComboBoxItem>
+                        <ComboBoxItem>
+                            <TextBlock Text="{ext:Locale SettingsTabSystemSystemLanguageSpanish}" />
+                        </ComboBoxItem>
+                        <ComboBoxItem>
+                            <TextBlock Text="{ext:Locale SettingsTabSystemSystemLanguageChinese}" />
+                        </ComboBoxItem>
+                        <ComboBoxItem>
+                            <TextBlock Text="{ext:Locale SettingsTabSystemSystemLanguageKorean}" />
+                        </ComboBoxItem>
+                        <ComboBoxItem>
+                            <TextBlock Text="{ext:Locale SettingsTabSystemSystemLanguageDutch}" />
+                        </ComboBoxItem>
+                        <ComboBoxItem>
+                            <TextBlock Text="{ext:Locale SettingsTabSystemSystemLanguagePortuguese}" />
+                        </ComboBoxItem>
+                        <ComboBoxItem>
+                            <TextBlock Text="{ext:Locale SettingsTabSystemSystemLanguageRussian}" />
+                        </ComboBoxItem>
+                        <ComboBoxItem>
+                            <TextBlock Text="{ext:Locale SettingsTabSystemSystemLanguageTaiwanese}" />
+                        </ComboBoxItem>
+                        <ComboBoxItem>
+                            <TextBlock Text="{ext:Locale SettingsTabSystemSystemLanguageBritishEnglish}" />
+                        </ComboBoxItem>
+                        <ComboBoxItem>
+                            <TextBlock Text="{ext:Locale SettingsTabSystemSystemLanguageCanadianFrench}" />
+                        </ComboBoxItem>
+                        <ComboBoxItem>
+                            <TextBlock Text="{ext:Locale SettingsTabSystemSystemLanguageLatinAmericanSpanish}" />
+                        </ComboBoxItem>
+                        <ComboBoxItem>
+                            <TextBlock Text="{ext:Locale SettingsTabSystemSystemLanguageSimplifiedChinese}" />
+                        </ComboBoxItem>
+                        <ComboBoxItem>
+                            <TextBlock Text="{ext:Locale SettingsTabSystemSystemLanguageTraditionalChinese}" />
+                        </ComboBoxItem>
+                        <ComboBoxItem>
+                            <TextBlock Text="{ext:Locale SettingsTabSystemSystemLanguageBrazilianPortuguese}" />
+                        </ComboBoxItem>
+                        <ComboBoxItem>
+                            <TextBlock Text="{ext:Locale SettingsTabSystemSystemLanguageSwedish}" />
+                        </ComboBoxItem>
+                        <ComboBoxItem>
+                            <TextBlock Text="{ext:Locale SettingsTabSystemSystemLanguageNorwegian}" />
+                        </ComboBoxItem>
+                    </ComboBox>
+                </StackPanel>
+                <Separator Height="1" />
+                
+                <TextBlock Classes="h1" Text="{ext:Locale SettingsTabCpu}" />
+                <StackPanel
+                    Margin="10,0,0,0"
+                    HorizontalAlignment="Stretch"
+                    Orientation="Vertical">
+                    <CheckBox IsChecked="{Binding EnablePptc}">
+                        <TextBlock Text="{ext:Locale SettingsTabSystemEnablePptc}"
+                                   ToolTip.Tip="{ext:Locale PptcToggleTooltip}" />
+                    </CheckBox>
+                </StackPanel>
+                <StackPanel
+                    Margin="10,0,0,0"
+                    HorizontalAlignment="Stretch"
+                    Orientation="Vertical">
+                    <StackPanel Orientation="Horizontal">
+                        <TextBlock VerticalAlignment="Center"
+                                   Text="{ext:Locale SettingsTabSystemMemoryManagerMode}"
+                                   ToolTip.Tip="{ext:Locale MemoryManagerTooltip}"
+                                   Width="250" />
+                        <ComboBox SelectedIndex="{Binding MemoryMode}"
+                                  ToolTip.Tip="{ext:Locale MemoryManagerTooltip}"
+                                  HorizontalContentAlignment="Left"
+                                  Width="350">
+                            <ComboBoxItem
+                                ToolTip.Tip="{ext:Locale MemoryManagerSoftwareTooltip}">
+                                <TextBlock
+                                    Text="{ext:Locale SettingsTabSystemMemoryManagerModeSoftware}" />
+                            </ComboBoxItem>
+                            <ComboBoxItem
+                                ToolTip.Tip="{ext:Locale MemoryManagerHostTooltip}">
+                                <TextBlock Text="{ext:Locale SettingsTabSystemMemoryManagerModeHost}" />
+                            </ComboBoxItem>
+                            <ComboBoxItem
+                                ToolTip.Tip="{ext:Locale MemoryManagerUnsafeTooltip}">
+                                <TextBlock
+                                    Text="{ext:Locale SettingsTabSystemMemoryManagerModeHostUnchecked}" />
+                            </ComboBoxItem>
+                        </ComboBox>
+                    </StackPanel>
+                    <CheckBox IsChecked="{Binding UseHypervisor}"
+                              IsVisible="{Binding IsAppleSiliconMac}"
+                              ToolTip.Tip="{ext:Locale UseHypervisorTooltip}">
+                        <TextBlock Text="{ext:Locale SettingsTabSystemUseHypervisor}"
+                                   ToolTip.Tip="{ext:Locale UseHypervisorTooltip}" />
+                    </CheckBox>
+                </StackPanel>
+                <Separator Height="1" />
+                
+                <TextBlock Classes="h1" Text="{ext:Locale SettingsTabGraphics}" />
+                <StackPanel Margin="10,0,0,0" Orientation="Vertical" Spacing="10">
+                    <StackPanel Orientation="Horizontal">
+                        <TextBlock VerticalAlignment="Center"
+                                ToolTip.Tip="{ext:Locale SettingsTabGraphicsBackendTooltip}"
+                                Text="{ext:Locale SettingsTabGraphicsBackend}"
+                                Width="250" />
+                        <ComboBox
+                            Name="GraphicsBackendSelector"
+                            Width="350"
+                            HorizontalContentAlignment="Left"
+                            ToolTip.Tip="{ext:Locale SettingsTabGraphicsBackendTooltip}"
+                            SelectedIndex="{Binding GraphicsBackendIndex}">
+                            <ComboBoxItem IsVisible="{Binding IsVulkanAvailable}" ToolTip.Tip="{ext:Locale SettingsTabGraphicsBackendAutoTooltip}" >
+                                <TextBlock Text="{ext:Locale SettingsTabGraphicsBackendAuto}" />
+                            </ComboBoxItem>
+                            <ComboBoxItem IsVisible="{Binding IsVulkanAvailable}">
+                                <TextBlock Text="Vulkan" />
+                            </ComboBoxItem>
+                            <ComboBoxItem IsEnabled="{Binding IsOpenGLAvailable}">
+                                <TextBlock Text="OpenGL" />
+                            </ComboBoxItem>
+                            <ComboBoxItem IsEnabled="{Binding IsAppleSiliconMac}">
+                                <TextBlock Text="Metal (ARM Mac only, Experimental)" />
+                            </ComboBoxItem>
+                        </ComboBox>
+                    </StackPanel>
+                    <StackPanel Orientation="Horizontal">
+                        <TextBlock VerticalAlignment="Center"
+                                   ToolTip.Tip="{ext:Locale GraphicsBackendThreadingTooltip}"
+                                   Text="{ext:Locale SettingsTabGraphicsBackendMultithreading}"
+                                   Width="250" />
+                        <ComboBox Width="350"
+                                  HorizontalContentAlignment="Left"
+                                  ToolTip.Tip="{ext:Locale GalThreadingTooltip}"
+                                  SelectedIndex="{Binding GraphicsBackendMultithreadingIndex}">
+                            <ComboBoxItem>
+                                <TextBlock Text="{ext:Locale CommonAuto}" />
+                            </ComboBoxItem>
+                            <ComboBoxItem>
+                                <TextBlock Text="{ext:Locale CommonOff}" />
+                            </ComboBoxItem>
+                            <ComboBoxItem>
+                                <TextBlock Text="{ext:Locale CommonOn}" />
+                            </ComboBoxItem>
+                        </ComboBox>
+                    </StackPanel>
+                </StackPanel>
+            </StackPanel>
+        </Border>
+    </ScrollViewer>
+</UserControl>
