@@ -89,14 +89,14 @@ namespace Ryujinx.Input.HLE
                     }
                 }
 
-                ReloadConfiguration(_inputConfig, _enableKeyboard, _enableMouse, _enableAutoAssign);
+                ReloadConfiguration(_inputConfig, _enableKeyboard, _enableMouse);
             }
         }
 
         private void HandleOnGamepadConnected(string id)
         {
             // Force input reload
-            ReloadConfiguration(_inputConfig, _enableKeyboard, _enableMouse, _enableAutoAssign);
+            ReloadConfiguration(_inputConfig, _enableKeyboard, _enableMouse);
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
@@ -123,86 +123,41 @@ namespace Ryujinx.Input.HLE
             return controller.GamepadDriver != null;
         }
 
-        public void ReloadConfiguration(List<InputConfig> inputConfig, bool enableKeyboard, bool enableMouse, bool enableAutoAssign)
+        public void ReloadConfiguration(List<InputConfig> inputConfig, bool enableKeyboard, bool enableMouse)
         {
             lock (_lock)
             {
                 NpadController[] oldControllers = _controllers.ToArray();
 
                 List<InputConfig> validInputs = new();
-
-                // if auto assign is disabled, we want to keep the old logic with profiles.
-                if (!enableAutoAssign)
+                
+                foreach (InputConfig inputConfigEntry in inputConfig)
                 {
-                    foreach (InputConfig inputConfigEntry in inputConfig)
+                    NpadController controller;
+                    int index = (int)inputConfigEntry.PlayerIndex;
+
+                    if (oldControllers[index] != null)
                     {
-                        NpadController controller;
-                        int index = (int)inputConfigEntry.PlayerIndex;
-
-                        if (oldControllers[index] != null)
-                        {
-                            // Try reuse the existing controller.
-                            controller = oldControllers[index];
-                            oldControllers[index] = null;
-                        }
-                        else
-                        {
-                            controller = new(_cemuHookClient);
-                        }
-
-                        bool isValid = DriverConfigurationUpdate(ref controller, inputConfigEntry);
-
-                        if (!isValid)
-                        {
-                            _controllers[index] = null;
-                            controller.Dispose();
-                        }
-                        else
-                        {
-                            _controllers[index] = controller;
-                            validInputs.Add(inputConfigEntry);
-                        }
+                        // Try reuse the existing controller.
+                        controller = oldControllers[index];
+                        oldControllers[index] = null;
                     }
-                }
-                else
-                {
-                    List<IGamepad> controllers = _gamepadDriver.GetGamepads().ToList();
-                    
-                    foreach (IGamepad activeController in controllers)
+                    else
                     {
-                        NpadController controller;
-                        int index = controllers.FindIndex(x => x == activeController);
-                        
-                        // Also if old controller exists, try to reuse it (and create their config too).
-                        InputConfig config = CreateConfigFromController(activeController);
-                        
-                        config.PlayerIndex = (Common.Configuration.Hid.PlayerIndex)index;
-                        
-                        if (oldControllers[index] != null)
-                        {
-                            // Try reuse the existing controller.
-                            controller = oldControllers[index];
-                            oldControllers[index] = null;
-                        }
-                        else
-                        {
-                            controller = new(_cemuHookClient);
-                        }
-                        
-                        // TODO: call function to get config from controller here
-                
-                        bool isValid = DriverConfigurationUpdate(ref controller, config);
-                
-                        if (!isValid)
-                        {
-                            _controllers[index] = null;
-                            controller.Dispose();
-                        }
-                        else
-                        {
-                            _controllers[index] = controller;
-                            validInputs.Add(config);
-                        }
+                        controller = new(_cemuHookClient);
+                    }
+
+                    bool isValid = DriverConfigurationUpdate(ref controller, inputConfigEntry);
+
+                    if (!isValid)
+                    {
+                        _controllers[index] = null;
+                        controller.Dispose();
+                    }
+                    else
+                    {
+                        _controllers[index] = controller;
+                        validInputs.Add(inputConfigEntry);
                     }
                 }
                 
@@ -214,10 +169,9 @@ namespace Ryujinx.Input.HLE
                     oldControllers[i] = null;
                 }
                 
-                _inputConfig = (enableAutoAssign) ? validInputs : inputConfig;
+                _inputConfig = inputConfig;
                 _enableKeyboard = enableKeyboard;
                 _enableMouse = enableMouse;
-                _enableAutoAssign = enableAutoAssign;
 
                 _device.Hid.RefreshInputConfig(validInputs);
                 
@@ -350,12 +304,12 @@ namespace Ryujinx.Input.HLE
             }
         }
 
-        public void Initialize(Switch device, List<InputConfig> inputConfig, bool enableKeyboard, bool enableMouse, bool enableAutoAssign)
+        public void Initialize(Switch device, List<InputConfig> inputConfig, bool enableKeyboard, bool enableMouse)
         {
             _device = device;
             _device.Configuration.RefreshInputConfig = RefreshInputConfigForHLE;
 
-            ReloadConfiguration(inputConfig, enableKeyboard, enableMouse, enableAutoAssign);
+            ReloadConfiguration(inputConfig, enableKeyboard, enableMouse);
         }
 
         public void Update(float aspectRatio = 1)

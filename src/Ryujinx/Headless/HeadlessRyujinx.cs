@@ -38,6 +38,7 @@ namespace Ryujinx.Headless
         private static LibHacHorizonManager _libHacHorizonManager;
         private static UserChannelPersistence _userChannelPersistence;
         private static InputManager _inputManager;
+        private static AutoAssignController _autoAssignController;
         private static Switch _emulationContext;
         private static WindowBase _window;
         private static WindowsMultimediaTimerResolution _windowsMultimediaTimerResolution;
@@ -370,7 +371,7 @@ namespace Ryujinx.Headless
 
             DisplaySleep.Prevent();
 
-            _window.Initialize(_emulationContext, _inputConfiguration, _enableKeyboard, _enableMouse, _enableAutoAssign);
+            _window.Initialize(_emulationContext, _inputConfiguration, _enableKeyboard, _enableMouse);
 
             _window.Execute();
 

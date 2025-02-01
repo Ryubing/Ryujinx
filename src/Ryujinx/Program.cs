@@ -19,6 +19,7 @@ using Ryujinx.Common.Logging;
 using Ryujinx.Common.SystemInterop;
 using Ryujinx.Graphics.Vulkan.MoltenVK;
 using Ryujinx.Headless;
+using Ryujinx.Input.SDL2;
 using Ryujinx.SDL2.Common;
 using System;
 using System.Collections.Generic;
@@ -130,7 +131,7 @@ namespace Ryujinx.Ava
             SDL2Driver.MainThreadDispatcher = action => Dispatcher.UIThread.InvokeAsync(action, DispatcherPriority.Input);
 
             ReloadConfig();
-
+            
             WindowScaleFactor = ForceDpiAware.GetWindowScaleFactor();
 
             // Logging system information.

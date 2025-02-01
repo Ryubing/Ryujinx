@@ -97,7 +97,7 @@ namespace Ryujinx.Input.SDL2
 
         private void HandleJoyStickConnected(int joystickDeviceId, int joystickInstanceId)
         {
-            Logger.Warning?.Print(LogClass.Application, "(SDL2) Joystick connected: " + joystickDeviceId + " " + joystickInstanceId);
+            Logger.Warning?.Print(LogClass.Application, "(SDL2GamepadDriver) Joystick connected: " + joystickDeviceId + " " + joystickInstanceId);
             if (SDL_IsGameController(joystickDeviceId) == SDL_bool.SDL_TRUE)
             {
                 if (_gamepadsInstanceIdsMapping.ContainsKey(joystickInstanceId))

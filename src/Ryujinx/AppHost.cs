@@ -483,7 +483,7 @@ namespace Ryujinx.Ava
 
             DisplaySleep.Prevent();
 
-            NpadManager.Initialize(Device, ConfigurationState.Instance.Hid.InputConfig, ConfigurationState.Instance.Hid.EnableKeyboard, ConfigurationState.Instance.Hid.EnableMouse, ConfigurationState.Instance.Hid.EnableAutoAssign);
+            NpadManager.Initialize(Device, ConfigurationState.Instance.Hid.InputConfig, ConfigurationState.Instance.Hid.EnableKeyboard, ConfigurationState.Instance.Hid.EnableMouse);
             TouchScreenManager.Initialize(Device);
 
             _viewModel.IsGameRunning = true;

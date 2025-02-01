@@ -120,7 +120,7 @@ namespace Ryujinx.Headless
             SDL2Driver.Instance.Initialize();
         }
 
-        public void Initialize(Switch device, List<InputConfig> inputConfigs, bool enableKeyboard, bool enableMouse, bool enableAutoAssign)
+        public void Initialize(Switch device, List<InputConfig> inputConfigs, bool enableKeyboard, bool enableMouse)
         {
             Device = device;
 
@@ -133,7 +133,7 @@ namespace Ryujinx.Headless
 
             Renderer = renderer;
 
-            NpadManager.Initialize(device, inputConfigs, enableKeyboard, enableMouse, enableAutoAssign);
+            NpadManager.Initialize(device, inputConfigs, enableKeyboard, enableMouse);
             TouchScreenManager.Initialize(device);
         }
 
