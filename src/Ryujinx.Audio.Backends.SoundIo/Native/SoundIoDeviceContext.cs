@@ -1,4 +1,3 @@
-using System;
 using System.Runtime.CompilerServices;
 using System.Runtime.InteropServices;
 using static Ryujinx.Audio.Backends.SoundIo.Native.SoundIo;

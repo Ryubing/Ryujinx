@@ -1,11 +1,9 @@
 ﻿using Avalonia;
 using Avalonia.Controls;
-using Avalonia.Markup.Xaml;
 using FluentAvalonia.UI.Controls;
 using Ryujinx.Ava.Common.Locale;
 using Ryujinx.Ava.UI.Models.Input;
 using Ryujinx.Ava.UI.ViewModels.Input;
-using Ryujinx.Ava.UI.Views.Input;
 using System.Threading.Tasks;
 
 namespace Ryujinx.UI.Views.Input

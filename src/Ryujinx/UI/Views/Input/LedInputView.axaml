@@ -11,7 +11,7 @@
              x:Class="Ryujinx.UI.Views.Input.LedInputView">
     <StackPanel Orientation="Vertical" HorizontalAlignment="Center">
         <StackPanel Orientation="Horizontal" IsVisible="{Binding ParentModel.CanClearLed}">
-            <TextBlock MinWidth="75" MaxWidth="150" Text="{ext:Locale ControllerSettingsLedColorDisable}" />
+            <TextBlock MinWidth="75" MaxWidth="200" Text="{ext:Locale ControllerSettingsLedColorDisable}" />
             <CheckBox
                 Margin="5"
                 MinWidth="0"
@@ -20,15 +20,33 @@
             </CheckBox>
         </StackPanel>
         <StackPanel Orientation="Horizontal" IsEnabled="{Binding !TurnOffLed}">
-            <TextBlock MinWidth="75" MaxWidth="150" Text="{ext:Locale ControllerSettingsLedColorRainbow}" />
+            <TextBlock MinWidth="75" MaxWidth="200" Text="{ext:Locale ControllerSettingsLedColorRainbow}" />
             <CheckBox
                 Margin="5"
                 MinWidth="0"
                 IsChecked="{Binding UseRainbowLed, Mode=TwoWay}">
             </CheckBox>
         </StackPanel>
+        <StackPanel Orientation="Horizontal" IsEnabled="{Binding !TurnOffLed}">
+            <TextBlock MinWidth="75" MaxWidth="200" Text="{ext:Locale ControllerSettingsLedColorRainbowSpeed}" />
+            <Slider HorizontalAlignment="Center" 
+                    Value="{Binding RainbowSpeed}"
+                    Width="175"
+                    Margin="0,-3,0,0"
+                    Height="32"
+                    Padding="0,-5"
+                    TickFrequency="0.25"
+                    LargeChange="1"
+                    SmallChange="0.25"
+                    VerticalAlignment="Center"
+                    Minimum="1"
+                    Maximum="10" />
+            <TextBlock Margin="5,0"
+                       MinWidth="75"
+                       Text="{Binding RainbowSpeedText}" />
+        </StackPanel>
         <StackPanel Orientation="Horizontal" IsEnabled="{Binding ShowLedColorPicker}">
-            <TextBlock MinWidth="75" MaxWidth="150" Text="{ext:Locale ControllerSettingsLedColor}" />
+            <TextBlock MinWidth="75" MaxWidth="200" Text="{ext:Locale ControllerSettingsLedColor}" />
             <ui:ColorPickerButton
                 Margin="5"
                 IsMoreButtonVisible="False"

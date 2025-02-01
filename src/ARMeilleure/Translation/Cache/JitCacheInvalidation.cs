@@ -1,5 +1,4 @@
 using ARMeilleure.Memory;
-using System;
 using System.Runtime.InteropServices;
 
 namespace ARMeilleure.Translation.Cache

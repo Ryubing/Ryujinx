@@ -123,13 +123,11 @@
       <Generator>MSBuild:Compile</Generator>
     </AvaloniaResource>
     <AvaloniaResource Include="Assets\Styles\Styles.xaml" />
-    <AvaloniaResource Include="Assets\Styles\CheckboxMenuItemStyle.axaml" />
   </ItemGroup>
 
   <ItemGroup>
     <None Remove="Assets\locales.json" />
     <None Remove="Assets\Styles\Themes.xaml" />
-    <None Remove="Assets\Styles\CheckboxMenuItemStyle.xaml" />
     <None Remove="Assets\Icons\Controller_JoyConLeft.svg" />
     <None Remove="Assets\Icons\Controller_JoyConPair.svg" />
     <None Remove="Assets\Icons\Controller_JoyConRight.svg" />
@@ -151,7 +149,6 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Assets\locales.json" />
     <EmbeddedResource Include="Assets\Styles\Styles.xaml" />
-    <EmbeddedResource Include="Assets\Styles\CheckboxMenuItemStyle.axaml" />
     <EmbeddedResource Include="Assets\Icons\Controller_JoyConLeft.svg" />
     <EmbeddedResource Include="Assets\Icons\Controller_JoyConPair.svg" />
     <EmbeddedResource Include="Assets\Icons\Controller_JoyConRight.svg" />

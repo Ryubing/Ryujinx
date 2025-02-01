@@ -7,6 +7,7 @@ using Ryujinx.Common.Configuration.Hid;
 using Ryujinx.Common.Configuration.Multiplayer;
 using Ryujinx.Common.Helper;
 using Ryujinx.Common.Logging;
+using Ryujinx.Common.Utilities;
 using Ryujinx.HLE;
 using System.Collections.Generic;
 using System.Linq;
@@ -444,6 +445,11 @@ namespace Ryujinx.Ava.Utilities.Configuration
             /// TODO: Implement a ReactiveList class.
             /// </summary>
             public ReactiveObject<List<InputConfig>> InputConfig { get; private set; }
+            
+            /// <summary>
+            /// The speed of spectrum cycling for the Rainbow LED feature.
+            /// </summary>
+            public ReactiveObject<float> RainbowSpeed { get; }
 
             public HidSection()
             {
@@ -451,6 +457,8 @@ namespace Ryujinx.Ava.Utilities.Configuration
                 EnableMouse = new ReactiveObject<bool>();
                 Hotkeys = new ReactiveObject<KeyboardHotkeys>();
                 InputConfig = new ReactiveObject<List<InputConfig>>();
+                RainbowSpeed = new ReactiveObject<float>();
+                RainbowSpeed.Event += (_, args) => Rainbow.Speed = args.NewValue;
             }
         }
 

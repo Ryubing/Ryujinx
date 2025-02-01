@@ -2,7 +2,6 @@ using Ryujinx.Common;
 using Ryujinx.HLE.HOS.Kernel.Threading;
 using Ryujinx.Horizon.Common;
 using System.Collections.Generic;
-using System.Threading;
 
 namespace Ryujinx.HLE.HOS.Kernel.Common
 {

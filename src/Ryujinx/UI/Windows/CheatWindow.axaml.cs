@@ -64,7 +64,7 @@ namespace Ryujinx.Ava.UI.Windows
 
             ModLoader.ModCache mods = new();
 
-            ModLoader.QueryContentsDir(mods, new DirectoryInfo(Path.Combine(modsBasePath, "contents")), titleIdValue);
+            ModLoader.QueryContentsDir(mods, new DirectoryInfo(Path.Combine(modsBasePath, "contents")), titleIdValue, []);
 
             string currentCheatFile = string.Empty;
             string buildId = string.Empty;

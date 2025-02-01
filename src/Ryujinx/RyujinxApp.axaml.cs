@@ -22,12 +22,12 @@ namespace Ryujinx.Ava
 {
     public class RyujinxApp : Application
     {
-        internal static string FormatTitle(LocaleKeys? windowTitleKey = null)
+        internal static string FormatTitle(LocaleKeys? windowTitleKey = null, bool includeVersion = true)
             => windowTitleKey is null
-                ? $"{FullAppName} {Program.Version}"
-                : $"{FullAppName} {Program.Version} - {LocaleManager.Instance[windowTitleKey.Value]}";
+                ? $"{FullAppName}{(includeVersion ? $" {Program.Version}" : string.Empty)}"
+                : $"{FullAppName}{(includeVersion ? $" {Program.Version}" : string.Empty)} - {LocaleManager.Instance[windowTitleKey.Value]}";
 
-        public static readonly string FullAppName = ReleaseInformation.IsCanaryBuild ? "Ryujinx Canary" : "Ryujinx";
+        public static readonly string FullAppName = string.Intern(ReleaseInformation.IsCanaryBuild ? "Ryujinx Canary" : "Ryujinx");
 
         public static MainWindow MainWindow => Current!
             .ApplicationLifetime.Cast<IClassicDesktopStyleApplicationLifetime>()

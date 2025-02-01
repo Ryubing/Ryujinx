@@ -319,31 +319,12 @@ namespace Ryujinx.Ava
         public void VSyncModeToggle()
         {
             VSyncMode oldVSyncMode = Device.VSyncMode;
-            VSyncMode newVSyncMode = VSyncMode.Switch;
             bool customVSyncIntervalEnabled = ConfigurationState.Instance.Graphics.EnableCustomVSyncInterval.Value;
 
-            switch (oldVSyncMode)
-            {
-                case VSyncMode.Switch:
-                    newVSyncMode = VSyncMode.Unbounded;
-                    break;
-                case VSyncMode.Unbounded:
-                    if (customVSyncIntervalEnabled)
-                    {
-                        newVSyncMode = VSyncMode.Custom;
-                    }
-                    else
-                    {
-                        newVSyncMode = VSyncMode.Switch;
-                    }
-
-                    break;
-                case VSyncMode.Custom:
-                    newVSyncMode = VSyncMode.Switch;
-                    break;
-            }
-
-            UpdateVSyncMode(this, new ReactiveEventArgs<VSyncMode>(oldVSyncMode, newVSyncMode));
+            UpdateVSyncMode(this, new ReactiveEventArgs<VSyncMode>(
+                oldVSyncMode, 
+                oldVSyncMode.Next(customVSyncIntervalEnabled))
+            );
         }
 
         private void UpdateCustomVSyncIntervalValue(object sender, ReactiveEventArgs<int> e)
