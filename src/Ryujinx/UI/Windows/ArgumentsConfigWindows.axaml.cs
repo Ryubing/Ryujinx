@@ -82,11 +82,12 @@ namespace Ryujinx.Ava.UI.Windows
                 GameName,
                 GameId,
                 GameIconData,
-                SetArguments()
+                GetArguments()
                 );
         }
 
-        private string SetArguments() {
+        private string GetArguments() 
+        {
 
             string line = "";
 
@@ -155,12 +156,6 @@ namespace Ryujinx.Ava.UI.Windows
 
         protected override void OnClosing(WindowClosingEventArgs e)
         {
-
-            foreach (IGamepad gamepad in RyujinxApp.MainWindow.InputManager.GamepadDriver.GetGamepads())
-            {
-                gamepad?.ClearLed();
-            }
-
             base.OnClosing(e);
         }
     }
