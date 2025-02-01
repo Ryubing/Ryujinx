@@ -13,13 +13,14 @@ namespace Ryujinx.Common
         public const string BuildGitHash = "%%RYUJINX_BUILD_GIT_HASH%%";
         private const string ReleaseChannelName = "%%RYUJINX_TARGET_RELEASE_CHANNEL_NAME%%";
         private const string ConfigFileName = "%%RYUJINX_CONFIG_FILE_NAME%%";
+        private const string ConfigFileNameOverride = "%%RYUJINX_CONFIG_FILE_NAME_OVERRIDE%%";
 
         public const string ReleaseChannelOwner = "%%RYUJINX_TARGET_RELEASE_CHANNEL_OWNER%%";
         public const string ReleaseChannelSourceRepo = "%%RYUJINX_TARGET_RELEASE_CHANNEL_SOURCE_REPO%%";
         public const string ReleaseChannelRepo = "%%RYUJINX_TARGET_RELEASE_CHANNEL_REPO%%";
 
         public static string ConfigName => !ConfigFileName.StartsWith("%%") ? ConfigFileName : "Config.json";
-        public static string CustomConfigNameOverride => !ConfigFileName.StartsWith("%%") ? ConfigFileName : "CustomConfigOverride.json";
+        public static string CustomConfigNameOverride => !ConfigFileNameOverride.StartsWith("%%") ? ConfigFileNameOverride : "CustomConfigOverride.json";
 
         public static bool IsValid =>
             !BuildGitHash.StartsWith("%%") &&
