@@ -3996,7 +3996,8 @@
         "zh_CN": "繁体中文（推荐）",
         "zh_TW": "正體中文 (建議)"
       }
-    },    {
+    },    
+    {
       "ID": "SettingsTabSystemSystemLanguageSwedish",
       "Translations": {
         "ar_SA": "",
@@ -4020,7 +4021,8 @@
         "zh_CN": "",
         "zh_TW": ""
       }
-    },    {
+    },    
+    {
       "ID": "SettingsTabSystemSystemLanguageNorwegian",
       "Translations": {
         "ar_SA": "",
