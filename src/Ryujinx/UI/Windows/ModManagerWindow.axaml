@@ -81,7 +81,7 @@
                                     MaxLines="2"
                                     TextWrapping="Wrap"
                                     TextTrimming="CharacterEllipsis"
-                                    Text="{Binding Name}" />
+                                    Text="{Binding FormattedName}" />
                                 <StackPanel
                                     Grid.Column="1"
                                     Spacing="10"

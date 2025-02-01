@@ -3,7 +3,6 @@ using Ryujinx.Common.Configuration;
 using Ryujinx.Common.Helper;
 using System;
 using System.Linq;
-using System.Runtime.InteropServices;
 
 namespace Ryujinx.Common
 {
@@ -30,10 +29,11 @@ namespace Ryujinx.Common
         
         public static readonly string[] GreatMetalTitles =
         [
-            "010076f0049a2000", // Bayonetta
+            "01009b500007c000", // ARMS
             "0100a5c00d162000", // Cuphead
             "010023800d64a000", // Deltarune
             "01003a30012c0000", // LEGO City Undercover
+            "010048701995e000", // Luigi's Manion 2 HD
             "010028600EBDA000", // Mario 3D World
             "0100152000022000", // Mario Kart 8 Deluxe
             "010075a016a3a000", // Persona 4 Arena Ultimax
@@ -48,10 +48,14 @@ namespace Ryujinx.Common
             "01009bf0072d4000", // Captain Toad: Treasure Tracker
             "01009510001ca000", // Fast RMX
             "01005CA01580E000", // Persona 5 Royale
+            "010015100b514000", // Super Mario Bros. Wonder
             "0100000000010000", // Super Mario Odyssey
 
-            //Isaac claims it has a issue in level 2, but I am not able to replicate it on my M3. More testing would be appreciated:
-            "010015100b514000", // Super Mario Bros. Wonder
+            // Further testing is appreciated, I did not test the entire game:
+            "01007300020fa000", // Astral Chain
+            "010076f0049a2000", // Bayonetta
+            "0100cf5010fec000", // Bayonetta Origins: Cereza and the Lost Demon
+            "0100f4300bf2c000", // New Pokemon Snap
         ];
         
         public static string GetDiscordGameAsset(string titleId) 

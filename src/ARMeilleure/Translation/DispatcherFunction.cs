@@ -1,5 +1,3 @@
-using System;
-
 namespace ARMeilleure.Translation
 {
     delegate void DispatcherFunction(nint nativeContext, ulong startAddress);

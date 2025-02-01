@@ -1,6 +1,5 @@
 using Ryujinx.Common.Memory;
 using Ryujinx.Graphics.Video;
-using System;
 using System.Runtime.InteropServices;
 
 namespace Ryujinx.Graphics.Nvdec.Vp9.Types

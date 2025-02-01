@@ -1,6 +1,4 @@
-using Ryujinx.Common.Logging;
 using System;
-using System.Threading;
 
 namespace Ryujinx.Graphics.Device
 {

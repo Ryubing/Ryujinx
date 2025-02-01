@@ -130,9 +130,8 @@ namespace Ryujinx.Ava.Utilities.Configuration
                 EnableKeyboard = Hid.EnableKeyboard,
                 EnableMouse = Hid.EnableMouse,
                 Hotkeys = Hid.Hotkeys,
-                KeyboardConfig = [],
-                ControllerConfig = [],
                 InputConfig = Hid.InputConfig,
+                RainbowSpeed = Hid.RainbowSpeed,
                 GraphicsBackend = Graphics.GraphicsBackend,
                 PreferredGpu = Graphics.PreferredGpu,
                 MultiplayerLanInterfaceId = Multiplayer.LanInterfaceId,
@@ -255,6 +254,7 @@ namespace Ryujinx.Ava.Utilities.Configuration
                 VolumeUp = Key.Unbound,
                 VolumeDown = Key.Unbound,
             };
+            Hid.RainbowSpeed.Value = 1f;
             Hid.InputConfig.Value =
             [
                 new StandardKeyboardInputConfig

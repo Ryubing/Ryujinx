@@ -4,7 +4,6 @@ using Ryujinx.Ava.Utilities.Configuration;
 using Ryujinx.Common.Configuration;
 using Ryujinx.Common.Configuration.Hid;
 using Ryujinx.HLE;
-using Ryujinx.HLE.HOS.Services.Account.Acc;
 using Ryujinx.HLE.HOS.SystemState;
 using System;
 using System.Collections.Generic;

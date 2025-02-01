@@ -1,4 +1,3 @@
-using System;
 using System.Runtime.InteropServices;
 using CpuAddress = System.UInt64;
 using DspAddress = System.UInt64;

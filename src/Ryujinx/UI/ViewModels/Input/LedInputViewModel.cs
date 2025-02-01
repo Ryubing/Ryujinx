@@ -1,7 +1,10 @@
 ﻿using Avalonia.Media;
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
+using Humanizer;
 using Ryujinx.Ava.UI.Helpers;
+using Ryujinx.Ava.Utilities.Configuration;
+using System.Globalization;
 
 namespace Ryujinx.Ava.UI.ViewModels.Input
 {
@@ -21,6 +24,19 @@ namespace Ryujinx.Ava.UI.ViewModels.Input
         
         [ObservableProperty] private bool _enableLedChanging;
         [ObservableProperty] private Color _ledColor;
+
+        public string RainbowSpeedText => RainbowSpeed.ToString(CultureInfo.CurrentCulture).Truncate(4, string.Empty);
+        
+        public float RainbowSpeed
+        {
+            get => ConfigurationState.Instance.Hid.RainbowSpeed;
+            set
+            {
+                ConfigurationState.Instance.Hid.RainbowSpeed.Value = value;
+                OnPropertyChanged();
+                OnPropertyChanged(nameof(RainbowSpeedText));
+            }
+        }
         
         public bool ShowLedColorPicker => !TurnOffLed && !UseRainbowLed;
         

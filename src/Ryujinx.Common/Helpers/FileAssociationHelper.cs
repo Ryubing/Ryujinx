@@ -1,5 +1,4 @@
 using Microsoft.Win32;
-using Ryujinx.Common;
 using Ryujinx.Common.Logging;
 using System;
 using System.Diagnostics;

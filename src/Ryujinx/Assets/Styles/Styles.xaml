@@ -218,6 +218,15 @@
         <Setter Property="BorderBrush"
                 Value="{DynamicResource ThemeControlBorderColor}" />
     </Style>
+    <Style Selector="MenuItem.withCheckbox Viewbox#PART_IconPresenter">
+        <Setter Property="MaxHeight" Value="36" />
+        <Setter Property="MinHeight" Value="36" />
+        <Setter Property="MaxWidth" Value="36" />
+        <Setter Property="MinWidth" Value="36" />
+    </Style>
+    <Style Selector="MenuItem.withCheckbox ContentPresenter#PART_HeaderPresenter">
+        <Setter Property="Padding" Value="-10,0,0,0" />
+    </Style>
     <Style Selector="TabItem > ScrollViewer">
         <Setter Property="Background"
                 Value="{DynamicResource ThemeBackgroundColor}" />

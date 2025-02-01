@@ -1,6 +1,5 @@
 using ARMeilleure;
 using ARMeilleure.State;
-using ARMeilleure.Translation;
 using NUnit.Framework;
 using Ryujinx.Cpu.Jit;
 using Ryujinx.Memory;

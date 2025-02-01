@@ -1,7 +1,6 @@
 using ARMeilleure.IntermediateRepresentation;
 using ARMeilleure.Translation;
 using Ryujinx.Common.Memory.PartialUnmaps;
-using System;
 using System.Runtime.InteropServices;
 using static ARMeilleure.IntermediateRepresentation.Operand.Factory;
 

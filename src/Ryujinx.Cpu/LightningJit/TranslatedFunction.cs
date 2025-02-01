@@ -1,5 +1,3 @@
-using System;
-
 namespace Ryujinx.Cpu.LightningJit
 {
     class TranslatedFunction

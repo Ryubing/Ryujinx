@@ -4,7 +4,6 @@ using LibHac.Fs.Fsa;
 using LibHac.Loader;
 using LibHac.Ns;
 using LibHac.Tools.FsSystem;
-using Ryujinx.Common;
 using Ryujinx.Common.Configuration;
 using Ryujinx.Common.Logging;
 using Ryujinx.Graphics.Gpu;

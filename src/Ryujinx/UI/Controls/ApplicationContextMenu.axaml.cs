@@ -2,9 +2,6 @@ using Avalonia.Controls;
 using Avalonia.Interactivity;
 using Avalonia.Markup.Xaml;
 using Avalonia.Platform.Storage;
-using Avalonia.Threading;
-using FluentAvalonia.UI.Controls;
-using LibHac;
 using LibHac.Fs;
 using LibHac.Tools.FsSystem.NcaUtils;
 using Ryujinx.Ava.Common;
@@ -17,14 +14,11 @@ using Ryujinx.Ava.Utilities;
 using Ryujinx.Ava.Utilities.AppLibrary;
 using Ryujinx.Common.Configuration;
 using Ryujinx.Common.Helper;
-using Ryujinx.Common.Logging;
 using Ryujinx.HLE.HOS;
 using SkiaSharp;
 using System;
 using System.Collections.Generic;
 using System.IO;
-using System.Threading;
-using System.Threading.Tasks;
 using Path = System.IO.Path;
 
 namespace Ryujinx.Ava.UI.Controls
@@ -128,7 +122,11 @@ namespace Ryujinx.Ava.UI.Controls
         public async void OpenModManager_Click(object sender, RoutedEventArgs args)
         {
             if (sender is MenuItem { DataContext: MainWindowViewModel { SelectedApplication: not null } viewModel })
-                await ModManagerWindow.Show(viewModel.SelectedApplication.Id, viewModel.SelectedApplication.Name);
+                await ModManagerWindow.Show(
+                    viewModel.SelectedApplication.Id, 
+                    viewModel.SelectedApplication.IdBase, 
+                    viewModel.ApplicationLibrary, 
+                    viewModel.SelectedApplication.Name);
         }
 
         public async void PurgePtcCache_Click(object sender, RoutedEventArgs args)

@@ -2,7 +2,6 @@ using Avalonia;
 using Avalonia.Controls;
 using Avalonia.Layout;
 using Avalonia.Threading;
-using CommunityToolkit.Mvvm.Input;
 using Gommon;
 using LibHac.Common;
 using LibHac.Ns;
@@ -134,7 +133,12 @@ namespace Ryujinx.Ava.UI.Views.Main
         {
             Window.SettingsWindow = new(Window.VirtualFileSystem, Window.ContentManager);
 
+            Rainbow.Enable();
+            
             await Window.SettingsWindow.ShowDialog(Window);
+            
+            Rainbow.Disable();
+            Rainbow.Reset();
 
             Window.SettingsWindow = null;
 

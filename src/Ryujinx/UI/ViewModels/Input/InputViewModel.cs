@@ -23,6 +23,7 @@ using Ryujinx.Input;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.Drawing;
 using System.IO;
 using System.Linq;
 using System.Text.Json;
@@ -63,7 +64,13 @@ namespace Ryujinx.Ava.UI.ViewModels.Input
             get => _selectedGamepad;
             private set
             {
+                Rainbow.Reset();
+                
                 _selectedGamepad = value;
+
+                if (ConfigViewModel is ControllerInputViewModel { Config.UseRainbowLed: true })
+                    Rainbow.Updated += (ref Color color) => _selectedGamepad.SetLed((uint)color.ToArgb());
+                
                 OnPropertiesChanged(nameof(HasLed), nameof(CanClearLed));
             }
         }
