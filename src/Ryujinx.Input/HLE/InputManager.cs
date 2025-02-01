@@ -2,12 +2,13 @@ using System;
 
 namespace Ryujinx.Input.HLE
 {
-    public class InputManager(IGamepadDriver keyboardDriver, IGamepadDriver gamepadDriver)
+    public class InputManager(IGamepadDriver keyboardDriver, IGamepadDriver gamepadDriver, IHandheld handheld)
         : IDisposable
     {
         public IGamepadDriver KeyboardDriver { get; } = keyboardDriver;
         public IGamepadDriver GamepadDriver { get; } = gamepadDriver;
         public IGamepadDriver MouseDriver { get; private set; }
+        public IHandheld Handheld { get; } = handheld;
 
         public void SetMouseDriver(IGamepadDriver mouseDriver)
         {
@@ -18,7 +19,7 @@ namespace Ryujinx.Input.HLE
 
         public NpadManager CreateNpadManager()
         {
-            return new NpadManager(KeyboardDriver, GamepadDriver, MouseDriver);
+            return new NpadManager(KeyboardDriver, GamepadDriver, MouseDriver, Handheld);
         }
 
         public TouchScreenManager CreateTouchScreenManager()
@@ -38,6 +39,7 @@ namespace Ryujinx.Input.HLE
                 KeyboardDriver?.Dispose();
                 GamepadDriver?.Dispose();
                 MouseDriver?.Dispose();
+                Handheld?.Dispose();
             }
         }
 

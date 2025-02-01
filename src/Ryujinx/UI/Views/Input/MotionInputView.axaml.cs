@@ -30,6 +30,7 @@ namespace Ryujinx.Ava.UI.Views.Input
                 Sensitivity = config.Sensitivity,
                 GyroDeadzone = config.GyroDeadzone,
                 EnableCemuHookMotion = config.EnableCemuHookMotion,
+                EnableHandheldMotion = config.EnableHandheldMotion,
             };
 
             InitializeComponent();
@@ -58,6 +59,7 @@ namespace Ryujinx.Ava.UI.Views.Input
                 config.DsuServerHost = content._viewModel.DsuServerHost;
                 config.DsuServerPort = content._viewModel.DsuServerPort;
                 config.EnableCemuHookMotion = content._viewModel.EnableCemuHookMotion;
+                config.EnableHandheldMotion = content._viewModel.EnableHandheldMotion;
                 config.MirrorInput = content._viewModel.MirrorInput;
             };
 

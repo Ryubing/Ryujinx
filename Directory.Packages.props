@@ -3,6 +3,7 @@
     <ManagePackageVersionsCentrally>true</ManagePackageVersionsCentrally>
   </PropertyGroup>
   <ItemGroup>
+    <PackageVersion Include="Alimer.Bindings.SDL" Version="3.7.1" />
     <PackageVersion Include="Avalonia" Version="11.0.13" />
     <PackageVersion Include="Avalonia.Controls.DataGrid" Version="11.0.13" />
     <PackageVersion Include="Avalonia.Desktop" Version="11.0.13" />
