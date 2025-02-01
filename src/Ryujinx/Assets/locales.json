@@ -8198,6 +8198,31 @@
       }
     },
     {
+      "ID": "ControllerSettingsMotionUseHandheldCompatibleMotion",
+      "Translations": {
+        "ar_SA": "استخدام الحركة المتوافقة مع Hendheld",
+        "de_DE": "Hendheld kompatible Bewegungssteuerung",
+        "el_GR": "Κίνηση συμβατή με Hendheld",
+        "en_US": "Use Hendheld compatible motion",
+        "es_ES": "Usar movimiento compatible con Hendheld",
+        "fr_FR": "Utiliser un capteur de mouvements Hendheld",
+        "he_IL": "השתמש בתנועת Hendheld תואמת ",
+        "it_IT": "Usa sensore compatibile con Hendheld",
+        "ja_JP": "Hendheld 互換モーションを使用",
+        "ko_KR": "Hendheld 호환 모션 사용",
+        "no_NO": "Bruk Hendheld kompatibel bevegelse",
+        "pl_PL": "Użyj ruchu zgodnego z Hendheld",
+        "pt_BR": "Usar sensor compatível com Hendheld",
+        "ru_RU": "Включить совместимость с Hendheld",
+        "sv_SE": "Använd Hendheld-kompatibel rörelse",
+        "th_TH": "ใช้การเคลื่อนไหวที่เข้ากันได้กับ Hendheld",
+        "tr_TR": "Hendheld uyumlu hareket kullan",
+        "uk_UA": "Використовувати рух, сумісний з Hendheld",
+        "zh_CN": "使用 Hendheld 兼容的体感协议",
+        "zh_TW": "使用與 Hendheld 相容的體感"
+      }
+    },
+    {
       "ID": "ControllerSettingsMotionControllerSlot",
       "Translations": {
         "ar_SA": "خانة وحدة التحكم:",
