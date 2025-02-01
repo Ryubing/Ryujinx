@@ -18,6 +18,7 @@ using Ryujinx.Ava.Utilities.Configuration.System;
 using Ryujinx.Common.Configuration;
 using Ryujinx.Common.Configuration.Multiplayer;
 using Ryujinx.Common.GraphicsDriver;
+using Ryujinx.Common.Helper;
 using Ryujinx.Common.Logging;
 using Ryujinx.Graphics.GAL;
 using Ryujinx.Graphics.Vulkan;
@@ -377,9 +378,6 @@ namespace Ryujinx.Ava.UI.ViewModels
             }
         }
 
-        [GeneratedRegex("Ryujinx-[0-9a-f]{8}")]
-        private static partial Regex LdnPassphraseRegex();
-
         public bool IsInvalidLdnPassphraseVisible { get; set; }
 
         public SettingsViewModel(VirtualFileSystem virtualFileSystem, ContentManager contentManager) : this()
@@ -541,7 +539,7 @@ namespace Ryujinx.Ava.UI.ViewModels
 
         private bool ValidateLdnPassphrase(string passphrase)
         {
-            return string.IsNullOrEmpty(passphrase) || (passphrase.Length == 16 && LdnPassphraseRegex().IsMatch(passphrase));
+            return string.IsNullOrEmpty(passphrase) || (passphrase.Length == 16 && Patterns.LdnPassphrase.IsMatch(passphrase));
         }
 
         public void ValidateAndSetTimeZone(string location)

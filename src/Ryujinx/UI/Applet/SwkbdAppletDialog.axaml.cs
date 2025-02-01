@@ -144,12 +144,12 @@ namespace Ryujinx.Ava.UI.Controls
                 case KeyboardMode.Numeric:
                     localeText = LocaleManager.Instance.UpdateAndGetDynamicValue(LocaleKeys.SoftwareKeyboardModeNumeric);
                     validationInfoText = string.IsNullOrEmpty(validationInfoText) ? localeText : string.Join("\n", validationInfoText, localeText);
-                    _checkInput = text => text.All(NumericCharacterValidation.IsNumeric);
+                    _checkInput = text => text.All(CharacterValidation.IsNumeric);
                     break;
                 case KeyboardMode.Alphabet:
                     localeText = LocaleManager.Instance.UpdateAndGetDynamicValue(LocaleKeys.SoftwareKeyboardModeAlphabet);
                     validationInfoText = string.IsNullOrEmpty(validationInfoText) ? localeText : string.Join("\n", validationInfoText, localeText);
-                    _checkInput = text => text.All(value => !CJKCharacterValidation.IsCJK(value));
+                    _checkInput = text => text.All(value => !CharacterValidation.IsCJK(value));
                     break;
                 case KeyboardMode.ASCII:
                     localeText = LocaleManager.Instance.UpdateAndGetDynamicValue(LocaleKeys.SoftwareKeyboardModeASCII);

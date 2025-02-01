@@ -1,5 +1,6 @@
 using Gommon;
 using Ryujinx.Common.Configuration;
+using Ryujinx.Common.Helper;
 using Ryujinx.Common.Logging;
 using Ryujinx.Graphics.GAL;
 using Ryujinx.Graphics.Shader;
@@ -375,11 +376,11 @@ namespace Ryujinx.Graphics.Vulkan
 
             GpuVersion = $"Vulkan v{ParseStandardVulkanVersion(properties.ApiVersion)}, Driver v{ParseDriverVersion(ref properties)}";
 
-            IsAmdGcn = !IsMoltenVk && Vendor == Vendor.Amd && VendorUtils.AmdGcnRegex().IsMatch(GpuRenderer);
+            IsAmdGcn = !IsMoltenVk && Vendor == Vendor.Amd && Patterns.AmdGcn.IsMatch(GpuRenderer);
 
             if (Vendor == Vendor.Nvidia)
             {
-                Match match = VendorUtils.NvidiaConsumerClassRegex().Match(GpuRenderer);
+                Match match = Patterns.NvidiaConsumerClass.Match(GpuRenderer);
 
                 if (match != null && int.TryParse(match.Groups[2].Value, out int gpuNumber))
                 {

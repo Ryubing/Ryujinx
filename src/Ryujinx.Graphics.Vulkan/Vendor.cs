@@ -16,14 +16,8 @@ namespace Ryujinx.Graphics.Vulkan
         Unknown,
     }
 
-    static partial class VendorUtils
+    static class VendorUtils
     {
-        [GeneratedRegex("Radeon (((HD|R(5|7|9|X)) )?((M?[2-6]\\d{2}(\\D|$))|([7-8]\\d{3}(\\D|$))|Fury|Nano))|(Pro Duo)")]
-        public static partial Regex AmdGcnRegex();
-
-        [GeneratedRegex("NVIDIA GeForce (R|G)?TX? (\\d{3}\\d?)M?")]
-        public static partial Regex NvidiaConsumerClassRegex();
-
         public static Vendor FromId(uint id)
         {
             return id switch
