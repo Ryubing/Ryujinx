@@ -1,7 +1,5 @@
-using Ryujinx.Common.Memory;
 using Ryujinx.Graphics.GAL;
 using Silk.NET.Vulkan;
-using System;
 using System.Collections.ObjectModel;
 
 namespace Ryujinx.Graphics.Vulkan

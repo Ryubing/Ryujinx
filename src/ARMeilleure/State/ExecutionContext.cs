@@ -1,5 +1,4 @@
 using ARMeilleure.Memory;
-using System;
 
 namespace ARMeilleure.State
 {

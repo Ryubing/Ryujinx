@@ -7,7 +7,6 @@ using Ryujinx.HLE.HOS.Services.Mii.Types;
 using Ryujinx.HLE.HOS.Services.Nfc.AmiiboDecryption;
 using Ryujinx.HLE.HOS.Services.Nfc.Nfp.NfpManager;
 using System;
-using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 

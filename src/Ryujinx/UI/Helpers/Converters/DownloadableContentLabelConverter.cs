@@ -11,7 +11,7 @@ namespace Ryujinx.Ava.UI.Helpers
 {
     internal class DownloadableContentLabelConverter : IMultiValueConverter
     {
-        public static DownloadableContentLabelConverter Instance = new();
+        public static readonly DownloadableContentLabelConverter Instance = new();
 
         public object Convert(IList<object> values, Type targetType, object parameter, CultureInfo culture)
         {

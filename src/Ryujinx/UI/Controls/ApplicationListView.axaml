@@ -12,9 +12,6 @@
     mc:Ignorable="d"
     xmlns:viewModels="clr-namespace:Ryujinx.Ava.UI.ViewModels"
     x:DataType="viewModels:MainWindowViewModel">
-    <UserControl.Resources>
-        <helpers:BitmapArrayValueConverter x:Key="ByteImage" />
-    </UserControl.Resources>
     <Grid>
         <Grid.RowDefinitions>
             <RowDefinition Height="*" />
@@ -62,7 +59,7 @@
                                     Classes.large="{Binding $parent[UserControl].((viewModels:MainWindowViewModel)DataContext).IsGridLarge}"
                                     Classes.normal="{Binding $parent[UserControl].((viewModels:MainWindowViewModel)DataContext).IsGridMedium}"
                                     Classes.small="{Binding $parent[UserControl].((viewModels:MainWindowViewModel)DataContext).IsGridSmall}"
-                                    Source="{Binding Icon, Converter={StaticResource ByteImage}}" />
+                                    Source="{Binding Icon, Converter={x:Static helpers:BitmapArrayValueConverter.Instance}}" />
                                 <Border
                                     Grid.Column="2"
                                     Margin="0,0,5,0"

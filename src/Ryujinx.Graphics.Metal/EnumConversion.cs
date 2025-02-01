@@ -1,7 +1,6 @@
 using Ryujinx.Common.Logging;
 using Ryujinx.Graphics.GAL;
 using SharpMetal.Metal;
-using System;
 using System.Runtime.Versioning;
 
 namespace Ryujinx.Graphics.Metal

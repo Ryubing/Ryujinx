@@ -159,6 +159,7 @@ namespace Ryujinx.Ava.UI.Helpers
                 Symbol = (Symbol)symbol,
                 Margin = new Thickness(10),
                 FontSize = 40,
+                FlowDirection = FlowDirection.LeftToRight,
                 VerticalAlignment = VerticalAlignment.Center,
             };
 

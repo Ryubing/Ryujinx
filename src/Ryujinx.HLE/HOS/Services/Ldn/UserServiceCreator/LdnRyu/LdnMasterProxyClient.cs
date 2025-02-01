@@ -121,7 +121,7 @@ namespace Ryujinx.HLE.HOS.Services.Ldn.UserServiceCreator.LdnRyu
 
         private void UpdatePassphraseIfNeeded()
         {
-            string passphrase = _config.MultiplayerLdnPassphrase ?? "";
+            string passphrase = _config.MultiplayerLdnPassphrase ?? string.Empty;
             if (passphrase != _passphrase)
             {
                 _passphrase = passphrase;

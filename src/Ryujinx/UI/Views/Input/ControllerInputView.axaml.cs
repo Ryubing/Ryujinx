@@ -4,14 +4,11 @@ using Avalonia.Controls.Primitives;
 using Avalonia.Input;
 using Avalonia.Interactivity;
 using Avalonia.LogicalTree;
-using FluentAvalonia.UI.Controls;
 using Ryujinx.Ava.UI.Helpers;
-using Ryujinx.Ava.UI.Models;
 using Ryujinx.Ava.UI.ViewModels.Input;
 using Ryujinx.Common.Configuration.Hid.Controller;
 using Ryujinx.Input;
 using Ryujinx.Input.Assigner;
-using System.Linq;
 using Button = Ryujinx.Input.Button;
 using StickInputId = Ryujinx.Common.Configuration.Hid.Controller.StickInputId;
 
@@ -245,25 +242,6 @@ namespace Ryujinx.Ava.UI.Views.Input
             
             _currentAssigner?.Cancel();
             _currentAssigner = null;
-        }
-
-        private void ColorPickerButton_OnColorChanged(ColorPickerButton sender, ColorButtonColorChangedEventArgs args)
-        {
-            if (!args.NewColor.HasValue) return;
-            if (DataContext is not ControllerInputViewModel cVm) return;
-            if (!cVm.Config.EnableLedChanging) return;
-            if (cVm.Config.TurnOffLed) return;
-            
-            cVm.ParentModel.SelectedGamepad.SetLed(args.NewColor.Value.ToUInt32());
-        }
-
-        private void ColorPickerButton_OnAttachedToVisualTree(object sender, VisualTreeAttachmentEventArgs e)
-        {
-            if (DataContext is not ControllerInputViewModel cVm) return;
-            if (!cVm.Config.EnableLedChanging) return;
-            if (cVm.Config.TurnOffLed) return;
-            
-            cVm.ParentModel.SelectedGamepad.SetLed(cVm.Config.LedColor.ToUInt32());
         }
     }
 }

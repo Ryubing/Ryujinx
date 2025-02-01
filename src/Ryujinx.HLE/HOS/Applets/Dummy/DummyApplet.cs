@@ -1,10 +1,8 @@
-using Ryujinx.Common.Logging;
 using Ryujinx.Common.Memory;
-using Ryujinx.HLE.HOS.Applets;
 using Ryujinx.HLE.HOS.Services.Am.AppletAE;
 using System;
 using System.IO;
-using System.Runtime.InteropServices;
+
 namespace Ryujinx.HLE.HOS.Applets.Dummy
 {
     internal class DummyApplet : IApplet

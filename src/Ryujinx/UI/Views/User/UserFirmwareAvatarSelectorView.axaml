@@ -17,9 +17,6 @@
     <Design.DataContext>
         <viewModels:UserFirmwareAvatarSelectorViewModel />
     </Design.DataContext>
-	<UserControl.Resources>
-		<helpers:BitmapArrayValueConverter x:Key="ByteImage" />
-	</UserControl.Resources>
     <Grid
         Margin="0"
         HorizontalAlignment="Stretch"
@@ -62,7 +59,7 @@
                     <Panel
                         Background="{Binding BackgroundColor}"
                         Margin="5">
-                        <Image Source="{Binding Data, Converter={StaticResource ByteImage}}" />
+                        <Image Source="{Binding Data, Converter={x:Static helpers:BitmapArrayValueConverter.Instance}}" />
                     </Panel>
                 </DataTemplate>
             </ListBox.ItemTemplate>

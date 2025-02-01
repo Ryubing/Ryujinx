@@ -4,7 +4,6 @@ using Ryujinx.Graphics.Shader.Translation;
 using Spv.Generator;
 using System;
 using System.Collections.Generic;
-using static Spv.Specification;
 using Instruction = Spv.Generator.Instruction;
 
 namespace Ryujinx.Graphics.Shader.CodeGen.Spirv

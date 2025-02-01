@@ -13,11 +13,6 @@
     mc:Ignorable="d"
     Focusable="True"
     x:DataType="viewModels:UserSelectorDialogViewModel">
-    
-    <UserControl.Resources>
-        <helpers:BitmapArrayValueConverter x:Key="ByteImage" />
-    </UserControl.Resources>
-    
     <Design.DataContext>
         <viewModels:UserSelectorDialogViewModel />
     </Design.DataContext>
@@ -80,7 +75,7 @@
                                         Height="96"
                                         HorizontalAlignment="Stretch"
                                         VerticalAlignment="Top"
-                                        Source="{Binding Image, Converter={StaticResource ByteImage}}" />
+                                        Source="{Binding Image, Converter={x:Static helpers:BitmapArrayValueConverter.Instance}}" />
                                     <TextBlock
                                         HorizontalAlignment="Stretch"
                                         MaxWidth="90"
@@ -110,12 +105,5 @@
             </ListBox>
         </Border>
         
-        <StackPanel
-            Grid.Row="1"
-            Margin="0 24 0 0"
-            HorizontalAlignment="Left"
-            Orientation="Horizontal"
-            Spacing="10">
-        </StackPanel>
     </Grid>
 </UserControl>

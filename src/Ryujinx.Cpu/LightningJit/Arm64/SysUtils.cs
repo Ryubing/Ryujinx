@@ -1,5 +1,3 @@
-using System.Diagnostics;
-
 namespace Ryujinx.Cpu.LightningJit.Arm64
 {
     static class SysUtils

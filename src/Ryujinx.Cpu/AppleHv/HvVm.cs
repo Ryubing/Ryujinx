@@ -1,5 +1,4 @@
 using Ryujinx.Memory;
-using System;
 using System.Runtime.Versioning;
 using System.Threading;
 

@@ -82,6 +82,11 @@
             Icon="{ext:Icon mdi-refresh}"
             ToolTip.Tip="{ext:Locale GameListContextMenuCacheManagementPurgePptcToolTip}" />
         <MenuItem
+            Click="NukePtcCache_Click"
+            Header="{ext:Locale GameListContextMenuCacheManagementNukePptc}"
+            Icon="{ext:Icon mdi-delete-alert}"
+            ToolTip.Tip="{ext:Locale GameListContextMenuCacheManagementNukePptcToolTip}" />
+        <MenuItem
             Click="PurgeShaderCache_Click"
             Header="{ext:Locale GameListContextMenuCacheManagementPurgeShaderCache}"
             Icon="{ext:Icon mdi-delete-alert}"

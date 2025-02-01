@@ -130,9 +130,8 @@ namespace Ryujinx.Ava.Utilities.Configuration
                 EnableKeyboard = Hid.EnableKeyboard,
                 EnableMouse = Hid.EnableMouse,
                 Hotkeys = Hid.Hotkeys,
-                KeyboardConfig = [],
-                ControllerConfig = [],
                 InputConfig = Hid.InputConfig,
+                RainbowSpeed = Hid.RainbowSpeed,
                 GraphicsBackend = Graphics.GraphicsBackend,
                 PreferredGpu = Graphics.PreferredGpu,
                 MultiplayerLanInterfaceId = Multiplayer.LanInterfaceId,
@@ -204,8 +203,8 @@ namespace Ryujinx.Ava.Utilities.Configuration
             Multiplayer.LanInterfaceId.Value = "0";
             Multiplayer.Mode.Value = MultiplayerMode.Disabled;
             Multiplayer.DisableP2p.Value = false;
-            Multiplayer.LdnPassphrase.Value = "";
-            Multiplayer.LdnServer.Value = "";
+            Multiplayer.LdnPassphrase.Value = string.Empty;
+            Multiplayer.LdnServer.Value = string.Empty;
             UI.GuiColumns.FavColumn.Value = true;
             UI.GuiColumns.IconColumn.Value = true;
             UI.GuiColumns.AppColumn.Value = true;
@@ -255,6 +254,7 @@ namespace Ryujinx.Ava.Utilities.Configuration
                 VolumeUp = Key.Unbound,
                 VolumeDown = Key.Unbound,
             };
+            Hid.RainbowSpeed.Value = 1f;
             Hid.InputConfig.Value =
             [
                 new StandardKeyboardInputConfig

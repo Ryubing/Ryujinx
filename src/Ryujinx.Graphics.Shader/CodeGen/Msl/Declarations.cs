@@ -1,5 +1,4 @@
 using Ryujinx.Common;
-using Ryujinx.Common.Logging;
 using Ryujinx.Graphics.Shader.IntermediateRepresentation;
 using Ryujinx.Graphics.Shader.StructuredIr;
 using Ryujinx.Graphics.Shader.Translation;
@@ -218,7 +217,7 @@ namespace Ryujinx.Graphics.Shader.CodeGen.Msl
 
             foreach (MemoryDefinition memory in memories)
             {
-                string arraySize = "";
+                string arraySize = string.Empty;
                 if ((memory.Type & AggregateType.Array) != 0)
                 {
                     arraySize = $"[{memory.ArrayLength}]";
@@ -240,7 +239,7 @@ namespace Ryujinx.Graphics.Shader.CodeGen.Msl
                 BufferDefinition buffer = buffers[i];
 
                 bool needsPadding = buffer.Layout == BufferLayout.Std140;
-                string fsiSuffix = !constant && fsi ? " [[raster_order_group(0)]]" : "";
+                string fsiSuffix = !constant && fsi ? " [[raster_order_group(0)]]" : string.Empty;
 
                 bufferDec[i] = $"{addressSpace} {Defaults.StructPrefix}_{buffer.Name}* {buffer.Name}{fsiSuffix};";
 
@@ -257,7 +256,7 @@ namespace Ryujinx.Graphics.Shader.CodeGen.Msl
                     type &= ~AggregateType.Array;
 
                     string typeName = GetVarTypeName(type);
-                    string arraySuffix = "";
+                    string arraySuffix = string.Empty;
 
                     if (field.Type.HasFlag(AggregateType.Array))
                     {
@@ -353,7 +352,7 @@ namespace Ryujinx.Graphics.Shader.CodeGen.Msl
                     imageTypeName = $"array<{imageTypeName}, {image.ArrayLength}>";
                 }
 
-                string fsiSuffix = fsi ? " [[raster_order_group(0)]]" : "";
+                string fsiSuffix = fsi ? " [[raster_order_group(0)]]" : string.Empty;
 
                 imageDec[i] = $"{imageTypeName} {image.Name}{fsiSuffix};";
             }
@@ -454,7 +453,7 @@ namespace Ryujinx.Graphics.Shader.CodeGen.Msl
                         IoVariable.VertexIndex => "[[vertex_id]]",
                         // IoVariable.PointCoord => "[[point_coord]]",
                         IoVariable.UserDefined => context.Definitions.Stage == ShaderStage.Fragment ? $"[[user(loc{ioDefinition.Location})]]" : $"[[attribute({ioDefinition.Location})]]",
-                        _ => ""
+                        _ => string.Empty
                     };
 
                     context.AppendLine($"{type} {name} {iq}{suffix};");
@@ -545,7 +544,7 @@ namespace Ryujinx.Graphics.Shader.CodeGen.Msl
                         IoVariable.FragmentOutputColor => $"[[color({ioDefinition.Location})]]",
                         IoVariable.FragmentOutputDepth => "[[depth(any)]]",
                         IoVariable.ClipDistance => $"[[clip_distance]][{Defaults.TotalClipDistances}]",
-                        _ => ""
+                        _ => string.Empty
                     };
 
                     context.AppendLine($"{type} {name} {suffix};");

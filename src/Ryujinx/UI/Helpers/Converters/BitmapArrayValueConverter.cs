@@ -9,7 +9,7 @@ namespace Ryujinx.Ava.UI.Helpers
 {
     internal class BitmapArrayValueConverter : IValueConverter
     {
-        public static BitmapArrayValueConverter Instance = new();
+        public static readonly BitmapArrayValueConverter Instance = new();
 
         public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
         {

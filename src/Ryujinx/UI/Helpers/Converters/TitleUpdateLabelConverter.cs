@@ -11,7 +11,7 @@ namespace Ryujinx.Ava.UI.Helpers
 {
     internal class TitleUpdateLabelConverter : IMultiValueConverter
     {
-        public static TitleUpdateLabelConverter Instance = new();
+        public static readonly TitleUpdateLabelConverter Instance = new();
 
         public object Convert(IList<object> values, Type targetType, object parameter, CultureInfo culture)
         {

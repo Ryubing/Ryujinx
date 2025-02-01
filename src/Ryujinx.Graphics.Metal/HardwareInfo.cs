@@ -76,7 +76,7 @@ namespace Ryujinx.Graphics.Metal
                 return model;
             }
 
-            return "";
+            return string.Empty;
         }
     }
 }

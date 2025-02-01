@@ -1,5 +1,4 @@
 using ARMeilleure.Common;
-using System;
 
 namespace ARMeilleure.Translation
 {

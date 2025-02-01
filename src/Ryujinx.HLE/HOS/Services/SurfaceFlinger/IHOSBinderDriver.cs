@@ -3,7 +3,6 @@ using Ryujinx.HLE.HOS.Ipc;
 using Ryujinx.HLE.HOS.Kernel.Threading;
 using Ryujinx.Horizon.Common;
 using System;
-using System.Buffers;
 
 namespace Ryujinx.HLE.HOS.Services.SurfaceFlinger
 {

@@ -15,9 +15,6 @@
     mc:Ignorable="d"
     Focusable="True"
     x:DataType="viewModels:UserProfileViewModel">
-    <UserControl.Resources>
-        <helpers:BitmapArrayValueConverter x:Key="ByteImage" />
-    </UserControl.Resources>
     <Design.DataContext>
         <viewModels:UserProfileViewModel />
     </Design.DataContext>
@@ -74,7 +71,7 @@
                                         Height="96"
                                         HorizontalAlignment="Stretch"
                                         VerticalAlignment="Top"
-                                        Source="{Binding Image, Converter={StaticResource ByteImage}}" />
+                                        Source="{Binding Image, Converter={x:Static helpers:BitmapArrayValueConverter.Instance}}" />
                                     <TextBlock
                                         HorizontalAlignment="Stretch"
                                         MaxWidth="90"

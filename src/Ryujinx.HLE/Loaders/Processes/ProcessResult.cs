@@ -88,7 +88,7 @@ namespace Ryujinx.HLE.Loaders.Processes
             bool isFirmwareApplication = ProgramId <= 0x0100000000007FFF;
 
             string name = !isFirmware
-                ? (isFirmwareApplication ? "Firmware Application " : "") + (!string.IsNullOrWhiteSpace(Name) ? Name : "<Unknown Name>")
+                ? (isFirmwareApplication ? "Firmware Application " : string.Empty) + (!string.IsNullOrWhiteSpace(Name) ? Name : "<Unknown Name>")
                 : "Firmware";
 
             // TODO: LibHac npdm currently doesn't support version field.

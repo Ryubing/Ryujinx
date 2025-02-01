@@ -4,7 +4,6 @@ using Ryujinx.Common.Logging;
 using Ryujinx.Common.Memory;
 using Ryujinx.Memory;
 using System;
-using System.Buffers;
 using System.Collections.Concurrent;
 using System.Threading;
 

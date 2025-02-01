@@ -27,7 +27,7 @@ namespace Ryujinx.Graphics.Shader.CodeGen.Msl.Instructions
                 inputsCount--;
             }
 
-            string fieldName = "";
+            string fieldName = string.Empty;
             switch (storageKind)
             {
                 case StorageKind.ConstantBuffer:
@@ -140,7 +140,7 @@ namespace Ryujinx.Graphics.Shader.CodeGen.Msl.Instructions
                 }
             }
             varName += fieldName;
-            varName += fieldHasPadding ? ".x" : "";
+            varName += fieldHasPadding ? ".x" : string.Empty;
 
             if (isStore)
             {
@@ -434,7 +434,7 @@ namespace Ryujinx.Graphics.Shader.CodeGen.Msl.Instructions
 
                 string prefix = intCoords ? "uint" : "float";
 
-                return prefix + (count > 1 ? count : "") + "(" + coords + ")";
+                return prefix + (count > 1 ? count : string.Empty) + "(" + coords + ")";
             }
 
             Append(AssemblePVector(pCount));
@@ -504,7 +504,7 @@ namespace Ryujinx.Graphics.Shader.CodeGen.Msl.Instructions
             }
 
             texCallBuilder.Append(')');
-            texCallBuilder.Append(colorIsVector ? GetMaskMultiDest(texOp.Index) : "");
+            texCallBuilder.Append(colorIsVector ? GetMaskMultiDest(texOp.Index) : string.Empty);
 
             return texCallBuilder.ToString();
         }
@@ -558,7 +558,7 @@ namespace Ryujinx.Graphics.Shader.CodeGen.Msl.Instructions
         {
             if (mask == 0x0)
             {
-                return "";
+                return string.Empty;
             }
 
             string swizzle = ".";

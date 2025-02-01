@@ -11,7 +11,7 @@
 [![Latest release](https://img.shields.io/github/v/release/GreemDev/Ryujinx)](https://github.com/Ryubing/Ryujinx/releases/latest)
   <br>
 [![Canary workflow](https://github.com/Ryubing/Ryujinx/actions/workflows/canary.yml/badge.svg)](https://github.com/Ryubing/Ryujinx/actions/workflows/canary.yml)
-[![Latest canary release](https://img.shields.io/github/v/release/GreemDev/Ryujinx-Canary?label=canary)](https://github.com/Ryubing/Ryujinx-Canary/releases/latest)
+[![Latest canary release](https://img.shields.io/github/v/release/Ryubing/Canary-Releases?label=canary)](https://github.com/Ryubing/Canary-Releases/releases/latest)
         </td>
     </tr>
 </table>
@@ -64,7 +64,7 @@ Canary builds are compiled automatically for each commit on the `master` branch.
 While we strive to ensure optimal stability and performance prior to pushing an update, these builds **may be unstable or completely broken**.
 These canary builds are only recommended for experienced users.
 
-You can find the latest canary release [here](https://github.com/Ryubing/Ryujinx-Canary/releases/latest).
+You can find the latest canary release [here](https://github.com/Ryubing/Canary-Releases/releases/latest).
 
 ## Documentation
 

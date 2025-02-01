@@ -2,9 +2,6 @@ using Avalonia.Controls;
 using Avalonia.Interactivity;
 using Avalonia.Markup.Xaml;
 using Avalonia.Platform.Storage;
-using Avalonia.Threading;
-using FluentAvalonia.UI.Controls;
-using LibHac;
 using LibHac.Fs;
 using LibHac.Tools.FsSystem.NcaUtils;
 using Ryujinx.Ava.Common;
@@ -17,14 +14,11 @@ using Ryujinx.Ava.Utilities;
 using Ryujinx.Ava.Utilities.AppLibrary;
 using Ryujinx.Common.Configuration;
 using Ryujinx.Common.Helper;
-using Ryujinx.Common.Logging;
 using Ryujinx.HLE.HOS;
 using SkiaSharp;
 using System;
 using System.Collections.Generic;
 using System.IO;
-using System.Threading;
-using System.Threading.Tasks;
 using Path = System.IO.Path;
 
 namespace Ryujinx.Ava.UI.Controls
@@ -128,7 +122,11 @@ namespace Ryujinx.Ava.UI.Controls
         public async void OpenModManager_Click(object sender, RoutedEventArgs args)
         {
             if (sender is MenuItem { DataContext: MainWindowViewModel { SelectedApplication: not null } viewModel })
-                await ModManagerWindow.Show(viewModel.SelectedApplication.Id, viewModel.SelectedApplication.Name);
+                await ModManagerWindow.Show(
+                    viewModel.SelectedApplication.Id, 
+                    viewModel.SelectedApplication.IdBase, 
+                    viewModel.ApplicationLibrary, 
+                    viewModel.SelectedApplication.Name);
         }
 
         public async void PurgePtcCache_Click(object sender, RoutedEventArgs args)
@@ -156,6 +154,52 @@ namespace Ryujinx.Ava.UI.Controls
                 if (backupDir.Exists)
                 {
                     cacheFiles.AddRange(backupDir.EnumerateFiles("*.cache"));
+                }
+
+                if (cacheFiles.Count > 0)
+                {
+                    foreach (FileInfo file in cacheFiles)
+                    {
+                        try
+                        {
+                            file.Delete();
+                        }
+                        catch (Exception ex)
+                        {
+                            await ContentDialogHelper.CreateErrorDialog(LocaleManager.Instance.UpdateAndGetDynamicValue(LocaleKeys.DialogPPTCDeletionErrorMessage, file.Name, ex));
+                        }
+                    }
+                }
+            }
+        }
+
+        public async void NukePtcCache_Click(object sender, RoutedEventArgs args)
+        {
+            if (sender is not MenuItem { DataContext: MainWindowViewModel { SelectedApplication: not null } viewModel })
+                return;
+
+            UserResult result = await ContentDialogHelper.CreateLocalizedConfirmationDialog(
+                LocaleManager.Instance[LocaleKeys.DialogWarning],
+                LocaleManager.Instance.UpdateAndGetDynamicValue(LocaleKeys.DialogPPTCNukeMessage, viewModel.SelectedApplication.Name)
+            );
+
+            if (result == UserResult.Yes)
+            {
+                DirectoryInfo mainDir = new(Path.Combine(AppDataManager.GamesDirPath, viewModel.SelectedApplication.IdString, "cache", "cpu", "0"));
+                DirectoryInfo backupDir = new(Path.Combine(AppDataManager.GamesDirPath, viewModel.SelectedApplication.IdString, "cache", "cpu", "1"));
+
+                List<FileInfo> cacheFiles = new();
+
+                if (mainDir.Exists)
+                {
+                    cacheFiles.AddRange(mainDir.EnumerateFiles("*.cache"));
+                    cacheFiles.AddRange(mainDir.EnumerateFiles("*.info"));
+                }
+
+                if (backupDir.Exists)
+                {
+                    cacheFiles.AddRange(backupDir.EnumerateFiles("*.cache"));
+                    cacheFiles.AddRange(mainDir.EnumerateFiles("*.info"));
                 }
 
                 if (cacheFiles.Count > 0)

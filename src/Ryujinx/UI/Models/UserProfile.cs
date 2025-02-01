@@ -1,5 +1,6 @@
 using Avalonia;
 using Avalonia.Media;
+using CommunityToolkit.Mvvm.ComponentModel;
 using Ryujinx.Ava.UI.Controls;
 using Ryujinx.Ava.UI.ViewModels;
 using Ryujinx.Ava.UI.Views.User;
@@ -8,65 +9,15 @@ using Profile = Ryujinx.HLE.HOS.Services.Account.Acc.UserProfile;
 
 namespace Ryujinx.Ava.UI.Models
 {
-    public class UserProfile : BaseModel
+    public partial class UserProfile : BaseModel
     {
         private readonly Profile _profile;
         private readonly NavigationDialogHost _owner;
-        private byte[] _image;
-        private string _name;
-        private UserId _userId;
-        private bool _isPointerOver;
-        private IBrush _backgroundColor;
-
-        public byte[] Image
-        {
-            get => _image;
-            set
-            {
-                _image = value;
-                OnPropertyChanged();
-            }
-        }
-
-        public UserId UserId
-        {
-            get => _userId;
-            set
-            {
-                _userId = value;
-                OnPropertyChanged();
-            }
-        }
-
-        public string Name
-        {
-            get => _name;
-            set
-            {
-                _name = value;
-                OnPropertyChanged();
-            }
-        }
-
-        public bool IsPointerOver
-        {
-            get => _isPointerOver;
-            set
-            {
-                _isPointerOver = value;
-                OnPropertyChanged();
-            }
-        }
-
-        public IBrush BackgroundColor
-        {
-            get => _backgroundColor;
-            set
-            {
-                _backgroundColor = value;
-                OnPropertyChanged();
-            }
-        }
+        [ObservableProperty] private byte[] _image;
+        [ObservableProperty] private string _name;
+        [ObservableProperty] private UserId _userId;
+        [ObservableProperty] private bool _isPointerOver;
+        [ObservableProperty] private IBrush _backgroundColor;
 
         public UserProfile(Profile profile, NavigationDialogHost owner)
         {

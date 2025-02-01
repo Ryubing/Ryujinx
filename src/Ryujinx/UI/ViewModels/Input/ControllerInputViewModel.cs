@@ -1,10 +1,10 @@
 using Avalonia.Svg.Skia;
 using CommunityToolkit.Mvvm.ComponentModel;
-using CommunityToolkit.Mvvm.Input;
-using FluentAvalonia.UI.Controls;
-using Ryujinx.Ava.UI.Helpers;
 using Ryujinx.Ava.UI.Models.Input;
 using Ryujinx.Ava.UI.Views.Input;
+using Ryujinx.Common.Utilities;
+using Ryujinx.UI.Views.Input;
+using System.Drawing;
 
 namespace Ryujinx.Ava.UI.ViewModels.Input
 {
@@ -47,6 +47,23 @@ namespace Ryujinx.Ava.UI.ViewModels.Input
             ParentModel = model;
             model.NotifyChangesEvent += OnParentModelChanged;
             OnParentModelChanged();
+            config.PropertyChanged += (_, args) =>
+            {
+                if (args.PropertyName is nameof(Config.UseRainbowLed))
+                {
+                    if (Config is { UseRainbowLed: true, TurnOffLed: false, EnableLedChanging: true })
+                        Rainbow.Updated += (ref Color color) => ParentModel.SelectedGamepad.SetLed((uint)color.ToArgb());
+                    else
+                    {
+                        Rainbow.Reset();
+                        
+                        if (Config.TurnOffLed)
+                            ParentModel.SelectedGamepad.ClearLed();
+                        else
+                            ParentModel.SelectedGamepad.SetLed(Config.LedColor.ToUInt32());
+                    }
+                }
+            };
             Config = config;
         }
 
@@ -59,16 +76,11 @@ namespace Ryujinx.Ava.UI.ViewModels.Input
         {
             await RumbleInputView.Show(this);
         }
-
-        public RelayCommand LedDisabledChanged => Commands.Create(() =>
+        
+        public async void ShowLedConfig()
         {
-            if (!Config.EnableLedChanging) return;
-
-            if (Config.TurnOffLed)
-                ParentModel.SelectedGamepad.ClearLed();
-            else
-                ParentModel.SelectedGamepad.SetLed(Config.LedColor.ToUInt32());
-        });
+            await LedInputView.Show(this);
+        }
 
         public void OnParentModelChanged()
         {

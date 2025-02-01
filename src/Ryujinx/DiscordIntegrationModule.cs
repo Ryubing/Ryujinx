@@ -1,7 +1,5 @@
 using DiscordRPC;
 using Gommon;
-using Humanizer;
-using Humanizer.Localisation;
 using Ryujinx.Ava.Utilities;
 using Ryujinx.Ava.Utilities.AppLibrary;
 using Ryujinx.Ava.Utilities.Configuration;

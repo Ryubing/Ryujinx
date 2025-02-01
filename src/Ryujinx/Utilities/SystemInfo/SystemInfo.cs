@@ -24,9 +24,9 @@ namespace Ryujinx.Ava.Utilities.SystemInfo
 
         public void Print()
         {
-            Logger.Notice.Print(LogClass.Application, $"Operating System: {OsDescription}");
-            Logger.Notice.Print(LogClass.Application, $"CPU: {CpuName}");
-            Logger.Notice.Print(LogClass.Application, $"RAM: Total {ToGBString(RamTotal)} ; Available {ToGBString(RamAvailable)}");
+            Logger.Notice.Print(LogClass.Application, $"Operating System: {OsDescription}", "PrintSystemInfo");
+            Logger.Notice.Print(LogClass.Application, $"CPU: {CpuName}", "PrintSystemInfo");
+            Logger.Notice.Print(LogClass.Application, $"RAM: Total {ToGBString(RamTotal)} ; Available {ToGBString(RamAvailable)}", "PrintSystemInfo");
         }
 
         public static SystemInfo Gather()

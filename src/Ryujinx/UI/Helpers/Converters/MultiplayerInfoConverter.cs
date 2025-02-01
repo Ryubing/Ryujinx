@@ -1,6 +1,5 @@
 using Avalonia.Data.Converters;
 using Avalonia.Markup.Xaml;
-using Ryujinx.Ava.Common.Locale;
 using Ryujinx.Ava.Utilities.AppLibrary;
 using System;
 using System.Globalization;
@@ -19,15 +18,10 @@ namespace Ryujinx.Ava.UI.Helpers
                 {
                     return $"Hosted Games: {applicationData.GameCount}\nOnline Players: {applicationData.PlayerCount}";
                 }
-                else
-                {
-                    return "";
-                }
             }
-            else
-            {
-                return "";
-            }
+            
+            return "";
+            
         }
 
         public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)

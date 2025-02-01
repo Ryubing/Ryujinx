@@ -2,7 +2,6 @@ using Avalonia.Controls;
 using Avalonia.Input;
 using Avalonia.Interactivity;
 using Ryujinx.Ava.UI.Helpers;
-using Ryujinx.Ava.UI.ViewModels;
 using Ryujinx.Ava.Utilities.AppLibrary;
 using System;
 

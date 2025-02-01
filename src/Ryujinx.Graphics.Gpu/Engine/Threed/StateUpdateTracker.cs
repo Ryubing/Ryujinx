@@ -1,4 +1,3 @@
-using Ryujinx.Graphics.Device;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
