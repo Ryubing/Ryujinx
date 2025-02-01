@@ -43,19 +43,19 @@ namespace Ryujinx.Ava.UI.Renderer
 
         public RendererHost(string titleId)
         {
-            switch (TitleIDs.SelectGraphicsBackend(titleId, ConfigurationState.Instance.Graphics.GraphicsBackend))
-            {
-                case GraphicsBackend.OpenGl:
-                    EmbeddedWindow = new EmbeddedWindowOpenGL();
-                    break;
-                case GraphicsBackend.Metal:
-                    EmbeddedWindow = new EmbeddedWindowMetal();
-                    break;
-                case GraphicsBackend.Vulkan: 
-                    EmbeddedWindow = new EmbeddedWindowVulkan(); 
-                    break;
-            }
-            
+            Focusable = true;
+            FlowDirection = FlowDirection.LeftToRight;
+
+            EmbeddedWindow =
+#pragma warning disable CS8509
+                TitleIDs.SelectGraphicsBackend(titleId, ConfigurationState.Instance.Graphics.GraphicsBackend) switch
+#pragma warning restore CS8509
+                {
+                    GraphicsBackend.OpenGl => new EmbeddedWindowOpenGL(),
+                    GraphicsBackend.Metal => new EmbeddedWindowMetal(),
+                    GraphicsBackend.Vulkan => new EmbeddedWindowVulkan(),
+                };
+
             string backendText = EmbeddedWindow switch
             {
                 EmbeddedWindowVulkan => "Vulkan",
