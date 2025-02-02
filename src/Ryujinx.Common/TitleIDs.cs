@@ -47,7 +47,7 @@ namespace Ryujinx.Common
             "01006f8002326000", // Animal Crossings: New Horizons
             "01009bf0072d4000", // Captain Toad: Treasure Tracker
             "01009510001ca000", // Fast RMX
-            "01005CA01580E000", // Persona 5 Royale
+            "01005CA01580E000", // Persona 5 Royal
             "010015100b514000", // Super Mario Bros. Wonder
             "0100000000010000", // Super Mario Odyssey
 
