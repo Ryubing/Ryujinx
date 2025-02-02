@@ -46,6 +46,13 @@ namespace Ryujinx.Ava
             List<InputConfig> oldConfig = _configurationState.Hid.InputConfig.Value.Where(x => x != null).ToList();
             List<InputConfig> newConfig = GetOrderedConfig(controllers, oldConfig);
             
+            int index = 0;
+            foreach (var config in newConfig)
+            {
+                config.PlayerIndex = (PlayerIndex)index;
+                index++;
+            }
+            
             _viewModel.AppHost?.NpadManager.ReloadConfiguration(newConfig, _configurationState.Hid.EnableKeyboard, _configurationState.Hid.EnableMouse);
             
             _configurationState.Hid.InputConfig.Value = newConfig;
