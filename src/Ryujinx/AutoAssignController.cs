@@ -17,16 +17,20 @@ namespace Ryujinx.Ava
     public class AutoAssignController
     {
         private readonly InputManager _inputManager;
+        private readonly MainWindowViewModel _viewModel;
         private readonly ConfigurationState _configurationState;
         
         private readonly IGamepad[] _controllers;
         
-        public AutoAssignController(InputManager inputManager)
+        public AutoAssignController(InputManager inputManager, MainWindowViewModel mainWindowViewModel)
         {
-            _configurationState = ConfigurationState.Instance;
             _inputManager = inputManager;
+            _viewModel = mainWindowViewModel;
+            _configurationState = ConfigurationState.Instance;
             _inputManager.GamepadDriver.OnGamepadConnected += HandleOnGamepadConnected;
             _inputManager.GamepadDriver.OnGamepadDisconnected += HandleOnGamepadDisconnected;
+            
+            RefreshControllers();
         }
 
         public void RefreshControllers(List<InputConfig> inputConfig = null)
@@ -34,32 +38,47 @@ namespace Ryujinx.Ava
             if (!_configurationState.Hid.EnableAutoAssign) return;
             
             List<IGamepad> controllers = _inputManager.GamepadDriver.GetGamepads().ToList();
-            
-            if (controllers.Count == 0) return;
-            
-            MainWindow _mainWindow = RyujinxApp.MainWindow;
+            //if (controllers.Count == 0) return;
             
             // Get every controller config and update the configuration state
             List<InputConfig> newConfig = new();
-            List<InputConfig> oldConfigs = (inputConfig != null) ? inputConfig : ConfigurationState.Instance.Hid.InputConfig.Value.Where(x => x != null).ToList();
+            
+            Logger.Warning?.Print(LogClass.Application, $"inputConfig: {inputConfig != null}");
 
-            int index = 0;
-            foreach (var controller in controllers)
+            if (inputConfig != null)
             {
-                InputConfig config = oldConfigs.FirstOrDefault(x => x.Id == controller.Id) ?? CreateConfigFromController(controller);
-                config.PlayerIndex = (PlayerIndex)index;
-                newConfig.Add(config);
-                index++;
+                newConfig = inputConfig;
             }
-    
-            _mainWindow.ViewModel.AppHost?.NpadManager.ReloadConfiguration(newConfig, ConfigurationState.Instance.Hid.EnableKeyboard, ConfigurationState.Instance.Hid.EnableMouse);
+            else
+            {
+                if (!_configurationState.Hid.EnableAutoAssign) return;
+                List<InputConfig> oldConfig = _configurationState.Hid.InputConfig.Value.Where(x => x != null).ToList();
+                
+                int index = 0;
+                foreach (var controller in controllers)
+                {
+                    if(controller == null) continue;
+                    InputConfig config = oldConfig.FirstOrDefault(x => x.Id == controller.Id) ?? CreateConfigFromController(controller);
+                    config.PlayerIndex = (PlayerIndex)index;
+                    newConfig.Add(config);
+                    index++;
+                }
+            }
+            
+            _viewModel.AppHost?.NpadManager.ReloadConfiguration(newConfig, _configurationState.Hid.EnableKeyboard, _configurationState.Hid.EnableMouse);
+            
+            Logger.Warning?.Print(LogClass.Application, $"(AAC) NpadManager: {_viewModel.AppHost?.NpadManager.GetHashCode()}");
 
-            ConfigurationState.Instance.Hid.InputConfig.Value = newConfig;
+            _configurationState.Hid.InputConfig.Value = newConfig;
+            
+            Logger.Warning?.Print(LogClass.Application, $"inputConfig: {newConfig.Count}");
+            
+            ConfigurationState.Instance.ToFileFormat().SaveConfig(Program.ConfigurationPath);
         }
         
         private void HandleOnGamepadConnected(string id)
         {
-            Logger.Warning?.Print(LogClass.Application, $"Gamepad disconnected: {id}");
+            Logger.Warning?.Print(LogClass.Application, $"Gamepad connected: {id}");
             RefreshControllers();
         }
         

@@ -110,7 +110,7 @@ namespace Ryujinx.Ava.UI.Windows
             if (Program.PreviewerDetached)
             {
                 InputManager = new InputManager(new AvaloniaKeyboardDriver(this), new SDL2GamepadDriver());
-                AutoAssignController = new AutoAssignController(InputManager);
+                AutoAssignController = new AutoAssignController(InputManager, ViewModel);
 
                 _ = this.GetObservable(IsActiveProperty).Subscribe(it => ViewModel.IsActive = it);
                 this.ScalingChanged += OnScalingChanged;

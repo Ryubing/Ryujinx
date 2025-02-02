@@ -620,6 +620,7 @@ namespace Ryujinx.Ava.UI.ViewModels
             config.System.EnableDockedMode.Value = EnableDockedMode;
             config.Hid.EnableKeyboard.Value = EnableKeyboard;
             config.Hid.EnableMouse.Value = EnableMouse;
+            bool activatingAutoAssign = EnableAutoAssign && !config.Hid.EnableAutoAssign;
             config.Hid.EnableAutoAssign.Value = EnableAutoAssign;
 
             // Keyboard Hotkeys
@@ -715,7 +716,14 @@ namespace Ryujinx.Ava.UI.ViewModels
             MainWindow.UpdateGraphicsConfig();
             RyujinxApp.MainWindow.ViewModel.VSyncModeSettingChanged();
 
-            SaveSettingsEvent?.Invoke();
+            if(activatingAutoAssign)
+            {
+                RyujinxApp.MainWindow.AutoAssignController.RefreshControllers();
+            }
+            else
+            {
+                SaveSettingsEvent?.Invoke();
+            }
 
             GameDirectoryChanged = false;
             AutoloadDirectoryChanged = false;

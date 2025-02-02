@@ -810,7 +810,7 @@ namespace Ryujinx.Ava.UI.ViewModels.Input
         {
             IsModified = false;
 
-            List<InputConfig> newConfig = new();
+            List<InputConfig> newConfig = [];
 
             newConfig.AddRange(ConfigurationState.Instance.Hid.InputConfig.Value);
 
@@ -851,12 +851,12 @@ namespace Ryujinx.Ava.UI.ViewModels.Input
                     newConfig[i] = config;
                 }
             }
-            
-            //_mainWindow.ViewModel.AppHost?.NpadManager.ReloadConfiguration(newConfig, ConfigurationState.Instance.Hid.EnableKeyboard, ConfigurationState.Instance.Hid.EnableMouse);
+
+            _mainWindow.ViewModel.AppHost?.NpadManager.ReloadConfiguration(newConfig, ConfigurationState.Instance.Hid.EnableKeyboard, ConfigurationState.Instance.Hid.EnableMouse);
+
             // Atomically replace and signal input change.
             // NOTE: Do not modify InputConfig.Value directly as other code depends on the on-change event.
-            //ConfigurationState.Instance.Hid.InputConfig.Value = newConfig;
-            _mainWindow.AutoAssignController.RefreshControllers(newConfig);
+            ConfigurationState.Instance.Hid.InputConfig.Value = newConfig;
 
             ConfigurationState.Instance.ToFileFormat().SaveConfig(Program.ConfigurationPath);
         }
