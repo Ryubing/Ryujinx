@@ -83,7 +83,7 @@ namespace Ryujinx.Graphics.Gpu.Synchronization
             // TODO: Remove this when GPU channel scheduling will be implemented.
             if (timeout == Timeout.InfiniteTimeSpan)
             {
-                timeout = TimeSpan.FromMilliseconds(500);
+                timeout = TimeSpan.FromSeconds(1);
             }
 
             using ManualResetEvent waitEvent = new(false);
