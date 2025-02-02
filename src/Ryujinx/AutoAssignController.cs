@@ -16,6 +16,8 @@ namespace Ryujinx.Ava
 {
     public class AutoAssignController
     {
+        private const int MaxControllers = 9;
+        
         private readonly InputManager _inputManager;
         private readonly MainWindowViewModel _viewModel;
         private readonly ConfigurationState _configurationState;
@@ -33,45 +35,20 @@ namespace Ryujinx.Ava
             RefreshControllers();
         }
 
-        public void RefreshControllers(List<InputConfig> inputConfig = null)
+        public void RefreshControllers()
         {
             if (!_configurationState.Hid.EnableAutoAssign) return;
-            
-            List<IGamepad> controllers = _inputManager.GamepadDriver.GetGamepads().ToList();
             //if (controllers.Count == 0) return;
             
             // Get every controller config and update the configuration state
-            List<InputConfig> newConfig = new();
-            
-            Logger.Warning?.Print(LogClass.Application, $"inputConfig: {inputConfig != null}");
 
-            if (inputConfig != null)
-            {
-                newConfig = inputConfig;
-            }
-            else
-            {
-                if (!_configurationState.Hid.EnableAutoAssign) return;
-                List<InputConfig> oldConfig = _configurationState.Hid.InputConfig.Value.Where(x => x != null).ToList();
-                
-                int index = 0;
-                foreach (var controller in controllers)
-                {
-                    if(controller == null) continue;
-                    InputConfig config = oldConfig.FirstOrDefault(x => x.Id == controller.Id) ?? CreateConfigFromController(controller);
-                    config.PlayerIndex = (PlayerIndex)index;
-                    newConfig.Add(config);
-                    index++;
-                }
-            }
+            List<IGamepad> controllers = _inputManager.GamepadDriver.GetGamepads().ToList();
+            List<InputConfig> oldConfig = _configurationState.Hid.InputConfig.Value.Where(x => x != null).ToList();
+            List<InputConfig> newConfig = GetOrderedConfig(controllers, oldConfig);
             
             _viewModel.AppHost?.NpadManager.ReloadConfiguration(newConfig, _configurationState.Hid.EnableKeyboard, _configurationState.Hid.EnableMouse);
             
-            Logger.Warning?.Print(LogClass.Application, $"(AAC) NpadManager: {_viewModel.AppHost?.NpadManager.GetHashCode()}");
-
             _configurationState.Hid.InputConfig.Value = newConfig;
-            
-            Logger.Warning?.Print(LogClass.Application, $"inputConfig: {newConfig.Count}");
             
             ConfigurationState.Instance.ToFileFormat().SaveConfig(Program.ConfigurationPath);
         }
@@ -86,6 +63,47 @@ namespace Ryujinx.Ava
         {
             Logger.Warning?.Print(LogClass.Application, $"Gamepad disconnected: {id}");
             RefreshControllers();
+        }
+
+        private List<InputConfig> GetOrderedConfig(List<IGamepad> controllers, List<InputConfig> oldConfig)
+        {
+            // Dictionary to store assigned PlayerIndexes
+            Dictionary<int, InputConfig> playerIndexMap = new();
+
+            // Convert oldConfig into a dictionary for quick lookup by controller Id
+            Dictionary<string, InputConfig> oldConfigMap = oldConfig.ToDictionary(x => x.Id, x => x);
+
+            foreach (var controller in controllers)
+            {
+                if (controller == null) continue;
+
+                // If the controller already has a config in oldConfig, use it
+                if (oldConfigMap.TryGetValue(controller.Id, out InputConfig existingConfig))
+                {
+                    // Use the existing PlayerIndex from oldConfig and add it to the map
+                    playerIndexMap[(int)existingConfig.PlayerIndex] = existingConfig;
+                }
+                else
+                {
+                    // Find the first available PlayerIndex (0 to MaxControllers)
+                    for (int i = 0; i < MaxControllers-1; i++)
+                    {
+                        if (!playerIndexMap.ContainsKey(i)) // Check if the PlayerIndex is available
+                        {
+                            // Create a new InputConfig and assign PlayerIndex
+                            InputConfig newConfig = CreateConfigFromController(controller);
+                            newConfig.PlayerIndex = (PlayerIndex)i;
+
+                            // Add the new config to the map with the available PlayerIndex
+                            playerIndexMap[i] = newConfig;
+                            break;
+                        }
+                    }
+                }
+            }
+
+            // Return the sorted list of InputConfigs, ordered by PlayerIndex
+            return playerIndexMap.OrderBy(x => x.Key).Select(x => x.Value).ToList();
         }
         
         private InputConfig CreateConfigFromController(IGamepad controller)
