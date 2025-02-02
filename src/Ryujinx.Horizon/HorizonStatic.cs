@@ -1,3 +1,4 @@
+using MsgPack;
 using Ryujinx.Horizon.Common;
 using Ryujinx.Memory;
 using System;
@@ -6,6 +7,10 @@ namespace Ryujinx.Horizon
 {
     public static class HorizonStatic
     {
+        internal static void HandlePlayReport(MessagePackObject report) => PlayReportPrinted.Invoke(report);
+        
+        public static event Action<MessagePackObject> PlayReportPrinted;
+        
         [ThreadStatic]
         private static HorizonOptions _options;
 

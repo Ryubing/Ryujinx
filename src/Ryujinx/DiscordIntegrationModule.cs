@@ -1,11 +1,18 @@
 using DiscordRPC;
 using Gommon;
+using MsgPack;
 using Ryujinx.Ava.Utilities;
 using Ryujinx.Ava.Utilities.AppLibrary;
 using Ryujinx.Ava.Utilities.Configuration;
 using Ryujinx.Common;
+using Ryujinx.Common.Logging;
 using Ryujinx.HLE;
 using Ryujinx.HLE.Loaders.Processes;
+using Ryujinx.Horizon;
+using System;
+using System.Collections.Generic;
+using System.Collections.ObjectModel;
+using System.Linq;
 using System.Text;
 
 namespace Ryujinx.Ava
@@ -30,6 +37,7 @@ namespace Ryujinx.Ava
 
         private static DiscordRpcClient _discordClient;
         private static RichPresence _discordPresenceMain;
+        private static RichPresence _discordPresencePlaying;
 
         public static void Initialize()
         {
@@ -47,6 +55,7 @@ namespace Ryujinx.Ava
 
             ConfigurationState.Instance.EnableDiscordIntegration.Event += Update;
             TitleIDs.CurrentApplication.Event += (_, e) => Use(e.NewValue);
+            HorizonStatic.PlayReportPrinted += HandlePlayReport;
         }
 
         private static void Update(object sender, ReactiveEventArgs<bool> evnt)
@@ -84,9 +93,8 @@ namespace Ryujinx.Ava
                 SwitchToMainState();
         }
 
-        private static void SwitchToPlayingState(ApplicationMetadata appMeta, ProcessResult procRes)
-        {
-            _discordClient?.SetPresence(new RichPresence
+        private static RichPresence CreatePlayingState(ApplicationMetadata appMeta, ProcessResult procRes) =>
+            new()
             {
                 Assets = new Assets
                 {
@@ -100,10 +108,54 @@ namespace Ryujinx.Ava
                     ? $"Total play time: {ValueFormatUtils.FormatTimeSpan(appMeta.TimePlayed)}"
                     : "Never played",
                 Timestamps = GuestAppStartedAt ??= Timestamps.Now
-            });
+            };
+
+        private static void SwitchToPlayingState(ApplicationMetadata appMeta, ProcessResult procRes)
+        {
+            _discordClient?.SetPresence(_discordPresencePlaying ??= CreatePlayingState(appMeta, procRes));
+        }
+        
+        private static void UpdatePlayingState()
+        {
+            _discordClient?.SetPresence(_discordPresencePlaying);
         }
 
-        private static void SwitchToMainState() => _discordClient?.SetPresence(_discordPresenceMain);
+        private static void SwitchToMainState()
+        {
+            _discordClient?.SetPresence(_discordPresenceMain);
+            _discordPresencePlaying = null;
+        }
+        
+        private static void HandlePlayReport(MessagePackObject playReport)
+        {
+            if (!TitleIDs.CurrentApplication.Value.HasValue) return;
+            if (_discordPresencePlaying is null) return;
+            if (!playReport.IsDictionary) return;
+
+            _playReportValues
+                .FindFirst(x => x.Key.EqualsIgnoreCase(TitleIDs.CurrentApplication.Value))
+                .Convert(x => x.Value)
+                .IfPresent(x =>
+                {
+                    if (!playReport.AsDictionary().TryGetValue(x.ReportKey, out MessagePackObject valuePackObject))
+                        return;
+
+                    _discordPresencePlaying.Details = x.Formatter(valuePackObject.ToObject());
+                    UpdatePlayingState();
+                    Logger.Info?.Print(LogClass.UI, "Updated Discord RPC based on a supported play report.");
+                });
+        }
+
+        // title ID -> Play Report key & value formatter
+        private static readonly ReadOnlyDictionary<string, (string ReportKey, Func<object, string> Formatter)> 
+            _playReportValues = new(new Dictionary<string, (string ReportKey, Func<object, string> Formatter)>
+            {
+                {
+                    // Breath of the Wild Master Mode display
+                    "01007ef00011e000", 
+                    ("IsHardMode", val => val is 1 ? "Playing Master Mode" : "Playing Normal Mode")
+                }
+            });
 
         private static string TruncateToByteLength(string input)
         {

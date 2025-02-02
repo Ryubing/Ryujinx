@@ -230,6 +230,8 @@ namespace Ryujinx.Horizon.Prepo.Ipc
 
             builder.AppendLine($" Room: {gameRoom}");
             builder.AppendLine($" Report: {MessagePackObjectFormatter.Format(deserializedReport)}");
+            
+            HorizonStatic.HandlePlayReport(deserializedReport);
 
             Logger.Info?.Print(LogClass.ServicePrepo, builder.ToString());
 
