@@ -20,7 +20,7 @@ namespace ARMeilleure.Translation.Cache
         private static readonly int _pageMask = _pageSize - 1;
 
         private const int CodeAlignment = 4; // Bytes.
-        private const int CacheSize = 256 * 1024 * 1024;
+        private const int CacheSize = 128 * 1024 * 1024;
 
         private static JitCacheInvalidation _jitCacheInvalidator;
 
