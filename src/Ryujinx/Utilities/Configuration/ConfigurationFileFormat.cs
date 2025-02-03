@@ -15,7 +15,7 @@ namespace Ryujinx.Ava.Utilities.Configuration
         /// <summary>
         /// The current version of the file format
         /// </summary>
-        public const int CurrentVersion = 62;
+        public const int CurrentVersion = 63;
 
         /// <summary>
         /// Version of the configuration file format
@@ -141,6 +141,11 @@ namespace Ryujinx.Ava.Utilities.Configuration
         /// Change System Time Offset in seconds
         /// </summary>
         public long SystemTimeOffset { get; set; }
+        
+        /// <summary>
+        /// Instead of setting the time via configuration, use the values provided by the system.
+        /// </summary>
+        public bool MatchSystemTime { get; set; }
 
         /// <summary>
         /// Enables or disables Docked Mode

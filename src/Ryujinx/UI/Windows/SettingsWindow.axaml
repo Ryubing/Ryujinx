@@ -10,6 +10,7 @@
     xmlns:viewModels="clr-namespace:Ryujinx.Ava.UI.ViewModels"
     xmlns:settings="clr-namespace:Ryujinx.Ava.UI.Views.Settings"
     xmlns:helpers="clr-namespace:Ryujinx.Ava.UI.Helpers"
+    xmlns:helper="clr-namespace:Ryujinx.Common.Helper;assembly=Ryujinx.Common"
     Width="1100"
     Height="768"
     MinWidth="800"
@@ -113,7 +114,7 @@
             Spacing="10"
             Orientation="Horizontal"
             HorizontalAlignment="Right"
-            ReverseOrder="{Binding IsMacOS}">
+            ReverseOrder="{x:Static helper:RunningPlatform.IsMacOS}">
             <Button
                 Classes="accent"
                 Content="{ext:Locale SettingsButtonOk}"

@@ -116,10 +116,6 @@ namespace Ryujinx.Ava.UI.ViewModels
 
         public bool IsOpenGLAvailable => !OperatingSystem.IsMacOS();
 
-        public bool IsAppleSiliconMac => OperatingSystem.IsMacOS() && RuntimeInformation.ProcessArchitecture == Architecture.Arm64;
-
-        public bool IsMacOS => OperatingSystem.IsMacOS();
-
         public bool EnableDiscordIntegration { get; set; }
         public bool CheckUpdatesOnStart { get; set; }
         public bool ShowConfirmExit { get; set; }
@@ -201,7 +197,7 @@ namespace Ryujinx.Ava.UI.ViewModels
         public bool EnableTextureRecompression { get; set; }
         public bool EnableMacroHLE { get; set; }
         public bool EnableColorSpacePassthrough { get; set; }
-        public bool ColorSpacePassthroughAvailable => IsMacOS;
+        public bool ColorSpacePassthroughAvailable => RunningPlatform.IsMacOS;
         public bool EnableFileLog { get; set; }
         public bool EnableStub { get; set; }
         public bool EnableInfo { get; set; }
@@ -296,6 +292,8 @@ namespace Ryujinx.Ava.UI.ViewModels
                 OnPropertyChanged();
             }
         }
+
+        [ObservableProperty] private bool _matchSystemTime;
 
         public DateTimeOffset CurrentDate { get; set; }
 
@@ -412,17 +410,6 @@ namespace Ryujinx.Ava.UI.ViewModels
             Dispatcher.UIThread.Post(() => OnPropertyChanged(nameof(PreferredGpuIndex)));
         }
 
-        public void MatchSystemTime()
-        {
-            (DateTimeOffset dto, TimeSpan timeOfDay) = DateTimeOffset.Now.Extract();
-            
-            CurrentDate = dto;
-            CurrentTime = timeOfDay;
-            
-            OnPropertyChanged(nameof(CurrentDate));
-            OnPropertyChanged(nameof(CurrentTime));
-        }
-
         public async Task LoadTimeZones()
         {
             _timeZoneContentManager = new TimeZoneContentManager();
@@ -524,7 +511,9 @@ namespace Ryujinx.Ava.UI.ViewModels
             CurrentDate = currentDateTime.Date;
             CurrentTime = currentDateTime.TimeOfDay;
 
-            EnableCustomVSyncInterval = config.Graphics.EnableCustomVSyncInterval.Value;
+            MatchSystemTime = config.System.MatchSystemTime;
+
+            EnableCustomVSyncInterval = config.Graphics.EnableCustomVSyncInterval;
             CustomVSyncInterval = config.Graphics.CustomVSyncInterval;
             VSyncMode = config.Graphics.VSyncMode;
             EnableFsIntegrityChecks = config.System.EnableFsIntegrityChecks;
@@ -629,6 +618,7 @@ namespace Ryujinx.Ava.UI.ViewModels
                 config.System.TimeZone.Value = TimeZone;
             }
 
+            config.System.MatchSystemTime.Value = MatchSystemTime;
             config.System.SystemTimeOffset.Value = Convert.ToInt64((CurrentDate.ToUnixTimeSeconds() + CurrentTime.TotalSeconds) - DateTimeOffset.Now.ToUnixTimeSeconds());
             config.System.EnableFsIntegrityChecks.Value = EnableFsIntegrityChecks;
             config.System.DramSize.Value = DramSize;

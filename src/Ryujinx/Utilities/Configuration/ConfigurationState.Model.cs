@@ -312,6 +312,11 @@ namespace Ryujinx.Ava.Utilities.Configuration
             /// System Time Offset in Seconds
             /// </summary>
             public ReactiveObject<long> SystemTimeOffset { get; private set; }
+            
+            /// <summary>
+            /// Instead of setting the time via configuration, use the values provided by the system.
+            /// </summary>
+            public ReactiveObject<bool> MatchSystemTime { get; private set; }
 
             /// <summary>
             /// Enables or disables Docked Mode
@@ -388,6 +393,8 @@ namespace Ryujinx.Ava.Utilities.Configuration
                 TimeZone.LogChangesToValue(nameof(TimeZone));
                 SystemTimeOffset = new ReactiveObject<long>();
                 SystemTimeOffset.LogChangesToValue(nameof(SystemTimeOffset));
+                MatchSystemTime = new ReactiveObject<bool>();
+                MatchSystemTime.LogChangesToValue(nameof(MatchSystemTime));
                 EnableDockedMode = new ReactiveObject<bool>();
                 EnableDockedMode.LogChangesToValue(nameof(EnableDockedMode));
                 EnablePtc = new ReactiveObject<bool>();

@@ -938,7 +938,9 @@ namespace Ryujinx.Ava
                 ConfigurationState.Instance.System.EnableInternetAccess,
                 ConfigurationState.Instance.System.EnableFsIntegrityChecks ? IntegrityCheckLevel.ErrorOnInvalid : IntegrityCheckLevel.None,
                 ConfigurationState.Instance.System.FsGlobalAccessLogMode,
-                ConfigurationState.Instance.System.SystemTimeOffset,
+                ConfigurationState.Instance.System.MatchSystemTime 
+                    ? 0 
+                    : ConfigurationState.Instance.System.SystemTimeOffset,
                 ConfigurationState.Instance.System.TimeZone,
                 ConfigurationState.Instance.System.MemoryManagerMode,
                 ConfigurationState.Instance.System.IgnoreMissingServices,
