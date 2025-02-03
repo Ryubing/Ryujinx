@@ -170,7 +170,8 @@
                             ToolTip.Tip="{ext:Locale TimeTooltip}"
                             Width="250"/>
                         <DatePicker
-                            VerticalAlignment="Center" 
+                            VerticalAlignment="Center"
+                            IsEnabled="{Binding !MatchSystemTime}"
                             SelectedDate="{Binding CurrentDate}"
                             ToolTip.Tip="{ext:Locale TimeTooltip}"
                             Width="350" />
@@ -181,17 +182,21 @@
                         <TimePicker
                             VerticalAlignment="Center"
                             ClockIdentifier="24HourClock"
+                            IsEnabled="{Binding !MatchSystemTime}"
                             SelectedTime="{Binding CurrentTime}"
                             Width="350"
                             ToolTip.Tip="{ext:Locale TimeTooltip}" />
-                        <Button
-                            Margin="10, 0, 0, 0"
+                    </StackPanel>
+                    <StackPanel Orientation="Horizontal">
+                        <TextBlock
                             VerticalAlignment="Center"
-                            Click="MatchSystemTime_OnClick"
-                            Background="{DynamicResource SystemAccentColor}"
-                            ToolTip.Tip="{ext:Locale MatchTimeTooltip}">
-                            <TextBlock Text="{ext:Locale SettingsTabSystemSystemTimeMatch}" />
-                        </Button>
+                            Text="{ext:Locale SettingsTabSystemSystemTimeMatch}"
+                            ToolTip.Tip="{ext:Locale MatchTimeTooltip}"
+                            Width="250"/>
+                        <CheckBox
+                            VerticalAlignment="Center"
+                            IsChecked="{Binding MatchSystemTime}"
+                            ToolTip.Tip="{ext:Locale MatchTimeTooltip}"/>
                     </StackPanel>
                     <Separator />
                     <StackPanel Margin="0,10,0,10"

@@ -34,7 +34,5 @@ namespace Ryujinx.Ava.UI.Views.Settings
                 ViewModel.ValidateAndSetTimeZone(timeZone.Location);
             }
         }
-
-        private void MatchSystemTime_OnClick(object sender, RoutedEventArgs e) => ViewModel.MatchSystemTime();
     }
 }

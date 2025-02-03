@@ -429,7 +429,8 @@ namespace Ryujinx.Ava.Utilities.Configuration
                         };
                     }
                 }),
-                (62, static cff => cff.RainbowSpeed = 1f)
+                (62, static cff => cff.RainbowSpeed = 1f),
+                (63, static cff => cff.MatchSystemTime = false)
             );
     }
 }

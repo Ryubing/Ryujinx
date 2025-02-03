@@ -39,6 +39,7 @@ namespace Ryujinx.Ava
         private static DiscordRpcClient _discordClient;
         private static RichPresence _discordPresenceMain;
         private static RichPresence _discordPresencePlaying;
+        private static ApplicationMetadata _currentApp;
 
         public static void Initialize()
         {
@@ -113,6 +114,7 @@ namespace Ryujinx.Ava
         private static void SwitchToPlayingState(ApplicationMetadata appMeta, ProcessResult procRes)
         {
             _discordClient?.SetPresence(_discordPresencePlaying ??= CreatePlayingState(appMeta, procRes));
+            _currentApp = appMeta;
         }
 
         private static void UpdatePlayingState()
@@ -124,27 +126,30 @@ namespace Ryujinx.Ava
         {
             _discordClient?.SetPresence(_discordPresenceMain);
             _discordPresencePlaying = null;
+            _currentApp = null;
         }
-        
-        private static readonly PlayReportAnalyzer _playReportAnalyzer = new PlayReportAnalyzer()
-            .AddSpec( // Breath of the Wild
-                "01007ef00011e000",
-                gameSpec =>
-                    gameSpec.AddValueFormatter("IsHardMode", val => val is 1 ? "Playing Master Mode" : "Playing Normal Mode")
-            );
 
         private static void HandlePlayReport(MessagePackObject playReport)
         {
+            if (_discordClient is null) return;
             if (!TitleIDs.CurrentApplication.Value.HasValue) return;
             if (_discordPresencePlaying is null) return;
 
-            Optional<string> details = _playReportAnalyzer.Run(TitleIDs.CurrentApplication.Value, playReport);
+            PlayReportFormattedValue value = PlayReport.Analyzer.Run(TitleIDs.CurrentApplication.Value, _currentApp, playReport);
 
-            if (!details.HasValue) return;
-            
-            _discordPresencePlaying.Details = details;
+            if (!value.Handled) return;
+
+            if (value.Reset)
+            {
+                _discordPresencePlaying.Details = $"Playing {_currentApp.Title}";
+                Logger.Info?.Print(LogClass.UI, "Reset Discord RPC based on a supported play report value formatter.");
+            }
+            else
+            {
+                _discordPresencePlaying.Details = value.FormattedString;
+                Logger.Info?.Print(LogClass.UI, "Updated Discord RPC based on a supported play report.");
+            }
             UpdatePlayingState();
-            Logger.Info?.Print(LogClass.UI, "Updated Discord RPC based on a supported play report.");
         }
 
         private static string TruncateToByteLength(string input)
