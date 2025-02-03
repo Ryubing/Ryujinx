@@ -1073,6 +1073,7 @@
 010017B0102A8000,"Emma: Lost in Memories",nvdec,playable,2021-01-28 16:19:10
 010068300E08E000,"Enchanted in the Moonlight - Kiryu, Chikage & Yukinojo -",gpu;nvdec,ingame,2022-11-20 16:18:45
 01007A4008486000,"Enchanting Mahjong Match",gpu,ingame,2020-04-17 22:01:31
+0100EF901E552000,"ENDER MAGNOLIA: Bloom in the Mist",deadlock,boots,2025-01-22 17:59:00
 01004F3011F92000,"Endless Fables: Dark Moor",gpu;nvdec,ingame,2021-03-07 15:31:03
 010067B017588000,"Endless Ocean™ Luminous",services-horizon;crash,ingame,2024-05-30 02:05:57
 0100B8700BD14000,"Energy Cycle Edge",services,ingame,2021-11-30 05:02:31
@@ -2487,7 +2488,7 @@
 0100A5200C2E0000,"Safety First!",,playable,2021-01-06 09:05:23
 0100A51013530000,"SaGa Frontier Remastered",nvdec,playable,2022-11-03 13:54:56
 010003A00D0B4000,"SaGa SCARLET GRACE: AMBITIONS™",,playable,2022-10-06 13:20:31
-01008D100D43E000,"Saints Row IV®: Re-Elected™",ldn-untested;LAN,playable,2023-12-04 18:33:37
+01008D100D43E000,"Saints Row IV®: Re-Elected™",ldn-untested;LAN;deadlock,ingame,2025-02-02 16:57:53
 0100DE600BEEE000,"SAINTS ROW®: THE THIRD™ - THE FULL PACKAGE",slow;LAN,playable,2023-08-24 02:40:58
 01007F000EB36000,"Sakai and...",nvdec,playable,2022-12-15 13:53:19
 0100B1400E8FE000,"Sakuna: Of Rice and Ruin",,playable,2023-07-24 13:47:13
@@ -2686,7 +2687,7 @@
 01005EA01C0FC000,"SONIC X SHADOW GENERATIONS",crash,ingame,2025-01-07 04:20:45
 010064F00C212000,"Soul Axiom Rebooted",nvdec;slow,ingame,2020-09-04 12:41:01
 0100F2100F0B2000,"Soul Searching",,playable,2020-07-09 18:39:07
-01008F2005154000,"South Park™: The Fractured but Whole™ - Standard Edition",slow;online-broken,playable,2024-07-08 17:47:28
+01008F2005154000,"South Park™: The Fractured but Whole™ - Standard Edition",slow;online-broken;vulkan-backend-bug;gpu,ingame,2025-01-21 17:35:10
 0100B9F00C162000,"Space Blaze",,playable,2020-08-30 16:18:05
 010005500E81E000,"Space Cows",UE4;crash,menus,2020-06-15 11:33:20
 0100707011722000,"Space Elite Force",,playable,2020-11-27 15:21:05
@@ -3408,7 +3409,7 @@
 0100AAC00E692000,"Zenith",,playable,2022-09-17 09:57:02
 0100A6A00894C000,"ZERO GUNNER 2- for Nintendo Switch",,playable,2021-01-04 20:17:14
 01004B001058C000,"Zero Strain",services;UE4,menus,2021-11-10 07:48:32
-010021300F69E000	,"Zettai kaikyu gakuen",gpu;nvdec,ingame,2020-08-25 15:15:54
+010021300F69E000,"Zettai kaikyu gakuen",gpu;nvdec,ingame,2020-08-25 15:15:54
 0100D7B013DD0000,"Ziggy the Chaser",,playable,2021-02-04 20:34:27
 010086700EF16000,"ZikSquare",gpu,ingame,2021-11-06 02:02:48
 010069C0123D8000,"Zoids Wild Blast Unleashed",nvdec,playable,2022-10-15 11:26:59
