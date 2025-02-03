@@ -7,7 +7,7 @@ namespace Ryujinx.Horizon
 {
     public static class HorizonStatic
     {
-        internal static void HandlePlayReport(MessagePackObject report) => PlayReportPrinted.Invoke(report);
+        internal static void HandlePlayReport(MessagePackObject report) => PlayReportPrinted?.Invoke(report);
         
         public static event Action<MessagePackObject> PlayReportPrinted;
         
