@@ -2,6 +2,7 @@ using ARMeilleure.CodeGen;
 using ARMeilleure.CodeGen.Unwinding;
 using ARMeilleure.Memory;
 using ARMeilleure.Native;
+using Humanizer;
 using Ryujinx.Common.Logging;
 using Ryujinx.Memory;
 using System;
@@ -21,7 +22,6 @@ namespace ARMeilleure.Translation.Cache
         private const int CodeAlignment = 4; // Bytes.
         private const int CacheSize = 256 * 1024 * 1024;
 
-        private static ReservedRegion _jitRegion;
         private static JitCacheInvalidation _jitCacheInvalidator;
 
         private static CacheMemoryAllocator _cacheAllocator;
@@ -186,7 +186,7 @@ namespace ARMeilleure.Translation.Cache
             
             int newRegionNumber = _activeRegionIndex;
 
-            Logger.Warning?.Print(LogClass.Cpu, $"JIT Cache Region {exhaustedRegion} exhausted, creating new Cache Region {newRegionNumber} ({(newRegionNumber + 1) * (CacheSize / 1024 / 1024)}MB Total Allocation).");
+            Logger.Warning?.Print(LogClass.Cpu, $"JIT Cache Region {exhaustedRegion} exhausted, creating new Cache Region {newRegionNumber} ({((newRegionNumber + 1) * CacheSize).Bytes()} Total Allocation).");
         
             _cacheAllocator = new CacheMemoryAllocator(CacheSize);
 
