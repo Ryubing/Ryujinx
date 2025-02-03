@@ -136,6 +136,11 @@ namespace Ryujinx.Ava
                 "0100000000010000",
                 gameSpec =>
                     gameSpec.AddValueFormatter("is_kids_mode", val => val is 1 ? "Playing in Assist Mode" : "Playing in Regular Mode")
+            )
+            .AddSpec( // Super Mario Odyssey (China)
+                "010075000ECBE000",
+                gameSpec =>
+                    gameSpec.AddValueFormatter("is_kids_mode", val => val is 1 ? "Playing in 帮助模式" : "Playing in 普通模式")
             );
 
         private static void HandlePlayReport(MessagePackObject playReport)
