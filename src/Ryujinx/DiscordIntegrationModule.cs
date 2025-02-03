@@ -141,6 +141,11 @@ namespace Ryujinx.Ava
                 "010075000ECBE000",
                 gameSpec =>
                     gameSpec.AddValueFormatter("is_kids_mode", val => val is 1 ? "Playing in 帮助模式" : "Playing in 普通模式")
+            )
+            .AddSpec( // Super Mario 3D World + Bowser's Fury
+                "010028600EBDA000",
+                gameSpec =>
+                    gameSpec.AddValueFormatter("mode", val => val is 0 ? "Playing Super Mario 3D World" : "Playing Bowser's Fury")
             );
 
         private static void HandlePlayReport(MessagePackObject playReport)
