@@ -180,7 +180,11 @@ namespace Ryujinx.Ava
             .AddSpec( // Mario Kart 8 Deluxe
                 "0100152000022000",
                 gameSpec =>
-                    // Multiplayer
+                    gameSpec.AddValueFormatter("To", MarioKart8)
+            )
+            .AddSpec( // Mario Kart 8 Deluxe (China)
+                "010075100E8EC000",
+                gameSpec =>
                     gameSpec.AddValueFormatter("To", MarioKart8)
             );
 
