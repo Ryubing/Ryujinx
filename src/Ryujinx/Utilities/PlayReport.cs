@@ -38,7 +38,7 @@ namespace Ryujinx.Ava.Utilities
             => value.BoxedValue is 1 ? "Playing Master Mode" : PlayReportFormattedValue.ForceReset;
 
         private static PlayReportFormattedValue TearsOfTheKingdom_CurrentField(PlayReportValue value) =>
-            value.PackedValue.AsDouble() switch
+            value.DoubleValue switch
             {
                 > 800d => "Exploring the Sky Islands",
                 < -201d => "Exploring the Depths",
@@ -55,7 +55,7 @@ namespace Ryujinx.Ava.Utilities
             => value.BoxedValue is 0 ? "Playing Super Mario 3D World" : "Playing Bowser's Fury";
         
         private static PlayReportFormattedValue MarioKart8Deluxe_Mode(PlayReportValue value) 
-            => value.BoxedValue switch
+            => value.StringValue switch
             {
                 // Single Player
                 "Single" => "Single Player",

@@ -180,8 +180,8 @@ namespace Ryujinx.Ava.Utilities
             /// <summary>
             /// A delegate factory you can use to always return the specified
             /// <paramref name="formattedValue"/> in a <see cref="PlayReportValueFormatter"/>.
-            /// <param name="formattedValue">The string to always return for this delegate instance.</param>
             /// </summary>
+            /// <param name="formattedValue">The string to always return for this delegate instance.</param>
             public static PlayReportValueFormatter AlwaysReturns(string formattedValue) => _ => formattedValue;
         }
     }
@@ -265,6 +265,24 @@ namespace Ryujinx.Ava.Utilities
         /// so use <see cref="PackedValue"/> and the AsX (where X is a numerical type name i.e. Int32) methods for that.
         /// </summary>
         public object BoxedValue => PackedValue.ToObject();
+
+        #region AsX accessors
+
+        public bool BooleanValue => PackedValue.AsBoolean();
+        public byte ByteValye => PackedValue.AsByte();
+        public sbyte SByteValye => PackedValue.AsSByte();
+        public short ShortValye => PackedValue.AsInt16();
+        public ushort UShortValye => PackedValue.AsUInt16();
+        public int IntValye => PackedValue.AsInt32();
+        public uint UIntValye => PackedValue.AsUInt32();
+        public long LongValye => PackedValue.AsInt64();
+        public ulong ULongValye => PackedValue.AsUInt64();
+        public float FloatValue => PackedValue.AsSingle();
+        public double DoubleValue => PackedValue.AsDouble();
+        public string StringValue => PackedValue.AsString();
+        public Span<byte> BinaryValue => PackedValue.AsBinary();
+
+        #endregion
     }
 
     /// <summary>
