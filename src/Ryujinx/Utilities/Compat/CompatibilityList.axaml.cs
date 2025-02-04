@@ -9,7 +9,7 @@ namespace Ryujinx.Ava.Utilities.Compat
 {
     public partial class CompatibilityList : UserControl
     {
-        public static async Task Show()
+        public static async Task Show(string titleId = null)
         {
             ContentDialog contentDialog = new()
             {
@@ -18,7 +18,10 @@ namespace Ryujinx.Ava.Utilities.Compat
                 CloseButtonText = LocaleManager.Instance[LocaleKeys.SettingsButtonClose],
                 Content = new CompatibilityList
                 {
-                    DataContext = new CompatibilityViewModel(RyujinxApp.MainWindow.ViewModel.ApplicationLibrary)
+                    DataContext = new CompatibilityViewModel(RyujinxApp.MainWindow.ViewModel.ApplicationLibrary), 
+                    SearchBox = {
+                        Text = titleId ?? ""
+                    }
                 }
             };
 

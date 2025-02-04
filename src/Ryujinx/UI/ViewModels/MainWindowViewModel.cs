@@ -349,6 +349,19 @@ namespace Ryujinx.Ava.UI.ViewModels
             }
         }
 
+        public bool HasCompatibilityEntry
+        {
+            get
+            {
+                DynamicData.Kernel.Optional<ApplicationData> appData =
+                    ApplicationLibrary.Applications.Lookup(SelectedApplication.Id);
+
+                return appData.HasValue && appData.Value.HasPlayabilityInfo;
+            }
+        }
+
+        public bool HasDlc => ApplicationLibrary.HasDlcs(SelectedApplication.Id);
+
         public bool OpenUserSaveDirectoryEnabled => SelectedApplication.HasControlHolder && SelectedApplication.ControlHolder.Value.UserAccountSaveDataSize > 0;
 
         public bool OpenDeviceSaveDirectoryEnabled => SelectedApplication.HasControlHolder && SelectedApplication.ControlHolder.Value.DeviceSaveDataSize > 0;

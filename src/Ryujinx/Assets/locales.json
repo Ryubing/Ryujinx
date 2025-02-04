@@ -2523,6 +2523,56 @@
       }
     },
     {
+      "ID": "GameListContextMenuShowCompatEntry",
+      "Translations": {
+        "ar_SA": "",
+        "de_DE": "",
+        "el_GR": "",
+        "en_US": "Show Compatibility Entry",
+        "es_ES": "",
+        "fr_FR": "",
+        "he_IL": "",
+        "it_IT": "",
+        "ja_JP": "",
+        "ko_KR": "",
+        "no_NO": "",
+        "pl_PL": "",
+        "pt_BR": "",
+        "ru_RU": "",
+        "sv_SE": "",
+        "th_TH": "",
+        "tr_TR": "",
+        "uk_UA": "",
+        "zh_CN": "",
+        "zh_TW": ""
+      }
+    },
+    {
+      "ID": "GameListContextMenuShowCompatEntryToolTip",
+      "Translations": {
+        "ar_SA": "",
+        "de_DE": "",
+        "el_GR": "",
+        "en_US": "Show the selected game in the Compatibility List you can normally access via the Help menu.",
+        "es_ES": "",
+        "fr_FR": "",
+        "he_IL": "",
+        "it_IT": "",
+        "ja_JP": "",
+        "ko_KR": "",
+        "no_NO": "",
+        "pl_PL": "",
+        "pt_BR": "",
+        "ru_RU": "",
+        "sv_SE": "",
+        "th_TH": "",
+        "tr_TR": "",
+        "uk_UA": "",
+        "zh_CN": "",
+        "zh_TW": ""
+      }
+    },
+    {
       "ID": "GameListContextMenuOpenModsDirectory",
       "Translations": {
         "ar_SA": "‫فتح مجلد التعديلات (Mods)",

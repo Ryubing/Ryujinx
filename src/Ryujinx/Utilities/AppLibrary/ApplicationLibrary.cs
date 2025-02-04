@@ -135,6 +135,32 @@ namespace Ryujinx.Ava.Utilities.AppLibrary
             return id.ToString("X16");
         }
 
+        public bool FindApplication(ulong id, out ApplicationData foundData)
+        {
+            DynamicData.Kernel.Optional<ApplicationData> appData = Applications.Lookup(id);
+            foundData = appData.HasValue ? appData.Value : null;
+
+            return appData.HasValue;
+        }
+        
+        public bool FindUpdate(ulong id, out TitleUpdateModel foundData)
+        {
+            Gommon.Optional<TitleUpdateModel> appData = 
+                TitleUpdates.Keys.FindFirst(x => x.TitleId == id);
+            foundData = appData.HasValue ? appData.Value : null;
+
+            return appData.HasValue;
+        }
+        
+        public TitleUpdateModel[] FindUpdatesFor(ulong id)
+            => TitleUpdates.Keys.Where(x => x.TitleIdBase == (id & ~0x1FFFUL)).ToArray();
+        
+        public DownloadableContentModel[] FindDlcsFor(ulong id)
+            => DownloadableContents.Keys.Where(x => x.TitleIdBase == (id & ~0x1FFFUL)).ToArray();
+        
+        public bool HasDlcs(ulong id)
+            => DownloadableContents.Keys.Any(x => x.TitleIdBase == (id & ~0x1FFFUL));
+
         /// <exception cref="LibHac.Common.Keys.MissingKeyException">The configured key set is missing a key.</exception>
         /// <exception cref="InvalidDataException">The NCA header could not be decrypted.</exception>
         /// <exception cref="NotSupportedException">The NCA version is not supported.</exception>

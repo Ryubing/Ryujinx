@@ -113,20 +113,17 @@ namespace Ryujinx.Ava.Utilities.Compat
             .Select(FormatLabelName)
             .JoinToString(", ");
 
-        public override string ToString()
-        {
-            StringBuilder sb = new("CompatibilityEntry: {");
-            sb.Append($"{nameof(GameName)}=\"{GameName}\", ");
-            sb.Append($"{nameof(TitleId)}={TitleId}, ");
-            sb.Append($"{nameof(Labels)}={
-                Labels.FormatCollection(it => $"\"{it}\"", separator: ", ", prefix: "[", suffix: "]")
-            }, ");
-            sb.Append($"{nameof(Status)}=\"{Status}\", ");
-            sb.Append($"{nameof(LastUpdated)}=\"{LastUpdated}\"");
-            sb.Append('}');
-
-            return sb.ToString();
-        }
+        public override string ToString() =>
+            new StringBuilder("CompatibilityEntry: {")
+                .Append($"{nameof(GameName)}=\"{GameName}\", ")
+                .Append($"{nameof(TitleId)}={TitleId}, ")
+                .Append($"{nameof(Labels)}={
+                    Labels.FormatCollection(it => $"\"{it}\"", separator: ", ", prefix: "[", suffix: "]")
+                }, ")
+                .Append($"{nameof(Status)}=\"{Status}\", ")
+                .Append($"{nameof(LastUpdated)}=\"{LastUpdated}\"")
+                .Append('}')
+                .ToString();
 
         public static string FormatLabelName(string labelName) => labelName.ToLower() switch
         {

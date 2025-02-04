@@ -19,6 +19,12 @@
         Header="{ext:Locale GameListContextMenuCreateShortcut}"
         Icon="{ext:Icon fa-solid fa-bookmark}"
         ToolTip.Tip="{OnPlatform Default={ext:Locale GameListContextMenuCreateShortcutToolTip}, macOS={ext:Locale GameListContextMenuCreateShortcutToolTipMacOS}}" />
+    <MenuItem
+        IsVisible="{Binding HasCompatibilityEntry}"
+        Click="OpenApplicationCompatibility_Click"
+        Header="{ext:Locale GameListContextMenuShowCompatEntry}"
+        Icon="{ext:Icon mdi-gamepad}"
+        ToolTip.Tip="{ext:Locale GameListContextMenuShowCompatEntryToolTip}"/>
     <Separator />
     <MenuItem
         Click="OpenUserSaveDirectory_Click"
@@ -74,7 +80,6 @@
 		Header="{ext:Locale GameListContextMenuTrimXCI}"
         IsEnabled="{Binding TrimXCIEnabled}"
 		ToolTip.Tip="{ext:Locale GameListContextMenuTrimXCIToolTip}" />
-    <Separator />
     <MenuItem Header="{ext:Locale GameListContextMenuCacheManagement}" Icon="{ext:Icon mdi-cached}">
         <MenuItem
             Click="PurgePtcCache_Click"
@@ -112,6 +117,7 @@
             Header="{ext:Locale GameListContextMenuExtractDataRomFS}"
             ToolTip.Tip="{ext:Locale GameListContextMenuExtractDataRomFSToolTip}" />
         <MenuItem
+            IsVisible="{Binding HasDlc}"
             Click="ExtractAocRomFs_Click"
             Header="{ext:Locale GameListContextMenuExtractDataAocRomFS}"
             ToolTip.Tip="{ext:Locale GameListContextMenuExtractDataAocRomFSToolTip}" />

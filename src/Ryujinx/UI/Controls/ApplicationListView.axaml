@@ -86,13 +86,29 @@
                                             Text="{Binding Version}"
                                             TextAlignment="Start"
                                             TextWrapping="Wrap" />
-                                        <TextBlock
+                                        <Button 
+                                            Click="PlayabilityStatus_OnClick" 
+                                            HorizontalContentAlignment="Left"
+                                            VerticalAlignment="Center"
                                             IsVisible="{Binding HasPlayabilityInfo}"
-                                            HorizontalAlignment="Stretch"
-                                            Text="{Binding LocalizedStatus}"
-                                            Foreground="{Binding PlayabilityStatus, Converter={x:Static helpers:PlayabilityStatusConverter.Shared}}"
-                                            TextAlignment="Start"
-                                            TextWrapping="Wrap" />
+                                            Background="{DynamicResource AppListBackgroundColor}"
+                                            Margin="-1, 0, 0, 0"
+                                            Padding="0" >
+                                            <TextBlock
+                                                Margin="1.5"
+                                                Tag="{Binding IdString}"
+                                                Text="{Binding LocalizedStatus}"
+                                                Foreground="{Binding PlayabilityStatus, Converter={x:Static helpers:PlayabilityStatusConverter.Shared}}"
+                                                TextAlignment="Start"
+                                                TextWrapping="Wrap" />
+                                            <Button.Styles>
+                                                <Style Selector="Button">
+                                                    <Setter Property="MinWidth"
+                                                            Value="0" /> 
+                                <!-- avoids very wide buttons from the overall project avalonia style -->
+                                                </Style>
+                                            </Button.Styles>
+                                        </Button>
                                     </StackPanel>
                                 </Border>
                                 <StackPanel

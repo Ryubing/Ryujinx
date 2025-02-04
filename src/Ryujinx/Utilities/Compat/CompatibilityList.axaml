@@ -34,7 +34,7 @@
                 Text="{ext:Locale CompatibilityListWarning}" />
         </Grid>
         <Grid Grid.Row="1" ColumnDefinitions="*,Auto,Auto">
-            <TextBox Grid.Column="0" HorizontalAlignment="Stretch" Watermark="{ext:Locale CompatibilityListSearchBoxWatermark}" TextChanged="TextBox_OnTextChanged" />
+            <TextBox Name="SearchBox" Grid.Column="0" HorizontalAlignment="Stretch" Watermark="{ext:Locale CompatibilityListSearchBoxWatermark}" TextChanged="TextBox_OnTextChanged" />
             <CheckBox Grid.Column="1" Margin="7, 0, 0, 0" IsChecked="{Binding OnlyShowOwnedGames}" />
             <TextBlock Grid.Column="2" Margin="-10, 0, 0, 0" Text="{ext:Locale CompatibilityListOnlyShowOwnedGames}" />
         </Grid>
