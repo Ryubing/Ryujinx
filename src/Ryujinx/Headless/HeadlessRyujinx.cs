@@ -38,7 +38,6 @@ namespace Ryujinx.Headless
         private static LibHacHorizonManager _libHacHorizonManager;
         private static UserChannelPersistence _userChannelPersistence;
         private static InputManager _inputManager;
-        private static AutoAssignController _autoAssignController;
         private static Switch _emulationContext;
         private static WindowBase _window;
         private static WindowsMultimediaTimerResolution _windowsMultimediaTimerResolution;

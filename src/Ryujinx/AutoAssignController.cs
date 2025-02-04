@@ -1,4 +1,5 @@
-﻿using Ryujinx.Ava.UI.ViewModels;
+﻿using Avalonia.Media;
+using Ryujinx.Ava.UI.ViewModels;
 using Ryujinx.Ava.UI.Windows;
 using Ryujinx.Ava.Utilities.Configuration;
 using Ryujinx.Common.Configuration.Hid;
@@ -16,6 +17,17 @@ namespace Ryujinx.Ava
 {
     public class AutoAssignController
     {
+        private readonly uint[] _playerColors =
+        [
+            0xFFFF0000, // Player 1 - Red
+            0xFF0000FF, // Player 2 - Blue
+            0xFF00FF00, // Player 3 - Green
+            0xFFFFFF00, // Player 4 - Yellow
+            0xFFFF00FF, // Player 5 - Magenta
+            0xFFFFA500, // Player 6 - Orange
+            0xFF00FFFF, // Player 7 - Cyan
+            0xFF800080  // Player 8 - Purple
+        ];
         private const int MaxControllers = 9;
         
         private readonly InputManager _inputManager;
@@ -48,6 +60,11 @@ namespace Ryujinx.Ava
             foreach (var config in newConfig)
             {
                 config.PlayerIndex = (PlayerIndex)index;
+                if (config is StandardControllerInputConfig standardConfig)
+                {
+                    Logger.Warning?.Print(LogClass.Application, $"Setting color for player {index+1}");
+                    standardConfig.Led.LedColor = _playerColors[index];
+                }
                 index++;
             }
             
@@ -213,7 +230,7 @@ namespace Ryujinx.Ava
                 },
                 Led = new LedConfigController
                 {
-                    EnableLed = false,
+                    EnableLed = true,
                     TurnOffLed = false,
                     UseRainbow = false,
                     LedColor = 0,

@@ -363,7 +363,12 @@ namespace Ryujinx.Ava.UI.ViewModels.Input
 
         private void HandleOnGamepadConnected(string id)
         {
-            Dispatcher.UIThread.Post(LoadDevices);
+            Dispatcher.UIThread.Post(() =>
+            {
+                LoadDevices();
+                LoadConfiguration();
+                LoadDevice();
+            });
         }
 
         private string GetCurrentGamepadId()
