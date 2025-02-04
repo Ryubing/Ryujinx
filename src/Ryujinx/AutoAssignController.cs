@@ -22,8 +22,6 @@ namespace Ryujinx.Ava
         private readonly MainWindowViewModel _viewModel;
         private readonly ConfigurationState _configurationState;
         
-        private readonly IGamepad[] _controllers;
-        
         public AutoAssignController(InputManager inputManager, MainWindowViewModel mainWindowViewModel)
         {
             _inputManager = inputManager;
@@ -74,7 +72,6 @@ namespace Ryujinx.Ava
 
         private List<InputConfig> GetOrderedConfig(List<IGamepad> controllers, List<InputConfig> oldConfig)
         {
-            // Dictionary to store assigned PlayerIndexes
             Dictionary<int, InputConfig> playerIndexMap = new();
 
             // Convert oldConfig into a dictionary for quick lookup by controller Id

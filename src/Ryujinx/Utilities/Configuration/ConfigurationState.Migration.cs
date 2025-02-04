@@ -138,6 +138,7 @@ namespace Ryujinx.Ava.Utilities.Configuration
             
             Hid.EnableKeyboard.Value = cff.EnableKeyboard;
             Hid.EnableMouse.Value = cff.EnableMouse;
+            Hid.EnableAutoAssign.Value = cff.EnableAutoAssign;
             Hid.Hotkeys.Value = cff.Hotkeys;
             Hid.InputConfig.Value = cff.InputConfig ?? [];
 
