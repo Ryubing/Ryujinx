@@ -42,7 +42,7 @@ namespace Ryujinx.Ava
 
             List<IGamepad> controllers = _inputManager.GamepadDriver.GetGamepads().ToList();
             List<InputConfig> oldConfig = _configurationState.Hid.InputConfig.Value.Where(x => x != null).ToList();
-            List<InputConfig> newConfig = GetOrderedConfig(controllers, oldConfig);
+            (List<InputConfig> newConfig,  bool hasNewControllersConnected) = GetOrderedConfig(controllers, oldConfig);
             
             int index = 0;
             foreach (var config in newConfig)
@@ -53,9 +53,12 @@ namespace Ryujinx.Ava
             
             _viewModel.AppHost?.NpadManager.ReloadConfiguration(newConfig, _configurationState.Hid.EnableKeyboard, _configurationState.Hid.EnableMouse);
             
-            _configurationState.Hid.InputConfig.Value = newConfig;
-            
-            ConfigurationState.Instance.ToFileFormat().SaveConfig(Program.ConfigurationPath);
+            // update the configuration state only if there are more controllers than before
+            if(hasNewControllersConnected)
+            {
+                _configurationState.Hid.InputConfig.Value = newConfig;
+                ConfigurationState.Instance.ToFileFormat().SaveConfig(Program.ConfigurationPath);
+            }
         }
         
         private void HandleOnGamepadConnected(string id)
@@ -70,9 +73,10 @@ namespace Ryujinx.Ava
             RefreshControllers();
         }
 
-        private List<InputConfig> GetOrderedConfig(List<IGamepad> controllers, List<InputConfig> oldConfig)
+        private (List<InputConfig>, bool) GetOrderedConfig(List<IGamepad> controllers, List<InputConfig> oldConfig)
         {
             Dictionary<int, InputConfig> playerIndexMap = new();
+            int existingControllers = 0;
 
             // Convert oldConfig into a dictionary for quick lookup by controller Id
             Dictionary<string, InputConfig> oldConfigMap = oldConfig.ToDictionary(x => x.Id, x => x);
@@ -86,6 +90,8 @@ namespace Ryujinx.Ava
                 {
                     // Use the existing PlayerIndex from oldConfig and add it to the map
                     playerIndexMap[(int)existingConfig.PlayerIndex] = existingConfig;
+
+                    existingControllers++;
                 }
                 else
                 {
@@ -106,8 +112,8 @@ namespace Ryujinx.Ava
                 }
             }
 
-            // Return the sorted list of InputConfigs, ordered by PlayerIndex
-            return playerIndexMap.OrderBy(x => x.Key).Select(x => x.Value).ToList();
+            // Return the sorted list of InputConfigs, ordered by PlayerIndex, and a bool indicating if new controllers were connected
+            return (playerIndexMap.OrderBy(x => x.Key).Select(x => x.Value).ToList(), controllers.Count > existingControllers);
         }
         
         private InputConfig CreateConfigFromController(IGamepad controller)
