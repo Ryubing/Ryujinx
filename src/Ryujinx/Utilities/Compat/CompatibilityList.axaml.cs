@@ -32,8 +32,6 @@ namespace Ryujinx.Ava.Utilities.Compat
             contentDialog.Styles.Add(closeButtonParent);
 
             await ContentDialogHelper.ShowAsync(contentDialog);
-            
-            CompatibilityCsv.Unload();
         }
         
         public CompatibilityList()
