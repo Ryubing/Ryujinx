@@ -117,11 +117,6 @@ namespace Ryujinx.Ava
             _currentApp = appMeta;
         }
 
-        private static void UpdatePlayingState()
-        {
-            _discordClient?.SetPresence(_discordPresencePlaying);
-        }
-
         private static void SwitchToMainState()
         {
             _discordClient?.SetPresence(_discordPresenceMain);
@@ -135,21 +130,20 @@ namespace Ryujinx.Ava
             if (!TitleIDs.CurrentApplication.Value.HasValue) return;
             if (_discordPresencePlaying is null) return;
 
-            PlayReport.Analyzer.FormatPlayReportValue(TitleIDs.CurrentApplication.Value, _currentApp, playReport)
-                .Match(out bool handled,
-                    () =>
-                    {
-                        _discordPresencePlaying.Details = $"Playing {_currentApp.Title}";
-                        Logger.Info?.Print(LogClass.UI, "Reset Discord RPC based on a supported play report value formatter.");
-                    },
-                    formattedString =>
-                    {
-                        _discordPresencePlaying.Details = formattedString;
-                        Logger.Info?.Print(LogClass.UI, "Updated Discord RPC based on a supported play report.");
-                    });
-            
-            if (handled)
-                UpdatePlayingState();
+            PlayReportAnalyzer.FormattedValue formattedValue =
+                PlayReport.Analyzer.Format(TitleIDs.CurrentApplication.Value, _currentApp, playReport);
+
+            if (!formattedValue.Handled) return;
+
+            _discordPresencePlaying.Details = formattedValue.Reset 
+                ? $"Playing {_currentApp.Title}" 
+                : formattedValue.FormattedString;
+
+            if (_discordClient.CurrentPresence.Details.Equals(_discordPresencePlaying.Details))
+                return; //don't trigger an update if the set presence Details are identical to current
+
+            _discordClient.SetPresence(_discordPresencePlaying);
+            Logger.Info?.Print(LogClass.UI, "Updated Discord RPC based on a supported play report.");
         }
 
         private static string TruncateToByteLength(string input)

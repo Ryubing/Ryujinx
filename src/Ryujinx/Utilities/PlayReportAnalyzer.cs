@@ -86,7 +86,7 @@ namespace Ryujinx.Ava.Utilities
         /// <param name="appMeta">The Application metadata information, including localized game name and play time information.</param>
         /// <param name="playReport">The Play Report received from HLE.</param>
         /// <returns>A struct representing a possible formatted value.</returns>
-        public FormattedValue FormatPlayReportValue(
+        public FormattedValue Format(
             string runningGameId,
             ApplicationMetadata appMeta,
             MessagePackObject playReport
@@ -131,23 +131,6 @@ namespace Ryujinx.Ava.Utilities
             /// The formatted value, only present if <see cref="Handled"/> is true, and <see cref="Reset"/> is false.
             /// </summary>
             public string FormattedString { get; private init; }
-
-            public void Match(out bool wasHandled, Action onReset, Action<string> onSuccess)
-            {
-                if (!Handled)
-                {
-                    wasHandled = false;
-                    return;
-                }
-
-                if (Reset)
-                    onReset();
-                else
-                    onSuccess(FormattedString);
-
-                wasHandled = true;
-            }
-            
 
             /// <summary>
             /// The intended path of execution for having a string to return: simply return the string.
