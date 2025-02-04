@@ -47,11 +47,6 @@ namespace Ryujinx.Ava.Utilities.Compat
             Logger.Debug?.Print(LogClass.UI, "Compatibility CSV loaded.", "LoadCompatibility");
         }
 
-        public static void Unload()
-        {
-            _entries = null;
-        }
-
         private static CompatibilityEntry[] _entries;
         
         public static CompatibilityEntry[] Entries 
@@ -64,6 +59,11 @@ namespace Ryujinx.Ava.Utilities.Compat
                 return _entries;
             }
         }
+
+        public static LocaleKeys? GetStatus(string titleId)
+            => Entries.FirstOrDefault(x => x.TitleId.HasValue && x.TitleId.Value.EqualsIgnoreCase(titleId))?.Status;
+        
+        public static LocaleKeys? GetStatus(ulong titleId) => GetStatus(titleId.ToString("X16"));
     }
 
     public class CompatibilityEntry

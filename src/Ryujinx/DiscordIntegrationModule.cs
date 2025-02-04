@@ -56,7 +56,7 @@ namespace Ryujinx.Ava
 
             ConfigurationState.Instance.EnableDiscordIntegration.Event += Update;
             TitleIDs.CurrentApplication.Event += (_, e) => Use(e.NewValue);
-            HorizonStatic.PlayReportPrinted += HandlePlayReport;
+            HorizonStatic.PlayReport += HandlePlayReport;
         }
 
         private static void Update(object sender, ReactiveEventArgs<bool> evnt)
@@ -117,11 +117,6 @@ namespace Ryujinx.Ava
             _currentApp = appMeta;
         }
 
-        private static void UpdatePlayingState()
-        {
-            _discordClient?.SetPresence(_discordPresencePlaying);
-        }
-
         private static void SwitchToMainState()
         {
             _discordClient?.SetPresence(_discordPresenceMain);
@@ -135,21 +130,20 @@ namespace Ryujinx.Ava
             if (!TitleIDs.CurrentApplication.Value.HasValue) return;
             if (_discordPresencePlaying is null) return;
 
-            PlayReportFormattedValue value = PlayReport.Analyzer.Run(TitleIDs.CurrentApplication.Value, _currentApp, playReport);
+            PlayReportAnalyzer.FormattedValue formattedValue =
+                PlayReport.Analyzer.Format(TitleIDs.CurrentApplication.Value, _currentApp, playReport);
 
-            if (!value.Handled) return;
+            if (!formattedValue.Handled) return;
 
-            if (value.Reset)
-            {
-                _discordPresencePlaying.Details = $"Playing {_currentApp.Title}";
-                Logger.Info?.Print(LogClass.UI, "Reset Discord RPC based on a supported play report value formatter.");
-            }
-            else
-            {
-                _discordPresencePlaying.Details = value.FormattedString;
-                Logger.Info?.Print(LogClass.UI, "Updated Discord RPC based on a supported play report.");
-            }
-            UpdatePlayingState();
+            _discordPresencePlaying.Details = formattedValue.Reset 
+                ? $"Playing {_currentApp.Title}" 
+                : formattedValue.FormattedString;
+
+            if (_discordClient.CurrentPresence.Details.Equals(_discordPresencePlaying.Details))
+                return; //don't trigger an update if the set presence Details are identical to current
+
+            _discordClient.SetPresence(_discordPresencePlaying);
+            Logger.Info?.Print(LogClass.UI, "Updated Discord RPC based on a supported play report.");
         }
 
         private static string TruncateToByteLength(string input)

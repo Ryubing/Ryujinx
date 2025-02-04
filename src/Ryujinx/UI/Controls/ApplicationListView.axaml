@@ -86,6 +86,13 @@
                                             Text="{Binding Version}"
                                             TextAlignment="Start"
                                             TextWrapping="Wrap" />
+                                        <TextBlock
+                                            IsVisible="{Binding HasPlayabilityInfo}"
+                                            HorizontalAlignment="Stretch"
+                                            Text="{Binding LocalizedStatus}"
+                                            Foreground="{Binding PlayabilityStatus, Converter={x:Static helpers:PlayabilityStatusConverter.Shared}}"
+                                            TextAlignment="Start"
+                                            TextWrapping="Wrap" />
                                     </StackPanel>
                                 </Border>
                                 <StackPanel
