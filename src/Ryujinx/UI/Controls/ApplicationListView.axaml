@@ -93,7 +93,8 @@
                                             IsVisible="{Binding HasPlayabilityInfo}"
                                             Background="{DynamicResource AppListBackgroundColor}"
                                             Margin="-1, 0, 0, 0"
-                                            Padding="0" >
+                                            Padding="0"
+                                            ToolTip.Tip="{Binding LocalizedStatusTooltip}">
                                             <TextBlock
                                                 Margin="1.5"
                                                 Tag="{Binding IdString}"
@@ -109,9 +110,6 @@
                                                 </Style>
                                             </Button.Styles>
                                         </Button>
-                                            <ToolTip.Tip>
-                                                <TextBlock Text="{Binding LocalizedStatusTooltip}" TextWrapping="Wrap" />
-                                            </ToolTip.Tip>
                                     </StackPanel>
                                 </Border>
                                 <StackPanel
