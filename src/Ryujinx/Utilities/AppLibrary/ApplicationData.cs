@@ -46,9 +46,24 @@ namespace Ryujinx.Ava.Utilities.AppLibrary
                 : string.Empty;
 
         public LocaleKeys? PlayabilityStatus { get; set; }
-        
+        public string LocalizedStatusTooltip =>
+            PlayabilityStatus.HasValue 
+#pragma warning disable CS8509 // It is exhaustive for any value this property can contain.
+                ? LocaleManager.Instance[PlayabilityStatus!.Value switch
+#pragma warning restore CS8509
+                {
+                    LocaleKeys.CompatibilityListPlayable => LocaleKeys.CompatibilityListPlayableTooltip,
+                    LocaleKeys.CompatibilityListIngame => LocaleKeys.CompatibilityListIngameTooltip,
+                    LocaleKeys.CompatibilityListMenus => LocaleKeys.CompatibilityListMenusTooltip,
+                    LocaleKeys.CompatibilityListBoots => LocaleKeys.CompatibilityListBootsTooltip,
+                    LocaleKeys.CompatibilityListNothing => LocaleKeys.CompatibilityListNothingTooltip,
+                }]
+                : string.Empty;
         public int PlayerCount { get; set; }
         public int GameCount { get; set; }
+
+        public bool HasLdnGames => PlayerCount != 0 && GameCount != 0;
+        
         public TimeSpan TimePlayed { get; set; }
         public DateTime? LastPlayed { get; set; }
         public string FileExtension { get; set; }

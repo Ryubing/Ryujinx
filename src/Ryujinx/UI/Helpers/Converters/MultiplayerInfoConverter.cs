@@ -1,27 +1,31 @@
 using Avalonia.Data.Converters;
 using Avalonia.Markup.Xaml;
+using Gommon;
+using Ryujinx.Ava.Common.Locale;
 using Ryujinx.Ava.Utilities.AppLibrary;
 using System;
 using System.Globalization;
+using System.Text;
 
 namespace Ryujinx.Ava.UI.Helpers
 {
     internal class MultiplayerInfoConverter : MarkupExtension, IValueConverter
     {
-        private static readonly MultiplayerInfoConverter _instance = new();
+        public static readonly MultiplayerInfoConverter Instance = new();
 
         public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
         {
-            if (value is ApplicationData applicationData)
-            {
-                if (applicationData.PlayerCount != 0 && applicationData.GameCount != 0)
-                {
-                    return $"Hosted Games: {applicationData.GameCount}\nOnline Players: {applicationData.PlayerCount}";
-                }
-            }
+            if (value is not ApplicationData { HasLdnGames: true } applicationData)
+                return "";
             
-            return "";
-            
+            return new StringBuilder()
+                .AppendLine(
+                    LocaleManager.Instance[LocaleKeys.GameListHeaderHostedGames]
+                        .Format(applicationData.GameCount))
+                .Append(
+                    LocaleManager.Instance[LocaleKeys.GameListHeaderPlayerCount]
+                        .Format(applicationData.PlayerCount))
+                .ToString();
         }
 
         public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)
@@ -31,7 +35,7 @@ namespace Ryujinx.Ava.UI.Helpers
 
         public override object ProvideValue(IServiceProvider serviceProvider)
         {
-            return _instance;
+            return Instance;
         }
     }
 }

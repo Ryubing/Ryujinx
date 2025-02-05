@@ -12,6 +12,7 @@ using Ryujinx.Ava.UI.ViewModels;
 using Ryujinx.Ava.UI.Windows;
 using Ryujinx.Ava.Utilities;
 using Ryujinx.Ava.Utilities.AppLibrary;
+using Ryujinx.Ava.Utilities.Compat;
 using Ryujinx.Common.Configuration;
 using Ryujinx.Common.Helper;
 using Ryujinx.HLE.HOS;
@@ -333,7 +334,7 @@ namespace Ryujinx.Ava.UI.Controls
             if (sender is not MenuItem { DataContext: MainWindowViewModel { SelectedApplication: not null } viewModel })
                 return;
 
-            DownloadableContentModel selectedDlc = await DlcSelectView.Show(viewModel.SelectedApplication.IdBase, viewModel.ApplicationLibrary);
+            DownloadableContentModel selectedDlc = await DlcSelectView.Show(viewModel.SelectedApplication.Id, viewModel.ApplicationLibrary);
             
             if (selectedDlc is not null)
             {
@@ -385,6 +386,18 @@ namespace Ryujinx.Ava.UI.Controls
                     viewModel.SelectedApplication.Icon
                 );
         }
+        
+        public async void OpenApplicationCompatibility_Click(object sender, RoutedEventArgs args)
+        {
+            if (sender is MenuItem { DataContext: MainWindowViewModel { SelectedApplication: not null } viewModel })
+                await CompatibilityList.Show(viewModel.SelectedApplication.IdString);
+        }
+        
+        public async void OpenApplicationData_Click(object sender, RoutedEventArgs args)
+        {
+            if (sender is MenuItem { DataContext: MainWindowViewModel { SelectedApplication: not null } viewModel })
+                await ApplicationDataView.Show(viewModel.SelectedApplication);
+        }
 
         public async void RunApplication_Click(object sender, RoutedEventArgs args)
         {
@@ -394,12 +407,8 @@ namespace Ryujinx.Ava.UI.Controls
 
         public async void TrimXCI_Click(object sender, RoutedEventArgs args)
         {
-            MainWindowViewModel viewModel = (sender as MenuItem)?.DataContext as MainWindowViewModel;
-
-            if (viewModel?.SelectedApplication != null)
-            {
+            if (sender is MenuItem { DataContext: MainWindowViewModel { SelectedApplication: not null } viewModel })
                 await viewModel.TrimXCIFile(viewModel.SelectedApplication.Path);
-            }
         }
     }
 }

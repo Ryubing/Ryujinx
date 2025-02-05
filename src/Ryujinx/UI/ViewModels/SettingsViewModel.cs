@@ -2,7 +2,7 @@ using Avalonia.Collections;
 using Avalonia.Controls;
 using Avalonia.Threading;
 using CommunityToolkit.Mvvm.ComponentModel;
-using Gommon;
+using CommunityToolkit.Mvvm.Input;
 using LibHac.Tools.FsSystem;
 using Ryujinx.Audio.Backends.OpenAL;
 using Ryujinx.Audio.Backends.SDL2;
@@ -28,8 +28,6 @@ using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
 using System.Net.NetworkInformation;
-using System.Runtime.InteropServices;
-using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using TimeZone = Ryujinx.Ava.UI.Models.TimeZone;
 
@@ -721,6 +719,25 @@ namespace Ryujinx.Ava.UI.ViewModels
             SaveSettings();
             CloseWindow?.Invoke();
         }
+
+        [ObservableProperty] private bool _wantsToReset;
+
+        public AsyncRelayCommand ResetButton => Commands.Create(async () =>
+        {
+            if (!WantsToReset) return;
+            
+            CloseWindow?.Invoke();
+            ConfigurationState.Instance.LoadDefault();
+            ConfigurationState.Instance.ToFileFormat().SaveConfig(Program.ConfigurationPath);
+            RyujinxApp.MainWindow.LoadApplications();
+
+            await ContentDialogHelper.CreateInfoDialog(
+                $"Your {RyujinxApp.FullAppName} configuration has been reset.",
+                "",
+                string.Empty,
+                LocaleManager.Instance[LocaleKeys.SettingsButtonClose],
+                "Configuration Reset");
+        });
 
         public void CancelButton()
         {

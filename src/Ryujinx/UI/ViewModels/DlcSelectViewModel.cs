@@ -14,9 +14,7 @@ namespace Ryujinx.Ava.UI.ViewModels
         
         public DlcSelectViewModel(ulong titleId, ApplicationLibrary appLibrary)
         {
-            _dlcs = appLibrary.DownloadableContents.Items
-                .Where(x => x.Dlc.TitleIdBase == titleId)
-                .Select(x => x.Dlc)
+            _dlcs = appLibrary.FindDlcsFor(titleId)
                 .OrderBy(it => it.IsBundled ? 0 : 1)
                 .ThenBy(it => it.TitleId)
                 .ToArray();

@@ -1,0 +1,114 @@
+﻿<UserControl xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:helpers="clr-namespace:Ryujinx.Ava.UI.Helpers"
+             xmlns:ext="using:Ryujinx.Ava.Common.Markup"
+             xmlns:viewModels="using:Ryujinx.Ava.UI.ViewModels"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
+             x:Class="Ryujinx.Ava.UI.Controls.ApplicationDataView"
+             x:DataType="viewModels:ApplicationDataViewModel">
+    <StackPanel Orientation="Horizontal">
+        <Image Margin="0"
+               MaxWidth="256"
+               MinWidth="256"
+               Source="{Binding AppData.Icon, Converter={x:Static helpers:BitmapArrayValueConverter.Instance}}" />
+        <Border Margin="5, 0" Width="1" Height="256" BorderBrush="Gray" Background="Gray" />
+        <StackPanel Orientation="Vertical">
+            <Grid
+                RowDefinitions="Auto,Auto,Auto"
+                ColumnDefinitions="*">
+                <StackPanel Grid.Row="0">
+                    <TextBlock HorizontalAlignment="Left"
+                               Text="{Binding FormattedVersion}"
+                               TextAlignment="Start"
+                               TextWrapping="Wrap" />
+                    <TextBlock HorizontalAlignment="Left"
+                               Text="{Binding FormattedDeveloper}"
+                               TextAlignment="Start"
+                               TextWrapping="Wrap" />
+                    <TextBlock HorizontalAlignment="Stretch"
+                               Text="{Binding FormattedFileExtension}"
+                               TextAlignment="Start"
+                               TextWrapping="Wrap" />
+                    <TextBlock HorizontalAlignment="Stretch"
+                               Text="{Binding FormattedFileSize}"
+                               TextAlignment="Start"
+                               TextWrapping="Wrap" />
+                </StackPanel>
+                <Separator Grid.Row="1" Margin="0, 10, 0, 10" Height="1" BorderBrush="Gray" Background="Gray" />
+                <StackPanel Grid.Row="2"
+                            HorizontalAlignment="Left"
+                            Orientation="Vertical"
+                            Spacing="5">
+                    <StackPanel Orientation="Horizontal" IsVisible="{Binding AppData.HasPlayabilityInfo}">
+                        <TextBlock Padding="0, 0, 5, 0" Text="{ext:Locale GameListHeaderCompatibilityStatus}" />
+                        <Button
+                            Click="PlayabilityStatus_OnClick"
+                            HorizontalContentAlignment="Left"
+                            VerticalAlignment="Center"
+                            Background="{DynamicResource AppListBackgroundColor}"
+                            Padding="0">
+                            <TextBlock
+                                Margin="1.5"
+                                Tag="{Binding AppData.IdString}"
+                                Text="{Binding AppData.LocalizedStatus}"
+                                Foreground="{Binding AppData.PlayabilityStatus, Converter={x:Static helpers:PlayabilityStatusConverter.Shared}}"
+                                ToolTip.Tip="{Binding AppData.LocalizedStatusTooltip}"
+                                TextAlignment="Start"
+                                TextWrapping="Wrap" />
+                            <Button.Styles>
+                                <Style Selector="Button">
+                                    <Setter Property="MinWidth"
+                                            Value="0" />
+                                    <!-- avoids very wide buttons from the overall project avalonia style -->
+                                </Style>
+                            </Button.Styles>
+                        </Button>
+                    </StackPanel>
+                    <StackPanel Orientation="Horizontal">
+                        <TextBlock Padding="0, 0, 5, 0" Text="{ext:Locale GameListHeaderTitleId}" />
+                        <Button
+                            Click="IdString_OnClick"
+                            HorizontalContentAlignment="Left"
+                            VerticalAlignment="Center"
+                            Background="{DynamicResource AppListBackgroundColor}"
+                            Padding="0">
+                            <TextBlock
+                                Margin="1.5"
+                                HorizontalAlignment="Stretch"
+                                Text="{Binding AppData.IdString}"
+                                TextAlignment="Start"
+                                TextWrapping="Wrap" />
+                        </Button>
+                    </StackPanel>
+                </StackPanel>
+            </Grid>
+            <Separator Margin="0, 10, 0, 10" Height="1" BorderBrush="Gray" Background="Gray" />
+            <TextBlock
+                HorizontalAlignment="Stretch"
+                IsVisible="{Binding AppData.HasLdnGames}"
+                Text="{Binding FormattedLdnInfo}"
+                TextAlignment="Start"
+                TextWrapping="Wrap" />
+            <Separator IsVisible="{Binding AppData.HasLdnGames}" Margin="0, 10, 0, 10" Height="1" BorderBrush="Gray" Background="Gray" />
+            <StackPanel
+                HorizontalAlignment="Left"
+                VerticalAlignment="Top"
+                Orientation="Vertical"
+                Spacing="5">
+                <TextBlock
+                    HorizontalAlignment="Stretch"
+                    Text="{Binding FormattedLastPlayed}"
+                    TextAlignment="Start"
+                    TextWrapping="Wrap" />
+                <TextBlock
+                    HorizontalAlignment="Stretch"
+                    Text="{Binding FormattedPlayTime}"
+                    IsVisible="{Binding AppData.HasPlayedPreviously}"
+                    TextAlignment="Start"
+                    TextWrapping="Wrap" />
+            </StackPanel>
+        </StackPanel>
+    </StackPanel>
+</UserControl>
