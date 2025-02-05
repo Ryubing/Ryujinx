@@ -46,7 +46,17 @@ namespace Ryujinx.Ava.Utilities.AppLibrary
                 : string.Empty;
 
         public LocaleKeys? PlayabilityStatus { get; set; }
-        
+        public string LocalizedStatusTooltip =>
+            PlayabilityStatus.HasValue 
+                ? LocaleManager.Instance[PlayabilityStatus!.Value switch
+                {
+                    LocaleKeys.CompatibilityListPlayable => LocaleKeys.CompatibilityListPlayableTooltip,
+                    LocaleKeys.CompatibilityListIngame => LocaleKeys.CompatibilityListIngameTooltip,
+                    LocaleKeys.CompatibilityListMenus => LocaleKeys.CompatibilityListMenusTooltip,
+                    LocaleKeys.CompatibilityListBoots => LocaleKeys.CompatibilityListBootsTooltip,
+                    LocaleKeys.CompatibilityListNothing => LocaleKeys.CompatibilityListNothingTooltip,
+                }]
+                : string.Empty;
         public int PlayerCount { get; set; }
         public int GameCount { get; set; }
         public TimeSpan TimePlayed { get; set; }

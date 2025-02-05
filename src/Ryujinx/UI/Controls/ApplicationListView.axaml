@@ -109,6 +109,9 @@
                                                 </Style>
                                             </Button.Styles>
                                         </Button>
+                                            <ToolTip.Tip>
+                                                <TextBlock Text="{Binding LocalizedStatusTooltip}" TextWrapping="Wrap" />
+                                            </ToolTip.Tip>
                                     </StackPanel>
                                 </Border>
                                 <StackPanel
