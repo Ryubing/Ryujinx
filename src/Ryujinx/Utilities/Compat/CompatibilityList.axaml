@@ -64,6 +64,8 @@
                                            VerticalAlignment="Center"
                                            Text="{Binding LocalizedStatus}"
                                            Width="85"
+                                           Background="Transparent"
+                                           ToolTip.Tip="{Binding LocalizedStatusDescription}"
                                            Foreground="{Binding Status, Converter={x:Static helpers:PlayabilityStatusConverter.Shared}}"
                                            TextWrapping="NoWrap" />
                                 <TextBlock Grid.Column="3"

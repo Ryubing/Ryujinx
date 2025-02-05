@@ -100,12 +100,25 @@ namespace Ryujinx.Ava.Utilities.Compat
         public Optional<string> TitleId { get; }
         public string[] Labels { get; }
         public LocaleKeys? Status { get; }
+
+        public LocaleKeys? StatusDescription
+            => Status switch
+            {
+                LocaleKeys.CompatibilityListPlayable => LocaleKeys.CompatibilityListPlayableTooltip,
+                LocaleKeys.CompatibilityListIngame => LocaleKeys.CompatibilityListIngameTooltip,
+                LocaleKeys.CompatibilityListMenus => LocaleKeys.CompatibilityListMenusTooltip,
+                LocaleKeys.CompatibilityListBoots => LocaleKeys.CompatibilityListBootsTooltip,
+                LocaleKeys.CompatibilityListNothing => LocaleKeys.CompatibilityListNothingTooltip,
+                _ => null
+            };
+        
         public DateTime LastUpdated { get; }
 
         public string LocalizedLastUpdated =>
             LocaleManager.FormatDynamicValue(LocaleKeys.CompatibilityListLastUpdated, LastUpdated.Humanize());
-
+        
         public string LocalizedStatus => LocaleManager.Instance[Status!.Value];
+        public string LocalizedStatusDescription => LocaleManager.Instance[StatusDescription!.Value];
         public string FormattedTitleId => TitleId
             .OrElse(new string(' ', 16));
 
