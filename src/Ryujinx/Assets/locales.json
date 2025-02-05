@@ -76,7 +76,7 @@
       "ID": "MenuBarFileOpenAppletOpenMiiApplet",
       "Translations": {
         "ar_SA": "",
-        "de_DE": "",
+        "de_DE": "Mii-Bearbeitungsapplet",
         "el_GR": "",
         "en_US": "Mii Edit Applet",
         "es_ES": "Applet Editor Mii",
@@ -176,7 +176,7 @@
       "ID": "SettingsTabSystemMemoryManagerModeSoftware",
       "Translations": {
         "ar_SA": "البرنامج",
-        "de_DE": "",
+        "de_DE": "Programme",
         "el_GR": "Λογισμικό",
         "en_US": "Software",
         "es_ES": "",
@@ -326,7 +326,7 @@
       "ID": "MenuBarFileOpenFromFileError",
       "Translations": {
         "ar_SA": "",
-        "de_DE": "",
+        "de_DE": "Keine Anwendungen im ausgewählten Datei gefunden.",
         "el_GR": "",
         "en_US": "No applications found in selected file.",
         "es_ES": "No se encontraron aplicaciones en el archivo seleccionado.",
@@ -376,7 +376,7 @@
       "ID": "MenuBarFileLoadDlcFromFolder",
       "Translations": {
         "ar_SA": "",
-        "de_DE": "",
+        "de_DE": "DLC aus Ordner laden",
         "el_GR": "",
         "en_US": "Load DLC From Folder",
         "es_ES": "Cargar DLC Desde Carpeta",
@@ -401,7 +401,7 @@
       "ID": "MenuBarFileLoadTitleUpdatesFromFolder",
       "Translations": {
         "ar_SA": "",
-        "de_DE": "",
+        "de_DE": "Titel-Updates aus Ordner laden",
         "el_GR": "",
         "en_US": "Load Title Updates From Folder",
         "es_ES": "Cargar Actualizaciones de Títulos Desde Carpeta",
@@ -576,7 +576,7 @@
       "ID": "MenuBarOptionsStartGamesWithoutUI",
       "Translations": {
         "ar_SA": "",
-        "de_DE": "",
+        "de_DE": "Spiele ohne Benutzeroberfläche starten",
         "el_GR": "",
         "en_US": "Start Games with UI Hidden",
         "es_ES": "",
@@ -751,7 +751,7 @@
       "ID": "MenuBarActionsScanAmiiboBin",
       "Translations": {
         "ar_SA": "",
-        "de_DE": "",
+        "de_DE": "Amiibo scannen (aus Bin-Datei)",
         "el_GR": "",
         "en_US": "Scan An Amiibo (From Bin)",
         "es_ES": "",
@@ -851,7 +851,7 @@
       "ID": "MenuBarActionsInstallKeys",
       "Translations": {
         "ar_SA": "",
-        "de_DE": "",
+        "de_DE": "Schlüssel installieren",
         "el_GR": "",
         "en_US": "Install Keys",
         "es_ES": "",
@@ -876,7 +876,7 @@
       "ID": "MenuBarFileActionsInstallKeysFromFile",
       "Translations": {
         "ar_SA": "",
-        "de_DE": "",
+        "de_DE": "Schlüssel aus KEYS oder ZIP installieren",
         "el_GR": "",
         "en_US": "Install keys from KEYS or ZIP",
         "es_ES": "Instalar keys de KEYS o ZIP",
@@ -901,7 +901,7 @@
       "ID": "MenuBarFileActionsInstallKeysFromFolder",
       "Translations": {
         "ar_SA": "",
-        "de_DE": "",
+        "de_DE": "Schlüssel aus einem Verzeichnis installieren",
         "el_GR": "",
         "en_US": "Install keys from a directory",
         "es_ES": "Instalar keys de un directorio",
@@ -1001,7 +1001,7 @@
       "ID": "MenuBarActionsXCITrimmer",
       "Translations": {
         "ar_SA": "",
-        "de_DE": "",
+        "de_DE": "XCI-Dateien trimmen",
         "el_GR": "",
         "en_US": "Trim XCI Files",
         "es_ES": "Recortar archivos XCI",
@@ -1226,7 +1226,7 @@
       "ID": "MenuBarHelpFaqAndGuides",
       "Translations": {
         "ar_SA": "",
-        "de_DE": "",
+        "de_DE": "FAQ & Anleitungen",
         "el_GR": "",
         "en_US": "FAQ & Guides",
         "es_ES": "",
@@ -1251,7 +1251,7 @@
       "ID": "MenuBarHelpFaq",
       "Translations": {
         "ar_SA": "",
-        "de_DE": "",
+        "de_DE": "FAQ & Fehlerbehebung Seite",
         "el_GR": "",
         "en_US": "FAQ & Troubleshooting Page",
         "es_ES": "",
@@ -1276,7 +1276,7 @@
       "ID": "MenuBarHelpFaqTooltip",
       "Translations": {
         "ar_SA": "",
-        "de_DE": "",
+        "de_DE": "Öffnet die FAQ- und Fehlerbehebungsseite im offiziellen Ryujinx-Wiki",
         "el_GR": "",
         "en_US": "Opens the FAQ and Troubleshooting page on the official Ryujinx wiki",
         "es_ES": "",
@@ -1301,7 +1301,7 @@
       "ID": "MenuBarHelpSetup",
       "Translations": {
         "ar_SA": "",
-        "de_DE": "",
+        "de_DE": "Setup- und Konfigurationsanleitung",
         "el_GR": "",
         "en_US": "Setup & Configuration Guide",
         "es_ES": "",
@@ -1326,7 +1326,7 @@
       "ID": "MenuBarHelpSetupTooltip",
       "Translations": {
         "ar_SA": "",
-        "de_DE": "",
+        "de_DE": "Öffnet die Setup- und Konfigurationsanleitung im offiziellen Ryujinx-Wiki",
         "el_GR": "",
         "en_US": "Opens the Setup & Configuration guide on the official Ryujinx wiki",
         "es_ES": "",
@@ -1351,7 +1351,7 @@
       "ID": "MenuBarHelpMultiplayer",
       "Translations": {
         "ar_SA": "",
-        "de_DE": "",
+        "de_DE": "Multiplayer (LDN/LAN) Anleitung",
         "el_GR": "",
         "en_US": "Multiplayer (LDN/LAN) Guide",
         "es_ES": "",
@@ -1376,7 +1376,7 @@
       "ID": "MenuBarHelpMultiplayerTooltip",
       "Translations": {
         "ar_SA": "",
-        "de_DE": "",
+        "de_DE": "Öffnet die Multiplayer-Anleitung im offiziellen Ryujinx-Wiki",
         "el_GR": "",
         "en_US": "Opens the Multiplayer guide on the official Ryujinx wiki",
         "es_ES": "",
@@ -1526,7 +1526,7 @@
       "ID": "GameListHeaderDeveloper",
       "Translations": {
         "ar_SA": "",
-        "de_DE": "",
+        "de_DE": "Entwickelt von {0}",
         "el_GR": "",
         "en_US": "Developed by {0}",
         "es_ES": "",
@@ -1826,7 +1826,7 @@
       "ID": "GameListHeaderCompatibilityStatus",
       "Translations": {
         "ar_SA": "",
-        "de_DE": "",
+        "de_DE": "Kompatibilität:",
         "el_GR": "",
         "en_US": "Compatibility:",
         "es_ES": "",
@@ -23026,7 +23026,7 @@
       "ID": "SettingsTabSystemVSyncModeTooltip",
       "Translations": {
         "ar_SA": "",
-        "de_DE": "",
+        "de_DE": "Emulierte vertikale Synchronisation. \"Switch\" emuliert die 60Hz-Bildwiederholfrequenz der Switch. \"Unbounded\" ist eine unbegrenzte Bildwiederholfrequenz.",
         "el_GR": "",
         "en_US": "Emulated Vertical Sync. 'Switch' emulates the Switch's refresh rate of 60Hz. 'Unbounded' is an unbounded refresh rate.",
         "es_ES": "",
@@ -23051,7 +23051,7 @@
       "ID": "SettingsTabSystemVSyncModeTooltipCustom",
       "Translations": {
         "ar_SA": "",
-        "de_DE": "",
+        "de_DE": "Emulierte vertikale Synchronisation. \"Switch\" emuliert die 60Hz-Bildwiederholfrequenz der Switch. „Unbounded“ ist eine unbegrenzte Bildwiederholfrequenz. „Benutzerdefinierte Bildwiederholfrequenz“ emuliert die angegebene benutzerdefinierte Bildwiederholfrequenz.",
         "el_GR": "",
         "en_US": "Emulated Vertical Sync. 'Switch' emulates the Switch's refresh rate of 60Hz. 'Unbounded' is an unbounded refresh rate. 'Custom Refresh Rate' emulates the specified custom refresh rate.",
         "es_ES": "",
@@ -23076,7 +23076,7 @@
       "ID": "SettingsTabSystemEnableCustomVSyncIntervalTooltip",
       "Translations": {
         "ar_SA": "",
-        "de_DE": "",
+        "de_DE": "Ermöglicht es dem Benutzer, eine emulierte Bildwiederholfrequenz festzulegen. In einigen Titeln kann dies die Geschwindigkeit der Spiel-Logik erhöhen oder verringern. In anderen Titeln kann dies dazu führen, dass die FPS auf ein Vielfaches der Bildwiederholfrequenz begrenzt werden oder zu unvorhersehbarem Verhalten führen. Dies ist eine experimentelle Funktion, ohne Garantien dafür, wie sich das Gameplay auswirkt. Lassen Sie diese Option deaktiviert, wenn Sie sich nicht sicher sind.",
         "el_GR": "",
         "en_US": "Allows the user to specify an emulated refresh rate. In some titles, this may speed up or slow down the rate of gameplay logic. In other titles, it may allow for capping FPS at some multiple of the refresh rate, or lead to unpredictable behavior. This is an experimental feature, with no guarantees for how gameplay will be affected. \n\nLeave OFF if unsure.",
         "es_ES": "",
@@ -23101,7 +23101,7 @@
       "ID": "SettingsTabSystemCustomVSyncIntervalValueTooltip",
       "Translations": {
         "ar_SA": "",
-        "de_DE": "",
+        "de_DE": "Der Zielwert für die benutzerdefinierte Bildwiederholfrequenz.",
         "el_GR": "",
         "en_US": "The custom refresh rate target value.",
         "es_ES": "",
@@ -23126,7 +23126,7 @@
       "ID": "SettingsTabSystemCustomVSyncIntervalSliderTooltip",
       "Translations": {
         "ar_SA": "",
-        "de_DE": "",
+        "de_DE": "Die benutzerdefinierte Bildwiederholfrequenz als Prozentsatz der normalen Switch-Bildwiederholfrequenz.",
         "el_GR": "",
         "en_US": "The custom refresh rate, as a percentage of the normal Switch refresh rate.",
         "es_ES": "",
@@ -23151,7 +23151,7 @@
       "ID": "SettingsTabSystemCustomVSyncIntervalPercentage",
       "Translations": {
         "ar_SA": "",
-        "de_DE": "",
+        "de_DE": "Benutzerdefinierte Bildwiederholfrequenz %:",
         "el_GR": "",
         "en_US": "Custom Refresh Rate %:",
         "es_ES": "",
@@ -23176,7 +23176,7 @@
       "ID": "SettingsTabSystemCustomVSyncIntervalValue",
       "Translations": {
         "ar_SA": "",
-        "de_DE": "",
+        "de_DE": "Wert für benutzerdefinierte Bildwiederholfrequenz:",
         "el_GR": "",
         "en_US": "Custom Refresh Rate Value:",
         "es_ES": "",
@@ -23226,7 +23226,7 @@
       "ID": "SettingsTabHotkeysToggleVSyncModeHotkey",
       "Translations": {
         "ar_SA": "",
-        "de_DE": "",
+        "de_DE": "VSync-Modus umschalten:",
         "el_GR": "",
         "en_US": "Toggle VSync mode:",
         "es_ES": "",
@@ -23251,7 +23251,7 @@
       "ID": "SettingsTabHotkeysIncrementCustomVSyncIntervalHotkey",
       "Translations": {
         "ar_SA": "",
-        "de_DE": "",
+        "de_DE": "Benutzerdefinierte Bildwiederholfrequenz erhöhen:",
         "el_GR": "",
         "en_US": "Raise custom refresh rate",
         "es_ES": "",
@@ -23276,7 +23276,7 @@
       "ID": "SettingsTabHotkeysDecrementCustomVSyncIntervalHotkey",
       "Translations": {
         "ar_SA": "",
-        "de_DE": "",
+        "de_DE": "Benutzerdefinierte Bildwiederholfrequenz senken:",
         "el_GR": "",
         "en_US": "Lower custom refresh rate:",
         "es_ES": "",
@@ -23301,7 +23301,7 @@
       "ID": "CompatibilityListLastUpdated",
       "Translations": {
         "ar_SA": "",
-        "de_DE": "",
+        "de_DE": "Zuletzt aktualisiert: {0}",
         "el_GR": "",
         "en_US": "Last updated: {0}",
         "es_ES": "",
@@ -23326,7 +23326,7 @@
       "ID": "CompatibilityListWarning",
       "Translations": {
         "ar_SA": "",
-        "de_DE": "",
+        "de_DE": "Diese Kompatibilitätsliste könnte veraltete Einträge enthalten. Teste dennoch Spiele im \"Ingame\"-Status.",
         "el_GR": "",
         "en_US": "This compatibility list might contain out of date entries.\nDo not be opposed to testing games in the \"Ingame\" status.",
         "es_ES": "",
@@ -23351,7 +23351,7 @@
       "ID": "CompatibilityListSearchBoxWatermark",
       "Translations": {
         "ar_SA": "",
-        "de_DE": "",
+        "de_DE": "Kompatibilitätseinträge durchsuchen...",
         "el_GR": "",
         "en_US": "Search compatibility entries...",
         "es_ES": "",
@@ -23401,7 +23401,7 @@
       "ID": "CompatibilityListOnlyShowOwnedGames",
       "Translations": {
         "ar_SA": "",
-        "de_DE": "",
+        "de_DE": "Nur eigene Spiele anzeigen",
         "el_GR": "",
         "en_US": "Only show owned games",
         "es_ES": "",
@@ -23426,7 +23426,7 @@
       "ID": "CompatibilityListPlayable",
       "Translations": {
         "ar_SA": "",
-        "de_DE": "",
+        "de_DE": "Spielbar",
         "el_GR": "",
         "en_US": "Playable",
         "es_ES": "",
@@ -23451,7 +23451,7 @@
       "ID": "CompatibilityListIngame",
       "Translations": {
         "ar_SA": "",
-        "de_DE": "",
+        "de_DE": "Im Spiel",
         "el_GR": "",
         "en_US": "Ingame",
         "es_ES": "",
@@ -23626,7 +23626,7 @@
       "ID": "CompatibilityListBootsTooltip",
       "Translations": {
         "ar_SA": "",
-        "de_DE": "",
+        "de_DE": "Startet, kommt aber nicht über den Titelbildschirm hinaus.",
         "el_GR": "",
         "en_US": "Boots but does not make it past the title screen.",
         "es_ES": "",
@@ -23651,7 +23651,7 @@
       "ID": "CompatibilityListNothingTooltip",
       "Translations": {
         "ar_SA": "",
-        "de_DE": "",
+        "de_DE": "Startet nicht oder zeigt keine Anzeichen von Aktivität.",
         "el_GR": "",
         "en_US": "Does not boot or shows no signs of activity.",
         "es_ES": "",
@@ -23676,7 +23676,7 @@
       "ID": "ExtractAocListHeader",
       "Translations": {
         "ar_SA": "",
-        "de_DE": "",
+        "de_DE": "Wähle ein DLC zum Extrahieren aus",
         "el_GR": "",
         "en_US": "Select a DLC to Extract",
         "es_ES": "",
