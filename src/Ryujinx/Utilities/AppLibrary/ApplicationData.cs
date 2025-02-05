@@ -49,6 +49,9 @@ namespace Ryujinx.Ava.Utilities.AppLibrary
         
         public int PlayerCount { get; set; }
         public int GameCount { get; set; }
+
+        public bool HasLdnGames => PlayerCount != 0 && GameCount != 0;
+        
         public TimeSpan TimePlayed { get; set; }
         public DateTime? LastPlayed { get; set; }
         public string FileExtension { get; set; }
