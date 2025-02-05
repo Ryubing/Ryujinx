@@ -48,7 +48,9 @@ namespace Ryujinx.Ava.Utilities.AppLibrary
         public LocaleKeys? PlayabilityStatus { get; set; }
         public string LocalizedStatusTooltip =>
             PlayabilityStatus.HasValue 
+#pragma warning disable CS8509 // It is exhaustive for any value this property can contain.
                 ? LocaleManager.Instance[PlayabilityStatus!.Value switch
+#pragma warning restore CS8509
                 {
                     LocaleKeys.CompatibilityListPlayable => LocaleKeys.CompatibilityListPlayableTooltip,
                     LocaleKeys.CompatibilityListIngame => LocaleKeys.CompatibilityListIngameTooltip,
