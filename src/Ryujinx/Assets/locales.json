@@ -23076,7 +23076,7 @@
       "ID": "SettingsTabSystemEnableCustomVSyncIntervalTooltip",
       "Translations": {
         "ar_SA": "",
-        "de_DE": "Ermöglicht es dem Benutzer, eine emulierte Bildwiederholfrequenz festzulegen. In einigen Titeln kann dies die Geschwindigkeit der Spiel-Logik erhöhen oder verringern. In anderen Titeln kann dies dazu führen, dass die FPS auf ein Vielfaches der Bildwiederholfrequenz begrenzt werden oder zu unvorhersehbarem Verhalten führen. Dies ist eine experimentelle Funktion, ohne Garantien dafür, wie sich das Gameplay auswirkt. Lassen Sie diese Option deaktiviert, wenn Sie sich nicht sicher sind.",
+        "de_DE": "Ermöglicht es dem Benutzer, eine emulierte Bildwiederholfrequenz festzulegen. In einigen Titeln kann dies die Geschwindigkeit der Spiel-Logik erhöhen oder verringern. In anderen Titeln kann dies dazu führen, dass die FPS auf ein Vielfaches der Bildwiederholfrequenz begrenzt werden oder zu unvorhersehbarem Verhalten führen. Dies ist eine experimentelle Funktion, ohne Garantien dafür, wie sich das Gameplay auswirkt. \n\nLassen Sie diese Option deaktiviert, wenn Sie sich nicht sicher sind.",
         "el_GR": "",
         "en_US": "Allows the user to specify an emulated refresh rate. In some titles, this may speed up or slow down the rate of gameplay logic. In other titles, it may allow for capping FPS at some multiple of the refresh rate, or lead to unpredictable behavior. This is an experimental feature, with no guarantees for how gameplay will be affected. \n\nLeave OFF if unsure.",
         "es_ES": "",
