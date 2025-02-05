@@ -69,8 +69,7 @@ namespace Ryujinx.Ava.UI.ViewModels
 
         private void LoadDownloadableContents()
         {
-            IEnumerable<(DownloadableContentModel Dlc, bool IsEnabled)> dlcs = _applicationLibrary.DownloadableContents.Items
-                .Where(it => it.Dlc.TitleIdBase == _applicationData.IdBase);
+            (DownloadableContentModel Dlc, bool IsEnabled)[] dlcs = _applicationLibrary.FindDlcConfigurationFor(_applicationData.Id);
 
             bool hasBundledContent = false;
             foreach ((DownloadableContentModel dlc, bool isEnabled) in dlcs)

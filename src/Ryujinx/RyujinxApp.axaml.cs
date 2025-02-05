@@ -32,6 +32,9 @@ namespace Ryujinx.Ava
         public static MainWindow MainWindow => Current!
             .ApplicationLifetime.Cast<IClassicDesktopStyleApplicationLifetime>()
             .MainWindow.Cast<MainWindow>();
+        
+        public static IClassicDesktopStyleApplicationLifetime AppLifetime => Current!
+            .ApplicationLifetime.Cast<IClassicDesktopStyleApplicationLifetime>();
 
         public static bool IsClipboardAvailable(out IClipboard clipboard)
         {

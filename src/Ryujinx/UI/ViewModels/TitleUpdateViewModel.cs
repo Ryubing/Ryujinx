@@ -41,8 +41,7 @@ namespace Ryujinx.Ava.UI.ViewModels
 
         private void LoadUpdates()
         {
-            IEnumerable<(TitleUpdateModel TitleUpdate, bool IsSelected)> updates = ApplicationLibrary.TitleUpdates.Items
-                .Where(it => it.TitleUpdate.TitleIdBase == ApplicationData.IdBase);
+            (TitleUpdateModel TitleUpdate, bool IsSelected)[] updates = ApplicationLibrary.FindUpdateConfigurationFor(ApplicationData.Id);
 
             bool hasBundledContent = false;
             SelectedUpdate = new TitleUpdateViewModelNoUpdate();

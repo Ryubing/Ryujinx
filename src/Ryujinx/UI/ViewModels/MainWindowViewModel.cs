@@ -349,16 +349,7 @@ namespace Ryujinx.Ava.UI.ViewModels
             }
         }
 
-        public bool HasCompatibilityEntry
-        {
-            get
-            {
-                DynamicData.Kernel.Optional<ApplicationData> appData =
-                    ApplicationLibrary.Applications.Lookup(SelectedApplication.Id);
-
-                return appData.HasValue && appData.Value.HasPlayabilityInfo;
-            }
-        }
+        public bool HasCompatibilityEntry => SelectedApplication.HasPlayabilityInfo;
 
         public bool HasDlc => ApplicationLibrary.HasDlcs(SelectedApplication.Id);
 

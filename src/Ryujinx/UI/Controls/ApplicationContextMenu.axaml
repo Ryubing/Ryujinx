@@ -25,6 +25,12 @@
         Header="{ext:Locale GameListContextMenuShowCompatEntry}"
         Icon="{ext:Icon mdi-gamepad}"
         ToolTip.Tip="{ext:Locale GameListContextMenuShowCompatEntryToolTip}"/>
+    <MenuItem
+        IsVisible="{Binding IsGrid}"
+        Click="OpenApplicationData_Click"
+        Header="{ext:Locale GameListContextMenuShowGameData}"
+        Icon="{ext:Icon mdi-chart-line}"
+        ToolTip.Tip="{ext:Locale GameListContextMenuShowGameDataToolTip}"/>
     <Separator />
     <MenuItem
         Click="OpenUserSaveDirectory_Click"

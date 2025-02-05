@@ -160,8 +160,14 @@ namespace Ryujinx.Ava.Utilities.AppLibrary
         public TitleUpdateModel[] FindUpdatesFor(ulong id)
             => TitleUpdates.Keys.Where(x => x.TitleIdBase == (id & ~0x1FFFUL)).ToArray();
         
+        public (TitleUpdateModel TitleUpdate, bool IsSelected)[] FindUpdateConfigurationFor(ulong id)
+            => TitleUpdates.Items.Where(x => x.TitleUpdate.TitleIdBase == (id & ~0x1FFFUL)).ToArray();
+        
         public DownloadableContentModel[] FindDlcsFor(ulong id)
             => DownloadableContents.Keys.Where(x => x.TitleIdBase == (id & ~0x1FFFUL)).ToArray();
+        
+        public (DownloadableContentModel Dlc, bool IsEnabled)[] FindDlcConfigurationFor(ulong id)
+            => DownloadableContents.Items.Where(x => x.Dlc.TitleIdBase == (id & ~0x1FFFUL)).ToArray();
         
         public bool HasDlcs(ulong id)
             => DownloadableContents.Keys.Any(x => x.TitleIdBase == (id & ~0x1FFFUL));
