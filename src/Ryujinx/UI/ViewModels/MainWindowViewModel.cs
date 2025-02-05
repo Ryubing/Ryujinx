@@ -349,6 +349,10 @@ namespace Ryujinx.Ava.UI.ViewModels
             }
         }
 
+        public bool HasCompatibilityEntry => SelectedApplication.HasPlayabilityInfo;
+
+        public bool HasDlc => ApplicationLibrary.HasDlcs(SelectedApplication.Id);
+
         public bool OpenUserSaveDirectoryEnabled => SelectedApplication.HasControlHolder && SelectedApplication.ControlHolder.Value.UserAccountSaveDataSize > 0;
 
         public bool OpenDeviceSaveDirectoryEnabled => SelectedApplication.HasControlHolder && SelectedApplication.ControlHolder.Value.DeviceSaveDataSize > 0;
@@ -629,15 +633,15 @@ namespace Ryujinx.Ava.UI.ViewModels
             {
                 return SortMode switch
                 {
-                    ApplicationSort.Title => LocaleManager.Instance[LocaleKeys.GameListHeaderApplication],
-                    ApplicationSort.Developer => LocaleManager.Instance[LocaleKeys.GameListHeaderDeveloper],
-                    ApplicationSort.LastPlayed => LocaleManager.Instance[LocaleKeys.GameListHeaderLastPlayed],
-                    ApplicationSort.TotalTimePlayed => LocaleManager.Instance[LocaleKeys.GameListHeaderTimePlayed],
-                    ApplicationSort.FileType => LocaleManager.Instance[LocaleKeys.GameListHeaderFileExtension],
-                    ApplicationSort.FileSize => LocaleManager.Instance[LocaleKeys.GameListHeaderFileSize],
-                    ApplicationSort.Path => LocaleManager.Instance[LocaleKeys.GameListHeaderPath],
                     ApplicationSort.Favorite => LocaleManager.Instance[LocaleKeys.CommonFavorite],
                     ApplicationSort.TitleId => LocaleManager.Instance[LocaleKeys.DlcManagerTableHeadingTitleIdLabel],
+                    ApplicationSort.Title => LocaleManager.Instance[LocaleKeys.GameListHeaderApplication],
+                    ApplicationSort.Developer => LocaleManager.Instance[LocaleKeys.GameListSortDeveloper],
+                    ApplicationSort.LastPlayed => LocaleManager.Instance[LocaleKeys.GameListSortLastPlayed],
+                    ApplicationSort.TotalTimePlayed => LocaleManager.Instance[LocaleKeys.GameListSortTimePlayed],
+                    ApplicationSort.FileType => LocaleManager.Instance[LocaleKeys.GameListSortFileExtension],
+                    ApplicationSort.FileSize => LocaleManager.Instance[LocaleKeys.GameListSortFileSize],
+                    ApplicationSort.Path => LocaleManager.Instance[LocaleKeys.GameListSortPath],
                     _ => string.Empty,
                 };
             }

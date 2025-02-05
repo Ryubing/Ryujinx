@@ -100,12 +100,25 @@ namespace Ryujinx.Ava.Utilities.Compat
         public Optional<string> TitleId { get; }
         public string[] Labels { get; }
         public LocaleKeys? Status { get; }
+
+        public LocaleKeys? StatusDescription
+            => Status switch
+            {
+                LocaleKeys.CompatibilityListPlayable => LocaleKeys.CompatibilityListPlayableTooltip,
+                LocaleKeys.CompatibilityListIngame => LocaleKeys.CompatibilityListIngameTooltip,
+                LocaleKeys.CompatibilityListMenus => LocaleKeys.CompatibilityListMenusTooltip,
+                LocaleKeys.CompatibilityListBoots => LocaleKeys.CompatibilityListBootsTooltip,
+                LocaleKeys.CompatibilityListNothing => LocaleKeys.CompatibilityListNothingTooltip,
+                _ => null
+            };
+        
         public DateTime LastUpdated { get; }
 
         public string LocalizedLastUpdated =>
             LocaleManager.FormatDynamicValue(LocaleKeys.CompatibilityListLastUpdated, LastUpdated.Humanize());
-
+        
         public string LocalizedStatus => LocaleManager.Instance[Status!.Value];
+        public string LocalizedStatusDescription => LocaleManager.Instance[StatusDescription!.Value];
         public string FormattedTitleId => TitleId
             .OrElse(new string(' ', 16));
 
@@ -113,20 +126,17 @@ namespace Ryujinx.Ava.Utilities.Compat
             .Select(FormatLabelName)
             .JoinToString(", ");
 
-        public override string ToString()
-        {
-            StringBuilder sb = new("CompatibilityEntry: {");
-            sb.Append($"{nameof(GameName)}=\"{GameName}\", ");
-            sb.Append($"{nameof(TitleId)}={TitleId}, ");
-            sb.Append($"{nameof(Labels)}={
-                Labels.FormatCollection(it => $"\"{it}\"", separator: ", ", prefix: "[", suffix: "]")
-            }, ");
-            sb.Append($"{nameof(Status)}=\"{Status}\", ");
-            sb.Append($"{nameof(LastUpdated)}=\"{LastUpdated}\"");
-            sb.Append('}');
-
-            return sb.ToString();
-        }
+        public override string ToString() =>
+            new StringBuilder("CompatibilityEntry: {")
+                .Append($"{nameof(GameName)}=\"{GameName}\", ")
+                .Append($"{nameof(TitleId)}={TitleId}, ")
+                .Append($"{nameof(Labels)}={
+                    Labels.FormatCollection(it => $"\"{it}\"", separator: ", ", prefix: "[", suffix: "]")
+                }, ")
+                .Append($"{nameof(Status)}=\"{Status}\", ")
+                .Append($"{nameof(LastUpdated)}=\"{LastUpdated}\"")
+                .Append('}')
+                .ToString();
 
         public static string FormatLabelName(string labelName) => labelName.ToLower() switch
         {

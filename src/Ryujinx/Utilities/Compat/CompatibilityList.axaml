@@ -34,7 +34,7 @@
                 Text="{ext:Locale CompatibilityListWarning}" />
         </Grid>
         <Grid Grid.Row="1" ColumnDefinitions="*,Auto,Auto">
-            <TextBox Grid.Column="0" HorizontalAlignment="Stretch" Watermark="{ext:Locale CompatibilityListSearchBoxWatermark}" TextChanged="TextBox_OnTextChanged" />
+            <TextBox Name="SearchBox" Grid.Column="0" HorizontalAlignment="Stretch" Watermark="{ext:Locale CompatibilityListSearchBoxWatermark}" TextChanged="TextBox_OnTextChanged" />
             <CheckBox Grid.Column="1" Margin="7, 0, 0, 0" IsChecked="{Binding OnlyShowOwnedGames}" />
             <TextBlock Grid.Column="2" Margin="-10, 0, 0, 0" Text="{ext:Locale CompatibilityListOnlyShowOwnedGames}" />
         </Grid>
@@ -64,6 +64,8 @@
                                            VerticalAlignment="Center"
                                            Text="{Binding LocalizedStatus}"
                                            Width="85"
+                                           Background="Transparent"
+                                           ToolTip.Tip="{Binding LocalizedStatusDescription}"
                                            Foreground="{Binding Status, Converter={x:Static helpers:PlayabilityStatusConverter.Shared}}"
                                            TextWrapping="NoWrap" />
                                 <TextBlock Grid.Column="3"
