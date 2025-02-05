@@ -128,11 +128,16 @@ namespace Ryujinx.Ava.Utilities.AppLibrary
             DynamicData.Kernel.Optional<ApplicationData> appData = Applications.Lookup(id);
             if (appData.HasValue)
                 return appData.Value.Name;
-            
-            if (DownloadableContents.Keys.FindFirst(x => x.TitleId == id).TryGet(out DownloadableContentModel dlcData))
-                return Path.GetFileNameWithoutExtension(dlcData.FileName);
 
-            return id.ToString("X16");
+            if (!DownloadableContents.Keys.FindFirst(x => x.TitleId == id).TryGet(out DownloadableContentModel dlcData))
+                return id.ToString("X16");
+            
+            string name = Path.GetFileNameWithoutExtension(dlcData.FileName)!;
+            int idx = name.IndexOf('[');
+            if (idx != -1)
+                name = name[..idx];
+
+            return name;
         }
 
         public bool FindApplication(ulong id, out ApplicationData foundData)
