@@ -41,13 +41,12 @@
                             HorizontalAlignment="Left"
                             Orientation="Vertical"
                             Spacing="5">
-                    <StackPanel Orientation="Horizontal">
+                    <StackPanel Orientation="Horizontal" IsVisible="{Binding AppData.HasPlayabilityInfo}">
                         <TextBlock Padding="0, 0, 5, 0" Text="{ext:Locale GameListHeaderCompatibilityStatus}" />
                         <Button
                             Click="PlayabilityStatus_OnClick"
                             HorizontalContentAlignment="Left"
                             VerticalAlignment="Center"
-                            IsVisible="{Binding AppData.HasPlayabilityInfo}"
                             Background="{DynamicResource AppListBackgroundColor}"
                             Padding="0">
                             <TextBlock
@@ -55,6 +54,7 @@
                                 Tag="{Binding AppData.IdString}"
                                 Text="{Binding AppData.LocalizedStatus}"
                                 Foreground="{Binding AppData.PlayabilityStatus, Converter={x:Static helpers:PlayabilityStatusConverter.Shared}}"
+                                ToolTip.Tip="{Binding AppData.LocalizedStatusTooltip}"
                                 TextAlignment="Start"
                                 TextWrapping="Wrap" />
                             <Button.Styles>
