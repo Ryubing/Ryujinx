@@ -32,6 +32,13 @@ namespace Ryujinx.Ava.Utilities
             .AddSpec( // Global & China IDs
                 ["0100152000022000", "010075100e8ec000"],
                 spec => spec.AddValueFormatter("To", MarioKart8Deluxe_Mode)
+            )
+            .AddSpec(
+                ["0100a3d008c5c000", "01008f6008c5e000"],
+                // TODO Rebase the repo on the latest
+                spec => spec
+                    .AddValueFormatter("area_no", PokemonSVArea)
+                    .AddValueFormatter("team_circle", PokemonSVUnionCircle)
             );
 
         private static PlayReportFormattedValue BreathOfTheWild_MasterMode(PlayReportValue value)
@@ -80,6 +87,30 @@ namespace Ryujinx.Ava.Utilities
                 "RaceStart" => "Selecting a Course",
                 "Race" => "Racing",
                 _ => PlayReportFormattedValue.ForceReset
+            };
+
+        private static PlayReportFormattedValue PokemonSVUnionCircle(PlayReportValue value)
+            => value.BoxedValue is 0 ? "Playing Alone" : "Playing in a group";
+
+        private static PlayReportFormattedValue PokemonSVArea(PlayReportValue value) 
+            // TODO Finish this list
+            => value.StringValue switch
+            {
+                "a_w01" => "South Area One/Cabo Poco/Cabo Path/Los Platos",
+                "a_w02" => "Mesagoza",
+                "a_w03" => "The Pokemon League",
+                "a_w04" => "South Area Two",
+                "a_w05" => "South Area Four",
+                "a_w06" => "South Area Six/Alfornada",
+                "a_w07" => "South Area Five",
+                "a_w08" => "South Area Three",
+                "a_w09" => "West Area One",
+                "a_w10" => "Asado Desert",
+                "a_w11" => "West Area Two",
+                "a_w15" => "Artazon",
+                "a_w18" => "Casseroya Lake",
+                "a_w24" => "South Paldean Sea"
+                _ => value.StringValue
             };
     }
 }
