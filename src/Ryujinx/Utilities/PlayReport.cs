@@ -120,7 +120,7 @@ namespace Ryujinx.Ava.Utilities
                 "a_w24" => "South Paldean Sea",
                 "a_w25" => "West Paldean Sea",
                 "a_w26" => "East Paldean Sea",
-                "a_w27" => "Nouth Paldean Sea"
+                "a_w27" => "Nouth Paldean Sea",
                 //TODO DLC Locations
                 _ => PlayReportFormattedValue.ForceReset
             };
