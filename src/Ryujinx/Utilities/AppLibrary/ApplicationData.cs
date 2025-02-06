@@ -21,6 +21,7 @@ namespace Ryujinx.Ava.Utilities.AppLibrary
     public class ApplicationData
     {
         public bool Favorite { get; set; }
+        public bool UserConfig { get; set; }
         public byte[] Icon { get; set; }
         public string Name { get; set; } = "Unknown";
 

@@ -12,7 +12,7 @@ namespace Ryujinx.Ava.Utilities
     public static class ShortcutHelper
     {
         [SupportedOSPlatform("windows")]
-        private static void CreateShortcutWindows(string applicationFilePath, string applicationId, byte[] iconData, string iconPath, string cleanedAppName, string desktopPath)
+        private static void CreateShortcutWindows(string applicationFilePath, string applicationId, byte[] iconData, string iconPath, string cleanedAppName, string desktopPath, string args = "")
         {
             string basePath = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, AppDomain.CurrentDomain.FriendlyName + ".exe");
             iconPath += ".ico";
@@ -22,13 +22,13 @@ namespace Ryujinx.Ava.Utilities
             image.Resize(new SKImageInfo(128, 128), SKFilterQuality.High);
             SaveBitmapAsIcon(image, iconPath);
 
-            Shortcut shortcut = Shortcut.CreateShortcut(basePath, GetArgsString(applicationFilePath, applicationId), iconPath, 0);
+            Shortcut shortcut = Shortcut.CreateShortcut(basePath, GetArgsString(applicationFilePath, applicationId, args), iconPath, 0);
             shortcut.StringData.NameString = cleanedAppName;
             shortcut.WriteToFile(Path.Combine(desktopPath, cleanedAppName + ".lnk"));
         }
 
         [SupportedOSPlatform("linux")]
-        private static void CreateShortcutLinux(string applicationFilePath, string applicationId, byte[] iconData, string iconPath, string desktopPath, string cleanedAppName)
+        private static void CreateShortcutLinux(string applicationFilePath, string applicationId, byte[] iconData, string iconPath, string desktopPath, string cleanedAppName, string args = "")
         {
             string basePath = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "Ryujinx.sh");
             string desktopFile = EmbeddedResources.ReadAllText("Ryujinx/Assets/ShortcutFiles/shortcut-template.desktop");
@@ -40,11 +40,11 @@ namespace Ryujinx.Ava.Utilities
             data.SaveTo(file);
 
             using StreamWriter outputFile = new(Path.Combine(desktopPath, cleanedAppName + ".desktop"));
-            outputFile.Write(desktopFile, cleanedAppName, iconPath, $"{basePath} {GetArgsString(applicationFilePath, applicationId)}");
+            outputFile.Write(desktopFile, cleanedAppName, iconPath, $"{basePath} {GetArgsString(applicationFilePath, applicationId, args)}");
         }
 
         [SupportedOSPlatform("macos")]
-        private static void CreateShortcutMacos(string appFilePath, string applicationId, byte[] iconData, string desktopPath, string cleanedAppName)
+        private static void CreateShortcutMacos(string appFilePath, string applicationId, byte[] iconData, string desktopPath, string cleanedAppName, string args = "")
         {
             string basePath = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "Ryujinx");
             string plistFile = EmbeddedResources.ReadAllText("Ryujinx/Assets/ShortcutFiles/shortcut-template.plist");
@@ -63,7 +63,7 @@ namespace Ryujinx.Ava.Utilities
             string scriptPath = Path.Combine(scriptFolderPath, ScriptName);
             using StreamWriter scriptFile = new(scriptPath);
 
-            scriptFile.Write(shortcutScript, basePath, GetArgsString(appFilePath, applicationId));
+            scriptFile.Write(shortcutScript, basePath, GetArgsString(appFilePath, applicationId, args));
 
             // Set execute permission
             FileInfo fileInfo = new(scriptPath);
@@ -87,7 +87,7 @@ namespace Ryujinx.Ava.Utilities
             outputFile.Write(plistFile, ScriptName, cleanedAppName, IconName);
         }
 
-        public static void CreateAppShortcut(string applicationFilePath, string applicationName, string applicationId, byte[] iconData)
+        public static void CreateAppShortcut(string applicationFilePath, string applicationName, string applicationId, byte[] iconData, string args = "")
         {
             string desktopPath = Environment.GetFolderPath(Environment.SpecialFolder.DesktopDirectory);
             string cleanedAppName = string.Join("_", applicationName.Split(Path.GetInvalidFileNameChars()));
@@ -96,7 +96,7 @@ namespace Ryujinx.Ava.Utilities
             {
                 string iconPath = Path.Combine(AppDataManager.BaseDirPath, "games", applicationId, "app");
 
-                CreateShortcutWindows(applicationFilePath, applicationId, iconData, iconPath, cleanedAppName, desktopPath);
+                CreateShortcutWindows(applicationFilePath, applicationId, iconData, iconPath, cleanedAppName, desktopPath, args);
 
                 return;
             }
@@ -106,14 +106,14 @@ namespace Ryujinx.Ava.Utilities
                 string iconPath = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.UserProfile), ".local", "share", "icons", "Ryujinx");
 
                 Directory.CreateDirectory(iconPath);
-                CreateShortcutLinux(applicationFilePath, applicationId, iconData, Path.Combine(iconPath, applicationId), desktopPath, cleanedAppName);
+                CreateShortcutLinux(applicationFilePath, applicationId, iconData, Path.Combine(iconPath, applicationId), desktopPath, cleanedAppName, args);
 
                 return;
             }
 
             if (OperatingSystem.IsMacOS())
             {
-                CreateShortcutMacos(applicationFilePath, applicationId, iconData, desktopPath, cleanedAppName);
+                CreateShortcutMacos(applicationFilePath, applicationId, iconData, desktopPath, cleanedAppName, args);
 
                 return;
             }
@@ -121,7 +121,7 @@ namespace Ryujinx.Ava.Utilities
             throw new NotImplementedException("Shortcut support has not been implemented yet for this OS.");
         }
 
-        private static string GetArgsString(string appFilePath, string applicationId)
+        private static string GetArgsString(string appFilePath, string applicationId, string config = "")
         {
             // args are first defined as a list, for easier adjustments in the future
             List<string> argsList = [];
@@ -130,6 +130,11 @@ namespace Ryujinx.Ava.Utilities
             {
                 argsList.Add("--root-data-dir");
                 argsList.Add($"\"{CommandLineState.BaseDirPathArg}\"");
+            }
+
+            if (!string.IsNullOrEmpty(config))
+            {
+                argsList.Add(config);
             }
 
             if (appFilePath.ToLower().EndsWith(".xci"))

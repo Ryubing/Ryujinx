@@ -4,6 +4,7 @@ using Avalonia.Input.Platform;
 using Avalonia.Interactivity;
 using Ryujinx.Ava.UI.Helpers;
 using Ryujinx.Ava.UI.ViewModels;
+using Ryujinx.Ava.UI.Windows;
 using Ryujinx.Ava.Utilities.AppLibrary;
 using Ryujinx.Ava.Utilities.Compat;
 using System;
@@ -40,6 +41,19 @@ namespace Ryujinx.Ava.UI.Controls
                 return;
 
             await CompatibilityList.Show((string)playabilityLabel.Tag);
+        }
+
+        public async void EditGameConfiguration_Click(object sender, RoutedEventArgs args)
+        {
+            if (sender is MenuItem { DataContext: MainWindowViewModel { SelectedApplication: not null } viewModel })
+            {
+                await new UserConfigWindows(viewModel).ShowDialog((Window)viewModel.TopLevel);
+
+                //viewModel.SelectedApplication.UserConfig = File.Exists(Program.GetDirGameUserConfig(viewModel.SelectedApplication.IdString));
+
+                viewModel.RefreshView();
+            }
+
         }
 
         private async void IdString_OnClick(object sender, RoutedEventArgs e)

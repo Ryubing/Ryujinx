@@ -6,11 +6,15 @@ namespace Ryujinx.Ava.Utilities
     public static class CommandLineState
     {
         public static string[] Arguments { get; private set; }
-
+        public static int CountArguments { get; private set; }
         public static bool? OverrideDockedMode { get; private set; }
         public static bool? OverrideHardwareAcceleration { get; private set; }
         public static string OverrideGraphicsBackend { get; private set; }
         public static string OverrideBackendThreading { get; private set; }
+        public static string OverridePPTC { get; private set; }
+        public static string OverrideMemoryManagerMode { get; private set; } 
+        public static string OverrideSystemRegion { get; private set; } 
+        public static string OverrideSystemLanguage { get; private set; } 
         public static string OverrideHideCursor { get; private set; }
         public static string BaseDirPathArg { get; private set; }
         public static string Profile { get; private set; }
@@ -18,6 +22,11 @@ namespace Ryujinx.Ava.Utilities
         public static string LaunchApplicationId { get; private set; }
         public static bool StartFullscreenArg { get; private set; }
         public static bool HideAvailableUpdates { get; private set; }
+
+        public static void ArgumentsClean()
+        {
+
+        }
 
         public static void ParseArguments(string[] args)
         {
@@ -27,6 +36,11 @@ namespace Ryujinx.Ava.Utilities
             for (int i = 0; i < args.Length; ++i)
             {
                 string arg = args[i];
+
+                if (arg.Contains("-") || arg.Contains("--"))
+                {
+                    CountArguments++; 
+                }
 
                 switch (arg)
                 {
@@ -84,6 +98,47 @@ namespace Ryujinx.Ava.Utilities
                         }
 
                         OverrideBackendThreading = args[++i];
+                        break;
+                    case "--pptc":
+                        if (i + 1 >= args.Length)
+                        {
+                            Logger.Error?.Print(LogClass.Application, $"Invalid option '{arg}'");
+
+                            continue;
+                        }
+
+                        OverridePPTC = args[++i];
+                        break;
+                    case "-m":
+                    case "--memory-manager-mode":
+                        if (i + 1 >= args.Length)
+                        {
+                            Logger.Error?.Print(LogClass.Application, $"Invalid option '{arg}'");
+
+                            continue;
+                        }
+
+                        OverrideMemoryManagerMode = args[++i];
+                        break;
+                    case "--system-region":
+                        if (i + 1 >= args.Length)
+                        {
+                            Logger.Error?.Print(LogClass.Application, $"Invalid option '{arg}'");
+
+                            continue;
+                        }
+
+                        OverrideSystemRegion = args[++i];
+                        break;
+                    case "--system-language":
+                        if (i + 1 >= args.Length)
+                        {
+                            Logger.Error?.Print(LogClass.Application, $"Invalid option '{arg}'");
+
+                            continue;
+                        }
+
+                        OverrideSystemLanguage = args[++i];
                         break;
                     case "-i":
                     case "--application-id":

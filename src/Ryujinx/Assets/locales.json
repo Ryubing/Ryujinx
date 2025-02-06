@@ -2748,6 +2748,31 @@
       }
     },
     {
+      "ID": "EditGameConfigurationToolTip",
+      "Translations": {
+        "ar_SA": "ينشئ تكوينًا مستقلًا للعبة الحالية",
+        "de_DE": "Erstellt eine unabhängige Konfiguration für das aktuelle Spiel",
+        "el_GR": "Δημιουργεί μια ανεξάρτητη διαμόρφωση για το τρέχον παιχνίδι",
+        "en_US": "Creates an independent configuration for the current game",
+        "es_ES": "Crea una configuración independiente para el juego actual",
+        "fr_FR": "Crée une configuration indépendante pour le jeu en cours",
+        "he_IL": "יוצר תצורה עצמאית למשחק הנוכחי",
+        "it_IT": "Crea una configurazione indipendente per il gioco attuale",
+        "ja_JP": "現在のゲーム用の独立した設定を作成します",
+        "ko_KR": "현재 게임에 대한 독립적인 설정을 생성합니다",
+        "no_NO": "Oppretter en uavhengig konfigurasjon for det gjeldende spillet",
+        "pl_PL": "Tworzy niezależną konfigurację dla bieżącej gry",
+        "pt_BR": "Cria uma configuração independente para o jogo atual",
+        "ru_RU": "Создает независимую конфигурацию для текущей игры",
+        "sv_SE": "Skapar en oberoende konfiguration för det aktuella spelet",
+        "th_TH": "สร้างการกำหนดค่าที่เป็นอิสระสำหรับเกมปัจจุบัน",
+        "tr_TR": "Mevcut oyun için bağımsız bir yapılandırma oluşturur",
+        "uk_UA": "Створює незалежну конфігурацію для поточної гри",
+        "zh_CN": "为当前游戏创建独立的配置",
+        "zh_TW": "為當前遊戲創建獨立的配置"
+      }
+    },
+    {
       "ID": "GameListContextMenuShowCompatEntry",
       "Translations": {
         "ar_SA": "",

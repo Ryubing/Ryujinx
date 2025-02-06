@@ -505,7 +505,7 @@ namespace Ryujinx.Ava.Utilities.AppLibrary
                 if (data.Id != 0)
                 {
                     ApplicationMetadata appMetadata = LoadAndSaveMetaData(data.IdString, appMetadata =>
-                    {
+                    {                        
                         appMetadata.Title = data.Name;
 
                         // Only do the migration if time_played has a value and timespan_played hasn't been updated yet.
@@ -529,10 +529,11 @@ namespace Ryujinx.Ava.Utilities.AppLibrary
 
                         }
                     });
-
+            
                     data.Favorite = appMetadata.Favorite;
                     data.TimePlayed = appMetadata.TimePlayed;
                     data.LastPlayed = appMetadata.LastPlayed;
+                    data.UserConfig = File.Exists(Program.GetDirGameUserConfig(data.IdBaseString, false, false)); // just check for file presence
                 }
 
                 data.FileExtension = Path.GetExtension(applicationPath).TrimStart('.').ToUpper();

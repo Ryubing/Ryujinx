@@ -13,6 +13,7 @@ using Ryujinx.Ava.UI.Windows;
 using Ryujinx.Ava.Utilities;
 using Ryujinx.Ava.Utilities.AppLibrary;
 using Ryujinx.Ava.Utilities.Compat;
+using Ryujinx.Common;
 using Ryujinx.Common.Configuration;
 using Ryujinx.Common.Helper;
 using Ryujinx.HLE.HOS;
@@ -34,6 +35,21 @@ namespace Ryujinx.Ava.UI.Controls
         private void InitializeComponent()
         {
             AvaloniaXamlLoader.Load(this);
+        }
+
+        public void ToggleUserControl_Click(object sender, RoutedEventArgs args)
+        {
+            if (sender is not MenuItem { DataContext: MainWindowViewModel { SelectedApplication: not null } viewModel })
+                return;
+
+            viewModel.SelectedApplication.Favorite = !viewModel.SelectedApplication.Favorite;
+
+            ApplicationLibrary.LoadAndSaveMetaData(viewModel.SelectedApplication.IdString, appMetadata =>
+            {
+                appMetadata.Favorite = viewModel.SelectedApplication.Favorite;
+            });
+
+            viewModel.RefreshView();
         }
 
         public void ToggleFavorite_Click(object sender, RoutedEventArgs args)
@@ -386,13 +402,27 @@ namespace Ryujinx.Ava.UI.Controls
                     viewModel.SelectedApplication.Icon
                 );
         }
-        
+
+        public async void EditGameConfiguration_Click(object sender, RoutedEventArgs args)
+        {
+            if (sender is MenuItem { DataContext: MainWindowViewModel { SelectedApplication: not null } viewModel })
+            {
+                await new UserConfigWindows(viewModel).ShowDialog((Window)viewModel.TopLevel);
+
+                //just checking for file presence
+                viewModel.SelectedApplication.UserConfig = File.Exists(Program.GetDirGameUserConfig(viewModel.SelectedApplication.IdString,false,false));
+
+                viewModel.RefreshView();
+            }
+
+        }
+
         public async void OpenApplicationCompatibility_Click(object sender, RoutedEventArgs args)
         {
             if (sender is MenuItem { DataContext: MainWindowViewModel { SelectedApplication: not null } viewModel })
                 await CompatibilityList.Show(viewModel.SelectedApplication.IdString);
         }
-        
+               
         public async void OpenApplicationData_Click(object sender, RoutedEventArgs args)
         {
             if (sender is MenuItem { DataContext: MainWindowViewModel { SelectedApplication: not null } viewModel })

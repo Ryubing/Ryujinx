@@ -1076,7 +1076,7 @@ namespace Ryujinx.Ava.UI.ViewModels
             _rendererWaitEvent.WaitOne();
 
             AppHost?.Start();
-
+            
             AppHost?.DisposeContext();
         }
 
@@ -1540,6 +1540,14 @@ namespace Ryujinx.Ava.UI.ViewModels
 #if RELEASE
             await PerformanceCheck();
 #endif
+            // If a configuration is found in the "/games/xxxxxxxxxxxxxx" folder, the program will load the user setting.
+            string gameDir = Program.GetDirGameUserConfig(application.IdBaseString, true, true);
+
+            if (ConfigurationFileFormat.TryLoad(gameDir, out ConfigurationFileFormat configurationFileFormat))
+            {
+                //Program.GetDirGameUserConfig(application.IdBaseString, false);
+                ConfigurationState.Instance.Load(configurationFileFormat, gameDir, application.IdBaseString);
+            }
 
             Logger.RestartTime();
 
@@ -1585,6 +1593,7 @@ namespace Ryujinx.Ava.UI.ViewModels
 
             Thread gameThread = new(InitializeGame) { Name = "GUI.WindowThread" };
             gameThread.Start();
+            
         }
 
         public void SwitchToRenderer(bool startFullscreen) =>
