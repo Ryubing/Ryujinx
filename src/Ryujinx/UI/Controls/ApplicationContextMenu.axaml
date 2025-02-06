@@ -21,7 +21,7 @@
         ToolTip.Tip="{OnPlatform Default={ext:Locale GameListContextMenuCreateShortcutToolTip}, macOS={ext:Locale GameListContextMenuCreateShortcutToolTipMacOS}}" />
     <MenuItem
        Click="EditGameConfiguration_Click"
-       Header="Edit Game Configuration"
+       Header="{ext:Locale GameListContextMenuEditGameConfiguration}"
        Icon="{ext:Icon fa-solid fa-gear}"
        ToolTip.Tip="{ext:Locale EditGameConfigurationToolTip}" />
     <MenuItem

@@ -2723,6 +2723,31 @@
       }
     },
     {
+      "ID": "GameListContextMenuEditGameConfiguration",
+      "Translations": {
+        "ar_SA": "تعديل تكوين اللعبة",
+        "de_DE": "Spielkonfiguration bearbeiten",
+        "el_GR": "Επεξεργασία ρυθμίσεων παιχνιδιού",
+        "en_US": "Edit Game Configuration",
+        "es_ES": "Editar configuración del juego",
+        "fr_FR": "Modifier la configuration du jeu",
+        "he_IL": "ערוך את הגדרת המשחק",
+        "it_IT": "Modifica configurazione gioco",
+        "ja_JP": "ゲーム設定を編集",
+        "ko_KR": "게임 설정 편집",
+        "no_NO": "Rediger spillkonfig.",
+        "pl_PL": "Edytuj konfigurację gry",
+        "pt_BR": "Editar configuração do jogo",
+        "ru_RU": "Редактировать конфигурацию игры",
+        "sv_SE": "Redigera spelkonfiguration",
+        "th_TH": "แก้ไขการตั้งค่าเกม",
+        "tr_TR": "Oyunun yapılandırmasını düzenle",
+        "uk_UA": "Редагувати конфігурацію гри",
+        "zh_CN": "编辑游戏配置",
+        "zh_TW": "編輯遊戲設定"
+      }
+    },
+    {
       "ID": "GameListContextMenuCreateShortcutToolTipMacOS",
       "Translations": {
         "ar_SA": "أنشئ اختصار يُشغل التطبيق المحدد في مجلد تطبيقات ‫macOS",
