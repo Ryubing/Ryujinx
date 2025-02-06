@@ -332,6 +332,7 @@
 0100E680149DC000,"Arcaea",,playable,2023-03-16 19:31:21
 01003C2010C78000,"Archaica: The Path Of Light",crash,nothing,2020-10-16 13:22:26
 01004DA012976000,"Area 86",,playable,2020-12-16 16:45:52
+01008d8006a6a000,"Arena of Valor",crash,boots,2025-02-03 22:19:34
 0100691013C46000,"ARIA CHRONICLE",,playable,2022-11-16 13:50:55
 0100D4A00B284000,"ARK: Survival Evolved",gpu;nvdec;online-broken;UE4;ldn-untested,ingame,2024-04-16 00:53:56
 0100C56012C96000,"Arkanoid vs. Space Invaders",services,ingame,2021-01-21 12:50:30
@@ -426,6 +427,7 @@
 0100E48013A34000,"Balan Wonderworld Demo",gpu;services;UE4;demo,ingame,2023-02-16 20:05:07
 0100CD801CE5E000,"Balatro",,ingame,2024-04-21 02:01:53
 010010A00DA48000,"Baldur's Gate and Baldur's Gate II: Enhanced Editions",32-bit,playable,2022-09-12 23:52:15
+0100fd1014726000,"Baldur's Gate: Dark Alliance",ldn-untested,ingame,2025-02-03 22:21:00
 0100BC400FB64000,"Balthazar's Dream",,playable,2022-09-13 00:13:22
 01008D30128E0000,"Bamerang",,playable,2022-10-26 00:29:39
 010013C010C5C000,"Banner of the Maid",,playable,2021-06-14 15:23:37
@@ -528,6 +530,7 @@
 01005950022EC000,"Blade Strangers",nvdec,playable,2022-07-17 19:02:43
 0100DF0011A6A000,"Bladed Fury",,playable,2022-10-26 11:36:26
 0100CFA00CC74000,"Blades of Time",deadlock;online,boots,2022-07-17 19:19:58
+01003d700dd8a000,"Blades",,boots,2025-02-03 22:22:00
 01006CC01182C000,"Blair Witch",nvdec;UE4,playable,2022-10-01 14:06:16
 010039501405E000,"Blanc",gpu;slow,ingame,2023-02-22 14:00:13
 0100698009C6E000,"Blasphemous",nvdec,playable,2021-03-01 12:15:31
@@ -955,7 +958,7 @@
 010012800EBAE000,"Disney TSUM TSUM FESTIVAL",crash,menus,2020-07-14 14:05:28
 01009740120FE000,"DISTRAINT 2",,playable,2020-09-03 16:08:12
 010075B004DD2000,"DISTRAINT: Deluxe Edition",,playable,2020-06-15 23:42:24
-010027400CDC6000,"Divinity: Original Sin 2 - Definitive Edition",services;crash;online-broken;regression,menus,2023-08-13 17:20:03
+010027400CDC6000,"Divinity: Original Sin 2 - Definitive Edition",services;crash;online-broken;regression,ingame,2025-02-03 22:12:30
 01001770115C8000,"Dodo Peak",nvdec;UE4,playable,2022-10-04 16:13:05
 010077B0100DA000,"Dogurai",,playable,2020-10-04 02:40:16
 010048100D51A000,"Dokapon Up! Mugen no Roulette",gpu;Needs Update,menus,2022-12-08 19:39:10
@@ -1654,7 +1657,7 @@
 0100A73006E74000,"Legendary Eleven",,playable,2021-06-08 12:09:03
 0100A7700B46C000,"Legendary Fishing",online,playable,2021-04-14 15:08:46
 0100739018020000,"LEGO® 2K Drive",gpu;ldn-works,ingame,2024-04-09 02:05:12
-01003A30012C0000,"LEGO® CITY Undercover",nvdec,playable,2024-09-30 08:44:27
+010085500130a000,"LEGO® CITY Undercover",nvdec,playable,2024-09-30 08:44:27
 010070D009FEC000,"LEGO® DC Super-Villains",,playable,2021-05-27 18:10:37
 010052A00B5D2000,"LEGO® Harry Potter™ Collection",crash,ingame,2024-01-31 10:28:07
 010073C01AF34000,"LEGO® Horizon Adventures™",vulkan-backend-bug;opengl-backend-bug;UE4,ingame,2025-01-07 04:24:56
@@ -1913,6 +1916,7 @@
 010073E008E6E000,"Mugsters",,playable,2021-01-28 17:57:17
 0100A8400471A000,"MUJO",,playable,2020-05-08 16:31:04
 0100211005E94000,"Mulaka",,playable,2021-01-28 18:07:20
+01008e2013fb4000,"Multi Quiz",ldn-untested,ingame,2025-02-03 22:26:00
 010038B00B9AE000,"Mummy Pinball",,playable,2022-08-05 16:08:11
 01008E200C5C2000,"Muse Dash",,playable,2020-06-06 14:41:29
 010035901046C000,"Mushroom Quest",,playable,2020-05-17 13:07:08
@@ -2028,6 +2032,7 @@
 010003C00B868000,"Ninjin: Clash of Carrots",online-broken,playable,2024-07-10 05:12:26
 0100746010E4C000,"NinNinDays",,playable,2022-11-20 15:17:29
 0100C9A00ECE6000,"Nintendo 64™ – Nintendo Switch Online",gpu;vulkan,ingame,2024-04-23 20:21:07
+0100e0601c632000,"Nintendo 64™ – Nintendo Switch Online: MATURE 17+",,ingame,2025-02-03 22:27:00
 0100D870045B6000,"Nintendo Entertainment System™ - Nintendo Switch Online",online,playable,2022-07-01 15:45:06
 0100C4B0034B2000,"Nintendo Labo Toy-Con 01 Variety Kit",gpu,ingame,2022-08-07 12:56:07
 01001E9003502000,"Nintendo Labo Toy-Con 03 Vehicle Kit",services;crash,menus,2022-08-03 17:20:11
@@ -2532,7 +2537,7 @@
 0100C3E00B700000,"SEGA AGES Space Harrier",,playable,2021-01-11 12:57:40
 010054400D2E6000,"SEGA AGES Virtua Racing",online-broken,playable,2023-01-29 17:08:39
 01001E700AC60000,"SEGA AGES Wonder Boy: Monster Land",online,playable,2021-05-05 16:28:25
-0100B3C014BDA000,"SEGA Genesis™ – Nintendo Switch Online",crash;regression,nothing,2022-04-11 07:27:21
+0100B3C014BDA000,"SEGA Genesis™ – Nintendo Switch Online",crash;regression,ingame,2025-02-03 22:13:30
 0100F7300B24E000,"SEGA Mega Drive Classics",online,playable,2021-01-05 11:08:00
 01009840046BC000,"Semispheres",,playable,2021-01-06 23:08:31
 0100D1800D902000,"SENRAN KAGURA Peach Ball",,playable,2021-06-03 15:12:10
@@ -2964,6 +2969,7 @@
 0100C38004DCC000,"The Flame In The Flood: Complete Edition",gpu;nvdec;UE4,ingame,2022-08-22 16:23:49
 010007700D4AC000,"The Forbidden Arts",,playable,2021-01-26 16:26:24
 010030700CBBC000,"The friends of Ringo Ishikawa",,playable,2022-08-22 16:33:17
+0100b620139d8000,"The Game of Life 2",ldn-untested,ingame,2025-02-03 22:30:00
 01006350148DA000,"The Gardener and the Wild Vines",gpu,ingame,2024-04-29 16:32:10
 0100B13007A6A000,"The Gardens Between",,playable,2021-01-29 16:16:53
 010036E00FB20000,"The Great Ace Attorney Chronicles",,playable,2023-06-22 21:26:29
@@ -2981,6 +2987,8 @@
 010015D003EE4000,"The Jackbox Party Pack 2",online-working,playable,2022-08-22 18:23:40
 0100CC80013D6000,"The Jackbox Party Pack 3",slow;online-working,playable,2022-08-22 18:41:06
 0100E1F003EE8000,"The Jackbox Party Pack 4",online-working,playable,2022-08-22 18:56:34
+01006fe0096ac000,"The Jackbox Party Pack 5",ldn-untested,boots,2025-02-03 22:32:00
+01005a400db52000,"The Jackbox Party Pack 6",ldn-untested,boots,2025-02-03 22:32:00
 010052C00B184000,"The Journey Down: Chapter One",nvdec,playable,2021-02-24 13:32:41
 01006BC00B188000,"The Journey Down: Chapter Three",nvdec,playable,2021-02-24 13:45:27
 01009AB00B186000,"The Journey Down: Chapter Two",nvdec,playable,2021-02-24 13:32:13
@@ -3159,6 +3167,7 @@
 010055E00CA68000,"Trine 4: The Nightmare Prince",gpu,nothing,2025-01-07 05:47:46
 0100D9000A930000,"Trine Enchanted Edition",ldn-untested;nvdec,playable,2021-06-03 11:28:15
 01002D7010A54000,"Trinity Trigger",crash,ingame,2023-03-03 03:09:09
+010020700a5e0000,"TRIVIAL PURSUIT Live!",ldn-untested,ingame,2025-02-03 22:35:00
 0100868013FFC000,"TRIVIAL PURSUIT Live! 2",,boots,2022-12-19 00:04:33
 0100F78002040000,"Troll and I™",gpu;nvdec,ingame,2021-06-04 16:58:50
 0100145011008000,"Trollhunters: Defenders of Arcadia",gpu;nvdec,ingame,2020-11-30 13:27:09
@@ -3208,6 +3217,7 @@
 0100AB2010B4C000,"Unlock The King",,playable,2020-09-01 13:58:27
 0100A3E011CB0000,"Unlock the King 2",,playable,2021-06-15 20:43:55
 01005AA00372A000,"UNO® for Nintendo Switch",nvdec;ldn-untested,playable,2022-07-28 14:49:47
+0100b6e012ebe000,"UNO",ldn-untested,ingame,2025-02-03 22:40:00
 0100E5D00CC0C000,"Unravel Two",nvdec,playable,2024-05-23 15:45:05
 010001300CC4A000,"Unruly Heroes",,playable,2021-01-07 18:09:31
 0100B410138C0000,"Unspottable",,playable,2022-10-25 19:28:49
@@ -3372,6 +3382,7 @@
 0100F47016F26000,"Yomawari 3",,playable,2022-05-10 08:26:51
 010012F00B6F2000,"Yomawari: The Long Night Collection",,playable,2022-09-03 14:36:59
 0100CC600ABB2000,"Yonder: The Cloud Catcher Chronicles (Retail Only)",,playable,2021-01-28 14:06:25
+0100534009ff2000,"Yonder: The Cloud Catcher Chronicles",,playable,2025-02-03 22:19:13
 0100BE50042F6000,"Yono and the Celestial Elephants",,playable,2021-01-28 18:23:58
 0100F110029C8000,"Yooka-Laylee",,playable,2021-01-28 14:21:45
 010022F00DA66000,"Yooka-Laylee and the Impossible Lair",,playable,2021-03-05 17:32:21

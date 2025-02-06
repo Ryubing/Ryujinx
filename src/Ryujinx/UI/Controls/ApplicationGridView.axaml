@@ -97,24 +97,6 @@
                             Foreground="{DynamicResource FavoriteApplicationIconColor}"
                             IsVisible="{Binding Favorite}"
                             Symbol="StarFilled" />
-                        <Grid IsVisible="{Binding !$parent[UserControl].((viewModels:MainWindowViewModel)DataContext).ShowNames}">
-                            <Border
-                                Margin="15,35,5,15"
-                                HorizontalAlignment="Left"
-                                VerticalAlignment="Bottom"
-                                Width="90" 
-                                Height="20"
-                                CornerRadius="4"
-                                IsVisible="{Binding UserConfig}"
-                                Background="{DynamicResource ThemeContentBackgroundColor}">
-                                <TextBlock
-                                    HorizontalAlignment="Center"
-                                    VerticalAlignment="Center"
-                                    Text="{ext:Locale UserConfigurationHeader}"
-                                    TextAlignment="Center"
-                                    TextWrapping="Wrap" />   
-                            </Border>
-                        </Grid>
                     </Grid>
                 </DataTemplate>
             </ListBox.ItemTemplate>
