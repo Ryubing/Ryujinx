@@ -1,7 +1,8 @@
-﻿<Styles
+<Styles
     xmlns="https://github.com/avaloniaui"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:ui="clr-namespace:FluentAvalonia.UI.Controls;assembly=FluentAvalonia"
+    xmlns:ext="clr-namespace:Ryujinx.Ava.Common.Markup"
     xmlns:windowing="clr-namespace:FluentAvalonia.UI.Windowing;assembly=FluentAvalonia">
     <Design.PreviewWith>
         <Border Height="2000"
@@ -27,10 +28,11 @@
                             Height="28"
                             HorizontalAlignment="Right"
                             Content="Addy" />
-                        <Button
+                        <Button 
                             Name="btnRem"
                             HorizontalAlignment="Right"
-                            Content="Add" />
+                            Content="Add" 
+                            Classes="red"/>                
                         <TextBox
                             Width="100"
                             VerticalAlignment="Center"
@@ -41,7 +43,12 @@
                     </StackPanel>
                 </Grid>
                 <ui:NumberBox Value="1" />
+                <MenuItem
+                    IconSource="Settings"
+                    Header="123 0000"
+                    ToolTip.Tip="What this"/>
             </StackPanel>
+            
         </Border>
     </Design.PreviewWith>
     <Style Selector="DropDownButton">
@@ -372,6 +379,16 @@
     <Style Selector="ListBox ListBoxItem:pointerover /template/ ContentPresenter">
         <Setter Property="Background"
                 Value="{DynamicResource AppListHoverBackgroundColor}" />
+    </Style>
+    <Style Selector="Button.red /template/ ContentPresenter">
+        <Setter Property="CornerRadius" Value="4"/>
+            <Setter Property="Background" Value="red"/>
+            <Setter Property="Foreground" Value="White"/>
+        </Style>
+        <Style Selector="Button.red:pointerover /template/ ContentPresenter">
+            <Setter Property="CornerRadius" Value="4"/>
+            <Setter Property="Background" Value="{DynamicResource WarningBackgroundColor}" />
+            <Setter Property="Foreground" Value="White"/>
     </Style>
     <Styles.Resources>
         <SolidColorBrush x:Key="ThemeAccentColorBrush"

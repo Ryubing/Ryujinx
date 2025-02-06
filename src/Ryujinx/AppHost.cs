@@ -582,6 +582,10 @@ namespace Ryujinx.Ava
             Rainbow.Disable();
             Rainbow.Reset();
 
+            //Reload settings when the game is turned off
+            //(resets custom settings if there were any)
+            Program.ReloadConfig();
+
             _isStopped = true;
             Stop();
         }

@@ -23,6 +23,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Runtime.InteropServices;
 using System.Threading.Tasks;
+using static System.Runtime.InteropServices.JavaScript.JSType;
 
 namespace Ryujinx.Ava
 {
@@ -32,6 +33,7 @@ namespace Ryujinx.Ava
         public static double DesktopScaleFactor { get; set; } = 1.0;
         public static string Version { get; private set; }
         public static string ConfigurationPath { get; private set; }
+        public static string GlobalConfigurationPath { get; private set; }
         public static bool PreviewerDetached { get; private set; }
         public static bool UseHardwareAcceleration { get; private set; }
 
@@ -155,10 +157,41 @@ namespace Ryujinx.Ava
             }
         }
 
+        public static void ReloadGameConfig(string gamedir)
+        {
+            if (File.Exists(gamedir))
+            {
+                ConfigurationPath = gamedir;
+            }
+
+        }
+
+        public static string GetDirGameUserConfig(string gameId, bool rememberGlobalDir = false, bool changeFolderForGame = false)
+        {
+            string gameDir = Path.Combine(AppDataManager.GamesDirPath, gameId, ReleaseInformation.ConfigName);
+
+            // Should load with the game if there is a custom setting for the game
+            if (rememberGlobalDir)
+            {
+                GlobalConfigurationPath = ConfigurationPath;
+            }
+
+            if (changeFolderForGame)
+            {
+                ConfigurationPath = gameDir;
+            }
+
+            return gameDir;
+        }
+
         public static void ReloadConfig()
         {
+            //It is necessary that when a user setting appears, the global setting remains available
+            GlobalConfigurationPath = null;
+
             string localConfigurationPath = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, ReleaseInformation.ConfigName);
             string appDataConfigurationPath = Path.Combine(AppDataManager.BaseDirPath, ReleaseInformation.ConfigName);
+
 
             // Now load the configuration as the other subsystems are now registered
             if (File.Exists(localConfigurationPath))
@@ -232,8 +265,35 @@ namespace Ryujinx.Ava
                     _ => ConfigurationState.Instance.HideCursor,
                 };
 
+            // Check if memoryManagerMode was overridden. 
+            if (CommandLineState.OverrideMemoryManagerMode is not null)
+                if (Enum.TryParse(CommandLineState.OverrideMemoryManagerMode, true, out MemoryManagerMode result))
+                {
+                    ConfigurationState.Instance.System.MemoryManagerMode.Value = result;
+                }
 
-            // Check if hardware-acceleration was overridden.
+            // Check if PPTC was overridden. 
+            if (CommandLineState.OverridePPTC is not null)
+                if (Enum.TryParse(CommandLineState.OverridePPTC, true, out bool result))
+                {
+                    ConfigurationState.Instance.System.EnablePtc.Value = result;
+                }
+
+            // Check if region was overridden. 
+            if (CommandLineState.OverrideSystemRegion is not null)
+                if (Enum.TryParse(CommandLineState.OverrideSystemRegion, true, out Ryujinx.HLE.HOS.SystemState.RegionCode result))
+                {
+                    ConfigurationState.Instance.System.Region.Value = (Utilities.Configuration.System.Region)result;
+                }
+
+            //Check if language was overridden. 
+            if (CommandLineState.OverrideSystemLanguage is not null)
+                if (Enum.TryParse(CommandLineState.OverrideSystemLanguage, true, out Ryujinx.HLE.HOS.SystemState.SystemLanguage result))
+                {
+                    ConfigurationState.Instance.System.Language.Value = (Utilities.Configuration.System.Language)result;
+                }
+
+            // Check if hardware-acceleration was overridden. MemoryManagerMode ( outdated! )
             if (CommandLineState.OverrideHardwareAcceleration != null)
                 UseHardwareAcceleration = CommandLineState.OverrideHardwareAcceleration.Value;
         }

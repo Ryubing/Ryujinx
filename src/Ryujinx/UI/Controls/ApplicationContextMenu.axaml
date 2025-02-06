@@ -20,6 +20,11 @@
         Icon="{ext:Icon fa-solid fa-bookmark}"
         ToolTip.Tip="{OnPlatform Default={ext:Locale GameListContextMenuCreateShortcutToolTip}, macOS={ext:Locale GameListContextMenuCreateShortcutToolTipMacOS}}" />
     <MenuItem
+       Click="EditGameConfiguration_Click"
+       Header="Edit Game Configuration"
+       Icon="{ext:Icon fa-solid fa-gear}"
+       ToolTip.Tip="{ext:Locale EditGameConfigurationToolTip}" />
+    <MenuItem
         IsVisible="{Binding HasCompatibilityEntry}"
         Click="OpenApplicationCompatibility_Click"
         Header="{ext:Locale GameListContextMenuShowCompatEntry}"

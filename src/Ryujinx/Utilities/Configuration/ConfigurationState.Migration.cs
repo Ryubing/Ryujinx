@@ -18,9 +18,15 @@ namespace Ryujinx.Ava.Utilities.Configuration
 {
     public partial class ConfigurationState
     {
-        public void Load(ConfigurationFileFormat cff, string configurationFilePath)
+        public void Load(ConfigurationFileFormat cff, string configurationFilePath, string gameId="")
         {
             bool configurationFileUpdated = false;
+            bool LoadSetting = true;
+
+            if (!string.IsNullOrEmpty(gameId))
+            {
+                LoadSetting = false;
+            }
 
             if (cff.Version is < 0 or > ConfigurationFileFormat.CurrentVersion)
             {
@@ -43,14 +49,14 @@ namespace Ryujinx.Ava.Utilities.Configuration
                 configurationFileUpdated = true;
             }
             
-            EnableDiscordIntegration.Value = cff.EnableDiscordIntegration;
-            CheckUpdatesOnStart.Value = cff.CheckUpdatesOnStart;
-            ShowConfirmExit.Value = cff.ShowConfirmExit;
-            RememberWindowState.Value = cff.RememberWindowState;
-            ShowTitleBar.Value = cff.ShowTitleBar;
-            EnableHardwareAcceleration.Value = cff.EnableHardwareAcceleration;
-            HideCursor.Value = cff.HideCursor;
-            
+            EnableDiscordIntegration.Value = LoadSetting ? cff.EnableDiscordIntegration : EnableDiscordIntegration.Value;
+            CheckUpdatesOnStart.Value = LoadSetting ? cff.CheckUpdatesOnStart : CheckUpdatesOnStart.Value;
+            ShowConfirmExit.Value = LoadSetting ? cff.ShowConfirmExit : ShowConfirmExit.Value;
+            RememberWindowState.Value = LoadSetting ? cff.RememberWindowState : RememberWindowState.Value;
+            ShowTitleBar.Value = LoadSetting ? cff.ShowTitleBar : ShowTitleBar.Value;
+            EnableHardwareAcceleration.Value = LoadSetting ? cff.EnableHardwareAcceleration : EnableHardwareAcceleration.Value;
+            HideCursor.Value = LoadSetting ? cff.HideCursor : HideCursor.Value;
+
             Logger.EnableFileLog.Value = cff.EnableFileLog;
             Logger.EnableDebug.Value = cff.LoggingEnableDebug;
             Logger.EnableStub.Value = cff.LoggingEnableStub;
@@ -99,43 +105,44 @@ namespace Ryujinx.Ava.Utilities.Configuration
             System.IgnoreMissingServices.Value = cff.IgnoreMissingServices;
             System.IgnoreApplet.Value = cff.IgnoreApplet;
             System.UseHypervisor.Value = cff.UseHypervisor;
-            
-            UI.GuiColumns.FavColumn.Value = cff.GuiColumns.FavColumn;
-            UI.GuiColumns.IconColumn.Value = cff.GuiColumns.IconColumn;
-            UI.GuiColumns.AppColumn.Value = cff.GuiColumns.AppColumn;
-            UI.GuiColumns.DevColumn.Value = cff.GuiColumns.DevColumn;
-            UI.GuiColumns.VersionColumn.Value = cff.GuiColumns.VersionColumn;
-            UI.GuiColumns.TimePlayedColumn.Value = cff.GuiColumns.TimePlayedColumn;
-            UI.GuiColumns.LastPlayedColumn.Value = cff.GuiColumns.LastPlayedColumn;
-            UI.GuiColumns.FileExtColumn.Value = cff.GuiColumns.FileExtColumn;
-            UI.GuiColumns.FileSizeColumn.Value = cff.GuiColumns.FileSizeColumn;
-            UI.GuiColumns.PathColumn.Value = cff.GuiColumns.PathColumn;
-            UI.ColumnSort.SortColumnId.Value = cff.ColumnSort.SortColumnId;
-            UI.ColumnSort.SortAscending.Value = cff.ColumnSort.SortAscending;
-            UI.GameDirs.Value = cff.GameDirs;
-            UI.AutoloadDirs.Value = cff.AutoloadDirs ?? [];
-            UI.ShownFileTypes.NSP.Value = cff.ShownFileTypes.NSP;
-            UI.ShownFileTypes.PFS0.Value = cff.ShownFileTypes.PFS0;
-            UI.ShownFileTypes.XCI.Value = cff.ShownFileTypes.XCI;
-            UI.ShownFileTypes.NCA.Value = cff.ShownFileTypes.NCA;
-            UI.ShownFileTypes.NRO.Value = cff.ShownFileTypes.NRO;
-            UI.ShownFileTypes.NSO.Value = cff.ShownFileTypes.NSO;
-            UI.LanguageCode.Value = cff.LanguageCode;
-            UI.BaseStyle.Value = cff.BaseStyle;
-            UI.GameListViewMode.Value = cff.GameListViewMode;
-            UI.ShowNames.Value = cff.ShowNames;
-            UI.IsAscendingOrder.Value = cff.IsAscendingOrder;
-            UI.GridSize.Value = cff.GridSize;
-            UI.ApplicationSort.Value = cff.ApplicationSort;
-            UI.StartFullscreen.Value = cff.StartFullscreen;
-            UI.StartNoUI.Value = cff.StartNoUI;
-            UI.ShowConsole.Value = cff.ShowConsole;
-            UI.WindowStartup.WindowSizeWidth.Value = cff.WindowStartup.WindowSizeWidth;
-            UI.WindowStartup.WindowSizeHeight.Value = cff.WindowStartup.WindowSizeHeight;
-            UI.WindowStartup.WindowPositionX.Value = cff.WindowStartup.WindowPositionX;
-            UI.WindowStartup.WindowPositionY.Value = cff.WindowStartup.WindowPositionY;
-            UI.WindowStartup.WindowMaximized.Value = cff.WindowStartup.WindowMaximized;
-            
+
+            UI.GuiColumns.FavColumn.Value = LoadSetting ? cff.GuiColumns.FavColumn : UI.GuiColumns.FavColumn.Value;
+            UI.GuiColumns.IconColumn.Value = LoadSetting ? cff.GuiColumns.IconColumn : UI.GuiColumns.IconColumn.Value;
+            UI.GuiColumns.AppColumn.Value = LoadSetting ? cff.GuiColumns.AppColumn : UI.GuiColumns.AppColumn.Value;
+            UI.GuiColumns.DevColumn.Value = LoadSetting ? cff.GuiColumns.DevColumn : UI.GuiColumns.DevColumn.Value;
+            UI.GuiColumns.VersionColumn.Value = LoadSetting ? cff.GuiColumns.VersionColumn : UI.GuiColumns.VersionColumn.Value;
+            UI.GuiColumns.TimePlayedColumn.Value = LoadSetting ? cff.GuiColumns.TimePlayedColumn : UI.GuiColumns.TimePlayedColumn.Value;
+            UI.GuiColumns.LastPlayedColumn.Value = LoadSetting ? cff.GuiColumns.LastPlayedColumn : UI.GuiColumns.LastPlayedColumn.Value;
+            UI.GuiColumns.FileExtColumn.Value = LoadSetting ? cff.GuiColumns.FileExtColumn : UI.GuiColumns.FileExtColumn.Value;
+            UI.GuiColumns.FileSizeColumn.Value = LoadSetting ? cff.GuiColumns.FileSizeColumn : UI.GuiColumns.FileSizeColumn.Value;
+            UI.GuiColumns.PathColumn.Value = LoadSetting ? cff.GuiColumns.PathColumn : UI.GuiColumns.PathColumn.Value;
+            UI.ColumnSort.SortColumnId.Value = LoadSetting ? cff.ColumnSort.SortColumnId : UI.ColumnSort.SortColumnId.Value;
+            UI.ColumnSort.SortAscending.Value = LoadSetting ? cff.ColumnSort.SortAscending : UI.ColumnSort.SortAscending.Value;
+            UI.GameDirs.Value = LoadSetting ? cff.GameDirs : UI.GameDirs.Value;
+            UI.AutoloadDirs.Value = LoadSetting ? (cff.AutoloadDirs ?? []) : UI.AutoloadDirs.Value;
+            UI.ShownFileTypes.NSP.Value = LoadSetting ? cff.ShownFileTypes.NSP : UI.ShownFileTypes.NSP.Value;
+            UI.ShownFileTypes.PFS0.Value = LoadSetting ? cff.ShownFileTypes.PFS0 : UI.ShownFileTypes.PFS0.Value;
+            UI.ShownFileTypes.XCI.Value = LoadSetting ? cff.ShownFileTypes.XCI : UI.ShownFileTypes.XCI.Value;
+            UI.ShownFileTypes.NCA.Value = LoadSetting ? cff.ShownFileTypes.NCA : UI.ShownFileTypes.NCA.Value;
+            UI.ShownFileTypes.NRO.Value = LoadSetting ? cff.ShownFileTypes.NRO : UI.ShownFileTypes.NRO.Value;
+            UI.ShownFileTypes.NSO.Value = LoadSetting ? cff.ShownFileTypes.NSO : UI.ShownFileTypes.NSO.Value;
+            UI.LanguageCode.Value = LoadSetting ? cff.LanguageCode : UI.LanguageCode.Value;
+            UI.BaseStyle.Value = LoadSetting ? cff.BaseStyle : UI.BaseStyle.Value;
+            UI.GameListViewMode.Value = LoadSetting ? cff.GameListViewMode : UI.GameListViewMode.Value;
+            UI.ShowNames.Value = LoadSetting ? cff.ShowNames : UI.ShowNames.Value;
+            UI.IsAscendingOrder.Value = LoadSetting ? cff.IsAscendingOrder : UI.IsAscendingOrder.Value;
+            UI.GridSize.Value = LoadSetting ? cff.GridSize : UI.GridSize.Value;
+            UI.ApplicationSort.Value = LoadSetting ? cff.ApplicationSort : UI.ApplicationSort.Value;
+            UI.StartFullscreen.Value = LoadSetting ? cff.StartFullscreen : UI.StartFullscreen.Value;
+            UI.StartNoUI.Value = LoadSetting ? cff.StartNoUI : UI.StartNoUI.Value;
+            UI.ShowConsole.Value = LoadSetting ? cff.ShowConsole : UI.ShowConsole.Value;
+            UI.WindowStartup.WindowSizeWidth.Value = LoadSetting ? cff.WindowStartup.WindowSizeWidth : UI.WindowStartup.WindowSizeWidth.Value;
+            UI.WindowStartup.WindowSizeHeight.Value = LoadSetting ? cff.WindowStartup.WindowSizeHeight : UI.WindowStartup.WindowSizeHeight.Value;
+            UI.WindowStartup.WindowPositionX.Value = LoadSetting ? cff.WindowStartup.WindowPositionX : UI.WindowStartup.WindowPositionX.Value;
+            UI.WindowStartup.WindowPositionY.Value = LoadSetting ? cff.WindowStartup.WindowPositionY : UI.WindowStartup.WindowPositionY.Value;
+            UI.WindowStartup.WindowMaximized.Value = LoadSetting ? cff.WindowStartup.WindowMaximized : UI.WindowStartup.WindowMaximized.Value;
+
+
             Hid.EnableKeyboard.Value = cff.EnableKeyboard;
             Hid.EnableMouse.Value = cff.EnableMouse;
             Hid.Hotkeys.Value = cff.Hotkeys;

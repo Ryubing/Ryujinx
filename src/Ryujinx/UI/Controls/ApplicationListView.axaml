@@ -145,6 +145,13 @@
                                         Text="{Binding Converter={x:Static helpers:MultiplayerInfoConverter.Instance}}"
                                         TextAlignment="Start"
                                         TextWrapping="Wrap"/>
+                                    <TextBlock
+                                        HorizontalAlignment="Stretch"
+                                        IsVisible="{Binding UserConfig}"
+                                        Text="User Config"
+                                        TextAlignment="Start"
+                                        TextWrapping="Wrap"
+                                        Foreground="{DynamicResource Warning}" />
                                 </StackPanel>
                                 <StackPanel
                                     Grid.Column="4"
