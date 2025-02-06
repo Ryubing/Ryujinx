@@ -160,9 +160,10 @@ namespace Ryujinx.Graphics.Gpu.Image
         /// </summary>
         /// <param name="context">GPU context that the texture pool belongs to</param>
         /// <param name="channel">GPU channel that the texture pool belongs to</param>
+        /// <param name="physicalMemory">Backing memory of the pool</param>
         /// <param name="address">Address of the texture pool in guest memory</param>
         /// <param name="maximumId">Maximum texture ID of the texture pool (equal to maximum textures minus one)</param>
-        public TexturePool(GpuContext context, GpuChannel channel, ulong address, int maximumId) : base(context, channel.MemoryManager.Physical, address, maximumId)
+        public TexturePool(GpuContext context, GpuChannel channel, PhysicalMemory physicalMemory, ulong address, int maximumId) : base(context, physicalMemory, address, maximumId)
         {
             _channel = channel;
             _aliasLists = new Dictionary<Texture, TextureAliasList>();
@@ -192,8 +193,10 @@ namespace Ryujinx.Graphics.Gpu.Image
                         return ref descriptor;
                     }
 
-                    TextureInfo info = GetInfo(descriptor, out int layerSize);
-                    texture = PhysicalMemory.TextureCache.FindOrCreateTexture(_channel.MemoryManager, TextureSearchFlags.ForSampler, info, layerSize);
+                    var info = GetInfo(descriptor, out int layerSize);
+                    var memoryManager = _channel.MemoryManager;
+                    var textureCache = memoryManager.GetBackingMemory(descriptor.UnpackAddress()).TextureCache;
+                    texture = textureCache.FindOrCreateTexture(memoryManager, TextureSearchFlags.ForSampler, info, layerSize);
 
                     // If this happens, then the texture address is invalid, we can't add it to the cache.
                     if (texture == null)
@@ -361,7 +364,7 @@ namespace Ryujinx.Graphics.Gpu.Image
         /// <param name="deferred">If true, queue the dereference to happen on the render thread, otherwise dereference immediately</param>
         public void ForceRemove(Texture texture, int id, bool deferred)
         {
-            Texture previous = Interlocked.Exchange(ref Items[id], null);
+            Texture  previous = Interlocked.Exchange(ref Items[id], null);
 
             if (deferred)
             {
@@ -421,7 +424,8 @@ namespace Ryujinx.Graphics.Gpu.Image
                         continue;
                     }
 
-                    MultiRange range = _channel.MemoryManager.Physical.TextureCache.UpdatePartiallyMapped(_channel.MemoryManager, address, texture);
+                    var textureCache = _channel.MemoryManager.GetBackingMemory(address).TextureCache;
+                    var range = textureCache.UpdatePartiallyMapped(_channel.MemoryManager, address, texture);
 
                     // If the texture is not mapped at all, delete its reference.
 
@@ -446,7 +450,7 @@ namespace Ryujinx.Graphics.Gpu.Image
                     if (!range.Equals(texture.Range))
                     {
                         // Part of the texture was mapped or unmapped. Replace the range and regenerate tracking handles.
-                        if (!_channel.MemoryManager.Physical.TextureCache.UpdateMapping(texture, range))
+                        if (!textureCache.UpdateMapping(texture, range))
                         {
                             // Texture could not be remapped due to a collision, just delete it.
                             if (Interlocked.Exchange(ref Items[request.ID], null) != null)
@@ -481,6 +485,7 @@ namespace Ryujinx.Graphics.Gpu.Image
         /// <param name="size">Size of the range being invalidated</param>
         protected override void InvalidateRangeImpl(ulong address, ulong size)
         {
+            var memoryManager = _channel.MemoryManager;
             ProcessDereferenceQueue();
 
             ulong endAddress = address + size;
@@ -505,7 +510,8 @@ namespace Ryujinx.Graphics.Gpu.Image
 
                     if (texture.HasOneReference())
                     {
-                        _channel.MemoryManager.Physical.TextureCache.AddShortCache(texture, ref cachedDescriptor);
+                        var textureCache = memoryManager.GetBackingMemory(descriptor.UnpackAddress()).TextureCache;
+                        textureCache.AddShortCache(texture, ref cachedDescriptor);
                     }
 
                     if (Interlocked.Exchange(ref Items[id], null) != null)

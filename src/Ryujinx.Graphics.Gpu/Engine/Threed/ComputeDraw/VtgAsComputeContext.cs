@@ -11,6 +11,8 @@ namespace Ryujinx.Graphics.Gpu.Engine.Threed.ComputeDraw
     /// </summary>
     class VtgAsComputeContext : IDisposable
     {
+        private const int DummyBufferSize = 16;
+
         private readonly GpuContext _context;
 
         /// <summary>
@@ -46,7 +48,7 @@ namespace Ryujinx.Graphics.Gpu.Engine.Threed.ComputeDraw
                         1,
                         1,
                         1,
-                        format.GetBytesPerElement(),
+                        1,
                         format,
                         DepthStencilMode.Depth,
                         Target.TextureBuffer,
@@ -65,7 +67,7 @@ namespace Ryujinx.Graphics.Gpu.Engine.Threed.ComputeDraw
             {
                 if (disposing)
                 {
-                    foreach (ITexture texture in _cache.Values)
+                    foreach (var texture in _cache.Values)
                     {
                         texture.Release();
                     }
@@ -520,6 +522,21 @@ namespace Ryujinx.Graphics.Gpu.Engine.Threed.ComputeDraw
         }
 
         /// <summary>
+        /// Gets the range for a dummy 16 bytes buffer, filled with zeros.
+        /// </summary>
+        /// <returns>Dummy buffer range</returns>
+        public BufferRange GetDummyBufferRange()
+        {
+            if (_dummyBuffer == BufferHandle.Null)
+            {
+                _dummyBuffer = _context.Renderer.CreateBuffer(DummyBufferSize, BufferAccess.DeviceMemory);
+                _context.Renderer.Pipeline.ClearBuffer(_dummyBuffer, 0, DummyBufferSize, 0);
+            }
+
+            return new BufferRange(_dummyBuffer, 0, DummyBufferSize);
+        }
+
+        /// <summary>
         /// Gets the range for a sequential index buffer, with ever incrementing index values.
         /// </summary>
         /// <param name="count">Minimum number of indices that the buffer should have</param>
@@ -603,7 +620,7 @@ namespace Ryujinx.Graphics.Gpu.Engine.Threed.ComputeDraw
                 DestroyIfNotNull(ref _geometryIndexDataBuffer.Handle);
                 DestroyIfNotNull(ref _sequentialIndexBuffer);
 
-                foreach (IndexBuffer indexBuffer in _topologyRemapBuffers.Values)
+                foreach (var indexBuffer in _topologyRemapBuffers.Values)
                 {
                     _context.Renderer.DeleteBuffer(indexBuffer.Handle);
                 }

@@ -6,6 +6,7 @@ using Ryujinx.Graphics.Gpu.Engine.GPFifo;
 using Ryujinx.Graphics.Gpu.Memory;
 using Ryujinx.Graphics.Gpu.Shader;
 using Ryujinx.Graphics.Gpu.Synchronization;
+using Ryujinx.Memory;
 using System;
 using System.Collections.Concurrent;
 using System.Collections.Generic;
@@ -172,7 +173,7 @@ namespace Ryujinx.Graphics.Gpu
                 throw new ArgumentException("The PID is invalid or the process was not registered", nameof(pid));
             }
 
-            return new MemoryManager(physicalMemory, cpuMemorySize);
+            return new MemoryManager(this, physicalMemory, cpuMemorySize);
         }
 
         /// <summary>
@@ -197,7 +198,7 @@ namespace Ryujinx.Graphics.Gpu
         /// <param name="pid">ID of the process that owns <paramref name="cpuMemory"/></param>
         /// <param name="cpuMemory">Virtual memory owned by the process</param>
         /// <exception cref="ArgumentException">Thrown if <paramref name="pid"/> was already registered</exception>
-        public void RegisterProcess(ulong pid, Cpu.IVirtualMemoryManagerTracked cpuMemory)
+        public void RegisterProcess(ulong pid, IVirtualMemoryManagerTracked cpuMemory)
         {
             PhysicalMemory physicalMemory = new(this, cpuMemory);
             if (!PhysicalMemoryRegistry.TryAdd(pid, physicalMemory))

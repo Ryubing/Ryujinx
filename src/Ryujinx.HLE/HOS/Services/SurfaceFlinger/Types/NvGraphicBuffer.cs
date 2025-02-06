@@ -1,3 +1,4 @@
+using Ryujinx.Common.Memory;
 using System.Runtime.InteropServices;
 
 namespace Ryujinx.HLE.HOS.Services.SurfaceFlinger
@@ -36,6 +37,6 @@ namespace Ryujinx.HLE.HOS.Services.SurfaceFlinger
         public int PlanesCount;
 
         [FieldOffset(0x34)]
-        public NvGraphicBufferSurfaceArray Surfaces;
+        public Array3<NvGraphicBufferSurface> Surfaces;
     }
 }

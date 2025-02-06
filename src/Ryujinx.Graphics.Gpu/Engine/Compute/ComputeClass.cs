@@ -98,7 +98,7 @@ namespace Ryujinx.Graphics.Gpu.Engine.Compute
 
             // Make sure all pending uniform buffer data is written to memory.
             _3dEngine.FlushUboDirty();
-
+            
             uint qmdAddress = _state.State.SendPcasA;
 
             ComputeQmd qmd = _channel.MemoryManager.Read<ComputeQmd>((ulong)qmdAddress << 8);
@@ -106,6 +106,8 @@ namespace Ryujinx.Graphics.Gpu.Engine.Compute
             ulong shaderGpuVa = ((ulong)_state.State.SetProgramRegionAAddressUpper << 32) | _state.State.SetProgramRegionB;
 
             shaderGpuVa += (uint)qmd.ProgramOffset;
+            
+            var shaderCache = memoryManager.GetBackingMemory(shaderGpuVa).ShaderCache;
 
             int localMemorySize = qmd.ShaderLocalMemoryLowSize + qmd.ShaderLocalMemoryHighSize;
 
@@ -142,7 +144,7 @@ namespace Ryujinx.Graphics.Gpu.Engine.Compute
                 sharedMemorySize,
                 _channel.BufferManager.HasUnalignedStorageBuffers);
 
-            CachedShaderProgram cs = memoryManager.Physical.ShaderCache.GetComputeShader(_channel, samplerPoolMaximumId, poolState, computeState, shaderGpuVa);
+            CachedShaderProgram cs = shaderCache.GetComputeShader(_channel, samplerPoolMaximumId, poolState, computeState, shaderGpuVa);
 
             _context.Renderer.Pipeline.SetProgram(cs.HostProgram);
 
@@ -156,10 +158,10 @@ namespace Ryujinx.Graphics.Gpu.Engine.Compute
             {
                 BufferDescriptor sb = info.SBuffers[index];
 
-                ulong sbDescAddress = _channel.BufferManager.GetComputeUniformBufferAddress(sb.SbCbSlot);
+                (var physical, ulong sbDescAddress) = _channel.BufferManager.GetComputeUniformBufferAddress(sb.SbCbSlot);
                 sbDescAddress += (ulong)sb.SbCbOffset * 4;
 
-                SbDescriptor sbDescriptor = _channel.MemoryManager.Physical.Read<SbDescriptor>(sbDescAddress);
+                SbDescriptor sbDescriptor = physical.Read<SbDescriptor>(sbDescAddress);
 
                 uint size;
                 if (sb.SbCbSlot == Constants.DriverReservedUniformBuffer)
@@ -187,7 +189,7 @@ namespace Ryujinx.Graphics.Gpu.Engine.Compute
                     sharedMemorySize,
                     _channel.BufferManager.HasUnalignedStorageBuffers);
 
-                cs = memoryManager.Physical.ShaderCache.GetComputeShader(_channel, samplerPoolMaximumId, poolState, computeState, shaderGpuVa);
+                cs = shaderCache.GetComputeShader(_channel, samplerPoolMaximumId, poolState, computeState, shaderGpuVa);
 
                 _context.Renderer.Pipeline.SetProgram(cs.HostProgram);
             }

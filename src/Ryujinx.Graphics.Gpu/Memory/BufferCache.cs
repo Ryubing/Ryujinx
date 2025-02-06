@@ -735,18 +735,22 @@ namespace Ryujinx.Graphics.Gpu.Memory
         /// <remarks>
         /// This does a GPU side copy.
         /// </remarks>
+        /// <param name="context">GPU context</param>
         /// <param name="memoryManager">GPU memory manager where the buffer is mapped</param>
         /// <param name="srcVa">GPU virtual address of the copy source</param>
         /// <param name="dstVa">GPU virtual address of the copy destination</param>
         /// <param name="size">Size in bytes of the copy</param>
-        public void CopyBuffer(MemoryManager memoryManager, ulong srcVa, ulong dstVa, ulong size)
+        public static void CopyBuffer(GpuContext context, MemoryManager memoryManager, ulong srcVa, ulong dstVa, ulong size)
         {
-            MultiRange srcRange = TranslateAndCreateMultiBuffersPhysicalOnly(memoryManager, srcVa, size, BufferStage.Copy);
-            MultiRange dstRange = TranslateAndCreateMultiBuffersPhysicalOnly(memoryManager, dstVa, size, BufferStage.Copy);
+            var srcPhysical = memoryManager.GetBackingMemory(srcVa);
+            var dstPhysical = memoryManager.GetBackingMemory(dstVa);
+
+            var srcRange = srcPhysical.BufferCache.TranslateAndCreateBuffer(memoryManager, srcVa, size, BufferStage.Copy);
+            var dstRange = dstPhysical.BufferCache.TranslateAndCreateBuffer(memoryManager, dstVa, size, BufferStage.Copy);
 
             if (srcRange.Count == 1 && dstRange.Count == 1)
             {
-                CopyBufferSingleRange(memoryManager, srcRange.GetSubRange(0).Address, dstRange.GetSubRange(0).Address, size);
+                CopyBufferSingleRange(context, srcPhysical, dstPhysical, srcRange.GetSubRange(0).Address, dstRange.GetSubRange(0).Address, size);
             }
             else
             {
@@ -777,7 +781,7 @@ namespace Ryujinx.Graphics.Gpu.Memory
                     ulong dstSize = dstSubRange.Size - dstOffset;
                     ulong copySize = Math.Min(srcSize, dstSize);
 
-                    CopyBufferSingleRange(memoryManager, srcSubRange.Address + srcOffset, dstSubRange.Address + dstOffset, copySize);
+                    CopyBufferSingleRange(context, srcPhysical, dstPhysical, srcSubRange.Address + srcOffset, dstSubRange.Address + dstOffset, copySize);
 
                     srcOffset += copySize;
                     dstOffset += copySize;
@@ -793,18 +797,26 @@ namespace Ryujinx.Graphics.Gpu.Memory
         /// This does a GPU side copy.
         /// </remarks>
         /// <param name="memoryManager">GPU memory manager where the buffer is mapped</param>
+        /// <param name="srcPhysical">Physical memory backing the source buffer.</param>
+        /// <param name="dstPhysical">Physical memory backing the destination buffer.</param>
         /// <param name="srcAddress">Physical address of the copy source</param>
         /// <param name="dstAddress">Physical address of the copy destination</param>
         /// <param name="size">Size in bytes of the copy</param>
-        private void CopyBufferSingleRange(MemoryManager memoryManager, ulong srcAddress, ulong dstAddress, ulong size)
+        private static void CopyBufferSingleRange(
+            GpuContext context,
+            PhysicalMemory srcPhysical,
+            PhysicalMemory dstPhysical,
+            ulong srcAddress,
+            ulong dstAddress,
+            ulong size)
         {
-            Buffer srcBuffer = GetBuffer(srcAddress, size, BufferStage.Copy);
-            Buffer dstBuffer = GetBuffer(dstAddress, size, BufferStage.Copy);
+            var srcBuffer = srcPhysical.BufferCache.GetBuffer(srcAddress, size, BufferStage.Copy);
+            var dstBuffer = dstPhysical.BufferCache.GetBuffer(dstAddress, size, BufferStage.Copy);
 
             int srcOffset = (int)(srcAddress - srcBuffer.Address);
             int dstOffset = (int)(dstAddress - dstBuffer.Address);
 
-            _context.Renderer.Pipeline.CopyBuffer(
+            context.Renderer.Pipeline.CopyBuffer(
                 srcBuffer.Handle,
                 dstBuffer.Handle,
                 srcOffset,
@@ -820,7 +832,7 @@ namespace Ryujinx.Graphics.Gpu.Memory
                 // Optimization: If the data being copied is already in memory, then copy it directly instead of flushing from GPU.
 
                 dstBuffer.ClearModified(dstAddress, size);
-                memoryManager.Physical.WriteTrackedResource(dstAddress, memoryManager.Physical.GetSpan(srcAddress, (int)size), ResourceKind.Buffer);
+                dstPhysical.WriteTrackedResource(dstAddress, srcPhysical.GetSpan(srcAddress, (int)size), ResourceKind.Buffer);
             }
 
             dstBuffer.CopyToDependantVirtualBuffers(dstAddress, size);
@@ -849,7 +861,7 @@ namespace Ryujinx.Graphics.Gpu.Memory
 
                 _context.Renderer.Pipeline.ClearBuffer(buffer.Handle, offset, (int)subRange.Size, value);
 
-                memoryManager.Physical.FillTrackedResource(subRange.Address, subRange.Size, value, ResourceKind.Buffer);
+                memoryManager.GetBackingMemory(gpuVa).FillTrackedResource(subRange.Address, subRange.Size, value, ResourceKind.Buffer);
 
                 buffer.CopyToDependantVirtualBuffers(subRange.Address, subRange.Size);
             }

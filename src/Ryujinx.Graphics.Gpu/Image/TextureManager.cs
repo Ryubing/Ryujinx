@@ -385,8 +385,9 @@ namespace Ryujinx.Graphics.Gpu.Image
         public TexturePool GetTexturePool(ulong poolGpuVa, int maximumId)
         {
             ulong poolAddress = _channel.MemoryManager.Translate(poolGpuVa);
+            var physical = _channel.MemoryManager.GetBackingMemory(poolAddress);
 
-            TexturePool texturePool = _texturePoolCache.FindOrCreate(_channel, poolAddress, maximumId, _bindingsArrayCache);
+            TexturePool texturePool = _texturePoolCache.FindOrCreate(_channel, physical, poolAddress, maximumId, _bindingsArrayCache);
 
             return texturePool;
         }

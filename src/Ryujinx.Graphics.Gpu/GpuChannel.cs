@@ -58,22 +58,24 @@ namespace Ryujinx.Graphics.Gpu
         public void BindMemory(MemoryManager memoryManager)
         {
             MemoryManager oldMemoryManager = Interlocked.Exchange(ref _memoryManager, memoryManager ?? throw new ArgumentNullException(nameof(memoryManager)));
+            if (oldMemoryManager == memoryManager)
+            {
+                return;
+            }
 
-            memoryManager.Physical.IncrementReferenceCount();
+            memoryManager.AttachToChannel(BufferManager.Rebind);
 
             if (oldMemoryManager != null)
             {
-                oldMemoryManager.Physical.BufferCache.NotifyBuffersModified -= BufferManager.Rebind;
-                oldMemoryManager.Physical.DecrementReferenceCount();
+                oldMemoryManager.DetachFromChannel(BufferManager.Rebind);
                 oldMemoryManager.MemoryUnmapped -= MemoryUnmappedHandler;
             }
 
-            memoryManager.Physical.BufferCache.NotifyBuffersModified += BufferManager.Rebind;
             memoryManager.MemoryUnmapped += MemoryUnmappedHandler;
 
             // Since the memory manager changed, make sure we will get pools from addresses of the new memory manager.
             TextureManager.ReloadPools();
-            memoryManager.Physical.BufferCache.QueuePrune();
+            memoryManager.QueuePrune();
         }
 
         /// <summary>
@@ -86,7 +88,7 @@ namespace Ryujinx.Graphics.Gpu
             TextureManager.ReloadPools();
 
             MemoryManager memoryManager = Volatile.Read(ref _memoryManager);
-            memoryManager?.Physical.BufferCache.QueuePrune();
+            memoryManager?.QueuePrune();
         }
 
         /// <summary>
@@ -138,11 +140,10 @@ namespace Ryujinx.Graphics.Gpu
             _processor.Dispose();
             TextureManager.Dispose();
 
-            MemoryManager oldMemoryManager = Interlocked.Exchange(ref _memoryManager, null);
+            var oldMemoryManager = Interlocked.Exchange(ref _memoryManager, null);
             if (oldMemoryManager != null)
             {
-                oldMemoryManager.Physical.BufferCache.NotifyBuffersModified -= BufferManager.Rebind;
-                oldMemoryManager.Physical.DecrementReferenceCount();
+                oldMemoryManager.DetachFromChannel(BufferManager.Rebind);
                 oldMemoryManager.MemoryUnmapped -= MemoryUnmappedHandler;
             }
         }

@@ -21,6 +21,11 @@ namespace Ryujinx.Graphics.Gpu.Memory
         public ITexture Texture { get; }
 
         /// <summary>
+        /// Buffer cache that owns the buffer.
+        /// </summary>
+        public BufferCache BufferCache { get; }
+
+        /// <summary>
         /// Physical ranges of memory where the buffer texture data is located.
         /// </summary>
         public MultiRange Range { get; }
@@ -40,18 +45,21 @@ namespace Ryujinx.Graphics.Gpu.Memory
         /// </summary>
         /// <param name="stage">Shader stage accessing the texture</param>
         /// <param name="texture">Buffer texture</param>
+        /// <param name="bufferCache">Buffer cache that owns the buffer</param>
         /// <param name="range">Physical ranges of memory where the buffer texture data is located</param>
         /// <param name="bindingInfo">Binding info</param>
         /// <param name="isImage">Whether the binding is for an image or a sampler</param>
         public BufferTextureBinding(
             ShaderStage stage,
             ITexture texture,
+            BufferCache bufferCache,
             MultiRange range,
             TextureBindingInfo bindingInfo,
             bool isImage)
         {
             Stage = stage;
             Texture = texture;
+            BufferCache = bufferCache;
             Range = range;
             BindingInfo = bindingInfo;
             IsImage = isImage;

@@ -1,3 +1,4 @@
+using Ryujinx.Common;
 using Ryujinx.Common.Logging;
 using Ryujinx.HLE.HOS.Ipc;
 using Ryujinx.HLE.HOS.Kernel.Threading;
@@ -105,6 +106,26 @@ namespace Ryujinx.HLE.HOS.Services.Nifm.StaticService
             return ResultCode.Success;
         }
 
+        [CommandCmif(6)]
+        // SetRequirementPreset(u32)
+        public ResultCode SetRequirementPreset(ServiceCtx context)
+        {
+            Logger.Stub?.PrintStub(LogClass.ServiceNifm);
+
+            return ResultCode.Success;
+        }
+
+        [CommandCmif(9)]
+        // SetNetworkProfileId(nn::util::Uuid)
+        public ResultCode SetNetworkProfileId(ServiceCtx context)
+        {
+            UInt128 uuid = context.RequestData.ReadStruct<UInt128>();
+
+            Logger.Stub?.PrintStub(LogClass.ServiceNifm, new { uuid });
+
+            return ResultCode.Success;
+        }
+
         [CommandCmif(11)]
         // SetConnectionConfirmationOption(i8)
         public ResultCode SetConnectionConfirmationOption(ServiceCtx context)
@@ -139,6 +160,39 @@ namespace Ryujinx.HLE.HOS.Services.Nifm.StaticService
             context.ResponseData.Write(0xe); // Use error applet as default for now
             context.ResponseData.Write(0); // libraryAppletMode
             context.ResponseData.Write(0); // outSize
+
+            return ResultCode.Success;
+        }
+
+        [CommandCmif(23)]
+        // SetKeptInSleep(bool)
+        public ResultCode SetKeptInSleep(ServiceCtx context)
+        {
+            bool keptInSleep = context.RequestData.ReadBoolean();
+
+            Logger.Stub?.PrintStub(LogClass.ServiceNifm, new { keptInSleep });
+
+            return ResultCode.Success;
+        }
+
+        [CommandCmif(24)]
+        // RegisterSocketDescriptor(s32)
+        public ResultCode RegisterSocketDescriptor(ServiceCtx context)
+        {
+            int socketDescriptor = context.RequestData.ReadInt32();
+
+            Logger.Stub?.PrintStub(LogClass.ServiceNifm, new { socketDescriptor });
+
+            return ResultCode.Success;
+        }
+
+        [CommandCmif(25)]
+        // UnregisterSocketDescriptor(s32)
+        public ResultCode UnregisterSocketDescriptor(ServiceCtx context)
+        {
+            int socketDescriptor = context.RequestData.ReadInt32();
+
+            Logger.Stub?.PrintStub(LogClass.ServiceNifm, new { socketDescriptor });
 
             return ResultCode.Success;
         }
