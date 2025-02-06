@@ -4,16 +4,12 @@ using MsgPack;
 using Ryujinx.Ava.Utilities;
 using Ryujinx.Ava.Utilities.AppLibrary;
 using Ryujinx.Ava.Utilities.Configuration;
+using Ryujinx.Ava.Utilities.PlayReport;
 using Ryujinx.Common;
-using Ryujinx.Common.Helper;
 using Ryujinx.Common.Logging;
 using Ryujinx.HLE;
 using Ryujinx.HLE.Loaders.Processes;
 using Ryujinx.Horizon;
-using System;
-using System.Collections.Generic;
-using System.Collections.ObjectModel;
-using System.Linq;
 using System.Text;
 
 namespace Ryujinx.Ava
@@ -130,8 +126,8 @@ namespace Ryujinx.Ava
             if (!TitleIDs.CurrentApplication.Value.HasValue) return;
             if (_discordPresencePlaying is null) return;
 
-            PlayReportAnalyzer.FormattedValue formattedValue =
-                PlayReport.Analyzer.Format(TitleIDs.CurrentApplication.Value, _currentApp, playReport);
+            Analyzer.FormattedValue formattedValue =
+                PlayReports.Analyzer.Format(TitleIDs.CurrentApplication.Value, _currentApp, playReport);
 
             if (!formattedValue.Handled) return;
 
