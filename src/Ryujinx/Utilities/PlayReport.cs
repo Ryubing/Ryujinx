@@ -35,7 +35,6 @@ namespace Ryujinx.Ava.Utilities
             )
             .AddSpec(
                 ["0100a3d008c5c000", "01008f6008c5e000"],
-                // TODO Rebase the repo on the latest
                 spec => spec
                     .AddValueFormatter("area_no", PokemonSVArea)
                     .AddValueFormatter("team_circle", PokemonSVUnionCircle)
@@ -123,7 +122,7 @@ namespace Ryujinx.Ava.Utilities
                 "a_w26" => "East Paldean Sea",
                 "a_w27" => "Nouth Paldean Sea"
                 //TODO DLC Locations
-                _ => value.StringValue
+                _ => PlayReportFormattedValue.ForceReset
             };
     }
 }
