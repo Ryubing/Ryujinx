@@ -92,22 +92,35 @@
                 TextAlignment="Start"
                 TextWrapping="Wrap" />
             <Separator IsVisible="{Binding AppData.HasLdnGames}" Margin="0, 10, 0, 10" Height="1" BorderBrush="Gray" Background="Gray" />
-            <StackPanel
-                HorizontalAlignment="Left"
-                VerticalAlignment="Top"
-                Orientation="Vertical"
-                Spacing="5">
-                <TextBlock
-                    HorizontalAlignment="Stretch"
-                    Text="{Binding FormattedLastPlayed}"
-                    TextAlignment="Start"
-                    TextWrapping="Wrap" />
-                <TextBlock
-                    HorizontalAlignment="Stretch"
-                    Text="{Binding FormattedPlayTime}"
-                    IsVisible="{Binding AppData.HasPlayedPreviously}"
-                    TextAlignment="Start"
-                    TextWrapping="Wrap" />
+            <StackPanel Orientation="Vertical" Spacing="5">
+                <Grid 
+                    ColumnDefinitions="Auto,*,Auto">
+                    <TextBlock 
+                        Grid.Column="0"
+                        Text="{ext:Locale GameListHeaderLastPlayed}"
+                        VerticalAlignment="Top"
+                        TextAlignment="Start"
+                        TextWrapping="NoWrap" />
+                    <TextBlock 
+                        Grid.Column="2"
+                        Text="{Binding AppData.LastPlayedString}"
+                        TextAlignment="End"
+                        TextWrapping="Wrap" />
+                </Grid>
+                <Grid 
+                    ColumnDefinitions="Auto,*,Auto"
+                    IsVisible="{Binding AppData.HasPlayedPreviously}">
+                    <TextBlock 
+                        Grid.Column="0"
+                        Text="{ext:Locale GameListHeaderTimePlayed}"
+                        VerticalAlignment="Top"
+                        TextAlignment="Start"
+                        TextWrapping="NoWrap" />
+                    <TextBlock Grid.Column="2"
+                        Text="{Binding AppData.TimePlayedString}"
+                        TextAlignment="End"
+                        TextWrapping="Wrap" />
+                </Grid>
             </StackPanel>
         </StackPanel>
     </StackPanel>
