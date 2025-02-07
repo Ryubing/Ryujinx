@@ -1,4 +1,4 @@
-﻿<Project Sdk="Microsoft.NET.Sdk">
+<Project Sdk="Microsoft.NET.Sdk">
   <PropertyGroup>
     <RuntimeIdentifiers>win-x64;osx-x64;linux-x64</RuntimeIdentifiers>
     <OutputType>Exe</OutputType>
@@ -171,11 +171,6 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Assets\Fonts\Mono\" />
-  </ItemGroup>
-  <ItemGroup>
-    <Compile Update="UI\Windows\UserConfigWindows.axaml.cs">
-      <DependentUpon>UserConfigWindows.axaml</DependentUpon>
-    </Compile>
   </ItemGroup>
 
 </Project>

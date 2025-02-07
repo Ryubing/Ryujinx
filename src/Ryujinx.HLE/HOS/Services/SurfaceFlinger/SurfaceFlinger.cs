@@ -10,7 +10,6 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
 using System.Threading;
-using VSyncMode = Ryujinx.Common.Configuration.VSyncMode;
 
 namespace Ryujinx.HLE.HOS.Services.SurfaceFlinger
 {
