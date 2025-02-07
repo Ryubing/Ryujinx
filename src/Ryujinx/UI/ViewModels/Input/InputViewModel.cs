@@ -366,8 +366,8 @@ namespace Ryujinx.Ava.UI.ViewModels.Input
             Dispatcher.UIThread.Post(() =>
             {
                 LoadDevices();
-                LoadConfiguration();
                 LoadDevice();
+                LoadConfiguration();
             });
         }
 
