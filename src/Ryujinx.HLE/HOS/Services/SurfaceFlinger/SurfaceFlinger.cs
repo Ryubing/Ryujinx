@@ -4,6 +4,7 @@ using Ryujinx.Common.Logging;
 using Ryujinx.Common.PreciseSleep;
 using Ryujinx.Graphics.GAL;
 using Ryujinx.Graphics.Gpu;
+using Ryujinx.HLE.HOS.Kernel.Process;
 using Ryujinx.HLE.HOS.Services.Nv.NvDrvServices.NvMap;
 using System;
 using System.Collections.Generic;
@@ -38,8 +39,6 @@ namespace Ryujinx.HLE.HOS.Services.SurfaceFlinger
 
         private readonly Lock _lock = new();
 
-        public long RenderLayerId { get; private set; }
-
         private class Layer
         {
             public int ProducerBinderId;
@@ -60,7 +59,6 @@ namespace Ryujinx.HLE.HOS.Services.SurfaceFlinger
         {
             _device = device;
             _layers = new Dictionary<long, Layer>();
-            RenderLayerId = 0;
 
             _composerThread = new Thread(HandleComposition)
             {
@@ -239,31 +237,9 @@ namespace Ryujinx.HLE.HOS.Services.SurfaceFlinger
 
         private void CloseLayer(long layerId, Layer layer)
         {
-            // If the layer was removed and the current in use, we need to change the current layer in use.
-            if (RenderLayerId == layerId)
-            {
-                // If no layer is availaible, reset to default value.
-                if (_layers.Count == 0)
-                {
-                    SetRenderLayer(0);
-                }
-                else
-                {
-                    SetRenderLayer(_layers.Last().Key);
-                }
-            }
-
             if (layer.State == LayerState.ManagedOpened)
             {
                 layer.State = LayerState.ManagedClosed;
-            }
-        }
-
-        public void SetRenderLayer(long layerId)
-        {
-            lock (_lock)
-            {
-                RenderLayerId = layerId;
             }
         }
 
@@ -360,41 +336,55 @@ namespace Ryujinx.HLE.HOS.Services.SurfaceFlinger
         {
             lock (_lock)
             {
-                // TODO: support multilayers (& multidisplay ?)
-                if (RenderLayerId == 0)
+               foreach (var (layerId, layer) in _layers)
                 {
-                    return;
-                }
-
-                Layer layer = GetLayerByIdLocked(RenderLayerId);
-
-                Status acquireStatus = layer.Consumer.AcquireBuffer(out BufferItem item, 0);
-
-                if (acquireStatus == Status.Success)
-                {
-                    if (_device.VSyncMode == VSyncMode.Unbounded)
+                    if (layer.State == LayerState.NotInitialized || layer.State == LayerState.ManagedClosed)
+                        continue;
+                    
+                    if (_device.System.KernelContext.Processes.TryGetValue(layer.Owner, out var process))
                     {
-                        if (_swapInterval != 0)
+                        if (process.State == ProcessState.Exiting || process.State == ProcessState.Exited)
                         {
-                            UpdateSwapInterval(0);
-                            _vSyncMode = _device.VSyncMode;
+                            HOSBinderDriverServer.UnregisterBinderObject(layer.ProducerBinderId);
+
+                            if (_layers.Remove(layerId))
+                            {
+                                CloseLayer(layerId, layer);
+                            }
+
+                            continue;
                         }
                     }
-                    else if (_device.VSyncMode != _vSyncMode)
+                    
+                    Status acquireStatus = layer.Consumer.AcquireBuffer(out BufferItem item, 0);
+                    
+                    if (acquireStatus == Status.Success)
                     {
-                        UpdateSwapInterval(_device.VSyncMode == VSyncMode.Unbounded ? 0 : item.SwapInterval);
-                        _vSyncMode = _device.VSyncMode;
-                    }
-                    else if (item.SwapInterval != _swapInterval || _device.TargetVSyncInterval != _targetVSyncInterval)
-                    {
-                        UpdateSwapInterval(item.SwapInterval);
-                    }
+                        if (_device.VSyncMode == VSyncMode.Unbounded)
+                        {
+                            if (_swapInterval != 0)
+                            {
+                                UpdateSwapInterval(0);
+                                _vSyncMode = _device.VSyncMode;
+                            }
+                        }
+                        else if (_device.VSyncMode != _vSyncMode)
+                        {
+                            UpdateSwapInterval(_device.VSyncMode == VSyncMode.Unbounded ? 0 : item.SwapInterval);
+                            _vSyncMode = _device.VSyncMode;
+                        }
+                        else if (item.SwapInterval != _swapInterval || _device.TargetVSyncInterval != _targetVSyncInterval)
+                        {
+                            UpdateSwapInterval(item.SwapInterval);
+                        }
 
-                    PostFrameBuffer(layer, item);
-                }
-                else if (acquireStatus != Status.NoBufferAvailaible && acquireStatus != Status.InvalidOperation)
-                {
-                    throw new InvalidOperationException();
+                        PostFrameBuffer(layer, item);
+                    }
+                    else if (acquireStatus != Status.NoBufferAvailaible && acquireStatus != Status.InvalidOperation)
+                    {
+                        Logger.Warning?.Print(LogClass.SurfaceFlinger, $"Failed to acquire buffer for layer {layerId} (status: {acquireStatus})");
+                        continue;
+                    }
                 }
             }
         }

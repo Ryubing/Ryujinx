@@ -40,7 +40,6 @@ namespace Ryujinx.HLE.HOS.Services.Vi.RootService.ApplicationDisplayService
             ulong pid = context.Device.System.AppletState.AppletResourceUserIds.GetData<ulong>((int)appletResourceUserId);
 
             context.Device.System.SurfaceFlinger.CreateLayer(out long layerId, pid);
-            context.Device.System.SurfaceFlinger.SetRenderLayer(layerId);
 
             context.ResponseData.Write(layerId);
 

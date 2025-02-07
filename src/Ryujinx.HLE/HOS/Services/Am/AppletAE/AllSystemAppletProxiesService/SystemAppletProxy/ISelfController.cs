@@ -225,7 +225,6 @@ namespace Ryujinx.HLE.HOS.Services.Am.AppletAE.AllSystemAppletProxiesService.Sys
         public ResultCode CreateManagedDisplayLayer(ServiceCtx context)
         {
             context.Device.System.SurfaceFlinger.CreateLayer(out long layerId, _pid);
-            context.Device.System.SurfaceFlinger.SetRenderLayer(layerId);
 
             context.ResponseData.Write(layerId);
 
@@ -236,9 +235,7 @@ namespace Ryujinx.HLE.HOS.Services.Am.AppletAE.AllSystemAppletProxiesService.Sys
         // IsSystemBufferSharingEnabled()
         public ResultCode IsSystemBufferSharingEnabled(ServiceCtx context)
         {
-            // NOTE: Service checks a private field and return an error if the SystemBufferSharing is disabled.
-
-            // todo check if we're not an AppletId.Application   
+            // TODO: Implement this once we have a way to check if we're not an AppletId.Application   
             return ResultCode.Success;
         }
 

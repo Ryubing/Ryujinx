@@ -248,8 +248,6 @@ namespace Ryujinx.HLE.HOS.Services.Vi.RootService
                 return result;
             }
 
-            context.Device.System.SurfaceFlinger.SetRenderLayer(layerId);
-
             using Parcel parcel = new(0x28, 0x4);
 
             parcel.WriteObject(producer, "dispdrv\0");
@@ -285,9 +283,7 @@ namespace Ryujinx.HLE.HOS.Services.Vi.RootService
 
             // TODO: support multi display.
             IBinder producer = context.Device.System.SurfaceFlinger.CreateLayer(out long layerId, 0, LayerState.Stray);
-
-            context.Device.System.SurfaceFlinger.SetRenderLayer(layerId);
-
+            
             using Parcel parcel = new(0x28, 0x4);
 
             parcel.WriteObject(producer, "dispdrv\0");
