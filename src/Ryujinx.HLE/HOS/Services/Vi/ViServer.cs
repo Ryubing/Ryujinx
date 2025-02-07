@@ -5,6 +5,7 @@ using Ryujinx.HLE.HOS.Services.Nv.NvDrvServices.NvMap;
 using Ryujinx.HLE.HOS.Services.SurfaceFlinger;
 using Ryujinx.HLE.HOS.Services.SurfaceFlinger.Types;
 using Ryujinx.HLE.HOS.Services.Vi.Types;
+using Ryujinx.Memory;
 using System.Runtime.CompilerServices;
 
 namespace Ryujinx.HLE.HOS.Services
@@ -87,9 +88,9 @@ namespace Ryujinx.HLE.HOS.Services
 
         public void ConnectSharedLayer(long layerId)
         {
-            var producer = _surfaceFlinger.GetProducerByLayerId(layerId);
+            IGraphicBufferProducer producer = _surfaceFlinger.GetProducerByLayerId(layerId);
 
-            producer.Connect(null, NativeWindowApi.NVN, false, out var output);
+            producer.Connect(null, NativeWindowApi.NVN, false, out IGraphicBufferProducer.QueueBufferOutput output);
 
             GraphicBuffer graphicBuffer = new GraphicBuffer();
 
@@ -137,14 +138,14 @@ namespace Ryujinx.HLE.HOS.Services
 
         public void DisconnectSharedLayer(long layerId)
         {
-            var producer = _surfaceFlinger.GetProducerByLayerId(layerId);
+            IGraphicBufferProducer producer = _surfaceFlinger.GetProducerByLayerId(layerId);
 
             producer.Disconnect(NativeWindowApi.NVN);
         }
 
         public int DequeueFrameBuffer(long layerId, out AndroidFence fence)
         {
-            var producer = _surfaceFlinger.GetProducerByLayerId(layerId);
+            IGraphicBufferProducer producer = _surfaceFlinger.GetProducerByLayerId(layerId);
 
             Status status = producer.DequeueBuffer(out int slot, out fence, false, _fbWidth, _fbHeight, _fbFormat, (uint)_fbUsage);
 
@@ -168,9 +169,9 @@ namespace Ryujinx.HLE.HOS.Services
 
         public void QueueFrameBuffer(long layerId, int slot, Rect crop, NativeWindowTransform transform, int swapInterval, AndroidFence fence)
         {
-            var producer = _surfaceFlinger.GetProducerByLayerId(layerId);
+            IGraphicBufferProducer producer = _surfaceFlinger.GetProducerByLayerId(layerId);
 
-            var input = new IGraphicBufferProducer.QueueBufferInput();
+            IGraphicBufferProducer.QueueBufferInput input = new();
 
             input.Crop = crop;
             input.Transform = transform;
@@ -182,7 +183,7 @@ namespace Ryujinx.HLE.HOS.Services
 
         public void CancelFrameBuffer(long layerId, int slot)
         {
-            var producer = _surfaceFlinger.GetProducerByLayerId(layerId);
+            IGraphicBufferProducer producer = _surfaceFlinger.GetProducerByLayerId(layerId);
             AndroidFence fence = default;
 
             producer.CancelBuffer(slot, ref fence);
@@ -222,8 +223,8 @@ namespace Ryujinx.HLE.HOS.Services
 
         public int GetApplicationLastPresentedFrameHandle(GpuContext gpuContext)
         {
-            var texture = gpuContext.Window.GetLastPresentedData();
-            var selfAs = KernelStatic.GetProcessByPid(_pid).CpuMemory;
+            TextureData texture = gpuContext.Window.GetLastPresentedData();
+            IVirtualMemoryManagerTracked selfAs = KernelStatic.GetProcessByPid(_pid).CpuMemory;
             int fbIndex = (int)_fbCount; // Place it after all our frame buffers.
 
             selfAs.Write(_fbsBaseAddress + _bufferMap.SharedBuffers[fbIndex].Offset, texture.Data);

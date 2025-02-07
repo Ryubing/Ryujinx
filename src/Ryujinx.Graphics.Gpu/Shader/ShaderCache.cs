@@ -733,7 +733,7 @@ namespace Ryujinx.Graphics.Gpu.Shader
             byte[] codeB,
             bool asCompute)
         {
-            (var physical, ulong cb1DataAddress) = channel.BufferManager.GetGraphicsUniformBufferAddress(0, 1);
+            (PhysicalMemory physical, ulong cb1DataAddress) = channel.BufferManager.GetGraphicsUniformBufferAddress(0, 1);
             
             MemoryManager memoryManager = channel.MemoryManager;
 
@@ -775,7 +775,7 @@ namespace Ryujinx.Graphics.Gpu.Shader
         {
             MemoryManager memoryManager = channel.MemoryManager;
 
-            (var physical, ulong cb1DataAddress) = context.Stage == ShaderStage.Compute
+            (PhysicalMemory physical, ulong cb1DataAddress) = context.Stage == ShaderStage.Compute
                 ? channel.BufferManager.GetComputeUniformBufferAddress(1)
                 : channel.BufferManager.GetGraphicsUniformBufferAddress(StageToStageIndex(context.Stage), 1);
 

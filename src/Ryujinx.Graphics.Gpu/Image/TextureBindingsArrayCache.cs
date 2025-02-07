@@ -900,7 +900,7 @@ namespace Ryujinx.Graphics.Gpu.Image
 
                 if (hostTexture != null && texture.Target == Target.TextureBuffer)
                 {
-                    var bufferCache = textureBufferBounds.BufferCache;
+                    BufferCache bufferCache = textureBufferBounds.BufferCache;
                     
                     // Ensure that the buffer texture is using the correct buffer as storage.
                     // Buffers are frequently re-created to accommodate larger data, so we need to re-bind

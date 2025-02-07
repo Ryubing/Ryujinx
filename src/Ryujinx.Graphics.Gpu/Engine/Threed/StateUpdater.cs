@@ -381,7 +381,7 @@ namespace Ryujinx.Graphics.Gpu.Engine.Threed
                 {
                     BufferDescriptor sb = info.SBuffers[index];
 
-                    (var physical, ulong sbDescAddress) = _channel.BufferManager.GetGraphicsUniformBufferAddress(stage, sb.SbCbSlot);
+                    (PhysicalMemory physical, ulong sbDescAddress) = _channel.BufferManager.GetGraphicsUniformBufferAddress(stage, sb.SbCbSlot);
                     sbDescAddress += (ulong)sb.SbCbOffset * 4;
 
                     SbDescriptor sbDescriptor = physical.Read<SbDescriptor>(sbDescAddress);
@@ -505,7 +505,7 @@ namespace Ryujinx.Graphics.Gpu.Engine.Threed
                     rtNoAlphaMask |= 1u << index;
                 }
 
-                var colorTextureCache = memoryManager.GetBackingMemory(colorState.Address.Pack()).TextureCache;
+                TextureCache colorTextureCache = memoryManager.GetBackingMemory(colorState.Address.Pack()).TextureCache;
 
                 Image.Texture color = colorTextureCache.FindOrCreateTexture(
                     memoryManager,
@@ -545,7 +545,7 @@ namespace Ryujinx.Graphics.Gpu.Engine.Threed
             {
                 RtDepthStencilState dsState = _state.State.RtDepthStencilState;
                 Size3D dsSize = _state.State.RtDepthStencilSize;
-                var dsTextureCache = memoryManager.GetBackingMemory(dsState.Address.Pack()).TextureCache;
+                TextureCache dsTextureCache = memoryManager.GetBackingMemory(dsState.Address.Pack()).TextureCache;
                 
                 depthStencil = dsTextureCache.FindOrCreateTexture(
                     memoryManager,
@@ -1436,7 +1436,7 @@ namespace Ryujinx.Graphics.Gpu.Engine.Threed
 
             // Shader stages on different address spaces are not supported right now,
             // but it should never happen in practice anyway.
-            var shaderCache = _channel.MemoryManager.GetBackingMemory(addresses.VertexB).ShaderCache;
+            ShaderCache shaderCache = _channel.MemoryManager.GetBackingMemory(addresses.VertexB).ShaderCache;
             CachedShaderProgram gs = shaderCache.GetGraphicsShader(
                 ref _state.State,
                 ref _pipeline,

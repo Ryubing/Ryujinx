@@ -234,8 +234,8 @@ namespace Ryujinx.Graphics.Gpu.Engine.Twod
             TwodTexture dstCopyTexture = Unsafe.As<uint, TwodTexture>(ref _state.State.SetDstFormat);
             TwodTexture srcCopyTexture = Unsafe.As<uint, TwodTexture>(ref _state.State.SetSrcFormat);
             
-            var srcTextureCache = memoryManager.GetBackingMemory(srcCopyTexture.Address.Pack()).TextureCache;
-            var dstTextureCache = memoryManager.GetBackingMemory(dstCopyTexture.Address.Pack()).TextureCache;
+            TextureCache srcTextureCache = memoryManager.GetBackingMemory(srcCopyTexture.Address.Pack()).TextureCache;
+            TextureCache dstTextureCache = memoryManager.GetBackingMemory(dstCopyTexture.Address.Pack()).TextureCache;
 
             long srcX = ((long)_state.State.SetPixelsFromMemorySrcX0Int << 32) | (long)(ulong)_state.State.SetPixelsFromMemorySrcX0Frac;
             long srcY = ((long)_state.State.PixelsFromMemorySrcY0Int << 32) | (long)(ulong)_state.State.SetPixelsFromMemorySrcY0Frac;

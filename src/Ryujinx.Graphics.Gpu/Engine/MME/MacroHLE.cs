@@ -493,8 +493,8 @@ namespace Ryujinx.Graphics.Gpu.Engine.MME
                     }
                 }
             }
-            var indirectBufferCache = _processor.MemoryManager.GetBackingMemory(indirectBufferGpuVa).BufferCache;
-            var parameterBufferCache = _processor.MemoryManager.GetBackingMemory(parameterBufferGpuVa).BufferCache;
+            BufferCache indirectBufferCache = _processor.MemoryManager.GetBackingMemory(indirectBufferGpuVa).BufferCache;
+            BufferCache parameterBufferCache = _processor.MemoryManager.GetBackingMemory(parameterBufferGpuVa).BufferCache;
 
             ulong indirectBufferSize = (ulong)maxDrawCount * (ulong)stride;
 

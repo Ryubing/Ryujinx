@@ -114,7 +114,7 @@ namespace Ryujinx.Graphics.Gpu.Engine.Threed
             if (_ubFollowUpAddress != 0)
             {
                 MemoryManager memoryManager = _channel.MemoryManager;
-                var physicalMemory = memoryManager.GetBackingMemory(_ubBeginGpuAddress);
+                PhysicalMemory physicalMemory = memoryManager.GetBackingMemory(_ubBeginGpuAddress);
 
                 Span<byte> data = MemoryMarshal.Cast<int, byte>(_ubData.AsSpan(0, (int)(_ubByteCount / 4)));
 

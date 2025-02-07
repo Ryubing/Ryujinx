@@ -193,9 +193,9 @@ namespace Ryujinx.Graphics.Gpu.Image
                         return ref descriptor;
                     }
 
-                    var info = GetInfo(descriptor, out int layerSize);
-                    var memoryManager = _channel.MemoryManager;
-                    var textureCache = memoryManager.GetBackingMemory(descriptor.UnpackAddress()).TextureCache;
+                    TextureInfo info = GetInfo(descriptor, out int layerSize);
+                    MemoryManager memoryManager = _channel.MemoryManager;
+                    TextureCache textureCache = memoryManager.GetBackingMemory(descriptor.UnpackAddress()).TextureCache;
                     texture = textureCache.FindOrCreateTexture(memoryManager, TextureSearchFlags.ForSampler, info, layerSize);
 
                     // If this happens, then the texture address is invalid, we can't add it to the cache.
@@ -364,7 +364,7 @@ namespace Ryujinx.Graphics.Gpu.Image
         /// <param name="deferred">If true, queue the dereference to happen on the render thread, otherwise dereference immediately</param>
         public void ForceRemove(Texture texture, int id, bool deferred)
         {
-            Texture  previous = Interlocked.Exchange(ref Items[id], null);
+            Texture previous = Interlocked.Exchange(ref Items[id], null);
 
             if (deferred)
             {
@@ -424,8 +424,8 @@ namespace Ryujinx.Graphics.Gpu.Image
                         continue;
                     }
 
-                    var textureCache = _channel.MemoryManager.GetBackingMemory(address).TextureCache;
-                    var range = textureCache.UpdatePartiallyMapped(_channel.MemoryManager, address, texture);
+                    TextureCache textureCache = _channel.MemoryManager.GetBackingMemory(address).TextureCache;
+                    MultiRange range = textureCache.UpdatePartiallyMapped(_channel.MemoryManager, address, texture);
 
                     // If the texture is not mapped at all, delete its reference.
 
@@ -485,7 +485,7 @@ namespace Ryujinx.Graphics.Gpu.Image
         /// <param name="size">Size of the range being invalidated</param>
         protected override void InvalidateRangeImpl(ulong address, ulong size)
         {
-            var memoryManager = _channel.MemoryManager;
+            MemoryManager memoryManager = _channel.MemoryManager;
             ProcessDereferenceQueue();
 
             ulong endAddress = address + size;
@@ -510,7 +510,7 @@ namespace Ryujinx.Graphics.Gpu.Image
 
                     if (texture.HasOneReference())
                     {
-                        var textureCache = memoryManager.GetBackingMemory(descriptor.UnpackAddress()).TextureCache;
+                        TextureCache textureCache = memoryManager.GetBackingMemory(descriptor.UnpackAddress()).TextureCache;
                         textureCache.AddShortCache(texture, ref cachedDescriptor);
                     }
 

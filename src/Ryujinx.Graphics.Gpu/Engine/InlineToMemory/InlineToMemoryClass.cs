@@ -185,7 +185,7 @@ namespace Ryujinx.Graphics.Gpu.Engine.InlineToMemory
                 // Right now the copy code at the bottom assumes that it is used on both which might be incorrect.
                 if (!_isLinear)
                 {
-                    var target = memoryManager.GetBackingMemory(_dstGpuVa).TextureCache.FindTexture(
+                    Image.Texture target = memoryManager.GetBackingMemory(_dstGpuVa).TextureCache.FindTexture(
                         memoryManager,
                         _dstGpuVa,
                         1,

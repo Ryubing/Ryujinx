@@ -140,7 +140,7 @@ namespace Ryujinx.Graphics.Gpu
             _processor.Dispose();
             TextureManager.Dispose();
 
-            var oldMemoryManager = Interlocked.Exchange(ref _memoryManager, null);
+            MemoryManager oldMemoryManager = Interlocked.Exchange(ref _memoryManager, null);
             if (oldMemoryManager != null)
             {
                 oldMemoryManager.DetachFromChannel(BufferManager.Rebind);

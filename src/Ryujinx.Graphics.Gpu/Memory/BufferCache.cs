@@ -742,11 +742,11 @@ namespace Ryujinx.Graphics.Gpu.Memory
         /// <param name="size">Size in bytes of the copy</param>
         public static void CopyBuffer(GpuContext context, MemoryManager memoryManager, ulong srcVa, ulong dstVa, ulong size)
         {
-            var srcPhysical = memoryManager.GetBackingMemory(srcVa);
-            var dstPhysical = memoryManager.GetBackingMemory(dstVa);
+            PhysicalMemory srcPhysical = memoryManager.GetBackingMemory(srcVa);
+            PhysicalMemory dstPhysical = memoryManager.GetBackingMemory(dstVa);
 
-            var srcRange = srcPhysical.BufferCache.TranslateAndCreateBuffer(memoryManager, srcVa, size, BufferStage.Copy);
-            var dstRange = dstPhysical.BufferCache.TranslateAndCreateBuffer(memoryManager, dstVa, size, BufferStage.Copy);
+            MultiRange srcRange = srcPhysical.BufferCache.TranslateAndCreateBuffer(memoryManager, srcVa, size, BufferStage.Copy);
+            MultiRange dstRange = dstPhysical.BufferCache.TranslateAndCreateBuffer(memoryManager, dstVa, size, BufferStage.Copy);
 
             if (srcRange.Count == 1 && dstRange.Count == 1)
             {
@@ -810,8 +810,8 @@ namespace Ryujinx.Graphics.Gpu.Memory
             ulong dstAddress,
             ulong size)
         {
-            var srcBuffer = srcPhysical.BufferCache.GetBuffer(srcAddress, size, BufferStage.Copy);
-            var dstBuffer = dstPhysical.BufferCache.GetBuffer(dstAddress, size, BufferStage.Copy);
+            Buffer srcBuffer = srcPhysical.BufferCache.GetBuffer(srcAddress, size, BufferStage.Copy);
+            Buffer dstBuffer = dstPhysical.BufferCache.GetBuffer(dstAddress, size, BufferStage.Copy);
 
             int srcOffset = (int)(srcAddress - srcBuffer.Address);
             int dstOffset = (int)(dstAddress - dstBuffer.Address);

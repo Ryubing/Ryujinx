@@ -216,8 +216,8 @@ namespace Ryujinx.Graphics.Gpu.Engine.Dma
             _3dEngine.CreatePendingSyncs();
             _3dEngine.FlushUboDirty();
             
-            var srcPhysical = memoryManager.GetBackingMemory(srcGpuVa);
-            var dstPhysical = memoryManager.GetBackingMemory(dstGpuVa);
+            PhysicalMemory srcPhysical = memoryManager.GetBackingMemory(srcGpuVa);
+            PhysicalMemory dstPhysical = memoryManager.GetBackingMemory(dstGpuVa);
             
             if (copy2D)
             {
@@ -465,7 +465,7 @@ namespace Ryujinx.Graphics.Gpu.Engine.Dma
             }
             else
             {
-                var bufferCache = dstPhysical.BufferCache;
+                BufferCache bufferCache = dstPhysical.BufferCache;
                 if (remap &&
                     _state.State.SetRemapComponentsDstX == SetRemapComponentsDst.ConstA &&
                     _state.State.SetRemapComponentsDstY == SetRemapComponentsDst.ConstA &&

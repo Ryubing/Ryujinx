@@ -107,7 +107,7 @@ namespace Ryujinx.Graphics.Gpu.Engine.Compute
 
             shaderGpuVa += (uint)qmd.ProgramOffset;
             
-            var shaderCache = memoryManager.GetBackingMemory(shaderGpuVa).ShaderCache;
+            ShaderCache shaderCache = memoryManager.GetBackingMemory(shaderGpuVa).ShaderCache;
 
             int localMemorySize = qmd.ShaderLocalMemoryLowSize + qmd.ShaderLocalMemoryHighSize;
 
@@ -158,7 +158,7 @@ namespace Ryujinx.Graphics.Gpu.Engine.Compute
             {
                 BufferDescriptor sb = info.SBuffers[index];
 
-                (var physical, ulong sbDescAddress) = _channel.BufferManager.GetComputeUniformBufferAddress(sb.SbCbSlot);
+                (PhysicalMemory physical, ulong sbDescAddress) = _channel.BufferManager.GetComputeUniformBufferAddress(sb.SbCbSlot);
                 sbDescAddress += (ulong)sb.SbCbOffset * 4;
 
                 SbDescriptor sbDescriptor = physical.Read<SbDescriptor>(sbDescAddress);
