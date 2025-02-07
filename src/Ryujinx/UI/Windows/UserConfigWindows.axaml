@@ -29,6 +29,7 @@
             IsVisible="False"
             KeyboardNavigation.IsTabStop="False"/>
         <Grid Name="Pages" IsVisible="False" Grid.Row="2">
+            <settings:SettingsInputView Name="InputPage" />
             <settings:SettingsSystemView Name="SystemPage" />
             <settings:SettingsCPUView Name="CpuPage" />
             <settings:SettingsGraphicsView Name="GraphicsPage" />
@@ -79,6 +80,10 @@
             </ui:NavigationView.PaneHeader>
                       
             <ui:NavigationView.MenuItems>
+                <ui:NavigationViewItem
+                    Content="{ext:Locale SettingsTabInput}"
+                    Tag="InputPage"
+                    IconSource="Games" />
                 <ui:NavigationViewItem
                     Content="{ext:Locale SettingsTabSystem}"
                     Tag="SystemPage"

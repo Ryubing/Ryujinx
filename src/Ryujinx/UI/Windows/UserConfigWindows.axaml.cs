@@ -41,6 +41,7 @@ namespace Ryujinx.Ava.UI.Windows
                 viewModel.SelectedApplication.Icon);
 
             ViewModel.CloseWindow += Close;
+            ViewModel.SaveSettingsEvent += SaveSettings;
 
             InitializeComponent();
             Load();
@@ -49,6 +50,11 @@ namespace Ryujinx.Ava.UI.Windows
             this.AttachDevTools(new KeyGesture(Key.F12, KeyModifiers.Alt));
 #endif
            
+        }
+
+        public void SaveSettings()
+        {
+            InputPage.InputView?.SaveCurrentProfile();
         }
 
 
@@ -67,9 +73,9 @@ namespace Ryujinx.Ava.UI.Windows
             {
                 switch (navItem.Tag.ToString())
                 {
-                    //case nameof(InputPage):
-                    //   NavPanel.Content = InputPage;
-                    //   break;
+                    case nameof(InputPage):
+                       NavPanel.Content = InputPage;
+                       break;
                     case nameof(SystemPage):
                         SystemPage.ViewModel = ViewModel;
                         NavPanel.Content = SystemPage;
