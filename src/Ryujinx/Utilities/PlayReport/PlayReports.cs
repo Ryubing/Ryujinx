@@ -1,6 +1,4 @@
-﻿using static Ryujinx.Ava.Utilities.PlayReport.Analyzer;
-
-namespace Ryujinx.Ava.Utilities.PlayReport
+﻿namespace Ryujinx.Ava.Utilities.PlayReport
 {
     public static class PlayReports
     {
@@ -10,7 +8,7 @@ namespace Ryujinx.Ava.Utilities.PlayReport
                 spec => spec
                     .AddValueFormatter("IsHardMode", BreathOfTheWild_MasterMode)
                     // reset to normal status when switching between normal & master mode in title screen
-                    .AddValueFormatter("AoCVer", FormattedValue.AlwaysResets)
+                    .AddValueFormatter("AoCVer", FormattedValue.SingleAlwaysResets)
             )
             .AddSpec(
                 "0100f2c0115b6000",
