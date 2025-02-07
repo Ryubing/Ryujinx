@@ -35,6 +35,8 @@ namespace Ryujinx.HLE.HOS.Services.Hid
 
         public Dictionary<PlayerIndex, ConcurrentQueue<(VibrationValue, VibrationValue)>> RumbleQueues = new();
         public Dictionary<PlayerIndex, (VibrationValue, VibrationValue)> LastVibrationValues = new();
+        
+        internal PlayerIndex LastActiveNpad { get; set; }
 
         public NpadDevices(Switch device, bool active = true) : base(device, active)
         {
@@ -384,6 +386,8 @@ namespace Ryujinx.HLE.HOS.Services.Hid
                 return;
             }
 
+            LastActiveNpad = state.PlayerId;
+            
             ref RingLifo<NpadCommonState> lifo = ref GetCommonStateLifo(ref currentNpad);
 
             NpadCommonState newState = new()
@@ -638,6 +642,21 @@ namespace Ryujinx.HLE.HOS.Services.Hid
             }
 
             return rumbleQueue;
+        }
+        
+        public NpadIdType GetLastActiveNpadId()
+        {
+            return LastActiveNpad switch {
+                PlayerIndex.Player1 => NpadIdType.Player1,
+                PlayerIndex.Player2 => NpadIdType.Player2,
+                PlayerIndex.Player3 => NpadIdType.Player3,
+                PlayerIndex.Player4 => NpadIdType.Player4,
+                PlayerIndex.Player5 => NpadIdType.Player5,
+                PlayerIndex.Player6 => NpadIdType.Player6,
+                PlayerIndex.Player7 => NpadIdType.Player7,
+                PlayerIndex.Player8 => NpadIdType.Player8,
+                _ => NpadIdType.Handheld,
+            };
         }
     }
 }
