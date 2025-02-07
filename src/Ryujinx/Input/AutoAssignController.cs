@@ -1,6 +1,4 @@
-﻿using Avalonia.Media;
-using Ryujinx.Ava.UI.ViewModels;
-using Ryujinx.Ava.UI.Windows;
+﻿using Ryujinx.Ava.UI.ViewModels;
 using Ryujinx.Ava.Utilities.Configuration;
 using Ryujinx.Common.Configuration.Hid;
 using Ryujinx.Common.Configuration.Hid.Controller;
@@ -13,7 +11,7 @@ using Ryujinx.Input.HLE;
 using System.Collections.Generic;
 using System.Linq;
 
-namespace Ryujinx.Ava
+namespace Ryujinx.Ava.Input
 {
     public class AutoAssignController
     {
