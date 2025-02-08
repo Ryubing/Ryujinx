@@ -1,6 +1,11 @@
-﻿namespace Ryujinx.Ava.Utilities.PlayReport
+﻿using System;
+using System.Buffers.Binary;
+using System.Collections.Generic;
+using System.Linq;
+
+namespace Ryujinx.Ava.Utilities.PlayReport
 {
-    public static class PlayReports
+    public static partial class PlayReports
     {
         public static Analyzer Analyzer { get; } = new Analyzer()
             .AddSpec(
@@ -37,91 +42,47 @@
                 spec => spec
                     .AddValueFormatter("area_no", PokemonSVArea)
                     .AddValueFormatter("team_circle", PokemonSVUnionCircle)
+            )
+            .AddSpec(
+                "01006a800016e000",
+                spec => spec
+                    .AddSparseMultiValueFormatter(
+                        [
+                            // Metadata to figure out what PlayReport we have.
+                            "match_mode", "match_submode", "anniversary", "fighter", "reason", "challenge_count",
+                            "adv_slot",
+                            // List of Fighters
+                            "player_1_fighter", "player_2_fighter", "player_3_fighter", "player_4_fighter",
+                            "player_5_fighter", "player_6_fighter", "player_7_fighter", "player_8_fighter",
+                            // List of rankings/placements
+                            "player_1_rank", "player_2_rank", "player_3_rank", "player_4_rank", "player_5_rank",
+                            "player_6_rank", "player_7_rank", "player_8_rank"
+                        ],
+                        SuperSmashBrosUltimate_Mode
+                    )
+            )
+            .AddSpec(
+                "0100c9a00ece6000",
+                spec => spec.AddValueFormatter("launch_title_id", N64_LaunchedGame)
+            )
+            .AddSpec(
+                "01008d300c50c000",
+                spec => spec.AddValueFormatter("launch_title_id", SNES_LaunchedGame)
+            )
+            .AddSpec(
+                "0100d870045b6000",
+                spec => spec.AddValueFormatter("launch_title_id", NES_LaunchedGame)
+            ).AddSpec(
+                "010012f017576000",
+                spec => spec.AddValueFormatter("launch_title_id", GBA_LaunchedGame)
+            ).AddSpec(
+                "0100c62011050000",
+                spec => spec.AddValueFormatter("launch_title_id", GB_LaunchedGame)
+            ).AddSpec(
+                "0100b3c014bda000",
+                spec => spec.AddValueFormatter("launch_title_id", Genesis_LaunchedGame)
             );
 
-        private static FormattedValue BreathOfTheWild_MasterMode(SingleValue value)
-            => value.Matched.BoxedValue is 1 ? "Playing Master Mode" : FormattedValue.ForceReset;
-
-        private static FormattedValue TearsOfTheKingdom_CurrentField(SingleValue value) =>
-            value.Matched.DoubleValue switch
-            {
-                > 800d => "Exploring the Sky Islands",
-                < -201d => "Exploring the Depths",
-                _ => "Roaming Hyrule"
-            };
-
-        private static FormattedValue SuperMarioOdyssey_AssistMode(SingleValue value)
-            => value.Matched.BoxedValue is 1 ? "Playing in Assist Mode" : "Playing in Regular Mode";
-
-        private static FormattedValue SuperMarioOdysseyChina_AssistMode(SingleValue value)
-            => value.Matched.BoxedValue is 1 ? "Playing in 帮助模式" : "Playing in 普通模式";
-
-        private static FormattedValue SuperMario3DWorldOrBowsersFury(SingleValue value)
-            => value.Matched.BoxedValue is 0 ? "Playing Super Mario 3D World" : "Playing Bowser's Fury";
-        
-        private static FormattedValue MarioKart8Deluxe_Mode(SingleValue value) 
-            => value.Matched.StringValue switch
-            {
-                // Single Player
-                "Single" => "Single Player",
-                // Multiplayer
-                "Multi-2players" => "Multiplayer 2 Players",
-                "Multi-3players" => "Multiplayer 3 Players",
-                "Multi-4players" => "Multiplayer 4 Players",
-                // Wireless/LAN Play
-                "Local-Single" => "Wireless/LAN Play",
-                "Local-2players" => "Wireless/LAN Play 2 Players",
-                // CC Classes
-                "50cc" => "50cc",
-                "100cc" => "100cc",
-                "150cc" => "150cc",
-                "Mirror" => "Mirror (150cc)",
-                "200cc" => "200cc",
-                // Modes
-                "GrandPrix" => "Grand Prix",
-                "TimeAttack" => "Time Trials",
-                "VS" => "VS Races",
-                "Battle" => "Battle Mode",
-                "RaceStart" => "Selecting a Course",
-                "Race" => "Racing",
-                _ => FormattedValue.ForceReset
-            };
-
-        private static FormattedValue PokemonSVUnionCircle(SingleValue value)
-            => value.Matched.BoxedValue is 0 ? "Playing Alone" : "Playing in a group";
-
-        private static FormattedValue PokemonSVArea(SingleValue value) 
-            => value.Matched.StringValue switch
-            {
-                // Base Game Locations
-                "a_w01" => "South Area One",
-                "a_w02" => "Mesagoza",
-                "a_w03" => "The Pokemon League",
-                "a_w04" => "South Area Two",
-                "a_w05" => "South Area Four",
-                "a_w06" => "South Area Six",
-                "a_w07" => "South Area Five",
-                "a_w08" => "South Area Three",
-                "a_w09" => "West Area One",
-                "a_w10" => "Asado Desert",
-                "a_w11" => "West Area Two",
-                "a_w12" => "Medali",
-                "a_w13" => "Tagtree Thicket",
-                "a_w14" => "East Area Three",
-                "a_w15" => "Artazon",
-                "a_w16" => "East Area Two",
-                "a_w18" => "Casseroya Lake",
-                "a_w19" => "Glaseado Mountain",
-                "a_w20" => "North Area Three",
-                "a_w21" => "North Area One",
-                "a_w22" => "North Area Two",
-                "a_w23" => "The Great Crater of Paldea",
-                "a_w24" => "South Paldean Sea",
-                "a_w25" => "West Paldean Sea",
-                "a_w26" => "East Paldean Sea",
-                "a_w27" => "Nouth Paldean Sea",
-                //TODO DLC Locations
-                _ => FormattedValue.ForceReset
-            };
+        private static string Playing(string game) => $"Playing {game}";
     }
 }
