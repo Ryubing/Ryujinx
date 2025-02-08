@@ -748,7 +748,7 @@ namespace Ryujinx.Ava.UI.ViewModels
             }
 
             config.System.MatchSystemTime.Value = MatchSystemTime;
-            config.System.SystemTimeOffset.Value = config.System.SystemTimeOffset.Value;
+            config.System.SystemTimeOffset.Value = Convert.ToInt64((CurrentDate.ToUnixTimeSeconds() + CurrentTime.TotalSeconds) - DateTimeOffset.Now.ToUnixTimeSeconds());
             config.System.EnableFsIntegrityChecks.Value = EnableFsIntegrityChecks;
             config.System.DramSize.Value = DramSize;
             config.System.IgnoreMissingServices.Value = IgnoreMissingServices;
