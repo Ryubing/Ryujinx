@@ -112,7 +112,8 @@ namespace Ryujinx.HLE.HOS.Services.Ldn.UserServiceCreator.LdnRyu.Proxy
 
         private async Task<ushort> NatPunchForDevice(NatDevice device)
         {
-            Logger.Trace?.PrintMsg(LogClass.ServiceLdn, $"Attempting to map port using {device.ToString()}");
+            Logger.Info?.PrintMsg(LogClass.ServiceLdn, $"Attempting to map port using {device.ToString()}");
+            _publicPort = PublicPortBase;
             for (int i = 0; i < PublicPortRange; i++)
             {
                 try
@@ -125,12 +126,12 @@ namespace Ryujinx.HLE.HOS.Services.Ldn.UserServiceCreator.LdnRyu.Proxy
                 }
                 catch (MappingException ex)
                 {
-                    Logger.Trace?.PrintMsg(LogClass.ServiceLdn, $"Failed to map port {_publicPort}: {ex.Message}");
+                    Logger.Info?.PrintMsg(LogClass.ServiceLdn, $"Failed to map port {_publicPort}: {ex.Message}");
                     _publicPort++;
                 }
                 catch (Exception ex)
                 {
-                    Logger.Trace?.PrintMsg(LogClass.ServiceLdn, $"Failed to map port {_publicPort}: {ex.GetType().Name}: {ex.Message}");
+                    Logger.Info?.PrintMsg(LogClass.ServiceLdn, $"Failed to map port {_publicPort}: {ex.GetType().Name}: {ex.Message}");
                     return 0;
                 }
 
@@ -155,7 +156,7 @@ namespace Ryujinx.HLE.HOS.Services.Ldn.UserServiceCreator.LdnRyu.Proxy
         public async Task<ushort> NatPunch()
         {
             NatDiscoverer discoverer = new();
-            CancellationTokenSource cts = new(5000);
+            CancellationTokenSource cts = new(500);
 
             NatDevice[] devices;
 
@@ -177,7 +178,6 @@ namespace Ryujinx.HLE.HOS.Services.Ldn.UserServiceCreator.LdnRyu.Proxy
 
             foreach (var device in devices)
             {
-                _publicPort = PublicPortBase;
                 ushort port = await NatPunchForDevice(device);
                 if (port != 0)
                 {
@@ -185,6 +185,7 @@ namespace Ryujinx.HLE.HOS.Services.Ldn.UserServiceCreator.LdnRyu.Proxy
                 }
             }
             Logger.Info?.PrintMsg(LogClass.ServiceLdn, $"Failed to map port using any device");
+            _publicPort = 0;
             return 0;
         }
 
