@@ -1,6 +1,4 @@
-﻿using System.Collections.Generic;
-
-namespace Ryujinx.Ava.Utilities.PlayReport
+﻿namespace Ryujinx.Ava.Utilities.PlayReport
 {
     /// <summary>
     /// The delegate type that powers single value formatters.<br/>
@@ -12,7 +10,7 @@ namespace Ryujinx.Ava.Utilities.PlayReport
     /// <br/>
     /// OR a signal to reset the value that the caller is using the <see cref="Analyzer"/> for. 
     /// </summary>
-    public delegate FormattedValue ValueFormatter(Value value);
+    public delegate FormattedValue SingleValueFormatter(SingleValue value);
 
     /// <summary>
     /// The delegate type that powers multiple value formatters.<br/>
@@ -24,7 +22,7 @@ namespace Ryujinx.Ava.Utilities.PlayReport
     /// <br/>
     /// OR a signal to reset the value that the caller is using the <see cref="Analyzer"/> for. 
     /// </summary>
-    public delegate FormattedValue MultiValueFormatter(Value[] value);
+    public delegate FormattedValue MultiValueFormatter(MultiValue value);
 
     /// <summary>
     /// The delegate type that powers multiple value formatters.
@@ -38,5 +36,5 @@ namespace Ryujinx.Ava.Utilities.PlayReport
     /// <br/>
     /// OR a signal to reset the value that the caller is using the <see cref="Analyzer"/> for. 
     /// </summary>
-    public delegate FormattedValue SparseMultiValueFormatter(Dictionary<string, Value> values);
+    public delegate FormattedValue SparseMultiValueFormatter(SparseMultiValue value);
 }

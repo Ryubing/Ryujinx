@@ -39,28 +39,28 @@
                     .AddValueFormatter("team_circle", PokemonSVUnionCircle)
             );
 
-        private static FormattedValue BreathOfTheWild_MasterMode(Value value)
-            => value.BoxedValue is 1 ? "Playing Master Mode" : FormattedValue.ForceReset;
+        private static FormattedValue BreathOfTheWild_MasterMode(SingleValue value)
+            => value.Matched.BoxedValue is 1 ? "Playing Master Mode" : FormattedValue.ForceReset;
 
-        private static FormattedValue TearsOfTheKingdom_CurrentField(Value value) =>
-            value.DoubleValue switch
+        private static FormattedValue TearsOfTheKingdom_CurrentField(SingleValue value) =>
+            value.Matched.DoubleValue switch
             {
                 > 800d => "Exploring the Sky Islands",
                 < -201d => "Exploring the Depths",
                 _ => "Roaming Hyrule"
             };
 
-        private static FormattedValue SuperMarioOdyssey_AssistMode(Value value)
-            => value.BoxedValue is 1 ? "Playing in Assist Mode" : "Playing in Regular Mode";
+        private static FormattedValue SuperMarioOdyssey_AssistMode(SingleValue value)
+            => value.Matched.BoxedValue is 1 ? "Playing in Assist Mode" : "Playing in Regular Mode";
 
-        private static FormattedValue SuperMarioOdysseyChina_AssistMode(Value value)
-            => value.BoxedValue is 1 ? "Playing in 帮助模式" : "Playing in 普通模式";
+        private static FormattedValue SuperMarioOdysseyChina_AssistMode(SingleValue value)
+            => value.Matched.BoxedValue is 1 ? "Playing in 帮助模式" : "Playing in 普通模式";
 
-        private static FormattedValue SuperMario3DWorldOrBowsersFury(Value value)
-            => value.BoxedValue is 0 ? "Playing Super Mario 3D World" : "Playing Bowser's Fury";
+        private static FormattedValue SuperMario3DWorldOrBowsersFury(SingleValue value)
+            => value.Matched.BoxedValue is 0 ? "Playing Super Mario 3D World" : "Playing Bowser's Fury";
         
-        private static FormattedValue MarioKart8Deluxe_Mode(Value value) 
-            => value.StringValue switch
+        private static FormattedValue MarioKart8Deluxe_Mode(SingleValue value) 
+            => value.Matched.StringValue switch
             {
                 // Single Player
                 "Single" => "Single Player",
@@ -87,11 +87,11 @@
                 _ => FormattedValue.ForceReset
             };
 
-        private static FormattedValue PokemonSVUnionCircle(Value value)
-            => value.BoxedValue is 0 ? "Playing Alone" : "Playing in a group";
+        private static FormattedValue PokemonSVUnionCircle(SingleValue value)
+            => value.Matched.BoxedValue is 0 ? "Playing Alone" : "Playing in a group";
 
-        private static FormattedValue PokemonSVArea(Value value) 
-            => value.StringValue switch
+        private static FormattedValue PokemonSVArea(SingleValue value) 
+            => value.Matched.StringValue switch
             {
                 // Base Game Locations
                 "a_w01" => "South Area One",

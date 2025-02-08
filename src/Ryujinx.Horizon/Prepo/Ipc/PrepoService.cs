@@ -1,4 +1,3 @@
-using Gommon;
 using MsgPack;
 using MsgPack.Serialization;
 using Ryujinx.Common.Logging;
@@ -12,19 +11,12 @@ using Ryujinx.Horizon.Sdk.Sf;
 using Ryujinx.Horizon.Sdk.Sf.Hipc;
 using System;
 using System.Text;
-using System.Threading;
 using ApplicationId = Ryujinx.Horizon.Sdk.Ncm.ApplicationId;
 
 namespace Ryujinx.Horizon.Prepo.Ipc
 {
     partial class PrepoService : IPrepoService
     {
-        enum PlayReportKind
-        {
-            Normal,
-            System,
-        }
-
         private readonly ArpApi _arp;
         private readonly PrepoServicePermissionLevel _permissionLevel;
         private ulong _systemSessionId;
@@ -196,10 +188,17 @@ namespace Ryujinx.Horizon.Prepo.Ipc
             {
                 return PrepoResult.InvalidBufferSize;
             }
-
+            
             StringBuilder builder = new();
             MessagePackObject deserializedReport = MessagePackSerializer.UnpackMessagePackObject(reportBuffer.ToArray());
 
+            PlayReport playReport = new()
+            {
+                Kind = playReportKind, 
+                Room = gameRoom,
+                ReportData = deserializedReport
+            };
+            
             builder.AppendLine();
             builder.AppendLine("PlayReport log:");
             builder.AppendLine($" Kind: {playReportKind}");
@@ -209,10 +208,12 @@ namespace Ryujinx.Horizon.Prepo.Ipc
             if (pid != 0)
             {
                 builder.AppendLine($" Pid: {pid}");
+                playReport.Pid = pid;
             }
             else
             {
                 builder.AppendLine($" ApplicationId: {applicationId}");
+                playReport.AppId = applicationId;
             }
 
             Result result = _arp.GetApplicationInstanceId(out ulong applicationInstanceId, pid);
@@ -223,17 +224,20 @@ namespace Ryujinx.Horizon.Prepo.Ipc
 
             _arp.GetApplicationLaunchProperty(out ApplicationLaunchProperty applicationLaunchProperty, applicationInstanceId).AbortOnFailure();
 
+            playReport.Version = applicationLaunchProperty.Version;
+            
             builder.AppendLine($" ApplicationVersion: {applicationLaunchProperty.Version}");
 
             if (!userId.IsNull)
             {
                 builder.AppendLine($" UserId: {userId}");
+                playReport.UserId = userId;
             }
 
             builder.AppendLine($" Room: {gameRoom}");
             builder.AppendLine($" Report: {MessagePackObjectFormatter.Format(deserializedReport)}");
             
-            HorizonStatic.HandlePlayReport(deserializedReport);
+            HorizonStatic.HandlePlayReport(playReport);
 
             Logger.Info?.Print(LogClass.ServicePrepo, builder.ToString());
 
