@@ -95,7 +95,7 @@ namespace Ryujinx.Ava.Utilities.PlayReport
         private static FormattedValue SuperSmashBrosUltimate_Mode(SparseMultiValue values)
         {
             // Check if the PlayReport is for a challenger approach or an achievement.
-            if (values.Matched.TryGetValue("fighter", out var fighter) && values.Matched.ContainsKey("reason"))
+            if (values.Matched.TryGetValue("fighter", out Value fighter) && values.Matched.ContainsKey("reason"))
             {
                 return $"Challenger Approaches - {SuperSmashBrosUltimate_Character(fighter)}";
             }
@@ -105,7 +105,7 @@ namespace Ryujinx.Ava.Utilities.PlayReport
                 return $"Fighter Unlocked - {SuperSmashBrosUltimate_Character(fighter)}";
             }
 
-            if (values.Matched.TryGetValue("anniversary", out var anniversary))
+            if (values.Matched.TryGetValue("anniversary", out Value anniversary))
             {
                 return $"Achievement Unlocked - ID: {anniversary}";
             }
@@ -117,18 +117,18 @@ namespace Ryujinx.Ava.Utilities.PlayReport
             }
 
             // Check if we have a match_mode at this point, if not, go to default.
-            if (!values.Matched.TryGetValue("match_mode", out var matchMode))
+            if (!values.Matched.TryGetValue("match_mode", out Value matchMode))
             {
                 return "Smashing";
             }
 
             return matchMode.BoxedValue switch
             {
-                0 when values.Matched.TryGetValue("player_1_fighter", out var player) &&
-                       values.Matched.TryGetValue("player_2_fighter", out var challenger)
+                0 when values.Matched.TryGetValue("player_1_fighter", out Value player) &&
+                       values.Matched.TryGetValue("player_2_fighter", out Value challenger)
                     => $"Last Smashed: {SuperSmashBrosUltimate_Character(challenger)}'s Fighter Challenge - {SuperSmashBrosUltimate_Character(player)}",
                 1 => $"Last Smashed: Normal Battle - {SuperSmashBrosUltimate_PlayerListing(values)}",
-                2 when values.Matched.TryGetValue("player_1_rank", out var team)
+                2 when values.Matched.TryGetValue("player_1_rank", out Value team)
                     => team.BoxedValue is 0
                         ? "Last Smashed: Squad Strike - Red Team Wins"
                         : "Last Smashed: Squad Strike - Blue Team Wins",
@@ -136,27 +136,27 @@ namespace Ryujinx.Ava.Utilities.PlayReport
                 4 => $"Last Smashed: Super Sudden Death - {SuperSmashBrosUltimate_PlayerListing(values)}",
                 5 => $"Last Smashed: Smashdown - {SuperSmashBrosUltimate_PlayerListing(values)}",
                 6 => $"Last Smashed: Tourney Battle - {SuperSmashBrosUltimate_PlayerListing(values)}",
-                7 when values.Matched.TryGetValue("player_1_fighter", out var player)
+                7 when values.Matched.TryGetValue("player_1_fighter", out Value player)
                     => $"Last Smashed: Spirit Board Battle as {SuperSmashBrosUltimate_Character(player)}",
-                8 when values.Matched.TryGetValue("player_1_fighter", out var player)
+                8 when values.Matched.TryGetValue("player_1_fighter", out Value player)
                     => $"Playing Adventure Mode as {SuperSmashBrosUltimate_Character(player)}",
-                10 when values.Matched.TryGetValue("match_submode", out var battle) &&
-                        values.Matched.TryGetValue("player_1_fighter", out var player)
+                10 when values.Matched.TryGetValue("match_submode", out Value battle) &&
+                        values.Matched.TryGetValue("player_1_fighter", out Value player)
                     => $"Last Smashed: Classic Mode, Battle {(int)battle.BoxedValue + 1}/8 as {SuperSmashBrosUltimate_Character(player)}",
                 12 => $"Last Smashed: Century Smash - {SuperSmashBrosUltimate_PlayerListing(values)}",
                 13 => $"Last Smashed: All-Star Smash - {SuperSmashBrosUltimate_PlayerListing(values)}",
                 14 => $"Last Smashed: Cruel Smash - {SuperSmashBrosUltimate_PlayerListing(values)}",
-                15 when values.Matched.TryGetValue("player_1_fighter", out var player)
+                15 when values.Matched.TryGetValue("player_1_fighter", out Value player)
                     => $"Last Smashed: Home-Run Contest - {SuperSmashBrosUltimate_Character(player)}",
-                16 when values.Matched.TryGetValue("player_1_fighter", out var player1) &&
-                        values.Matched.TryGetValue("player_2_fighter", out var player2)
+                16 when values.Matched.TryGetValue("player_1_fighter", out Value player1) &&
+                        values.Matched.TryGetValue("player_2_fighter", out Value player2)
                     => $"Last Smashed: Home-Run Content (Co-op) - {SuperSmashBrosUltimate_Character(player1)} and {SuperSmashBrosUltimate_Character(player2)}",
                 17 => $"Last Smashed: Home-Run Contest (Versus) - {SuperSmashBrosUltimate_PlayerListing(values)}",
-                18 when values.Matched.TryGetValue("player_1_fighter", out var player1) &&
-                        values.Matched.TryGetValue("player_2_fighter", out var player2)
+                18 when values.Matched.TryGetValue("player_1_fighter", out Value player1) &&
+                        values.Matched.TryGetValue("player_2_fighter", out Value player2)
                     => $"Fresh out of Training mode - {SuperSmashBrosUltimate_Character(player1)} with {SuperSmashBrosUltimate_Character(player2)}",
                 58 => $"Last Smashed: LDN Battle - {SuperSmashBrosUltimate_PlayerListing(values)}",
-                63 when values.Matched.TryGetValue("player_1_fighter", out var player)
+                63 when values.Matched.TryGetValue("player_1_fighter", out Value player)
                     => $"Last Smashed: DLC Spirit Board Battle as {SuperSmashBrosUltimate_Character(player)}",
                 _ => "Smashing"
             };
@@ -261,14 +261,14 @@ namespace Ryujinx.Ava.Utilities.PlayReport
         {
             List<(string Character, int PlayerNumber, int? Rank)> players = [];
 
-            foreach (var player in values.Matched)
+            foreach (KeyValuePair<string, Value> player in values.Matched)
             {
                 if (player.Key.StartsWith("player_") && player.Key.EndsWith("_fighter") &&
                     player.Value.BoxedValue is not null)
                 {
                     int playerNumber = int.Parse(player.Key.Split('_')[1]);
                     string character = SuperSmashBrosUltimate_Character(player.Value);
-                    int? rank = values.Matched.TryGetValue($"player_{playerNumber}_rank", out var rankValue)
+                    int? rank = values.Matched.TryGetValue($"player_{playerNumber}_rank", out Value rankValue)
                         ? (int)rankValue.BoxedValue
                         : null;
 
