@@ -3323,6 +3323,31 @@
       }
     },
     {
+      "ID": "SettingsWithInfo",
+      "Translations": {
+        "ar_SA": "{0} - إعدادات",
+        "de_DE": "Einstellungen - {0}",
+        "el_GR": "Ρυθμίσεις - {0}",
+        "en_US": "Settings - {0}",
+        "es_ES": "Configuración - {0}",
+        "fr_FR": "Paramètres - {0}",
+        "he_IL": "{0} - הגדרות",
+        "it_IT": "Impostazioni - {0}",
+        "ja_JP": "設定 - {0}",
+        "ko_KR": "설정 - {0}",
+        "no_NO": "Innstillinger - {0}",
+        "pl_PL": "Ustawienia - {0}",
+        "pt_BR": "Configurações - {0}",
+        "ru_RU": "Параметры - {0}",
+        "sv_SE": "Inställningar - {0}",
+        "th_TH": "ตั้งค่า - {0}",
+        "tr_TR": "Ayarlar - {0}",
+        "uk_UA": "Налаштування - {0}",
+        "zh_CN": "设置 - {0}",
+        "zh_TW": "設定 - {0}"
+      }
+    },
+    {
       "ID": "SettingsTabGeneral",
       "Translations": {
         "ar_SA": "واجهة المستخدم",
