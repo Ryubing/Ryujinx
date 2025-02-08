@@ -4,6 +4,7 @@
              xmlns:helpers="clr-namespace:Ryujinx.Ava.UI.Helpers"
              xmlns:ext="using:Ryujinx.Ava.Common.Markup"
              xmlns:viewModels="using:Ryujinx.Ava.UI.ViewModels"
+             xmlns:ui="using:FluentAvalonia.UI.Controls"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
              mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
              x:Class="Ryujinx.Ava.UI.Controls.ApplicationDataView"
@@ -84,6 +85,49 @@
                     </StackPanel>
                 </StackPanel>
             </Grid>
+            <Separator Margin="0, 10, 0, 10" Height="1" BorderBrush="Gray" Background="Gray" />
+            <StackPanel Orientation="Vertical" Spacing="5">
+                <StackPanel Orientation="Horizontal" Spacing="5">
+                    <ui:SymbolIcon Foreground="ForestGreen" Symbol="Checkmark" IsVisible="{Binding AppData.HasRichPresenceAsset}"/>
+                    <TextBlock
+                        Foreground="ForestGreen"
+                        HorizontalAlignment="Stretch"
+                        IsVisible="{Binding AppData.HasRichPresenceAsset}"
+                        Text="{ext:Locale GameInfoRpcImage}"
+                        TextAlignment="Start"
+                        TextWrapping="Wrap" >
+                    </TextBlock>
+                    <ui:SymbolIcon Foreground="Red" Symbol="Cancel" IsVisible="{Binding !AppData.HasRichPresenceAsset}"/>
+                    <TextBlock
+                        Foreground="Red"
+                        HorizontalAlignment="Stretch"
+                        IsVisible="{Binding !AppData.HasRichPresenceAsset}"
+                        Text="{ext:Locale GameInfoRpcImage}"
+                        TextAlignment="Start"
+                        TextWrapping="Wrap" >
+                    </TextBlock>
+                </StackPanel>
+                <StackPanel Orientation="Horizontal" Spacing="5">
+                    <ui:SymbolIcon Foreground="ForestGreen" Symbol="Checkmark" IsVisible="{Binding AppData.HasDynamicRichPresenceSupport}"/>
+                    <TextBlock
+                        Foreground="ForestGreen"
+                        HorizontalAlignment="Stretch"
+                        IsVisible="{Binding AppData.HasDynamicRichPresenceSupport}"
+                        Text="{ext:Locale GameInfoRpcDynamic}"
+                        TextAlignment="Start"
+                        TextWrapping="Wrap" >
+                    </TextBlock>
+                    <ui:SymbolIcon Foreground="Red" Symbol="Cancel" IsVisible="{Binding !AppData.HasDynamicRichPresenceSupport}"/>
+                    <TextBlock
+                        Foreground="Red"
+                        HorizontalAlignment="Stretch"
+                        IsVisible="{Binding !AppData.HasDynamicRichPresenceSupport}"
+                        Text="{ext:Locale GameInfoRpcDynamic}"
+                        TextAlignment="Start"
+                        TextWrapping="Wrap" >
+                    </TextBlock>
+                </StackPanel>
+            </StackPanel>
             <Separator Margin="0, 10, 0, 10" Height="1" BorderBrush="Gray" Background="Gray" />
             <TextBlock
                 HorizontalAlignment="Stretch"

@@ -1,6 +1,8 @@
 ﻿using MsgPack;
 using Ryujinx.Ava.Utilities.AppLibrary;
 using System;
+using System.Collections.Generic;
+using System.Linq;
 
 namespace Ryujinx.Ava.Utilities.PlayReport
 {
@@ -9,12 +11,12 @@ namespace Ryujinx.Ava.Utilities.PlayReport
     /// containing the currently running application's <see cref="ApplicationMetadata"/>,
     /// and the matched <see cref="MessagePackObject"/> from the Play Report.
     /// </summary>
-    public class Value
+    public readonly struct Value
     {
-        /// <summary>
-        /// The currently running application's <see cref="ApplicationMetadata"/>.
-        /// </summary>
-        public ApplicationMetadata Application { get; init; }
+        public Value(MessagePackObject packedValue)
+        {
+            PackedValue = packedValue;
+        }
 
         /// <summary>
         /// The matched value from the Play Report.
@@ -36,6 +38,17 @@ namespace Ryujinx.Ava.Utilities.PlayReport
                 ? "null"
                 : boxed.ToString();
         }
+
+        public static implicit operator Value(MessagePackObject matched) => new(matched);
+
+        public static Value[] ConvertPackedObjects(IEnumerable<MessagePackObject> packObjects)
+            => packObjects.Select(packObject => new Value(packObject)).ToArray();
+
+        public static Dictionary<string, Value> ConvertPackedObjectMap(Dictionary<string, MessagePackObject> packObjects)
+            => packObjects.ToDictionary(
+                x => x.Key,
+                x => new Value(x.Value)
+            );
 
         #region AsX accessors
 

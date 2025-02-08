@@ -63,6 +63,9 @@ namespace Ryujinx.Ava.Utilities.AppLibrary
         public int GameCount { get; set; }
 
         public bool HasLdnGames => PlayerCount != 0 && GameCount != 0;
+
+        public bool HasRichPresenceAsset => DiscordIntegrationModule.HasAssetImage(IdString);
+        public bool HasDynamicRichPresenceSupport => DiscordIntegrationModule.HasAnalyzer(IdString);
         
         public TimeSpan TimePlayed { get; set; }
         public DateTime? LastPlayed { get; set; }

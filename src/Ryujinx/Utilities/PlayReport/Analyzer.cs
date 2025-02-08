@@ -3,6 +3,7 @@ using MsgPack;
 using Ryujinx.Ava.Utilities.AppLibrary;
 using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Globalization;
 using System.Linq;
 
@@ -14,6 +15,10 @@ namespace Ryujinx.Ava.Utilities.PlayReport
     public class Analyzer
     {
         private readonly List<GameSpec> _specs = [];
+
+        public string[] TitleIds => Specs.SelectMany(x => x.TitleIds).ToArray();
+
+        public IReadOnlyList<GameSpec> Specs => new ReadOnlyCollection<GameSpec>(_specs);
 
         /// <summary>
         /// Add an analysis spec matching a specific game by title ID, with the provided spec configuration.
@@ -80,7 +85,7 @@ namespace Ryujinx.Ava.Utilities.PlayReport
 
 
         /// <summary>
-        /// Runs the configured <see cref="GameSpec.FormatterSpec"/> for the specified game title ID.
+        /// Runs the configured <see cref="FormatterSpec"/> for the specified game title ID.
         /// </summary>
         /// <param name="runningGameId">The game currently running.</param>
         /// <param name="appMeta">The Application metadata information, including localized game name and play time information.</param>
@@ -89,10 +94,10 @@ namespace Ryujinx.Ava.Utilities.PlayReport
         public FormattedValue Format(
             string runningGameId,
             ApplicationMetadata appMeta,
-            MessagePackObject playReport
+            Horizon.Prepo.Types.PlayReport playReport
         )
         {
-            if (!playReport.IsDictionary)
+            if (!playReport.ReportData.IsDictionary)
                 return FormattedValue.Unhandled;
 
             if (!_specs.TryGetFirst(s => runningGameId.EqualsAnyIgnoreCase(s.TitleIds), out GameSpec spec))
@@ -100,10 +105,14 @@ namespace Ryujinx.Ava.Utilities.PlayReport
 
             foreach (FormatterSpec formatSpec in spec.SimpleValueFormatters.OrderBy(x => x.Priority))
             {
-                if (!playReport.AsDictionary().TryGetValue(formatSpec.ReportKey, out MessagePackObject valuePackObject))
+                if (!playReport.ReportData.AsDictionary().TryGetValue(formatSpec.ReportKey, out MessagePackObject valuePackObject))
                     continue;
 
-                return formatSpec.Formatter(new Value { Application = appMeta, PackedValue = valuePackObject });
+                return formatSpec.Formatter(new SingleValue(valuePackObject)
+                {
+                    Application = appMeta,
+                    PlayReport = playReport
+                });
             }
 
             foreach (MultiFormatterSpec formatSpec in spec.MultiValueFormatters.OrderBy(x => x.Priority))
@@ -111,7 +120,7 @@ namespace Ryujinx.Ava.Utilities.PlayReport
                 List<MessagePackObject> packedObjects = [];
                 foreach (var reportKey in formatSpec.ReportKeys)
                 {
-                    if (!playReport.AsDictionary().TryGetValue(reportKey, out MessagePackObject valuePackObject))
+                    if (!playReport.ReportData.AsDictionary().TryGetValue(reportKey, out MessagePackObject valuePackObject))
                         continue;
 
                     packedObjects.Add(valuePackObject);
@@ -120,23 +129,30 @@ namespace Ryujinx.Ava.Utilities.PlayReport
                 if (packedObjects.Count != formatSpec.ReportKeys.Length)
                     return FormattedValue.Unhandled;
 
-                return formatSpec.Formatter(packedObjects
-                    .Select(packObject => new Value { Application = appMeta, PackedValue = packObject })
-                    .ToArray());
+                return formatSpec.Formatter(new MultiValue(packedObjects)
+                {
+                    Application = appMeta,
+                    PlayReport = playReport
+                });
             }
 
             foreach (SparseMultiFormatterSpec formatSpec in spec.SparseMultiValueFormatters.OrderBy(x => x.Priority))
             {
-                Dictionary<string, Value> packedObjects = [];
+                Dictionary<string, MessagePackObject> packedObjects = [];
                 foreach (var reportKey in formatSpec.ReportKeys)
                 {
-                    if (!playReport.AsDictionary().TryGetValue(reportKey, out MessagePackObject valuePackObject))
+                    if (!playReport.ReportData.AsDictionary().TryGetValue(reportKey, out MessagePackObject valuePackObject))
                         continue;
 
-                    packedObjects.Add(reportKey, new Value { Application = appMeta, PackedValue = valuePackObject });
+                    packedObjects.Add(reportKey, valuePackObject);
                 }
 
-                return formatSpec.Formatter(packedObjects);
+                return formatSpec.Formatter(
+                    new SparseMultiValue(packedObjects)
+                    {
+                        Application = appMeta,
+                        PlayReport = playReport
+                    });
             }
 
             return FormattedValue.Unhandled;
