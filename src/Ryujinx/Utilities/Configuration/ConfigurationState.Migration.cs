@@ -49,13 +49,13 @@ namespace Ryujinx.Ava.Utilities.Configuration
                 configurationFileUpdated = true;
             }
             
-            EnableDiscordIntegration.Value = LoadSetting ? cff.EnableDiscordIntegration : EnableDiscordIntegration.Value;
-            CheckUpdatesOnStart.Value = LoadSetting ? cff.CheckUpdatesOnStart : CheckUpdatesOnStart.Value;
-            ShowConfirmExit.Value = LoadSetting ? cff.ShowConfirmExit : ShowConfirmExit.Value;
-            RememberWindowState.Value = LoadSetting ? cff.RememberWindowState : RememberWindowState.Value;
-            ShowTitleBar.Value = LoadSetting ? cff.ShowTitleBar : ShowTitleBar.Value;
-            EnableHardwareAcceleration.Value = LoadSetting ? cff.EnableHardwareAcceleration : EnableHardwareAcceleration.Value;
-            HideCursor.Value = LoadSetting ? cff.HideCursor : HideCursor.Value;
+            EnableDiscordIntegration.Value = LoadSetting ? cff.EnableDiscordIntegration : EnableDiscordIntegration.Value; // Get from global config only
+            CheckUpdatesOnStart.Value = LoadSetting ? cff.CheckUpdatesOnStart : CheckUpdatesOnStart.Value; // Get from global config only
+            ShowConfirmExit.Value = LoadSetting ? cff.ShowConfirmExit : ShowConfirmExit.Value; // Get from global config only
+            RememberWindowState.Value = LoadSetting ? cff.RememberWindowState : RememberWindowState.Value; // Get from global config only
+            ShowTitleBar.Value = LoadSetting ? cff.ShowTitleBar : ShowTitleBar.Value; // Get from global config only
+            EnableHardwareAcceleration.Value = LoadSetting ? cff.EnableHardwareAcceleration : EnableHardwareAcceleration.Value; // Get from global config only
+            HideCursor.Value = LoadSetting ? cff.HideCursor : HideCursor.Value; // Get from global config only
 
             Logger.EnableFileLog.Value = cff.EnableFileLog;
             Logger.EnableDebug.Value = cff.LoggingEnableDebug;
@@ -91,7 +91,7 @@ namespace Ryujinx.Ava.Utilities.Configuration
             System.Language.Value = cff.SystemLanguage;
             System.Region.Value = cff.SystemRegion;
             System.TimeZone.Value = cff.SystemTimeZone;
-            System.SystemTimeOffset.Value = cff.SystemTimeOffset;
+            System.SystemTimeOffset.Value = LoadSetting ? cff.SystemTimeOffset : System.SystemTimeOffset.Value; // Get from global config only
             System.EnableDockedMode.Value = cff.DockedMode;
             System.EnablePtc.Value = cff.EnablePtc;
             System.EnableLowPowerPtc.Value = cff.EnableLowPowerPtc;
@@ -145,7 +145,7 @@ namespace Ryujinx.Ava.Utilities.Configuration
 
             Hid.EnableKeyboard.Value = cff.EnableKeyboard;
             Hid.EnableMouse.Value = cff.EnableMouse;
-            Hid.Hotkeys.Value = cff.Hotkeys;
+            Hid.Hotkeys.Value = LoadSetting ? cff.Hotkeys: Hid.Hotkeys.Value; // Get from global config only
             Hid.InputConfig.Value = cff.InputConfig ?? [];
             Hid.RainbowSpeed.Value = cff.RainbowSpeed;
 

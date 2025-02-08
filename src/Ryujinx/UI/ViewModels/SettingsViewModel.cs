@@ -405,9 +405,10 @@ namespace Ryujinx.Ava.UI.ViewModels
                 string gameDir = Program.GetDirGameUserConfig(gameId, false, true);
                 if (ConfigurationFileFormat.TryLoad(gameDir, out ConfigurationFileFormat configurationFileFormat))
                 {
-                    ConfigurationState.Instance.Load(configurationFileFormat, gameDir, gameId);
-                    LoadCurrentConfiguration(); // Needed to load custom configuration
+                    ConfigurationState.Instance.Load(configurationFileFormat, gameDir, gameId);                 
                 }
+
+                LoadCurrentConfiguration(); // Needed to load custom configuration
             }
 
             if (Program.PreviewerDetached)
@@ -547,6 +548,7 @@ namespace Ryujinx.Ava.UI.ViewModels
         public void LoadCurrentConfiguration()
         {
             ConfigurationState config = ConfigurationState.Instance;
+            bool userconfigIsNull = string.IsNullOrEmpty(GameId);
 
             //It is necessary that the data is used from the global configuration file
             if (string.IsNullOrEmpty(GameId)) 
@@ -593,7 +595,6 @@ namespace Ryujinx.Ava.UI.ViewModels
             DateTime currentDateTime = currentHostDateTime.Add(systemDateTimeOffset);
             CurrentDate = currentDateTime.Date;
             CurrentTime = currentDateTime.TimeOfDay;
-
             MatchSystemTime = config.System.MatchSystemTime;
 
             EnableCustomVSyncInterval = config.Graphics.EnableCustomVSyncInterval;
@@ -697,9 +698,9 @@ namespace Ryujinx.Ava.UI.ViewModels
         public void SaveSettings()
         {
             ConfigurationState config = ConfigurationState.Instance;
+            bool userConfigFile = string.IsNullOrEmpty(GameId);
 
-
-            if (string.IsNullOrEmpty(GameId))
+            if (userConfigFile)
             {
                 // User Interface
                 config.EnableDiscordIntegration.Value = EnableDiscordIntegration;
@@ -734,7 +735,8 @@ namespace Ryujinx.Ava.UI.ViewModels
             config.Hid.EnableMouse.Value = EnableMouse;
 
             // Keyboard Hotkeys
-            config.Hid.Hotkeys.Value = KeyboardHotkey.GetConfig();
+            config.Hid.Hotkeys.Value = userConfigFile ? KeyboardHotkey.GetConfig() : config.Hid.Hotkeys.Value;
+
 
             // System
             config.System.Region.Value = (Region)Region;
@@ -746,7 +748,7 @@ namespace Ryujinx.Ava.UI.ViewModels
             }
 
             config.System.MatchSystemTime.Value = MatchSystemTime;
-            config.System.SystemTimeOffset.Value = Convert.ToInt64((CurrentDate.ToUnixTimeSeconds() + CurrentTime.TotalSeconds) - DateTimeOffset.Now.ToUnixTimeSeconds());
+            config.System.SystemTimeOffset.Value = config.System.SystemTimeOffset.Value;
             config.System.EnableFsIntegrityChecks.Value = EnableFsIntegrityChecks;
             config.System.DramSize.Value = DramSize;
             config.System.IgnoreMissingServices.Value = IgnoreMissingServices;
