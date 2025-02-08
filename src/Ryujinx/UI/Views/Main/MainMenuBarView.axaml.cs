@@ -135,7 +135,7 @@ namespace Ryujinx.Ava.UI.Views.Main
 
             Rainbow.Enable();
 
-            if (ViewModel.SelectedApplication is null)
+            if (ViewModel.SelectedApplication is null) // Checks if game data exists
             {
                 await Window.SettingsWindow.ShowDialog(Window);
             }
@@ -145,10 +145,11 @@ namespace Ryujinx.Ava.UI.Views.Main
 
                 if (!ViewModel.IsGameRunning || !userConfigExist)
                 {
-                    await Window.SettingsWindow.ShowDialog(Window);
+                    await Window.SettingsWindow.ShowDialog(Window); // The game is not running, or if the user configuration does not exist
                 }
                 else
                 {
+                    // If there is a custom configuration in the folder
                     await new UserConfigWindows(ViewModel, userConfigExist).ShowDialog((Window)ViewModel.TopLevel);
                 }
             }

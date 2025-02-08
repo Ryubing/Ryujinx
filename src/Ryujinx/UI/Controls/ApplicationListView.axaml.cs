@@ -4,7 +4,6 @@ using Avalonia.Input.Platform;
 using Avalonia.Interactivity;
 using Ryujinx.Ava.UI.Helpers;
 using Ryujinx.Ava.UI.ViewModels;
-using Ryujinx.Ava.UI.Windows;
 using Ryujinx.Ava.Utilities.AppLibrary;
 using Ryujinx.Ava.Utilities.Compat;
 using System;

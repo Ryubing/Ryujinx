@@ -469,8 +469,6 @@ namespace Ryujinx.Ava
 
             _viewModel.IsGameRunning = true;
 
-           
-
             Dispatcher.UIThread.InvokeAsync(() =>
             {
                 _viewModel.Title = TitleHelper.ActiveApplicationTitle(Device.Processes.ActiveApplication, Program.Version, !ConfigurationState.Instance.ShowTitleBar);

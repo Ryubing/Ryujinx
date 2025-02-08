@@ -13,7 +13,6 @@ using Ryujinx.Ava.UI.Windows;
 using Ryujinx.Ava.Utilities;
 using Ryujinx.Ava.Utilities.AppLibrary;
 using Ryujinx.Ava.Utilities.Compat;
-using Ryujinx.Common;
 using Ryujinx.Common.Configuration;
 using Ryujinx.Common.Helper;
 using Ryujinx.HLE.HOS;
@@ -399,7 +398,6 @@ namespace Ryujinx.Ava.UI.Controls
 
                 viewModel.RefreshView();
             }
-
         }
 
         public async void OpenApplicationCompatibility_Click(object sender, RoutedEventArgs args)

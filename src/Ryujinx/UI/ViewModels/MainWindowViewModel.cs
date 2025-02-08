@@ -7,7 +7,6 @@ using Avalonia.Media.Imaging;
 using Avalonia.Platform.Storage;
 using Avalonia.Threading;
 using CommunityToolkit.Mvvm.ComponentModel;
-using DiscordRPC;
 using DynamicData;
 using DynamicData.Binding;
 using FluentAvalonia.UI.Controls;

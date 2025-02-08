@@ -4,6 +4,7 @@ using Avalonia.Media.Imaging;
 using Avalonia.Threading;
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
+using Humanizer;
 using LibHac.Tools.FsSystem;
 using Ryujinx.Audio.Backends.OpenAL;
 using Ryujinx.Audio.Backends.SDL2;
@@ -384,7 +385,13 @@ namespace Ryujinx.Ava.UI.ViewModels
             }
         }
 
-        public SettingsViewModel(VirtualFileSystem virtualFileSystem, ContentManager contentManager, string gamePath, string gameName, string gameId, byte[] gameIconData, bool userDirFind) : this(userDirFind)
+        public SettingsViewModel(VirtualFileSystem virtualFileSystem, 
+            ContentManager contentManager,
+            string gamePath,
+            string gameName, 
+            string gameId, 
+            byte[] gameIconData, 
+            bool enableToLoadCustomConfig) : this(enableToLoadCustomConfig)
         {
             _virtualFileSystem = virtualFileSystem;
             _contentManager = contentManager;
@@ -400,7 +407,7 @@ namespace Ryujinx.Ava.UI.ViewModels
             GameTitle = gameName;
             GameId = gameId;
 
-            if (userDirFind)
+            if (enableToLoadCustomConfig) // During the game. If there is no user config, then load the global config window
             {
                 string gameDir = Program.GetDirGameUserConfig(gameId, false, true);
                 if (ConfigurationFileFormat.TryLoad(gameDir, out ConfigurationFileFormat configurationFileFormat))
@@ -435,7 +442,7 @@ namespace Ryujinx.Ava.UI.ViewModels
             {
                 Task.Run(LoadAvailableGpus);
 
-                if (!noLoadGlobalConfig)
+                if (!noLoadGlobalConfig)// Default is false, but loading custom config avoids double call
                 {
                     LoadCurrentConfiguration();
                 }
@@ -548,7 +555,6 @@ namespace Ryujinx.Ava.UI.ViewModels
         public void LoadCurrentConfiguration()
         {
             ConfigurationState config = ConfigurationState.Instance;
-            bool userconfigIsNull = string.IsNullOrEmpty(GameId);
 
             //It is necessary that the data is used from the global configuration file
             if (string.IsNullOrEmpty(GameId)) 
@@ -654,47 +660,7 @@ namespace Ryujinx.Ava.UI.ViewModels
             LdnPassphrase = config.Multiplayer.LdnPassphrase;
             LdnServer = config.Multiplayer.LdnServer;
         }
-
-        public void SaveSettings2()
-        {
-            ConfigurationState config = ConfigurationState.Instance;
-
-            // User Interface
-            config.EnableDiscordIntegration.Value = EnableDiscordIntegration;
-            config.CheckUpdatesOnStart.Value = CheckUpdatesOnStart;
-            config.ShowConfirmExit.Value = ShowConfirmExit;
-            config.RememberWindowState.Value = RememberWindowState;
-            config.ShowTitleBar.Value = ShowTitleBar;
-            config.HideCursor.Value = (HideCursorMode)HideCursor;
-
-            if (GameDirectoryChanged)
-            {
-                config.UI.GameDirs.Value = [.. GameDirectories];
-            }
-
-            if (AutoloadDirectoryChanged)
-            {
-                config.UI.AutoloadDirs.Value = [.. AutoloadDirectories];
-            }
-
-            config.UI.BaseStyle.Value = BaseStyleIndex switch
-            {
-                0 => "Auto",
-                1 => "Light",
-                2 => "Dark",
-                _ => "Auto"
-            };
-
-            if (!string.IsNullOrEmpty(GameId))
-            {
-                config.ToFileFormat().SaveConfig(Program.ConfigurationPath);
-            }
-            else
-            {
-                config.ToFileFormat().SaveConfig(Program.ConfigurationPath);
-            }
-        }
-
+     
         public void SaveSettings()
         {
             ConfigurationState config = ConfigurationState.Instance;
@@ -735,8 +701,7 @@ namespace Ryujinx.Ava.UI.ViewModels
             config.Hid.EnableMouse.Value = EnableMouse;
 
             // Keyboard Hotkeys
-            config.Hid.Hotkeys.Value = userConfigFile ? KeyboardHotkey.GetConfig() : config.Hid.Hotkeys.Value;
-
+            config.Hid.Hotkeys.Value = KeyboardHotkey.GetConfig();
 
             // System
             config.System.Region.Value = (Region)Region;
@@ -859,6 +824,7 @@ namespace Ryujinx.Ava.UI.ViewModels
             {
                 File.Delete(gameDir);
             }
+
             RevertIfNotSaved();
             CloseWindow?.Invoke();
         }
@@ -866,7 +832,7 @@ namespace Ryujinx.Ava.UI.ViewModels
         public void SaveUserConfig()
         {
             SaveSettings();
-            RevertIfNotSaved();
+            RevertIfNotSaved(); // Revert global configuration after saving user configuration
             CloseWindow?.Invoke();
         }
 

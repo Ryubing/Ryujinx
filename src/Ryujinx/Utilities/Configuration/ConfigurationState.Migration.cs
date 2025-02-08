@@ -145,7 +145,7 @@ namespace Ryujinx.Ava.Utilities.Configuration
 
             Hid.EnableKeyboard.Value = cff.EnableKeyboard;
             Hid.EnableMouse.Value = cff.EnableMouse;
-            Hid.Hotkeys.Value = LoadSetting ? cff.Hotkeys: Hid.Hotkeys.Value; // Get from global config only
+            Hid.Hotkeys.Value = LoadSetting ? cff.Hotkeys : Hid.Hotkeys.Value; // Get from global config only
             Hid.InputConfig.Value = cff.InputConfig ?? [];
             Hid.RainbowSpeed.Value = cff.RainbowSpeed;
 
