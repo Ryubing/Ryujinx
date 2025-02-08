@@ -112,8 +112,7 @@ namespace Ryujinx.Ava.Utilities.PlayReport
 
             if (values.Matched.ContainsKey("adv_slot"))
             {
-                return
-                    $"Playing Adventure Mode"; // Doing this as it can be a placeholder until we can grab the character.
+                return "Playing Adventure Mode"; // Doing this as it can be a placeholder until we can grab the character.
             }
 
             // Check if we have a match_mode at this point, if not, go to default.
@@ -266,10 +265,12 @@ namespace Ryujinx.Ava.Utilities.PlayReport
                 if (player.Key.StartsWith("player_") && player.Key.EndsWith("_fighter") &&
                     player.Value.BoxedValue is not null)
                 {
-                    int playerNumber = int.Parse(player.Key.Split('_')[1]);
+                    if (!int.TryParse(player.Key.Split('_')[1], out int playerNumber))
+                        continue;
+                        
                     string character = SuperSmashBrosUltimate_Character(player.Value);
                     int? rank = values.Matched.TryGetValue($"player_{playerNumber}_rank", out Value rankValue)
-                        ? (int)rankValue.BoxedValue
+                        ? rankValue.IntValue
                         : null;
 
                     players.Add((character, playerNumber, rank));
@@ -277,7 +278,12 @@ namespace Ryujinx.Ava.Utilities.PlayReport
             }
 
             players = players.OrderBy(p => p.Rank ?? int.MaxValue).ToList();
-
+            
+            return players.Count > 4
+                ? $"{players.Count} Players - " + string.Join(", ",
+                    players.Take(3).Select(p => $"{p.Character}({p.PlayerNumber}){RankMedal(p.Rank)}"))
+                : string.Join(", ", players.Select(p => $"{p.Character}({p.PlayerNumber}){RankMedal(p.Rank)}"));
+            
             string RankMedal(int? rank) => rank switch
             {
                 0 => "🥇",
@@ -285,11 +291,6 @@ namespace Ryujinx.Ava.Utilities.PlayReport
                 2 => "🥉",
                 _ => ""
             };
-
-            return players.Count > 4
-                ? $"{players.Count} Players - " + string.Join(", ",
-                    players.Take(3).Select(p => $"{p.Character}({p.PlayerNumber}){RankMedal(p.Rank)}"))
-                : string.Join(", ", players.Select(p => $"{p.Character}({p.PlayerNumber}){RankMedal(p.Rank)}"));
         }
     }
 }
