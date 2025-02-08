@@ -1,4 +1,7 @@
 ﻿using FluentAvalonia.Core;
+using MsgPack;
+using Ryujinx.Ava.Utilities.AppLibrary;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 
@@ -11,10 +14,11 @@ namespace Ryujinx.Ava.Utilities.PlayReport
     /// </summary>
     public class GameSpec
     {
+        private int _lastPriority;
+        
         public required string[] TitleIds { get; init; }
-        public List<FormatterSpec> SimpleValueFormatters { get; } = [];
-        public List<MultiFormatterSpec> MultiValueFormatters { get; } = [];
-        public List<SparseMultiFormatterSpec> SparseMultiValueFormatters { get; } = [];
+
+        public List<FormatterSpecBase> ValueFormatters { get; } = [];
 
 
         /// <summary>
@@ -24,8 +28,8 @@ namespace Ryujinx.Ava.Utilities.PlayReport
         /// <param name="reportKey">The key name to match.</param>
         /// <param name="valueFormatter">The function which can return a potential formatted value.</param>
         /// <returns>The current <see cref="GameSpec"/>, for chaining convenience.</returns>
-        public GameSpec AddValueFormatter(string reportKey, ValueFormatter valueFormatter)
-            => AddValueFormatter(SimpleValueFormatters.Count, reportKey, valueFormatter);
+        public GameSpec AddValueFormatter(string reportKey, SingleValueFormatter valueFormatter)
+            => AddValueFormatter(_lastPriority++, reportKey, valueFormatter);
 
         /// <summary>
         /// Add a value formatter at a specific priority to the current <see cref="GameSpec"/>
@@ -36,11 +40,11 @@ namespace Ryujinx.Ava.Utilities.PlayReport
         /// <param name="valueFormatter">The function which can return a potential formatted value.</param>
         /// <returns>The current <see cref="GameSpec"/>, for chaining convenience.</returns>
         public GameSpec AddValueFormatter(int priority, string reportKey,
-            ValueFormatter valueFormatter)
+            SingleValueFormatter valueFormatter)
         {
-            SimpleValueFormatters.Add(new FormatterSpec
+            ValueFormatters.Add(new FormatterSpec
             {
-                Priority = priority, ReportKey = reportKey, Formatter = valueFormatter
+                Priority = priority, ReportKeys = [reportKey], Formatter = valueFormatter
             });
             return this;
         }
@@ -53,7 +57,7 @@ namespace Ryujinx.Ava.Utilities.PlayReport
         /// <param name="valueFormatter">The function which can format the values.</param>
         /// <returns>The current <see cref="GameSpec"/>, for chaining convenience.</returns>
         public GameSpec AddMultiValueFormatter(string[] reportKeys, MultiValueFormatter valueFormatter)
-            => AddMultiValueFormatter(MultiValueFormatters.Count, reportKeys, valueFormatter);
+            => AddMultiValueFormatter(_lastPriority++, reportKeys, valueFormatter);
 
         /// <summary>
         /// Add a multi-value formatter at a specific priority to the current <see cref="GameSpec"/>
@@ -66,7 +70,7 @@ namespace Ryujinx.Ava.Utilities.PlayReport
         public GameSpec AddMultiValueFormatter(int priority, string[] reportKeys,
             MultiValueFormatter valueFormatter)
         {
-            MultiValueFormatters.Add(new MultiFormatterSpec
+            ValueFormatters.Add(new MultiFormatterSpec
             {
                 Priority = priority, ReportKeys = reportKeys, Formatter = valueFormatter
             });
@@ -84,7 +88,7 @@ namespace Ryujinx.Ava.Utilities.PlayReport
         /// <param name="valueFormatter">The function which can format the values.</param>
         /// <returns>The current <see cref="GameSpec"/>, for chaining convenience.</returns>
         public GameSpec AddSparseMultiValueFormatter(string[] reportKeys, SparseMultiValueFormatter valueFormatter)
-            => AddSparseMultiValueFormatter(SparseMultiValueFormatters.Count, reportKeys, valueFormatter);
+            => AddSparseMultiValueFormatter(_lastPriority++, reportKeys, valueFormatter);
 
         /// <summary>
         /// Add a multi-value formatter at a specific priority to the current <see cref="GameSpec"/>
@@ -100,7 +104,7 @@ namespace Ryujinx.Ava.Utilities.PlayReport
         public GameSpec AddSparseMultiValueFormatter(int priority, string[] reportKeys,
             SparseMultiValueFormatter valueFormatter)
         {
-            SparseMultiValueFormatters.Add(new SparseMultiFormatterSpec
+            ValueFormatters.Add(new SparseMultiFormatterSpec
             {
                 Priority = priority, ReportKeys = reportKeys, Formatter = valueFormatter
             });
@@ -111,30 +115,101 @@ namespace Ryujinx.Ava.Utilities.PlayReport
     /// <summary>
     /// A struct containing the data for a mapping of a key in a Play Report to a formatter for its potential value.
     /// </summary>
-    public struct FormatterSpec
+    public class FormatterSpec : FormatterSpecBase
     {
-        public required int Priority { get; init; }
-        public required string ReportKey { get; init; }
-        public ValueFormatter Formatter { get; init; }
+        public override bool GetData(Horizon.Prepo.Types.PlayReport playReport, out object result)
+        {
+            if (!playReport.ReportData.AsDictionary().TryGetValue(ReportKeys[0], out MessagePackObject valuePackObject))
+            {
+                result = null;
+                return false;
+            }
+
+            result = valuePackObject;
+            return true;
+        }
     }
 
     /// <summary>
     /// A struct containing the data for a mapping of an arbitrary key set in a Play Report to a formatter for their potential values.
     /// </summary>
-    public struct MultiFormatterSpec
+    public class MultiFormatterSpec : FormatterSpecBase
     {
-        public required int Priority { get; init; }
-        public required string[] ReportKeys { get; init; }
-        public MultiValueFormatter Formatter { get; init; }
+        public override bool GetData(Horizon.Prepo.Types.PlayReport playReport, out object result)
+        {
+            List<MessagePackObject> packedObjects = [];
+            foreach (var reportKey in ReportKeys)
+            {
+                if (!playReport.ReportData.AsDictionary().TryGetValue(reportKey, out MessagePackObject valuePackObject))
+                {
+                    result = null;
+                    return false;
+                }
+
+                packedObjects.Add(valuePackObject);
+            }
+
+            result = packedObjects;
+            return true;
+        }
     }
 
     /// <summary>
     /// A struct containing the data for a mapping of an arbitrary key set in a Play Report to a formatter for their sparsely populated potential values.
     /// </summary>
-    public struct SparseMultiFormatterSpec
+    public class SparseMultiFormatterSpec : FormatterSpecBase
     {
-        public required int Priority { get; init; }
-        public required string[] ReportKeys { get; init; }
-        public SparseMultiValueFormatter Formatter { get; init; }
+        public override bool GetData(Horizon.Prepo.Types.PlayReport playReport, out object result)
+        {
+            Dictionary<string, MessagePackObject> packedObjects = [];
+            foreach (var reportKey in ReportKeys)
+            {
+                if (!playReport.ReportData.AsDictionary().TryGetValue(reportKey, out MessagePackObject valuePackObject))
+                    continue;
+
+                packedObjects.Add(reportKey, valuePackObject);
+            }
+
+            result = packedObjects;
+            return true;
+        }
+    }
+    
+    public abstract class FormatterSpecBase
+    {
+        public abstract bool GetData(Horizon.Prepo.Types.PlayReport playReport, out object data);
+        
+        public int Priority { get; init; }
+        public string[] ReportKeys { get; init; }
+        public Delegate Formatter { get; init; }
+
+        public bool Format(ApplicationMetadata appMeta, Horizon.Prepo.Types.PlayReport playReport, out FormattedValue formattedValue)
+        {
+            formattedValue = default;
+            if (!GetData(playReport, out object data))
+                return false;
+
+            if (data is FormattedValue fv)
+            {
+                formattedValue = fv;
+                return true;
+            }
+
+            switch (Formatter)
+            {
+                case SingleValueFormatter svf when data is MessagePackObject mpo:
+                    formattedValue = svf(new SingleValue(mpo) { Application = appMeta, PlayReport = playReport });
+                    return true;
+                case MultiValueFormatter mvf when data is List<MessagePackObject> messagePackObjects:
+                    formattedValue = mvf(new MultiValue(messagePackObjects) { Application = appMeta, PlayReport = playReport });
+                    return true;
+                case SparseMultiValueFormatter smvf when
+                    data is Dictionary<string, MessagePackObject> sparseMessagePackObjects:
+                    formattedValue = smvf(new SparseMultiValue(sparseMessagePackObjects) { Application = appMeta, PlayReport = playReport });
+                    return true;
+                default:
+                    throw new InvalidOperationException("Formatter delegate is not of a known type!");
+            }
+        }
     }
 }

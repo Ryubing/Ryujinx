@@ -10,7 +10,7 @@
     /// <br/>
     /// OR a signal to reset the value that the caller is using the <see cref="Analyzer"/> for. 
     /// </summary>
-    public delegate FormattedValue ValueFormatter(SingleValue value);
+    public delegate FormattedValue SingleValueFormatter(SingleValue value);
 
     /// <summary>
     /// The delegate type that powers multiple value formatters.<br/>

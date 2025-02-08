@@ -1,5 +1,4 @@
 ﻿using MsgPack;
-using Ryujinx.Ava.Utilities.AppLibrary;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -7,8 +6,7 @@ using System.Linq;
 namespace Ryujinx.Ava.Utilities.PlayReport
 {
     /// <summary>
-    /// The input data to a <see cref="ValueFormatter"/>,
-    /// containing the currently running application's <see cref="ApplicationMetadata"/>,
+    /// The base input data to a ValueFormatter delegate,
     /// and the matched <see cref="MessagePackObject"/> from the Play Report.
     /// </summary>
     public readonly struct Value
@@ -70,7 +68,7 @@ namespace Ryujinx.Ava.Utilities.PlayReport
     }
 
     /// <summary>
-    /// A potential formatted value returned by a <see cref="ValueFormatter"/>.
+    /// A potential formatted value returned by a ValueFormatter delegate.
     /// </summary>
     public readonly struct FormattedValue
     {
@@ -116,28 +114,47 @@ namespace Ryujinx.Ava.Utilities.PlayReport
         /// <summary>
         /// Return this to tell the caller there is no value to return.
         /// </summary>
-        public static FormattedValue Unhandled => default;
+        public static readonly FormattedValue Unhandled = default;
 
         /// <summary>
         /// Return this to suggest the caller reset the value it's using the <see cref="Analyzer"/> for.
         /// </summary>
-        public static FormattedValue ForceReset => new() { Handled = true, Reset = true };
+        public static readonly FormattedValue ForceReset = new() { Handled = true, Reset = true };
 
         /// <summary>
-        /// A delegate singleton you can use to always return <see cref="ForceReset"/> in a <see cref="ValueFormatter"/>.
+        /// A delegate singleton you can use to always return <see cref="ForceReset"/> in a <see cref="SingleValueFormatter"/>.
         /// </summary>
-        public static readonly ValueFormatter SingleAlwaysResets = _ => ForceReset;
+        public static readonly SingleValueFormatter SingleAlwaysResets = _ => ForceReset;
 
         /// <summary>
         /// A delegate singleton you can use to always return <see cref="ForceReset"/> in a <see cref="MultiValueFormatter"/>.
         /// </summary>
         public static readonly MultiValueFormatter MultiAlwaysResets = _ => ForceReset;
+        
+        /// <summary>
+        /// A delegate singleton you can use to always return <see cref="ForceReset"/> in a <see cref="SparseMultiValueFormatter"/>.
+        /// </summary>
+        public static readonly SparseMultiValueFormatter SparseMultiAlwaysResets = _ => ForceReset;
 
         /// <summary>
         /// A delegate factory you can use to always return the specified
-        /// <paramref name="formattedValue"/> in a <see cref="ValueFormatter"/>.
+        /// <paramref name="formattedValue"/> in a <see cref="SingleValueFormatter"/>.
         /// </summary>
         /// <param name="formattedValue">The string to always return for this delegate instance.</param>
-        public static ValueFormatter AlwaysReturns(string formattedValue) => _ => formattedValue;
+        public static SingleValueFormatter SingleAlwaysReturns(string formattedValue) => _ => formattedValue;
+        
+        /// <summary>
+        /// A delegate factory you can use to always return the specified
+        /// <paramref name="formattedValue"/> in a <see cref="MultiValueFormatter"/>.
+        /// </summary>
+        /// <param name="formattedValue">The string to always return for this delegate instance.</param>
+        public static MultiValueFormatter MultiAlwaysReturns(string formattedValue) => _ => formattedValue;
+        
+        /// <summary>
+        /// A delegate factory you can use to always return the specified
+        /// <paramref name="formattedValue"/> in a <see cref="SparseMultiValueFormatter"/>.
+        /// </summary>
+        /// <param name="formattedValue">The string to always return for this delegate instance.</param>
+        public static SparseMultiValueFormatter SparseMultiAlwaysReturns(string formattedValue) => _ => formattedValue;
     }
 }
