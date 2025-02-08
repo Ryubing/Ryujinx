@@ -28,7 +28,7 @@
                             Height="28"
                             HorizontalAlignment="Right"
                             Content="Addy" />
-                        <Button 
+                        <Button
                             Name="btnRem"
                             HorizontalAlignment="Right"
                             Content="Add" 
@@ -44,7 +44,6 @@
                 </Grid>
                 <ui:NumberBox Value="1" />
                 <MenuItem
-                    IconSource="Settings"
                     Header="123 0000"
                     ToolTip.Tip="What this"/>
             </StackPanel>

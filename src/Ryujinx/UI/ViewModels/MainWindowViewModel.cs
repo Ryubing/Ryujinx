@@ -7,6 +7,7 @@ using Avalonia.Media.Imaging;
 using Avalonia.Platform.Storage;
 using Avalonia.Threading;
 using CommunityToolkit.Mvvm.ComponentModel;
+using DiscordRPC;
 using DynamicData;
 using DynamicData.Binding;
 using FluentAvalonia.UI.Controls;
@@ -1540,15 +1541,14 @@ namespace Ryujinx.Ava.UI.ViewModels
 #if RELEASE
             await PerformanceCheck();
 #endif
-            // If a configuration is found in the "/games/xxxxxxxxxxxxxx" folder, the program will load the user setting.
-            string gameDir = Program.GetDirGameUserConfig(application.IdBaseString, true, true);
 
-            if (ConfigurationFileFormat.TryLoad(gameDir, out ConfigurationFileFormat configurationFileFormat))
+            // If a configuration is found in the "/games/xxxxxxxxxxxxxx" folder, the program will load the user setting. 
+            if (ConfigurationFileFormat.TryLoad(Program.GetDirGameUserConfig(application.IdBaseString), out ConfigurationFileFormat configurationFileFormat))
             {
-                //Program.GetDirGameUserConfig(application.IdBaseString, false);
-                ConfigurationState.Instance.Load(configurationFileFormat, gameDir, application.IdBaseString);
+                // Loads the user configuration, having previously changed the global configuration to the user configuration
+                ConfigurationState.Instance.Load(configurationFileFormat, Program.GetDirGameUserConfig(application.IdBaseString, true, true), application.IdBaseString);
             }
-
+         
             Logger.RestartTime();
 
             SelectedIcon ??= ApplicationLibrary.GetApplicationIcon(application.Path, ConfigurationState.Instance.System.Language, application.Id);

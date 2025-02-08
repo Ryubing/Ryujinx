@@ -4,7 +4,6 @@ using Avalonia.Media.Imaging;
 using Avalonia.Threading;
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
-using Humanizer;
 using LibHac.Tools.FsSystem;
 using Ryujinx.Audio.Backends.OpenAL;
 using Ryujinx.Audio.Backends.SDL2;
@@ -70,11 +69,8 @@ namespace Ryujinx.Ava.UI.ViewModels
         [ObservableProperty] private string _ldnServer;
 
         public SettingsHacksViewModel DirtyHacks { get; }
-        public string GamePath { get; }
-        public string GameName { get; }
 
         private Bitmap _gameIcon;
-
         private string _gameTitle;
         private string _gameId;
         public Bitmap GameIcon
@@ -375,7 +371,7 @@ namespace Ryujinx.Ava.UI.ViewModels
 
         public bool IsInvalidLdnPassphraseVisible { get; set; }
 
-        public SettingsViewModel(VirtualFileSystem virtualFileSystem, ContentManager contentManager) : this()
+        public SettingsViewModel(VirtualFileSystem virtualFileSystem, ContentManager contentManager) : this(false)
         {
             _virtualFileSystem = virtualFileSystem;
             _contentManager = contentManager;
@@ -388,7 +384,7 @@ namespace Ryujinx.Ava.UI.ViewModels
             }
         }
 
-        public SettingsViewModel(VirtualFileSystem virtualFileSystem, ContentManager contentManager, string gamePath, string gameName, string gameId, byte[] gameIconData) : this()
+        public SettingsViewModel(VirtualFileSystem virtualFileSystem, ContentManager contentManager, string gamePath, string gameName, string gameId, byte[] gameIconData, bool userDirFind) : this(userDirFind)
         {
             _virtualFileSystem = virtualFileSystem;
             _contentManager = contentManager;
@@ -404,11 +400,14 @@ namespace Ryujinx.Ava.UI.ViewModels
             GameTitle = gameName;
             GameId = gameId;
 
-            string gameDir = Program.GetDirGameUserConfig(gameId,false,true);
-            if (ConfigurationFileFormat.TryLoad(gameDir, out ConfigurationFileFormat configurationFileFormat))
+            if (userDirFind)
             {
-                ConfigurationState.Instance.Load(configurationFileFormat, gameDir, gameId);
-                LoadCurrentConfiguration(); // Needed to load custom configuration
+                string gameDir = Program.GetDirGameUserConfig(gameId, false, true);
+                if (ConfigurationFileFormat.TryLoad(gameDir, out ConfigurationFileFormat configurationFileFormat))
+                {
+                    ConfigurationState.Instance.Load(configurationFileFormat, gameDir, gameId);
+                    LoadCurrentConfiguration(); // Needed to load custom configuration
+                }
             }
 
             if (Program.PreviewerDetached)
@@ -419,7 +418,7 @@ namespace Ryujinx.Ava.UI.ViewModels
             }
         }
 
-        public SettingsViewModel()
+        public SettingsViewModel(bool noLoadGlobalConfig = false)
         {
             GameDirectories = [];
             AutoloadDirectories = [];
@@ -434,7 +433,11 @@ namespace Ryujinx.Ava.UI.ViewModels
             if (Program.PreviewerDetached)
             {
                 Task.Run(LoadAvailableGpus);
-                LoadCurrentConfiguration();
+
+                if (!noLoadGlobalConfig)
+                {
+                    LoadCurrentConfiguration();
+                }
 
                 DirtyHacks = new SettingsHacksViewModel(this);
             }
@@ -545,7 +548,8 @@ namespace Ryujinx.Ava.UI.ViewModels
         {
             ConfigurationState config = ConfigurationState.Instance;
 
-            if (string.IsNullOrEmpty(GameId))
+            //It is necessary that the data is used from the global configuration file
+            if (string.IsNullOrEmpty(GameId)) 
             {
                 // User Interface
                 EnableDiscordIntegration = config.EnableDiscordIntegration;
@@ -568,6 +572,7 @@ namespace Ryujinx.Ava.UI.ViewModels
                     "Dark" => 2,
                     _ => 0
                 };
+
             }
 
             // Input

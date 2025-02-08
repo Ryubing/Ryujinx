@@ -469,6 +469,8 @@ namespace Ryujinx.Ava
 
             _viewModel.IsGameRunning = true;
 
+           
+
             Dispatcher.UIThread.InvokeAsync(() =>
             {
                 _viewModel.Title = TitleHelper.ActiveApplicationTitle(Device.Processes.ActiveApplication, Program.Version, !ConfigurationState.Instance.ShowTitleBar);
@@ -582,8 +584,8 @@ namespace Ryujinx.Ava
             Rainbow.Disable();
             Rainbow.Reset();
 
-            //Reload settings when the game is turned off
-            //(resets custom settings if there were any)
+            // Reload settings when the game is turned off
+            // (resets custom settings if there were any)
             Program.ReloadConfig();
 
             _isStopped = true;

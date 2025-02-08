@@ -43,19 +43,6 @@ namespace Ryujinx.Ava.UI.Controls
             await CompatibilityList.Show((string)playabilityLabel.Tag);
         }
 
-        public async void EditGameConfiguration_Click(object sender, RoutedEventArgs args)
-        {
-            if (sender is MenuItem { DataContext: MainWindowViewModel { SelectedApplication: not null } viewModel })
-            {
-                await new UserConfigWindows(viewModel).ShowDialog((Window)viewModel.TopLevel);
-
-                //viewModel.SelectedApplication.UserConfig = File.Exists(Program.GetDirGameUserConfig(viewModel.SelectedApplication.IdString));
-
-                viewModel.RefreshView();
-            }
-
-        }
-
         private async void IdString_OnClick(object sender, RoutedEventArgs e)
         {
             if (DataContext is not MainWindowViewModel mwvm)

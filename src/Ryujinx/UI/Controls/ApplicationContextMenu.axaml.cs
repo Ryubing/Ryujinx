@@ -37,21 +37,6 @@ namespace Ryujinx.Ava.UI.Controls
             AvaloniaXamlLoader.Load(this);
         }
 
-        public void ToggleUserControl_Click(object sender, RoutedEventArgs args)
-        {
-            if (sender is not MenuItem { DataContext: MainWindowViewModel { SelectedApplication: not null } viewModel })
-                return;
-
-            viewModel.SelectedApplication.Favorite = !viewModel.SelectedApplication.Favorite;
-
-            ApplicationLibrary.LoadAndSaveMetaData(viewModel.SelectedApplication.IdString, appMetadata =>
-            {
-                appMetadata.Favorite = viewModel.SelectedApplication.Favorite;
-            });
-
-            viewModel.RefreshView();
-        }
-
         public void ToggleFavorite_Click(object sender, RoutedEventArgs args)
         {
             if (sender is not MenuItem { DataContext: MainWindowViewModel { SelectedApplication: not null } viewModel })

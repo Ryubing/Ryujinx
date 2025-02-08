@@ -28,7 +28,7 @@ namespace Ryujinx.Ava.UI.Windows
     {
         internal readonly SettingsViewModel ViewModel;
 
-        public UserConfigWindows(MainWindowViewModel viewModel)
+        public UserConfigWindows(MainWindowViewModel viewModel, bool findUserConfigDir = true)
         {
             Title = string.Format(LocaleManager.Instance[LocaleKeys.SettingsWithInfo], viewModel.SelectedApplication.Name, viewModel.SelectedApplication.IdString);
 
@@ -38,7 +38,8 @@ namespace Ryujinx.Ava.UI.Windows
                 viewModel.SelectedApplication.Path,
                 viewModel.SelectedApplication.Name,
                 viewModel.SelectedApplication.IdString,
-                viewModel.SelectedApplication.Icon);
+                viewModel.SelectedApplication.Icon,
+                findUserConfigDir);
 
             ViewModel.CloseWindow += Close;
             ViewModel.SaveSettingsEvent += SaveSettings;

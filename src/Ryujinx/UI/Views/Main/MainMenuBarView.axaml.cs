@@ -134,9 +134,25 @@ namespace Ryujinx.Ava.UI.Views.Main
             Window.SettingsWindow = new(Window.VirtualFileSystem, Window.ContentManager);
 
             Rainbow.Enable();
-            
-            await Window.SettingsWindow.ShowDialog(Window);
-            
+
+            if (ViewModel.SelectedApplication is null)
+            {
+                await Window.SettingsWindow.ShowDialog(Window);
+            }
+            else
+            { 
+                bool userConfigExist = Program.FindGameConfig(Program.GetDirGameUserConfig(ViewModel.SelectedApplication.IdString, false, false));
+
+                if (!ViewModel.IsGameRunning || !userConfigExist)
+                {
+                    await Window.SettingsWindow.ShowDialog(Window);
+                }
+                else
+                {
+                    await new UserConfigWindows(ViewModel, userConfigExist).ShowDialog((Window)ViewModel.TopLevel);
+                }
+            }
+
             Rainbow.Disable();
             Rainbow.Reset();
 
