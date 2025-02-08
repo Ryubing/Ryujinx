@@ -10,6 +10,7 @@ using Ryujinx.Common.Logging;
 using Ryujinx.HLE;
 using Ryujinx.HLE.Loaders.Processes;
 using Ryujinx.Horizon;
+using System.Linq;
 using System.Text;
 
 namespace Ryujinx.Ava
@@ -36,6 +37,9 @@ namespace Ryujinx.Ava
         private static RichPresence _discordPresenceMain;
         private static RichPresence _discordPresencePlaying;
         private static ApplicationMetadata _currentApp;
+
+        public static bool HasAssetImage(string titleId) => TitleIDs.DiscordGameAssetKeys.ContainsIgnoreCase(titleId);
+        public static bool HasAnalyzer(string titleId) => PlayReports.Analyzer.TitleIds.ContainsIgnoreCase(titleId);
 
         public static void Initialize()
         {

@@ -3,6 +3,7 @@ using MsgPack;
 using Ryujinx.Ava.Utilities.AppLibrary;
 using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Globalization;
 using System.Linq;
 
@@ -14,6 +15,10 @@ namespace Ryujinx.Ava.Utilities.PlayReport
     public class Analyzer
     {
         private readonly List<GameSpec> _specs = [];
+
+        public string[] TitleIds => Specs.SelectMany(x => x.TitleIds).ToArray();
+
+        public IReadOnlyList<GameSpec> Specs => new ReadOnlyCollection<GameSpec>(_specs);
 
         /// <summary>
         /// Add an analysis spec matching a specific game by title ID, with the provided spec configuration.
