@@ -7,7 +7,7 @@ namespace Ryujinx.Ava.Utilities.PlayReport
 {
     public abstract class MatchedValue<T>
     {
-        public MatchedValue(T matched)
+        protected MatchedValue(T matched)
         {
             Matched = matched;
         }
@@ -29,7 +29,7 @@ namespace Ryujinx.Ava.Utilities.PlayReport
     }
     
     /// <summary>
-    /// The input data to a <see cref="ValueFormatter"/>,
+    /// The input data to a <see cref="SingleValueFormatter"/>,
     /// containing the currently running application's <see cref="ApplicationMetadata"/>,
     /// and the matched <see cref="MessagePackObject"/> from the Play Report.
     /// </summary>
@@ -38,8 +38,6 @@ namespace Ryujinx.Ava.Utilities.PlayReport
         public SingleValue(Value matched) : base(matched)
         {
         }
-
-        public static implicit operator SingleValue(MessagePackObject mpo) => new(mpo);
     }
 
     /// <summary>
@@ -56,9 +54,6 @@ namespace Ryujinx.Ava.Utilities.PlayReport
         public MultiValue(IEnumerable<MessagePackObject> matched) : base(Value.ConvertPackedObjects(matched))
         {
         }
-
-        public static implicit operator MultiValue(List<MessagePackObject> matched)
-            => new(matched.Select(x => new Value(x)).ToArray());
     }
 
     /// <summary>
@@ -75,13 +70,5 @@ namespace Ryujinx.Ava.Utilities.PlayReport
         public SparseMultiValue(Dictionary<string, MessagePackObject> matched) : base(Value.ConvertPackedObjectMap(matched))
         {
         }
-
-        public static implicit operator SparseMultiValue(Dictionary<string, MessagePackObject> matched)
-            => new(matched
-                .ToDictionary(
-                    x => x.Key,
-                    x => new Value(x.Value)
-                )
-            );
     }
 }
