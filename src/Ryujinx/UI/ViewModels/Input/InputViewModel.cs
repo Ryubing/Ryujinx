@@ -245,6 +245,8 @@ namespace Ryujinx.Ava.UI.ViewModels.Input
                 _mainWindow.InputManager.GamepadDriver.OnGamepadConnected += HandleOnGamepadConnected;
                 _mainWindow.InputManager.GamepadDriver.OnGamepadDisconnected += HandleOnGamepadDisconnected;
 
+                _mainWindow.AutoAssignController.ConfigurationUpdated += OnConfigurationUpdated;
+
                 _mainWindow.ViewModel.AppHost?.NpadManager.BlockInputUpdates();
 
                 _isLoaded = false;
@@ -358,16 +360,25 @@ namespace Ryujinx.Ava.UI.ViewModels.Input
 
         private void HandleOnGamepadDisconnected(string id)
         {
+            if(ConfigurationState.Instance.Hid.EnableAutoAssign) return;
             Dispatcher.UIThread.Post(LoadDevices);
         }
 
         private void HandleOnGamepadConnected(string id)
         {
-            Dispatcher.UIThread.Post(() =>
-            {
+            if(ConfigurationState.Instance.Hid.EnableAutoAssign) return;
+            Dispatcher.UIThread.Post(LoadDevices);
+        }
+
+        private void OnConfigurationUpdated()
+        {
+            Dispatcher.UIThread.Post(() => {
                 LoadDevices();
+                _isLoaded = false;
+                LoadConfiguration(); 
                 LoadDevice();
-                LoadConfiguration();
+                _isLoaded = true;
+                NotifyChanges();
             });
         }
 
@@ -888,6 +899,7 @@ namespace Ryujinx.Ava.UI.ViewModels.Input
 
             _mainWindow.InputManager.GamepadDriver.OnGamepadConnected -= HandleOnGamepadConnected;
             _mainWindow.InputManager.GamepadDriver.OnGamepadDisconnected -= HandleOnGamepadDisconnected;
+            _mainWindow.AutoAssignController.ConfigurationUpdated -= OnConfigurationUpdated;
 
             _mainWindow.ViewModel.AppHost?.NpadManager.UnblockInputUpdates();
 

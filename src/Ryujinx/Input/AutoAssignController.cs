@@ -8,6 +8,7 @@ using ConfigStickInputId = Ryujinx.Common.Configuration.Hid.Controller.StickInpu
 using Ryujinx.Common.Logging;
 using Ryujinx.Input;
 using Ryujinx.Input.HLE;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 
@@ -31,6 +32,8 @@ namespace Ryujinx.Ava.Input
         private readonly InputManager _inputManager;
         private readonly MainWindowViewModel _viewModel;
         private readonly ConfigurationState _configurationState;
+
+        public event Action ConfigurationUpdated;
         
         public AutoAssignController(InputManager inputManager, MainWindowViewModel mainWindowViewModel)
         {
@@ -43,39 +46,6 @@ namespace Ryujinx.Ava.Input
             RefreshControllers();
         }
 
-        public void RefreshControllers()
-        {
-            if (!_configurationState.Hid.EnableAutoAssign) return;
-            //if (controllers.Count == 0) return;
-            
-            // Get every controller config and update the configuration state
-
-            List<IGamepad> controllers = _inputManager.GamepadDriver.GetGamepads().ToList();
-            List<InputConfig> oldConfig = _configurationState.Hid.InputConfig.Value.Where(x => x != null).ToList();
-            (List<InputConfig> newConfig,  bool hasNewControllersConnected) = GetOrderedConfig(controllers, oldConfig);
-            
-            int index = 0;
-            foreach (var config in newConfig)
-            {
-                config.PlayerIndex = (PlayerIndex)index;
-                if (config is StandardControllerInputConfig standardConfig)
-                {
-                    Logger.Warning?.Print(LogClass.Application, $"Setting color for player {index+1}");
-                    standardConfig.Led.LedColor = _playerColors[index];
-                }
-                index++;
-            }
-            
-            _viewModel.AppHost?.NpadManager.ReloadConfiguration(newConfig, _configurationState.Hid.EnableKeyboard, _configurationState.Hid.EnableMouse);
-            
-            // update the configuration state only if there are more controllers than before
-            if(hasNewControllersConnected)
-            {
-                _configurationState.Hid.InputConfig.Value = newConfig;
-                ConfigurationState.Instance.ToFileFormat().SaveConfig(Program.ConfigurationPath);
-            }
-        }
-        
         private void HandleOnGamepadConnected(string id)
         {
             Logger.Warning?.Print(LogClass.Application, $"Gamepad connected: {id}");
@@ -88,50 +58,85 @@ namespace Ryujinx.Ava.Input
             RefreshControllers();
         }
 
-        private (List<InputConfig>, bool) GetOrderedConfig(List<IGamepad> controllers, List<InputConfig> oldConfig)
+        public void RefreshControllers()
         {
-            Dictionary<int, InputConfig> playerIndexMap = new();
-            int existingControllers = 0;
-
-            // Convert oldConfig into a dictionary for quick lookup by controller Id
-            Dictionary<string, InputConfig> oldConfigMap = oldConfig.ToDictionary(x => x.Id, x => x);
-
-            foreach (var controller in controllers)
+            if (!_configurationState.Hid.EnableAutoAssign) return;
+            
+            // Get every controller config and update the configuration state
+            List<IGamepad> controllers = _inputManager.GamepadDriver.GetGamepads().ToList();
+            List<InputConfig> oldConfig = _configurationState.Hid.InputConfig.Value.Where(x => x != null).ToList();
+            (List<InputConfig> newConfig,  bool hasNewControllersConnected) = GetOrderedConfig(controllers, oldConfig);
+            
+            _viewModel.AppHost?.NpadManager.ReloadConfiguration(newConfig, _configurationState.Hid.EnableKeyboard, _configurationState.Hid.EnableMouse);
+            
+            // update the configuration state only if there are new controllers connected
+            if(hasNewControllersConnected)
             {
-                if (controller == null) continue;
+                _configurationState.Hid.InputConfig.Value = newConfig;
+                ConfigurationState.Instance.ToFileFormat().SaveConfig(Program.ConfigurationPath);
+            }
+            ConfigurationUpdated?.Invoke();
+        }
 
-                // If the controller already has a config in oldConfig, use it
+        private (List<InputConfig>, bool) GetOrderedConfig(List<IGamepad> controllers, List<InputConfig> oldConfig)
+        { 
+            Dictionary<string, InputConfig> oldConfigMap = oldConfig.Where(c => c?.Id != null).ToDictionary(x => x.Id);
+            Dictionary<int, InputConfig> playerIndexMap = new();
+            HashSet<int> usedIndices = new();
+            int recognizedControllersCount = 0;
+
+            // Assign controllers that have an old config
+            List<IGamepad> remainingControllers = controllers.Where(c => c?.Id != null).ToList();
+            foreach (var controller in remainingControllers.ToList())
+            {
                 if (oldConfigMap.TryGetValue(controller.Id, out InputConfig existingConfig))
                 {
-                    // Use the existing PlayerIndex from oldConfig and add it to the map
-                    playerIndexMap[(int)existingConfig.PlayerIndex] = existingConfig;
-
-                    existingControllers++;
-                }
-                else
-                {
-                    // Find the first available PlayerIndex (0 to MaxControllers)
-                    for (int i = 0; i < MaxControllers-1; i++)
+                    int desiredIndex = (int)existingConfig.PlayerIndex;
+                    // Check if the desired index is valid and available
+                    if (desiredIndex < 0 || desiredIndex >= MaxControllers || usedIndices.Contains(desiredIndex))
                     {
-                        if (!playerIndexMap.ContainsKey(i)) // Check if the PlayerIndex is available
-                        {
-                            // Create a new InputConfig and assign PlayerIndex
-                            InputConfig newConfig = CreateConfigFromController(controller);
-                            newConfig.PlayerIndex = (PlayerIndex)i;
-
-                            // Add the new config to the map with the available PlayerIndex
-                            playerIndexMap[i] = newConfig;
-                            break;
-                        }
+                        // Find the first available index
+                        desiredIndex = Enumerable.Range(0, MaxControllers).First(i => !usedIndices.Contains(i));
                     }
+                    existingConfig.PlayerIndex = (PlayerIndex)desiredIndex;
+                    usedIndices.Add(desiredIndex);
+                    playerIndexMap[desiredIndex] = existingConfig;
+                    recognizedControllersCount++;
+                    
+                    remainingControllers.Remove(controller);
                 }
             }
 
-            // Return the sorted list of InputConfigs, ordered by PlayerIndex, and a bool indicating if new controllers were connected
-            return (playerIndexMap.OrderBy(x => x.Key).Select(x => x.Value).ToList(), controllers.Count > existingControllers);
+            // Assign remaining (new) controllers
+            foreach (var controller in remainingControllers.OrderBy(c => c.Id))
+            {
+                InputConfig config = CreateConfigFromController(controller);
+                int freeIndex = Enumerable.Range(0, MaxControllers).First(i => !usedIndices.Contains(i));
+                config.PlayerIndex = (PlayerIndex)freeIndex;
+                usedIndices.Add(freeIndex);
+                playerIndexMap[freeIndex] = config;
+            }
+
+            List<InputConfig> orderedConfigs = playerIndexMap.OrderBy(x => x.Key).Select(x => x.Value).ToList();
+
+            // Sequential reassignment of PlayerIndex and LED colors
+            int index = 0;
+            foreach (var config in orderedConfigs)
+            {
+                config.PlayerIndex = (PlayerIndex)index;
+                if (config is StandardControllerInputConfig standardConfig)
+                {
+                    Logger.Warning?.Print(LogClass.Application, $"Setting color for Player{index+1}");
+                    standardConfig.Led.LedColor = _playerColors[index];
+                }
+                index++;
+            }
+
+            bool hasNewControllersConnected = (controllers.Count > recognizedControllersCount);
+            return (orderedConfigs, hasNewControllersConnected);
         }
-        
-        private InputConfig CreateConfigFromController(IGamepad controller)
+
+        private static InputConfig CreateConfigFromController(IGamepad controller)
         {
             if (controller == null) return null;
             
@@ -158,7 +163,7 @@ namespace Ryujinx.Ava.Input
             }
             else
             {
-                // if it's not a nintendo controller, we assume it's a pro controller or a joycon pair
+                // if it's not a nintendo controller, we assume it's a pro controller or a joy-con pair
                 controllerType = ControllerType.ProController;
             }
             
