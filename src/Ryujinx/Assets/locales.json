@@ -187,7 +187,7 @@
         "ko_KR": "소프트웨어",
         "no_NO": "Programvare",
         "pl_PL": "Oprogramowanie",
-        "pt_BR": "Software",
+        "pt_BR": "",
         "ru_RU": "Программное обеспечение",
         "sv_SE": "Programvara",
         "th_TH": "ซอฟต์แวร์",
@@ -13023,7 +13023,7 @@
       }
     },
     {
-      "ID": "DialogSoftwareKeyboardErrorExceptionMessage",
+      "ID": "DialogKeyboardErrorExceptionMessage",
       "Translations": {
         "ar_SA": "خطأ في عرض لوحة مفاتيح البرامج: {0}",
         "de_DE": "Fehler bei der Anzeige der Software-Tastatur: {0}",
