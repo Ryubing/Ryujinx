@@ -13023,7 +13023,7 @@
       }
     },
     {
-      "ID": "DialogKeyboardErrorExceptionMessage",
+      "ID": "DialogSoftwareKeyboardErrorExceptionMessage",
       "Translations": {
         "ar_SA": "خطأ في عرض لوحة مفاتيح البرامج: {0}",
         "de_DE": "Fehler bei der Anzeige der Software-Tastatur: {0}",
