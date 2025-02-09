@@ -370,7 +370,7 @@ namespace Ryujinx.Headless
 
             DisplaySleep.Prevent();
 
-            _window.Initialize(_emulationContext, _inputConfiguration, _enableKeyboard, _enableMouse);
+            _window.Initialize(_emulationContext, _inputConfiguration, _enableKeyboard, _enableMouse, _enableAutoAssign);
 
             _window.Execute();
 

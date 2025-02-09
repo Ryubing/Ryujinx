@@ -43,6 +43,8 @@ namespace Ryujinx.Input.HLE
         private bool _enableMouse;
         private Switch _device;
 
+        public bool AutoAssignEnabled { get; set; } = false;
+
         public NpadManager(IGamepadDriver keyboardDriver, IGamepadDriver gamepadDriver, IGamepadDriver mouseDriver)
         {
             _controllers = new NpadController[MaxControllers];
@@ -53,7 +55,7 @@ namespace Ryujinx.Input.HLE
             _mouseDriver = mouseDriver;
             _inputConfig = new List<InputConfig>();
 
-            //_gamepadDriver.OnGamepadConnected += HandleOnGamepadConnected;
+            _gamepadDriver.OnGamepadConnected += HandleOnGamepadConnected;
             _gamepadDriver.OnGamepadDisconnected += HandleOnGamepadDisconnected;
         }
 
@@ -89,12 +91,14 @@ namespace Ryujinx.Input.HLE
                     }
                 }
 
-                //ReloadConfiguration(_inputConfig, _enableKeyboard, _enableMouse);
+                if (AutoAssignEnabled) return;
+                ReloadConfiguration(_inputConfig, _enableKeyboard, _enableMouse);
             }
         }
 
         private void HandleOnGamepadConnected(string id)
         {
+            if (AutoAssignEnabled) return;
             // Force input reload
             ReloadConfiguration(_inputConfig, _enableKeyboard, _enableMouse);
         }
@@ -198,10 +202,12 @@ namespace Ryujinx.Input.HLE
             }
         }
 
-        public void Initialize(Switch device, List<InputConfig> inputConfig, bool enableKeyboard, bool enableMouse)
+        public void Initialize(Switch device, List<InputConfig> inputConfig, bool enableKeyboard, bool enableMouse, bool enableAutoAssign)
         {
             _device = device;
             _device.Configuration.RefreshInputConfig = RefreshInputConfigForHLE;
+
+            AutoAssignEnabled = enableAutoAssign;
 
             ReloadConfiguration(inputConfig, enableKeyboard, enableMouse);
         }

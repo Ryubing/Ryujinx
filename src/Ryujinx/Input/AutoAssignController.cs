@@ -127,7 +127,7 @@ namespace Ryujinx.Ava.Input
                 if (config is StandardControllerInputConfig standardConfig)
                 {
                     Logger.Warning?.Print(LogClass.Application, $"Setting color for Player{index+1}");
-                    standardConfig.Led.LedColor = _playerColors[index];
+                    standardConfig.Led = new LedConfigController { EnableLed = true, LedColor = _playerColors[index] };
                 }
                 index++;
             }

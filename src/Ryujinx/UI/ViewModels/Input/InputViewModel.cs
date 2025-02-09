@@ -868,6 +868,12 @@ namespace Ryujinx.Ava.UI.ViewModels.Input
                 }
             }
 
+            if (_mainWindow.ViewModel.AppHost != null)
+            {
+                _mainWindow.ViewModel.AppHost.NpadManager.AutoAssignEnabled =
+                    ConfigurationState.Instance.Hid.EnableAutoAssign;
+            }
+
             _mainWindow.ViewModel.AppHost?.NpadManager.ReloadConfiguration(newConfig, ConfigurationState.Instance.Hid.EnableKeyboard, ConfigurationState.Instance.Hid.EnableMouse);
 
             // Atomically replace and signal input change.
