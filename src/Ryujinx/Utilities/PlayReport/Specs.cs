@@ -213,20 +213,20 @@ namespace Ryujinx.Ava.Utilities.PlayReport
 
             switch (Formatter)
             {
-                case SingleValueFormatter svf when data is MessagePackObject mpo:
-                    formattedValue = svf(new SingleValue(mpo) { Application = appMeta, PlayReport = playReport });
+                case SingleValueFormatter svf when data is MessagePackObject match:
+                    formattedValue = svf(
+                        new SingleValue(match) { Application = appMeta, PlayReport = playReport }
+                    );
                     return true;
-                case MultiValueFormatter mvf when data is List<MessagePackObject> messagePackObjects:
-                    formattedValue =
-                        mvf(new MultiValue(messagePackObjects) { Application = appMeta, PlayReport = playReport });
+                case MultiValueFormatter mvf when data is List<MessagePackObject> matches:
+                    formattedValue = mvf(
+                        new MultiValue(matches) { Application = appMeta, PlayReport = playReport }
+                    );
                     return true;
-                case SparseMultiValueFormatter smvf when
-                    data is Dictionary<string, MessagePackObject> sparseMessagePackObjects:
-                    formattedValue =
-                        smvf(new SparseMultiValue(sparseMessagePackObjects)
-                        {
-                            Application = appMeta, PlayReport = playReport
-                        });
+                case SparseMultiValueFormatter smvf when data is Dictionary<string, MessagePackObject> sparseMatches:
+                    formattedValue = smvf(
+                        new SparseMultiValue(sparseMatches) { Application = appMeta, PlayReport = playReport }
+                    );
                     return true;
                 default:
                     throw new InvalidOperationException("Formatter delegate is not of a known type!");
