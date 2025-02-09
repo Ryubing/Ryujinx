@@ -62,25 +62,10 @@ namespace Ryujinx.Ava.Utilities.PlayReport
                     )
             )
             .AddSpec(
-                "0100c9a00ece6000",
-                spec => spec.AddValueFormatter("launch_title_id", N64_LaunchedGame)
-            )
-            .AddSpec(
-                "01008d300c50c000",
-                spec => spec.AddValueFormatter("launch_title_id", SNES_LaunchedGame)
-            )
-            .AddSpec(
-                "0100d870045b6000",
-                spec => spec.AddValueFormatter("launch_title_id", NES_LaunchedGame)
-            ).AddSpec(
-                "010012f017576000",
-                spec => spec.AddValueFormatter("launch_title_id", GBA_LaunchedGame)
-            ).AddSpec(
-                "0100c62011050000",
-                spec => spec.AddValueFormatter("launch_title_id", GB_LaunchedGame)
-            ).AddSpec(
-                "0100b3c014bda000",
-                spec => spec.AddValueFormatter("launch_title_id", Genesis_LaunchedGame)
+                [
+                    "0100c9a00ece6000", "01008d300c50c000", "0100d870045b6000", 
+                    "010012f017576000", "0100c62011050000", "0100b3c014bda000"],
+                spec => spec.AddValueFormatter("launch_title_id", NsoEmulator_LaunchedGame)
             );
 
         private static string Playing(string game) => $"Playing {game}";
