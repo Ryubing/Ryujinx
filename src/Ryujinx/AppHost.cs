@@ -586,6 +586,9 @@ namespace Ryujinx.Ava
             // (resets custom settings if there were any)
             Program.ReloadConfig();
 
+            //Updates the gameList (changes the status of the user setting if it was added or removed during the game)
+            RyujinxApp.MainWindow.GameListUpdate();
+
             _isStopped = true;
             Stop();
         }

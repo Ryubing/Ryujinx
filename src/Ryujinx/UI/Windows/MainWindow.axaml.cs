@@ -645,6 +645,11 @@ namespace Ryujinx.Ava.UI.Windows
             ReloadGameList();
         }
 
+        public void GameListUpdate()
+        {
+            ReloadGameList();
+        }
+
         public void ToggleFileType(string fileType)
         {
             switch (fileType)

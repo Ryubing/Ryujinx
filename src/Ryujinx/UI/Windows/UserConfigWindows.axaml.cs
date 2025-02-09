@@ -108,7 +108,8 @@ namespace Ryujinx.Ava.UI.Windows
         }
 
         protected override void OnClosing(WindowClosingEventArgs e)
-        {   
+        {
+            InputPage.Dispose(); // You need to unload the gamepad settings, otherwise the controls will be blocked
             base.OnClosing(e);
         }
     }
