@@ -60,10 +60,21 @@ namespace Ryujinx.Ava.Utilities.Compat
             }
         }
 
+        public static CompatibilityEntry Find(string titleId)
+            => Entries.FirstOrDefault(x => x.TitleId.HasValue && x.TitleId.Value.EqualsIgnoreCase(titleId));
+        
+        public static CompatibilityEntry Find(ulong titleId)
+            => Find(titleId.ToString("X16"));
+        
         public static LocaleKeys? GetStatus(string titleId)
-            => Entries.FirstOrDefault(x => x.TitleId.HasValue && x.TitleId.Value.EqualsIgnoreCase(titleId))?.Status;
+            => Find(titleId)?.Status;
         
         public static LocaleKeys? GetStatus(ulong titleId) => GetStatus(titleId.ToString("X16"));
+        
+        public static string GetLabels(string titleId)
+            => Find(titleId)?.FormattedIssueLabels;
+        
+        public static string GetLabels(ulong titleId) => GetLabels(titleId.ToString("X16"));
     }
 
     public class CompatibilityEntry

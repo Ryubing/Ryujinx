@@ -42,7 +42,8 @@ namespace Ryujinx.Ava.Utilities.PlayReport
                 spec => spec
                     .AddValueFormatter("area_no", PokemonSVArea)
                     .AddValueFormatter("team_circle", PokemonSVUnionCircle)
-            ).AddSpec(
+            )
+            .AddSpec(
                 "01006a800016e000",
                 spec => spec
                     .AddSparseMultiValueFormatter(
@@ -59,6 +60,14 @@ namespace Ryujinx.Ava.Utilities.PlayReport
                         ],
                         SuperSmashBrosUltimate_Mode
                     )
+            )
+            .AddSpec(
+                [
+                    "0100c9a00ece6000", "01008d300c50c000", "0100d870045b6000", 
+                    "010012f017576000", "0100c62011050000", "0100b3c014bda000"],
+                spec => spec.AddValueFormatter("launch_title_id", NsoEmulator_LaunchedGame)
             );
+
+        private static string Playing(string game) => $"Playing {game}";
     }
 }
