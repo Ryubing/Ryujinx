@@ -1,9 +1,4 @@
-﻿using System;
-using System.Buffers.Binary;
-using System.Collections.Generic;
-using System.Linq;
-
-namespace Ryujinx.Ava.Utilities.PlayReport
+﻿namespace Ryujinx.Ava.Utilities.PlayReport
 {
     public static partial class PlayReports
     {

@@ -7,7 +7,6 @@ using Ryujinx.Ava.UI.ViewModels;
 using Ryujinx.Ava.Utilities.AppLibrary;
 using Ryujinx.Ava.Utilities.Compat;
 using System;
-using System.Globalization;
 using System.Linq;
 
 namespace Ryujinx.Ava.UI.Controls

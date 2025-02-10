@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Gommon;
+using System;
 using System.Buffers.Binary;
 using System.Collections.Generic;
 using System.Linq;
@@ -281,9 +282,14 @@ namespace Ryujinx.Ava.Utilities.PlayReport
             players = players.OrderBy(p => p.Rank ?? int.MaxValue).ToList();
 
             return players.Count > 4
-                ? $"{players.Count} Players - " + string.Join(", ",
-                    players.Take(3).Select(p => $"{p.Character}({p.PlayerNumber}){RankMedal(p.Rank)}"))
-                : string.Join(", ", players.Select(p => $"{p.Character}({p.PlayerNumber}){RankMedal(p.Rank)}"));
+                ? $"{players.Count} Players - {
+                    players.Take(3)
+                        .Select(p => $"{p.Character}({p.PlayerNumber}){RankMedal(p.Rank)}")
+                        .JoinToString(", ")
+                }"
+                : players
+                    .Select(p => $"{p.Character}({p.PlayerNumber}){RankMedal(p.Rank)}")
+                    .JoinToString(", ");
 
             string RankMedal(int? rank) => rank switch
             {

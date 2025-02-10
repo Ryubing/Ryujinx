@@ -1,5 +1,4 @@
 ﻿using Gommon;
-using MsgPack;
 using Ryujinx.Ava.Utilities.AppLibrary;
 using System;
 using System.Collections.Generic;

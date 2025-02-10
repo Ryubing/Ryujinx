@@ -1,6 +1,5 @@
 using DiscordRPC;
 using Gommon;
-using MsgPack;
 using Ryujinx.Ava.Utilities;
 using Ryujinx.Ava.Utilities.AppLibrary;
 using Ryujinx.Ava.Utilities.Configuration;
@@ -11,7 +10,6 @@ using Ryujinx.HLE;
 using Ryujinx.HLE.Loaders.Processes;
 using Ryujinx.Horizon;
 using Ryujinx.Horizon.Prepo.Types;
-using System.Linq;
 using System.Text;
 
 namespace Ryujinx.Ava

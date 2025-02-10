@@ -144,17 +144,15 @@ namespace ARMeilleure.Translation.PTC
 
         public List<ulong> GetBlacklistedFunctions()
         {
-            List<ulong> funcs = new List<ulong>();
+            List<ulong> funcs = [];
 
-            foreach (var profiledFunc in ProfiledFuncs)
+            foreach ((ulong ptr, FuncProfile funcProfile) in ProfiledFuncs)
             {
-                if (profiledFunc.Value.Blacklist)
-                {
-                    if (!funcs.Contains(profiledFunc.Key))
-                    {
-                        funcs.Add(profiledFunc.Key);
-                    }
-                }
+                if (!funcProfile.Blacklist)
+                    continue;
+
+                if (!funcs.Contains(ptr)) 
+                    funcs.Add(ptr);
             }
 
             return funcs;

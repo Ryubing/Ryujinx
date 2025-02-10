@@ -60,7 +60,7 @@ namespace Ryujinx.Ava.Utilities.AppLibrary
 
         public string TimePlayedString => ValueFormatUtils.FormatTimeSpan(TimePlayed);
 
-        public bool HasPlayedPreviously => TimePlayedString != string.Empty;
+        public bool HasPlayedPreviously => TimePlayed.TotalSeconds > 1;
 
         public string LastPlayedString => ValueFormatUtils.FormatDateTime(LastPlayed)?.Replace(" ", "\n");
 
@@ -78,25 +78,6 @@ namespace Ryujinx.Ava.Utilities.AppLibrary
             => Compatibility.Convert(x => x.FormattedIssueLabels).OrElse(string.Empty);
             
         public LocaleKeys? PlayabilityStatus => Compatibility.Convert(x => x.Status).OrElse(null);
-
-        public string CompatibilityToolTip
-        {
-            get
-            {
-                StringBuilder sb = new(LocalizedStatusTooltip);
-                
-                string formattedCompatibilityLabels = FormattedCompatibilityLabels;
-                if (!string.IsNullOrEmpty(formattedCompatibilityLabels))
-                {
-                    sb.AppendLine()
-                        .AppendLine()
-                        .Append(formattedCompatibilityLabels);
-                }
-                
-                return sb.ToString();
-            }
-        }
-        
 
         public string LocalizedStatusTooltip =>
             Compatibility.Convert(x => 
@@ -121,16 +102,16 @@ namespace Ryujinx.Ava.Utilities.AppLibrary
 
         public static string GetBuildId(VirtualFileSystem virtualFileSystem, IntegrityCheckLevel checkLevel, string titleFilePath)
         {
-            using FileStream file = new(titleFilePath, FileMode.Open, FileAccess.Read);
-
-            Nca mainNca = null;
-            Nca patchNca = null;
-
             if (!System.IO.Path.Exists(titleFilePath))
             {
                 Logger.Error?.Print(LogClass.Application, $"File \"{titleFilePath}\" does not exist.");
                 return string.Empty;
             }
+            
+            using FileStream file = new(titleFilePath, FileMode.Open, FileAccess.Read);
+
+            Nca mainNca = null;
+            Nca patchNca = null;
 
             string extension = System.IO.Path.GetExtension(titleFilePath).ToLower();
 

@@ -1147,10 +1147,10 @@ namespace Ryujinx.Ava.UI.ViewModels
                 List<string> dirs = result.Select(it => it.Path.LocalPath).ToList();
                 int numAdded = onDirsSelected(dirs, out int numRemoved);
 
-                string msg = String.Join("\r\n", new string[] {
+                string msg = string.Join("\n",
                     string.Format(LocaleManager.Instance[localeMessageRemovedKey], numRemoved),
                     string.Format(LocaleManager.Instance[localeMessageAddedKey], numAdded)
-                });
+                );
 
                 await Dispatcher.UIThread.InvokeAsync(async () =>
                 {
