@@ -31,8 +31,7 @@ namespace Ryujinx.Ava.Utilities.PlayReport
             Guard.Ensure(ulong.TryParse(titleId, NumberStyles.HexNumber, null, out _),
                 $"Cannot use a non-hexadecimal string as the Title ID for a {nameof(GameSpec)}.");
 
-            _specs.Add(transform(new GameSpec { TitleIds = [titleId] }));
-            return this;
+            return AddSpec(transform(GameSpec.Create(titleId)));
         }
 
         /// <summary>
@@ -46,8 +45,7 @@ namespace Ryujinx.Ava.Utilities.PlayReport
             Guard.Ensure(ulong.TryParse(titleId, NumberStyles.HexNumber, null, out _),
                 $"Cannot use a non-hexadecimal string as the Title ID for a {nameof(GameSpec)}.");
 
-            _specs.Add(new GameSpec { TitleIds = [titleId] }.Apply(transform));
-            return this;
+            return AddSpec(GameSpec.Create(titleId).Apply(transform));
         }
 
         /// <summary>
@@ -63,8 +61,7 @@ namespace Ryujinx.Ava.Utilities.PlayReport
             Guard.Ensure(tids.All(x => ulong.TryParse(x, NumberStyles.HexNumber, null, out _)),
                 $"Cannot use a non-hexadecimal string as the Title ID for a {nameof(GameSpec)}.");
 
-            _specs.Add(transform(new GameSpec { TitleIds = [..tids] }));
-            return this;
+            return AddSpec(transform(GameSpec.Create(tids)));
         }
 
         /// <summary>
@@ -79,7 +76,17 @@ namespace Ryujinx.Ava.Utilities.PlayReport
             Guard.Ensure(tids.All(x => ulong.TryParse(x, NumberStyles.HexNumber, null, out _)),
                 $"Cannot use a non-hexadecimal string as the Title ID for a {nameof(GameSpec)}.");
 
-            _specs.Add(new GameSpec { TitleIds = [..tids] }.Apply(transform));
+            return AddSpec(GameSpec.Create(tids).Apply(transform));
+        }
+        
+        /// <summary>
+        /// Add an analysis spec matching a specific game by title ID, with the provided pre-configured spec.
+        /// </summary>
+        /// <param name="spec">The <see cref="GameSpec"/> to add.</param>
+        /// <returns>The current <see cref="Analyzer"/>, for chaining convenience.</returns>
+        public Analyzer AddSpec(GameSpec spec)
+        {
+            _specs.Add(spec);
             return this;
         }
 

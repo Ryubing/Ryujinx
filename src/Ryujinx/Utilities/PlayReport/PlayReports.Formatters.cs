@@ -294,8 +294,67 @@ namespace Ryujinx.Ava.Utilities.PlayReport
             };
         }
 
-        private static FormattedValue N64_LaunchedGame(SingleValue value) => value.Matched.StringValue switch
+        private static FormattedValue NsoEmulator_LaunchedGame(SingleValue value) => value.Matched.StringValue switch
         {
+            #region SEGA Genesis
+
+            "m_0054_e" => Playing("Alien Soldier"),
+            "m_3978_e" => Playing("Alien Storm"),
+            "m_5234_e" => Playing("ALISIA DRAGOON"),
+            "m_5003_e" => Playing("Streets of Rage 2"),
+            "m_4843_e" => Playing("Kid Chameleon"),
+            "m_2874_e" => Playing("Columns"),
+            "m_3167_e" => Playing("Comix Zone"),
+            "m_5007_e" => Playing("Contra: Hard Corps"),
+            "m_0865_e" => Playing("Ghouls 'n Ghosts"),
+            "m_0935_e" => Playing("Dynamite Headdy"),
+            "m_8314_e" => Playing("Earthworm Jim"),
+            "m_5012_e" => Playing("Ecco the Dolphin"),
+            "m_2207_e" => Playing("Flicky"),
+            "m_9432_e" => Playing("Golden Axe II"),
+            "m_5015_e" => Playing("Golden Axe"),
+            "m_5017_e" => Playing("Gunstar Heroes"),
+            "m_0732_e" => Playing("Altered Beast"),
+            "m_2245_e" or "m_2245_pd" or "m_2245_pf" => Playing("Landstalker"),
+            "m_1654_e" => Playing("Target Earth"),
+            "m_7050_e" => Playing("Light Crusader"),
+            "m_5027_e" => Playing("M.U.S.H.A."),
+            "m_5028_e" => Playing("Phantasy Star IV"),
+            "m_9155_e" => Playing("Pulseman"),
+            "m_5030_e" => Playing("Dr. Robotnik's Mean Bean Machine"),
+            "m_0098_e" => Playing("Crusader of Centy"),
+            "m_0098_k" => Playing("신창세기 라그나센티"),
+            "m_0098_pd" or "m_0098_pf" or "m_0098_ps" => Playing("Soleil"),
+            "m_5033_e" => Playing("Ristar"),
+            "m_1987_e" => Playing("MEGA MAN: THE WILY WARS"),
+            "m_2609_e" => Playing("WOLF OF THE BATTLEFIELD: MERCS"),
+            "m_3353_e" => Playing("Shining Force II"),
+            "m_5036_e" => Playing("Shining Force"),
+            "m_9866_e" => Playing("Sonic The Hedgehog Spinball"),
+            "m_5041_e" => Playing("Sonic The Hedgehog 2"),
+            "m_5523_e" => Playing("Space Harrier II"),
+            "m_0041_e" => Playing("STREET FIGHTER II' : SPECIAL CHAMPION EDITION"),
+            "m_5044_e" => Playing("STRIDER"),
+            "m_6353_e" => Playing("Super Fantasy Zone"),
+            "m_9569_e" => Playing("Beyond Oasis"),
+            "m_9569_k" => Playing("스토리 오브 도어"),
+            "m_9569_pd" or "m_9569_ps" => Playing("The Story of Thor"),
+            "m_9569_pf" => Playing("La Légende de Thor"),
+            "m_5049_e" => Playing("Shinobi III: Return of the Ninja Master"),
+            "m_6811_e" => Playing("The Revenge of Shinobi"),
+            "m_4372_e" => Playing("Thunder Force II"),
+            "m_1535_e" => Playing("ToeJam & Earl in Panic on Funkotron"),
+            "m_0432_e" => Playing("ToeJam & Earl"),
+            "m_5052_e" => Playing("Castlevania: BLOODLINES"),
+            "m_3626_e" => Playing("VectorMan"),
+            "m_7955_e" => Playing("Sword of Vermilion"),
+            "m_0394_e" => Playing("Virtua Fighter 2"),
+            "m_9417_e" => Playing("Zero Wing"),
+
+            #endregion
+            
+            #region Nintendo 64
+
             "n_1653_e" or "n_1653_p" => Playing("1080º ™ Snowboarding"),
             "n_4868_e" or "n_4868_p" => Playing("Banjo Kazooie™"),
             "n_1226_e" or "n_1226_p" => Playing("Banjo-Tooie™"),
@@ -331,11 +390,11 @@ namespace Ryujinx.Ava.Utilities.PlayReport
             "n_3036_e" or "n_3036_p" => Playing("Yoshi's Story™"),
             "n_1407_e" or "n_1407_p" => Playing("The Legend of Zelda™: Majora's Mask™"),
             "n_3038_e" or "n_3038_p" => Playing("The Legend of Zelda™: Ocarina of Time™"),
-            _ => FormattedValue.ForceReset
-        };
 
-        private static FormattedValue NES_LaunchedGame(SingleValue value) => value.Matched.StringValue switch
-        {
+            #endregion
+
+            #region NES
+
             "clv_p_naaae" => Playing("Super Mario Bros.™"),
             "clv_p_naabe" => Playing("Super Mario Bros.™: The Lost Levels"),
             "clv_p_naace" or "clv_p_naace_sp1" => Playing("Super Mario Bros.™ 3"),
@@ -415,11 +474,11 @@ namespace Ryujinx.Ava.Utilities.PlayReport
             "clv_p_najre" => Playing("COBRA TRIANGLE™"),
             "clv_p_najse" => Playing("SNAKE RATTLE N ROLL™"),
             "clv_p_najte" => Playing("SOLAR® JETMAN"),
-            _ => FormattedValue.ForceReset
-        };
 
-        private static FormattedValue SNES_LaunchedGame(SingleValue value) => value.Matched.StringValue switch
-        {
+            #endregion
+
+            #region SNES
+
             "s_2180_e" => Playing("BATTLETOADS™ DOUBLE DRAGON™"),
             "s_2179_e" => Playing("BATTLETOADS™ IN BATTLEMANIACS"),
             "s_2182_e" => Playing("BIG RUN"),
@@ -490,98 +549,11 @@ namespace Ryujinx.Ava.Utilities.PlayReport
             "s_2096_e" => Playing("Wrecking Crew™ '98"),
             "s_2023_e" => Playing("Super Mario World™ 2: Yoshi's Island™"),
             "s_2024_e" => Playing("The Legend of Zelda™: A Link to the Past™"),
-            _ => FormattedValue.ForceReset
-        };
 
-        private static FormattedValue Genesis_LaunchedGame(SingleValue value) => value.Matched.StringValue switch
-        {
-            "m_0054_e" => Playing("Alien Soldier"),
-            "m_3978_e" => Playing("Alien Storm"),
-            "m_5234_e" => Playing("ALISIA DRAGOON"),
-            "m_5003_e" => Playing("Streets of Rage 2"),
-            "m_4843_e" => Playing("Kid Chameleon"),
-            "m_2874_e" => Playing("Columns"),
-            "m_3167_e" => Playing("Comix Zone"),
-            "m_5007_e" => Playing("Contra: Hard Corps"),
-            "m_0865_e" => Playing("Ghouls 'n Ghosts"),
-            "m_0935_e" => Playing("Dynamite Headdy"),
-            "m_8314_e" => Playing("Earthworm Jim"),
-            "m_5012_e" => Playing("Ecco the Dolphin"),
-            "m_2207_e" => Playing("Flicky"),
-            "m_9432_e" => Playing("Golden Axe II"),
-            "m_5015_e" => Playing("Golden Axe"),
-            "m_5017_e" => Playing("Gunstar Heroes"),
-            "m_0732_e" => Playing("Altered Beast"),
-            "m_2245_e" or "m_2245_pd" or "m_2245_pf" => Playing("Landstalker"),
-            "m_1654_e" => Playing("Target Earth"),
-            "m_7050_e" => Playing("Light Crusader"),
-            "m_5027_e" => Playing("M.U.S.H.A."),
-            "m_5028_e" => Playing("Phantasy Star IV"),
-            "m_9155_e" => Playing("Pulseman"),
-            "m_5030_e" => Playing("Dr. Robotnik's Mean Bean Machine"),
-            "m_0098_e" => Playing("Crusader of Centy"),
-            "m_0098_k" => Playing("신창세기 라그나센티"),
-            "m_0098_pd" or "m_0098_pf" or "m_0098_ps" => Playing("Soleil"),
-            "m_5033_e" => Playing("Ristar"),
-            "m_1987_e" => Playing("MEGA MAN: THE WILY WARS"),
-            "m_2609_e" => Playing("WOLF OF THE BATTLEFIELD: MERCS"),
-            "m_3353_e" => Playing("Shining Force II"),
-            "m_5036_e" => Playing("Shining Force"),
-            "m_9866_e" => Playing("Sonic The Hedgehog Spinball"),
-            "m_5041_e" => Playing("Sonic The Hedgehog 2"),
-            "m_5523_e" => Playing("Space Harrier II"),
-            "m_0041_e" => Playing("STREET FIGHTER II' : SPECIAL CHAMPION EDITION"),
-            "m_5044_e" => Playing("STRIDER"),
-            "m_6353_e" => Playing("Super Fantasy Zone"),
-            "m_9569_e" => Playing("Beyond Oasis"),
-            "m_9569_k" => Playing("스토리 오브 도어"),
-            "m_9569_pd" or "m_9569_ps" => Playing("The Story of Thor"),
-            "m_9569_pf" => Playing("La Légende de Thor"),
-            "m_5049_e" => Playing("Shinobi III: Return of the Ninja Master"),
-            "m_6811_e" => Playing("The Revenge of Shinobi"),
-            "m_4372_e" => Playing("Thunder Force II"),
-            "m_1535_e" => Playing("ToeJam & Earl in Panic on Funkotron"),
-            "m_0432_e" => Playing("ToeJam & Earl"),
-            "m_5052_e" => Playing("Castlevania: BLOODLINES"),
-            "m_3626_e" => Playing("VectorMan"),
-            "m_7955_e" => Playing("Sword of Vermilion"),
-            "m_0394_e" => Playing("Virtua Fighter 2"),
-            "m_9417_e" => Playing("Zero Wing"),
-            _ => FormattedValue.ForceReset
-        };
-        
-        private static FormattedValue GBA_LaunchedGame(SingleValue value) => value.Matched.StringValue switch
-        {
-            "a_9694_e" => Playing("Densetsu no Starfy 1"),
-            "a_5600_e" => Playing("Densetsu no Starfy 2"),
-            "a_7565_e" => Playing("Densetsu no Starfy 3"),
-            "a_6553_e" => Playing("F-ZERO CLIMAX"),
-            "a_7842_e" or "a_7842_p" => Playing("F-Zero™- GP Legend"),
-            "a_9283_e" => Playing("F-Zero™ Maximum Velocity"),
-            "a_3744_e" or "a_3744_x" or "a_3744_y" => Playing("Fire Emblem™"),
-            "a_8978_d" or "a_8978_e" or "a_8978_f" or "a_8978_i" or "a_8978_s" => Playing("Golden Sun™: The Lost Age"),
-            "a_3108_d" or "a_3108_e" or "a_3108_f" or "a_3108_i" or "a_3108_s" => Playing("Golden Sun™"),
-            "a_3654_e" or "a_3654_p" => Playing("Kirby™ & The Amazing Mirror"),
-            "a_7279_p" => Playing("Kuru Kuru Kururin™"),
-            "a_7311_e" or "a_7311_p" => Playing("Mario & Luigi™: Superstar Saga"),
-            "a_6845_e" => Playing("Mario Kart™: Super Circuit™"),
-            "a_4139_e" or "a_4139_p" => Playing("Metroid™ Fusion"),
-            "a_6834_e" or "a_6834_p" => Playing("Metroid™: Zero Mission"),
-            "a_8989_e" or "a_8989_p" => Playing("Pokémon™ Mystery Dungeon: Red Rescue Team"),
-            "a_9444_e" => Playing("Super Mario™ Advance"),
-            "a_9901_e" or "a_9901_p" => Playing("Super Mario™ Advance 4: Super Mario Bros.™ 3"),
-            "a_2939_e" => Playing("Super Mario World™: Super Mario Advance 2"),
-            "a_2939_p" => Playing("Super Mario World™: Super Mario Advance 2™"),
-            "a_1302_e" => Playing("WarioWare™, Inc.: Mega Microgame$!"),
-            "a_1302_p" => Playing("WarioWare™, Inc.: Minigame Mania."),
-            "a_6960_e" or "a_6960_p" => Playing("Yoshi's Island™: Super Mario™ Advance 3"),
-            "a_5190_e" or "a_5190_p" => Playing("The Legend of Zelda™: A Link to the Past™ Four Swords"),
-            "a_8665_e" or "a_8665_p" => Playing("The Legend of Zelda™: The Minish Cap"),
-            _ => FormattedValue.ForceReset
-        };
-        
-        private static FormattedValue GB_LaunchedGame(SingleValue value) => value.Matched.StringValue switch
-        {
+            #endregion
+
+            #region GameBoy
+
             "c_7224_e" or "c_7224_p" => Playing("Alone in the Dark: The New Nightmare"),
             "c_5022_e" => Playing("Blaster Master: Enemy Below"),
             "c_3381_e" => Playing("Game & Watch™ Gallery 3"),
@@ -615,6 +587,39 @@ namespace Ryujinx.Ava.Utilities.PlayReport
             "d_5124_e" => Playing("Super Mario Land™ 2 - 6 Golden Coins™"),
             "d_7970_e" => Playing("Super Mario Land™"),
             "d_8484_e" => Playing("Tetris®"),
+
+            #endregion
+
+            #region GameBoy Advance
+
+            "a_9694_e" => Playing("Densetsu no Starfy 1"),
+            "a_5600_e" => Playing("Densetsu no Starfy 2"),
+            "a_7565_e" => Playing("Densetsu no Starfy 3"),
+            "a_6553_e" => Playing("F-ZERO CLIMAX"),
+            "a_7842_e" or "a_7842_p" => Playing("F-Zero™- GP Legend"),
+            "a_9283_e" => Playing("F-Zero™ Maximum Velocity"),
+            "a_3744_e" or "a_3744_x" or "a_3744_y" => Playing("Fire Emblem™"),
+            "a_8978_d" or "a_8978_e" or "a_8978_f" or "a_8978_i" or "a_8978_s" => Playing("Golden Sun™: The Lost Age"),
+            "a_3108_d" or "a_3108_e" or "a_3108_f" or "a_3108_i" or "a_3108_s" => Playing("Golden Sun™"),
+            "a_3654_e" or "a_3654_p" => Playing("Kirby™ & The Amazing Mirror"),
+            "a_7279_p" => Playing("Kuru Kuru Kururin™"),
+            "a_7311_e" or "a_7311_p" => Playing("Mario & Luigi™: Superstar Saga"),
+            "a_6845_e" => Playing("Mario Kart™: Super Circuit™"),
+            "a_4139_e" or "a_4139_p" => Playing("Metroid™ Fusion"),
+            "a_6834_e" or "a_6834_p" => Playing("Metroid™: Zero Mission"),
+            "a_8989_e" or "a_8989_p" => Playing("Pokémon™ Mystery Dungeon: Red Rescue Team"),
+            "a_9444_e" => Playing("Super Mario™ Advance"),
+            "a_9901_e" or "a_9901_p" => Playing("Super Mario™ Advance 4: Super Mario Bros.™ 3"),
+            "a_2939_e" => Playing("Super Mario World™: Super Mario Advance 2"),
+            "a_2939_p" => Playing("Super Mario World™: Super Mario Advance 2™"),
+            "a_1302_e" => Playing("WarioWare™, Inc.: Mega Microgame$!"),
+            "a_1302_p" => Playing("WarioWare™, Inc.: Minigame Mania."),
+            "a_6960_e" or "a_6960_p" => Playing("Yoshi's Island™: Super Mario™ Advance 3"),
+            "a_5190_e" or "a_5190_p" => Playing("The Legend of Zelda™: A Link to the Past™ Four Swords"),
+            "a_8665_e" or "a_8665_p" => Playing("The Legend of Zelda™: The Minish Cap"),
+
+            #endregion
+
             _ => FormattedValue.ForceReset
         };
     }
