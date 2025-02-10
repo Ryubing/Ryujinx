@@ -1523,8 +1523,34 @@ namespace Ryujinx.Ava.UI.ViewModels
             }
         }
 
+        public void InitializeUserConfig(ApplicationData application)
+        {
+            // Code where conditions will be met before loading the user configuration        
+            BackendThreading backendThreadingValue = ConfigurationState.Instance.Graphics.BackendThreading.Value;
+
+            // If a configuration is found in the "/games/xxxxxxxxxxxxxx" folder, the program will load the user setting. 
+            string idGame = application.IdBaseString;
+            if (ConfigurationFileFormat.TryLoad(Program.GetDirGameUserConfig(idGame), out ConfigurationFileFormat configurationFileFormat))
+            {
+                // Loads the user configuration, having previously changed the global configuration to the user configuration
+                ConfigurationState.Instance.Load(configurationFileFormat, Program.GetDirGameUserConfig(idGame, true, true), idGame);
+            }
+
+            // Code where conditions will be executed after loading user configuration
+            if (ConfigurationState.Instance.Graphics.BackendThreading != backendThreadingValue)
+            {
+                /*                 
+                 * The function to restart the emulator together with the selected game
+                Task.Run(async () => await Rebooter.RebootAppWithGame(application.Path)); 
+                */
+            }
+        }
+
         public async Task LoadApplication(ApplicationData application, bool startFullscreen = false, BlitStruct<ApplicationControlProperty>? customNacpData = null)
         {
+
+            InitializeUserConfig(application);
+
             if (AppHost != null)
             {
                 await ContentDialogHelper.CreateInfoDialog(
@@ -1540,13 +1566,6 @@ namespace Ryujinx.Ava.UI.ViewModels
 #if RELEASE
             await PerformanceCheck();
 #endif
-
-            // If a configuration is found in the "/games/xxxxxxxxxxxxxx" folder, the program will load the user setting. 
-            if (ConfigurationFileFormat.TryLoad(Program.GetDirGameUserConfig(application.IdBaseString), out ConfigurationFileFormat configurationFileFormat))
-            {
-                // Loads the user configuration, having previously changed the global configuration to the user configuration
-                ConfigurationState.Instance.Load(configurationFileFormat, Program.GetDirGameUserConfig(application.IdBaseString, true, true), application.IdBaseString);
-            }
          
             Logger.RestartTime();
 
