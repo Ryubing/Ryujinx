@@ -35,6 +35,7 @@ namespace Ryujinx.Ava.UI.Windows
             DataContext = ViewModel = new SettingsViewModel(
                 viewModel.VirtualFileSystem, 
                 viewModel.ContentManager,
+                viewModel.IsGameRunning,
                 viewModel.SelectedApplication.Path,
                 viewModel.SelectedApplication.Name,
                 viewModel.SelectedApplication.IdString,
@@ -46,7 +47,7 @@ namespace Ryujinx.Ava.UI.Windows
 
             InitializeComponent();
             Load();
-
+           
 #if DEBUG
             this.AttachDevTools(new KeyGesture(Key.F12, KeyModifiers.Alt));
 #endif

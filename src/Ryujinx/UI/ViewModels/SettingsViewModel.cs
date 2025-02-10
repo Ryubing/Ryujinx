@@ -74,42 +74,12 @@ namespace Ryujinx.Ava.UI.ViewModels
         private Bitmap _gameIcon;
         private string _gameTitle;
         private string _gameId;
-        public Bitmap GameIcon
-        {
-            get => _gameIcon;
-            set
-            {
-                if (_gameIcon != value)
-                {
-                    _gameIcon = value;
-                }
-            }
-        }
+        private readonly bool _isGameRunning;
 
-        public string GameTitle
-        {
-            get => _gameTitle;
-            set
-            {
-                if (_gameTitle != value)
-                {
-                    _gameTitle = value;
-                }
-            }
-        }
-
-        public string GameId
-        {
-            get => _gameId;
-            set
-            {
-                if (_gameId != value)
-                {
-                    _gameId = value;
-                }
-            }
-        }
-
+        public bool IsGameRunning => _isGameRunning;
+        public Bitmap GameIcon => _gameIcon;
+        public string GameTitle => _gameTitle;
+        public string GameId => _gameId;
 
         public int ResolutionScale
         {
@@ -385,8 +355,10 @@ namespace Ryujinx.Ava.UI.ViewModels
             }
         }
 
-        public SettingsViewModel(VirtualFileSystem virtualFileSystem, 
+        public SettingsViewModel(
+            VirtualFileSystem virtualFileSystem, 
             ContentManager contentManager,
+            bool gameRunning,
             string gamePath,
             string gameName, 
             string gameId, 
@@ -400,12 +372,13 @@ namespace Ryujinx.Ava.UI.ViewModels
             {
                 using (var ms = new MemoryStream(gameIconData))
                 {
-                    GameIcon = new Bitmap(ms);
+                    _gameIcon = new Bitmap(ms);
                 }
             }
 
-            GameTitle = gameName;
-            GameId = gameId;
+            _isGameRunning = gameRunning;
+            _gameTitle = gameName;
+            _gameId = gameId;
 
             if (enableToLoadCustomConfig) // During the game. If there is no user config, then load the global config window
             {

@@ -136,6 +136,11 @@
                 Content="{ext:Locale SettingsButtonClose}"
                 Command="{Binding CancelButton}" />
             <Button
+                IsVisible="{Binding IsGameRunning}"
+                Content="{ext:Locale SettingsButtonApply}"
+                Command="{Binding ApplyButton}" />
+            <Button
+                IsVisible="{Binding !IsGameRunning}"
                 Content="{ext:Locale UserProfilesDelete}"
                 Command="{Binding DeleteConfigGame}"
                 Classes="red"/>
