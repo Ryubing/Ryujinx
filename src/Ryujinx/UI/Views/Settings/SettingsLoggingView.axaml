@@ -74,6 +74,10 @@
                                   ToolTip.Tip="{ext:Locale DebugLogTooltip}">
                             <TextBlock Text="{ext:Locale SettingsTabLoggingEnableDebugLogs}" />
                         </CheckBox>
+                        <CheckBox IsChecked="{Binding EnableAvaloniaLog}"
+                                  ToolTip.Tip="{ext:Locale AvaloniaLogTooltip}">
+                            <TextBlock Text="{ext:Locale SettingsTabLoggingEnableAvaloniaLogs}" />
+                        </CheckBox>
                         <StackPanel Margin="0,10,0,0" Orientation="Horizontal" VerticalAlignment="Stretch">
                             <TextBlock VerticalAlignment="Center"
                                     ToolTip.Tip="{ext:Locale FSAccessLogModeTooltip}"

@@ -1,4 +1,3 @@
-using MsgPack;
 using Ryujinx.Horizon.Common;
 using Ryujinx.Horizon.Prepo.Types;
 using Ryujinx.Memory;

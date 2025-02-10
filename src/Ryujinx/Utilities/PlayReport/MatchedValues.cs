@@ -1,7 +1,6 @@
 ﻿using MsgPack;
 using Ryujinx.Ava.Utilities.AppLibrary;
 using System.Collections.Generic;
-using System.Linq;
 
 namespace Ryujinx.Ava.Utilities.PlayReport
 {
