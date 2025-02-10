@@ -1,3 +1,4 @@
+using Gommon;
 using LibHac.Common;
 using LibHac.Fs;
 using LibHac.Fs.Fsa;
@@ -14,6 +15,7 @@ using Ryujinx.HLE.FileSystem;
 using Ryujinx.HLE.Loaders.Processes.Extensions;
 using System;
 using System.IO;
+using System.Text;
 using System.Text.Json.Serialization;
 
 namespace Ryujinx.Ava.Utilities.AppLibrary
@@ -33,33 +35,12 @@ namespace Ryujinx.Ava.Utilities.AppLibrary
             set
             {
                 _id = value;
-                PlayabilityStatus = CompatibilityCsv.GetStatus(Id);
+
+                Compatibility = CompatibilityCsv.Find(Id);
             }
         }
         public string Developer { get; set; } = "Unknown";
         public string Version { get; set; } = "0";
-
-        public bool HasPlayabilityInfo => PlayabilityStatus != null;
-
-        public string LocalizedStatus =>
-            PlayabilityStatus.HasValue 
-                ? LocaleManager.Instance[PlayabilityStatus!.Value] 
-                : string.Empty;
-
-        public LocaleKeys? PlayabilityStatus { get; set; }
-        public string LocalizedStatusTooltip =>
-            PlayabilityStatus.HasValue 
-#pragma warning disable CS8509 // It is exhaustive for any value this property can contain.
-                ? LocaleManager.Instance[PlayabilityStatus!.Value switch
-#pragma warning restore CS8509
-                {
-                    LocaleKeys.CompatibilityListPlayable => LocaleKeys.CompatibilityListPlayableTooltip,
-                    LocaleKeys.CompatibilityListIngame => LocaleKeys.CompatibilityListIngameTooltip,
-                    LocaleKeys.CompatibilityListMenus => LocaleKeys.CompatibilityListMenusTooltip,
-                    LocaleKeys.CompatibilityListBoots => LocaleKeys.CompatibilityListBootsTooltip,
-                    LocaleKeys.CompatibilityListNothing => LocaleKeys.CompatibilityListNothingTooltip,
-                }]
-                : string.Empty;
         public int PlayerCount { get; set; }
         public int GameCount { get; set; }
 
@@ -84,6 +65,53 @@ namespace Ryujinx.Ava.Utilities.AppLibrary
         public string LastPlayedString => ValueFormatUtils.FormatDateTime(LastPlayed)?.Replace(" ", "\n");
 
         public string FileSizeString => ValueFormatUtils.FormatFileSize(FileSize);
+        
+        public Optional<CompatibilityEntry> Compatibility { get; private set; }
+        
+        public bool HasPlayabilityInfo => Compatibility.HasValue;
+
+        public string LocalizedStatus => Compatibility.Convert(x => x.LocalizedStatus);
+
+        public bool HasCompatibilityLabels => !FormattedCompatibilityLabels.Equals(string.Empty);
+        
+        public string FormattedCompatibilityLabels
+            => Compatibility.Convert(x => x.FormattedIssueLabels).OrElse(string.Empty);
+            
+        public LocaleKeys? PlayabilityStatus => Compatibility.Convert(x => x.Status).OrElse(null);
+
+        public string CompatibilityToolTip
+        {
+            get
+            {
+                StringBuilder sb = new(LocalizedStatusTooltip);
+                
+                string formattedCompatibilityLabels = FormattedCompatibilityLabels;
+                if (!string.IsNullOrEmpty(formattedCompatibilityLabels))
+                {
+                    sb.AppendLine()
+                        .AppendLine()
+                        .Append(formattedCompatibilityLabels);
+                }
+                
+                return sb.ToString();
+            }
+        }
+        
+
+        public string LocalizedStatusTooltip =>
+            Compatibility.Convert(x => 
+#pragma warning disable CS8509 It is exhaustive for all possible values this can contain.
+                LocaleManager.Instance[x.Status switch
+#pragma warning restore CS8509
+                {
+                    LocaleKeys.CompatibilityListPlayable => LocaleKeys.CompatibilityListPlayableTooltip,
+                    LocaleKeys.CompatibilityListIngame => LocaleKeys.CompatibilityListIngameTooltip,
+                    LocaleKeys.CompatibilityListMenus => LocaleKeys.CompatibilityListMenusTooltip,
+                    LocaleKeys.CompatibilityListBoots => LocaleKeys.CompatibilityListBootsTooltip,
+                    LocaleKeys.CompatibilityListNothing => LocaleKeys.CompatibilityListNothingTooltip,
+                }]
+            ).OrElse(string.Empty);
+        
 
         [JsonIgnore] public string IdString => Id.ToString("x16");
 
