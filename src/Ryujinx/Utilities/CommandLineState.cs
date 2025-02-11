@@ -108,7 +108,7 @@ namespace Ryujinx.Ava.Utilities
                             continue;
                         }
 
-                        OverrideBackendThreadingCustom = args[++i];
+                        OverrideBackendThreadingAfterReboot = args[++i];
                         break;
                     case "--pptc":
                         if (i + 1 >= args.Length)

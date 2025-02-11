@@ -52,7 +52,7 @@ namespace Ryujinx.Ava.Utilities.Configuration
 
             EnableDiscordIntegration.Value = LoadSetting ? cff.EnableDiscordIntegration : EnableDiscordIntegration.Value; // Get from global config only
             CheckUpdatesOnStart.Value = LoadSetting ? cff.CheckUpdatesOnStart : CheckUpdatesOnStart.Value; // Get from global config only
-            UpdateCheckerType.Value = cff.UpdateCheckerType;
+            UpdateCheckerType.Value = LoadSetting ? cff.UpdateCheckerType : UpdateCheckerType.Value; // Get from global config only
             ShowConfirmExit.Value = LoadSetting ? cff.ShowConfirmExit : ShowConfirmExit.Value; // Get from global config only
             RememberWindowState.Value = LoadSetting ? cff.RememberWindowState : RememberWindowState.Value; // Get from global config only
             ShowTitleBar.Value = LoadSetting ? cff.ShowTitleBar : ShowTitleBar.Value; // Get from global config only
