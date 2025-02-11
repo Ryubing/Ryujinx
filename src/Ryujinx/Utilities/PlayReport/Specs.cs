@@ -1,5 +1,4 @@
-﻿using FluentAvalonia.Core;
-using MsgPack;
+﻿using MsgPack;
 using Ryujinx.Ava.Utilities.AppLibrary;
 using System;
 using System.Collections.Generic;
@@ -153,7 +152,7 @@ namespace Ryujinx.Ava.Utilities.PlayReport
         public override bool GetData(Horizon.Prepo.Types.PlayReport playReport, out object result)
         {
             List<MessagePackObject> packedObjects = [];
-            foreach (var reportKey in ReportKeys)
+            foreach (string reportKey in ReportKeys)
             {
                 if (!playReport.ReportData.AsDictionary().TryGetValue(reportKey, out MessagePackObject valuePackObject))
                 {
@@ -177,7 +176,7 @@ namespace Ryujinx.Ava.Utilities.PlayReport
         public override bool GetData(Horizon.Prepo.Types.PlayReport playReport, out object result)
         {
             Dictionary<string, MessagePackObject> packedObjects = [];
-            foreach (var reportKey in ReportKeys)
+            foreach (string reportKey in ReportKeys)
             {
                 if (!playReport.ReportData.AsDictionary().TryGetValue(reportKey, out MessagePackObject valuePackObject))
                     continue;

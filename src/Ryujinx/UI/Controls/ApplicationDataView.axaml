@@ -55,9 +55,21 @@
                                 Tag="{Binding AppData.IdString}"
                                 Text="{Binding AppData.LocalizedStatus}"
                                 Foreground="{Binding AppData.PlayabilityStatus, Converter={x:Static helpers:PlayabilityStatusConverter.Shared}}"
-                                ToolTip.Tip="{Binding AppData.LocalizedStatusTooltip}"
                                 TextAlignment="Start"
-                                TextWrapping="Wrap" />
+                                TextWrapping="Wrap">
+                                <ToolTip.Tip>
+                                    <StackPanel Orientation="Vertical">
+                                        <TextBlock 
+                                            Text="{Binding AppData.LocalizedStatusTooltip}" />
+                                        <Separator 
+                                            Margin="0, 10, 0, 10" 
+                                            IsVisible="{Binding AppData.HasCompatibilityLabels}" />
+                                        <TextBlock 
+                                            IsVisible="{Binding AppData.HasCompatibilityLabels}"
+                                            Text="{Binding AppData.FormattedCompatibilityLabels}" />
+                                    </StackPanel>
+                                </ToolTip.Tip>
+                            </TextBlock>
                             <Button.Styles>
                                 <Style Selector="Button">
                                     <Setter Property="MinWidth"

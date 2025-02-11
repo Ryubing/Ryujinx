@@ -1,5 +1,4 @@
 using Silk.NET.Vulkan;
-using System.Text.RegularExpressions;
 
 namespace Ryujinx.Graphics.Vulkan
 {
