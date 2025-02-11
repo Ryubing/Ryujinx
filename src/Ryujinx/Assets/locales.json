@@ -12473,6 +12473,31 @@
       }
     },
     {
+      "ID": "DialogRebooterMessage",
+      "Translations": {
+        "ar_SA": "من فضلك انتظر، المحاكي في طور إعادة التشغيل",
+        "de_DE": "Bitte warten Sie, der Emulator wird neu gestartet",
+        "el_GR": "Παρακαλώ περιμένετε, ο εξομοιωτής επανεκκινείται",
+        "en_US": "Please wait, the emulator is restarting",
+        "es_ES": "Por favor, espere, el emulador se está reiniciando",
+        "fr_FR": "Veuillez patienter, l'émulateur est en train de redémarrer",
+        "he_IL": "אנא המתן, המחקה מתארגן מחדש",
+        "it_IT": "Attendere prego, l'emulatore si sta riavviando",
+        "ja_JP": "お待ちください、エミュレーターが再起動しています",
+        "ko_KR": "잠시만 기다려 주세요, 에뮬레이터가 재시작 중입니다",
+        "no_NO": "Vennligst vent, emulatoren starter på nytt",
+        "pl_PL": "Proszę czekać, emulator jest w trakcie ponownego uruchamiania",
+        "pt_BR": "Por favor, aguarde, o emulador está reiniciando",
+        "ru_RU": "Пожалуйста, подождите, эмулятор перезапускается",
+        "sv_SE": "Vänligen vänta, emulatorn startar om",
+        "th_TH": "กรุณารอสักครู่, ตัวจำลองกำลังเริ่มใหม่",
+        "tr_TR": "Lütfen bekleyin, emülatör yeniden başlatılıyor",
+        "uk_UA": "Будь ласка, зачекайте, емулятор перезавантажується",
+        "zh_CN": "请稍等，模拟器正在重新启动",
+        "zh_TW": "請稍候，模擬器正在重新啟動"
+      }
+    },
+    {
       "ID": "DialogUpdaterExtractionMessage",
       "Translations": {
         "ar_SA": "جاري استخراج التحديث...",
@@ -19270,6 +19295,31 @@
         "uk_UA": "Програма оновлення {0}",
         "zh_CN": "{0} 更新",
         "zh_TW": "{0} 更新程式"
+      }
+    },
+    {
+      "ID": "RyujinxRebooter",
+      "Translations": {
+        "ar_SA": "إعادة تشغيل {0}",
+        "de_DE": "Neustart von {0}",
+        "el_GR": "Επανεκκίνηση {0}",
+        "en_US": "{0} Reboot",
+        "es_ES": "Reinicio de {0}",
+        "fr_FR": "Redémarrage de {0}",
+        "he_IL": "אתחול {0}",
+        "it_IT": "Riavvio di {0}",
+        "ja_JP": "{0} 再起動",
+        "ko_KR": "{0} 재부팅",
+        "no_NO": "Omstart av {0}",
+        "pl_PL": "Ponowne uruchomienie {0}",
+        "pt_BR": "Reinício de {0}",
+        "ru_RU": "{0} Перезагрузка",
+        "sv_SE": "Ominläsning av {0}",
+        "th_TH": "เริ่มต้นใหม่ {0}",
+        "tr_TR": "{0} Yeniden Başlatma",
+        "uk_UA": "Перезавантаження {0}",
+        "zh_CN": "{0} 重启",
+        "zh_TW": "{0} 重新啟動"
       }
     },
     {

@@ -71,13 +71,14 @@ namespace Ryujinx.Ava.UI.ViewModels
 
         public SettingsHacksViewModel DirtyHacks { get; }
 
+        private readonly bool _isGameRunning;
         private Bitmap _gameIcon;
         private string _gameTitle;
+        private string _gamePath;
         private string _gameId;
-        private readonly bool _isGameRunning;
-
         public bool IsGameRunning => _isGameRunning;
         public Bitmap GameIcon => _gameIcon;
+        public string GamePath => _gamePath;
         public string GameTitle => _gameTitle;
         public string GameId => _gameId;
 
@@ -377,7 +378,8 @@ namespace Ryujinx.Ava.UI.ViewModels
             }
 
             _isGameRunning = gameRunning;
-            _gameTitle = gameName;
+            _gamePath = gamePath;
+            _gameTitle = gameName;           
             _gameId = gameId;
 
             if (enableToLoadCustomConfig) // During the game. If there is no user config, then load the global config window

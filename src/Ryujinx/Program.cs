@@ -35,6 +35,7 @@ namespace Ryujinx.Ava
         public static string GlobalConfigurationPath { get; private set; }
         public static bool PreviewerDetached { get; private set; }
         public static bool UseHardwareAcceleration { get; private set; }
+        public static string BackendThreadingArg { get; private set; }
 
         [LibraryImport("user32.dll", SetLastError = true)]
         public static partial int MessageBoxA(nint hWnd, [MarshalAs(UnmanagedType.LPStr)] string text, [MarshalAs(UnmanagedType.LPStr)] string caption, uint type);
@@ -249,6 +250,11 @@ namespace Ryujinx.Ava
                     "on" => BackendThreading.On,
                     _ => ConfigurationState.Instance.Graphics.BackendThreading
                 };
+
+            if (CommandLineState.OverrideBackendThreadingAfterReboot is not null)
+            {
+                BackendThreadingArg = CommandLineState.OverrideBackendThreadingAfterReboot;
+            }
 
             // Check if docked mode was overriden.
             if (CommandLineState.OverrideDockedMode.HasValue)
