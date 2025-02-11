@@ -15,7 +15,7 @@ namespace Ryujinx.Ava.Utilities.Configuration
         /// <summary>
         /// The current version of the file format
         /// </summary>
-        public const int CurrentVersion = 64;
+        public const int CurrentVersion = 65;
 
         /// <summary>
         /// Version of the configuration file format
@@ -163,9 +163,14 @@ namespace Ryujinx.Ava.Utilities.Configuration
         public bool EnableDiscordIntegration { get; set; }
 
         /// <summary>
-        /// Checks for updates when Ryujinx starts when enabled
+        /// DEPRECATED: Checks for updates when Ryujinx starts when enabled
         /// </summary>
         public bool CheckUpdatesOnStart { get; set; }
+        
+        /// <summary>
+        /// Checks for updates when Ryujinx starts when enabled, either prompting when an update is found or just showing a notification.
+        /// </summary>
+        public UpdaterType UpdateCheckerType { get; set; }
 
         /// <summary>
         /// Show "Confirm Exit" Dialog

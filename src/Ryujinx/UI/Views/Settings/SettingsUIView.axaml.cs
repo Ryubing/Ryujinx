@@ -21,7 +21,6 @@ namespace Ryujinx.Ava.UI.Views.Settings
         public SettingsUiView()
         {
             InitializeComponent();
-            ShowTitleBarBox.IsVisible = OperatingSystem.IsWindows();
             AddGameDirButton.Command =
                 Commands.Create(() => AddDirButton(GameDirPathBox, ViewModel.GameDirectories, true));
             AddAutoloadDirButton.Command =

@@ -1,6 +1,7 @@
 using ARMeilleure;
 using Gommon;
 using Ryujinx.Ava.Utilities.Configuration.System;
+using Ryujinx.Ava.Utilities.Configuration.UI;
 using Ryujinx.Common;
 using Ryujinx.Common.Configuration;
 using Ryujinx.Common.Configuration.Hid;
@@ -767,6 +768,11 @@ namespace Ryujinx.Ava.Utilities.Configuration
         /// Checks for updates when Ryujinx starts when enabled
         /// </summary>
         public ReactiveObject<bool> CheckUpdatesOnStart { get; private set; }
+        
+        /// <summary>
+        /// Checks for updates when Ryujinx starts when enabled, either prompting when an update is found or just showing a notification.
+        /// </summary>
+        public ReactiveObject<UpdaterType> UpdateCheckerType { get; private set; }
 
         /// <summary>
         /// Show "Confirm Exit" Dialog
@@ -804,6 +810,7 @@ namespace Ryujinx.Ava.Utilities.Configuration
             Hacks = new HacksSection();
             EnableDiscordIntegration = new ReactiveObject<bool>();
             CheckUpdatesOnStart = new ReactiveObject<bool>();
+            UpdateCheckerType = new ReactiveObject<UpdaterType>();
             ShowConfirmExit = new ReactiveObject<bool>();
             RememberWindowState = new ReactiveObject<bool>();
             ShowTitleBar = new ReactiveObject<bool>();

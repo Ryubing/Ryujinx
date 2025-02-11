@@ -19,6 +19,7 @@ using Ryujinx.Ava.UI.ViewModels;
 using Ryujinx.Ava.Utilities;
 using Ryujinx.Ava.Utilities.AppLibrary;
 using Ryujinx.Ava.Utilities.Configuration;
+using Ryujinx.Ava.Utilities.Configuration.UI;
 using Ryujinx.Common;
 using Ryujinx.Common.Helper;
 using Ryujinx.Common.Logging;
@@ -400,10 +401,21 @@ namespace Ryujinx.Ava.UI.Windows
                 await Dispatcher.UIThread.InvokeAsync(async () => await UserErrorDialog.ShowUserErrorDialog(UserError.NoKeys));
             }
 
-            if (ConfigurationState.Instance.CheckUpdatesOnStart && !CommandLineState.HideAvailableUpdates && Updater.CanUpdate())
+            if (!Updater.CanUpdate() || CommandLineState.HideAvailableUpdates)
+                return;
+
+            switch (ConfigurationState.Instance.UpdateCheckerType.Value)
             {
-                await Updater.BeginUpdateAsync()
-                    .Catch(task => Logger.Error?.Print(LogClass.Application, $"Updater Error: {task.Exception}"));
+                case UpdaterType.PromptAtStartup:
+                    await Updater.BeginUpdateAsync()
+                        .Catch(task => Logger.Error?.Print(LogClass.Application, $"Updater Error: {task.Exception}"));
+                    break;
+                case UpdaterType.CheckInBackground:
+                    if ((await Updater.CheckVersionAsync()).TryGet(out (Version Current, Version Incoming) versions))
+                    {
+                        Dispatcher.UIThread.Post(() => RyujinxApp.MainWindow.ViewModel.UpdateAvailable = versions.Current < versions.Incoming);
+                    }
+                    break;
             }
         }
 

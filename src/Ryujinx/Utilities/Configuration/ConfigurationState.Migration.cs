@@ -49,14 +49,16 @@ namespace Ryujinx.Ava.Utilities.Configuration
                 configurationFileUpdated = true;
             }
             
+
             EnableDiscordIntegration.Value = LoadSetting ? cff.EnableDiscordIntegration : EnableDiscordIntegration.Value; // Get from global config only
             CheckUpdatesOnStart.Value = LoadSetting ? cff.CheckUpdatesOnStart : CheckUpdatesOnStart.Value; // Get from global config only
+            UpdateCheckerType.Value = cff.UpdateCheckerType;
             ShowConfirmExit.Value = LoadSetting ? cff.ShowConfirmExit : ShowConfirmExit.Value; // Get from global config only
             RememberWindowState.Value = LoadSetting ? cff.RememberWindowState : RememberWindowState.Value; // Get from global config only
             ShowTitleBar.Value = LoadSetting ? cff.ShowTitleBar : ShowTitleBar.Value; // Get from global config only
             EnableHardwareAcceleration.Value = LoadSetting ? cff.EnableHardwareAcceleration : EnableHardwareAcceleration.Value; // Get from global config only
             HideCursor.Value = LoadSetting ? cff.HideCursor : HideCursor.Value; // Get from global config only
-
+          
             Logger.EnableFileLog.Value = cff.EnableFileLog;
             Logger.EnableDebug.Value = cff.LoggingEnableDebug;
             Logger.EnableStub.Value = cff.LoggingEnableStub;
@@ -438,7 +440,8 @@ namespace Ryujinx.Ava.Utilities.Configuration
                 }),
                 (62, static cff => cff.RainbowSpeed = 1f),
                 (63, static cff => cff.MatchSystemTime = false),
-                (64, static cff => cff.LoggingEnableAvalonia = false)
+                (64, static cff => cff.LoggingEnableAvalonia = false),
+                (65, static cff => cff.UpdateCheckerType = cff.CheckUpdatesOnStart ? UpdaterType.PromptAtStartup : UpdaterType.Off)
             );
     }
 }
