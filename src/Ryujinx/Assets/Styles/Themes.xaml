@@ -1,4 +1,4 @@
-﻿<ResourceDictionary xmlns="https://github.com/avaloniaui"
+<ResourceDictionary xmlns="https://github.com/avaloniaui"
                     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
     <ResourceDictionary.ThemeDictionaries>
         <ResourceDictionary x:Key="Default">
@@ -12,11 +12,13 @@
             <Color x:Key="MenuFlyoutPresenterBorderColor">#C1C1C1</Color>
             <Color x:Key="AppListBackgroundColor">#b3ffffff</Color>
             <Color x:Key="AppListHoverBackgroundColor">#80cccccc</Color>
+            <Color x:Key="WarningBackgroundColor">#FF6347</Color>
             <Color x:Key="SecondaryTextColor">#A0000000</Color>
             <Color x:Key="FavoriteApplicationIconColor">#fffcd12a</Color>
             <Color x:Key="Switch">#FF2EEAC9</Color>
             <Color x:Key="Unbounded">#FFFF4554</Color>
             <Color x:Key="Custom">#6483F5</Color>
+            <Color x:Key="Warning">#800080</Color>
         </ResourceDictionary>
         <ResourceDictionary x:Key="Light">
             <SolidColorBrush x:Key="DataGridSelectionBackgroundBrush"
@@ -29,11 +31,13 @@
             <Color x:Key="MenuFlyoutPresenterBorderColor">#C1C1C1</Color>
             <Color x:Key="AppListBackgroundColor">#b3ffffff</Color>
             <Color x:Key="AppListHoverBackgroundColor">#80cccccc</Color>
+            <Color x:Key="WarningBackgroundColor">#FF6347</Color>
             <Color x:Key="SecondaryTextColor">#A0000000</Color>
             <Color x:Key="FavoriteApplicationIconColor">#fffcd12a</Color>
             <Color x:Key="Switch">#13c3a4</Color>
             <Color x:Key="Unbounded">#FFFF4554</Color>
             <Color x:Key="Custom">#6483F5</Color>
+            <Color x:Key="Warning">#800080</Color>
         </ResourceDictionary>
         <ResourceDictionary x:Key="Dark">
             <SolidColorBrush x:Key="DataGridSelectionBackgroundBrush"
@@ -46,11 +50,13 @@
             <Color x:Key="MenuFlyoutPresenterBorderColor">#3D3D3D</Color>
             <Color x:Key="AppListBackgroundColor">#0FFFFFFF</Color>
             <Color x:Key="AppListHoverBackgroundColor">#1EFFFFFF</Color>
+            <Color x:Key="WarningBackgroundColor">#FF6347</Color>
             <Color x:Key="SecondaryTextColor">#A0FFFFFF</Color>
             <Color x:Key="FavoriteApplicationIconColor">#fffcd12a</Color>
             <Color x:Key="Switch">#FF2EEAC9</Color>
             <Color x:Key="Unbounded">#FFFF4554</Color>
             <Color x:Key="Custom">#6483F5</Color>
+            <Color x:Key="Warning">#FFA500</Color>
         </ResourceDictionary>
     </ResourceDictionary.ThemeDictionaries>
 </ResourceDictionary>

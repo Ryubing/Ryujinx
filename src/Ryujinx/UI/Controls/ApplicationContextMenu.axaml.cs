@@ -386,13 +386,26 @@ namespace Ryujinx.Ava.UI.Controls
                     viewModel.SelectedApplication.Icon
                 );
         }
-        
+
+        public async void EditGameConfiguration_Click(object sender, RoutedEventArgs args)
+        {
+            if (sender is MenuItem { DataContext: MainWindowViewModel { SelectedApplication: not null } viewModel })
+            {
+                await new GameSpecificSettingsWindow(viewModel).ShowDialog((Window)viewModel.TopLevel);
+
+                //just checking for file presence
+                viewModel.SelectedApplication.HasIndependentConfiguration = File.Exists(Program.GetDirGameUserConfig(viewModel.SelectedApplication.IdString,false,false));
+
+                viewModel.RefreshView();
+            }
+        }
+
         public async void OpenApplicationCompatibility_Click(object sender, RoutedEventArgs args)
         {
             if (sender is MenuItem { DataContext: MainWindowViewModel { SelectedApplication: not null } viewModel })
                 await CompatibilityList.Show(viewModel.SelectedApplication.IdString);
         }
-        
+               
         public async void OpenApplicationData_Click(object sender, RoutedEventArgs args)
         {
             if (sender is MenuItem { DataContext: MainWindowViewModel { SelectedApplication: not null } viewModel })

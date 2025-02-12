@@ -130,9 +130,26 @@ namespace Ryujinx.Ava.UI.Views.Main
             Window.SettingsWindow = new(Window.VirtualFileSystem, Window.ContentManager);
 
             Rainbow.Enable();
-            
-            await Window.SettingsWindow.ShowDialog(Window);
-            
+
+            if (ViewModel.SelectedApplication is null) // Checks if game data exists
+            {
+                await Window.SettingsWindow.ShowDialog(Window);
+            }
+            else
+            { 
+                bool userConfigExist = Program.FindGameConfig(Program.GetDirGameUserConfig(ViewModel.SelectedApplication.IdString, false, false));
+
+                if (!ViewModel.IsGameRunning || !userConfigExist)
+                {
+                    await Window.SettingsWindow.ShowDialog(Window); // The game is not running, or if the user configuration does not exist
+                }
+                else
+                {
+                    // If there is a custom configuration in the folder
+                    await new GameSpecificSettingsWindow(ViewModel, userConfigExist).ShowDialog((Window)ViewModel.TopLevel);
+                }
+            }
+
             Rainbow.Disable();
             Rainbow.Reset();
 
