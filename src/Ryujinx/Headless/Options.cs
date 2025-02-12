@@ -387,7 +387,7 @@ namespace Ryujinx.Headless
         [Option("graphics-shaders-dump-path", Required = false, HelpText = "Dumps shaders in this local directory. (Developer only)")]
         public string GraphicsShadersDumpPath { get; set; }
 
-        [Option("graphics-backend", Required = false, Default = GraphicsBackend.OpenGl, HelpText = "Change Graphics Backend to use.")]
+        [Option("graphics-backend", Required = false, Default = GraphicsBackend.Vulkan, HelpText = "Change Graphics Backend to use.")]
         public GraphicsBackend GraphicsBackend { get; set; }
 
         [Option("preferred-gpu-vendor", Required = false, Default = "", HelpText = "When using the Vulkan backend, prefer using the GPU from the specified vendor.")]

@@ -1,6 +1,7 @@
 using ARMeilleure;
 using Gommon;
 using Ryujinx.Ava.Utilities.Configuration.System;
+using Ryujinx.Ava.Utilities.Configuration.UI;
 using Ryujinx.Common;
 using Ryujinx.Common.Configuration;
 using Ryujinx.Common.Configuration.Hid;
@@ -254,6 +255,11 @@ namespace Ryujinx.Ava.Utilities.Configuration
             /// Enables printing FS access log messages
             /// </summary>
             public ReactiveObject<bool> EnableFsAccessLog { get; private set; }
+            
+            /// <summary>
+            /// Enables log messages from Avalonia
+            /// </summary>
+            public ReactiveObject<bool> EnableAvaloniaLog { get; private set; }
 
             /// <summary>
             /// Controls which log messages are written to the log targets
@@ -281,6 +287,7 @@ namespace Ryujinx.Ava.Utilities.Configuration
                 EnableTrace = new ReactiveObject<bool>();
                 EnableGuest = new ReactiveObject<bool>();
                 EnableFsAccessLog = new ReactiveObject<bool>();
+                EnableAvaloniaLog = new ReactiveObject<bool>();
                 FilteredClasses = new ReactiveObject<LogClass[]>();
                 EnableFileLog = new ReactiveObject<bool>();
                 EnableFileLog.LogChangesToValue(nameof(EnableFileLog));
@@ -440,6 +447,11 @@ namespace Ryujinx.Ava.Utilities.Configuration
             /// Enable or disable mouse support (Independent from controllers binding)
             /// </summary>
             public ReactiveObject<bool> EnableMouse { get; private set; }
+            
+            /// <summary>
+            /// Enable/disable the ability to control Ryujinx when it's not the currently focused window.
+            /// </summary>
+            public ReactiveObject<bool> DisableInputWhenOutOfFocus { get; private set; }
 
             /// <summary>
             /// Hotkey Keyboard Bindings
@@ -462,6 +474,7 @@ namespace Ryujinx.Ava.Utilities.Configuration
             {
                 EnableKeyboard = new ReactiveObject<bool>();
                 EnableMouse = new ReactiveObject<bool>();
+                DisableInputWhenOutOfFocus = new ReactiveObject<bool>();
                 Hotkeys = new ReactiveObject<KeyboardHotkeys>();
                 InputConfig = new ReactiveObject<List<InputConfig>>();
                 RainbowSpeed = new ReactiveObject<float>();
@@ -761,6 +774,11 @@ namespace Ryujinx.Ava.Utilities.Configuration
         /// Checks for updates when Ryujinx starts when enabled
         /// </summary>
         public ReactiveObject<bool> CheckUpdatesOnStart { get; private set; }
+        
+        /// <summary>
+        /// Checks for updates when Ryujinx starts when enabled, either prompting when an update is found or just showing a notification.
+        /// </summary>
+        public ReactiveObject<UpdaterType> UpdateCheckerType { get; private set; }
 
         /// <summary>
         /// Show "Confirm Exit" Dialog
@@ -798,6 +816,7 @@ namespace Ryujinx.Ava.Utilities.Configuration
             Hacks = new HacksSection();
             EnableDiscordIntegration = new ReactiveObject<bool>();
             CheckUpdatesOnStart = new ReactiveObject<bool>();
+            UpdateCheckerType = new ReactiveObject<UpdaterType>();
             ShowConfirmExit = new ReactiveObject<bool>();
             RememberWindowState = new ReactiveObject<bool>();
             ShowTitleBar = new ReactiveObject<bool>();

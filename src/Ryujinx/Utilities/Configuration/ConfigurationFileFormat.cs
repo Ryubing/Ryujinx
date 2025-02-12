@@ -15,7 +15,7 @@ namespace Ryujinx.Ava.Utilities.Configuration
         /// <summary>
         /// The current version of the file format
         /// </summary>
-        public const int CurrentVersion = 63;
+        public const int CurrentVersion = 66;
 
         /// <summary>
         /// Version of the configuration file format
@@ -111,6 +111,11 @@ namespace Ryujinx.Ava.Utilities.Configuration
         /// Enables printing FS access log messages
         /// </summary>
         public bool LoggingEnableFsAccessLog { get; set; }
+        
+        /// <summary>
+        /// Enables log messages from Avalonia
+        /// </summary>
+        public bool LoggingEnableAvalonia { get; set; }
 
         /// <summary>
         /// Controls which log messages are written to the log targets
@@ -158,9 +163,14 @@ namespace Ryujinx.Ava.Utilities.Configuration
         public bool EnableDiscordIntegration { get; set; }
 
         /// <summary>
-        /// Checks for updates when Ryujinx starts when enabled
+        /// DEPRECATED: Checks for updates when Ryujinx starts when enabled
         /// </summary>
         public bool CheckUpdatesOnStart { get; set; }
+        
+        /// <summary>
+        /// Checks for updates when Ryujinx starts when enabled, either prompting when an update is found or just showing a notification.
+        /// </summary>
+        public UpdaterType UpdateCheckerType { get; set; }
 
         /// <summary>
         /// Show "Confirm Exit" Dialog
@@ -373,6 +383,11 @@ namespace Ryujinx.Ava.Utilities.Configuration
         /// Enable or disable mouse support (Independent from controllers binding)
         /// </summary>
         public bool EnableMouse { get; set; }
+        
+        /// <summary>
+        /// Enable/disable the ability to control Ryujinx when it's not the currently focused window.
+        /// </summary>
+        public bool DisableInputWhenOutOfFocus { get; set; }
 
         /// <summary>
         /// Hotkey Keyboard Bindings

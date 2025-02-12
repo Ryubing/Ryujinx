@@ -6,6 +6,7 @@
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:ext="clr-namespace:Ryujinx.Ava.Common.Markup"
     xmlns:viewModels="clr-namespace:Ryujinx.Ava.UI.ViewModels"
+    xmlns:helper="clr-namespace:Ryujinx.Common.Helper;assembly=Ryujinx.Common"
     mc:Ignorable="d"
     x:DataType="viewModels:SettingsViewModel">
     <Design.DataContext>
@@ -30,18 +31,36 @@
                                    ToolTip.Tip="{ext:Locale ToggleDiscordTooltip}"
                                    Text="{ext:Locale SettingsTabGeneralEnableDiscordRichPresence}" />
                     </CheckBox>
-                    <CheckBox IsChecked="{Binding CheckUpdatesOnStart}">
-                        <TextBlock Text="{ext:Locale SettingsTabGeneralCheckUpdatesOnLaunch}" />
-                    </CheckBox>
                     <CheckBox IsChecked="{Binding ShowConfirmExit}">
                         <TextBlock Text="{ext:Locale SettingsTabGeneralShowConfirmExitDialog}" />
                     </CheckBox>
                     <CheckBox IsChecked="{Binding RememberWindowState}">
                         <TextBlock Text="{ext:Locale SettingsTabGeneralRememberWindowState}" />
                     </CheckBox>
-                    <CheckBox IsChecked="{Binding ShowTitleBar}" Name="ShowTitleBarBox">
+                    <CheckBox IsChecked="{Binding DisableInputWhenOutOfFocus}">
+                        <TextBlock Text="{ext:Locale SettingsTabGeneralDisableInputWhenOutOfFocus}" />
+                    </CheckBox>
+                    <CheckBox IsChecked="{Binding ShowTitleBar}" IsVisible="{x:Static helper:RunningPlatform.IsWindows}">
                         <TextBlock Text="{ext:Locale SettingsTabGeneralShowTitleBar}" />
                     </CheckBox>
+                    <StackPanel Margin="0, 15, 0, 0" Orientation="Horizontal">
+                        <TextBlock VerticalAlignment="Center"
+                                   Text="{ext:Locale SettingsTabGeneralCheckUpdatesOnLaunch}"
+                                   Width="150" />
+                        <ComboBox SelectedIndex="{Binding UpdateCheckerType}"
+                                  HorizontalContentAlignment="Left"
+                                  MinWidth="100">
+                            <ComboBoxItem>
+                                <TextBlock Text="{ext:Locale SettingsTabGeneralCheckUpdatesOnLaunchOff}" />
+                            </ComboBoxItem>
+                            <ComboBoxItem>
+                                <TextBlock Text="{ext:Locale SettingsTabGeneralCheckUpdatesOnLaunchPromptAtStartup}" />
+                            </ComboBoxItem>
+                            <ComboBoxItem>
+                                <TextBlock Text="{ext:Locale SettingsTabGeneralCheckUpdatesOnLaunchBackground}" />
+                            </ComboBoxItem>
+                        </ComboBox>
+                    </StackPanel>
                     <StackPanel Margin="0, 15, 0, 0" Orientation="Horizontal">
                         <TextBlock VerticalAlignment="Center"
                                    Text="{ext:Locale SettingsTabGeneralHideCursor}"

@@ -164,15 +164,16 @@ namespace Ryujinx.Common
             "0100ba0018500000", // Splatoon 3: Splatfest World Premiere
 
                           //NSO Membership games
-            "0100ccf019c8c000", // F-ZERO 99
             "0100c62011050000", // GB - Nintendo Switch Online
             "010012f017576000", // GBA - Nintendo Switch Online
             "0100c9a00ece6000", // N64 - Nintendo Switch Online
             "0100e0601c632000", // N64 - Nintendo Switch Online 18+
             "0100d870045b6000", // NES - Nintendo Switch Online
+            "0100b3c014bda000", // SEGA Genesis - Nintendo Switch Online
+            "01008d300c50c000", // SNES - Nintendo Switch Online
+            "0100ccf019c8c000", // F-ZERO 99
             "0100ad9012510000", // PAC-MAN 99
             "010040600c5ce000", // Tetris 99
-            "01008d300c50c000", // SNES - Nintendo Switch Online
             "0100277011f1a000", // Super Mario Bros. 35
 
                           //Misc Nintendo 1st party games
@@ -218,6 +219,7 @@ namespace Ryujinx.Common
                           //Misc Games
             "010056e00853a000", // A Hat in Time
             "0100fd1014726000", // Baldurs Gate: Dark Alliance
+            "01008c2019598000", // Bluey: The Video Game
             "0100c6800b934000", // Brawlhalla
             "0100dbf01000a000", // Burnout Paradise Remastered
             "0100744001588000", // Cars 3: Driven to Win

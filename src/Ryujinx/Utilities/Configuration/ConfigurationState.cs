@@ -46,6 +46,7 @@ namespace Ryujinx.Ava.Utilities.Configuration
                 LoggingEnableTrace = Logger.EnableTrace,
                 LoggingEnableGuest = Logger.EnableGuest,
                 LoggingEnableFsAccessLog = Logger.EnableFsAccessLog,
+                LoggingEnableAvalonia = Logger.EnableAvaloniaLog,
                 LoggingFilteredClasses = Logger.FilteredClasses,
                 LoggingGraphicsDebugLevel = Logger.GraphicsDebugLevel,
                 SystemLanguage = System.Language,
@@ -55,6 +56,7 @@ namespace Ryujinx.Ava.Utilities.Configuration
                 DockedMode = System.EnableDockedMode,
                 EnableDiscordIntegration = EnableDiscordIntegration,
                 CheckUpdatesOnStart = CheckUpdatesOnStart,
+                UpdateCheckerType = UpdateCheckerType,
                 ShowConfirmExit = ShowConfirmExit,
                 RememberWindowState = RememberWindowState,
                 ShowTitleBar = ShowTitleBar,
@@ -129,6 +131,7 @@ namespace Ryujinx.Ava.Utilities.Configuration
                 ShowConsole = UI.ShowConsole,
                 EnableKeyboard = Hid.EnableKeyboard,
                 EnableMouse = Hid.EnableMouse,
+                DisableInputWhenOutOfFocus = Hid.DisableInputWhenOutOfFocus,
                 Hotkeys = Hid.Hotkeys,
                 InputConfig = Hid.InputConfig,
                 RainbowSpeed = Hid.RainbowSpeed,
@@ -165,6 +168,7 @@ namespace Ryujinx.Ava.Utilities.Configuration
             Logger.EnableTrace.Value = false;
             Logger.EnableGuest.Value = true;
             Logger.EnableFsAccessLog.Value = false;
+            Logger.EnableAvaloniaLog.Value = false;
             Logger.FilteredClasses.Value = [];
             Logger.GraphicsDebugLevel.Value = GraphicsDebugLevel.None;
             System.Language.Value = Language.AmericanEnglish;
@@ -173,7 +177,7 @@ namespace Ryujinx.Ava.Utilities.Configuration
             System.SystemTimeOffset.Value = 0;
             System.EnableDockedMode.Value = true;
             EnableDiscordIntegration.Value = true;
-            CheckUpdatesOnStart.Value = true;
+            UpdateCheckerType.Value = UpdaterType.PromptAtStartup;
             ShowConfirmExit.Value = true;
             RememberWindowState.Value = true;
             ShowTitleBar.Value = !OperatingSystem.IsWindows();
@@ -242,6 +246,7 @@ namespace Ryujinx.Ava.Utilities.Configuration
             UI.WindowStartup.WindowMaximized.Value = false;
             Hid.EnableKeyboard.Value = false;
             Hid.EnableMouse.Value = false;
+            Hid.DisableInputWhenOutOfFocus.Value = false;
             Hid.Hotkeys.Value = new KeyboardHotkeys
             {
                 ToggleVSyncMode = Key.F1,

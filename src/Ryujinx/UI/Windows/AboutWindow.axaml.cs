@@ -18,8 +18,6 @@ namespace Ryujinx.Ava.UI.Windows
     {
         public AboutWindow()
         {
-            DataContext = new AboutWindowViewModel();
-
             InitializeComponent();
 
             GitHubRepoButton.Tag =
@@ -28,12 +26,14 @@ namespace Ryujinx.Ava.UI.Windows
 
         public static async Task Show()
         {
+            using AboutWindowViewModel viewModel = new();
+            
             ContentDialog contentDialog = new()
             {
                 PrimaryButtonText = string.Empty,
                 SecondaryButtonText = string.Empty,
                 CloseButtonText = LocaleManager.Instance[LocaleKeys.UserProfilesClose],
-                Content = new AboutWindow()
+                Content = new AboutWindow { DataContext = viewModel }
             };
 
             Style closeButton = new(x => x.Name("CloseButton"));

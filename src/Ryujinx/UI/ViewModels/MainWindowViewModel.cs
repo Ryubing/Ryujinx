@@ -7,6 +7,7 @@ using Avalonia.Media.Imaging;
 using Avalonia.Platform.Storage;
 using Avalonia.Threading;
 using CommunityToolkit.Mvvm.ComponentModel;
+using CommunityToolkit.Mvvm.Input;
 using DynamicData;
 using DynamicData.Binding;
 using FluentAvalonia.UI.Controls;
@@ -104,6 +105,13 @@ namespace Ryujinx.Ava.UI.ViewModels
         [ObservableProperty] private bool _isSubMenuOpen;
         [ObservableProperty] private ApplicationContextMenu _listAppContextMenu;
         [ObservableProperty] private ApplicationContextMenu _gridAppContextMenu;
+        [ObservableProperty] private bool _updateAvailable;
+
+        public static AsyncRelayCommand UpdateCommand { get; } = Commands.Create(async () =>
+        {
+            if (Updater.CanUpdate(true))
+                await Updater.BeginUpdateAsync(true);
+        });
         
         private bool _showLoadProgress;
         private bool _isGameRunning;
@@ -1147,10 +1155,10 @@ namespace Ryujinx.Ava.UI.ViewModels
                 List<string> dirs = result.Select(it => it.Path.LocalPath).ToList();
                 int numAdded = onDirsSelected(dirs, out int numRemoved);
 
-                string msg = String.Join("\r\n", new string[] {
+                string msg = string.Join("\n",
                     string.Format(LocaleManager.Instance[localeMessageRemovedKey], numRemoved),
                     string.Format(LocaleManager.Instance[localeMessageAddedKey], numAdded)
-                });
+                );
 
                 await Dispatcher.UIThread.InvokeAsync(async () =>
                 {
