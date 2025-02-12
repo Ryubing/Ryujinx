@@ -447,6 +447,11 @@ namespace Ryujinx.Ava.Utilities.Configuration
             /// Enable or disable mouse support (Independent from controllers binding)
             /// </summary>
             public ReactiveObject<bool> EnableMouse { get; private set; }
+            
+            /// <summary>
+            /// Enable/disable the ability to control Ryujinx when it's not the currently focused window.
+            /// </summary>
+            public ReactiveObject<bool> DisableInputWhenOutOfFocus { get; private set; }
 
             /// <summary>
             /// Hotkey Keyboard Bindings
@@ -469,6 +474,7 @@ namespace Ryujinx.Ava.Utilities.Configuration
             {
                 EnableKeyboard = new ReactiveObject<bool>();
                 EnableMouse = new ReactiveObject<bool>();
+                DisableInputWhenOutOfFocus = new ReactiveObject<bool>();
                 Hotkeys = new ReactiveObject<KeyboardHotkeys>();
                 InputConfig = new ReactiveObject<List<InputConfig>>();
                 RainbowSpeed = new ReactiveObject<float>();

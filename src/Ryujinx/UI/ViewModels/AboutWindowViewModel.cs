@@ -2,6 +2,7 @@ using Avalonia.Media.Imaging;
 using Avalonia.Styling;
 using Avalonia.Threading;
 using CommunityToolkit.Mvvm.ComponentModel;
+using Gommon;
 using Ryujinx.Ava.Common;
 using Ryujinx.Ava.Common.Locale;
 using Ryujinx.Ava.Utilities.Configuration;
@@ -32,15 +33,16 @@ namespace Ryujinx.Ava.UI.ViewModels
             Dispatcher.UIThread.Post(() => UpdateLogoTheme(ConfigurationState.Instance.UI.BaseStyle.Value));
         }
 
+        private const string LogoPathFormat = "resm:Ryujinx.Assets.UIImages.Logo_{0}_{1}.png?assembly=Ryujinx";
+
         private void UpdateLogoTheme(string theme)
         {
             bool isDarkTheme = theme == "Dark" || (theme == "Auto" && RyujinxApp.DetectSystemTheme() == ThemeVariant.Dark);
+            
+            string themeName = isDarkTheme ? "Dark" : "Light";
 
-            string basePath = "resm:Ryujinx.Assets.UIImages.";
-            string themeSuffix = isDarkTheme ? "Dark.png" : "Light.png";
-
-            GithubLogo = LoadBitmap($"{basePath}Logo_GitHub_{themeSuffix}?assembly=Ryujinx");
-            DiscordLogo = LoadBitmap($"{basePath}Logo_Discord_{themeSuffix}?assembly=Ryujinx");
+            GithubLogo = LoadBitmap(LogoPathFormat.Format("GitHub", themeName));
+            DiscordLogo = LoadBitmap(LogoPathFormat.Format("Discord", themeName));
         }
 
         private static Bitmap LoadBitmap(string uri) => new(Avalonia.Platform.AssetLoader.Open(new Uri(uri)));
@@ -48,6 +50,10 @@ namespace Ryujinx.Ava.UI.ViewModels
         public void Dispose()
         {
             ThemeManager.ThemeChanged -= ThemeManager_ThemeChanged;
+            
+            GithubLogo.Dispose();
+            DiscordLogo.Dispose();
+            
             GC.SuppressFinalize(this);
         }
     }

@@ -126,6 +126,8 @@ namespace Ryujinx.Ava.UI.ViewModels
         public bool EnableDockedMode { get; set; }
         public bool EnableKeyboard { get; set; }
         public bool EnableMouse { get; set; }
+        public bool DisableInputWhenOutOfFocus { get; set; }
+        
         public VSyncMode VSyncMode
         {
             get => _vSyncMode;
@@ -498,6 +500,7 @@ namespace Ryujinx.Ava.UI.ViewModels
             EnableDockedMode = config.System.EnableDockedMode;
             EnableKeyboard = config.Hid.EnableKeyboard;
             EnableMouse = config.Hid.EnableMouse;
+            DisableInputWhenOutOfFocus = config.Hid.DisableInputWhenOutOfFocus;
 
             // Keyboard Hotkeys
             KeyboardHotkey = new HotkeyConfig(config.Hid.Hotkeys.Value);
@@ -609,6 +612,7 @@ namespace Ryujinx.Ava.UI.ViewModels
             config.System.EnableDockedMode.Value = EnableDockedMode;
             config.Hid.EnableKeyboard.Value = EnableKeyboard;
             config.Hid.EnableMouse.Value = EnableMouse;
+            config.Hid.DisableInputWhenOutOfFocus.Value = DisableInputWhenOutOfFocus;
 
             // Keyboard Hotkeys
             config.Hid.Hotkeys.Value = KeyboardHotkey.GetConfig();

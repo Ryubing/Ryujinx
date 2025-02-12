@@ -158,13 +158,15 @@ namespace Ryujinx.HLE.HOS.Applets.Error
 
             string[] buttons = GetButtonsText(module, description, "DlgBtn");
 
-            bool showDetails = _horizon.Device.UIHandler.DisplayErrorAppletDialog($"Error Code: {module}-{description:0000}", "\n" + message, buttons);
+            (uint Module, uint Description) errorCodeTuple = (module, uint.Parse(description.ToString("0000")));
+            
+            bool showDetails = _horizon.Device.UIHandler.DisplayErrorAppletDialog($"Error Code: {module}-{description:0000}", "\n" + message, buttons, errorCodeTuple);
             if (showDetails)
             {
                 message = GetMessageText(module, description, "FlvMsg");
                 buttons = GetButtonsText(module, description, "FlvBtn");
 
-                _horizon.Device.UIHandler.DisplayErrorAppletDialog($"Details: {module}-{description:0000}", "\n" + message, buttons);
+                _horizon.Device.UIHandler.DisplayErrorAppletDialog($"Details: {module}-{description:0000}", "\n" + message, buttons, errorCodeTuple);
             }
         }
 

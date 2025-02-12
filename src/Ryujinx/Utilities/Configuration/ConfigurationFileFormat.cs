@@ -15,7 +15,7 @@ namespace Ryujinx.Ava.Utilities.Configuration
         /// <summary>
         /// The current version of the file format
         /// </summary>
-        public const int CurrentVersion = 65;
+        public const int CurrentVersion = 66;
 
         /// <summary>
         /// Version of the configuration file format
@@ -383,6 +383,11 @@ namespace Ryujinx.Ava.Utilities.Configuration
         /// Enable or disable mouse support (Independent from controllers binding)
         /// </summary>
         public bool EnableMouse { get; set; }
+        
+        /// <summary>
+        /// Enable/disable the ability to control Ryujinx when it's not the currently focused window.
+        /// </summary>
+        public bool DisableInputWhenOutOfFocus { get; set; }
 
         /// <summary>
         /// Hotkey Keyboard Bindings

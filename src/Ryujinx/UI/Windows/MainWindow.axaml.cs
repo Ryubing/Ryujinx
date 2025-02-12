@@ -1,6 +1,7 @@
 using Avalonia;
 using Avalonia.Controls;
 using Avalonia.Controls.Primitives;
+using Avalonia.Input;
 using Avalonia.Interactivity;
 using Avalonia.Platform;
 using Avalonia.Threading;
@@ -760,6 +761,35 @@ namespace Ryujinx.Ava.UI.Windows
                 "Intel Macs are not supported and will not work properly.\nIf you continue, do not come to our Discord asking for support;\nand do not report bugs on the GitHub. They will be closed."));
 
             _intelMacWarningShown = true;
+        }
+        
+        private void InputElement_OnGotFocus(object sender, GotFocusEventArgs e)
+        {
+            if (!_didDisableInputUpdates) 
+                return;
+
+            if (!ConfigurationState.Instance.Hid.DisableInputWhenOutOfFocus)
+                return;
+
+            if (ViewModel.AppHost is not { NpadManager.InputUpdatesBlocked: true } appHost)
+                return;
+
+            appHost.NpadManager.UnblockInputUpdates();
+            _didDisableInputUpdates = appHost.NpadManager.InputUpdatesBlocked;
+        }
+
+        private bool _didDisableInputUpdates;
+
+        private void InputElement_OnLostFocus(object sender, RoutedEventArgs e)
+        {
+            if (!ConfigurationState.Instance.Hid.DisableInputWhenOutOfFocus)
+                return;
+
+            if (ViewModel.AppHost is not { NpadManager.InputUpdatesBlocked: false } appHost)
+                return;
+            
+            appHost.NpadManager.BlockInputUpdates();
+            _didDisableInputUpdates = appHost.NpadManager.InputUpdatesBlocked;
         }
     }
 }

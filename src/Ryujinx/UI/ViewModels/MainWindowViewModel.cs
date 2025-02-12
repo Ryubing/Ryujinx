@@ -107,7 +107,7 @@ namespace Ryujinx.Ava.UI.ViewModels
         [ObservableProperty] private ApplicationContextMenu _gridAppContextMenu;
         [ObservableProperty] private bool _updateAvailable;
 
-        public static AsyncRelayCommand UpdateCommand => Commands.Create(async () =>
+        public static AsyncRelayCommand UpdateCommand { get; } = Commands.Create(async () =>
         {
             if (Updater.CanUpdate(true))
                 await Updater.BeginUpdateAsync(true);
