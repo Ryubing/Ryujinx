@@ -159,7 +159,7 @@
                                         TextWrapping="Wrap"/>
                                     <TextBlock
                                         HorizontalAlignment="Stretch"
-                                        IsVisible="{Binding UserConfig}"
+                                        IsVisible="{Binding HasIndependentConfiguration}"
                                         Text="{ext:Locale UserConfigurationHeader}"
                                         TextAlignment="Start"
                                         TextWrapping="Wrap"

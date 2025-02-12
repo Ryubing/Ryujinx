@@ -24,10 +24,6 @@ namespace Ryujinx.Ava.Utilities
         public static bool StartFullscreenArg { get; private set; }
         public static bool HideAvailableUpdates { get; private set; }
 
-        public static void ArgumentsClean()
-        {
-
-        }
 
         public static void ParseArguments(string[] args)
         {

@@ -1,5 +1,5 @@
 <window:StyleableAppWindow
-    x:Class="Ryujinx.Ava.UI.Windows.UserConfigWindows"
+    x:Class="Ryujinx.Ava.UI.Windows.GameSpecificSettingsWindow"
     xmlns="https://github.com/avaloniaui"
     xmlns:ui="clr-namespace:FluentAvalonia.UI.Controls;assembly=FluentAvalonia"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"

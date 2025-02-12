@@ -51,12 +51,8 @@ namespace Ryujinx.Ava.UI.Views.Main
             XciTrimmerMenuItem.Command = Commands.Create(XCITrimmerWindow.Show);
             AboutWindowMenuItem.Command = Commands.Create(AboutWindow.Show);
             CompatibilityListMenuItem.Command = Commands.Create(() => CompatibilityList.Show());
-            
-            UpdateMenuItem.Command = Commands.Create(async () =>
-            {
-                if (Updater.CanUpdate(true))
-                    await Updater.BeginUpdateAsync(true);
-            });
+
+            UpdateMenuItem.Command = MainWindowViewModel.UpdateCommand;
 
             FaqMenuItem.Command = 
                 SetupGuideMenuItem.Command = 
@@ -150,7 +146,7 @@ namespace Ryujinx.Ava.UI.Views.Main
                 else
                 {
                     // If there is a custom configuration in the folder
-                    await new UserConfigWindows(ViewModel, userConfigExist).ShowDialog((Window)ViewModel.TopLevel);
+                    await new GameSpecificSettingsWindow(ViewModel, userConfigExist).ShowDialog((Window)ViewModel.TopLevel);
                 }
             }
 

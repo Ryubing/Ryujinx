@@ -24,11 +24,11 @@ using Key = Avalonia.Input.Key;
 
 namespace Ryujinx.Ava.UI.Windows
 {
-    public partial class UserConfigWindows : StyleableAppWindow
+    public partial class GameSpecificSettingsWindow : StyleableAppWindow
     {
         internal readonly SettingsViewModel ViewModel;
 
-        public UserConfigWindows(MainWindowViewModel viewModel, bool findUserConfigDir = true)
+        public GameSpecificSettingsWindow(MainWindowViewModel viewModel, bool findUserConfigDir = true)
         {
             Title = string.Format(LocaleManager.Instance[LocaleKeys.SettingsWithInfo], viewModel.SelectedApplication.Name, viewModel.SelectedApplication.IdString);
 

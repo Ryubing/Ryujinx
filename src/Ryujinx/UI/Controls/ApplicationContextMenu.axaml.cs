@@ -391,10 +391,10 @@ namespace Ryujinx.Ava.UI.Controls
         {
             if (sender is MenuItem { DataContext: MainWindowViewModel { SelectedApplication: not null } viewModel })
             {
-                await new UserConfigWindows(viewModel).ShowDialog((Window)viewModel.TopLevel);
+                await new GameSpecificSettingsWindow(viewModel).ShowDialog((Window)viewModel.TopLevel);
 
                 //just checking for file presence
-                viewModel.SelectedApplication.UserConfig = File.Exists(Program.GetDirGameUserConfig(viewModel.SelectedApplication.IdString,false,false));
+                viewModel.SelectedApplication.HasIndependentConfiguration = File.Exists(Program.GetDirGameUserConfig(viewModel.SelectedApplication.IdString,false,false));
 
                 viewModel.RefreshView();
             }

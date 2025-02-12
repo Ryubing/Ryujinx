@@ -400,7 +400,6 @@ namespace Ryujinx.Ava.UI.ViewModels
             {
                 Task.Run(LoadTimeZones);
 
-                DirtyHacks = new SettingsHacksViewModel(this);
             }
         }
 

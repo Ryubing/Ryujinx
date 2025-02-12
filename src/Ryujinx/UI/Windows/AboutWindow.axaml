@@ -125,7 +125,7 @@
                         Background="Transparent"
                         Click="Button_OnClick"
                         CornerRadius="15"
-                        Tag="https://discord.gg/dHPrkBkkyA"
+                        Tag="https://discord.gg/PEuzjrFXUA"
                         ToolTip.Tip="{ext:Locale AboutDiscordUrlTooltipMessage}">
                         <Image Source="{Binding DiscordLogo}" />
                     </Button>

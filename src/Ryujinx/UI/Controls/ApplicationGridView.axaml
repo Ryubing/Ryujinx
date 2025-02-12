@@ -80,7 +80,7 @@
                                             TextAlignment="Center"
                                             TextWrapping="Wrap" />
                                         <TextBlock
-                                            IsVisible="{Binding UserConfig}"
+                                            IsVisible="{Binding HasIndependentConfiguration}"
                                             Text="{ext:Locale UserConfigurationHeader}"
                                             TextAlignment="Center"
                                             TextWrapping="Wrap"
@@ -105,7 +105,7 @@
                                 Width="90"
                                 Height="20"
                                 CornerRadius="4"
-                                IsVisible="{Binding UserConfig}"
+                                IsVisible="{Binding HasIndependentConfiguration}"
                                 Background="{DynamicResource ThemeContentBackgroundColor}">
                                 <TextBlock
                                     HorizontalAlignment="Center"

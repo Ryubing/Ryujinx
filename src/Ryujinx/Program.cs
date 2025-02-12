@@ -299,7 +299,7 @@ namespace Ryujinx.Ava
                     ConfigurationState.Instance.System.Language.Value = (Utilities.Configuration.System.Language)result;
                 }
 
-            // Check if hardware-acceleration was overridden. MemoryManagerMode ( outdated! )
+            // Check if hardware-acceleration was overridden.
             if (CommandLineState.OverrideHardwareAcceleration != null)
                 UseHardwareAcceleration = CommandLineState.OverrideHardwareAcceleration.Value;
         }
