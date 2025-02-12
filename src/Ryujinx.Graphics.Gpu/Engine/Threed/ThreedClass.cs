@@ -5,6 +5,7 @@ using Ryujinx.Graphics.Gpu.Engine.GPFifo;
 using Ryujinx.Graphics.Gpu.Engine.InlineToMemory;
 using Ryujinx.Graphics.Gpu.Engine.Threed.Blender;
 using Ryujinx.Graphics.Gpu.Engine.Types;
+using Ryujinx.Graphics.Gpu.Memory;
 using Ryujinx.Graphics.Gpu.Synchronization;
 using Ryujinx.Memory.Range;
 using System;
@@ -804,6 +805,8 @@ namespace Ryujinx.Graphics.Gpu.Engine.Threed
         /// Performs a indirect draw, with parameters from a GPU buffer.
         /// </summary>
         /// <param name="topology">Primitive topology</param>
+        /// <param name="indirectBufferCache">Buffer cache owning the buffer with the draw parameters</param>
+        /// <param name="parameterBufferCache">Buffer cache owning the buffer with the draw count</param>
         /// <param name="indirectBufferRange">Memory range of the buffer with the draw parameters, such as count, first index, etc</param>
         /// <param name="parameterBufferRange">Memory range of the buffer with the draw count</param>
         /// <param name="maxDrawCount">Maximum number of draws that can be made</param>
@@ -812,6 +815,8 @@ namespace Ryujinx.Graphics.Gpu.Engine.Threed
         /// <param name="drawType">Type of the indirect draw, which can be indexed or non-indexed, with or without a draw count</param>
         public void DrawIndirect(
             PrimitiveTopology topology,
+            BufferCache indirectBufferCache,
+            BufferCache parameterBufferCache,
             MultiRange indirectBufferRange,
             MultiRange parameterBufferRange,
             int maxDrawCount,
@@ -819,7 +824,7 @@ namespace Ryujinx.Graphics.Gpu.Engine.Threed
             int indexCount,
             IndirectDrawType drawType)
         {
-            _drawManager.DrawIndirect(this, topology, indirectBufferRange, parameterBufferRange, maxDrawCount, stride, indexCount, drawType);
+            _drawManager.DrawIndirect(this, topology, indirectBufferCache, parameterBufferCache, indirectBufferRange, parameterBufferRange, maxDrawCount, stride, indexCount, drawType);
         }
 
         /// <summary>

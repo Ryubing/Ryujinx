@@ -24,7 +24,7 @@ namespace Ryujinx.HLE.HOS
         private readonly ICpuContext _cpuContext;
         private T _memoryManager;
 
-        public IVirtualMemoryManager AddressSpace => _memoryManager;
+        public IVirtualMemoryManagerTracked AddressSpace => _memoryManager;
 
         public ulong AddressSpaceSize { get; }
 

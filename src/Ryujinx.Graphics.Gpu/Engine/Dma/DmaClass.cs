@@ -215,7 +215,10 @@ namespace Ryujinx.Graphics.Gpu.Engine.Dma
             _channel.TextureManager.RefreshModifiedTextures();
             _3dEngine.CreatePendingSyncs();
             _3dEngine.FlushUboDirty();
-
+            
+            PhysicalMemory srcPhysical = memoryManager.GetBackingMemory(srcGpuVa);
+            PhysicalMemory dstPhysical = memoryManager.GetBackingMemory(dstGpuVa);
+            
             if (copy2D)
             {
                 // Buffer to texture copy.
@@ -293,7 +296,7 @@ namespace Ryujinx.Graphics.Gpu.Engine.Dma
 
                 if (completeSource && completeDest && !srcLinear && isIdentityRemap)
                 {
-                    Image.Texture source = memoryManager.Physical.TextureCache.FindTexture(
+                    Image.Texture source = srcPhysical.TextureCache.FindTexture(
                         memoryManager,
                         srcGpuVa,
                         srcBpp,
@@ -309,7 +312,7 @@ namespace Ryujinx.Graphics.Gpu.Engine.Dma
                     {
                         source.SynchronizeMemory();
 
-                        Image.Texture target = memoryManager.Physical.TextureCache.FindOrCreateTexture(
+                        Image.Texture target = dstPhysical.TextureCache.FindOrCreateTexture(
                             memoryManager,
                             source.Info.FormatInfo,
                             dstGpuVa,
@@ -339,7 +342,7 @@ namespace Ryujinx.Graphics.Gpu.Engine.Dma
 
                 if (completeSource && completeDest && !(dstLinear && !srcLinear) && isIdentityRemap)
                 {
-                    Image.Texture target = memoryManager.Physical.TextureCache.FindTexture(
+                    Image.Texture target = dstPhysical.TextureCache.FindTexture(
                         memoryManager,
                         dstGpuVa,
                         dstBpp,
@@ -462,6 +465,7 @@ namespace Ryujinx.Graphics.Gpu.Engine.Dma
             }
             else
             {
+                BufferCache bufferCache = dstPhysical.BufferCache;
                 if (remap &&
                     _state.State.SetRemapComponentsDstX == SetRemapComponentsDst.ConstA &&
                     _state.State.SetRemapComponentsDstY == SetRemapComponentsDst.ConstA &&
@@ -472,7 +476,7 @@ namespace Ryujinx.Graphics.Gpu.Engine.Dma
                     _state.State.SetRemapComponentsComponentSize == SetRemapComponentsComponentSize.Four)
                 {
                     // Fast path for clears when remap is enabled.
-                    memoryManager.Physical.BufferCache.ClearBuffer(memoryManager, dstGpuVa, size * 4, _state.State.SetRemapConstA);
+                    bufferCache.ClearBuffer(memoryManager, dstGpuVa, size * 4, _state.State.SetRemapConstA);
                 }
                 else
                 {
@@ -492,7 +496,7 @@ namespace Ryujinx.Graphics.Gpu.Engine.Dma
                     }
                     else
                     {
-                        memoryManager.Physical.BufferCache.CopyBuffer(memoryManager, srcGpuVa, dstGpuVa, size);
+                        BufferCache.CopyBuffer(_context,memoryManager, srcGpuVa, dstGpuVa, size);
                     }
                 }
             }

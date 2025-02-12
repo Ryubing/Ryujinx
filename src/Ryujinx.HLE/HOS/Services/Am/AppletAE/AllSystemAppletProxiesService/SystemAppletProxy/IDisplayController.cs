@@ -102,5 +102,34 @@ namespace Ryujinx.HLE.HOS.Services.Am.AppletAE.AllSystemAppletProxiesService.Sys
 
             return ResultCode.Success;
         }
+        
+        [CommandCmif(22)]
+        // AcquireLastApplicationCaptureSharedBuffer() -> (b8, u32)
+        public ResultCode AcquireLastApplicationCaptureSharedBuffer(ServiceCtx context)
+        {
+            context.ResponseData.Write(1);
+            context.ResponseData.Write(context.Device.System.ViServerS.GetApplicationLastPresentedFrameHandle(context.Device.Gpu));
+
+            return ResultCode.Success;
+        }
+
+        [CommandCmif(26)]
+        
+        // AcquireCallerAppletCaptureSharedBuffer() -> (b8, u32)
+        public ResultCode AcquireCallerAppletCaptureSharedBuffer(ServiceCtx context)
+        {
+            // TODO: How does the handling for applets differ from the one for applications?
+            context.ResponseData.Write(1);
+            context.ResponseData.Write(context.Device.System.ViServerS.GetApplicationLastPresentedFrameHandle(context.Device.Gpu));
+
+            return ResultCode.Success;
+        }
+        
+        [CommandCmif(27)]
+        public ResultCode ReleaseCallerAppletCaptureSharedBuffer(ServiceCtx context)
+        {
+            context.ResponseData.Write(2);
+            return ResultCode.Success;
+        }
     }
 }

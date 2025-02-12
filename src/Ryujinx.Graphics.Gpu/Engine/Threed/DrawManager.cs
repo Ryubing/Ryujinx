@@ -641,6 +641,8 @@ namespace Ryujinx.Graphics.Gpu.Engine.Threed
         public void DrawIndirect(
             ThreedClass engine,
             PrimitiveTopology topology,
+            BufferCache indirectBufferCache,
+            BufferCache parameterBufferCache,
             MultiRange indirectBufferRange,
             MultiRange parameterBufferRange,
             int maxDrawCount,
@@ -662,8 +664,6 @@ namespace Ryujinx.Graphics.Gpu.Engine.Threed
                 return;
             }
 
-            PhysicalMemory memory = _channel.MemoryManager.Physical;
-
             bool hasCount = (drawType & IndirectDrawType.Count) != 0;
             bool indexed = (drawType & IndirectDrawType.Indexed) != 0;
 
@@ -684,8 +684,8 @@ namespace Ryujinx.Graphics.Gpu.Engine.Threed
 
             if (hasCount)
             {
-                BufferRange indirectBuffer = memory.BufferCache.GetBufferRange(indirectBufferRange, BufferStage.Indirect);
-                BufferRange parameterBuffer = memory.BufferCache.GetBufferRange(parameterBufferRange, BufferStage.Indirect);
+                BufferRange indirectBuffer = indirectBufferCache.GetBufferRange(indirectBufferRange, BufferStage.Indirect);
+                BufferRange parameterBuffer = parameterBufferCache.GetBufferRange(parameterBufferRange, BufferStage.Indirect);
 
                 if (indexed)
                 {
@@ -698,7 +698,7 @@ namespace Ryujinx.Graphics.Gpu.Engine.Threed
             }
             else
             {
-                BufferRange indirectBuffer = memory.BufferCache.GetBufferRange(indirectBufferRange, BufferStage.Indirect);
+                BufferRange indirectBuffer = indirectBufferCache.GetBufferRange(indirectBufferRange, BufferStage.Indirect);
 
                 if (indexed)
                 {

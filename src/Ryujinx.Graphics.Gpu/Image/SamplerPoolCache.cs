@@ -1,3 +1,5 @@
+using Ryujinx.Graphics.Gpu.Memory;
+
 namespace Ryujinx.Graphics.Gpu.Image
 {
     /// <summary>
@@ -20,11 +22,12 @@ namespace Ryujinx.Graphics.Gpu.Image
         /// </summary>
         /// <param name="context">GPU context that the sampler pool belongs to</param>
         /// <param name="channel">GPU channel that the texture pool belongs to</param>
+        /// <param name="physicalMemory">GPU backing memory of the pool</param>
         /// <param name="address">Address of the sampler pool in guest memory</param>
         /// <param name="maximumId">Maximum sampler ID of the sampler pool (equal to maximum samplers minus one)</param>
-        protected override SamplerPool CreatePool(GpuContext context, GpuChannel channel, ulong address, int maximumId)
+        protected override SamplerPool CreatePool(GpuContext context, GpuChannel channel, PhysicalMemory physicalMemory, ulong address, int maximumId)
         {
-            return new SamplerPool(context, channel.MemoryManager.Physical, address, maximumId);
+            return new SamplerPool(context, physicalMemory, address, maximumId);
         }
     }
 }

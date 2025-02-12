@@ -1,5 +1,6 @@
 using Ryujinx.Common.Logging;
 using Ryujinx.Graphics.Gpu.Image;
+using Ryujinx.Graphics.Gpu.Memory;
 using Ryujinx.Graphics.Shader;
 using Ryujinx.Graphics.Shader.Translation;
 using System;
@@ -66,11 +67,11 @@ namespace Ryujinx.Graphics.Gpu.Shader
         /// <inheritdoc/>
         public uint ConstantBuffer1Read(int offset)
         {
-            ulong baseAddress = _compute
+            (PhysicalMemory physical, ulong baseAddress) = _compute
                 ? _channel.BufferManager.GetComputeUniformBufferAddress(1)
                 : _channel.BufferManager.GetGraphicsUniformBufferAddress(_stageIndex, 1);
 
-            return _channel.MemoryManager.Physical.Read<uint>(baseAddress + (ulong)offset);
+            return physical.Read<uint>(baseAddress + (ulong)offset);
         }
 
         /// <inheritdoc/>

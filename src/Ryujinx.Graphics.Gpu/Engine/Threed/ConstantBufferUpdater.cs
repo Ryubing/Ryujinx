@@ -16,6 +16,7 @@ namespace Ryujinx.Graphics.Gpu.Engine.Threed
 
         // State associated with direct uniform buffer updates.
         // This state is used to attempt to batch together consecutive updates.
+        private ulong _ubBeginGpuAddress = 0;
         private ulong _ubBeginCpuAddress = 0;
         private ulong _ubFollowUpAddress = 0;
         private ulong _ubByteCount = 0;
@@ -113,12 +114,13 @@ namespace Ryujinx.Graphics.Gpu.Engine.Threed
             if (_ubFollowUpAddress != 0)
             {
                 MemoryManager memoryManager = _channel.MemoryManager;
+                PhysicalMemory physicalMemory = memoryManager.GetBackingMemory(_ubBeginGpuAddress);
 
                 Span<byte> data = MemoryMarshal.Cast<int, byte>(_ubData.AsSpan(0, (int)(_ubByteCount / 4)));
 
-                if (memoryManager.Physical.WriteWithRedundancyCheck(_ubBeginCpuAddress, data))
+                if (physicalMemory.WriteWithRedundancyCheck(_ubBeginCpuAddress, data))
                 {
-                    memoryManager.Physical.BufferCache.ForceDirty(memoryManager, _ubFollowUpAddress - _ubByteCount, _ubByteCount);
+                    physicalMemory.BufferCache.ForceDirty(memoryManager, _ubFollowUpAddress - _ubByteCount, _ubByteCount);
                 }
 
                 _ubFollowUpAddress = 0;

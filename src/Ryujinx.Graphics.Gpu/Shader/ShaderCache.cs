@@ -733,15 +733,15 @@ namespace Ryujinx.Graphics.Gpu.Shader
             byte[] codeB,
             bool asCompute)
         {
-            ulong cb1DataAddress = channel.BufferManager.GetGraphicsUniformBufferAddress(0, 1);
-
+            (PhysicalMemory physical, ulong cb1DataAddress) = channel.BufferManager.GetGraphicsUniformBufferAddress(0, 1);
+            
             MemoryManager memoryManager = channel.MemoryManager;
 
             codeA ??= memoryManager.GetSpan(vertexA.Address, vertexA.Size).ToArray();
             codeB ??= memoryManager.GetSpan(currentStage.Address, currentStage.Size).ToArray();
-            byte[] cb1DataA = ReadArray(memoryManager, cb1DataAddress, vertexA.Cb1DataSize);
-            byte[] cb1DataB = ReadArray(memoryManager, cb1DataAddress, currentStage.Cb1DataSize);
-
+            byte[] cb1DataA = ReadArray(physical, cb1DataAddress, vertexA.Cb1DataSize);
+            byte[] cb1DataB = ReadArray(physical, cb1DataAddress, currentStage.Cb1DataSize);
+            
             ShaderDumpPaths pathsA = default;
             ShaderDumpPaths pathsB = default;
 
@@ -775,11 +775,11 @@ namespace Ryujinx.Graphics.Gpu.Shader
         {
             MemoryManager memoryManager = channel.MemoryManager;
 
-            ulong cb1DataAddress = context.Stage == ShaderStage.Compute
+            (PhysicalMemory physical, ulong cb1DataAddress) = context.Stage == ShaderStage.Compute
                 ? channel.BufferManager.GetComputeUniformBufferAddress(1)
                 : channel.BufferManager.GetGraphicsUniformBufferAddress(StageToStageIndex(context.Stage), 1);
 
-            byte[] cb1Data = ReadArray(memoryManager, cb1DataAddress, context.Cb1DataSize);
+            byte[] cb1Data = ReadArray(physical, cb1DataAddress, context.Cb1DataSize);
             code ??= memoryManager.GetSpan(context.Address, context.Size).ToArray();
 
             ShaderDumpPaths paths = dumper?.Dump(code, context.Stage == ShaderStage.Compute) ?? default;
@@ -793,18 +793,18 @@ namespace Ryujinx.Graphics.Gpu.Shader
         /// <summary>
         /// Reads data from physical memory, returns an empty array if the memory is unmapped or size is 0.
         /// </summary>
-        /// <param name="memoryManager">Memory manager with the physical memory to read from</param>
+        /// <param name="physicalMemory">Physical memory to read the data from, might be null</param>
         /// <param name="address">Physical address of the region to read</param>
         /// <param name="size">Size in bytes of the data</param>
         /// <returns>An array with the data at the specified memory location</returns>
-        private static byte[] ReadArray(MemoryManager memoryManager, ulong address, int size)
+        private static byte[] ReadArray(PhysicalMemory physicalMemory, ulong address, int size)
         {
-            if (address == MemoryManager.PteUnmapped || size == 0)
+            if (address == MemoryManager.PteUnmapped || size == 0 || physicalMemory == null)            
             {
                 return [];
             }
 
-            return memoryManager.Physical.GetSpan(address, size).ToArray();
+            return physicalMemory.GetSpan(address, size).ToArray();
         }
 
         /// <summary>

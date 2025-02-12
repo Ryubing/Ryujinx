@@ -1,5 +1,6 @@
 using Ryujinx.Graphics.GAL;
 using Ryujinx.Graphics.Gpu.Engine.Types;
+using Ryujinx.Graphics.Gpu.Memory;
 using Ryujinx.Graphics.Gpu.Shader;
 using System;
 
@@ -385,8 +386,9 @@ namespace Ryujinx.Graphics.Gpu.Image
         public TexturePool GetTexturePool(ulong poolGpuVa, int maximumId)
         {
             ulong poolAddress = _channel.MemoryManager.Translate(poolGpuVa);
+            PhysicalMemory physical = _channel.MemoryManager.GetBackingMemory(poolAddress);
 
-            TexturePool texturePool = _texturePoolCache.FindOrCreate(_channel, poolAddress, maximumId, _bindingsArrayCache);
+            TexturePool texturePool = _texturePoolCache.FindOrCreate(_channel, physical, poolAddress, maximumId, _bindingsArrayCache);
 
             return texturePool;
         }

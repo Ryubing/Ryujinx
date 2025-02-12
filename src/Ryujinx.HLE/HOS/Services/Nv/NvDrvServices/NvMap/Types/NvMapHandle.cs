@@ -14,7 +14,8 @@ namespace Ryujinx.HLE.HOS.Services.Nv.NvDrvServices.NvMap
         public ulong Address;
         public bool Allocated;
         public ulong DmaMapAddress;
-
+        public ulong OwnerPid;
+        
         private long _dupes;
 
         public NvMapHandle()
