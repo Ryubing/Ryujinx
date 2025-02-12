@@ -1048,6 +1048,7 @@ namespace Ryujinx.Ava
                 if (_viewModel.StartGamesInFullscreen)
                 {
                     _viewModel.WindowState = WindowState.FullScreen;
+                    _viewModel.Window.TitleBar.ExtendsContentIntoTitleBar = true;
                 }
 
                 if (_viewModel.WindowState is WindowState.FullScreen || _viewModel.StartGamesWithoutUI)
