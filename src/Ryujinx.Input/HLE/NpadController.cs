@@ -218,12 +218,14 @@ namespace Ryujinx.Input.HLE
         public string Id { get; private set; }
 
         private readonly CemuHookClient _cemuHookClient;
+        private readonly IHandheld _handheld;
 
-        public NpadController(CemuHookClient cemuHookClient)
+        public NpadController(CemuHookClient cemuHookClient, IHandheld handheld)
         {
             State = default;
             Id = null;
             _cemuHookClient = cemuHookClient;
+            _handheld = handheld;
         }
 
         public bool UpdateDriverConfiguration(IGamepadDriver gamepadDriver, InputConfig config)
@@ -287,6 +289,18 @@ namespace Ryujinx.Input.HLE
 
                 if (_config is StandardControllerInputConfig controllerConfig && controllerConfig.Motion.EnableMotion)
                 {
+                    if (controllerConfig.Motion.MotionBackend == MotionInputBackendType.Handheld)
+                    {
+                        Vector3 accelerometer = _handheld.GetMotionData(MotionInputId.Accelerometer);
+                        Vector3 gyroscope = _handheld.GetMotionData(MotionInputId.Gyroscope);
+
+                        accelerometer = new Vector3(accelerometer.X, -accelerometer.Z, accelerometer.Y);
+                        gyroscope = new Vector3(gyroscope.X, -gyroscope.Z, gyroscope.Y);
+
+                        _leftMotionInput.Update(accelerometer, gyroscope, (ulong)PerformanceCounter.ElapsedNanoseconds / 1000, controllerConfig.Motion.Sensitivity, (float)controllerConfig.Motion.GyroDeadzone);
+                        _rightMotionInput = _leftMotionInput;
+                    }
+
                     if (controllerConfig.Motion.MotionBackend == MotionInputBackendType.GamepadDriver)
                     {
                         if (gamepad.Features.HasFlag(GamepadFeaturesFlag.Motion))

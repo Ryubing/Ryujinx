@@ -10,6 +10,7 @@ namespace Ryujinx.Ava.UI.Models.Input
     public partial class GamepadInputConfig : BaseModel
     {
         public bool EnableCemuHookMotion { get; set; }
+        public bool EnableHandheldMotion { get; set; }
         public string DsuServerHost { get; set; }
         public int DsuServerPort { get; set; }
         public int Slot { get; set; }
@@ -162,7 +163,7 @@ namespace Ryujinx.Ava.UI.Models.Input
                     EnableMotion = controllerInput.Motion.EnableMotion;
                     GyroDeadzone = controllerInput.Motion.GyroDeadzone;
                     Sensitivity = controllerInput.Motion.Sensitivity;
-
+                    EnableHandheldMotion = controllerInput.Motion.MotionBackend == MotionInputBackendType.Handheld;
                     if (controllerInput.Motion is CemuHookMotionConfigController cemuHook)
                     {
                         EnableCemuHookMotion = true;
@@ -285,7 +286,7 @@ namespace Ryujinx.Ava.UI.Models.Input
                 config.Motion = new StandardMotionConfigController
                 {
                     EnableMotion = EnableMotion,
-                    MotionBackend = MotionInputBackendType.GamepadDriver,
+                    MotionBackend = EnableHandheldMotion ? MotionInputBackendType.Handheld : MotionInputBackendType.GamepadDriver,
                     GyroDeadzone = GyroDeadzone,
                     Sensitivity = Sensitivity,
                 };

@@ -31,6 +31,7 @@ namespace Ryujinx.Input.HLE
         private readonly IGamepadDriver _keyboardDriver;
         private readonly IGamepadDriver _gamepadDriver;
         private readonly IGamepadDriver _mouseDriver;
+        private readonly IHandheld _handheld;
         private bool _isDisposed;
 
         private List<InputConfig> _inputConfig;
@@ -38,7 +39,7 @@ namespace Ryujinx.Input.HLE
         private bool _enableMouse;
         private Switch _device;
 
-        public NpadManager(IGamepadDriver keyboardDriver, IGamepadDriver gamepadDriver, IGamepadDriver mouseDriver)
+        public NpadManager(IGamepadDriver keyboardDriver, IGamepadDriver gamepadDriver, IGamepadDriver mouseDriver, IHandheld handheld)
         {
             _controllers = new NpadController[MaxControllers];
             _cemuHookClient = new CemuHookClient(this);
@@ -47,6 +48,7 @@ namespace Ryujinx.Input.HLE
             _gamepadDriver = gamepadDriver;
             _mouseDriver = mouseDriver;
             _inputConfig = [];
+            _handheld = handheld;
 
             _gamepadDriver.OnGamepadConnected += HandleOnGamepadConnected;
             _gamepadDriver.OnGamepadDisconnected += HandleOnGamepadDisconnected;
@@ -139,7 +141,7 @@ namespace Ryujinx.Input.HLE
                     }
                     else
                     {
-                        controller = new(_cemuHookClient);
+                        controller = new(_cemuHookClient, _handheld);
                     }
 
                     bool isValid = DriverConfigurationUpdate(ref controller, inputConfigEntry);
