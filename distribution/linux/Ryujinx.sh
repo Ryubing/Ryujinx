@@ -20,4 +20,33 @@ if command -v gamemoderun > /dev/null 2>&1; then
     COMMAND="$COMMAND gamemoderun"
 fi
 
+# Check if user already has a manual Avalonia scaling override or session type is x11
+if [[ -n "${AVALONIA_GLOBAL_SCALE_FACTOR-}" || "$(echo "$XDG_SESSION_TYPE")" == "x11" ]]; then
+    echo "Scaling: Performed by environment, skipping." >&2
+else
+    # Attempt to get desktop scaling from environment (GNOME)
+    if [[ "$(echo "$XDG_CURRENT_DESKTOP")" == "GNOME" ]] && command -v gsettings >/dev/null; then
+        echo -n 'Scaling: GNOME desktop scaling query...' >&2
+        SCALING="$(gsettings get org.gnome.desktop.interface scaling-factor)"
+        SCALING="${SCALING##* }"
+        echo "found! Factor: ${SCALING}" >&2
+
+    # Attempt to get desktop scaling from X Query (Others)
+    elif command -v xrdb >/dev/null && command -v bc >/dev/null; then
+        echo -n 'Scaling: X FreeType DPI scaling query...' >&2
+        dpi="$(xrdb -get Xft.dpi)"
+        if [[ -n "${dpi}" ]]; then
+            SCALING=$(echo "scale=2; ${dpi}/96" | bc)
+            echo "found! Factor: ${SCALING}" >&2
+        fi
+    fi
+
+    if [[ -z "${SCALING-}" || "${SCALING-}" == "0" ]]; then
+        echo 'Scaling: Unset scaling value, using default scaling.' >&2
+        SCALING="1"
+    fi
+
+    COMMAND="$COMMAND AVALONIA_GLOBAL_SCALE_FACTOR=$SCALING"
+fi
+
 exec $COMMAND "$SCRIPT_DIR/$RYUJINX_BIN" "$@"
