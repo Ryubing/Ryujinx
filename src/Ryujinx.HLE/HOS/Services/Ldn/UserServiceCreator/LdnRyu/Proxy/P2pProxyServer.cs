@@ -110,24 +110,10 @@ namespace Ryujinx.HLE.HOS.Services.Ldn.UserServiceCreator.LdnRyu.Proxy
             _broadcastAddress = config.ProxyIp | (~config.ProxySubnetMask);
         }
 
-        public async Task<ushort> NatPunch()
+        private async Task<ushort> NatPunchForDevice(NatDevice device)
         {
-            NatDiscoverer discoverer = new();
-            CancellationTokenSource cts = new(5000);
-
-            NatDevice device;
-
-            try
-            {
-                device = await discoverer.DiscoverDeviceAsync(PortMapper.Upnp, cts);
-            }
-            catch (NatDeviceNotFoundException)
-            {
-                return 0;
-            }
-
+            Logger.Info?.PrintMsg(LogClass.ServiceLdn, $"Attempting to map port using {device.ToString()}");
             _publicPort = PublicPortBase;
-
             for (int i = 0; i < PublicPortRange; i++)
             {
                 try
@@ -138,12 +124,14 @@ namespace Ryujinx.HLE.HOS.Services.Ldn.UserServiceCreator.LdnRyu.Proxy
 
                     break;
                 }
-                catch (MappingException)
+                catch (MappingException ex)
                 {
+                    Logger.Info?.PrintMsg(LogClass.ServiceLdn, $"Failed to map port {_publicPort}: {ex.Message}");
                     _publicPort++;
                 }
-                catch (Exception)
+                catch (Exception ex)
                 {
+                    Logger.Info?.PrintMsg(LogClass.ServiceLdn, $"Failed to map port {_publicPort}: {ex.GetType().Name}: {ex.Message}");
                     return 0;
                 }
 
@@ -155,15 +143,50 @@ namespace Ryujinx.HLE.HOS.Services.Ldn.UserServiceCreator.LdnRyu.Proxy
 
             if (_publicPort != 0)
             {
+                _natDevice = device;
                 _ = Executor.ExecuteAfterDelayAsync(
-                    PortLeaseRenew.Seconds(), 
+                    PortLeaseRenew.Seconds(),
                     _disposedCancellation.Token,
                     RefreshLease);
             }
 
-            _natDevice = device;
-
             return _publicPort;
+        }
+
+        public async Task<ushort> NatPunch()
+        {
+            NatDiscoverer discoverer = new();
+            CancellationTokenSource cts = new(500);
+
+            NatDevice[] devices;
+
+            try
+            {
+                devices = (await discoverer.DiscoverDevicesAsync(PortMapper.Upnp, cts)).ToArray();
+            }
+            catch (Exception ex)
+            {
+                Logger.Error?.PrintMsg(LogClass.ServiceLdn, $"Failed to discover UPnP devices: {ex.Message}");
+                return 0;
+            }
+
+            if (devices.Length == 0)
+            {
+                Logger.Error?.PrintMsg(LogClass.ServiceLdn, "No UPnP devices found.");
+                return 0;
+            }
+
+            foreach (var device in devices)
+            {
+                ushort port = await NatPunchForDevice(device);
+                if (port != 0)
+                {
+                    return port;
+                }
+            }
+            Logger.Info?.PrintMsg(LogClass.ServiceLdn, $"Failed to map port using any device");
+            _publicPort = 0;
+            return 0;
         }
 
         // Proxy handlers
