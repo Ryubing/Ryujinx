@@ -1,4 +1,5 @@
-using Ryujinx.Common.Memory;
+﻿using Ryujinx.Common.Memory;
+using Ryujinx.Graphics.Nvdec.Vp9.Common;
 using Ryujinx.Graphics.Video;
 
 namespace Ryujinx.Graphics.Nvdec.Vp9.Types
@@ -54,7 +55,7 @@ namespace Ryujinx.Graphics.Nvdec.Vp9.Types
 
         public Ptr<InternalErrorInfo> ErrorInfo;
 
-        public readonly int GetPredContextSegId()
+        public int GetPredContextSegId()
         {
             sbyte aboveSip = !AboveMi.IsNull ? AboveMi.Value.SegIdPredicted : (sbyte)0;
             sbyte leftSip = !LeftMi.IsNull ? LeftMi.Value.SegIdPredicted : (sbyte)0;
@@ -62,15 +63,14 @@ namespace Ryujinx.Graphics.Nvdec.Vp9.Types
             return aboveSip + leftSip;
         }
 
-        public readonly int GetSkipContext()
+        public int GetSkipContext()
         {
             int aboveSkip = !AboveMi.IsNull ? AboveMi.Value.Skip : 0;
             int leftSkip = !LeftMi.IsNull ? LeftMi.Value.Skip : 0;
-
             return aboveSkip + leftSkip;
         }
 
-        public readonly int GetPredContextSwitchableInterp()
+        public int GetPredContextSwitchableInterp()
         {
             // Note:
             // The mode info data structure has a one element border above and to the
@@ -83,18 +83,18 @@ namespace Ryujinx.Graphics.Nvdec.Vp9.Types
             {
                 return leftType;
             }
-            else if (leftType == Constants.SwitchableFilters)
+
+            if (leftType == Constants.SwitchableFilters)
             {
                 return aboveType;
             }
-            else if (aboveType == Constants.SwitchableFilters)
+
+            if (aboveType == Constants.SwitchableFilters)
             {
                 return leftType;
             }
-            else
-            {
-                return Constants.SwitchableFilters;
-            }
+
+            return Constants.SwitchableFilters;
         }
 
         // The mode info data structure has a one element border above and to the
@@ -104,20 +104,22 @@ namespace Ryujinx.Graphics.Nvdec.Vp9.Types
         // 1 - intra/inter, inter/intra
         // 2 - intra/--, --/intra
         // 3 - intra/intra
-        public readonly int GetIntraInterContext()
+        public int GetIntraInterContext()
         {
             if (!AboveMi.IsNull && !LeftMi.IsNull)
-            { // Both edges available
+            {
+                // Both edges available
                 bool aboveIntra = !AboveMi.Value.IsInterBlock();
                 bool leftIntra = !LeftMi.Value.IsInterBlock();
-
-                return leftIntra && aboveIntra ? 3 : (leftIntra || aboveIntra ? 1 : 0);
+                return leftIntra && aboveIntra ? 3 : leftIntra || aboveIntra ? 1 : 0;
             }
 
             if (!AboveMi.IsNull || !LeftMi.IsNull)
-            { // One edge available
+            {
+                // One edge available
                 return 2 * (!(!AboveMi.IsNull ? AboveMi.Value : LeftMi.Value).IsInterBlock() ? 1 : 0);
             }
+
             return 0;
         }
 
@@ -125,11 +127,11 @@ namespace Ryujinx.Graphics.Nvdec.Vp9.Types
         // The mode info data structure has a one element border above and to the
         // left of the entries corresponding to real blocks.
         // The prediction flags in these dummy entries are initialized to 0.
-        public readonly int GetTxSizeContext()
+        public int GetTxSizeContext()
         {
             int maxTxSize = (int)Luts.MaxTxSizeLookup[(int)Mi[0].Value.SbType];
-            int aboveCtx = (!AboveMi.IsNull && AboveMi.Value.Skip == 0) ? (int)AboveMi.Value.TxSize : maxTxSize;
-            int leftCtx = (!LeftMi.IsNull && LeftMi.Value.Skip == 0) ? (int)LeftMi.Value.TxSize : maxTxSize;
+            int aboveCtx = !AboveMi.IsNull && AboveMi.Value.Skip == 0 ? (int)AboveMi.Value.TxSize : maxTxSize;
+            int leftCtx = !LeftMi.IsNull && LeftMi.Value.Skip == 0 ? (int)LeftMi.Value.TxSize : maxTxSize;
             if (LeftMi.IsNull)
             {
                 leftCtx = aboveCtx;
@@ -140,14 +142,12 @@ namespace Ryujinx.Graphics.Nvdec.Vp9.Types
                 aboveCtx = leftCtx;
             }
 
-            return (aboveCtx + leftCtx) > maxTxSize ? 1 : 0;
+            return aboveCtx + leftCtx > maxTxSize ? 1 : 0;
         }
 
         public void SetupBlockPlanes(int ssX, int ssY)
         {
-            int i;
-
-            for (i = 0; i < Constants.MaxMbPlane; i++)
+            for (int i = 0; i < Constants.MaxMbPlane; i++)
             {
                 Plane[i].SubsamplingX = i != 0 ? ssX : 0;
                 Plane[i].SubsamplingY = i != 0 ? ssY : 0;
@@ -158,25 +158,36 @@ namespace Ryujinx.Graphics.Nvdec.Vp9.Types
         {
             int aboveIdx = miCol * 2;
             int leftIdx = (miRow * 2) & 15;
-            int i;
-            for (i = 0; i < Constants.MaxMbPlane; ++i)
+
+            for (int i = 0; i < Constants.MaxMbPlane; ++i)
             {
                 ref MacroBlockDPlane pd = ref Plane[i];
                 pd.AboveContext = AboveContext[i].Slice(aboveIdx >> pd.SubsamplingX);
-                pd.LeftContext = new ArrayPtr<sbyte>(ref LeftContext[i][leftIdx >> pd.SubsamplingY], 16 - (leftIdx >> pd.SubsamplingY));
+                pd.LeftContext = new ArrayPtr<sbyte>(ref LeftContext[i][leftIdx >> pd.SubsamplingY],
+                    16 - (leftIdx >> pd.SubsamplingY));
             }
         }
 
         internal void SetMiRowCol(ref TileInfo tile, int miRow, int bh, int miCol, int bw, int miRows, int miCols)
         {
-            MbToTopEdge = -((miRow * Constants.MiSize) * 8);
-            MbToBottomEdge = ((miRows - bh - miRow) * Constants.MiSize) * 8;
-            MbToLeftEdge = -((miCol * Constants.MiSize) * 8);
-            MbToRightEdge = ((miCols - bw - miCol) * Constants.MiSize) * 8;
+            MbToTopEdge = -(miRow * Constants.MiSize * 8);
+            MbToBottomEdge = (miRows - bh - miRow) * Constants.MiSize * 8;
+            MbToLeftEdge = -(miCol * Constants.MiSize * 8);
+            MbToRightEdge = (miCols - bw - miCol) * Constants.MiSize * 8;
 
             // Are edges available for intra prediction?
-            AboveMi = (miRow != 0) ? Mi[-MiStride] : Ptr<ModeInfo>.Null;
-            LeftMi = (miCol > tile.MiColStart) ? Mi[-1] : Ptr<ModeInfo>.Null;
+            AboveMi = miRow != 0 ? Mi[-MiStride] : Ptr<ModeInfo>.Null;
+            LeftMi = miCol > tile.MiColStart ? Mi[-1] : Ptr<ModeInfo>.Null;
+        }
+
+        public unsafe void DecResetSkipContext()
+        {
+            for (int i = 0; i < Constants.MaxMbPlane; i++)
+            {
+                ref MacroBlockDPlane pd = ref Plane[i];
+                MemoryUtil.Fill(pd.AboveContext.ToPointer(), (sbyte)0, pd.N4W);
+                MemoryUtil.Fill(pd.LeftContext.ToPointer(), (sbyte)0, pd.N4H);
+            }
         }
     }
 }
