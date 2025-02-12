@@ -37,6 +37,9 @@
                     <CheckBox IsChecked="{Binding RememberWindowState}">
                         <TextBlock Text="{ext:Locale SettingsTabGeneralRememberWindowState}" />
                     </CheckBox>
+                    <CheckBox IsChecked="{Binding DisableInputWhenOutOfFocus}">
+                        <TextBlock Text="{ext:Locale SettingsTabGeneralDisableInputWhenOutOfFocus}" />
+                    </CheckBox>
                     <CheckBox IsChecked="{Binding ShowTitleBar}" IsVisible="{x:Static helper:RunningPlatform.IsWindows}">
                         <TextBlock Text="{ext:Locale SettingsTabGeneralShowTitleBar}" />
                     </CheckBox>

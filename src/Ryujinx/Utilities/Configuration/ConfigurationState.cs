@@ -131,6 +131,7 @@ namespace Ryujinx.Ava.Utilities.Configuration
                 ShowConsole = UI.ShowConsole,
                 EnableKeyboard = Hid.EnableKeyboard,
                 EnableMouse = Hid.EnableMouse,
+                DisableInputWhenOutOfFocus = Hid.DisableInputWhenOutOfFocus,
                 Hotkeys = Hid.Hotkeys,
                 InputConfig = Hid.InputConfig,
                 RainbowSpeed = Hid.RainbowSpeed,
@@ -245,6 +246,7 @@ namespace Ryujinx.Ava.Utilities.Configuration
             UI.WindowStartup.WindowMaximized.Value = false;
             Hid.EnableKeyboard.Value = false;
             Hid.EnableMouse.Value = false;
+            Hid.DisableInputWhenOutOfFocus.Value = false;
             Hid.Hotkeys.Value = new KeyboardHotkeys
             {
                 ToggleVSyncMode = Key.F1,

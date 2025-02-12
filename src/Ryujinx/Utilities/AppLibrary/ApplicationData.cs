@@ -81,7 +81,7 @@ namespace Ryujinx.Ava.Utilities.AppLibrary
 
         public string LocalizedStatusTooltip =>
             Compatibility.Convert(x => 
-#pragma warning disable CS8509 It is exhaustive for all possible values this can contain.
+#pragma warning disable CS8509 // It is exhaustive for all possible values this can contain.
                 LocaleManager.Instance[x.Status switch
 #pragma warning restore CS8509
                 {
