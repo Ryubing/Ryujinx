@@ -765,31 +765,116 @@ namespace Ryujinx.Ava.UI.Windows
         
         private void InputElement_OnGotFocus(object sender, GotFocusEventArgs e)
         {
-            if (!_didDisableInputUpdates) 
+            if (ViewModel.AppHost is null) return;
+            
+            if (!_focusLoss.Active) 
                 return;
 
-            if (!ConfigurationState.Instance.Hid.DisableInputWhenOutOfFocus)
-                return;
+            switch (_focusLoss.Type)
+            {
+                case FocusLostType.BlockInput:
+                    {
+                        if (!ViewModel.AppHost.NpadManager.InputUpdatesBlocked)
+                        {
+                            _focusLoss = default;
+                            return;
+                        }
 
-            if (ViewModel.AppHost is not { NpadManager.InputUpdatesBlocked: true } appHost)
-                return;
-
-            appHost.NpadManager.UnblockInputUpdates();
-            _didDisableInputUpdates = appHost.NpadManager.InputUpdatesBlocked;
+                        ViewModel.AppHost.NpadManager.UnblockInputUpdates();
+                        _focusLoss = default;
+                        break;
+                    }
+                case FocusLostType.MuteAudio:
+                    {
+                        if (!ViewModel.AppHost.Device.IsAudioMuted())
+                        {
+                            _focusLoss = default;
+                            return;
+                        }
+                        
+                        ViewModel.AppHost.Device.SetVolume(ViewModel.VolumeBeforeMute);
+                        
+                        _focusLoss = default;
+                        break;
+                    }
+                case FocusLostType.BlockInputAndMuteAudio:
+                    {
+                        if (!ViewModel.AppHost.Device.IsAudioMuted())
+                            goto case FocusLostType.BlockInput;
+                        
+                        ViewModel.AppHost.Device.SetVolume(ViewModel.VolumeBeforeMute);
+                        ViewModel.AppHost.NpadManager.UnblockInputUpdates();
+                        
+                        _focusLoss = default;
+                        break;
+                    }
+                case FocusLostType.PauseEmulation:
+                    {
+                        if (!ViewModel.AppHost.Device.System.IsPaused)
+                        {
+                            _focusLoss = default;
+                            return;
+                        }
+                        
+                        ViewModel.AppHost.Resume();
+                        
+                        _focusLoss = default;
+                        break;
+                    }
+            }
         }
-
-        private bool _didDisableInputUpdates;
+        
+        private (FocusLostType Type, bool Active) _focusLoss;
 
         private void InputElement_OnLostFocus(object sender, RoutedEventArgs e)
         {
-            if (!ConfigurationState.Instance.Hid.DisableInputWhenOutOfFocus)
+            if (ConfigurationState.Instance.FocusLostActionType.Value is FocusLostType.DoNothing)
                 return;
 
-            if (ViewModel.AppHost is not { NpadManager.InputUpdatesBlocked: false } appHost)
-                return;
+            if (ViewModel.AppHost is null) return;
+
+            switch (ConfigurationState.Instance.FocusLostActionType.Value)
+            {
+                case FocusLostType.BlockInput:
+                    {
+                        if (ViewModel.AppHost.NpadManager.InputUpdatesBlocked)
+                            return;
             
-            appHost.NpadManager.BlockInputUpdates();
-            _didDisableInputUpdates = appHost.NpadManager.InputUpdatesBlocked;
+                        ViewModel.AppHost.NpadManager.BlockInputUpdates();
+                        _focusLoss = (FocusLostType.BlockInput, ViewModel.AppHost.NpadManager.InputUpdatesBlocked);
+                        break;
+                    }
+                case FocusLostType.MuteAudio:
+                    {
+                        if (ViewModel.AppHost.Device.GetVolume() is 0)
+                            return;
+
+                        ViewModel.VolumeBeforeMute = ViewModel.AppHost.Device.GetVolume();
+                        ViewModel.AppHost.Device.SetVolume(0);
+                        _focusLoss = (FocusLostType.MuteAudio, ViewModel.AppHost.Device.GetVolume() is 0f);
+                        break;
+                    }
+                case FocusLostType.BlockInputAndMuteAudio:
+                    {
+                        if (ViewModel.AppHost.Device.GetVolume() is 0)
+                            goto case FocusLostType.BlockInput;
+
+                        ViewModel.VolumeBeforeMute = ViewModel.AppHost.Device.GetVolume();
+                        ViewModel.AppHost.Device.SetVolume(0);
+                        ViewModel.AppHost.NpadManager.BlockInputUpdates();
+                        _focusLoss = (FocusLostType.BlockInputAndMuteAudio, ViewModel.AppHost.Device.GetVolume() is 0f && ViewModel.AppHost.NpadManager.InputUpdatesBlocked);
+                        break;
+                    }
+                case FocusLostType.PauseEmulation:
+                    {
+                        if (ViewModel.AppHost.Device.System.IsPaused)
+                            return;
+                        
+                        ViewModel.AppHost.Pause();
+                        _focusLoss = (FocusLostType.PauseEmulation, ViewModel.AppHost.Device.System.IsPaused);
+                        break;
+                    }
+            }
         }
     }
 }

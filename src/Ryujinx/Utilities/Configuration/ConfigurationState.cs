@@ -57,6 +57,7 @@ namespace Ryujinx.Ava.Utilities.Configuration
                 EnableDiscordIntegration = EnableDiscordIntegration,
                 CheckUpdatesOnStart = CheckUpdatesOnStart,
                 UpdateCheckerType = UpdateCheckerType,
+                FocusLostActionType = FocusLostActionType,
                 ShowConfirmExit = ShowConfirmExit,
                 RememberWindowState = RememberWindowState,
                 ShowTitleBar = ShowTitleBar,
@@ -178,6 +179,7 @@ namespace Ryujinx.Ava.Utilities.Configuration
             System.EnableDockedMode.Value = true;
             EnableDiscordIntegration.Value = true;
             UpdateCheckerType.Value = UpdaterType.PromptAtStartup;
+            FocusLostActionType.Value = FocusLostType.DoNothing;
             ShowConfirmExit.Value = true;
             RememberWindowState.Value = true;
             ShowTitleBar.Value = !OperatingSystem.IsWindows();

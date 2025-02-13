@@ -25,10 +25,10 @@ namespace Ryujinx.Ava.UI.ViewModels
             Version = RyujinxApp.FullAppName + "\n" + Program.Version;
             UpdateLogoTheme(ConfigurationState.Instance.UI.BaseStyle.Value);
 
-            ThemeManager.ThemeChanged += ThemeManager_ThemeChanged;
+            RyujinxApp.ThemeChanged += Ryujinx_ThemeChanged;
         }
 
-        private void ThemeManager_ThemeChanged()
+        private void Ryujinx_ThemeChanged()
         {
             Dispatcher.UIThread.Post(() => UpdateLogoTheme(ConfigurationState.Instance.UI.BaseStyle.Value));
         }
@@ -49,7 +49,7 @@ namespace Ryujinx.Ava.UI.ViewModels
 
         public void Dispose()
         {
-            ThemeManager.ThemeChanged -= ThemeManager_ThemeChanged;
+            RyujinxApp.ThemeChanged -= Ryujinx_ThemeChanged;
             
             GithubLogo.Dispose();
             DiscordLogo.Dispose();

@@ -517,7 +517,7 @@ namespace Ryujinx.Ava
             Device?.System.ChangeDockedModeState(e.NewValue);
         }
 
-        private void UpdateAudioVolumeState(object sender, ReactiveEventArgs<float> e)
+        public void UpdateAudioVolumeState(object sender, ReactiveEventArgs<float> e)
         {
             Device?.SetVolume(e.NewValue);
 

@@ -1249,7 +1249,7 @@
 0100A6B00D4EC000,"Furwind",,playable,2021-02-19 19:44:08
 0100ECE00C0C4000,"Fury Unleashed",crash;services,ingame,2020-10-18 11:52:40
 010070000ED9E000,"Fury Unleashed Demo",,playable,2020-10-08 20:09:21
-0100E1F013674000,"FUSER™",nvdec;UE4,playable,2022-10-17 20:58:32
+0100E1F013674000,"FUSER™",nvdec;UE4;slow;gpu,ingame,2025-02-12 16:03:00
 0100A7A015E4C000,"Fushigi no Gensokyo Lotus Labyrinth",Needs Update;audio;gpu;nvdec,ingame,2021-01-20 15:30:02
 01003C300B274000,"Futari de! Nyanko Daisensou",,playable,2024-01-05 22:26:52
 010055801134E000,"FUZE Player",online-broken;vulkan-backend-bug,ingame,2022-10-18 12:23:53
