@@ -142,6 +142,8 @@ namespace Ryujinx.Ava.UI.ViewModels
         public bool EnableMouse { get; set; }
         public bool DisableInputWhenOutOfFocus { get; set; }
         
+        public int FocusLostActionType { get; set; }
+        
         public VSyncMode VSyncMode
         {
             get => _vSyncMode;
@@ -547,6 +549,7 @@ namespace Ryujinx.Ava.UI.ViewModels
                 ShowTitleBar = config.ShowTitleBar;
                 HideCursor = (int)config.HideCursor.Value;
                 UpdateCheckerType = (int)config.UpdateCheckerType.Value;
+                FocusLostActionType = (int)config.FocusLostActionType.Value;
                 
                 GameDirectories.Clear();
                 GameDirectories.AddRange(config.UI.GameDirs.Value);
@@ -660,6 +663,7 @@ namespace Ryujinx.Ava.UI.ViewModels
                 config.ShowTitleBar.Value = ShowTitleBar;
                 config.HideCursor.Value = (HideCursorMode)HideCursor;
                 config.UpdateCheckerType.Value = (UpdaterType)UpdateCheckerType;
+                config.FocusLostActionType.Value = (FocusLostType)FocusLostActionType;
 
                 if (GameDirectoryChanged)
                 {

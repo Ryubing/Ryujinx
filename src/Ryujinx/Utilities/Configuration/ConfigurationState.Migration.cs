@@ -49,10 +49,11 @@ namespace Ryujinx.Ava.Utilities.Configuration
                 configurationFileUpdated = true;
             }
             
-
+          
             EnableDiscordIntegration.Value = shouldLoadFromFile ? cff.EnableDiscordIntegration : EnableDiscordIntegration.Value; // Get from global config only
             CheckUpdatesOnStart.Value = shouldLoadFromFile ? cff.CheckUpdatesOnStart : CheckUpdatesOnStart.Value; // Get from global config only
             UpdateCheckerType.Value = shouldLoadFromFile ? cff.UpdateCheckerType : UpdateCheckerType.Value; // Get from global config only
+            FocusLostActionType.Value = shouldLoadFromFile ? cff.FocusLostActionType : FocusLostActionType.Value; // Get from global config only
             ShowConfirmExit.Value = shouldLoadFromFile ? cff.ShowConfirmExit : ShowConfirmExit.Value; // Get from global config only
             RememberWindowState.Value = shouldLoadFromFile ? cff.RememberWindowState : RememberWindowState.Value; // Get from global config only
             ShowTitleBar.Value = shouldLoadFromFile ? cff.ShowTitleBar : ShowTitleBar.Value; // Get from global config only
@@ -443,7 +444,8 @@ namespace Ryujinx.Ava.Utilities.Configuration
                 (63, static cff => cff.MatchSystemTime = false),
                 (64, static cff => cff.LoggingEnableAvalonia = false),
                 (65, static cff => cff.UpdateCheckerType = cff.CheckUpdatesOnStart ? UpdaterType.PromptAtStartup : UpdaterType.Off),
-                (66, static cff => cff.DisableInputWhenOutOfFocus = false)
+                (66, static cff => cff.DisableInputWhenOutOfFocus = false),
+                (67, static cff => cff.FocusLostActionType = cff.DisableInputWhenOutOfFocus ? FocusLostType.BlockInput : FocusLostType.DoNothing)
             );
     }
 }

@@ -22,6 +22,8 @@ namespace Ryujinx.Ava
 {
     public class RyujinxApp : Application
     {
+        public static event Action ThemeChanged;
+        
         internal static string FormatTitle(LocaleKeys? windowTitleKey = null, bool includeVersion = true)
             => windowTitleKey is null
                 ? $"{FullAppName}{(includeVersion ? $" {Program.Version}" : string.Empty)}"
@@ -112,7 +114,7 @@ namespace Ryujinx.Ava
                     baseStyle = ConfigurationState.Instance.UI.BaseStyle;
                 }
 
-                ThemeManager.OnThemeChanged();
+                ThemeChanged?.Invoke();
 
                 RequestedThemeVariant = baseStyle switch
                 {

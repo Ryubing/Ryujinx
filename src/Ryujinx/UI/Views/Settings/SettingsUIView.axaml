@@ -37,12 +37,33 @@
                     <CheckBox IsChecked="{Binding RememberWindowState}">
                         <TextBlock Text="{ext:Locale SettingsTabGeneralRememberWindowState}" />
                     </CheckBox>
-                    <CheckBox IsChecked="{Binding DisableInputWhenOutOfFocus}">
-                        <TextBlock Text="{ext:Locale SettingsTabGeneralDisableInputWhenOutOfFocus}" />
-                    </CheckBox>
                     <CheckBox IsChecked="{Binding ShowTitleBar}" IsVisible="{x:Static helper:RunningPlatform.IsWindows}">
                         <TextBlock Text="{ext:Locale SettingsTabGeneralShowTitleBar}" />
                     </CheckBox>
+                    <StackPanel Margin="0, 15, 0, 0" Orientation="Horizontal">
+                        <TextBlock VerticalAlignment="Center"
+                                   Text="{ext:Locale SettingsTabGeneralFocusLossType}"
+                                   Width="150" />
+                        <ComboBox SelectedIndex="{Binding FocusLostActionType}"
+                                  HorizontalContentAlignment="Left"
+                                  MinWidth="100">
+                            <ComboBoxItem>
+                                <TextBlock Text="{ext:Locale SettingsTabGeneralFocusLossTypeDoNothing}" />
+                            </ComboBoxItem>
+                            <ComboBoxItem>
+                                <TextBlock Text="{ext:Locale SettingsTabGeneralFocusLossTypeBlockInput}" />
+                            </ComboBoxItem>
+                            <ComboBoxItem>
+                                <TextBlock Text="{ext:Locale SettingsTabGeneralFocusLossTypeMuteAudio}" />
+                            </ComboBoxItem>
+                            <ComboBoxItem>
+                                <TextBlock Text="{ext:Locale SettingsTabGeneralFocusLossTypeBlockInputAndMuteAudio}" />
+                            </ComboBoxItem>
+                            <ComboBoxItem>
+                                <TextBlock Text="{ext:Locale SettingsTabGeneralFocusLossTypePauseEmulation}" />
+                            </ComboBoxItem>
+                        </ComboBox>
+                    </StackPanel>
                     <StackPanel Margin="0, 15, 0, 0" Orientation="Horizontal">
                         <TextBlock VerticalAlignment="Center"
                                    Text="{ext:Locale SettingsTabGeneralCheckUpdatesOnLaunch}"

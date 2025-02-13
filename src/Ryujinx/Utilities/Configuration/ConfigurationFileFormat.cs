@@ -15,7 +15,7 @@ namespace Ryujinx.Ava.Utilities.Configuration
         /// <summary>
         /// The current version of the file format
         /// </summary>
-        public const int CurrentVersion = 66;
+        public const int CurrentVersion = 67;
 
         /// <summary>
         /// Version of the configuration file format
@@ -171,6 +171,11 @@ namespace Ryujinx.Ava.Utilities.Configuration
         /// Checks for updates when Ryujinx starts when enabled, either prompting when an update is found or just showing a notification.
         /// </summary>
         public UpdaterType UpdateCheckerType { get; set; }
+        
+        /// <summary>
+        /// How the emulator should behave when you click off/on the window.
+        /// </summary>
+        public FocusLostType FocusLostActionType { get; set; }
 
         /// <summary>
         /// Show "Confirm Exit" Dialog
