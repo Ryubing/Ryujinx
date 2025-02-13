@@ -18,7 +18,7 @@ env:
 jobs:
   tag:
     name: Create tag
-    runs-on: ubuntu-20.04
+    runs-on: ubuntu-24.04
     steps:
       - name: Get version info
         id: version_info
@@ -183,7 +183,7 @@ jobs:
 
   macos_release:
     name: Release MacOS universal
-    runs-on: ubuntu-20.04
+    runs-on: ubuntu-24.04
     steps:
       - uses: actions/checkout@v4
 
