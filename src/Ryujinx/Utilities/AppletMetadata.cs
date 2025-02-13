@@ -45,7 +45,7 @@ namespace Ryujinx.Ava.Utilities
             if (string.IsNullOrEmpty(contentPath)) 
                 goto BadData;
 
-            appData = new() { Name = Name, Id = ProgramId, Path = GetContentPath(contentManager) };
+            appData = new() { Name = Name, Id = ProgramId, Path = contentPath };
             appControl = StructHelpers.CreateCustomNacpData(Name, Version);
             return true;
             

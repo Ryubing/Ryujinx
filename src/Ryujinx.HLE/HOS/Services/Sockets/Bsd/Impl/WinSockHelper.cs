@@ -150,6 +150,7 @@ namespace Ryujinx.HLE.HOS.Services.Sockets.Bsd.Impl
             { BsdSocketOption.SoLinger,      SocketOptionName.Linger },
             { BsdSocketOption.SoOobInline,   SocketOptionName.OutOfBandInline },
             { BsdSocketOption.SoReusePort,   SocketOptionName.ReuseAddress },
+            { BsdSocketOption.SoNoSigpipe,   SocketOptionName.DontLinger },
             { BsdSocketOption.SoSndBuf,      SocketOptionName.SendBuffer },
             { BsdSocketOption.SoRcvBuf,      SocketOptionName.ReceiveBuffer },
             { BsdSocketOption.SoSndLoWat,    SocketOptionName.SendLowWater },

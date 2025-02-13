@@ -93,8 +93,19 @@
                                             IsVisible="{Binding HasPlayabilityInfo}"
                                             Background="{DynamicResource AppListBackgroundColor}"
                                             Margin="-1, 0, 0, 0"
-                                            Padding="0"
-                                            ToolTip.Tip="{Binding LocalizedStatusTooltip}">
+                                            Padding="0">
+                                            <ToolTip.Tip>
+                                                <StackPanel Orientation="Vertical">
+                                                    <TextBlock 
+                                                        Text="{Binding LocalizedStatusTooltip}" />
+                                                    <Separator 
+                                                        Margin="0, 10, 0, 10" 
+                                                        IsVisible="{Binding HasCompatibilityLabels}" />
+                                                    <TextBlock 
+                                                        IsVisible="{Binding HasCompatibilityLabels}"
+                                                        Text="{Binding FormattedCompatibilityLabels}" />
+                                                </StackPanel>
+                                            </ToolTip.Tip>
                                             <TextBlock
                                                 Margin="1.5"
                                                 Tag="{Binding IdString}"

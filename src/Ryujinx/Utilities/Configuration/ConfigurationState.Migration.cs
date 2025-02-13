@@ -45,6 +45,8 @@ namespace Ryujinx.Ava.Utilities.Configuration
             
             EnableDiscordIntegration.Value = cff.EnableDiscordIntegration;
             CheckUpdatesOnStart.Value = cff.CheckUpdatesOnStart;
+            UpdateCheckerType.Value = cff.UpdateCheckerType;
+            FocusLostActionType.Value = cff.FocusLostActionType;
             ShowConfirmExit.Value = cff.ShowConfirmExit;
             RememberWindowState.Value = cff.RememberWindowState;
             ShowTitleBar.Value = cff.ShowTitleBar;
@@ -138,6 +140,7 @@ namespace Ryujinx.Ava.Utilities.Configuration
             
             Hid.EnableKeyboard.Value = cff.EnableKeyboard;
             Hid.EnableMouse.Value = cff.EnableMouse;
+            Hid.DisableInputWhenOutOfFocus.Value = cff.DisableInputWhenOutOfFocus;
             Hid.Hotkeys.Value = cff.Hotkeys;
             Hid.InputConfig.Value = cff.InputConfig ?? [];
             Hid.RainbowSpeed.Value = cff.RainbowSpeed;
@@ -430,7 +433,11 @@ namespace Ryujinx.Ava.Utilities.Configuration
                     }
                 }),
                 (62, static cff => cff.RainbowSpeed = 1f),
-                (63, static cff => cff.MatchSystemTime = false)
+                (63, static cff => cff.MatchSystemTime = false),
+                (64, static cff => cff.LoggingEnableAvalonia = false),
+                (65, static cff => cff.UpdateCheckerType = cff.CheckUpdatesOnStart ? UpdaterType.PromptAtStartup : UpdaterType.Off),
+                (66, static cff => cff.DisableInputWhenOutOfFocus = false),
+                (67, static cff => cff.FocusLostActionType = cff.DisableInputWhenOutOfFocus ? FocusLostType.BlockInput : FocusLostType.DoNothing)
             );
     }
 }

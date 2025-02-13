@@ -1249,7 +1249,7 @@
 0100A6B00D4EC000,"Furwind",,playable,2021-02-19 19:44:08
 0100ECE00C0C4000,"Fury Unleashed",crash;services,ingame,2020-10-18 11:52:40
 010070000ED9E000,"Fury Unleashed Demo",,playable,2020-10-08 20:09:21
-0100E1F013674000,"FUSER™",nvdec;UE4,playable,2022-10-17 20:58:32
+0100E1F013674000,"FUSER™",nvdec;UE4;slow;gpu,ingame,2025-02-12 16:03:00
 0100A7A015E4C000,"Fushigi no Gensokyo Lotus Labyrinth",Needs Update;audio;gpu;nvdec,ingame,2021-01-20 15:30:02
 01003C300B274000,"Futari de! Nyanko Daisensou",,playable,2024-01-05 22:26:52
 010055801134E000,"FUZE Player",online-broken;vulkan-backend-bug,ingame,2022-10-18 12:23:53
@@ -2063,7 +2063,7 @@
 010002700C34C000,"Numbala",,playable,2020-05-11 12:01:07
 010020500C8C8000,"Number Place 10000",gpu,menus,2021-11-24 09:14:23
 010003701002C000,"Nurse Love Syndrome",,playable,2022-10-13 10:05:22
-0000000000000000,"nx-hbmenu",Needs Update;homebrew,boots,2024-04-06 22:05:32
+,"nx-hbmenu",Needs Update;homebrew,boots,2024-04-06 22:05:32
 ,"nxquake2",services;crash;homebrew,nothing,2022-08-04 23:14:04
 010049F00EC30000,"Nyan Cat: Lost in Space",online,playable,2021-06-12 13:22:03
 01002E6014FC4000,"O---O",,playable,2022-10-29 12:12:14
@@ -2471,7 +2471,7 @@
 0100AFE00DDAC000,"Royal Roads",,playable,2020-11-17 12:54:38
 0100E2C00B414000,"RPG Maker MV",nvdec,playable,2021-01-05 20:12:01
 01005CD015986000,"rRootage Reloaded",,playable,2022-08-05 23:20:18
-0000000000000000,"RSDKv5u",homebrew,ingame,2024-04-01 16:25:34
+,"RSDKv5u",homebrew,ingame,2024-04-01 16:25:34
 010009B00D33C000,"Rugby Challenge 4",slow;online-broken;UE4,playable,2022-10-06 12:45:53
 01006EC00F2CC000,"RUINER",UE4,playable,2022-10-03 14:11:33
 010074F00DE4A000,"Run the Fan",,playable,2021-02-27 13:36:28
@@ -2480,6 +2480,7 @@
 010081C0191D8000,"Rune Factory 3 Special",,playable,2023-10-15 08:32:49
 010051D00E3A4000,"Rune Factory 4 Special",32-bit;crash;nvdec,ingame,2023-05-06 08:49:17
 010014D01216E000,"Rune Factory 5 (JP)",gpu,ingame,2021-06-01 12:00:36
+010071E0145F8000,"Rustler",,playable,2025-02-10 20:17:12
 0100E21013908000,"RWBY: Grimm Eclipse - Definitive Edition",online-broken,playable,2022-11-03 10:44:01
 010012C0060F0000,"RXN -Raijin-",nvdec,playable,2021-01-10 16:05:43
 0100B8B012ECA000,"S.N.I.P.E.R. - Hunter Scope",,playable,2021-04-19 15:58:09
@@ -2673,10 +2674,10 @@
 01004F401BEBE000,"Song of Nunu: A League of Legends Story",,ingame,2024-07-12 18:53:44
 0100E5400BF94000,"Songbird Symphony",,playable,2021-02-27 02:44:04
 010031D00A604000,"Songbringer",,playable,2020-06-22 10:42:02
-0000000000000000,"Sonic 1 (2013)",crash;homebrew,ingame,2024-04-06 18:31:20
-0000000000000000,"Sonic 2 (2013)",crash;homebrew,ingame,2024-04-01 16:25:30
-0000000000000000,"Sonic A.I.R",homebrew,ingame,2024-04-01 16:25:32
-0000000000000000,"Sonic CD",crash;homebrew,ingame,2024-04-01 16:25:31
+,"Sonic 1 (2013)",crash;homebrew,ingame,2024-04-06 18:31:20
+,"Sonic 2 (2013)",crash;homebrew,ingame,2024-04-01 16:25:30
+,"Sonic A.I.R",homebrew,ingame,2024-04-01 16:25:32
+,"Sonic CD",crash;homebrew,ingame,2024-04-01 16:25:31
 010040E0116B8000,"Sonic Colors: Ultimate",,playable,2022-11-12 21:24:26
 01001270012B6000,"SONIC FORCES™",,playable,2024-07-28 13:11:21
 01004AD014BF0000,"Sonic Frontiers",gpu;deadlock;amd-vendor-bug;intel-vendor-bug,ingame,2024-09-05 09:18:53
@@ -2693,7 +2694,7 @@
 0100707011722000,"Space Elite Force",,playable,2020-11-27 15:21:05
 010047B010260000,"Space Pioneer",,playable,2022-10-20 12:24:37
 010010A009830000,"Space Ribbon",,playable,2022-08-15 17:17:10
-0000000000000000,"SpaceCadetPinball",homebrew,ingame,2024-04-18 19:30:04
+,"SpaceCadetPinball",homebrew,ingame,2024-04-18 19:30:04
 0100D9B0041CE000,"Spacecats with Lasers",,playable,2022-08-15 17:22:44
 010034800FB60000,"Spaceland",,playable,2020-11-01 14:31:56
 010028D0045CE000,"Sparkle 2",,playable,2020-10-19 11:51:39
@@ -2838,7 +2839,7 @@
 0100000000010000,"Super Mario Odyssey™",nvdec;intel-vendor-bug;mac-bug,playable,2024-08-25 01:32:34
 010036B0034E4000,"Super Mario Party™",gpu;Needs Update;ldn-works,ingame,2024-06-21 05:10:16
 0100BC0018138000,"Super Mario RPG™",gpu;audio;nvdec,ingame,2024-06-19 17:43:42
-0000000000000000,"Super Mario World",homebrew,boots,2024-06-13 01:40:31
+,"Super Mario World",homebrew,boots,2024-06-13 01:40:31
 010049900F546000,"Super Mario™ 3D All-Stars",services-horizon;slow;vulkan;amd-vendor-bug,ingame,2024-05-07 02:38:16
 010028600EBDA000,"Super Mario™ 3D World + Bowser’s Fury",ldn-works,playable,2024-07-31 10:45:37
 01004F8006A78000,"Super Meat Boy",services,playable,2020-04-02 23:10:07

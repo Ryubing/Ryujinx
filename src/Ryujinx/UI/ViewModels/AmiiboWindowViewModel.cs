@@ -264,7 +264,7 @@ namespace Ryujinx.Ava.UI.ViewModels
                     Logger.Error?.Print(LogClass.Application, $"Couldn't get valid amiibo data: {exception}");
 
                     // Neither local or remote files are valid JSON, close window.
-                    ShowInfoDialog();
+                    await ShowInfoDialog();
                     Close();
                 }
                 else if (!remoteIsValid)
@@ -273,7 +273,7 @@ namespace Ryujinx.Ava.UI.ViewModels
 
                     // Only the local file is valid, the local one should be used
                     // but the user should be warned.
-                    ShowInfoDialog();
+                    await ShowInfoDialog();
                 }
             }
 
@@ -525,7 +525,7 @@ namespace Ryujinx.Ava.UI.ViewModels
             AmiiboImage = bitmap;
         }
 
-        private static async void ShowInfoDialog()
+        private static async Task ShowInfoDialog()
         {
             await ContentDialogHelper.CreateInfoDialog(LocaleManager.Instance[LocaleKeys.DialogAmiiboApiTitle],
                 LocaleManager.Instance[LocaleKeys.DialogAmiiboApiConnectErrorMessage],

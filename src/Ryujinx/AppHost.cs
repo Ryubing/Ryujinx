@@ -517,7 +517,7 @@ namespace Ryujinx.Ava
             Device?.System.ChangeDockedModeState(e.NewValue);
         }
 
-        private void UpdateAudioVolumeState(object sender, ReactiveEventArgs<float> e)
+        public void UpdateAudioVolumeState(object sender, ReactiveEventArgs<float> e)
         {
             Device?.SetVolume(e.NewValue);
 
@@ -1041,6 +1041,7 @@ namespace Ryujinx.Ava
                 if (_viewModel.StartGamesInFullscreen)
                 {
                     _viewModel.WindowState = WindowState.FullScreen;
+                    _viewModel.Window.TitleBar.ExtendsContentIntoTitleBar = true;
                 }
 
                 if (_viewModel.WindowState is WindowState.FullScreen || _viewModel.StartGamesWithoutUI)

@@ -16,15 +16,15 @@ using UserProfileSft = Ryujinx.HLE.HOS.Services.Account.Acc.UserProfile;
 
 namespace Ryujinx.Ava.UI.Applet
 {
-    public partial class UserSelectorDialog : UserControl, INotifyPropertyChanged
+    public partial class ProfileSelectorDialog : UserControl
     {
-        public UserSelectorDialogViewModel ViewModel { get; set; }
+        public ProfileSelectorDialogViewModel ViewModel { get; set; }
 
-        public UserSelectorDialog(UserSelectorDialogViewModel viewModel)
+        public ProfileSelectorDialog(ProfileSelectorDialogViewModel viewModel)
         {
+            DataContext = ViewModel = viewModel;
+            
             InitializeComponent();
-            ViewModel = viewModel;
-            DataContext = ViewModel;
         }
         
         private void Grid_PointerEntered(object sender, PointerEventArgs e)
@@ -54,7 +54,7 @@ namespace Ryujinx.Ava.UI.Applet
                     if (ViewModel.Profiles[selectedIndex] is UserProfile userProfile)
                     {
                         ViewModel.SelectedUserId = userProfile.UserId;
-                        Logger.Info?.Print(LogClass.UI, $"Selected user: {userProfile.UserId}");
+                        Logger.Info?.Print(LogClass.UI, $"Selected: {userProfile.UserId}", "ProfileSelector");
 
                         ObservableCollection<BaseModel> newProfiles = [];
 
@@ -79,7 +79,7 @@ namespace Ryujinx.Ava.UI.Applet
             }
         }
 
-        public static async Task<(UserId Id, bool Result)> ShowInputDialog(UserSelectorDialog content)
+        public static async Task<(UserId Id, bool Result)> ShowInputDialog(ProfileSelectorDialogViewModel viewModel)
         {
             ContentDialog contentDialog = new()
             {
@@ -87,22 +87,25 @@ namespace Ryujinx.Ava.UI.Applet
                 PrimaryButtonText = LocaleManager.Instance[LocaleKeys.Continue],
                 SecondaryButtonText = string.Empty,
                 CloseButtonText = LocaleManager.Instance[LocaleKeys.Cancel],
-                Content = content,
+                Content = new ProfileSelectorDialog(viewModel),
                 Padding = new Thickness(0)
             };
 
             UserId result = UserId.Null;
             bool input = false;
+            
+            contentDialog.Closed += Handler;
 
+            await ContentDialogHelper.ShowAsync(contentDialog);
+
+            return (result, input);
+            
             void Handler(ContentDialog sender, ContentDialogClosedEventArgs eventArgs)
             {
                 if (eventArgs.Result == ContentDialogResult.Primary)
                 {
-                    if (contentDialog.Content is UserSelectorDialog view)
-                    {
-                        result = view.ViewModel.SelectedUserId;
-                        input = true;
-                    }
+                    result = viewModel.SelectedUserId;
+                    input = true;
                 }
                 else
                 {
@@ -110,12 +113,6 @@ namespace Ryujinx.Ava.UI.Applet
                     input = false;
                 }
             }
-
-            contentDialog.Closed += Handler;
-
-            await ContentDialogHelper.ShowAsync(contentDialog);
-
-            return (result, input);
         }
     }
 }
