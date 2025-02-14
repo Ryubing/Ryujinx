@@ -1,12 +1,11 @@
 using Avalonia.Controls;
-using Avalonia.Controls.Notifications;
 using Avalonia.Input;
 using Avalonia.Input.Platform;
 using Avalonia.Interactivity;
-using FluentAvalonia.UI.Controls;
 using Ryujinx.Ava.UI.Helpers;
 using Ryujinx.Ava.UI.ViewModels;
 using Ryujinx.Ava.Utilities.AppLibrary;
+using Ryujinx.Ava.Utilities.Compat;
 using System;
 using System.Linq;
 
@@ -29,6 +28,17 @@ namespace Ryujinx.Ava.UI.Controls
         {
             if (sender is ListBox { SelectedItem: ApplicationData selected })
                 RaiseEvent(new ApplicationOpenedEventArgs(selected, ApplicationOpenedEvent));
+        }
+        
+        private async void PlayabilityStatus_OnClick(object sender, RoutedEventArgs e)
+        {
+            if (DataContext is not MainWindowViewModel mwvm)
+                return;
+            
+            if (sender is not Button { Content: TextBlock playabilityLabel })
+                return;
+
+            await CompatibilityList.Show((string)playabilityLabel.Tag);
         }
 
         private async void IdString_OnClick(object sender, RoutedEventArgs e)

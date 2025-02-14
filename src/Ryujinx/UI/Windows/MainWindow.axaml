@@ -21,7 +21,9 @@
     x:DataType="viewModels:MainWindowViewModel"
     mc:Ignorable="d"
     WindowStartupLocation="Manual"
-    Focusable="True">
+    Focusable="True"
+    GotFocus="InputElement_OnGotFocus"
+    LostFocus="InputElement_OnLostFocus">
     <Window.Styles>
         <Style Selector="TitleBar:fullscreen">
             <Setter Property="Background" Value="#000000" />
@@ -30,9 +32,6 @@
     <Design.DataContext>
         <viewModels:MainWindowViewModel />
     </Design.DataContext>
-    <Window.Resources>
-        <helpers:BitmapArrayValueConverter x:Key="ByteImage" />
-    </Window.Resources>
     <Window.KeyBindings>
         <KeyBinding Gesture="Alt+Return" Command="{Binding ToggleFullscreen}" />
         <KeyBinding Gesture="F11" Command="{Binding ToggleFullscreen}" />
@@ -121,7 +120,7 @@
                             Width="256"
                             Height="256"
                             IsVisible="{Binding ShowLoadProgress}"
-                            Source="{Binding SelectedIcon, Converter={StaticResource ByteImage}}" />
+                            Source="{Binding SelectedIcon, Converter={x:Static helpers:BitmapArrayValueConverter.Instance}}" />
                     </Border>
                     <Grid
                         Grid.Column="1"

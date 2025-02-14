@@ -15,7 +15,7 @@ namespace Ryujinx.Graphics.Shader.CodeGen.Msl
             if (parameters.Definitions.Stage is not (ShaderStage.Vertex or ShaderStage.Fragment or ShaderStage.Compute))
             {
                 Logger.Warning?.Print(LogClass.Gpu, $"Attempted to generate unsupported shader type {parameters.Definitions.Stage}!");
-                return "";
+                return string.Empty;
             }
 
             CodeGenContext context = new(info, parameters);

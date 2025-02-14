@@ -13,11 +13,6 @@
     x:DataType="viewModels:XCITrimmerViewModel"
     Focusable="True"
     mc:Ignorable="d">    
-    <UserControl.Resources>
-        <helpers:XCITrimmerFileStatusConverter x:Key="StatusLabel" />
-        <helpers:XCITrimmerFileStatusDetailConverter x:Key="StatusDetailLabel" />
-        <helpers:XCITrimmerFileSpaceSavingsConverter x:Key="SpaceSavingsLabel" />
-    </UserControl.Resources>
     <Grid Margin="20 0 20 0">
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto" />
@@ -186,7 +181,7 @@
                                         HorizontalAlignment="Left"
                                         VerticalAlignment="Center"
                                         MaxLines="1"
-                                        Text="{Binding ., Converter={StaticResource StatusLabel}}">
+                                        Text="{Binding ., Converter={x:Static helpers:XCITrimmerFileStatusConverter.Instance}}">
                                         <ToolTip.Tip>
                                             <StackPanel
                                                 IsVisible="{Binding IsFailed}">
@@ -194,7 +189,7 @@
                                                     Classes="h1" 
                                                     Text="{ext:Locale XCITrimmerTitleStatusFailed}" />
                                                 <TextBlock 
-                                                    Text="{Binding ., Converter={StaticResource StatusDetailLabel}}" 
+                                                    Text="{Binding ., Converter={x:Static helpers:XCITrimmerFileStatusDetailConverter.Instance}}" 
                                                     MaxLines="5"
                                                     MaxWidth="200"
                                                     MaxHeight="100"
@@ -209,7 +204,7 @@
                                         HorizontalAlignment="Left"
                                         VerticalAlignment="Center"
                                         MaxLines="1"
-                                        Text="{Binding ., Converter={StaticResource SpaceSavingsLabel}}">>
+                                        Text="{Binding ., Converter={x:Static helpers:XCITrimmerFileSpaceSavingsConverter.Instance}}">>
                                     </TextBlock>
                                 </Grid>
                             </Grid>

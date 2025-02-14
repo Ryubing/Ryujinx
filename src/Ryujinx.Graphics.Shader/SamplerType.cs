@@ -199,7 +199,7 @@ namespace Ryujinx.Graphics.Shader
                 _ => "float"
             };
 
-            return $"{typeName}<{format}{(image ? ", access::read_write" : "")}>";
+            return $"{typeName}<{format}{(image ? ", access::read_write" : string.Empty)}>";
         }
     }
 }

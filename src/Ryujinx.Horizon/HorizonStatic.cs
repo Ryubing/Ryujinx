@@ -1,31 +1,37 @@
 using Ryujinx.Horizon.Common;
+using Ryujinx.Horizon.Prepo.Types;
 using Ryujinx.Memory;
 using System;
+using System.Threading;
 
 namespace Ryujinx.Horizon
 {
     public static class HorizonStatic
     {
-        [ThreadStatic]
-        private static HorizonOptions _options;
+        internal static void HandlePlayReport(PlayReport report) => 
+            new Thread(() => PlayReport?.Invoke(report))
+            {
+                Name = "HLE.PlayReportEvent", 
+                IsBackground = true,
+                Priority = ThreadPriority.AboveNormal
+            }.Start();
+        
+        public static event Action<PlayReport> PlayReport;
 
-        [ThreadStatic]
-        private static ISyscallApi _syscall;
+        [field: ThreadStatic]
+        public static HorizonOptions Options { get; private set; }
 
-        [ThreadStatic]
-        private static IVirtualMemoryManager _addressSpace;
+        [field: ThreadStatic]
+        public static ISyscallApi Syscall { get; private set; }
 
-        [ThreadStatic]
-        private static IThreadContext _threadContext;
+        [field: ThreadStatic]
+        public static IVirtualMemoryManager AddressSpace { get; private set; }
 
-        [ThreadStatic]
-        private static int _threadHandle;
+        [field: ThreadStatic]
+        public static IThreadContext ThreadContext { get; private set; }
 
-        public static HorizonOptions Options => _options;
-        public static ISyscallApi Syscall => _syscall;
-        public static IVirtualMemoryManager AddressSpace => _addressSpace;
-        public static IThreadContext ThreadContext => _threadContext;
-        public static int CurrentThreadHandle => _threadHandle;
+        [field: ThreadStatic]
+        public static int CurrentThreadHandle { get; private set; }
 
         public static void Register(
             HorizonOptions options,
@@ -34,11 +40,11 @@ namespace Ryujinx.Horizon
             IThreadContext threadContext,
             int threadHandle)
         {
-            _options = options;
-            _syscall = syscallApi;
-            _addressSpace = addressSpace;
-            _threadContext = threadContext;
-            _threadHandle = threadHandle;
+            Options = options;
+            Syscall = syscallApi;
+            AddressSpace = addressSpace;
+            ThreadContext = threadContext;
+            CurrentThreadHandle = threadHandle;
         }
     }
 }

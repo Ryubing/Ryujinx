@@ -3,7 +3,6 @@ using Ryujinx.Common.Configuration;
 using Ryujinx.Common.Helper;
 using System;
 using System.Linq;
-using System.Runtime.InteropServices;
 
 namespace Ryujinx.Common
 {
@@ -30,10 +29,11 @@ namespace Ryujinx.Common
         
         public static readonly string[] GreatMetalTitles =
         [
-            "010076f0049a2000", // Bayonetta
+            "01009b500007c000", // ARMS
             "0100a5c00d162000", // Cuphead
             "010023800d64a000", // Deltarune
             "01003a30012c0000", // LEGO City Undercover
+            "010048701995e000", // Luigi's Manion 2 HD
             "010028600EBDA000", // Mario 3D World
             "0100152000022000", // Mario Kart 8 Deluxe
             "010075a016a3a000", // Persona 4 Arena Ultimax
@@ -47,11 +47,16 @@ namespace Ryujinx.Common
             "01006f8002326000", // Animal Crossings: New Horizons
             "01009bf0072d4000", // Captain Toad: Treasure Tracker
             "01009510001ca000", // Fast RMX
-            "01005CA01580E000", // Persona 5 Royale
+            "01005CA01580E000", // Persona 5 Royal
+            "0100b880154fc000", // Persona 5 The Royal (Japan)
+            "010015100b514000", // Super Mario Bros. Wonder
             "0100000000010000", // Super Mario Odyssey
 
-            //Isaac claims it has a issue in level 2, but I am not able to replicate it on my M3. More testing would be appreciated:
-            "010015100b514000", // Super Mario Bros. Wonder
+            // Further testing is appreciated, I did not test the entire game:
+            "01007300020fa000", // Astral Chain
+            "010076f0049a2000", // Bayonetta
+            "0100cf5010fec000", // Bayonetta Origins: Cereza and the Lost Demon
+            "0100f4300bf2c000", // New Pokemon Snap
         ];
         
         public static string GetDiscordGameAsset(string titleId) 
@@ -159,15 +164,16 @@ namespace Ryujinx.Common
             "0100ba0018500000", // Splatoon 3: Splatfest World Premiere
 
                           //NSO Membership games
-            "0100ccf019c8c000", // F-ZERO 99
             "0100c62011050000", // GB - Nintendo Switch Online
             "010012f017576000", // GBA - Nintendo Switch Online
             "0100c9a00ece6000", // N64 - Nintendo Switch Online
             "0100e0601c632000", // N64 - Nintendo Switch Online 18+
             "0100d870045b6000", // NES - Nintendo Switch Online
+            "0100b3c014bda000", // SEGA Genesis - Nintendo Switch Online
+            "01008d300c50c000", // SNES - Nintendo Switch Online
+            "0100ccf019c8c000", // F-ZERO 99
             "0100ad9012510000", // PAC-MAN 99
             "010040600c5ce000", // Tetris 99
-            "01008d300c50c000", // SNES - Nintendo Switch Online
             "0100277011f1a000", // Super Mario Bros. 35
 
                           //Misc Nintendo 1st party games
@@ -213,6 +219,7 @@ namespace Ryujinx.Common
                           //Misc Games
             "010056e00853a000", // A Hat in Time
             "0100fd1014726000", // Baldurs Gate: Dark Alliance
+            "01008c2019598000", // Bluey: The Video Game
             "0100c6800b934000", // Brawlhalla
             "0100dbf01000a000", // Burnout Paradise Remastered
             "0100744001588000", // Cars 3: Driven to Win

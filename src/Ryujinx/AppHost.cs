@@ -319,31 +319,12 @@ namespace Ryujinx.Ava
         public void VSyncModeToggle()
         {
             VSyncMode oldVSyncMode = Device.VSyncMode;
-            VSyncMode newVSyncMode = VSyncMode.Switch;
             bool customVSyncIntervalEnabled = ConfigurationState.Instance.Graphics.EnableCustomVSyncInterval.Value;
 
-            switch (oldVSyncMode)
-            {
-                case VSyncMode.Switch:
-                    newVSyncMode = VSyncMode.Unbounded;
-                    break;
-                case VSyncMode.Unbounded:
-                    if (customVSyncIntervalEnabled)
-                    {
-                        newVSyncMode = VSyncMode.Custom;
-                    }
-                    else
-                    {
-                        newVSyncMode = VSyncMode.Switch;
-                    }
-
-                    break;
-                case VSyncMode.Custom:
-                    newVSyncMode = VSyncMode.Switch;
-                    break;
-            }
-
-            UpdateVSyncMode(this, new ReactiveEventArgs<VSyncMode>(oldVSyncMode, newVSyncMode));
+            UpdateVSyncMode(this, new ReactiveEventArgs<VSyncMode>(
+                oldVSyncMode, 
+                oldVSyncMode.Next(customVSyncIntervalEnabled))
+            );
         }
 
         private void UpdateCustomVSyncIntervalValue(object sender, ReactiveEventArgs<int> e)
@@ -536,7 +517,7 @@ namespace Ryujinx.Ava
             Device?.System.ChangeDockedModeState(e.NewValue);
         }
 
-        private void UpdateAudioVolumeState(object sender, ReactiveEventArgs<float> e)
+        public void UpdateAudioVolumeState(object sender, ReactiveEventArgs<float> e)
         {
             Device?.SetVolume(e.NewValue);
 
@@ -957,7 +938,9 @@ namespace Ryujinx.Ava
                 ConfigurationState.Instance.System.EnableInternetAccess,
                 ConfigurationState.Instance.System.EnableFsIntegrityChecks ? IntegrityCheckLevel.ErrorOnInvalid : IntegrityCheckLevel.None,
                 ConfigurationState.Instance.System.FsGlobalAccessLogMode,
-                ConfigurationState.Instance.System.SystemTimeOffset,
+                ConfigurationState.Instance.System.MatchSystemTime 
+                    ? 0 
+                    : ConfigurationState.Instance.System.SystemTimeOffset,
                 ConfigurationState.Instance.System.TimeZone,
                 ConfigurationState.Instance.System.MemoryManagerMode,
                 ConfigurationState.Instance.System.IgnoreMissingServices,
@@ -1058,6 +1041,7 @@ namespace Ryujinx.Ava
                 if (_viewModel.StartGamesInFullscreen)
                 {
                     _viewModel.WindowState = WindowState.FullScreen;
+                    _viewModel.Window.TitleBar.ExtendsContentIntoTitleBar = true;
                 }
 
                 if (_viewModel.WindowState is WindowState.FullScreen || _viewModel.StartGamesWithoutUI)

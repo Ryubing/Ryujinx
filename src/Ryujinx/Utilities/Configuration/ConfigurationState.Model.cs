@@ -1,12 +1,14 @@
 using ARMeilleure;
 using Gommon;
 using Ryujinx.Ava.Utilities.Configuration.System;
+using Ryujinx.Ava.Utilities.Configuration.UI;
 using Ryujinx.Common;
 using Ryujinx.Common.Configuration;
 using Ryujinx.Common.Configuration.Hid;
 using Ryujinx.Common.Configuration.Multiplayer;
 using Ryujinx.Common.Helper;
 using Ryujinx.Common.Logging;
+using Ryujinx.Common.Utilities;
 using Ryujinx.HLE;
 using System.Collections.Generic;
 using System.Linq;
@@ -253,6 +255,11 @@ namespace Ryujinx.Ava.Utilities.Configuration
             /// Enables printing FS access log messages
             /// </summary>
             public ReactiveObject<bool> EnableFsAccessLog { get; private set; }
+            
+            /// <summary>
+            /// Enables log messages from Avalonia
+            /// </summary>
+            public ReactiveObject<bool> EnableAvaloniaLog { get; private set; }
 
             /// <summary>
             /// Controls which log messages are written to the log targets
@@ -280,6 +287,7 @@ namespace Ryujinx.Ava.Utilities.Configuration
                 EnableTrace = new ReactiveObject<bool>();
                 EnableGuest = new ReactiveObject<bool>();
                 EnableFsAccessLog = new ReactiveObject<bool>();
+                EnableAvaloniaLog = new ReactiveObject<bool>();
                 FilteredClasses = new ReactiveObject<LogClass[]>();
                 EnableFileLog = new ReactiveObject<bool>();
                 EnableFileLog.LogChangesToValue(nameof(EnableFileLog));
@@ -311,6 +319,11 @@ namespace Ryujinx.Ava.Utilities.Configuration
             /// System Time Offset in Seconds
             /// </summary>
             public ReactiveObject<long> SystemTimeOffset { get; private set; }
+            
+            /// <summary>
+            /// Instead of setting the time via configuration, use the values provided by the system.
+            /// </summary>
+            public ReactiveObject<bool> MatchSystemTime { get; private set; }
 
             /// <summary>
             /// Enables or disables Docked Mode
@@ -387,6 +400,8 @@ namespace Ryujinx.Ava.Utilities.Configuration
                 TimeZone.LogChangesToValue(nameof(TimeZone));
                 SystemTimeOffset = new ReactiveObject<long>();
                 SystemTimeOffset.LogChangesToValue(nameof(SystemTimeOffset));
+                MatchSystemTime = new ReactiveObject<bool>();
+                MatchSystemTime.LogChangesToValue(nameof(MatchSystemTime));
                 EnableDockedMode = new ReactiveObject<bool>();
                 EnableDockedMode.LogChangesToValue(nameof(EnableDockedMode));
                 EnablePtc = new ReactiveObject<bool>();
@@ -432,6 +447,11 @@ namespace Ryujinx.Ava.Utilities.Configuration
             /// Enable or disable mouse support (Independent from controllers binding)
             /// </summary>
             public ReactiveObject<bool> EnableMouse { get; private set; }
+            
+            /// <summary>
+            /// Enable/disable the ability to control Ryujinx when it's not the currently focused window.
+            /// </summary>
+            public ReactiveObject<bool> DisableInputWhenOutOfFocus { get; private set; }
 
             /// <summary>
             /// Hotkey Keyboard Bindings
@@ -444,13 +464,21 @@ namespace Ryujinx.Ava.Utilities.Configuration
             /// TODO: Implement a ReactiveList class.
             /// </summary>
             public ReactiveObject<List<InputConfig>> InputConfig { get; private set; }
+            
+            /// <summary>
+            /// The speed of spectrum cycling for the Rainbow LED feature.
+            /// </summary>
+            public ReactiveObject<float> RainbowSpeed { get; }
 
             public HidSection()
             {
                 EnableKeyboard = new ReactiveObject<bool>();
                 EnableMouse = new ReactiveObject<bool>();
+                DisableInputWhenOutOfFocus = new ReactiveObject<bool>();
                 Hotkeys = new ReactiveObject<KeyboardHotkeys>();
                 InputConfig = new ReactiveObject<List<InputConfig>>();
+                RainbowSpeed = new ReactiveObject<float>();
+                RainbowSpeed.Event += (_, args) => Rainbow.Speed = args.NewValue;
             }
         }
 
@@ -746,6 +774,16 @@ namespace Ryujinx.Ava.Utilities.Configuration
         /// Checks for updates when Ryujinx starts when enabled
         /// </summary>
         public ReactiveObject<bool> CheckUpdatesOnStart { get; private set; }
+        
+        /// <summary>
+        /// Checks for updates when Ryujinx starts when enabled, either prompting when an update is found or just showing a notification.
+        /// </summary>
+        public ReactiveObject<UpdaterType> UpdateCheckerType { get; private set; }
+        
+        /// <summary>
+        /// How the emulator should behave when you click off/on the window.
+        /// </summary>
+        public ReactiveObject<FocusLostType> FocusLostActionType { get; private set; }
 
         /// <summary>
         /// Show "Confirm Exit" Dialog
@@ -783,6 +821,8 @@ namespace Ryujinx.Ava.Utilities.Configuration
             Hacks = new HacksSection();
             EnableDiscordIntegration = new ReactiveObject<bool>();
             CheckUpdatesOnStart = new ReactiveObject<bool>();
+            UpdateCheckerType = new ReactiveObject<UpdaterType>();
+            FocusLostActionType = new ReactiveObject<FocusLostType>();
             ShowConfirmExit = new ReactiveObject<bool>();
             RememberWindowState = new ReactiveObject<bool>();
             ShowTitleBar = new ReactiveObject<bool>();

@@ -3,7 +3,6 @@ using ARMeilleure.Memory;
 using Ryujinx.Cpu.LightningJit.CodeGen;
 using Ryujinx.Cpu.LightningJit.CodeGen.Arm64;
 using Ryujinx.Cpu.LightningJit.Graph;
-using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Numerics;

@@ -1,5 +1,4 @@
 using Avalonia.Collections;
-using Avalonia.Controls.ApplicationLifetimes;
 using Avalonia.Platform.Storage;
 using Avalonia.Threading;
 using CommunityToolkit.Mvvm.ComponentModel;
@@ -9,13 +8,11 @@ using Ryujinx.Ava.Common.Locale;
 using Ryujinx.Ava.Common.Models;
 using Ryujinx.Ava.UI.Helpers;
 using Ryujinx.Ava.Utilities.AppLibrary;
-using Ryujinx.HLE.FileSystem;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
-using Application = Avalonia.Application;
 
 namespace Ryujinx.Ava.UI.ViewModels
 {
@@ -72,8 +69,7 @@ namespace Ryujinx.Ava.UI.ViewModels
 
         private void LoadDownloadableContents()
         {
-            IEnumerable<(DownloadableContentModel Dlc, bool IsEnabled)> dlcs = _applicationLibrary.DownloadableContents.Items
-                .Where(it => it.Dlc.TitleIdBase == _applicationData.IdBase);
+            (DownloadableContentModel Dlc, bool IsEnabled)[] dlcs = _applicationLibrary.FindDlcConfigurationFor(_applicationData.Id);
 
             bool hasBundledContent = false;
             foreach ((DownloadableContentModel dlc, bool isEnabled) in dlcs)

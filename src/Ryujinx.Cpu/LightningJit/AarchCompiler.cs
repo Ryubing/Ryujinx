@@ -3,7 +3,6 @@ using ARMeilleure.Memory;
 using Ryujinx.Cpu.LightningJit.Arm32;
 using Ryujinx.Cpu.LightningJit.Arm64;
 using Ryujinx.Cpu.LightningJit.State;
-using System;
 using System.Runtime.InteropServices;
 
 namespace Ryujinx.Cpu.LightningJit

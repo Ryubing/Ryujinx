@@ -7,6 +7,7 @@ using Avalonia.Media.Imaging;
 using Avalonia.Platform.Storage;
 using Avalonia.Threading;
 using CommunityToolkit.Mvvm.ComponentModel;
+using CommunityToolkit.Mvvm.Input;
 using DynamicData;
 using DynamicData.Binding;
 using FluentAvalonia.UI.Controls;
@@ -104,6 +105,13 @@ namespace Ryujinx.Ava.UI.ViewModels
         [ObservableProperty] private bool _isSubMenuOpen;
         [ObservableProperty] private ApplicationContextMenu _listAppContextMenu;
         [ObservableProperty] private ApplicationContextMenu _gridAppContextMenu;
+        [ObservableProperty] private bool _updateAvailable;
+
+        public static AsyncRelayCommand UpdateCommand { get; } = Commands.Create(async () =>
+        {
+            if (Updater.CanUpdate(true))
+                await Updater.BeginUpdateAsync(true);
+        });
         
         private bool _showLoadProgress;
         private bool _isGameRunning;
@@ -348,6 +356,10 @@ namespace Ryujinx.Ava.UI.ViewModels
                 };
             }
         }
+
+        public bool HasCompatibilityEntry => SelectedApplication.HasPlayabilityInfo;
+
+        public bool HasDlc => ApplicationLibrary.HasDlcs(SelectedApplication.Id);
 
         public bool OpenUserSaveDirectoryEnabled => SelectedApplication.HasControlHolder && SelectedApplication.ControlHolder.Value.UserAccountSaveDataSize > 0;
 
@@ -629,15 +641,15 @@ namespace Ryujinx.Ava.UI.ViewModels
             {
                 return SortMode switch
                 {
-                    ApplicationSort.Title => LocaleManager.Instance[LocaleKeys.GameListHeaderApplication],
-                    ApplicationSort.Developer => LocaleManager.Instance[LocaleKeys.GameListHeaderDeveloper],
-                    ApplicationSort.LastPlayed => LocaleManager.Instance[LocaleKeys.GameListHeaderLastPlayed],
-                    ApplicationSort.TotalTimePlayed => LocaleManager.Instance[LocaleKeys.GameListHeaderTimePlayed],
-                    ApplicationSort.FileType => LocaleManager.Instance[LocaleKeys.GameListHeaderFileExtension],
-                    ApplicationSort.FileSize => LocaleManager.Instance[LocaleKeys.GameListHeaderFileSize],
-                    ApplicationSort.Path => LocaleManager.Instance[LocaleKeys.GameListHeaderPath],
                     ApplicationSort.Favorite => LocaleManager.Instance[LocaleKeys.CommonFavorite],
                     ApplicationSort.TitleId => LocaleManager.Instance[LocaleKeys.DlcManagerTableHeadingTitleIdLabel],
+                    ApplicationSort.Title => LocaleManager.Instance[LocaleKeys.GameListHeaderApplication],
+                    ApplicationSort.Developer => LocaleManager.Instance[LocaleKeys.GameListSortDeveloper],
+                    ApplicationSort.LastPlayed => LocaleManager.Instance[LocaleKeys.GameListSortLastPlayed],
+                    ApplicationSort.TotalTimePlayed => LocaleManager.Instance[LocaleKeys.GameListSortTimePlayed],
+                    ApplicationSort.FileType => LocaleManager.Instance[LocaleKeys.GameListSortFileExtension],
+                    ApplicationSort.FileSize => LocaleManager.Instance[LocaleKeys.GameListSortFileSize],
+                    ApplicationSort.Path => LocaleManager.Instance[LocaleKeys.GameListSortPath],
                     _ => string.Empty,
                 };
             }
@@ -1143,10 +1155,10 @@ namespace Ryujinx.Ava.UI.ViewModels
                 List<string> dirs = result.Select(it => it.Path.LocalPath).ToList();
                 int numAdded = onDirsSelected(dirs, out int numRemoved);
 
-                string msg = String.Join("\r\n", new string[] {
+                string msg = string.Join("\n",
                     string.Format(LocaleManager.Instance[localeMessageRemovedKey], numRemoved),
                     string.Format(LocaleManager.Instance[localeMessageAddedKey], numAdded)
-                });
+                );
 
                 await Dispatcher.UIThread.InvokeAsync(async () =>
                 {

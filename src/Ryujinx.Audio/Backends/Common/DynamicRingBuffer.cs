@@ -1,7 +1,6 @@
 using Ryujinx.Common;
 using Ryujinx.Common.Memory;
 using System;
-using System.Buffers;
 using System.Threading;
 
 namespace Ryujinx.Audio.Backends.Common

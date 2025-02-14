@@ -1,7 +1,6 @@
 using ARMeilleure.CodeGen.Linking;
 using ARMeilleure.CodeGen.Unwinding;
 using ARMeilleure.Translation.Cache;
-using System;
 using System.Runtime.InteropServices;
 
 namespace ARMeilleure.CodeGen

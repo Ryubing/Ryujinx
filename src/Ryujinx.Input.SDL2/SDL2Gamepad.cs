@@ -2,8 +2,6 @@ using Ryujinx.Common.Configuration.Hid;
 using Ryujinx.Common.Configuration.Hid.Controller;
 using Ryujinx.Common.Logging;
 using Ryujinx.Common.Utilities;
-using Ryujinx.HLE.HOS.Services.Hid;
-using SDL2;
 using System;
 using System.Collections.Generic;
 using System.Numerics;
@@ -12,7 +10,7 @@ using static SDL2.SDL;
 
 namespace Ryujinx.Input.SDL2
 {
-    class SDL2Gamepad : IGamepad
+    public class SDL2Gamepad : IGamepad
     {
         private bool HasConfiguration => _configuration != null;
 
@@ -113,7 +111,7 @@ namespace Ryujinx.Input.SDL2
             byte blue = packedRgb > 0 ? (byte)(packedRgb % 256) : (byte)0;
             
             if (SDL_GameControllerSetLED(_gamepadHandle, red, green, blue) != 0)
-                Logger.Error?.Print(LogClass.Hid, "LED is not supported on this game controller.");
+                Logger.Error?.Print(LogClass.Hid, "LED setting failed; probably in the middle of disconnecting.");
         }
 
         private GamepadFeaturesFlag GetFeaturesFlag()

@@ -2,7 +2,6 @@ using Avalonia.Collections;
 using Avalonia.Controls;
 using Avalonia.Interactivity;
 using Avalonia.Platform.Storage;
-using Avalonia.VisualTree;
 using Gommon;
 using Ryujinx.Ava.UI.Helpers;
 using Ryujinx.Ava.UI.ViewModels;
@@ -22,7 +21,6 @@ namespace Ryujinx.Ava.UI.Views.Settings
         public SettingsUiView()
         {
             InitializeComponent();
-            ShowTitleBarBox.IsVisible = OperatingSystem.IsWindows();
             AddGameDirButton.Command =
                 Commands.Create(() => AddDirButton(GameDirPathBox, ViewModel.GameDirectories, true));
             AddAutoloadDirButton.Command =

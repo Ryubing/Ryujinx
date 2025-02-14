@@ -43,7 +43,18 @@ namespace Ryujinx.Ava
         private const int ConnectionCount = 4;
 
         private static string _buildVer;
-        private static string _platformExt;
+
+        private static readonly string _platformExt = 
+            RunningPlatform.IsMacOS 
+                ? "macos_universal.app.tar.gz"
+                : RunningPlatform.IsWindows
+                    ? "win_x64.zip"
+                    : RunningPlatform.IsX64Linux
+                        ? "linux_x64.tar.gz"
+                        : RunningPlatform.IsArmLinux
+                            ? "linux_arm64.tar.gz"
+                            : throw new PlatformNotSupportedException();
+        
         private static string _buildUrl;
         private static long _buildSize;
         private static bool _updateSuccessful;
@@ -51,30 +62,8 @@ namespace Ryujinx.Ava
 
         private static readonly string[] _windowsDependencyDirs = [];
 
-        public static async Task BeginUpdateAsync(bool showVersionUpToDate = false)
+        public static async Task<Optional<(Version Current, Version Incoming)>> CheckVersionAsync(bool showVersionUpToDate = false)
         {
-            if (_running)
-            {
-                return;
-            }
-
-            _running = true;
-
-            // Detect current platform
-            if (OperatingSystem.IsMacOS())
-            {
-                _platformExt = "macos_universal.app.tar.gz";
-            }
-            else if (OperatingSystem.IsWindows())
-            {
-                _platformExt = "win_x64.zip";
-            }
-            else if (OperatingSystem.IsLinux())
-            {
-                string arch = RuntimeInformation.OSArchitecture == Architecture.Arm64 ? "arm64" : "x64";
-                _platformExt = $"linux_{arch}.tar.gz";
-            }
-
             if (!Version.TryParse(Program.Version, out Version currentVersion))
             {
                 Logger.Error?.Print(LogClass.Application, $"Failed to convert the current {RyujinxApp.FullAppName} version!");
@@ -85,7 +74,7 @@ namespace Ryujinx.Ava
 
                 _running = false;
 
-                return;
+                return default;
             }
             
             Logger.Info?.Print(LogClass.Application, "Checking for updates.");
@@ -123,7 +112,7 @@ namespace Ryujinx.Ava
 
                             _running = false;
 
-                            return;
+                            return default;
                         }
 
                         break;
@@ -149,7 +138,7 @@ namespace Ryujinx.Ava
 
                     _running = false;
 
-                    return;
+                    return default;
                 }
             }
             catch (Exception exception)
@@ -161,7 +150,7 @@ namespace Ryujinx.Ava
 
                 _running = false;
 
-                return;
+                return default;
             }
 
             if (!Version.TryParse(_buildVer, out Version newVersion))
@@ -174,8 +163,26 @@ namespace Ryujinx.Ava
 
                 _running = false;
 
+                return default;
+            }
+
+            return (currentVersion, newVersion);
+        }
+        
+        public static async Task BeginUpdateAsync(bool showVersionUpToDate = false)
+        {
+            if (_running)
+            {
                 return;
             }
+
+            _running = true;
+
+            Optional<(Version, Version)> versionTuple = await CheckVersionAsync(showVersionUpToDate);
+
+            if (_running is false || !versionTuple.HasValue) return;
+
+            (Version currentVersion, Version newVersion) = versionTuple.Value;
 
             if (newVersion <= currentVersion)
             {

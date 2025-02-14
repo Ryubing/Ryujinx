@@ -19,6 +19,17 @@
         Header="{ext:Locale GameListContextMenuCreateShortcut}"
         Icon="{ext:Icon fa-solid fa-bookmark}"
         ToolTip.Tip="{OnPlatform Default={ext:Locale GameListContextMenuCreateShortcutToolTip}, macOS={ext:Locale GameListContextMenuCreateShortcutToolTipMacOS}}" />
+    <MenuItem
+        IsVisible="{Binding HasCompatibilityEntry}"
+        Click="OpenApplicationCompatibility_Click"
+        Header="{ext:Locale GameListContextMenuShowCompatEntry}"
+        Icon="{ext:Icon mdi-gamepad}"
+        ToolTip.Tip="{ext:Locale GameListContextMenuShowCompatEntryToolTip}"/>
+    <MenuItem
+        Click="OpenApplicationData_Click"
+        Header="{ext:Locale GameListContextMenuShowGameData}"
+        Icon="{ext:Icon mdi-chart-line}"
+        ToolTip.Tip="{ext:Locale GameListContextMenuShowGameDataToolTip}"/>
     <Separator />
     <MenuItem
         Click="OpenUserSaveDirectory_Click"
@@ -74,13 +85,17 @@
 		Header="{ext:Locale GameListContextMenuTrimXCI}"
         IsEnabled="{Binding TrimXCIEnabled}"
 		ToolTip.Tip="{ext:Locale GameListContextMenuTrimXCIToolTip}" />
-    <Separator />
     <MenuItem Header="{ext:Locale GameListContextMenuCacheManagement}" Icon="{ext:Icon mdi-cached}">
         <MenuItem
             Click="PurgePtcCache_Click"
             Header="{ext:Locale GameListContextMenuCacheManagementPurgePptc}"
             Icon="{ext:Icon mdi-refresh}"
             ToolTip.Tip="{ext:Locale GameListContextMenuCacheManagementPurgePptcToolTip}" />
+        <MenuItem
+            Click="NukePtcCache_Click"
+            Header="{ext:Locale GameListContextMenuCacheManagementNukePptc}"
+            Icon="{ext:Icon mdi-delete-alert}"
+            ToolTip.Tip="{ext:Locale GameListContextMenuCacheManagementNukePptcToolTip}" />
         <MenuItem
             Click="PurgeShaderCache_Click"
             Header="{ext:Locale GameListContextMenuCacheManagementPurgeShaderCache}"
@@ -107,6 +122,7 @@
             Header="{ext:Locale GameListContextMenuExtractDataRomFS}"
             ToolTip.Tip="{ext:Locale GameListContextMenuExtractDataRomFSToolTip}" />
         <MenuItem
+            IsVisible="{Binding HasDlc}"
             Click="ExtractAocRomFs_Click"
             Header="{ext:Locale GameListContextMenuExtractDataAocRomFS}"
             ToolTip.Tip="{ext:Locale GameListContextMenuExtractDataAocRomFSToolTip}" />
