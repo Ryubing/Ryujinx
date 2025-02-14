@@ -95,12 +95,21 @@ namespace Ryujinx.HLE.HOS.Services.Sockets.Bsd
                 }
             }
 
-            ISocket newBsdSocket = new ManagedSocket(netDomain, (SocketType)type, protocol, context.Device.Configuration.MultiplayerLanInterfaceId)
-            {
-                Blocking = !creationFlags.HasFlag(BsdSocketCreationFlags.NonBlocking),
-            };
-
             LinuxError errno = LinuxError.SUCCESS;
+            ISocket newBsdSocket;
+
+            try
+            {
+                newBsdSocket = new ManagedSocket(netDomain, (SocketType)type, protocol, context.Device.Configuration.MultiplayerLanInterfaceId)
+                {
+                    Blocking = !creationFlags.HasFlag(BsdSocketCreationFlags.NonBlocking),
+                };
+            }
+            catch (SocketException exception)
+            {
+                var errNo = WinSockHelper.ConvertError((WsaError)exception.ErrorCode);
+                return WriteBsdResult(context, 0, errno);
+            }
 
             int newSockFd = _context.RegisterFileDescriptor(newBsdSocket);
 
