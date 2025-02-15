@@ -53,6 +53,7 @@ namespace Ryujinx.Ava.Utilities.Configuration
                 SystemRegion = System.Region,
                 SystemTimeZone = System.TimeZone,
                 SystemTimeOffset = System.SystemTimeOffset,
+                MatchSystemTime = System.MatchSystemTime,
                 DockedMode = System.EnableDockedMode,
                 EnableDiscordIntegration = EnableDiscordIntegration,
                 CheckUpdatesOnStart = CheckUpdatesOnStart,
