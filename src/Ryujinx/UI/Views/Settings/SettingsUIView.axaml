@@ -157,7 +157,6 @@
                         </ComboBox>
                         <TextBlock  Classes="globalConfigMarker" IsVisible="{Binding IsGameTitleNotNull}"/>
                     </StackPanel>
-                    <TextBlock Foreground="{DynamicResource SecondaryTextColor}" Text="{ext:Locale SettingsTabGeneralAutoloadNote}" />
                 </StackPanel>
                 <Separator Height="1" />
                 <StackPanel Orientation="Horizontal">
