@@ -316,8 +316,8 @@
                     </CheckBox>
                     <CheckBox 
                         IsChecked="{Binding IgnoreApplet}"
-                        ToolTip.Tip="{ext:Locale IgnoreAppletTooltip}">
-                        <TextBlock Text="{ext:Locale SettingsTabSystemIgnoreApplet}" />
+                        ToolTip.Tip="{ext:Locale IgnoreControllerAppletTooltip}">
+                        <TextBlock Text="{ext:Locale SettingsTabSystemIgnoreControllerApplet}" />
                     </CheckBox>
                     <CheckBox
                         IsChecked="{Binding EnableCustomVSyncInterval}"

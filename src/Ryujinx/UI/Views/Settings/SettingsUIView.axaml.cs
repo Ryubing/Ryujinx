@@ -36,11 +36,8 @@ namespace Ryujinx.Ava.UI.Views.Settings
                 directories.Add(path);
                 
                 addDirBox.Clear();
-                
-                if (isGameList)
-                    ViewModel.GameDirectoryChanged = true;
-                else
-                    ViewModel.AutoloadDirectoryChanged = true;
+
+                ViewModel.GameListNeedsRefresh = true;
             }
             else
             {
@@ -50,10 +47,7 @@ namespace Ryujinx.Ava.UI.Views.Settings
                 {
                     directories.Add(folder.Value.Path.LocalPath);
                         
-                    if (isGameList)
-                        ViewModel.GameDirectoryChanged = true;
-                    else
-                        ViewModel.AutoloadDirectoryChanged = true;
+                    ViewModel.GameListNeedsRefresh = true;
                 }
             }
         }
@@ -65,7 +59,7 @@ namespace Ryujinx.Ava.UI.Views.Settings
             foreach (string path in new List<string>(GameDirsList.SelectedItems.Cast<string>()))
             {
                 ViewModel.GameDirectories.Remove(path);
-                ViewModel.GameDirectoryChanged = true;
+                ViewModel.GameListNeedsRefresh = true;
             }
 
             if (GameDirsList.ItemCount > 0)
@@ -81,7 +75,7 @@ namespace Ryujinx.Ava.UI.Views.Settings
             foreach (string path in new List<string>(AutoloadDirsList.SelectedItems.Cast<string>()))
             {
                 ViewModel.AutoloadDirectories.Remove(path);
-                ViewModel.AutoloadDirectoryChanged = true;
+                ViewModel.GameListNeedsRefresh = true;
             }
 
             if (AutoloadDirsList.ItemCount > 0)
