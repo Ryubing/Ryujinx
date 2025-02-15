@@ -166,7 +166,7 @@ namespace Ryujinx.Cpu.LightningJit.Cache
             
             int newRegionNumber = _activeRegionIndex;
 
-            Logger.Warning?.Print(LogClass.Cpu, $"JIT Cache Region {exhaustedRegion} exhausted, creating new Cache Region {newRegionNumber} ({((newRegionNumber + 1) * CacheSize).Bytes()} Total Allocation).");
+            Logger.Warning?.Print(LogClass.Cpu, $"JIT Cache Region {exhaustedRegion} exhausted, creating new Cache Region {newRegionNumber} ({((long)(newRegionNumber + 1) * CacheSize).Bytes()} Total Allocation).");
         
             _cacheAllocator = new CacheMemoryAllocator(CacheSize);
 
