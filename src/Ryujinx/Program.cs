@@ -169,6 +169,11 @@ namespace Ryujinx.Ava
 
         public static string GetDirGameUserConfig(string gameId, bool rememberGlobalDir = false, bool changeFolderForGame = false)
         {
+            if (string.IsNullOrEmpty(gameId))
+            {
+                return "";
+            }
+
             string gameDir = Path.Combine(AppDataManager.GamesDirPath, gameId, ReleaseInformation.ConfigName);
 
             // Should load with the game if there is a custom setting for the game

@@ -75,6 +75,10 @@ namespace Ryujinx.Ava.UI.Windows
             {
                 switch (navItem.Tag.ToString())
                 {
+                    case nameof(UiPage):
+                        UiPage.ViewModel = ViewModel;
+                        NavPanel.Content = UiPage;
+                        break;
                     case nameof(InputPage):
                         NavPanel.Content = InputPage;
                         break;

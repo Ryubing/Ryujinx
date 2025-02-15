@@ -81,6 +81,8 @@ namespace Ryujinx.Ava.UI.ViewModels
         public string GamePath => _gamePath;
         public string GameTitle => _gameTitle;
         public string GameId => _gameId;
+        public bool IsGameTitleNotNull => !string.IsNullOrEmpty(GameTitle);
+        public double PanelOpacity => IsGameTitleNotNull ? 0.5 : 1;
 
         public int ResolutionScale
         {
@@ -422,10 +424,8 @@ namespace Ryujinx.Ava.UI.ViewModels
             {
                 Task.Run(LoadAvailableGpus);
 
-                if (!noLoadGlobalConfig)// Default is false, but loading custom config avoids double call
-                {
+               // if (!noLoadGlobalConfig)// Default is false, but loading custom config avoids double call
                     LoadCurrentConfiguration();
-                }
 
                 DirtyHacks = new SettingsHacksViewModel(this);
             }
@@ -536,35 +536,29 @@ namespace Ryujinx.Ava.UI.ViewModels
         {
             ConfigurationState config = ConfigurationState.Instance;
 
+            // User Interface
+            EnableDiscordIntegration = config.EnableDiscordIntegration;
+            CheckUpdatesOnStart = config.CheckUpdatesOnStart;
+            ShowConfirmExit = config.ShowConfirmExit;
+            RememberWindowState = config.RememberWindowState;
+            ShowTitleBar = config.ShowTitleBar;
+            HideCursor = (int)config.HideCursor.Value;
+            UpdateCheckerType = (int)config.UpdateCheckerType.Value;
+            FocusLostActionType = (int)config.FocusLostActionType.Value;
 
-            //It is necessary that the data is used from the global configuration file
-            if (string.IsNullOrEmpty(GameId)) 
+            GameDirectories.Clear();
+            GameDirectories.AddRange(config.UI.GameDirs.Value);
+
+            AutoloadDirectories.Clear();
+            AutoloadDirectories.AddRange(config.UI.AutoloadDirs.Value);
+
+            BaseStyleIndex = config.UI.BaseStyle.Value switch
             {
-                // User Interface
-                EnableDiscordIntegration = config.EnableDiscordIntegration;
-                CheckUpdatesOnStart = config.CheckUpdatesOnStart;
-                ShowConfirmExit = config.ShowConfirmExit;
-                RememberWindowState = config.RememberWindowState;
-                ShowTitleBar = config.ShowTitleBar;
-                HideCursor = (int)config.HideCursor.Value;
-                UpdateCheckerType = (int)config.UpdateCheckerType.Value;
-                FocusLostActionType = (int)config.FocusLostActionType.Value;
-                
-                GameDirectories.Clear();
-                GameDirectories.AddRange(config.UI.GameDirs.Value);
-
-                AutoloadDirectories.Clear();
-                AutoloadDirectories.AddRange(config.UI.AutoloadDirs.Value);
-
-                BaseStyleIndex = config.UI.BaseStyle.Value switch
-                {
-                    "Auto" => 0,
-                    "Light" => 1,
-                    "Dark" => 2,
-                    _ => 0
-                };
-
-            }
+                "Auto" => 0,
+                "Light" => 1,
+                "Dark" => 2,
+                _ => 0
+            };
 
             // Input
             EnableDockedMode = config.System.EnableDockedMode;
@@ -585,6 +579,7 @@ namespace Ryujinx.Ava.UI.ViewModels
             DateTime currentDateTime = currentHostDateTime.Add(systemDateTimeOffset);
             CurrentDate = currentDateTime.Date;
             CurrentTime = currentDateTime.TimeOfDay;
+
             MatchSystemTime = config.System.MatchSystemTime;
 
             EnableCustomVSyncInterval = config.Graphics.EnableCustomVSyncInterval;
@@ -645,11 +640,10 @@ namespace Ryujinx.Ava.UI.ViewModels
             LdnPassphrase = config.Multiplayer.LdnPassphrase;
             LdnServer = config.Multiplayer.LdnServer;
         }
-     
+
         public void SaveSettings()
         {
             ConfigurationState config = ConfigurationState.Instance;
-            bool userConfigFile = string.IsNullOrEmpty(GameId);
 
             // User Interface
             config.EnableDiscordIntegration.Value = EnableDiscordIntegration;
@@ -660,17 +654,16 @@ namespace Ryujinx.Ava.UI.ViewModels
             config.HideCursor.Value = (HideCursorMode)HideCursor;
             config.UpdateCheckerType.Value = (UpdaterType)UpdateCheckerType;
             config.FocusLostActionType.Value = (FocusLostType)FocusLostActionType;
-            config.UI.GameDirs.Value = [..GameDirectories];
-            config.UI.AutoloadDirs.Value = [..AutoloadDirectories];
+            config.UI.GameDirs.Value = [.. GameDirectories];
+            config.UI.AutoloadDirs.Value = [.. AutoloadDirectories];
 
-
-                config.UI.BaseStyle.Value = BaseStyleIndex switch
-                {
-                    0 => "Auto",
-                    1 => "Light",
-                    2 => "Dark",
-                    _ => "Auto"
-                };
+            config.UI.BaseStyle.Value = BaseStyleIndex switch
+            {
+                0 => "Auto",
+                1 => "Light",
+                2 => "Dark",
+                _ => "Auto"
+            };
 
             // Input
             config.System.EnableDockedMode.Value = EnableDockedMode;
@@ -683,10 +676,10 @@ namespace Ryujinx.Ava.UI.ViewModels
 
             // System
             config.System.Region.Value = (Region)Region;
-            
+
             if (config.System.Language.Value != (Language)Language)
                 GameListNeedsRefresh = true;
-            
+
             config.System.Language.Value = (Language)Language;
             if (_validTzRegions.Contains(TimeZone))
             {
@@ -765,15 +758,13 @@ namespace Ryujinx.Ava.UI.ViewModels
             config.Multiplayer.DisableP2p.Value = DisableP2P;
             config.Multiplayer.LdnPassphrase.Value = LdnPassphrase;
             config.Multiplayer.LdnServer.Value = LdnServer;
-            
+
             // Dirty Hacks
             config.Hacks.Xc2MenuSoftlockFix.Value = DirtyHacks.Xc2MenuSoftlockFix;
             config.Hacks.EnableShaderTranslationDelay.Value = DirtyHacks.ShaderTranslationDelayEnabled;
             config.Hacks.ShaderTranslationDelay.Value = DirtyHacks.ShaderTranslationDelay;
 
-
-                config.ToFileFormat().SaveConfig(Program.ConfigurationPath);
-
+            config.ToFileFormat().SaveConfig(Program.ConfigurationPath);
 
             MainWindow.UpdateGraphicsConfig();
             RyujinxApp.MainWindow.ViewModel.VSyncModeSettingChanged();

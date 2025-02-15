@@ -46,6 +46,8 @@
                 <MenuItem
                     Header="123 0000"
                     ToolTip.Tip="What this"/>
+                <TextBlock
+                         Classes="globalConfigMarker"/>
             </StackPanel>
             
         </Border>
@@ -337,6 +339,14 @@
         <Setter Property="Margin"
                 Value="0,5,0,0" />
     </Style>
+    <Style Selector="TextBlock.globalConfigMarker" >
+        <Setter Property="Foreground" Value="SeaGreen"/>
+        <Setter Property="Margin" Value="5,0,0,0"/>
+        <Setter Property="VerticalAlignment" Value="Center"/>
+        <Setter Property="Text" Value="(Global)"/>  
+    </Style>
+    <Style Selector="StackPanel.globalConfigMarker">
+    </Style>
     <Style Selector="ContextMenu">
         <Setter Property="BorderBrush"
                 Value="{DynamicResource MenuFlyoutPresenterBorderBrush}" />
@@ -389,6 +399,9 @@
             <Setter Property="Background" Value="{DynamicResource WarningBackgroundColor}" />
             <Setter Property="Foreground" Value="White"/>
     </Style>
+
+
+
     <Styles.Resources>
         <SolidColorBrush x:Key="ThemeAccentColorBrush"
                          Color="{DynamicResource SystemAccentColor}" />

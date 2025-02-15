@@ -53,12 +53,12 @@ namespace Ryujinx.Ava.Utilities.Configuration
             EnableDiscordIntegration.Value = shouldLoadFromFile ? cff.EnableDiscordIntegration : EnableDiscordIntegration.Value; // Get from global config only
             CheckUpdatesOnStart.Value = shouldLoadFromFile ? cff.CheckUpdatesOnStart : CheckUpdatesOnStart.Value; // Get from global config only
             UpdateCheckerType.Value = shouldLoadFromFile ? cff.UpdateCheckerType : UpdateCheckerType.Value; // Get from global config only
-            FocusLostActionType.Value = shouldLoadFromFile ? cff.FocusLostActionType : FocusLostActionType.Value; // Get from global config only
+            FocusLostActionType.Value = cff.FocusLostActionType;
             ShowConfirmExit.Value = shouldLoadFromFile ? cff.ShowConfirmExit : ShowConfirmExit.Value; // Get from global config only
             RememberWindowState.Value = shouldLoadFromFile ? cff.RememberWindowState : RememberWindowState.Value; // Get from global config only
             ShowTitleBar.Value = shouldLoadFromFile ? cff.ShowTitleBar : ShowTitleBar.Value; // Get from global config only
             EnableHardwareAcceleration.Value = shouldLoadFromFile ? cff.EnableHardwareAcceleration : EnableHardwareAcceleration.Value; // Get from global config only
-            HideCursor.Value = shouldLoadFromFile ? cff.HideCursor : HideCursor.Value; // Get from global config only
+            HideCursor.Value = cff.HideCursor;
           
             Logger.EnableFileLog.Value = cff.EnableFileLog;
             Logger.EnableDebug.Value = cff.LoggingEnableDebug;

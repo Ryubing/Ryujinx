@@ -29,6 +29,7 @@
             IsVisible="False"
             KeyboardNavigation.IsTabStop="False"/>
         <Grid Name="Pages" IsVisible="False" Grid.Row="2">
+            <settings:SettingsUiView Name="UiPage" />
             <settings:SettingsInputView Name="InputPage" />
             <settings:SettingsSystemView Name="SystemPage" />
             <settings:SettingsCPUView Name="CpuPage" />
@@ -80,6 +81,11 @@
             </ui:NavigationView.PaneHeader>
                       
             <ui:NavigationView.MenuItems>
+                <ui:NavigationViewItem
+                    IsSelected="True"
+                    Content="{ext:Locale SettingsTabGeneral}"
+                    Tag="UiPage"
+                    IconSource="New" />
                 <ui:NavigationViewItem
                     Content="{ext:Locale SettingsTabInput}"
                     Tag="InputPage"
@@ -143,7 +149,7 @@
                 IsVisible="{Binding !IsGameRunning}"
                 Content="{ext:Locale UserProfilesDelete}"
                 Command="{Binding DeleteConfigGame}"
-                Classes="red"/>
+                Classes="global"/>
         </ReversibleStackPanel>
     </Grid>
 </window:StyleableAppWindow>
