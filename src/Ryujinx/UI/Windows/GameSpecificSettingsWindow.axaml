@@ -149,7 +149,7 @@
                 IsVisible="{Binding !IsGameRunning}"
                 Content="{ext:Locale UserProfilesDelete}"
                 Command="{Binding DeleteConfigGame}"
-                Classes="global"/>
+                Classes="red"/>
         </ReversibleStackPanel>
     </Grid>
 </window:StyleableAppWindow>
