@@ -107,8 +107,8 @@ namespace Ryujinx.HLE.HOS.Services.Sockets.Bsd
             }
             catch (SocketException exception)
             {
-                var errNo = WinSockHelper.ConvertError((WsaError)exception.ErrorCode);
-                return WriteBsdResult(context, 0, errno);
+                LinuxError errNo = WinSockHelper.ConvertError((WsaError)exception.ErrorCode);
+                return WriteBsdResult(context, 0, errNo);
             }
 
             int newSockFd = _context.RegisterFileDescriptor(newBsdSocket);
