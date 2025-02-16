@@ -448,6 +448,31 @@
       }
     },
     {
+      "ID": "MenuBarFileOpenScreenshotsFolder",
+      "Translations": {
+        "ar_SA": "",
+        "de_DE": "",
+        "el_GR": "",
+        "en_US": "Open Screenshots Folder",
+        "es_ES": "",
+        "fr_FR": "",
+        "he_IL": "",
+        "it_IT": "",
+        "ja_JP": "",
+        "ko_KR": "",
+        "no_NO": "",
+        "pl_PL": "",
+        "pt_BR": "",
+        "ru_RU": "",
+        "sv_SE": "",
+        "th_TH": "",
+        "tr_TR": "",
+        "uk_UA": "",
+        "zh_CN": "",
+        "zh_TW": ""
+      }
+    },
+    {
       "ID": "MenuBarFileOpenLogsFolder",
       "Translations": {
         "ar_SA": "فتح مجلد السجلات",
@@ -17295,6 +17320,31 @@
         "uk_UA": "Відкриває теку з файлами Ryujinx",
         "zh_CN": "打开 Ryujinx 模拟器系统目录",
         "zh_TW": "開啟 Ryujinx 檔案系統資料夾"
+      }
+    },
+    {
+      "ID": "OpenScreenshotFolderTooltip",
+      "Translations": {
+        "ar_SA": "",
+        "de_DE": "",
+        "el_GR": "",
+        "en_US": "Open Ryujinx screenshots folder",
+        "es_ES": "",
+        "fr_FR": "",
+        "he_IL": "",
+        "it_IT": "",
+        "ja_JP": "",
+        "ko_KR": "",
+        "no_NO": "",
+        "pl_PL": "",
+        "pt_BR": "",
+        "ru_RU": "",
+        "sv_SE": "",
+        "th_TH": "",
+        "tr_TR": "",
+        "uk_UA": "",
+        "zh_CN": "",
+        "zh_TW": ""
       }
     },
     {

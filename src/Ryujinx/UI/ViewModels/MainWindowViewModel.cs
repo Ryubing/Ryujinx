@@ -1352,6 +1352,25 @@ namespace Ryujinx.Ava.UI.ViewModels
             OpenHelper.OpenFolder(AppDataManager.BaseDirPath);
         }
 
+        public void OpenScreenshotsFolder()
+        {
+            string screenshotsDir = Path.Combine(AppDataManager.BaseDirPath, "screenshots");
+
+            try
+            {
+                if (!Directory.Exists(screenshotsDir))
+                    Directory.CreateDirectory(screenshotsDir);
+            }
+            catch (Exception ex)
+            {
+                Logger.Error?.Print(LogClass.Application, $"Failed to create directory at path {screenshotsDir}. Error : {ex.GetType().Name}", "Screenshot");
+
+                return;
+            }
+            
+            OpenHelper.OpenFolder(screenshotsDir);
+        }
+
         public void OpenLogsFolder()
         {
             string logPath = AppDataManager.GetOrCreateLogsDir();
