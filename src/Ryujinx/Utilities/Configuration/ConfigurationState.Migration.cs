@@ -88,6 +88,7 @@ namespace Ryujinx.Ava.Utilities.Configuration
             System.Region.Value = cff.SystemRegion;
             System.TimeZone.Value = cff.SystemTimeZone;
             System.SystemTimeOffset.Value = cff.SystemTimeOffset;
+            System.MatchSystemTime.Value = cff.MatchSystemTime;
             System.EnableDockedMode.Value = cff.DockedMode;
             System.EnablePtc.Value = cff.EnablePtc;
             System.EnableLowPowerPtc.Value = cff.EnableLowPowerPtc;
@@ -99,7 +100,7 @@ namespace Ryujinx.Ava.Utilities.Configuration
             System.MemoryManagerMode.Value = cff.MemoryManagerMode;
             System.DramSize.Value = cff.DramSize;
             System.IgnoreMissingServices.Value = cff.IgnoreMissingServices;
-            System.IgnoreApplet.Value = cff.IgnoreApplet;
+            System.IgnoreControllerApplet.Value = cff.IgnoreApplet;
             System.UseHypervisor.Value = cff.UseHypervisor;
             
             UI.GuiColumns.FavColumn.Value = cff.GuiColumns.FavColumn;

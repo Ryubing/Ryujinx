@@ -119,17 +119,23 @@
                         TextWrapping="Wrap" >
                     </TextBlock>
                 </StackPanel>
-                <StackPanel Orientation="Horizontal" Spacing="5">
-                    <ui:SymbolIcon Foreground="ForestGreen" Symbol="Checkmark" IsVisible="{Binding AppData.HasDynamicRichPresenceSupport}"/>
+                <StackPanel Orientation="Horizontal" Spacing="5" ToolTip.Tip="{Binding DynamicRichPresenceDescription}">
+                    <ui:SymbolIcon 
+                        Foreground="ForestGreen" 
+                        Symbol="Checkmark" 
+                        IsVisible="{Binding AppData.HasDynamicRichPresenceSupport}"/>
                     <TextBlock
                         Foreground="ForestGreen"
                         HorizontalAlignment="Stretch"
                         IsVisible="{Binding AppData.HasDynamicRichPresenceSupport}"
                         Text="{ext:Locale GameInfoRpcDynamic}"
                         TextAlignment="Start"
-                        TextWrapping="Wrap" >
+                        TextWrapping="Wrap">
                     </TextBlock>
-                    <ui:SymbolIcon Foreground="Red" Symbol="Cancel" IsVisible="{Binding !AppData.HasDynamicRichPresenceSupport}"/>
+                    <ui:SymbolIcon 
+                        Foreground="Red" 
+                        Symbol="Cancel" 
+                        IsVisible="{Binding !AppData.HasDynamicRichPresenceSupport}"/>
                     <TextBlock
                         Foreground="Red"
                         HorizontalAlignment="Stretch"

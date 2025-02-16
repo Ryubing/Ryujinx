@@ -49,8 +49,7 @@ namespace Ryujinx.Ava.UI.ViewModels
         private int _graphicsBackendMultithreadingIndex;
         private float _volume;
         [ObservableProperty] private bool _isVulkanAvailable = true;
-        [ObservableProperty] private bool _gameDirectoryChanged;
-        [ObservableProperty] private bool _autoloadDirectoryChanged;
+        [ObservableProperty] private bool _gameListNeedsRefresh;
         private readonly List<string> _gpuIds = [];
         private int _graphicsBackendIndex;
         private int _scalingFilter;
@@ -527,7 +526,7 @@ namespace Ryujinx.Ava.UI.ViewModels
             EnableFsIntegrityChecks = config.System.EnableFsIntegrityChecks;
             DramSize = config.System.DramSize;
             IgnoreMissingServices = config.System.IgnoreMissingServices;
-            IgnoreApplet = config.System.IgnoreApplet;
+            IgnoreApplet = config.System.IgnoreControllerApplet;
 
             // CPU
             EnablePptc = config.System.EnablePtc;
@@ -593,16 +592,8 @@ namespace Ryujinx.Ava.UI.ViewModels
             config.HideCursor.Value = (HideCursorMode)HideCursor;
             config.UpdateCheckerType.Value = (UpdaterType)UpdateCheckerType;
             config.FocusLostActionType.Value = (FocusLostType)FocusLostActionType;
-
-            if (GameDirectoryChanged)
-            {
-                config.UI.GameDirs.Value = [..GameDirectories];
-            }
-
-            if (AutoloadDirectoryChanged)
-            {
-                config.UI.AutoloadDirs.Value = [..AutoloadDirectories];
-            }
+            config.UI.GameDirs.Value = [..GameDirectories];
+            config.UI.AutoloadDirs.Value = [..AutoloadDirectories];
 
             config.UI.BaseStyle.Value = BaseStyleIndex switch
             {
@@ -623,8 +614,11 @@ namespace Ryujinx.Ava.UI.ViewModels
 
             // System
             config.System.Region.Value = (Region)Region;
+            
+            if (config.System.Language.Value != (Language)Language)
+                GameListNeedsRefresh = true;
+            
             config.System.Language.Value = (Language)Language;
-
             if (_validTzRegions.Contains(TimeZone))
             {
                 config.System.TimeZone.Value = TimeZone;
@@ -635,7 +629,7 @@ namespace Ryujinx.Ava.UI.ViewModels
             config.System.EnableFsIntegrityChecks.Value = EnableFsIntegrityChecks;
             config.System.DramSize.Value = DramSize;
             config.System.IgnoreMissingServices.Value = IgnoreMissingServices;
-            config.System.IgnoreApplet.Value = IgnoreApplet;
+            config.System.IgnoreControllerApplet.Value = IgnoreApplet;
 
             // CPU
             config.System.EnablePtc.Value = EnablePptc;
@@ -715,8 +709,7 @@ namespace Ryujinx.Ava.UI.ViewModels
 
             SaveSettingsEvent?.Invoke();
 
-            GameDirectoryChanged = false;
-            AutoloadDirectoryChanged = false;
+            GameListNeedsRefresh = false;
         }
 
         private static void RevertIfNotSaved()

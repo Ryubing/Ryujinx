@@ -1,4 +1,5 @@
 ﻿using Gommon;
+using Humanizer;
 using System;
 using System.Buffers.Binary;
 using System.Collections.Generic;
@@ -18,6 +19,9 @@ namespace Ryujinx.Ava.Utilities.PlayReport
                 < -201d => "Exploring the Depths",
                 _ => "Roaming Hyrule"
             };
+        
+        private static FormattedValue SkywardSwordHD_Rupees(SingleValue value)
+            => "rupee".ToQuantity(value.Matched.IntValue);
 
         private static FormattedValue SuperMarioOdyssey_AssistMode(SingleValue value)
             => value.Matched.BoxedValue is 1 ? "Playing in Assist Mode" : "Playing in Regular Mode";

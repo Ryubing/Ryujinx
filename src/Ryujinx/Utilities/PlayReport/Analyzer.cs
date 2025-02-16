@@ -1,5 +1,6 @@
 ﻿using Gommon;
 using Ryujinx.Ava.Utilities.AppLibrary;
+using Ryujinx.Common.Logging;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
@@ -19,6 +20,11 @@ namespace Ryujinx.Ava.Utilities.PlayReport
 
         public IReadOnlyList<GameSpec> Specs => new ReadOnlyCollection<GameSpec>(_specs);
 
+        public GameSpec GetSpec(string titleId) => _specs.First(x => x.TitleIds.ContainsIgnoreCase(titleId));
+
+        public bool TryGetSpec(string titleId, out GameSpec gameSpec)
+            => (gameSpec = _specs.FirstOrDefault(x => x.TitleIds.ContainsIgnoreCase(titleId))) != null;
+
         /// <summary>
         /// Add an analysis spec matching a specific game by title ID, with the provided spec configuration.
         /// </summary>
@@ -27,10 +33,12 @@ namespace Ryujinx.Ava.Utilities.PlayReport
         /// <returns>The current <see cref="Analyzer"/>, for chaining convenience.</returns>
         public Analyzer AddSpec(string titleId, Func<GameSpec, GameSpec> transform)
         {
-            Guard.Ensure(ulong.TryParse(titleId, NumberStyles.HexNumber, null, out _),
-                $"Cannot use a non-hexadecimal string as the Title ID for a {nameof(GameSpec)}.");
+            if (ulong.TryParse(titleId, NumberStyles.HexNumber, null, out _))
+                return AddSpec(transform(GameSpec.Create(titleId)));
 
-            return AddSpec(transform(GameSpec.Create(titleId)));
+            Logger.Notice.PrintMsg(LogClass.Application,
+                $"Tried to add a {nameof(GameSpec)} with a non-hexadecimal title ID value. Input: '{titleId}'");
+            return this;
         }
 
         /// <summary>
@@ -41,10 +49,12 @@ namespace Ryujinx.Ava.Utilities.PlayReport
         /// <returns>The current <see cref="Analyzer"/>, for chaining convenience.</returns>
         public Analyzer AddSpec(string titleId, Action<GameSpec> transform)
         {
-            Guard.Ensure(ulong.TryParse(titleId, NumberStyles.HexNumber, null, out _),
-                $"Cannot use a non-hexadecimal string as the Title ID for a {nameof(GameSpec)}.");
+            if (ulong.TryParse(titleId, NumberStyles.HexNumber, null, out _))
+                return AddSpec(GameSpec.Create(titleId).Apply(transform));
 
-            return AddSpec(GameSpec.Create(titleId).Apply(transform));
+            Logger.Notice.PrintMsg(LogClass.Application,
+                $"Tried to add a {nameof(GameSpec)} with a non-hexadecimal title ID value. Input: '{titleId}'");
+            return this;
         }
 
         /// <summary>
@@ -57,10 +67,19 @@ namespace Ryujinx.Ava.Utilities.PlayReport
             Func<GameSpec, GameSpec> transform)
         {
             string[] tids = titleIds.ToArray();
-            Guard.Ensure(tids.All(x => ulong.TryParse(x, NumberStyles.HexNumber, null, out _)),
-                $"Cannot use a non-hexadecimal string as the Title ID for a {nameof(GameSpec)}.");
+            if (tids.All(x => ulong.TryParse(x, NumberStyles.HexNumber, null, out _) && !string.IsNullOrEmpty(x)))
+                return AddSpec(transform(GameSpec.Create(tids)));
 
-            return AddSpec(transform(GameSpec.Create(tids)));
+            Logger.Notice.PrintMsg(LogClass.Application,
+                $"Tried to add a {nameof(GameSpec)} with a non-hexadecimal title ID value. Input: '{
+                    tids.FormatCollection(
+                        x => x,
+                        separator: ", ",
+                        prefix: "[",
+                        suffix: "]"
+                    )
+                }'");
+            return this;
         }
 
         /// <summary>
@@ -72,12 +91,21 @@ namespace Ryujinx.Ava.Utilities.PlayReport
         public Analyzer AddSpec(IEnumerable<string> titleIds, Action<GameSpec> transform)
         {
             string[] tids = titleIds.ToArray();
-            Guard.Ensure(tids.All(x => ulong.TryParse(x, NumberStyles.HexNumber, null, out _)),
-                $"Cannot use a non-hexadecimal string as the Title ID for a {nameof(GameSpec)}.");
+            if (tids.All(x => ulong.TryParse(x, NumberStyles.HexNumber, null, out _) && !string.IsNullOrEmpty(x)))
+                return AddSpec(GameSpec.Create(tids).Apply(transform));
 
-            return AddSpec(GameSpec.Create(tids).Apply(transform));
+            Logger.Notice.PrintMsg(LogClass.Application,
+                $"Tried to add a {nameof(GameSpec)} with a non-hexadecimal title ID value. Input: '{
+                    tids.FormatCollection(
+                        x => x,
+                        separator: ", ",
+                        prefix: "[",
+                        suffix: "]"
+                    )
+                }'");
+            return this;
         }
-        
+
         /// <summary>
         /// Add an analysis spec matching a specific game by title ID, with the provided pre-configured spec.
         /// </summary>
@@ -105,13 +133,13 @@ namespace Ryujinx.Ava.Utilities.PlayReport
         {
             if (!playReport.ReportData.IsDictionary)
                 return FormattedValue.Unhandled;
-
-            if (!_specs.TryGetFirst(s => runningGameId.EqualsAnyIgnoreCase(s.TitleIds), out GameSpec spec))
+            
+            if (!TryGetSpec(runningGameId, out GameSpec spec))
                 return FormattedValue.Unhandled;
 
             foreach (FormatterSpecBase formatSpec in spec.ValueFormatters.OrderBy(x => x.Priority))
             {
-                if (!formatSpec.Format(appMeta, playReport, out FormattedValue value))
+                if (!formatSpec.TryFormat(appMeta, playReport, out FormattedValue value))
                     continue;
 
                 return value;

@@ -383,7 +383,7 @@ namespace Ryujinx.Ava.Utilities.Configuration
             /// <summary>
             ///  Ignore Controller Applet
             /// </summary>
-            public ReactiveObject<bool> IgnoreApplet { get; private set; }
+            public ReactiveObject<bool> IgnoreControllerApplet { get; private set; }
 
             /// <summary>
             /// Uses Hypervisor over JIT if available
@@ -424,8 +424,8 @@ namespace Ryujinx.Ava.Utilities.Configuration
                 DramSize.LogChangesToValue(nameof(DramSize));
                 IgnoreMissingServices = new ReactiveObject<bool>();
                 IgnoreMissingServices.LogChangesToValue(nameof(IgnoreMissingServices));
-                IgnoreApplet = new ReactiveObject<bool>();
-                IgnoreApplet.LogChangesToValue(nameof(IgnoreApplet));
+                IgnoreControllerApplet = new ReactiveObject<bool>();
+                IgnoreControllerApplet.LogChangesToValue(nameof(IgnoreControllerApplet));
                 AudioVolume = new ReactiveObject<float>();
                 AudioVolume.LogChangesToValue(nameof(AudioVolume));
                 UseHypervisor = new ReactiveObject<bool>();

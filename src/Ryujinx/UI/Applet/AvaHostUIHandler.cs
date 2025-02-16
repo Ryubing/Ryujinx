@@ -41,7 +41,7 @@ namespace Ryujinx.Ava.UI.Applet
 
             bool okPressed = false;
 
-            if (ConfigurationState.Instance.System.IgnoreApplet)
+            if (ConfigurationState.Instance.System.IgnoreControllerApplet)
                 return false;
 
             Dispatcher.UIThread.InvokeAsync(async () =>
