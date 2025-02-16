@@ -34,6 +34,10 @@ namespace Ryujinx.HLE.HOS.Services.Sockets.Bsd
         {
             if (errorCode != LinuxError.SUCCESS)
             {
+                if (errorCode != LinuxError.EWOULDBLOCK)
+                {
+                    Logger.Warning?.Print(LogClass.ServiceBsd, $"Operation failed with error {errorCode}.");
+                }
                 result = -1;
             }
 
@@ -65,6 +69,8 @@ namespace Ryujinx.HLE.HOS.Services.Sockets.Bsd
             BsdAddressFamily domain = (BsdAddressFamily)context.RequestData.ReadInt32();
             BsdSocketType type = (BsdSocketType)context.RequestData.ReadInt32();
             ProtocolType protocol = (ProtocolType)context.RequestData.ReadInt32();
+
+            Logger.Info?.PrintMsg(LogClass.ServiceBsd, $"Creating socket with domain={domain}, type={type}, protocol={protocol}");
 
             BsdSocketCreationFlags creationFlags = (BsdSocketCreationFlags)((int)type >> (int)BsdSocketCreationFlags.FlagsShift);
             type &= BsdSocketType.TypeMask;
@@ -111,6 +117,7 @@ namespace Ryujinx.HLE.HOS.Services.Sockets.Bsd
 
             if (exempt)
             {
+                Logger.Info?.Print(LogClass.ServiceBsd, "Disconnecting exempt socket.");
                 newBsdSocket.Disconnect();
             }
 
@@ -797,7 +804,11 @@ namespace Ryujinx.HLE.HOS.Services.Sockets.Bsd
             {
                 errno = socket.Listen(backlog);
             }
-
+            else
+            {
+                Logger.Warning?.PrintMsg(LogClass.ServiceBsd, $"Invalid socket fd '{socketFd}'.");
+            }
+            
             return WriteBsdResult(context, 0, errno);
         }
 

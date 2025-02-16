@@ -24,7 +24,7 @@ namespace Ryujinx.Ava
 
         private static readonly string _description =
             ReleaseInformation.IsValid
-                ? $"{VersionString} {ReleaseInformation.ReleaseChannelOwner}/{ReleaseInformation.ReleaseChannelSourceRepo}@{ReleaseInformation.BuildGitHash}"
+                ? $"{VersionString} {ReleaseInformation.ReleaseChannelOwner}/{ReleaseInformation.ReleaseChannelSourceRepo}"
                 : "dev build";
 
         private const string ApplicationId = "1293250299716173864";
