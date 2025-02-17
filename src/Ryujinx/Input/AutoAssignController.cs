@@ -67,20 +67,24 @@ namespace Ryujinx.Ava.Input
             List<InputConfig> oldConfig = _configurationState.Hid.InputConfig.Value.Where(x => x != null).ToList();
 
             (List<InputConfig> newConfig, bool hasNewControllersConnected) = GetOrderedConfig(controllers, oldConfig);
-
+            
             _viewModel.AppHost?.NpadManager.ReloadConfiguration(newConfig, _configurationState.Hid.EnableKeyboard, _configurationState.Hid.EnableMouse);
 
-            if (hasNewControllersConnected)
+            if (!hasNewControllersConnected)
             {
-                ConfigurationState.Instance.ToFileFormat().SaveConfig(Program.ConfigurationPath);
-            }
-            else
-            {
-                // we must switch the order of the controllers in oldConfig to match the new order
+                // there is no *new* controller, we must switch the order of the controllers in
+                // oldConfig to match the new order since probably a controller was disconnected
+                // or an old controller was reconnected
                 newConfig = ReorderControllers(newConfig, oldConfig);
             }
 
             _configurationState.Hid.InputConfig.Value = newConfig;
+            
+            // we want to save the configuration only if a *new* controller was connected
+            if(hasNewControllersConnected)
+            {
+                ConfigurationState.Instance.ToFileFormat().SaveConfig(Program.ConfigurationPath);
+            }
             ConfigurationUpdated?.Invoke();
         }
 
@@ -119,10 +123,10 @@ namespace Ryujinx.Ava.Input
             List<IGamepad> remainingControllers = controllers.Where(c => c?.Id != null).ToList();
 
             // Assign controllers that have an existing configuration
-            AssignExistingControllers(remainingControllers, oldConfigMap, playerIndexMap, usedIndices, ref recognizedControllersCount);
+            AddExistingControllers(remainingControllers, oldConfigMap, playerIndexMap, usedIndices, ref recognizedControllersCount);
 
             // Assign new controllers
-            AssignNewControllers(remainingControllers, playerIndexMap, usedIndices);
+            AddNewControllers(remainingControllers, playerIndexMap, usedIndices);
 
             List<InputConfig> orderedConfigs = playerIndexMap.OrderBy(x => x.Key).Select(x => x.Value).ToList();
 
@@ -134,9 +138,9 @@ namespace Ryujinx.Ava.Input
         }
 
         /// <summary>
-        /// Assigns controllers with existing configurations while keeping their PlayerIndex if available.
+        /// Adds controllers with existing configurations while keeping their PlayerIndex if available.
         /// </summary>
-        private void AssignExistingControllers(
+        private void AddExistingControllers(
             List<IGamepad> controllers,
             Dictionary<string, InputConfig> oldConfigMap,
             Dictionary<int, InputConfig> playerIndexMap,
@@ -167,9 +171,9 @@ namespace Ryujinx.Ava.Input
         }
 
         /// <summary>
-        /// Assigns new controllers to the first available PlayerIndex.
+        /// Adds new controllers to the first available PlayerIndex.
         /// </summary>
-        private void AssignNewControllers(
+        private void AddNewControllers(
             List<IGamepad> controllers,
             Dictionary<int, InputConfig> playerIndexMap,
             HashSet<int> usedIndices)
