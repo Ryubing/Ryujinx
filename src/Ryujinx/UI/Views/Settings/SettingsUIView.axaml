@@ -26,16 +26,12 @@
                 Spacing="10">
                 <TextBlock Classes="h1" Text="{ext:Locale SettingsTabGeneralGeneral}" />
                 <StackPanel Margin="10,0,0,0" Orientation="Vertical">
-                    <CheckBox 
-                        IsEnabled="{Binding !IsGameTitleNotNull}"
-                        Opacity="{Binding PanelOpacity}"
-                        IsChecked="{Binding EnableDiscordIntegration}">
-                            <StackPanel Orientation="Horizontal">
-                                <TextBlock VerticalAlignment="Center"
-                                           ToolTip.Tip="{ext:Locale ToggleDiscordTooltip}"
-                                           Text="{ext:Locale SettingsTabGeneralEnableDiscordRichPresence}" />
-                                <TextBlock Classes="globalConfigMarker" IsVisible="{Binding IsGameTitleNotNull}" />
-                             </StackPanel>
+                    <CheckBox IsChecked="{Binding EnableDiscordIntegration}">
+                        <StackPanel Orientation="Horizontal">
+                            <TextBlock VerticalAlignment="Center"
+                                       ToolTip.Tip="{ext:Locale ToggleDiscordTooltip}"
+                                       Text="{ext:Locale SettingsTabGeneralEnableDiscordRichPresence}" />
+                        </StackPanel>
                     </CheckBox>
                     <CheckBox 
                         IsEnabled="{Binding !IsGameTitleNotNull}"

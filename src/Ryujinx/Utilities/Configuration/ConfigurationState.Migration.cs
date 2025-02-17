@@ -21,12 +21,7 @@ namespace Ryujinx.Ava.Utilities.Configuration
         public void Load(ConfigurationFileFormat cff, string configurationFilePath, string titleId = "")
         {
             bool configurationFileUpdated = false;
-            bool shouldLoadFromFile = true;
-
-            if (!string.IsNullOrEmpty(titleId))
-            {
-                shouldLoadFromFile = false;
-            }
+            bool shouldLoadFromFile = string.IsNullOrEmpty(titleId);
 
             if (cff.Version is < 0 or > ConfigurationFileFormat.CurrentVersion)
             {
@@ -50,7 +45,7 @@ namespace Ryujinx.Ava.Utilities.Configuration
             }
             
           
-            EnableDiscordIntegration.Value = shouldLoadFromFile ? cff.EnableDiscordIntegration : EnableDiscordIntegration.Value; // Get from global config only
+            EnableDiscordIntegration.Value = cff.EnableDiscordIntegration;
             CheckUpdatesOnStart.Value = shouldLoadFromFile ? cff.CheckUpdatesOnStart : CheckUpdatesOnStart.Value; // Get from global config only
             UpdateCheckerType.Value = shouldLoadFromFile ? cff.UpdateCheckerType : UpdateCheckerType.Value; // Get from global config only
             FocusLostActionType.Value = cff.FocusLostActionType;
