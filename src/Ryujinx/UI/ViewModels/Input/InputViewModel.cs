@@ -379,20 +379,29 @@ namespace Ryujinx.Ava.UI.ViewModels.Input
                 LoadDevice();
                 _isLoaded = true;
                 
-                if (ConfigViewModel is not ControllerInputViewModel controllerInputViewModel) return;
-                GamepadInputConfig inputConfig = controllerInputViewModel.Config;
-
-                if (inputConfig is not { EnableLedChanging: true }) return;
-
-                if (inputConfig.TurnOffLed)
-                {
-                    SelectedGamepad.ClearLed();
-                } 
-                else
-                {
-                    SelectedGamepad.SetLed(inputConfig.LedColor.ToUInt32());
-                }
+                UpdateGamepadLed();
             });
+        }
+
+        private void UpdateGamepadLed()
+        {
+            if (ConfigViewModel is not ControllerInputViewModel controllerInputViewModel) return;
+            GamepadInputConfig inputConfig = controllerInputViewModel.Config;
+
+            if (inputConfig is not { EnableLedChanging: true }) return;
+
+            if (inputConfig.TurnOffLed)
+            {
+                SelectedGamepad.ClearLed();
+            } 
+            else if(inputConfig.UseRainbowLed)
+            {
+                SelectedGamepad.SetLed((uint)Rainbow.Color.ToArgb());
+            }
+            else
+            {
+                SelectedGamepad.SetLed(inputConfig.LedColor.ToUInt32()); 
+            }
         }
 
         private string GetCurrentGamepadId()
