@@ -60,6 +60,8 @@ namespace Ryujinx.Ava.UI.Views.Input
 
                     PointerPressed += MouseClick;
 
+                    FlagInputConfigChanged();
+
                     if (DataContext is not KeyboardInputViewModel viewModel)
                         return;
 
@@ -182,6 +184,11 @@ namespace Ryujinx.Ava.UI.Views.Input
                 _currentAssigner?.Cancel();
                 _currentAssigner = null;
             }
+        }
+
+        private void FlagInputConfigChanged()
+        {
+            (DataContext as KeyboardInputViewModel)!.ParentModel.IsInputConfigChanged = true;
         }
 
         private void MouseClick(object sender, PointerPressedEventArgs e)

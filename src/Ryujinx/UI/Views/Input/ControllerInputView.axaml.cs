@@ -65,6 +65,9 @@ namespace Ryujinx.Ava.UI.Views.Input
                 if (!float.IsNaN(_changeSlider) && _changeSlider != (float)check.Value)
                 {
                     (DataContext as ControllerInputViewModel)!.ParentModel.IsModified = true;
+
+                    FlagInputConfigChanged();
+
                     _changeSlider = (float)check.Value;
                 }
             }
@@ -75,6 +78,9 @@ namespace Ryujinx.Ava.UI.Views.Input
             if (sender is CheckBox { IsPointerOver: true })
             {
                 (DataContext as ControllerInputViewModel)!.ParentModel.IsModified = true;
+
+                FlagInputConfigChanged();
+
                 _currentAssigner?.Cancel();
                 _currentAssigner = null;
             }
@@ -101,6 +107,8 @@ namespace Ryujinx.Ava.UI.Views.Input
                         this.Focus(NavigationMethod.Pointer);
 
                         PointerPressed += MouseClick;
+
+                        FlagInputConfigChanged();
 
                         ControllerInputViewModel viewModel = (DataContext as ControllerInputViewModel);
 
@@ -208,6 +216,11 @@ namespace Ryujinx.Ava.UI.Views.Input
             }
         }
 
+        private void FlagInputConfigChanged()
+        {
+            (DataContext as ControllerInputViewModel)!.ParentModel.IsInputConfigChanged = true;
+        }
+
         private void MouseClick(object sender, PointerPressedEventArgs e)
         {
             bool shouldUnbind = e.GetCurrentPoint(this).Properties.IsMiddleButtonPressed;
@@ -239,7 +252,6 @@ namespace Ryujinx.Ava.UI.Views.Input
             {
                 gamepad?.ClearLed();
             }
-            
             _currentAssigner?.Cancel();
             _currentAssigner = null;
         }

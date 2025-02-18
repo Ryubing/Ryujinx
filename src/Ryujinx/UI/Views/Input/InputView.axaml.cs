@@ -48,6 +48,7 @@ namespace Ryujinx.Ava.UI.Views.Input
 
                 if (result == UserResult.Yes)
                 {
+                    ViewModel.InitInputPage = false;
                     ViewModel.Save();
                 }
 

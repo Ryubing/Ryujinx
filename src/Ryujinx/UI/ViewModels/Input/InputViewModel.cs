@@ -52,6 +52,7 @@ namespace Ryujinx.Ava.UI.ViewModels.Input
         [ObservableProperty] private object _configViewModel;
         [ObservableProperty] private string _profileName;
         private bool _isLoaded;
+        public bool InitInputPage { get; set; }
 
         private static readonly InputConfigJsonSerializerContext _serializerContext = new(JsonHelper.GetDefaultSerializerOptions());
 
@@ -92,6 +93,8 @@ namespace Ryujinx.Ava.UI.ViewModels.Input
         public bool CanClearLed => SelectedGamepad.Name.ContainsIgnoreCase("DualSense");
 
         public bool IsModified { get; set; }
+        public bool IsInputConfigChanged { get; set; }
+
         public event Action NotifyChangesEvent;
 
         public PlayerIndex PlayerIdChoose
@@ -121,13 +124,12 @@ namespace Ryujinx.Ava.UI.ViewModels.Input
 
                 }
                 _isLoaded = false;
-
                 LoadConfiguration();
                 LoadDevice();
                 LoadProfiles();
 
                 _isLoaded = true;
-
+               
                 OnPropertyChanged();
             }
         }
@@ -296,7 +298,10 @@ namespace Ryujinx.Ava.UI.ViewModels.Input
             {
                 ConfigViewModel = new ControllerInputViewModel(this, new GamepadInputConfig(controllerInputConfig));
             }
-        }
+
+            IsInputConfigChanged |= InitInputPage; // If the field has been changed, the control settings will be overwritten
+            InitInputPage = true; // initialization variable
+        } 
 
         public void LoadDevice()
         {
@@ -816,6 +821,13 @@ namespace Ryujinx.Ava.UI.ViewModels.Input
         public void Save()
         {
             IsModified = false;
+
+            if (!IsInputConfigChanged)
+            {
+                return; //If the input settings were not touched, then do nothing
+            }
+
+            IsInputConfigChanged = false; // Input settings have been changed
 
             List<InputConfig> newConfig = [];
 
