@@ -94,6 +94,8 @@ namespace Ryujinx.Ava.Input
                 {
                     desiredIndex = GetFirstAvailableIndex(usedIndices);
                 }
+                
+                if(desiredIndex == -1) continue;
 
                 InputConfig config = new GamepadInputConfig(existingConfig).GetConfig();
                 config.PlayerIndex = (PlayerIndex)desiredIndex;
