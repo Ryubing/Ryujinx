@@ -138,16 +138,18 @@ namespace Ryujinx.Ava.Input
         {
             orderedConfigs[index].PlayerIndex = (PlayerIndex)index;
 
-            if (orderedConfigs[index] is StandardControllerInputConfig standardConfig)
+            if (orderedConfigs[index] is not StandardControllerInputConfig standardConfig ||
+                standardConfig.Led.UseRainbow)
             {
-                if(standardConfig.Led.UseRainbow) continue;
-                Logger.Warning?.Print(LogClass.Application, $"Setting color for Player{index + 1}");
-                standardConfig.Led = new LedConfigController
-                {
-                    EnableLed = true,
-                    LedColor = _playerColors[index]
-                };
+                continue;
             }
+            
+            Logger.Warning?.Print(LogClass.Application, $"Setting color for Player{index + 1}");
+            standardConfig.Led = new LedConfigController
+            {
+                EnableLed = true,
+                LedColor = _playerColors[index]
+            };
         }
     }
 
