@@ -387,18 +387,15 @@ namespace Ryujinx.Ava.UI.ViewModels.Input
         {
             if (ConfigViewModel is not ControllerInputViewModel controllerInputViewModel) return;
             GamepadInputConfig inputConfig = controllerInputViewModel.Config;
-
+            
             if (inputConfig is not { EnableLedChanging: true }) return;
-
+            
             if (inputConfig.TurnOffLed)
             {
                 SelectedGamepad.ClearLed();
-            } 
-            else if(inputConfig.UseRainbowLed)
-            {
-                SelectedGamepad.SetLed((uint)Rainbow.Color.ToArgb());
             }
-            else
+            
+            if (!inputConfig.TurnOffLed && !inputConfig.UseRainbowLed)
             {
                 SelectedGamepad.SetLed(inputConfig.LedColor.ToUInt32()); 
             }
