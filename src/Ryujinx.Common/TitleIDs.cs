@@ -53,10 +53,9 @@ namespace Ryujinx.Common
             "0100000000010000", // Super Mario Odyssey
 
             // Further testing is appreciated, I did not test the entire game:
-            "01007300020fa000", // Astral Chain
-            "010076f0049a2000", // Bayonetta
-            "0100cf5010fec000", // Bayonetta Origins: Cereza and the Lost Demon
-            "0100f4300bf2c000", // New Pokemon Snap
+            //"010076f0049a2000", // Bayonetta
+            //"0100cf5010fec000", // Bayonetta Origins: Cereza and the Lost Demon
+            //"0100f4300bf2c000", // New Pokemon Snap
         ];
         
         public static string GetDiscordGameAsset(string titleId) 
@@ -230,6 +229,7 @@ namespace Ryujinx.Common
             "01008c8012920000", // Dying Light Platinum Edition
             "01001cc01b2d4000", // Goat Simulator 3
             "01003620068ea000", // Hand of Fate 2
+            "0100f7e00c70e000", // Hogwarts Legacy
             "010085500130a000", // Lego City: Undercover
             "010073c01af34000", // LEGO Horizon Adventures
             "0100d71004694000", // Minecraft

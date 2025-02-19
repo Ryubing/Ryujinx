@@ -1159,7 +1159,7 @@
 010095600AA36000,"Fill-a-Pix: Phil's Epic Adventure",,playable,2020-12-22 13:48:22
 0100C3A00BB76000,"Fimbul",nvdec,playable,2022-07-26 13:31:47
 0100C8200E942000,"Fin and the Ancient Mystery",nvdec,playable,2020-12-17 16:40:39
-01000EA014150000,"FINAL FANTASY",crash,nothing,2024-09-05 20:55:30
+01000EA014150000,"FINAL FANTASY",,playable,2025-02-16 21:27:30
 01006B7014156000,"FINAL FANTASY II",crash,nothing,2024-04-13 19:18:04
 01006F000B056000,"FINAL FANTASY IX",audout;nvdec,playable,2021-06-05 11:35:00
 0100AA201415C000,"FINAL FANTASY V",,playable,2023-04-26 01:11:55
@@ -2839,6 +2839,7 @@
 01009B90006DC000,"Super Mario Maker™ 2",online-broken;ldn-broken,playable,2024-08-25 11:05:19
 0100000000010000,"Super Mario Odyssey™",nvdec;intel-vendor-bug;mac-bug,playable,2024-08-25 01:32:34
 010036B0034E4000,"Super Mario Party™",gpu;Needs Update;ldn-works,ingame,2024-06-21 05:10:16
+0100965017338000,"Super Mario Party Jamboree",mac-bug;gpu,ingame,2025-02-17 02:09:20
 0100BC0018138000,"Super Mario RPG™",gpu;audio;nvdec,ingame,2024-06-19 17:43:42
 ,"Super Mario World",homebrew,boots,2024-06-13 01:40:31
 010049900F546000,"Super Mario™ 3D All-Stars",services-horizon;slow;vulkan;amd-vendor-bug,ingame,2024-05-07 02:38:16
