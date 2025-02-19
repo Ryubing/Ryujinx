@@ -8,7 +8,7 @@ namespace Ryujinx.Memory.Tracking
     /// </summary>
     class VirtualRegion : AbstractRegion
     {
-        public List<RegionHandle> Handles = new();
+        public List<RegionHandle> Handles = [];
 
         private readonly MemoryTracking _tracking;
         private MemoryPermission _lastPermission;

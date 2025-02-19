@@ -1,7 +1,5 @@
-using Ryujinx.Common.Memory;
 using Ryujinx.Graphics.GAL;
 using Silk.NET.Vulkan;
-using System;
 using System.Collections.ObjectModel;
 
 namespace Ryujinx.Graphics.Vulkan
@@ -83,7 +81,7 @@ namespace Ryujinx.Graphics.Vulkan
                         updateAfterBindFlags[setIndex] = true;
                     }
 
-                    DescriptorSetLayoutCreateInfo descriptorSetLayoutCreateInfo = new DescriptorSetLayoutCreateInfo
+                    DescriptorSetLayoutCreateInfo descriptorSetLayoutCreateInfo = new()
                     {
                         SType = StructureType.DescriptorSetLayoutCreateInfo,
                         PBindings = pLayoutBindings,
@@ -99,7 +97,7 @@ namespace Ryujinx.Graphics.Vulkan
 
             fixed (DescriptorSetLayout* pLayouts = layouts)
             {
-                PipelineLayoutCreateInfo pipelineLayoutCreateInfo = new PipelineLayoutCreateInfo
+                PipelineLayoutCreateInfo pipelineLayoutCreateInfo = new()
                 {
                     SType = StructureType.PipelineLayoutCreateInfo,
                     PSetLayouts = pLayouts,

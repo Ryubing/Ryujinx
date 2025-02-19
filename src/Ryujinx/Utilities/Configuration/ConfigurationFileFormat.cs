@@ -1,6 +1,5 @@
 using Ryujinx.Ava.Utilities.Configuration.System;
 using Ryujinx.Ava.Utilities.Configuration.UI;
-using Ryujinx.Common;
 using Ryujinx.Common.Configuration;
 using Ryujinx.Common.Configuration.Hid;
 using Ryujinx.Common.Configuration.Multiplayer;
@@ -8,7 +7,6 @@ using Ryujinx.Common.Logging;
 using Ryujinx.Common.Utilities;
 using Ryujinx.HLE;
 using System.Collections.Generic;
-using System.Text.Json.Nodes;
 
 namespace Ryujinx.Ava.Utilities.Configuration
 {
@@ -17,7 +15,7 @@ namespace Ryujinx.Ava.Utilities.Configuration
         /// <summary>
         /// The current version of the file format
         /// </summary>
-        public const int CurrentVersion = 61;
+        public const int CurrentVersion = 67;
 
         /// <summary>
         /// Version of the configuration file format
@@ -113,6 +111,11 @@ namespace Ryujinx.Ava.Utilities.Configuration
         /// Enables printing FS access log messages
         /// </summary>
         public bool LoggingEnableFsAccessLog { get; set; }
+        
+        /// <summary>
+        /// Enables log messages from Avalonia
+        /// </summary>
+        public bool LoggingEnableAvalonia { get; set; }
 
         /// <summary>
         /// Controls which log messages are written to the log targets
@@ -143,6 +146,11 @@ namespace Ryujinx.Ava.Utilities.Configuration
         /// Change System Time Offset in seconds
         /// </summary>
         public long SystemTimeOffset { get; set; }
+        
+        /// <summary>
+        /// Instead of setting the time via configuration, use the values provided by the system.
+        /// </summary>
+        public bool MatchSystemTime { get; set; }
 
         /// <summary>
         /// Enables or disables Docked Mode
@@ -155,9 +163,19 @@ namespace Ryujinx.Ava.Utilities.Configuration
         public bool EnableDiscordIntegration { get; set; }
 
         /// <summary>
-        /// Checks for updates when Ryujinx starts when enabled
+        /// DEPRECATED: Checks for updates when Ryujinx starts when enabled
         /// </summary>
         public bool CheckUpdatesOnStart { get; set; }
+        
+        /// <summary>
+        /// Checks for updates when Ryujinx starts when enabled, either prompting when an update is found or just showing a notification.
+        /// </summary>
+        public UpdaterType UpdateCheckerType { get; set; }
+        
+        /// <summary>
+        /// How the emulator should behave when you click off/on the window.
+        /// </summary>
+        public FocusLostType FocusLostActionType { get; set; }
 
         /// <summary>
         /// Show "Confirm Exit" Dialog
@@ -165,7 +183,7 @@ namespace Ryujinx.Ava.Utilities.Configuration
         public bool ShowConfirmExit { get; set; }
 
         /// <summary>
-        /// ignore "Applet" dialog
+        /// Ignore Controller Applet dialog
         /// </summary>
         public bool IgnoreApplet { get; set; }
 
@@ -377,28 +395,24 @@ namespace Ryujinx.Ava.Utilities.Configuration
         public bool EnableAutoAssign { get; set; }
 
         /// <summary>
+        /// Enable/disable the ability to control Ryujinx when it's not the currently focused window.
+        /// </summary>
+        public bool DisableInputWhenOutOfFocus { get; set; }
+
+        /// <summary>
         /// Hotkey Keyboard Bindings
         /// </summary>
         public KeyboardHotkeys Hotkeys { get; set; }
 
         /// <summary>
-        /// Legacy keyboard control bindings
-        /// </summary>
-        /// <remarks>Kept for file format compatibility (to avoid possible failure when parsing configuration on old versions)</remarks>
-        /// TODO: Remove this when those older versions aren't in use anymore.
-        public List<JsonObject> KeyboardConfig { get; set; }
-
-        /// <summary>
-        /// Legacy controller control bindings
-        /// </summary>
-        /// <remarks>Kept for file format compatibility (to avoid possible failure when parsing configuration on old versions)</remarks>
-        /// TODO: Remove this when those older versions aren't in use anymore.
-        public List<JsonObject> ControllerConfig { get; set; }
-
-        /// <summary>
         /// Input configurations
         /// </summary>
         public List<InputConfig> InputConfig { get; set; }
+        
+        /// <summary>
+        /// The speed of spectrum cycling for the Rainbow LED feature.
+        /// </summary>
+        public float RainbowSpeed { get; set; }
 
         /// <summary>
         /// Graphics backend

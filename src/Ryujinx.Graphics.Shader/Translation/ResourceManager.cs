@@ -14,7 +14,7 @@ namespace Ryujinx.Graphics.Shader.Translation
         private const int DefaultLocalMemorySize = 128;
         private const int DefaultSharedMemorySize = 4096;
 
-        private static readonly string[] _stagePrefixes = new string[] { "cp", "vp", "tcp", "tep", "gp", "fp" };
+        private static readonly string[] _stagePrefixes = ["cp", "vp", "tcp", "tep", "gp", "fp"];
 
         private readonly IGpuAccessor _gpuAccessor;
         private readonly ShaderStage _stage;
@@ -78,15 +78,15 @@ namespace Ryujinx.Graphics.Shader.Translation
             _sbSlots = new();
             _sbSlotsReverse = new();
 
-            _usedConstantBufferBindings = new();
+            _usedConstantBufferBindings = [];
 
             _usedTextures = new();
             _usedImages = new();
 
-            _vacConstantBuffers = new();
-            _vacStorageBuffers = new();
-            _vacTextures = new();
-            _vacImages = new();
+            _vacConstantBuffers = [];
+            _vacStorageBuffers = [];
+            _vacTextures = [];
+            _vacImages = [];
 
             Properties.AddOrUpdateConstantBuffer(new(BufferLayout.Std140, 0, SupportBuffer.Binding, "support_buffer", SupportBuffer.GetStructureType()));
 
@@ -103,7 +103,7 @@ namespace Ryujinx.Graphics.Shader.Translation
                     size = DefaultLocalMemorySize;
                 }
 
-                MemoryDefinition lmem = new MemoryDefinition("local_memory", AggregateType.Array | AggregateType.U32, BitUtils.DivRoundUp(size, sizeof(uint)));
+                MemoryDefinition lmem = new("local_memory", AggregateType.Array | AggregateType.U32, BitUtils.DivRoundUp(size, sizeof(uint)));
 
                 LocalMemoryId = Properties.AddLocalMemory(lmem);
             }
@@ -122,7 +122,7 @@ namespace Ryujinx.Graphics.Shader.Translation
                     size = DefaultSharedMemorySize;
                 }
 
-                MemoryDefinition smem = new MemoryDefinition("shared_memory", AggregateType.Array | AggregateType.U32, BitUtils.DivRoundUp(size, sizeof(uint)));
+                MemoryDefinition smem = new("shared_memory", AggregateType.Array | AggregateType.U32, BitUtils.DivRoundUp(size, sizeof(uint)));
 
                 SharedMemoryId = Properties.AddSharedMemory(smem);
             }
@@ -315,8 +315,8 @@ namespace Ryujinx.Graphics.Shader.Translation
             // For array textures, we also want to use type as key,
             // since we may have texture handles stores in the same buffer, but for textures with different types.
             SamplerType keyType = arrayLength > 1 ? type : SamplerType.None;
-            TextureInfo info = new TextureInfo(cbufSlot, handle, arrayLength, separate, keyType, format);
-            TextureMeta meta = new TextureMeta()
+            TextureInfo info = new(cbufSlot, handle, arrayLength, separate, keyType, format);
+            TextureMeta meta = new()
             {
                 AccurateType = accurateType,
                 Type = type,
@@ -383,7 +383,7 @@ namespace Ryujinx.Graphics.Shader.Translation
                 nameSuffix = cbufSlot < 0 ? $"{prefix}_tcb_{handle:X}" : $"{prefix}_cb{cbufSlot}_{handle:X}";
             }
 
-            TextureDefinition definition = new TextureDefinition(
+            TextureDefinition definition = new(
                 setIndex,
                 binding,
                 arrayLength,
@@ -524,7 +524,7 @@ namespace Ryujinx.Graphics.Shader.Translation
 
         private static TextureDescriptor[] GetDescriptors(IReadOnlyDictionary<TextureInfo, TextureMeta> usedResources, bool includeArrays)
         {
-            List<TextureDescriptor> descriptors = new();
+            List<TextureDescriptor> descriptors = [];
 
             bool hasAnyArray = false;
 
@@ -690,20 +690,18 @@ namespace Ryujinx.Graphics.Shader.Translation
 
         private void AddNewConstantBuffer(int setIndex, int binding, string name)
         {
-            StructureType type = new(new[]
-            {
-                new StructureField(AggregateType.Array | AggregateType.Vector4 | AggregateType.FP32, "data", Constants.ConstantBufferSize / 16),
-            });
+            StructureType type = new([
+                new StructureField(AggregateType.Array | AggregateType.Vector4 | AggregateType.FP32, "data", Constants.ConstantBufferSize / 16)
+            ]);
 
             Properties.AddOrUpdateConstantBuffer(new(BufferLayout.Std140, setIndex, binding, name, type));
         }
 
         private void AddNewStorageBuffer(int setIndex, int binding, string name)
         {
-            StructureType type = new(new[]
-            {
-                new StructureField(AggregateType.Array | AggregateType.U32, "data", 0),
-            });
+            StructureType type = new([
+                new StructureField(AggregateType.Array | AggregateType.U32, "data", 0)
+            ]);
 
             Properties.AddOrUpdateStorageBuffer(new(BufferLayout.Std430, setIndex, binding, name, type));
         }

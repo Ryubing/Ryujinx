@@ -111,6 +111,67 @@ namespace Ryujinx.Ava.Utilities.AppLibrary
             return data;
         }
 
+        /// <summary>
+        ///     Gets a name for an available content file based on the Application ID '<paramref name="id"/>'.
+        ///     <br/><br/>
+        ///     For Applications, this returns the localized name of the app found in the file.
+        ///     For DLCs, this returns the name of the file that contains the DLC, minus the file extension.
+        /// </summary>
+        /// <param name="id">The Application ID to search for.</param>
+        /// <remarks>
+        /// If the provided Application ID does not have a corresponding Application OR DLC file,
+        /// <paramref name="id"/> formatted as hexadecimal is returned.
+        /// </remarks>
+        /// <returns>A formatted Application name, or <paramref name="id"/> as hexadecimal if none is found.</returns>
+        public string GetNameForApplicationId(ulong id)
+        {
+            DynamicData.Kernel.Optional<ApplicationData> appData = Applications.Lookup(id);
+            if (appData.HasValue)
+                return appData.Value.Name;
+
+            if (!DownloadableContents.Keys.FindFirst(x => x.TitleId == id).TryGet(out DownloadableContentModel dlcData))
+                return id.ToString("X16");
+            
+            string name = Path.GetFileNameWithoutExtension(dlcData.FileName)!;
+            int idx = name.IndexOf('[');
+            if (idx != -1)
+                name = name[..idx];
+
+            return name;
+        }
+
+        public bool FindApplication(ulong id, out ApplicationData foundData)
+        {
+            DynamicData.Kernel.Optional<ApplicationData> appData = Applications.Lookup(id);
+            foundData = appData.HasValue ? appData.Value : null;
+
+            return appData.HasValue;
+        }
+        
+        public bool FindUpdate(ulong id, out TitleUpdateModel foundData)
+        {
+            Gommon.Optional<TitleUpdateModel> appData = 
+                TitleUpdates.Keys.FindFirst(x => x.TitleId == id);
+            foundData = appData.HasValue ? appData.Value : null;
+
+            return appData.HasValue;
+        }
+        
+        public TitleUpdateModel[] FindUpdatesFor(ulong id)
+            => TitleUpdates.Keys.Where(x => x.TitleIdBase == (id & ~0x1FFFUL)).ToArray();
+        
+        public (TitleUpdateModel TitleUpdate, bool IsSelected)[] FindUpdateConfigurationFor(ulong id)
+            => TitleUpdates.Items.Where(x => x.TitleUpdate.TitleIdBase == (id & ~0x1FFFUL)).ToArray();
+        
+        public DownloadableContentModel[] FindDlcsFor(ulong id)
+            => DownloadableContents.Keys.Where(x => x.TitleIdBase == (id & ~0x1FFFUL)).ToArray();
+        
+        public (DownloadableContentModel Dlc, bool IsEnabled)[] FindDlcConfigurationFor(ulong id)
+            => DownloadableContents.Items.Where(x => x.Dlc.TitleIdBase == (id & ~0x1FFFUL)).ToArray();
+        
+        public bool HasDlcs(ulong id)
+            => DownloadableContents.Keys.Any(x => x.TitleIdBase == (id & ~0x1FFFUL));
+
         /// <exception cref="LibHac.Common.Keys.MissingKeyException">The configured key set is missing a key.</exception>
         /// <exception cref="InvalidDataException">The NCA header could not be decrypted.</exception>
         /// <exception cref="NotSupportedException">The NCA version is not supported.</exception>
@@ -190,7 +251,7 @@ namespace Ryujinx.Ava.Utilities.AppLibrary
         /// <exception cref="HorizonResultException">An error occured while reading PFS data.</exception>
         private List<ApplicationData> GetApplicationsFromPfs(IFileSystem pfs, string filePath)
         {
-            List<ApplicationData> applications = new List<ApplicationData>();
+            List<ApplicationData> applications = [];
             string extension = Path.GetExtension(filePath).ToLower();
 
             foreach ((ulong titleId, ContentMetaData content) in pfs.GetContentData(ContentMetaType.Application, _virtualFileSystem, _checkLevel))
@@ -245,7 +306,7 @@ namespace Ryujinx.Ava.Utilities.AppLibrary
                             continue;
                         }
 
-                        using UniqueRef<IFile> icon = new UniqueRef<IFile>();
+                        using UniqueRef<IFile> icon = new();
 
                         controlFs.OpenFile(ref icon.Ref, entry.FullPath.ToU8Span(), OpenMode.Read).ThrowIfFailure();
 
@@ -313,7 +374,7 @@ namespace Ryujinx.Ava.Utilities.AppLibrary
                     case ".nsp":
                     case ".pfs0":
                         {
-                            PartitionFileSystem pfs = new PartitionFileSystem();
+                            PartitionFileSystem pfs = new();
                             pfs.Initialize(file.AsStorage()).ThrowIfFailure();
 
                             ApplicationData result = GetApplicationFromNsp(pfs, applicationPath);
@@ -501,7 +562,7 @@ namespace Ryujinx.Ava.Utilities.AppLibrary
 
                             foreach (DirectoryEntryEx fileEntry in pfs.EnumerateEntries("/", "*.nca"))
                             {
-                                using UniqueRef<IFile> ncaFile = new UniqueRef<IFile>();
+                                using UniqueRef<IFile> ncaFile = new();
 
                                 pfs.OpenFile(ref ncaFile.Ref, fileEntry.FullPath.ToU8Span(), OpenMode.Read).ThrowIfFailure();
 
@@ -589,7 +650,7 @@ namespace Ryujinx.Ava.Utilities.AppLibrary
                                         ReadOption.None).ThrowIfFailure();
 
                                     string displayVersion = controlData.DisplayVersionString.ToString();
-                                    TitleUpdateModel update = new TitleUpdateModel(content.ApplicationId, content.Version.Version,
+                                    TitleUpdateModel update = new(content.ApplicationId, content.Version.Version,
                                         displayVersion, filePath);
 
                                     titleUpdates.Add(update);
@@ -642,7 +703,7 @@ namespace Ryujinx.Ava.Utilities.AppLibrary
             _applications.Clear();
 
             // Builds the applications list with paths to found applications
-            List<string> applicationPaths = new();
+            List<string> applicationPaths = [];
 
             try
             {
@@ -685,7 +746,7 @@ namespace Ryujinx.Ava.Utilities.AppLibrary
                                 return;
                             }
 
-                            FileInfo fileInfo = new FileInfo(app);
+                            FileInfo fileInfo = new(app);
 
                             try
                             {
@@ -776,7 +837,7 @@ namespace Ryujinx.Ava.Utilities.AppLibrary
                         ldnWebHost = DefaultLanPlayWebHost;
                     }
                     IEnumerable<LdnGameData> ldnGameDataArray = Array.Empty<LdnGameData>();
-                    using HttpClient httpClient = new HttpClient();
+                    using HttpClient httpClient = new();
                     string ldnGameDataArrayString = await httpClient.GetStringAsync($"https://{ldnWebHost}/api/public_games");
                     ldnGameDataArray = JsonHelper.Deserialize(ldnGameDataArrayString, _ldnDataSerializerContext.IEnumerableLdnGameData);
                     LdnGameDataReceived?.Invoke(new LdnGameDataReceivedEventArgs
@@ -833,7 +894,7 @@ namespace Ryujinx.Ava.Utilities.AppLibrary
         {
             _cancellationToken = new CancellationTokenSource();
 
-            List<string> dlcPaths = new();
+            List<string> dlcPaths = [];
             int newDlcLoaded = 0;
             numDlcRemoved = 0;
 
@@ -882,7 +943,7 @@ namespace Ryujinx.Ava.Utilities.AppLibrary
                                 return newDlcLoaded;
                             }
 
-                            FileInfo fileInfo = new FileInfo(app);
+                            FileInfo fileInfo = new(app);
 
                             try
                             {
@@ -943,14 +1004,14 @@ namespace Ryujinx.Ava.Utilities.AppLibrary
         {
             _cancellationToken = new CancellationTokenSource();
 
-            List<string> updatePaths = new();
+            List<string> updatePaths = [];
             int numUpdatesLoaded = 0;
             numUpdatesRemoved = 0;
 
             try
             {
-                HashSet<ulong> titleIdsToSave = new HashSet<ulong>();
-                HashSet<ulong> titleIdsToRefresh = new HashSet<ulong>();
+                HashSet<ulong> titleIdsToSave = [];
+                HashSet<ulong> titleIdsToRefresh = [];
 
                 // Remove any updates which can no longer be located on disk
                 List<(TitleUpdateModel TitleUpdate, bool IsSelected)> updatesToRemove = _titleUpdates.Items
@@ -998,7 +1059,7 @@ namespace Ryujinx.Ava.Utilities.AppLibrary
                                 return numUpdatesLoaded;
                             }
 
-                            FileInfo fileInfo = new FileInfo(app);
+                            FileInfo fileInfo = new(app);
 
                             try
                             {
@@ -1170,7 +1231,7 @@ namespace Ryujinx.Ava.Utilities.AppLibrary
                             }
                             else
                             {
-                                PartitionFileSystem pfsTemp = new PartitionFileSystem();
+                                PartitionFileSystem pfsTemp = new();
                                 pfsTemp.Initialize(file.AsStorage()).ThrowIfFailure();
                                 pfs = pfsTemp;
 
@@ -1204,7 +1265,7 @@ namespace Ryujinx.Ava.Utilities.AppLibrary
                                 // Read the icon from the ControlFS and store it as a byte array
                                 try
                                 {
-                                    using UniqueRef<IFile> icon = new UniqueRef<IFile>();
+                                    using UniqueRef<IFile> icon = new();
 
                                     controlFs.OpenFile(ref icon.Ref, $"/icon_{desiredTitleLanguage}.dat".ToU8Span(), OpenMode.Read).ThrowIfFailure();
 
@@ -1222,7 +1283,7 @@ namespace Ryujinx.Ava.Utilities.AppLibrary
                                             continue;
                                         }
 
-                                        using UniqueRef<IFile> icon = new UniqueRef<IFile>();
+                                        using UniqueRef<IFile> icon = new();
 
                                         controlFs.OpenFile(ref icon.Ref, entry.FullPath.ToU8Span(), OpenMode.Read).ThrowIfFailure();
 

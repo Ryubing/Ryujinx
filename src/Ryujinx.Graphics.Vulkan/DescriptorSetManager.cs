@@ -31,7 +31,7 @@ namespace Ryujinx.Graphics.Vulkan
 
                 fixed (DescriptorPoolSize* pPoolsSize = poolSizes)
                 {
-                    DescriptorPoolCreateInfo descriptorPoolCreateInfo = new DescriptorPoolCreateInfo
+                    DescriptorPoolCreateInfo descriptorPoolCreateInfo = new()
                     {
                         SType = StructureType.DescriptorPoolCreateInfo,
                         Flags = updateAfterBind ? DescriptorPoolCreateFlags.UpdateAfterBindBit : DescriptorPoolCreateFlags.None,
@@ -69,7 +69,7 @@ namespace Ryujinx.Graphics.Vulkan
                 {
                     fixed (DescriptorSetLayout* pLayouts = layouts)
                     {
-                        DescriptorSetAllocateInfo descriptorSetAllocateInfo = new DescriptorSetAllocateInfo
+                        DescriptorSetAllocateInfo descriptorSetAllocateInfo = new()
                         {
                             SType = StructureType.DescriptorSetAllocateInfo,
                             DescriptorPool = _pool,

@@ -44,11 +44,11 @@ namespace Ryujinx.Graphics.OpenGL.Effects.Smaa
         {
             _renderer = renderer;
 
-            _edgeShaderPrograms = Array.Empty<int>();
-            _blendShaderPrograms = Array.Empty<int>();
-            _neighbourShaderPrograms = Array.Empty<int>();
+            _edgeShaderPrograms = [];
+            _blendShaderPrograms = [];
+            _neighbourShaderPrograms = [];
 
-            _qualities = new string[] { "SMAA_PRESET_LOW", "SMAA_PRESET_MEDIUM", "SMAA_PRESET_HIGH", "SMAA_PRESET_ULTRA" };
+            _qualities = ["SMAA_PRESET_LOW", "SMAA_PRESET_MEDIUM", "SMAA_PRESET_HIGH", "SMAA_PRESET_ULTRA"];
 
             Quality = quality;
 
@@ -93,7 +93,7 @@ namespace Ryujinx.Graphics.OpenGL.Effects.Smaa
                 string blendShaderData = EmbeddedResources.ReadAllText("Ryujinx.Graphics.OpenGL/Effects/Shaders/smaa_blend.glsl");
                 string neighbourShaderData = EmbeddedResources.ReadAllText("Ryujinx.Graphics.OpenGL/Effects/Shaders/smaa_neighbour.glsl");
 
-                string[] shaders = new string[] { presets, edgeShaderData };
+                string[] shaders = [presets, edgeShaderData];
                 int edgeProgram = ShaderHelper.CompileProgram(shaders, ShaderType.ComputeShader);
 
                 shaders[1] = blendShaderData;
@@ -117,7 +117,7 @@ namespace Ryujinx.Graphics.OpenGL.Effects.Smaa
 
         private void Initialize()
         {
-            TextureCreateInfo areaInfo = new TextureCreateInfo(AreaWidth,
+            TextureCreateInfo areaInfo = new(AreaWidth,
                 AreaHeight,
                 1,
                 1,
@@ -133,7 +133,7 @@ namespace Ryujinx.Graphics.OpenGL.Effects.Smaa
                 SwizzleComponent.Blue,
                 SwizzleComponent.Alpha);
 
-            TextureCreateInfo searchInfo = new TextureCreateInfo(SearchWidth,
+            TextureCreateInfo searchInfo = new(SearchWidth,
                 SearchHeight,
                 1,
                 1,
@@ -194,7 +194,7 @@ namespace Ryujinx.Graphics.OpenGL.Effects.Smaa
             GL.ActiveTexture(TextureUnit.Texture2);
             int previousTextureBinding2 = GL.GetInteger(GetPName.TextureBinding2D);
 
-            Framebuffer framebuffer = new Framebuffer();
+            Framebuffer framebuffer = new();
             framebuffer.Bind();
             framebuffer.AttachColor(0, edgeOutput);
             GL.Clear(ClearBufferMask.ColorBufferBit);

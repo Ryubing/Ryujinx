@@ -13,8 +13,8 @@ namespace Ryujinx.HLE.HOS.Services.Ldn.UserServiceCreator.LdnRyu.Proxy
         public EndPoint LocalEndpoint { get; }
         public IPAddress LocalAddress { get; }
 
-        private readonly List<LdnProxySocket> _sockets = new List<LdnProxySocket>();
-        private readonly Dictionary<ProtocolType, EphemeralPortPool> _ephemeralPorts = new Dictionary<ProtocolType, EphemeralPortPool>();
+        private readonly List<LdnProxySocket> _sockets = [];
+        private readonly Dictionary<ProtocolType, EphemeralPortPool> _ephemeralPorts = new();
 
         private readonly IProxyClient _parent;
         private RyuLdnProtocol _protocol;
@@ -132,7 +132,7 @@ namespace Ryujinx.HLE.HOS.Services.Ldn.UserServiceCreator.LdnRyu.Proxy
 
         public void HandleData(LdnHeader header, ProxyDataHeader proxyHeader, byte[] data)
         {
-            ProxyDataPacket packet = new ProxyDataPacket() { Header = proxyHeader, Data = data };
+            ProxyDataPacket packet = new() { Header = proxyHeader, Data = data };
 
             ForRoutedSockets(proxyHeader.Info, (socket) =>
             {
@@ -179,7 +179,7 @@ namespace Ryujinx.HLE.HOS.Services.Ldn.UserServiceCreator.LdnRyu.Proxy
         {
             // We must ask the other side to initialize a connection, so they can accept a socket for us.
 
-            ProxyConnectRequest request = new ProxyConnectRequest
+            ProxyConnectRequest request = new()
             {
                 Info = MakeInfo(localEp, remoteEp, type)
             };
@@ -191,7 +191,7 @@ namespace Ryujinx.HLE.HOS.Services.Ldn.UserServiceCreator.LdnRyu.Proxy
         {
             // We must tell the other side that we have accepted their request for connection.
 
-            ProxyConnectResponse request = new ProxyConnectResponse
+            ProxyConnectResponse request = new()
             {
                 Info = MakeInfo(localEp, remoteEp, type)
             };
@@ -203,7 +203,7 @@ namespace Ryujinx.HLE.HOS.Services.Ldn.UserServiceCreator.LdnRyu.Proxy
         {
             // We must tell the other side that our connection is dropped.
 
-            ProxyDisconnectMessage request = new ProxyDisconnectMessage
+            ProxyDisconnectMessage request = new()
             {
                 Info = MakeInfo(localEp, remoteEp, type),
                 DisconnectReason = 0 // TODO
@@ -217,7 +217,7 @@ namespace Ryujinx.HLE.HOS.Services.Ldn.UserServiceCreator.LdnRyu.Proxy
             // We send exactly as much as the user wants us to, currently instantly.
             // TODO: handle over "virtual mtu" (we have a max packet size to worry about anyways). fragment if tcp? throw if udp?
 
-            ProxyDataHeader request = new ProxyDataHeader
+            ProxyDataHeader request = new()
             {
                 Info = MakeInfo(localEp, remoteEp, type),
                 DataLength = (uint)buffer.Length

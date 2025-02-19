@@ -337,7 +337,7 @@ namespace Ryujinx.Graphics.GAL.Multithreading
         {
             if (IsGpuThread())
             {
-                ThreadedTexture texture = new ThreadedTexture(this, info);
+                ThreadedTexture texture = new(this, info);
                 New<CreateTextureCommand>().Set(Ref(texture), info);
                 QueueCommand();
 
@@ -345,7 +345,7 @@ namespace Ryujinx.Graphics.GAL.Multithreading
             }
             else
             {
-                ThreadedTexture texture = new ThreadedTexture(this, info)
+                ThreadedTexture texture = new(this, info)
                 {
                     Base = _baseRenderer.CreateTexture(info),
                 };
@@ -355,7 +355,7 @@ namespace Ryujinx.Graphics.GAL.Multithreading
         }
         public ITextureArray CreateTextureArray(int size, bool isBuffer)
         {
-            ThreadedTextureArray textureArray = new ThreadedTextureArray(this);
+            ThreadedTextureArray textureArray = new(this);
             New<CreateTextureArrayCommand>().Set(Ref(textureArray), size, isBuffer);
             QueueCommand();
 
@@ -414,7 +414,7 @@ namespace Ryujinx.Graphics.GAL.Multithreading
 
         public IProgram LoadProgramBinary(byte[] programBinary, bool hasFragmentShader, ShaderInfo info)
         {
-            ThreadedProgram program = new ThreadedProgram(this);
+            ThreadedProgram program = new(this);
 
             BinaryProgramRequest request = new(program, programBinary, hasFragmentShader, info);
             Programs.Add(request);

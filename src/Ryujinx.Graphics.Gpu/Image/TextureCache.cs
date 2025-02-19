@@ -58,15 +58,15 @@ namespace Ryujinx.Graphics.Gpu.Image
             _context = context;
             _physicalMemory = physicalMemory;
 
-            _textures = new MultiRangeList<Texture>();
-            _partiallyMappedTextures = new HashSet<Texture>();
+            _textures = [];
+            _partiallyMappedTextures = [];
 
             _texturesLock = new ReaderWriterLockSlim();
 
             _textureOverlaps = new Texture[OverlapsBufferInitialCapacity];
             _overlapInfo = new OverlapInfo[OverlapsBufferInitialCapacity];
 
-            _cache = new AutoDeleteCache();
+            _cache = [];
         }
 
         /// <summary>
@@ -892,7 +892,7 @@ namespace Ryujinx.Graphics.Gpu.Image
                         // otherwise we only need the data that is copied from the existing texture, without loading the CPU data.
                         bool updateNewTexture = texture.Width > overlap.Width || texture.Height > overlap.Height;
 
-                        texture.InitializeGroup(true, true, new List<TextureIncompatibleOverlap>());
+                        texture.InitializeGroup(true, true, []);
                         texture.InitializeData(false, updateNewTexture);
 
                         overlap.SynchronizeMemory();
@@ -947,7 +947,7 @@ namespace Ryujinx.Graphics.Gpu.Image
                 bool hasLayerViews = false;
                 bool hasMipViews = false;
 
-                List<TextureIncompatibleOverlap> incompatibleOverlaps = new List<TextureIncompatibleOverlap>();
+                List<TextureIncompatibleOverlap> incompatibleOverlaps = [];
 
                 for (int index = 0; index < overlapsCount; index++)
                 {

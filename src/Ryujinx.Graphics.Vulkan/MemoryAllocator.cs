@@ -21,7 +21,7 @@ namespace Ryujinx.Graphics.Vulkan
             _api = api;
             _physicalDevice = physicalDevice;
             _device = device;
-            _blockLists = new List<MemoryAllocatorBlockList>();
+            _blockLists = [];
             _blockAlignment = (int)Math.Min(int.MaxValue, MaxDeviceMemoryUsageEstimate / _physicalDevice.PhysicalDeviceProperties.Limits.MaxMemoryAllocationCount);
             _lock = new(LockRecursionPolicy.NoRecursion);
         }
@@ -65,7 +65,7 @@ namespace Ryujinx.Graphics.Vulkan
 
             try
             {
-                MemoryAllocatorBlockList newBl = new MemoryAllocatorBlockList(_api, _device, memoryTypeIndex, _blockAlignment, isBuffer);
+                MemoryAllocatorBlockList newBl = new(_api, _device, memoryTypeIndex, _blockAlignment, isBuffer);
                 _blockLists.Add(newBl);
 
                 return newBl.Allocate(size, alignment, map);

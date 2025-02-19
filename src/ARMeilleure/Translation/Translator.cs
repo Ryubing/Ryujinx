@@ -5,7 +5,6 @@ using ARMeilleure.Diagnostics;
 using ARMeilleure.Instructions;
 using ARMeilleure.IntermediateRepresentation;
 using ARMeilleure.Memory;
-using ARMeilleure.Signal;
 using ARMeilleure.State;
 using ARMeilleure.Translation.Cache;
 using ARMeilleure.Translation.PTC;
@@ -222,7 +221,7 @@ namespace ARMeilleure.Translation
 
         internal TranslatedFunction Translate(ulong address, ExecutionMode mode, bool highCq, bool singleStep = false)
         {
-            ArmEmitterContext context = new ArmEmitterContext(
+            ArmEmitterContext context = new(
                 Memory,
                 CountTable,
                 FunctionTable,
@@ -249,6 +248,11 @@ namespace ARMeilleure.Translation
 
             ControlFlowGraph cfg = EmitAndGetCFG(context, blocks, out Range funcRange, out Counter<uint> counter);
 
+            if (cfg == null)
+            {
+                return null;
+            }
+
             ulong funcSize = funcRange.End - funcRange.Start;
 
             Logger.EndPass(PassName.Translation, cfg);
@@ -260,7 +264,7 @@ namespace ARMeilleure.Translation
             Logger.EndPass(PassName.RegisterUsage);
 
             OperandType retType = OperandType.I64;
-            OperandType[] argTypes = new OperandType[] { OperandType.I64 };
+            OperandType[] argTypes = [OperandType.I64];
 
             CompilerOptions options = highCq ? CompilerOptions.HighCq : CompilerOptions.None;
 
@@ -407,6 +411,11 @@ namespace ARMeilleure.Translation
                         if (opCode.Instruction.Emitter != null)
                         {
                             opCode.Instruction.Emitter(context);
+                            if (opCode.Instruction.Name == InstName.Und && blkIndex == 0)
+                            {
+                                range = new Range(rangeStart, rangeEnd);
+                                return null;
+                            }
                         }
                         else
                         {
@@ -478,7 +487,7 @@ namespace ARMeilleure.Translation
 
         public void InvalidateJitCacheRegion(ulong address, ulong size)
         {
-            ulong[] overlapAddresses = Array.Empty<ulong>();
+            ulong[] overlapAddresses = [];
 
             int overlapsCount = Functions.GetOverlaps(address, size, ref overlapAddresses);
 

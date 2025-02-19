@@ -15,7 +15,7 @@ namespace Ryujinx.Graphics.Vulkan
 
             AttachmentDescription[] attachmentDescs = null;
 
-            SubpassDescription subpass = new SubpassDescription
+            SubpassDescription subpass = new()
             {
                 PipelineBindPoint = PipelineBindPoint.Graphics,
             };
@@ -111,7 +111,7 @@ namespace Ryujinx.Graphics.Vulkan
 
             fixed (AttachmentDescription* pAttachmentDescs = attachmentDescs)
             {
-                RenderPassCreateInfo renderPassCreateInfo = new RenderPassCreateInfo
+                RenderPassCreateInfo renderPassCreateInfo = new()
                 {
                     SType = StructureType.RenderPassCreateInfo,
                     PAttachments = pAttachmentDescs,

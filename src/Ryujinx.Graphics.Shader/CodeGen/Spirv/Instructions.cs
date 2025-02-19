@@ -1242,11 +1242,11 @@ namespace Ryujinx.Graphics.Shader.CodeGen.Spirv
 
             if (hasDerivatives)
             {
-                derivatives = new[]
-                {
+                derivatives =
+                [
                     AssembleDerivativesVector(coordsCount), // dPdx
-                    AssembleDerivativesVector(coordsCount), // dPdy
-                };
+                    AssembleDerivativesVector(coordsCount) // dPdy
+                ];
             }
 
             SpvInstruction sample = null;
@@ -1286,17 +1286,17 @@ namespace Ryujinx.Graphics.Shader.CodeGen.Spirv
 
             if (hasOffset)
             {
-                offsets = new[] { AssembleOffsetVector(coordsCount) };
+                offsets = [AssembleOffsetVector(coordsCount)];
             }
             else if (hasOffsets)
             {
-                offsets = new[]
-                {
+                offsets =
+                [
                     AssembleOffsetVector(coordsCount),
                     AssembleOffsetVector(coordsCount),
                     AssembleOffsetVector(coordsCount),
-                    AssembleOffsetVector(coordsCount),
-                };
+                    AssembleOffsetVector(coordsCount)
+                ];
             }
 
             SpvInstruction lodBias = null;
@@ -1327,7 +1327,7 @@ namespace Ryujinx.Graphics.Shader.CodeGen.Spirv
                 compIdx = Src(AggregateType.S32);
             }
 
-            List<SpvInstruction> operandsList = new List<SpvInstruction>();
+            List<SpvInstruction> operandsList = [];
             ImageOperandsMask operandsMask = ImageOperandsMask.MaskNone;
 
             if (hasLodBias)
@@ -1754,7 +1754,7 @@ namespace Ryujinx.Graphics.Shader.CodeGen.Spirv
 
                     storageClass = isOutput ? StorageClass.Output : StorageClass.Input;
 
-                    IoDefinition ioDefinition = new IoDefinition(storageKind, ioVariable, location, component);
+                    IoDefinition ioDefinition = new(storageKind, ioVariable, location, component);
                     Dictionary<IoDefinition, SpvInstruction> dict = isPerPatch
                         ? (isOutput ? context.OutputsPerPatch : context.InputsPerPatch)
                         : (isOutput ? context.Outputs : context.Inputs);
@@ -1843,7 +1843,7 @@ namespace Ryujinx.Graphics.Shader.CodeGen.Spirv
             (_, AggregateType varType) = IoMap.GetSpirvBuiltIn(ioVariable);
             varType &= AggregateType.ElementTypeMask;
 
-            IoDefinition ioDefinition = new IoDefinition(StorageKind.Input, ioVariable);
+            IoDefinition ioDefinition = new(StorageKind.Input, ioVariable);
 
             return context.Load(context.GetType(varType), context.Inputs[ioDefinition]);
         }

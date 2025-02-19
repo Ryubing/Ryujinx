@@ -4,7 +4,7 @@ using System.Collections.ObjectModel;
 
 namespace Ryujinx.Ava.UI.ViewModels
 {
-    public partial class UserSelectorDialogViewModel : BaseModel
+    public partial class ProfileSelectorDialogViewModel : BaseModel
     {
 
         [ObservableProperty] private UserId _selectedUserId;

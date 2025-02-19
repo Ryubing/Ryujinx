@@ -2,8 +2,6 @@ using Ryujinx.Common.Configuration.Hid;
 using Ryujinx.Common.Configuration.Hid.Controller;
 using Ryujinx.Common.Logging;
 using Ryujinx.Common.Utilities;
-using Ryujinx.HLE.HOS.Services.Hid;
-using SDL2;
 using System;
 using System.Collections.Generic;
 using System.Numerics;
@@ -12,7 +10,7 @@ using static SDL2.SDL;
 
 namespace Ryujinx.Input.SDL2
 {
-    class SDL2Gamepad : IGamepad
+    public class SDL2Gamepad : IGamepad
     {
         private bool HasConfiguration => _configuration != null;
 
@@ -23,8 +21,8 @@ namespace Ryujinx.Input.SDL2
 
         private StandardControllerInputConfig _configuration;
 
-        private static readonly SDL_GameControllerButton[] _buttonsDriverMapping = new SDL_GameControllerButton[(int)GamepadButtonInputId.Count]
-        {
+        private static readonly SDL_GameControllerButton[] _buttonsDriverMapping =
+        [
             // Unbound, ignored.
             SDL_GameControllerButton.SDL_CONTROLLER_BUTTON_INVALID,
 
@@ -59,19 +57,19 @@ namespace Ryujinx.Input.SDL2
             SDL_GameControllerButton.SDL_CONTROLLER_BUTTON_INVALID,
             SDL_GameControllerButton.SDL_CONTROLLER_BUTTON_INVALID,
             SDL_GameControllerButton.SDL_CONTROLLER_BUTTON_INVALID,
-            SDL_GameControllerButton.SDL_CONTROLLER_BUTTON_INVALID,
-        };
+            SDL_GameControllerButton.SDL_CONTROLLER_BUTTON_INVALID
+        ];
 
         private readonly Lock _userMappingLock = new();
 
         private readonly List<ButtonMappingEntry> _buttonsUserMapping;
 
-        private readonly StickInputId[] _stickUserMapping = new StickInputId[(int)StickInputId.Count]
-        {
+        private readonly StickInputId[] _stickUserMapping =
+        [
             StickInputId.Unbound,
             StickInputId.Left,
-            StickInputId.Right,
-        };
+            StickInputId.Right
+        ];
 
         public GamepadFeaturesFlag Features { get; }
 
@@ -113,7 +111,7 @@ namespace Ryujinx.Input.SDL2
             byte blue = packedRgb > 0 ? (byte)(packedRgb % 256) : (byte)0;
             
             if (SDL_GameControllerSetLED(_gamepadHandle, red, green, blue) != 0)
-                Logger.Error?.Print(LogClass.Hid, "LED is not supported on this game controller.");
+                Logger.Error?.Print(LogClass.Hid, "LED setting failed; probably in the middle of disconnecting.");
         }
 
         private GamepadFeaturesFlag GetFeaturesFlag()

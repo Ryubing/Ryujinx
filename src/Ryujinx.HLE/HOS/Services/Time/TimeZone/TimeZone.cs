@@ -32,11 +32,12 @@ namespace Ryujinx.HLE.HOS.Services.Time.TimeZone
         private const long AverageSecondsPerYear = 31556952;
         private const long SecondsPerRepeat = YearsPerRepeat * AverageSecondsPerYear;
 
-        private static readonly int[] _yearLengths = { DaysPerNYear, DaysPerLYear };
-        private static readonly int[][] _monthsLengths = {
-            new[] { 31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31 },
-            new[] { 31, 29, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31 },
-        };
+        private static readonly int[] _yearLengths = [DaysPerNYear, DaysPerLYear];
+        private static readonly int[][] _monthsLengths =
+        [
+            [31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31],
+            [31, 29, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31]
+        ];
 
         private static ReadOnlySpan<byte> TimeZoneDefaultRule => ",M4.1.0,M10.5.0"u8;
 

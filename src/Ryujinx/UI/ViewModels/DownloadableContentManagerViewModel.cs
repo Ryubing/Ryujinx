@@ -1,5 +1,4 @@
 using Avalonia.Collections;
-using Avalonia.Controls.ApplicationLifetimes;
 using Avalonia.Platform.Storage;
 using Avalonia.Threading;
 using CommunityToolkit.Mvvm.ComponentModel;
@@ -9,22 +8,20 @@ using Ryujinx.Ava.Common.Locale;
 using Ryujinx.Ava.Common.Models;
 using Ryujinx.Ava.UI.Helpers;
 using Ryujinx.Ava.Utilities.AppLibrary;
-using Ryujinx.HLE.FileSystem;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
-using Application = Avalonia.Application;
 
 namespace Ryujinx.Ava.UI.ViewModels
 {
     public partial class DownloadableContentManagerViewModel : BaseModel
     {
         private readonly ApplicationLibrary _applicationLibrary;
-        private AvaloniaList<DownloadableContentModel> _downloadableContents = new();
-        [ObservableProperty] private AvaloniaList<DownloadableContentModel> _selectedDownloadableContents = new();
-        [ObservableProperty] private AvaloniaList<DownloadableContentModel> _views = new();
+        private AvaloniaList<DownloadableContentModel> _downloadableContents = [];
+        [ObservableProperty] private AvaloniaList<DownloadableContentModel> _selectedDownloadableContents = [];
+        [ObservableProperty] private AvaloniaList<DownloadableContentModel> _views = [];
         [ObservableProperty] private bool _showBundledContentNotice = false;
 
         private string _search;
@@ -72,8 +69,7 @@ namespace Ryujinx.Ava.UI.ViewModels
 
         private void LoadDownloadableContents()
         {
-            IEnumerable<(DownloadableContentModel Dlc, bool IsEnabled)> dlcs = _applicationLibrary.DownloadableContents.Items
-                .Where(it => it.Dlc.TitleIdBase == _applicationData.IdBase);
+            (DownloadableContentModel Dlc, bool IsEnabled)[] dlcs = _applicationLibrary.FindDlcConfigurationFor(_applicationData.Id);
 
             bool hasBundledContent = false;
             foreach ((DownloadableContentModel dlc, bool isEnabled) in dlcs)
@@ -139,9 +135,9 @@ namespace Ryujinx.Ava.UI.ViewModels
                 {
                     new("NSP")
                     {
-                        Patterns = new[] { "*.nsp" },
-                        AppleUniformTypeIdentifiers = new[] { "com.ryujinx.nsp" },
-                        MimeTypes = new[] { "application/x-nx-nsp" },
+                        Patterns = ["*.nsp"],
+                        AppleUniformTypeIdentifiers = ["com.ryujinx.nsp"],
+                        MimeTypes = ["application/x-nx-nsp"],
                     },
                 },
             });

@@ -83,7 +83,7 @@ namespace Ryujinx.BuildValidationTasks
             if (isGitRunner && encounteredIssue)
                 throw new JsonException("1 or more locales are invalid!");
 
-            JsonSerializerOptions jsonOptions = new JsonSerializerOptions()
+            JsonSerializerOptions jsonOptions = new()
             {
                 WriteIndented = true,
                 NewLine = "\n",

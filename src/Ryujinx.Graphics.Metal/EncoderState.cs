@@ -165,7 +165,7 @@ namespace Ryujinx.Graphics.Metal
         {
             // Inherit render target related information without causing a render encoder split.
 
-            RenderTargetCopy oldState = new RenderTargetCopy
+            RenderTargetCopy oldState = new()
             {
                 Scissors = other.Scissors,
                 RenderTargets = other.RenderTargets,

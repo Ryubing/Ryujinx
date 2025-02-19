@@ -21,7 +21,6 @@ using Ryujinx.HLE.Loaders.Processes.Extensions;
 using Ryujinx.Horizon.Common;
 using Ryujinx.Horizon.Sdk.Arp;
 using System;
-using System.Linq;
 using System.Runtime.InteropServices;
 using ApplicationId = LibHac.Ncm.ApplicationId;
 
@@ -180,12 +179,13 @@ namespace Ryujinx.HLE.Loaders.Processes
 
             KProcess process = new(context);
 
-            ArmProcessContextFactory processContextFactory = new ArmProcessContextFactory(
+            ArmProcessContextFactory processContextFactory = new(
                 context.Device.System.TickSource,
                 context.Device.Gpu,
                 string.Empty,
                 string.Empty,
                 false,
+                null,
                 codeAddress,
                 codeSize);
 
@@ -226,6 +226,7 @@ namespace Ryujinx.HLE.Loaders.Processes
             MetaLoader metaLoader,
             BlitStruct<ApplicationControlProperty> applicationControlProperties,
             bool diskCacheEnabled,
+            string diskCacheSelector,
             bool allowCodeMemoryForJit,
             string name,
             ulong programId,
@@ -373,12 +374,13 @@ namespace Ryujinx.HLE.Loaders.Processes
                 displayVersion = device.System.ContentManager.GetCurrentFirmwareVersion()?.VersionString ?? string.Empty;
             }
 
-            ArmProcessContextFactory processContextFactory = new ArmProcessContextFactory(
+            ArmProcessContextFactory processContextFactory = new(
                 context.Device.System.TickSource,
                 context.Device.Gpu,
                 $"{programId:x16}",
                 displayVersion,
                 diskCacheEnabled,
+                diskCacheSelector,
                 codeStart,
                 codeSize);
 

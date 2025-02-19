@@ -16,7 +16,7 @@ namespace Ryujinx.Ava.Utilities.SystemInfo
 
             if (cpuName == null)
             {
-                Dictionary<string, string> cpuDict = new Dictionary<string, string>(StringComparer.Ordinal)
+                Dictionary<string, string> cpuDict = new(StringComparer.Ordinal)
                 {
                     ["model name"] = null,
                     ["Processor"] = null,
@@ -28,7 +28,7 @@ namespace Ryujinx.Ava.Utilities.SystemInfo
                 cpuName = cpuDict["model name"] ?? cpuDict["Processor"] ?? cpuDict["Hardware"] ?? "Unknown";
             }
 
-            Dictionary<string, string> memDict = new Dictionary<string, string>(StringComparer.Ordinal)
+            Dictionary<string, string> memDict = new(StringComparer.Ordinal)
             {
                 ["MemTotal"] = null,
                 ["MemAvailable"] = null,

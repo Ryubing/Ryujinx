@@ -11,7 +11,7 @@ namespace Ryujinx.Ava.Input
 {
     internal class AvaloniaKeyboardDriver : IGamepadDriver
     {
-        private static readonly string[] _keyboardIdentifers = new string[1] { "0" };
+        private static readonly string[] _keyboardIdentifers = ["0"];
         private readonly Control _control;
         private readonly HashSet<AvaKey> _pressedKeys;
 
@@ -25,7 +25,7 @@ namespace Ryujinx.Ava.Input
         public AvaloniaKeyboardDriver(Control control)
         {
             _control = control;
-            _pressedKeys = new HashSet<AvaKey>();
+            _pressedKeys = [];
 
             _control.KeyDown += OnKeyPress;
             _control.KeyUp += OnKeyRelease;

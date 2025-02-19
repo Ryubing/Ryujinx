@@ -51,6 +51,7 @@ namespace Ryujinx.Graphics.Nvdec.Vp9.Common
                         {
                             Marshal.FreeHGlobal(item.Pointer);
                         }
+
                         item.Pointer = ptr;
                         item.Length = lengthInBytes;
                         break;
@@ -58,7 +59,11 @@ namespace Ryujinx.Graphics.Nvdec.Vp9.Common
                 }
             }
 
-            return new ArrayPtr<T>(ptr, length);
+            ArrayPtr<T> allocation = new(ptr, length);
+
+            allocation.AsSpan().Fill(default);
+
+            return allocation;
         }
 
         public unsafe void Free<T>(ArrayPtr<T> arr) where T : unmanaged

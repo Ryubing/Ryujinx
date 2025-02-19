@@ -103,13 +103,13 @@ namespace Ryujinx.Graphics.Vulkan
                 usage |= BufferUsageFlags.IndirectBufferBit;
             }
 
-            ExternalMemoryBufferCreateInfo externalMemoryBuffer = new ExternalMemoryBufferCreateInfo
+            ExternalMemoryBufferCreateInfo externalMemoryBuffer = new()
             {
                 SType = StructureType.ExternalMemoryBufferCreateInfo,
                 HandleTypes = ExternalMemoryHandleTypeFlags.HostAllocationBitExt,
             };
 
-            BufferCreateInfo bufferCreateInfo = new BufferCreateInfo
+            BufferCreateInfo bufferCreateInfo = new()
             {
                 SType = StructureType.BufferCreateInfo,
                 Size = (ulong)size,
@@ -124,7 +124,7 @@ namespace Ryujinx.Graphics.Vulkan
 
             gd.Api.BindBufferMemory(_device, buffer, allocation.GetUnsafe().Memory, allocation.GetUnsafe().Offset + offset);
 
-            BufferHolder holder = new BufferHolder(gd, _device, buffer, allocation, size, BufferAllocationType.HostMapped, BufferAllocationType.HostMapped, (int)offset);
+            BufferHolder holder = new(gd, _device, buffer, allocation, size, BufferAllocationType.HostMapped, BufferAllocationType.HostMapped, (int)offset);
 
             BufferCount++;
 
@@ -149,7 +149,7 @@ namespace Ryujinx.Graphics.Vulkan
                 size += (ulong)range.Size;
             }
 
-            BufferCreateInfo bufferCreateInfo = new BufferCreateInfo()
+            BufferCreateInfo bufferCreateInfo = new()
             {
                 SType = StructureType.BufferCreateInfo,
                 Size = size,
@@ -207,14 +207,14 @@ namespace Ryujinx.Graphics.Vulkan
 
             fixed (SparseMemoryBind* pMemoryBinds = memoryBinds)
             {
-                SparseBufferMemoryBindInfo bufferBind = new SparseBufferMemoryBindInfo()
+                SparseBufferMemoryBindInfo bufferBind = new()
                 {
                     Buffer = buffer,
                     BindCount = (uint)memoryBinds.Length,
                     PBinds = pMemoryBinds
                 };
 
-                BindSparseInfo bindSparseInfo = new BindSparseInfo()
+                BindSparseInfo bindSparseInfo = new()
                 {
                     SType = StructureType.BindSparseInfo,
                     BufferBindCount = 1,
@@ -224,7 +224,7 @@ namespace Ryujinx.Graphics.Vulkan
                 gd.Api.QueueBindSparse(gd.Queue, 1, in bindSparseInfo, default).ThrowOnError();
             }
 
-            BufferHolder holder = new BufferHolder(gd, _device, buffer, (int)size, storageAllocations);
+            BufferHolder holder = new(gd, _device, buffer, (int)size, storageAllocations);
 
             BufferCount++;
 
@@ -295,7 +295,7 @@ namespace Ryujinx.Graphics.Vulkan
                 usage |= BufferUsageFlags.IndirectBufferBit;
             }
 
-            BufferCreateInfo bufferCreateInfo = new BufferCreateInfo
+            BufferCreateInfo bufferCreateInfo = new()
             {
                 SType = StructureType.BufferCreateInfo,
                 Size = (ulong)Environment.SystemPageSize,
@@ -331,7 +331,7 @@ namespace Ryujinx.Graphics.Vulkan
                 usage |= BufferUsageFlags.IndirectBufferBit;
             }
 
-            BufferCreateInfo bufferCreateInfo = new BufferCreateInfo
+            BufferCreateInfo bufferCreateInfo = new()
             {
                 SType = StructureType.BufferCreateInfo,
                 Size = (ulong)size,
@@ -402,7 +402,7 @@ namespace Ryujinx.Graphics.Vulkan
 
             if (buffer.Handle != 0)
             {
-                BufferHolder holder = new BufferHolder(gd, _device, buffer, allocation, size, baseType, resultType);
+                BufferHolder holder = new(gd, _device, buffer, allocation, size, baseType, resultType);
 
                 return holder;
             }
@@ -493,7 +493,7 @@ namespace Ryujinx.Graphics.Vulkan
                 return (null, null);
             }
 
-            TopologyConversionIndirectCacheKey indexBufferKey = new TopologyConversionIndirectCacheKey(
+            TopologyConversionIndirectCacheKey indexBufferKey = new(
                 gd,
                 pattern,
                 indexSize,
@@ -507,14 +507,14 @@ namespace Ryujinx.Graphics.Vulkan
                 indexBufferKey,
                 out BufferHolder convertedIndexBuffer);
 
-            IndirectDataCacheKey indirectBufferKey = new IndirectDataCacheKey(pattern);
+            IndirectDataCacheKey indirectBufferKey = new(pattern);
             bool hasConvertedIndirectBuffer = indirectBufferHolder.TryGetCachedConvertedBuffer(
                 indirectBuffer.Offset,
                 indirectBuffer.Size,
                 indirectBufferKey,
                 out BufferHolder convertedIndirectBuffer);
 
-            DrawCountCacheKey drawCountBufferKey = new DrawCountCacheKey();
+            DrawCountCacheKey drawCountBufferKey = new();
             bool hasCachedDrawCount = true;
 
             if (hasDrawCount)
@@ -568,7 +568,7 @@ namespace Ryujinx.Graphics.Vulkan
                 // Any modification of the indirect buffer should invalidate the index buffers that are associated with it,
                 // since we used the indirect data to find the range of the index buffer that is used.
 
-                Dependency indexBufferDependency = new Dependency(
+                Dependency indexBufferDependency = new(
                     indexBufferHolder,
                     indexBuffer.Offset,
                     indexBuffer.Size,
@@ -590,7 +590,7 @@ namespace Ryujinx.Graphics.Vulkan
                     // If we have a draw count, any modification of the draw count should invalidate all indirect buffers
                     // where we used it to find the range of indirect data that is actually used.
 
-                    Dependency indirectBufferDependency = new Dependency(
+                    Dependency indirectBufferDependency = new(
                         indirectBufferHolder,
                         indirectBuffer.Offset,
                         indirectBuffer.Size,

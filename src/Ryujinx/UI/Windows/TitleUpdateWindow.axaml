@@ -14,9 +14,6 @@
     mc:Ignorable="d"
     x:DataType="viewModels:TitleUpdateViewModel"
     Focusable="True">
-    <UserControl.Resources>
-        <helpers:TitleUpdateLabelConverter x:Key="TitleUpdateLabel" />
-    </UserControl.Resources>
     <Grid RowDefinitions="Auto,*,Auto">
         <StackPanel
             Grid.Row="0"
@@ -57,7 +54,7 @@
                                 VerticalAlignment="Center"
                                 TextWrapping="Wrap">
                                 <TextBlock.Text>
-                                    <MultiBinding Converter="{StaticResource TitleUpdateLabel}">
+                                    <MultiBinding Converter="{x:Static helpers:TitleUpdateLabelConverter.Instance}">
                                         <Binding Path="DisplayVersion" />
                                         <Binding Path="IsBundled" />
                                     </MultiBinding>

@@ -22,10 +22,10 @@ namespace Ryujinx.Graphics.Vulkan
 
         public PipelineFull(VulkanRenderer gd, Device device) : base(gd, device)
         {
-            _activeQueries = new List<(QueryPool, bool)>();
-            _pendingQueryCopies = new();
-            _backingSwaps = new();
-            _activeBufferMirrors = new();
+            _activeQueries = [];
+            _pendingQueryCopies = [];
+            _backingSwaps = [];
+            _activeBufferMirrors = [];
 
             CommandBuffer = (Cbs = gd.CommandBufferPool.Rent()).CommandBuffer;
 

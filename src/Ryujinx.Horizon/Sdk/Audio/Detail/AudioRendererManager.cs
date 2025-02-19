@@ -34,7 +34,7 @@ namespace Ryujinx.Horizon.Sdk.Audio.Detail
             IVirtualMemoryManager clientMemoryManager = HorizonStatic.Syscall.GetMemoryManagerByProcessHandle(processHandle);
             ulong workBufferAddress = HorizonStatic.Syscall.GetTransferMemoryAddress(workBufferHandle);
 
-            Result result = new Result((int)_impl.OpenAudioRenderer(
+            Result result = new((int)_impl.OpenAudioRenderer(
                 out AudioRenderSystem renderSystem,
                 clientMemoryManager,
                 ref parameter.Configuration,
@@ -99,7 +99,7 @@ namespace Ryujinx.Horizon.Sdk.Audio.Detail
         {
             IVirtualMemoryManager clientMemoryManager = HorizonStatic.Syscall.GetMemoryManagerByProcessHandle(processHandle);
 
-            Result result = new Result((int)_impl.OpenAudioRenderer(
+            Result result = new((int)_impl.OpenAudioRenderer(
                 out AudioRenderSystem renderSystem,
                 clientMemoryManager,
                 ref parameter.Configuration,

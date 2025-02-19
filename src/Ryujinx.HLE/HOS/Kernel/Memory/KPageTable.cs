@@ -143,7 +143,7 @@ namespace Ryujinx.HLE.HOS.Kernel.Memory
             bool shouldFillPages,
             byte fillValue)
         {
-            using KScopedPageList scopedPageList = new KScopedPageList(Context.MemoryManager, pageList);
+            using KScopedPageList scopedPageList = new(Context.MemoryManager, pageList);
 
             ulong currentVa = address;
 
@@ -188,7 +188,7 @@ namespace Ryujinx.HLE.HOS.Kernel.Memory
                 }
             }
 
-            using KScopedPageList scopedPageList = new KScopedPageList(Context.MemoryManager, pageList);
+            using KScopedPageList scopedPageList = new(Context.MemoryManager, pageList);
 
             foreach (KPageNode pageNode in pageList)
             {

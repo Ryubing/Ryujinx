@@ -214,7 +214,7 @@ namespace Ryujinx.Tests.Memory
                 handles[i].Reprotect();
             }
 
-            List<Thread> testThreads = new();
+            List<Thread> testThreads = [];
 
             // Dirty flag consumer threads
             int dirtyFlagReprotects = 0;

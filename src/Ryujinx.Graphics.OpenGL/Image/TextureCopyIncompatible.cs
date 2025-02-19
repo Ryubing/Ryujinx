@@ -190,7 +190,8 @@ void main()
             {
                 int csHandle = GL.CreateShader(ShaderType.ComputeShader);
 
-                string[] formatTable = new[] { "r8ui", "r16ui", "r32ui", "rg8ui", "rg16ui", "rg32ui", "rgba8ui", "rgba16ui", "rgba32ui" };
+                string[] formatTable = ["r8ui", "r16ui", "r32ui", "rg8ui", "rg16ui", "rg32ui", "rgba8ui", "rgba16ui", "rgba32ui"
+                ];
 
                 string srcFormat = formatTable[srcIndex];
                 string dstFormat = formatTable[dstIndex];

@@ -33,7 +33,7 @@ namespace Ryujinx.HLE.HOS.Services.Sdb.Pdm.QueryService
 
             PlayLogQueryCapability queryCapability = (PlayLogQueryCapability)context.Device.Processes.ActiveApplication.ApplicationControlProperties.PlayLogQueryCapability;
 
-            List<ulong> titleIds = new();
+            List<ulong> titleIds = [];
 
             for (ulong i = 0; i < inputSize / sizeof(ulong); i++)
             {

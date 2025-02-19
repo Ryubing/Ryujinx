@@ -192,7 +192,7 @@ namespace Ryujinx.Graphics.Gpu.Shader
 
             if (!_shaderPrograms.TryGetValue(idTable, out ShaderSpecializationList specList))
             {
-                specList = new ShaderSpecializationList();
+                specList = [];
                 _shaderPrograms.Add(idTable, specList);
             }
 

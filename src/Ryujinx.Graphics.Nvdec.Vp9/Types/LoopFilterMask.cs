@@ -15,10 +15,10 @@ namespace Ryujinx.Graphics.Nvdec.Vp9.Types
     {
         public Array4<ulong> LeftY;
         public Array4<ulong> AboveY;
-        public ulong Int4x4Y;
+        public ulong Int4X4Y;
         public Array4<ushort> LeftUv;
         public Array4<ushort> AboveUv;
-        public ushort Int4x4Uv;
+        public ushort Int4X4Uv;
         public Array64<byte> LflY;
     }
 }

@@ -338,7 +338,7 @@ namespace Ryujinx.Graphics.Vulkan
                 return pipeline;
             }
 
-            ComputePipelineCreateInfo pipelineCreateInfo = new ComputePipelineCreateInfo
+            ComputePipelineCreateInfo pipelineCreateInfo = new()
             {
                 SType = StructureType.ComputePipelineCreateInfo,
                 Stage = Stages[0],
@@ -405,7 +405,7 @@ namespace Ryujinx.Graphics.Vulkan
             fixed (VertexInputBindingDescription* pVertexBindingDescriptions = &Internal.VertexBindingDescriptions[0])
             fixed (PipelineColorBlendAttachmentState* pColorBlendAttachmentState = &Internal.ColorBlendAttachmentState[0])
             {
-                PipelineVertexInputStateCreateInfo vertexInputState = new PipelineVertexInputStateCreateInfo
+                PipelineVertexInputStateCreateInfo vertexInputState = new()
                 {
                     SType = StructureType.PipelineVertexInputStateCreateInfo,
                     VertexAttributeDescriptionCount = VertexAttributeDescriptionsCount,
@@ -442,20 +442,20 @@ namespace Ryujinx.Graphics.Vulkan
 
                 primitiveRestartEnable &= topologySupportsRestart;
 
-                PipelineInputAssemblyStateCreateInfo inputAssemblyState = new PipelineInputAssemblyStateCreateInfo
+                PipelineInputAssemblyStateCreateInfo inputAssemblyState = new()
                 {
                     SType = StructureType.PipelineInputAssemblyStateCreateInfo,
                     PrimitiveRestartEnable = primitiveRestartEnable,
                     Topology = HasTessellationControlShader ? PrimitiveTopology.PatchList : Topology,
                 };
 
-                PipelineTessellationStateCreateInfo tessellationState = new PipelineTessellationStateCreateInfo
+                PipelineTessellationStateCreateInfo tessellationState = new()
                 {
                     SType = StructureType.PipelineTessellationStateCreateInfo,
                     PatchControlPoints = PatchControlPoints,
                 };
 
-                PipelineRasterizationStateCreateInfo rasterizationState = new PipelineRasterizationStateCreateInfo
+                PipelineRasterizationStateCreateInfo rasterizationState = new()
                 {
                     SType = StructureType.PipelineRasterizationStateCreateInfo,
                     DepthClampEnable = DepthClampEnable,
@@ -467,7 +467,7 @@ namespace Ryujinx.Graphics.Vulkan
                     DepthBiasEnable = DepthBiasEnable,
                 };
 
-                PipelineViewportStateCreateInfo viewportState = new PipelineViewportStateCreateInfo
+                PipelineViewportStateCreateInfo viewportState = new()
                 {
                     SType = StructureType.PipelineViewportStateCreateInfo,
                     ViewportCount = ViewportsCount,
@@ -476,7 +476,7 @@ namespace Ryujinx.Graphics.Vulkan
 
                 if (gd.Capabilities.SupportsDepthClipControl)
                 {
-                    PipelineViewportDepthClipControlCreateInfoEXT viewportDepthClipControlState = new PipelineViewportDepthClipControlCreateInfoEXT
+                    PipelineViewportDepthClipControlCreateInfoEXT viewportDepthClipControlState = new()
                     {
                         SType = StructureType.PipelineViewportDepthClipControlCreateInfoExt,
                         NegativeOneToOne = DepthMode,
@@ -485,7 +485,7 @@ namespace Ryujinx.Graphics.Vulkan
                     viewportState.PNext = &viewportDepthClipControlState;
                 }
 
-                PipelineMultisampleStateCreateInfo multisampleState = new PipelineMultisampleStateCreateInfo
+                PipelineMultisampleStateCreateInfo multisampleState = new()
                 {
                     SType = StructureType.PipelineMultisampleStateCreateInfo,
                     SampleShadingEnable = false,
@@ -495,19 +495,19 @@ namespace Ryujinx.Graphics.Vulkan
                     AlphaToOneEnable = AlphaToOneEnable,
                 };
 
-                StencilOpState stencilFront = new StencilOpState(
+                StencilOpState stencilFront = new(
                     StencilFrontFailOp,
                     StencilFrontPassOp,
                     StencilFrontDepthFailOp,
                     StencilFrontCompareOp);
 
-                StencilOpState stencilBack = new StencilOpState(
+                StencilOpState stencilBack = new(
                     StencilBackFailOp,
                     StencilBackPassOp,
                     StencilBackDepthFailOp,
                     StencilBackCompareOp);
 
-                PipelineDepthStencilStateCreateInfo depthStencilState = new PipelineDepthStencilStateCreateInfo
+                PipelineDepthStencilStateCreateInfo depthStencilState = new()
                 {
                     SType = StructureType.PipelineDepthStencilStateCreateInfo,
                     DepthTestEnable = DepthTestEnable,
@@ -544,7 +544,7 @@ namespace Ryujinx.Graphics.Vulkan
                 // so we need to force disable them here.
                 bool logicOpEnable = LogicOpEnable && (gd.Vendor == Vendor.Nvidia || Internal.LogicOpsAllowed);
 
-                PipelineColorBlendStateCreateInfo colorBlendState = new PipelineColorBlendStateCreateInfo
+                PipelineColorBlendStateCreateInfo colorBlendState = new()
                 {
                     SType = StructureType.PipelineColorBlendStateCreateInfo,
                     LogicOpEnable = logicOpEnable,
@@ -595,7 +595,7 @@ namespace Ryujinx.Graphics.Vulkan
                     dynamicStates[dynamicStatesCount++] = DynamicState.AttachmentFeedbackLoopEnableExt;
                 }
 
-                PipelineDynamicStateCreateInfo pipelineDynamicStateCreateInfo = new PipelineDynamicStateCreateInfo
+                PipelineDynamicStateCreateInfo pipelineDynamicStateCreateInfo = new()
                 {
                     SType = StructureType.PipelineDynamicStateCreateInfo,
                     DynamicStateCount = (uint)dynamicStatesCount,
@@ -619,7 +619,7 @@ namespace Ryujinx.Graphics.Vulkan
                     }
                 }
 
-                GraphicsPipelineCreateInfo pipelineCreateInfo = new GraphicsPipelineCreateInfo
+                GraphicsPipelineCreateInfo pipelineCreateInfo = new()
                 {
                     SType = StructureType.GraphicsPipelineCreateInfo,
                     Flags = flags,

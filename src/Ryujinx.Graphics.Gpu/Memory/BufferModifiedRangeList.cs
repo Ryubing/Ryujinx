@@ -431,13 +431,13 @@ namespace Ryujinx.Graphics.Gpu.Memory
 
                     BufferMigration oldMigration = ranges._source;
 
-                    BufferMigrationSpan span = new BufferMigrationSpan(ranges._parent, ranges._flushAction, oldMigration);
+                    BufferMigrationSpan span = new(ranges._parent, ranges._flushAction, oldMigration);
                     ranges._parent.IncrementReferenceCount();
 
                     if (_source == null)
                     {
                         // Create a new migration.
-                        _source = new BufferMigration(new BufferMigrationSpan[] { span }, this, _context.SyncNumber);
+                        _source = new BufferMigration([span], this, _context.SyncNumber);
 
                         _context.RegisterBufferMigration(_source);
                     }
@@ -476,7 +476,7 @@ namespace Ryujinx.Graphics.Gpu.Memory
             lock (_lock)
             {
                 BufferMigrationSpan span = new(_parent, _parent.GetSnapshotDisposeAction(), _parent.GetSnapshotFlushAction(), _source);
-                BufferMigration migration = new(new BufferMigrationSpan[] { span }, this, _context.SyncNumber);
+                BufferMigration migration = new([span], this, _context.SyncNumber);
 
                 // Migration target is used to redirect flush actions to the latest range list,
                 // so we don't need to set it here. (this range list is still the latest)

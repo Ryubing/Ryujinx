@@ -123,7 +123,7 @@ namespace Ryujinx.HLE.HOS.Services
                 {
                     Logger.Trace?.Print(LogClass.KernelIpc, $"{service.GetType().Name}: {processRequest.Name}");
 
-                    result = (ResultCode)processRequest.Invoke(service, new object[] { context });
+                    result = (ResultCode)processRequest.Invoke(service, [context]);
                 }
                 else
                 {
@@ -176,7 +176,7 @@ namespace Ryujinx.HLE.HOS.Services
                 {
                     Logger.Debug?.Print(LogClass.KernelIpc, $"{GetType().Name}: {processRequest.Name}");
 
-                    result = (ResultCode)processRequest.Invoke(this, new object[] { context });
+                    result = (ResultCode)processRequest.Invoke(this, [context]);
                 }
                 else
                 {

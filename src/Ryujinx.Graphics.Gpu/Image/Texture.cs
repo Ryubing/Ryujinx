@@ -260,8 +260,8 @@ namespace Ryujinx.Graphics.Gpu.Image
 
             _viewStorage = this;
 
-            _views = new List<Texture>();
-            _poolOwners = new List<TexturePoolOwner>();
+            _views = [];
+            _poolOwners = [];
         }
 
         /// <summary>

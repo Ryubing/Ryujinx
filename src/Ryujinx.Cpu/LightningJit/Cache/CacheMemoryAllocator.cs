@@ -24,7 +24,7 @@ namespace Ryujinx.Cpu.LightningJit.Cache
             }
         }
 
-        private readonly List<MemoryBlock> _blocks = new();
+        private readonly List<MemoryBlock> _blocks = [];
 
         public CacheMemoryAllocator(int capacity)
         {

@@ -167,7 +167,7 @@ namespace Ryujinx.Audio.Output
         /// <returns>The list of all audio outputs name</returns>
         public string[] ListAudioOuts()
         {
-            return new[] { Constants.DefaultDeviceOutputName };
+            return [Constants.DefaultDeviceOutputName];
         }
 
         /// <summary>

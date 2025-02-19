@@ -217,8 +217,8 @@ namespace Ryujinx.HLE.FileSystem
 
             if (AocData.TryGetValue(aocTitleId, out AocItem aoc))
             {
-                FileStream file = new FileStream(aoc.ContainerPath, FileMode.Open, FileAccess.Read);
-                using UniqueRef<IFile> ncaFile = new UniqueRef<IFile>();
+                FileStream file = new(aoc.ContainerPath, FileMode.Open, FileAccess.Read);
+                using UniqueRef<IFile> ncaFile = new();
 
                 switch (Path.GetExtension(aoc.ContainerPath))
                 {
@@ -227,7 +227,7 @@ namespace Ryujinx.HLE.FileSystem
                         xci.OpenFile(ref ncaFile.Ref, aoc.NcaPath.ToU8Span(), OpenMode.Read).ThrowIfFailure();
                         break;
                     case ".nsp":
-                        PartitionFileSystem pfs = new PartitionFileSystem();
+                        PartitionFileSystem pfs = new();
                         pfs.Initialize(file.AsStorage());
                         pfs.OpenFile(ref ncaFile.Ref, aoc.NcaPath.ToU8Span(), OpenMode.Read).ThrowIfFailure();
                         break;
@@ -627,7 +627,7 @@ namespace Ryujinx.HLE.FileSystem
 
         private static IFile OpenPossibleFragmentedFile(IFileSystem filesystem, string path, OpenMode mode)
         {
-            using UniqueRef<IFile> file = new UniqueRef<IFile>();
+            using UniqueRef<IFile> file = new();
 
             if (filesystem.FileExists($"{path}/00"))
             {
@@ -733,11 +733,11 @@ namespace Ryujinx.HLE.FileSystem
 
                         string cnmtPath = fs.EnumerateEntries("/", "*.cnmt").Single().FullPath;
 
-                        using UniqueRef<IFile> metaFile = new UniqueRef<IFile>();
+                        using UniqueRef<IFile> metaFile = new();
 
                         if (fs.OpenFile(ref metaFile.Ref, cnmtPath.ToU8Span(), OpenMode.Read).IsSuccess())
                         {
-                            Cnmt meta = new Cnmt(metaFile.Get.AsStream());
+                            Cnmt meta = new(metaFile.Get.AsStream());
 
                             if (meta.Type == ContentMetaType.SystemUpdate)
                             {
@@ -762,7 +762,7 @@ namespace Ryujinx.HLE.FileSystem
 
                         IFileSystem romfs = nca.OpenFileSystem(NcaSectionType.Data, IntegrityCheckLevel.ErrorOnInvalid);
 
-                        using UniqueRef<IFile> systemVersionFile = new UniqueRef<IFile>();
+                        using UniqueRef<IFile> systemVersionFile = new();
 
                         if (romfs.OpenFile(ref systemVersionFile.Ref, "/file".ToU8Span(), OpenMode.Read).IsSuccess())
                         {
@@ -798,11 +798,11 @@ namespace Ryujinx.HLE.FileSystem
 
                             string cnmtPath = fs.EnumerateEntries("/", "*.cnmt").Single().FullPath;
 
-                            using UniqueRef<IFile> metaFile = new UniqueRef<IFile>();
+                            using UniqueRef<IFile> metaFile = new();
 
                             if (fs.OpenFile(ref metaFile.Ref, cnmtPath.ToU8Span(), OpenMode.Read).IsSuccess())
                             {
-                                Cnmt meta = new Cnmt(metaFile.Get.AsStream());
+                                Cnmt meta = new(metaFile.Get.AsStream());
 
                                 IStorage contentStorage = contentNcaStream.AsStorage();
                                 if (contentStorage.GetSize(out long size).IsSuccess())
@@ -867,11 +867,11 @@ namespace Ryujinx.HLE.FileSystem
 
                         string cnmtPath = fs.EnumerateEntries("/", "*.cnmt").Single().FullPath;
 
-                        using UniqueRef<IFile> metaFile = new UniqueRef<IFile>();
+                        using UniqueRef<IFile> metaFile = new();
 
                         if (fs.OpenFile(ref metaFile.Ref, cnmtPath.ToU8Span(), OpenMode.Read).IsSuccess())
                         {
-                            Cnmt meta = new Cnmt(metaFile.Get.AsStream());
+                            Cnmt meta = new(metaFile.Get.AsStream());
 
                             if (meta.Type == ContentMetaType.SystemUpdate)
                             {
@@ -885,7 +885,7 @@ namespace Ryujinx.HLE.FileSystem
                     {
                         IFileSystem romfs = nca.OpenFileSystem(NcaSectionType.Data, IntegrityCheckLevel.ErrorOnInvalid);
 
-                        using UniqueRef<IFile> systemVersionFile = new UniqueRef<IFile>();
+                        using UniqueRef<IFile> systemVersionFile = new();
 
                         if (romfs.OpenFile(ref systemVersionFile.Ref, "/file".ToU8Span(), OpenMode.Read).IsSuccess())
                         {
@@ -935,11 +935,11 @@ namespace Ryujinx.HLE.FileSystem
 
                         string cnmtPath = fs.EnumerateEntries("/", "*.cnmt").Single().FullPath;
 
-                        using UniqueRef<IFile> metaFile = new UniqueRef<IFile>();
+                        using UniqueRef<IFile> metaFile = new();
 
                         if (fs.OpenFile(ref metaFile.Ref, cnmtPath.ToU8Span(), OpenMode.Read).IsSuccess())
                         {
-                            Cnmt meta = new Cnmt(metaFile.Get.AsStream());
+                            Cnmt meta = new(metaFile.Get.AsStream());
 
                             if (contentStorage.GetSize(out long size).IsSuccess())
                             {
@@ -1002,7 +1002,7 @@ namespace Ryujinx.HLE.FileSystem
                         {
                             IFileSystem romfs = nca.OpenFileSystem(NcaSectionType.Data, IntegrityCheckLevel.ErrorOnInvalid);
 
-                            using UniqueRef<IFile> systemVersionFile = new UniqueRef<IFile>();
+                            using UniqueRef<IFile> systemVersionFile = new();
 
                             if (romfs.OpenFile(ref systemVersionFile.Ref, "/file".ToU8Span(), OpenMode.Read).IsSuccess())
                             {
@@ -1072,7 +1072,7 @@ namespace Ryujinx.HLE.FileSystem
         
         public bool AreKeysAlredyPresent(string pathToCheck)
         {
-            string[] fileNames = { "prod.keys", "title.keys", "console.keys", "dev.keys" };
+            string[] fileNames = ["prod.keys", "title.keys", "console.keys", "dev.keys"];
             foreach (string file in fileNames)
             {
                 if (File.Exists(Path.Combine(pathToCheck, file)))

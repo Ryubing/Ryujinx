@@ -105,7 +105,7 @@ namespace Ryujinx.HLE.HOS.Kernel.SupervisorCall
 
             KProcess process = new(_context);
 
-            using OnScopeExit _ = new OnScopeExit(process.DecrementReferenceCount);
+            using OnScopeExit _ = new(process.DecrementReferenceCount);
 
             KResourceLimit resourceLimit;
 
@@ -1425,7 +1425,7 @@ namespace Ryujinx.HLE.HOS.Kernel.SupervisorCall
 
             KCodeMemory codeMemory = new(_context);
 
-            using OnScopeExit _ = new OnScopeExit(codeMemory.DecrementReferenceCount);
+            using OnScopeExit _ = new(codeMemory.DecrementReferenceCount);
 
             KProcess currentProcess = KernelStatic.GetCurrentProcess();
 

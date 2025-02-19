@@ -1,5 +1,3 @@
-using System;
-
 namespace Ryujinx.Graphics.Nvdec.FFmpeg.Native
 {
     struct FFCodecLegacy<T> where T : struct

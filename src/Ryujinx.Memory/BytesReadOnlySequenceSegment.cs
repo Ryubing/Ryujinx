@@ -14,7 +14,7 @@ namespace Ryujinx.Memory
 
         public BytesReadOnlySequenceSegment Append(Memory<byte> memory)
         {
-            BytesReadOnlySequenceSegment nextSegment = new BytesReadOnlySequenceSegment(memory)
+            BytesReadOnlySequenceSegment nextSegment = new(memory)
             {
                 RunningIndex = RunningIndex + Memory.Length
             };

@@ -47,8 +47,8 @@ namespace ARMeilleure.Translation
         {
             RemoveUnreachableBlocks(Blocks);
 
-            HashSet<BasicBlock> visited = new HashSet<BasicBlock>();
-            Stack<BasicBlock> blockStack = new Stack<BasicBlock>();
+            HashSet<BasicBlock> visited = [];
+            Stack<BasicBlock> blockStack = new();
 
             Array.Resize(ref _postOrderBlocks, Blocks.Count);
             Array.Resize(ref _postOrderMap, Blocks.Count);
@@ -88,8 +88,8 @@ namespace ARMeilleure.Translation
 
         private void RemoveUnreachableBlocks(IntrusiveList<BasicBlock> blocks)
         {
-            HashSet<BasicBlock> visited = new HashSet<BasicBlock>();
-            Queue<BasicBlock> workQueue = new Queue<BasicBlock>();
+            HashSet<BasicBlock> visited = [];
+            Queue<BasicBlock> workQueue = new();
 
             visited.Add(Entry);
             workQueue.Enqueue(Entry);

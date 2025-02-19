@@ -23,7 +23,7 @@ namespace Ryujinx.HLE.HOS.Services.Nv
         private readonly TreeDictionary<ulong, ulong> _tree = new();
 
         private readonly Dictionary<ulong, LinkedListNode<ulong>> _dictionary = new();
-        private readonly LinkedList<ulong> _list = new();
+        private readonly LinkedList<ulong> _list = [];
 
         public NvMemoryAllocator()
         {

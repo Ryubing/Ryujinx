@@ -7,7 +7,7 @@ namespace Ryujinx.Graphics.OpenGL.Effects
     {
         public static int CompileProgram(string shaderCode, ShaderType shaderType)
         {
-            return CompileProgram(new string[] { shaderCode }, shaderType);
+            return CompileProgram([shaderCode], shaderType);
         }
 
         public static int CompileProgram(string[] shaders, ShaderType shaderType)

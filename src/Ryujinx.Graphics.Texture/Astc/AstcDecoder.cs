@@ -1693,12 +1693,12 @@ namespace Ryujinx.Graphics.Texture.Astc
 
             if (h)
             {
-                ReadOnlySpan<byte> maxWeights = new byte[] { 9, 11, 15, 19, 23, 31 };
+                ReadOnlySpan<byte> maxWeights = [9, 11, 15, 19, 23, 31];
                 texelParams.MaxWeight = maxWeights[r - 2];
             }
             else
             {
-                ReadOnlySpan<byte> maxWeights = new byte[] { 1, 2, 3, 4, 5, 7 };
+                ReadOnlySpan<byte> maxWeights = [1, 2, 3, 4, 5, 7];
                 texelParams.MaxWeight = maxWeights[r - 2];
             }
 

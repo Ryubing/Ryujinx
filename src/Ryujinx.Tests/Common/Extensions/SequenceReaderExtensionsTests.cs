@@ -23,7 +23,7 @@ namespace Ryujinx.Tests.Common.Extensions
             ReadOnlySequence<byte> sequence =
                 CreateSegmentedByteSequence(originalStructs, maxSegmentSize ?? Unsafe.SizeOf<MyUnmanagedStruct>());
 
-            SequenceReader<byte> sequenceReader = new SequenceReader<byte>(sequence);
+            SequenceReader<byte> sequenceReader = new(sequence);
 
             foreach (MyUnmanagedStruct original in originalStructs)
             {
@@ -43,7 +43,7 @@ namespace Ryujinx.Tests.Common.Extensions
 
             ReadOnlySequence<byte> sequence = CreateSegmentedByteSequence(originalStructs, 3);
 
-            SequenceReader<byte> sequenceReader = new SequenceReader<byte>(sequence);
+            SequenceReader<byte> sequenceReader = new(sequence);
 
             foreach (MyUnmanagedStruct original in originalStructs)
             {
@@ -64,7 +64,7 @@ namespace Ryujinx.Tests.Common.Extensions
 
             ReadOnlySequence<byte> sequence = CreateSegmentedByteSequence(originalStructs, int.MaxValue);
 
-            SequenceReader<byte> sequenceReader = new SequenceReader<byte>(sequence);
+            SequenceReader<byte> sequenceReader = new(sequence);
 
             foreach (MyUnmanagedStruct original in originalStructs)
             {
@@ -88,7 +88,7 @@ namespace Ryujinx.Tests.Common.Extensions
             // Act/Assert
             Assert.Throws<ArgumentOutOfRangeException>(() =>
             {
-                SequenceReader<byte> sequenceReader = new SequenceReader<byte>(sequence);
+                SequenceReader<byte> sequenceReader = new(sequence);
 
                 sequenceReader.Advance(1);
 
@@ -106,7 +106,7 @@ namespace Ryujinx.Tests.Common.Extensions
 
             BinaryPrimitives.WriteInt32LittleEndian(buffer.AsSpan(), TestValue);
 
-            SequenceReader<byte> sequenceReader = new SequenceReader<byte>(new ReadOnlySequence<byte>(buffer));
+            SequenceReader<byte> sequenceReader = new(new ReadOnlySequence<byte>(buffer));
 
             // Act
             sequenceReader.ReadLittleEndian(out int roundTrippedValue);
@@ -125,7 +125,7 @@ namespace Ryujinx.Tests.Common.Extensions
 
             BinaryPrimitives.WriteInt32BigEndian(buffer.AsSpan(), TestValue);
 
-            SequenceReader<byte> sequenceReader = new SequenceReader<byte>(new ReadOnlySequence<byte>(buffer));
+            SequenceReader<byte> sequenceReader = new(new ReadOnlySequence<byte>(buffer));
 
             // Act
             sequenceReader.ReadLittleEndian(out int roundTrippedValue);
@@ -147,7 +147,7 @@ namespace Ryujinx.Tests.Common.Extensions
             // Act/Assert
             Assert.Throws<ArgumentOutOfRangeException>(() =>
             {
-                SequenceReader<byte> sequenceReader = new SequenceReader<byte>(new ReadOnlySequence<byte>(buffer));
+                SequenceReader<byte> sequenceReader = new(new ReadOnlySequence<byte>(buffer));
                 sequenceReader.Advance(1);
 
                 sequenceReader.ReadLittleEndian(out int roundTrippedValue);
@@ -173,7 +173,7 @@ namespace Ryujinx.Tests.Common.Extensions
             // Act/Assert
             Assert.Throws<ArgumentOutOfRangeException>(() =>
             {
-                SequenceReader<byte> sequenceReader = new SequenceReader<byte>(sequence);
+                SequenceReader<byte> sequenceReader = new(sequence);
 
                 sequenceReader.Advance(1);
 
@@ -200,7 +200,7 @@ namespace Ryujinx.Tests.Common.Extensions
 
             Assert.Throws<ArgumentOutOfRangeException>(() =>
             {
-                SequenceReader<byte> sequenceReader = new SequenceReader<byte>(sequence);
+                SequenceReader<byte> sequenceReader = new(sequence);
 
                 sequenceReader.SetConsumed(MyUnmanagedStruct.SizeOf * StructCount + 1);
             });
@@ -213,7 +213,7 @@ namespace Ryujinx.Tests.Common.Extensions
 
             ReadOnlySequence<byte> sequence = CreateSegmentedByteSequence(originalStructs, maxSegmentLength);
 
-            SequenceReader<byte> sequenceReader = new SequenceReader<byte>(sequence);
+            SequenceReader<byte> sequenceReader = new(sequence);
 
             foreach (MyUnmanagedStruct original in originalStructs)
             {
@@ -232,7 +232,7 @@ namespace Ryujinx.Tests.Common.Extensions
 
             ReadOnlySequence<byte> sequence = CreateSegmentedByteSequence(originalStructs, maxSegmentLength);
 
-            SequenceReader<byte> sequenceReader = new SequenceReader<byte>(sequence);
+            SequenceReader<byte> sequenceReader = new(sequence);
 
             static void SetConsumedAndAssert(scoped ref SequenceReader<byte> sequenceReader, long consumed)
             {
@@ -283,7 +283,7 @@ namespace Ryujinx.Tests.Common.Extensions
                 const int BaseInt32Value = 0x1234abcd;
                 const short BaseInt16Value = 0x5678;
 
-                MyUnmanagedStruct result = new MyUnmanagedStruct
+                MyUnmanagedStruct result = new()
                 {
                     BehaviourSize = BaseInt32Value ^ rng.Next(),
                     MemoryPoolsSize = BaseInt32Value ^ rng.Next(),
@@ -320,7 +320,7 @@ namespace Ryujinx.Tests.Common.Extensions
 
         private static IEnumerable<MyUnmanagedStruct> EnumerateNewUnmanagedStructs()
         {
-            Random rng = new Random(0);
+            Random rng = new(0);
 
             while (true)
             {
@@ -331,7 +331,7 @@ namespace Ryujinx.Tests.Common.Extensions
         private static ReadOnlySequence<byte> CreateSegmentedByteSequence<T>(T[] array, int maxSegmentLength) where T : unmanaged
         {
             byte[] arrayBytes = MemoryMarshal.AsBytes(array.AsSpan()).ToArray();
-            Memory<byte> memory = new Memory<byte>(arrayBytes);
+            Memory<byte> memory = new(arrayBytes);
             int index = 0;
 
             BytesReadOnlySequenceSegment first = null, last = null;

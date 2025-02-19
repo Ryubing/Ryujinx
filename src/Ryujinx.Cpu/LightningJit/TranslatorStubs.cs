@@ -140,7 +140,7 @@ namespace Ryujinx.Cpu.LightningJit
         /// <returns>Generated <see cref="DispatchStub"/></returns>
         private nint GenerateDispatchStub()
         {
-            List<int> branchToFallbackOffsets = new();
+            List<int> branchToFallbackOffsets = [];
 
             CodeWriter writer = new();
 

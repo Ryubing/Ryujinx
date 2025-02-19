@@ -245,8 +245,8 @@ namespace ARMeilleure.Instructions
             string name = nameof(Math.Round);
 
             MethodInfo info = (op.Size & 1) == 0
-                ? typeof(MathF).GetMethod(name, new Type[] { typeof(float), typeof(MidpointRounding) })
-                : typeof(Math).GetMethod(name, new Type[] { typeof(double), typeof(MidpointRounding) });
+                ? typeof(MathF).GetMethod(name, [typeof(float), typeof(MidpointRounding)])
+                : typeof(Math).GetMethod(name, [typeof(double), typeof(MidpointRounding)]);
 
             return context.Call(info, n, Const((int)roundMode));
         }

@@ -59,6 +59,8 @@ namespace Ryujinx.Graphics.Nvdec.Types.Vp9
                     Flags.HasFlag(FrameFlags.LastShowFrame) &&
                     !Flags.HasFlag(FrameFlags.LastFrameIsKeyFrame),
                 RefFrameSignBias = RefFrameSignBias,
+                LoopFilterLevel = FirstLevel,
+                LoopFilterSharpnessLevel = SharpnessLevel,
                 BaseQIndex = BaseQIndex,
                 YDcDeltaQ = YDcDeltaQ,
                 UvDcDeltaQ = UvDcDeltaQ,

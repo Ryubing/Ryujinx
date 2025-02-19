@@ -113,37 +113,37 @@
                                 Tag="TitleId" />
                             <RadioButton
                                 Checked="Sort_Checked"
-                                Content="{ext:Locale GameListHeaderDeveloper}"
+                                Content="{ext:Locale GameListSortDeveloper}"
                                 GroupName="Sort"
                                 IsChecked="{Binding IsSortedByDeveloper, Mode=OneTime}"
                                 Tag="Developer" />
                             <RadioButton
                                 Checked="Sort_Checked"
-                                Content="{ext:Locale GameListHeaderTimePlayed}"
+                                Content="{ext:Locale GameListSortTimePlayed}"
                                 GroupName="Sort"
                                 IsChecked="{Binding IsSortedByTimePlayed, Mode=OneTime}"
                                 Tag="TotalTimePlayed" />
                             <RadioButton
                                 Checked="Sort_Checked"
-                                Content="{ext:Locale GameListHeaderLastPlayed}"
+                                Content="{ext:Locale GameListSortLastPlayed}"
                                 GroupName="Sort"
                                 IsChecked="{Binding IsSortedByLastPlayed, Mode=OneTime}"
                                 Tag="LastPlayed" />
                             <RadioButton
                                 Checked="Sort_Checked"
-                                Content="{ext:Locale GameListHeaderFileExtension}"
+                                Content="{ext:Locale GameListSortFileExtension}"
                                 GroupName="Sort"
                                 IsChecked="{Binding IsSortedByType, Mode=OneTime}"
                                 Tag="FileType" />
                             <RadioButton
                                 Checked="Sort_Checked"
-                                Content="{ext:Locale GameListHeaderFileSize}"
+                                Content="{ext:Locale GameListSortFileSize}"
                                 GroupName="Sort"
                                 IsChecked="{Binding IsSortedBySize, Mode=OneTime}"
                                 Tag="FileSize" />
                             <RadioButton
                                 Checked="Sort_Checked"
-                                Content="{ext:Locale GameListHeaderPath}"
+                                Content="{ext:Locale GameListSortPath}"
                                 GroupName="Sort"
                                 IsChecked="{Binding IsSortedByPath, Mode=OneTime}"
                                 Tag="Path" />

@@ -13,14 +13,15 @@ namespace Ryujinx.HLE.HOS.Kernel.Memory
 {
     abstract class KPageTableBase
     {
-        private static readonly int[] _mappingUnitSizes = {
+        private static readonly int[] _mappingUnitSizes =
+        [
             0x1000,
             0x10000,
             0x200000,
             0x400000,
             0x2000000,
-            0x40000000,
-        };
+            0x40000000
+        ];
 
         private const ulong RegionAlignment = 0x200000;
 
@@ -617,7 +618,7 @@ namespace Ryujinx.HLE.HOS.Kernel.Memory
                 return result;
             }
 
-            using OnScopeExit _ = new OnScopeExit(() => pageList.DecrementPagesReferenceCount(Context.MemoryManager));
+            using OnScopeExit _ = new(() => pageList.DecrementPagesReferenceCount(Context.MemoryManager));
 
             return MapPages(address, pageList, permission, MemoryMapFlags.Private);
         }
@@ -769,7 +770,7 @@ namespace Ryujinx.HLE.HOS.Kernel.Memory
 
                     Result result = region.AllocatePages(out KPageList pageList, pagesCount);
 
-                    using OnScopeExit _ = new OnScopeExit(() => pageList.DecrementPagesReferenceCount(Context.MemoryManager));
+                    using OnScopeExit _ = new(() => pageList.DecrementPagesReferenceCount(Context.MemoryManager));
 
                     void CleanUpForError()
                     {
@@ -1341,7 +1342,7 @@ namespace Ryujinx.HLE.HOS.Kernel.Memory
 
                 Result result = region.AllocatePages(out KPageList pageList, remainingPages);
 
-                using OnScopeExit _ = new OnScopeExit(() => pageList.DecrementPagesReferenceCount(Context.MemoryManager));
+                using OnScopeExit _ = new(() => pageList.DecrementPagesReferenceCount(Context.MemoryManager));
 
                 void CleanUpForError()
                 {
@@ -1867,7 +1868,7 @@ namespace Ryujinx.HLE.HOS.Kernel.Memory
             ulong dstLastPagePa = 0;
             ulong currentVa = va;
 
-            using OnScopeExit _ = new OnScopeExit(() =>
+            using OnScopeExit _ = new(() =>
             {
                 if (dstFirstPagePa != 0)
                 {

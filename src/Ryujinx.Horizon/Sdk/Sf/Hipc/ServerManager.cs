@@ -44,8 +44,8 @@ namespace Ryujinx.Horizon.Sdk.Sf.Hipc
             }
 
             _sessionAllocationBitmap = new ulong[(maxSessions + 63) / 64];
-            _sessions = new HashSet<ServerSession>();
-            _servers = new HashSet<Server>();
+            _sessions = [];
+            _servers = [];
         }
 
         private static PointerAndSize GetObjectBySessionIndex(ServerSession session, ulong baseAddress, ulong size)

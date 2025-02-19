@@ -27,11 +27,11 @@ namespace Ryujinx.Tests.Memory
         {
             MemoryAllocationFlags asFlags = MemoryAllocationFlags.Reserve | MemoryAllocationFlags.ViewCompatible;
 
-            MemoryBlock addressSpace = new MemoryBlock(asSize, asFlags);
-            MemoryBlock addressSpaceMirror = new MemoryBlock(asSize, asFlags);
+            MemoryBlock addressSpace = new(asSize, asFlags);
+            MemoryBlock addressSpaceMirror = new(asSize, asFlags);
 
-            MemoryTracking tracking = new MemoryTracking(new MockVirtualMemoryManager(asSize, 0x1000), 0x1000);
-            MemoryEhMeilleure exceptionHandler = new MemoryEhMeilleure(addressSpace, addressSpaceMirror, tracking);
+            MemoryTracking tracking = new(new MockVirtualMemoryManager(asSize, 0x1000), 0x1000);
+            MemoryEhMeilleure exceptionHandler = new(addressSpace, addressSpaceMirror, tracking);
 
             return (addressSpace, addressSpaceMirror, exceptionHandler);
         }
@@ -72,7 +72,7 @@ namespace Ryujinx.Tests.Memory
             ulong vaSize = 0x100000;
 
             // The first 0x100000 is mapped to start. It is replaced from the center with the 0x200000 mapping.
-            MemoryBlock backing = new MemoryBlock(vaSize * 2, MemoryAllocationFlags.Mirrorable);
+            MemoryBlock backing = new(vaSize * 2, MemoryAllocationFlags.Mirrorable);
 
             (MemoryBlock unusedMainMemory, MemoryBlock memory, MemoryEhMeilleure exceptionHandler) = GetVirtual(vaSize * 2);
 
@@ -217,7 +217,7 @@ namespace Ryujinx.Tests.Memory
             ulong vaSize = 0x100000;
 
             // The first 0x100000 is mapped to start. It is replaced from the center with the 0x200000 mapping.
-            MemoryBlock backing = new MemoryBlock(vaSize * 2, MemoryAllocationFlags.Mirrorable);
+            MemoryBlock backing = new(vaSize * 2, MemoryAllocationFlags.Mirrorable);
 
             (MemoryBlock mainMemory, MemoryBlock unusedMirror, MemoryEhMeilleure exceptionHandler) = GetVirtual(vaSize * 2);
 
@@ -296,7 +296,7 @@ namespace Ryujinx.Tests.Memory
             ref PartialUnmapState state = ref PartialUnmapState.GetRef();
 
             bool running = true;
-            Thread testThread = new Thread(() =>
+            Thread testThread = new(() =>
             {
                 PartialUnmapState.GetRef().RetryFromAccessViolation();
                 while (running)
@@ -376,8 +376,8 @@ namespace Ryujinx.Tests.Memory
         [Test]
         public void NativeReaderWriterLock()
         {
-            NativeReaderWriterLock rwLock = new NativeReaderWriterLock();
-            List<Thread> threads = new List<Thread>();
+            NativeReaderWriterLock rwLock = new();
+            List<Thread> threads = [];
 
             int value = 0;
 
@@ -387,7 +387,7 @@ namespace Ryujinx.Tests.Memory
 
             for (int i = 0; i < 5; i++)
             {
-                Thread readThread = new Thread(() =>
+                Thread readThread = new(() =>
                 {
                     int count = 0;
                     while (running)
@@ -424,7 +424,7 @@ namespace Ryujinx.Tests.Memory
 
             for (int i = 0; i < 2; i++)
             {
-                Thread writeThread = new Thread(() =>
+                Thread writeThread = new(() =>
                 {
                     int count = 0;
                     while (running)

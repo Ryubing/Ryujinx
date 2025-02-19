@@ -220,7 +220,7 @@ namespace Ryujinx.Graphics.Vulkan
 
         public BitMapStruct<T> Union(BitMapStruct<T> other)
         {
-            BitMapStruct<T> result = new BitMapStruct<T>();
+            BitMapStruct<T> result = new();
 
             ref T masks = ref _masks;
             ref T otherMasks = ref other._masks;

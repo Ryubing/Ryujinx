@@ -14,7 +14,7 @@ namespace Ryujinx.Tests.Cpu
 #if SimdMemory32
 
         private readonly uint[] _ldStModes =
-        {
+        [
             // LD1
             0b0111,
             0b1010,
@@ -32,8 +32,8 @@ namespace Ryujinx.Tests.Cpu
 
             // LD4
             0b0000,
-            0b0001,
-        };
+            0b0001
+        ];
 
         [Test, Pairwise, Description("VLDn.<size> <list>, [<Rn> {:<align>}]{ /!/, <Rm>} (single n element structure)")]
         public void Vldn_Single([Values(0u, 1u, 2u)] uint size,
@@ -200,12 +200,12 @@ namespace Ryujinx.Tests.Cpu
             uint opcode = 0xec100a00u; // VST4.8 {D0, D1, D2, D3}, [R0], R0
 
             uint[] vldmModes =
-            {
+            [
                 // Note: 3rd 0 leaves a space for "D".
                 0b0100, // Increment after.
                 0b0101, // Increment after. (!)
-                0b1001, // Decrement before. (!)
-            };
+                0b1001 // Decrement before. (!)
+            ];
 
             opcode |= ((vldmModes[mode] & 15) << 21);
             opcode |= ((rn & 15) << 16);

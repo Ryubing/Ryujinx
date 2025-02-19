@@ -19,9 +19,6 @@
     <Design.DataContext>
         <viewModels:UserSaveManagerViewModel />
     </Design.DataContext>
-    <UserControl.Resources>
-        <helpers:BitmapArrayValueConverter x:Key="ByteImage" />
-    </UserControl.Resources>
     <Grid>
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto" />
@@ -147,7 +144,7 @@
                                     IsVisible="{Binding InGameList}"
                                     Width="42"
                                     Height="42"
-                                    Source="{Binding Icon, Converter={StaticResource ByteImage}}" />
+                                    Source="{Binding Icon, Converter={x:Static helpers:BitmapArrayValueConverter.Instance}}" />
                                 <TextBlock
                                     MaxLines="3"
                                     Width="320"

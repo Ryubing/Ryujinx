@@ -3,7 +3,6 @@ using ARMeilleure.Memory;
 using Ryujinx.Cpu.LightningJit.CodeGen;
 using Ryujinx.Cpu.LightningJit.CodeGen.Arm64;
 using Ryujinx.Cpu.LightningJit.Graph;
-using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Numerics;
@@ -309,7 +308,7 @@ namespace Ryujinx.Cpu.LightningJit.Arm64.Target.Arm64
             MultiBlock multiBlock = Decoder.DecodeMulti(cpuPreset, memoryManager, address);
 
             Dictionary<ulong, int> targets = new();
-            List<PendingBranch> pendingBranches = new();
+            List<PendingBranch> pendingBranches = [];
 
             uint gprUseMask = multiBlock.GlobalUseMask.GprMask;
             uint fpSimdUseMask = multiBlock.GlobalUseMask.FpSimdMask;

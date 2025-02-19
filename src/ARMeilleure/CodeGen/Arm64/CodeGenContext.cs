@@ -42,7 +42,7 @@ namespace ARMeilleure.CodeGen.Arm64
             {
                 Offset = offset;
                 Symbol = symbol;
-                LdrOffsets = new List<(Operand, int)>();
+                LdrOffsets = [];
             }
         }
 
@@ -266,7 +266,7 @@ namespace ARMeilleure.CodeGen.Arm64
             }
             else
             {
-                relocInfo = new RelocInfo(Array.Empty<RelocEntry>());
+                relocInfo = new RelocInfo([]);
             }
 
             return (code, relocInfo);

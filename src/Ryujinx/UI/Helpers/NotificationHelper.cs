@@ -28,7 +28,7 @@ namespace Ryujinx.Ava.UI.Helpers
                 Margin = new Thickness(0, 0, 15, 40),
             };
 
-            Lazy<AsyncWorkQueue<Notification>> maybeAsyncWorkQueue = new Lazy<AsyncWorkQueue<Notification>>(
+            Lazy<AsyncWorkQueue<Notification>> maybeAsyncWorkQueue = new(
                 () => new AsyncWorkQueue<Notification>(notification =>
                     {
                         Dispatcher.UIThread.Post(() =>

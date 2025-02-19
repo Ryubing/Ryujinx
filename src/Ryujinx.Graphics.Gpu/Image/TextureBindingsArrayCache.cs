@@ -4,7 +4,6 @@ using Ryujinx.Graphics.Gpu.Memory;
 using Ryujinx.Graphics.Shader;
 using System;
 using System.Collections.Generic;
-using System.Linq;
 using System.Runtime.InteropServices;
 
 namespace Ryujinx.Graphics.Gpu.Image
@@ -549,7 +548,7 @@ namespace Ryujinx.Graphics.Gpu.Image
             _channel = channel;
             _cacheFromBuffer = new Dictionary<CacheEntryFromBufferKey, CacheEntryFromBuffer>();
             _cacheFromPool = new Dictionary<CacheEntryFromPoolKey, CacheEntry>();
-            _lruCache = new LinkedList<CacheEntryFromBuffer>();
+            _lruCache = [];
         }
 
         /// <summary>
@@ -992,7 +991,7 @@ namespace Ryujinx.Graphics.Gpu.Image
             bool isImage,
             out bool isNew)
         {
-            CacheEntryFromPoolKey key = new CacheEntryFromPoolKey(isImage, bindingInfo, texturePool, samplerPool);
+            CacheEntryFromPoolKey key = new(isImage, bindingInfo, texturePool, samplerPool);
 
             isNew = !_cacheFromPool.TryGetValue(key, out CacheEntry entry);
 
@@ -1035,7 +1034,7 @@ namespace Ryujinx.Graphics.Gpu.Image
             ref BufferBounds textureBufferBounds,
             out bool isNew)
         {
-            CacheEntryFromBufferKey key = new CacheEntryFromBufferKey(
+            CacheEntryFromBufferKey key = new(
                 isImage,
                 bindingInfo,
                 texturePool,
@@ -1116,7 +1115,7 @@ namespace Ryujinx.Graphics.Gpu.Image
             {
                 if (key.MatchesPool(pool))
                 {
-                    (keysToRemove ??= new()).Add(key);
+                    (keysToRemove ??= []).Add(key);
 
                     if (key.IsImage)
                     {

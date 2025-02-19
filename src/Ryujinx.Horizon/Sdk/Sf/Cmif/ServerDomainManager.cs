@@ -27,7 +27,7 @@ namespace Ryujinx.Horizon.Sdk.Sf.Cmif
 
             public EntryManager(int count)
             {
-                _freeList = new LinkedList<Entry>();
+                _freeList = [];
                 _entries = new Entry[count];
 
                 for (int i = 0; i < count; i++)
@@ -87,7 +87,7 @@ namespace Ryujinx.Horizon.Sdk.Sf.Cmif
             public Domain(ServerDomainManager manager)
             {
                 _manager = manager;
-                _entries = new LinkedList<EntryManager.Entry>();
+                _entries = [];
             }
 
             public override ServiceObjectHolder GetObject(int id)
@@ -217,7 +217,7 @@ namespace Ryujinx.Horizon.Sdk.Sf.Cmif
         public ServerDomainManager(int entryCount, int maxDomains)
         {
             _entryManager = new EntryManager(entryCount);
-            _domains = new HashSet<Domain>();
+            _domains = [];
             _maxDomains = maxDomains;
         }
 
@@ -230,7 +230,7 @@ namespace Ryujinx.Horizon.Sdk.Sf.Cmif
                     return null;
                 }
 
-                Domain domain = new Domain(this);
+                Domain domain = new(this);
                 _domains.Add(domain);
                 return domain;
             }

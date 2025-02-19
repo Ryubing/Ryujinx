@@ -6,7 +6,6 @@ using ARMeilleure.Instructions;
 using ARMeilleure.IntermediateRepresentation;
 using ARMeilleure.Memory;
 using ARMeilleure.State;
-using System;
 using System.Collections.Generic;
 using System.Reflection;
 using static ARMeilleure.IntermediateRepresentation.Operand.Factory;
@@ -55,7 +54,7 @@ namespace ARMeilleure.Translation
         public Aarch32Mode Mode { get; }
 
         private int _ifThenBlockStateIndex = 0;
-        private Condition[] _ifThenBlockState = Array.Empty<Condition>();
+        private Condition[] _ifThenBlockState = [];
         public bool IsInIfThenBlock => _ifThenBlockStateIndex < _ifThenBlockState.Length;
         public Condition CurrentIfThenBlockCond => _ifThenBlockState[_ifThenBlockStateIndex];
 

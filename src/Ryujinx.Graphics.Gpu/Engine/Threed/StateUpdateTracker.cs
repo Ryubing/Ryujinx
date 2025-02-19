@@ -1,4 +1,3 @@
-using Ryujinx.Graphics.Device;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
@@ -59,7 +58,7 @@ namespace Ryujinx.Graphics.Gpu.Engine.Threed
             _registerToGroupMapping = new byte[BlockSize];
             _callbacks = new Action[entries.Length];
 
-            Dictionary<string, int> fieldToDelegate = new Dictionary<string, int>();
+            Dictionary<string, int> fieldToDelegate = new();
 
             for (int entryIndex = 0; entryIndex < entries.Length; entryIndex++)
             {

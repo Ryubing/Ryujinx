@@ -50,8 +50,8 @@ namespace Ryujinx.Graphics.Metal
 
             public void Initialize()
             {
-                Dependants = new List<IAuto>();
-                Waitables = new List<MultiFenceHolder>();
+                Dependants = [];
+                Waitables = [];
                 Encoders = new CommandBufferEncoder();
             }
         }

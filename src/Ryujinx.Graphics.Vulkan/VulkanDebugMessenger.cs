@@ -62,7 +62,7 @@ namespace Ryujinx.Graphics.Vulkan
                     _ => throw new ArgumentException($"Invalid log level \"{_logLevel}\"."),
                 };
 
-                DebugUtilsMessengerCreateInfoEXT debugUtilsMessengerCreateInfo = new DebugUtilsMessengerCreateInfoEXT
+                DebugUtilsMessengerCreateInfoEXT debugUtilsMessengerCreateInfo = new()
                 {
                     SType = StructureType.DebugUtilsMessengerCreateInfoExt,
                     MessageType = messageType,

@@ -245,7 +245,7 @@ namespace Ryujinx.Graphics.Gpu.Engine.Dma
                 int srcStride = (int)_state.State.PitchIn;
                 int dstStride = (int)_state.State.PitchOut;
 
-                OffsetCalculator srcCalculator = new OffsetCalculator(
+                OffsetCalculator srcCalculator = new(
                     src.Width,
                     src.Height,
                     srcStride,
@@ -254,7 +254,7 @@ namespace Ryujinx.Graphics.Gpu.Engine.Dma
                     src.MemoryLayout.UnpackGobBlocksInZ(),
                     srcBpp);
 
-                OffsetCalculator dstCalculator = new OffsetCalculator(
+                OffsetCalculator dstCalculator = new(
                     dst.Width,
                     dst.Height,
                     dstStride,

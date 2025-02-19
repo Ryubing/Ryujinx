@@ -12,15 +12,16 @@ namespace Ryujinx.HLE.HOS.Services.Pcv.Clkrst.ClkrstManager
 #pragma warning restore IDE0052
         private uint _clockRate;
 
-        private readonly DeviceCode[] _allowedDeviceCodeTable = {
+        private readonly DeviceCode[] _allowedDeviceCodeTable =
+        [
             DeviceCode.Cpu,    DeviceCode.Gpu,      DeviceCode.Disp1,    DeviceCode.Disp2,
             DeviceCode.Tsec,   DeviceCode.Mselect,  DeviceCode.Sor1,     DeviceCode.Host1x,
             DeviceCode.Vic,    DeviceCode.Nvenc,    DeviceCode.Nvjpg,    DeviceCode.Nvdec,
             DeviceCode.Ape,    DeviceCode.AudioDsp, DeviceCode.Emc,      DeviceCode.Dsi,
             DeviceCode.SysBus, DeviceCode.XusbSs,   DeviceCode.XusbHost, DeviceCode.XusbDevice,
             DeviceCode.Gpuaux, DeviceCode.Pcie,     DeviceCode.Apbdma,   DeviceCode.Sdmmc1,
-            DeviceCode.Sdmmc2, DeviceCode.Sdmmc4,
-        };
+            DeviceCode.Sdmmc2, DeviceCode.Sdmmc4
+        ];
 
         public IClkrstSession(DeviceCode deviceCode, uint unknown)
         {

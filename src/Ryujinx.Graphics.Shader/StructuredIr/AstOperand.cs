@@ -17,8 +17,8 @@ namespace Ryujinx.Graphics.Shader.StructuredIr
 
         private AstOperand()
         {
-            Defs = new HashSet<IAstNode>();
-            Uses = new HashSet<IAstNode>();
+            Defs = [];
+            Uses = [];
 
             VarType = AggregateType.S32;
         }

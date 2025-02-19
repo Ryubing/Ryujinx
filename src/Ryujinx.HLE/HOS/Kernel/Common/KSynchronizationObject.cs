@@ -9,7 +9,7 @@ namespace Ryujinx.HLE.HOS.Kernel.Common
 
         public KSynchronizationObject(KernelContext context) : base(context)
         {
-            WaitingThreads = new LinkedList<KThread>();
+            WaitingThreads = [];
         }
 
         public LinkedListNode<KThread> AddWaitingThread(KThread thread)

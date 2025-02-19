@@ -1019,7 +1019,7 @@ namespace Ryujinx.Graphics.Gpu.Image
             int endOffset = _allOffsets[viewEnd] + _sliceSizes[lastLevel];
             int size = endOffset - offset;
 
-            List<RegionHandle> result = new List<RegionHandle>();
+            List<RegionHandle> result = [];
 
             for (int i = 0; i < TextureRange.Count; i++)
             {
@@ -1053,7 +1053,7 @@ namespace Ryujinx.Graphics.Gpu.Image
             offset = _allOffsets[viewStart];
             ulong maxSize = Storage.Size - (ulong)offset;
 
-            TextureGroupHandle groupHandle = new TextureGroupHandle(
+            TextureGroupHandle groupHandle = new(
                 this,
                 offset,
                 Math.Min(maxSize, (ulong)size),
@@ -1315,7 +1315,7 @@ namespace Ryujinx.Graphics.Gpu.Image
 
             if (_isBuffer)
             {
-                handles = Array.Empty<TextureGroupHandle>();
+                handles = [];
             }
             else if (!(_hasMipViews || _hasLayerViews))
             {
@@ -1337,9 +1337,9 @@ namespace Ryujinx.Graphics.Gpu.Image
                     Array.Resize(ref cpuRegionHandles, count);
                 }
 
-                TextureGroupHandle groupHandle = new TextureGroupHandle(this, 0, Storage.Size, _views, 0, 0, 0, _allOffsets.Length, cpuRegionHandles);
+                TextureGroupHandle groupHandle = new(this, 0, Storage.Size, _views, 0, 0, 0, _allOffsets.Length, cpuRegionHandles);
 
-                handles = new TextureGroupHandle[] { groupHandle };
+                handles = [groupHandle];
             }
             else
             {
@@ -1355,7 +1355,7 @@ namespace Ryujinx.Graphics.Gpu.Image
 
                 if (_is3D)
                 {
-                    List<TextureGroupHandle> handlesList = new List<TextureGroupHandle>();
+                    List<TextureGroupHandle> handlesList = [];
 
                     for (int i = 0; i < levelHandles; i++)
                     {
@@ -1438,8 +1438,8 @@ namespace Ryujinx.Graphics.Gpu.Image
             // Get the location of each texture within its storage, so we can find the handles to apply the dependency to.
             // This can consist of multiple disjoint regions, for example if this is a mip slice of an array texture.
 
-            List<(int BaseHandle, int RegionCount)> targetRange = new List<(int BaseHandle, int RegionCount)>();
-            List<(int BaseHandle, int RegionCount)> otherRange = new List<(int BaseHandle, int RegionCount)>();
+            List<(int BaseHandle, int RegionCount)> targetRange = [];
+            List<(int BaseHandle, int RegionCount)> otherRange = [];
 
             EvaluateRelevantHandles(firstLayer, firstLevel, other.Info.GetSlices(), other.Info.Levels, (baseHandle, regionCount, split) => targetRange.Add((baseHandle, regionCount)));
             otherGroup.EvaluateRelevantHandles(other, (baseHandle, regionCount, split) => otherRange.Add((baseHandle, regionCount)));

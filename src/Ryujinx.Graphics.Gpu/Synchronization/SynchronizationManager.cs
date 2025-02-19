@@ -87,7 +87,7 @@ namespace Ryujinx.Graphics.Gpu.Synchronization
             }
 
             using ManualResetEvent waitEvent = new(false);
-            SyncpointWaiterHandle info = _syncpoints[id].RegisterCallback(threshold, (x) => waitEvent.Set());
+            SyncpointWaiterHandle info = _syncpoints[id].RegisterCallback(threshold, _ => waitEvent.Set());
 
             if (info == null)
             {
@@ -96,7 +96,7 @@ namespace Ryujinx.Graphics.Gpu.Synchronization
 
             bool signaled = waitEvent.WaitOne(timeout);
 
-            if (!signaled && info != null)
+            if (!signaled)
             {
                 Logger.Error?.Print(LogClass.Gpu, $"Wait on syncpoint {id} for threshold {threshold} took more than {timeout.TotalMilliseconds}ms, resuming execution...");
 

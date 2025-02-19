@@ -67,7 +67,7 @@ namespace Ryujinx.Ava.UI.Views.User
         public void LoadSaves()
         {
             ViewModel.Saves.Clear();
-            ObservableCollection<SaveModel> saves = new ObservableCollection<SaveModel>();
+            ObservableCollection<SaveModel> saves = [];
             SaveDataFilter saveDataFilter = SaveDataFilter.Make(
                 programId: default,
                 saveType: SaveDataType.Account,
@@ -75,7 +75,7 @@ namespace Ryujinx.Ava.UI.Views.User
                 saveDataId: default,
                 index: default);
 
-            using UniqueRef<SaveDataIterator> saveDataIterator = new UniqueRef<SaveDataIterator>();
+            using UniqueRef<SaveDataIterator> saveDataIterator = new();
 
             _horizonClient.Fs.OpenSaveDataIterator(ref saveDataIterator.Ref, SaveDataSpaceId.User, in saveDataFilter).ThrowIfFailure();
 
@@ -95,7 +95,7 @@ namespace Ryujinx.Ava.UI.Views.User
                     SaveDataInfo save = saveDataInfo[i];
                     if (save.ProgramId.Value != 0)
                     {
-                        SaveModel saveModel = new SaveModel(save);
+                        SaveModel saveModel = new(save);
                         saves.Add(saveModel);
                     }
                 }

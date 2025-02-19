@@ -19,7 +19,7 @@ namespace Ryujinx.Common.Utilities
 
         public static string Format(MessagePackObject obj)
         {
-            IndentedStringBuilder builder = new IndentedStringBuilder();
+            IndentedStringBuilder builder = new();
 
             FormatMsgPackObj(obj, builder);
 

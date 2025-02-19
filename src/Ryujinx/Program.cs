@@ -5,11 +5,9 @@ using Gommon;
 using Projektanker.Icons.Avalonia;
 using Projektanker.Icons.Avalonia.FontAwesome;
 using Projektanker.Icons.Avalonia.MaterialDesign;
-using Ryujinx.Ava.Common.Locale;
 using Ryujinx.Ava.UI.Helpers;
 using Ryujinx.Ava.UI.Windows;
 using Ryujinx.Ava.Utilities;
-using Ryujinx.Ava.Utilities.AppLibrary;
 using Ryujinx.Ava.Utilities.Configuration;
 using Ryujinx.Ava.Utilities.SystemInfo;
 using Ryujinx.Common;
@@ -23,7 +21,6 @@ using Ryujinx.SDL2.Common;
 using System;
 using System.Collections.Generic;
 using System.IO;
-using System.Linq;
 using System.Runtime.InteropServices;
 using System.Threading.Tasks;
 
@@ -50,6 +47,7 @@ namespace Ryujinx.Ava
             if (OperatingSystem.IsWindows() && !OperatingSystem.IsWindowsVersionAtLeast(10, 0, 19041))
             {
                 _ = MessageBoxA(nint.Zero, "You are running an outdated version of Windows.\n\nRyujinx supports Windows 10 version 20H1 and newer.\n", $"Ryujinx {Version}", MbIconwarning);
+                return 0;
             }
 
             PreviewerDetached = true;
@@ -112,7 +110,11 @@ namespace Ryujinx.Ava
             // Hook unhandled exception and process exit events.
             AppDomain.CurrentDomain.UnhandledException += (sender, e)
                 => ProcessUnhandledException(sender, e.ExceptionObject as Exception, e.IsTerminating);
+            TaskScheduler.UnobservedTaskException += (sender, e)
+                => ProcessUnhandledException(sender, e.Exception, false); 
             AppDomain.CurrentDomain.ProcessExit += (_, _) => Exit();
+
+
             
             // Setup base data directory.
             AppDataManager.Initialize(CommandLineState.BaseDirPathArg);
@@ -206,6 +208,16 @@ namespace Ryujinx.Ava
                     _ => ConfigurationState.Instance.Graphics.GraphicsBackend
                 };
 
+            // Check if backend threading was overridden
+            if (CommandLineState.OverrideBackendThreading is not null)
+                ConfigurationState.Instance.Graphics.BackendThreading.Value = CommandLineState.OverrideBackendThreading.ToLower() switch
+                {
+                    "auto" => BackendThreading.Auto,
+                    "off" => BackendThreading.Off,
+                    "on" => BackendThreading.On,
+                    _ => ConfigurationState.Instance.Graphics.BackendThreading
+                };
+
             // Check if docked mode was overriden.
             if (CommandLineState.OverrideDockedMode.HasValue)
                 ConfigurationState.Instance.System.EnableDockedMode.Value = CommandLineState.OverrideDockedMode.Value;
@@ -272,9 +284,7 @@ namespace Ryujinx.Ava
                     log.PrintMsg(LogClass.Application, message);
             }
             
-
-
-
+            
             if (isTerminating)
                 Exit();
         }

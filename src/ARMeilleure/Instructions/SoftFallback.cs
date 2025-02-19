@@ -211,7 +211,7 @@ namespace ARMeilleure.Instructions
             return (ulong)(size - 1);
         }
 
-        private static ReadOnlySpan<byte> ClzNibbleTbl => new byte[] { 4, 3, 2, 2, 1, 1, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0 };
+        private static ReadOnlySpan<byte> ClzNibbleTbl => [4, 3, 2, 2, 1, 1, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0];
 
         [UnmanagedCallersOnly]
         public static ulong CountLeadingZeros(ulong value, int size) // size is 8, 16, 32 or 64 (SIMD&FP or Base Inst.).

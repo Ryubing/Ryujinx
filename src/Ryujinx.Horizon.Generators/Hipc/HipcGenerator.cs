@@ -68,7 +68,7 @@ namespace Ryujinx.Horizon.Generators.Hipc
                     continue;
                 }
 
-                CodeGenerator generator = new CodeGenerator();
+                CodeGenerator generator = new();
                 string className = commandInterface.ClassDeclarationSyntax.Identifier.ToString();
 
                 generator.AppendLine("using Ryujinx.Horizon.Common;");
@@ -257,7 +257,7 @@ namespace Ryujinx.Horizon.Generators.Hipc
                 generator.AppendLine();
             }
 
-            List<OutParameter> outParameters = new List<OutParameter>();
+            List<OutParameter> outParameters = [];
 
             string[] args = new string[method.ParameterList.Parameters.Count];
 

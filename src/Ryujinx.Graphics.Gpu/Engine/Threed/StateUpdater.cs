@@ -91,8 +91,7 @@ namespace Ryujinx.Graphics.Gpu.Engine.Threed
             // The vertex buffer state may be forced dirty when a indexed draw starts, the "VertexBufferStateIndex"
             // constant must be updated if modified.
             // The order of the other state updates doesn't matter.
-            _updateTracker = new StateUpdateTracker<ThreedClassState>(new[]
-            {
+            _updateTracker = new StateUpdateTracker<ThreedClassState>([
                 new StateUpdateCallbackEntry(UpdateVertexBufferState,
                     nameof(ThreedClassState.VertexBufferDrawState),
                     nameof(ThreedClassState.VertexBufferInstanced),
@@ -207,8 +206,8 @@ namespace Ryujinx.Graphics.Gpu.Engine.Threed
                     nameof(ThreedClassState.RtDepthStencilState),
                     nameof(ThreedClassState.RtControl),
                     nameof(ThreedClassState.RtDepthStencilSize),
-                    nameof(ThreedClassState.RtDepthStencilEnable)),
-            });
+                    nameof(ThreedClassState.RtDepthStencilEnable))
+            ]);
         }
 
         /// <summary>
@@ -740,7 +739,7 @@ namespace Ryujinx.Graphics.Gpu.Engine.Threed
                     ref ScreenScissorState scissor = ref _state.State.ScreenScissorState;
 
                     float rScale = _channel.TextureManager.RenderTargetScale;
-                    Rectangle<float> scissorRect = new Rectangle<float>(0, 0, (scissor.X + scissor.Width) * rScale, (scissor.Y + scissor.Height) * rScale);
+                    Rectangle<float> scissorRect = new(0, 0, (scissor.X + scissor.Width) * rScale, (scissor.Y + scissor.Height) * rScale);
 
                     viewports[index] = new Viewport(scissorRect, ViewportSwizzle.PositiveX, ViewportSwizzle.PositiveY, ViewportSwizzle.PositiveZ, ViewportSwizzle.PositiveW, 0, 1);
                     continue;
@@ -1281,7 +1280,7 @@ namespace Ryujinx.Graphics.Gpu.Engine.Threed
                     bool enable = _state.State.BlendEnable[index];
                     BlendState blend = _state.State.BlendState[index];
 
-                    BlendDescriptor descriptor = new BlendDescriptor(
+                    BlendDescriptor descriptor = new(
                         enable,
                         blendConstant,
                         blend.ColorOp,
@@ -1309,7 +1308,7 @@ namespace Ryujinx.Graphics.Gpu.Engine.Threed
                 bool enable = _state.State.BlendEnable[0];
                 BlendStateCommon blend = _state.State.BlendStateCommon;
 
-                BlendDescriptor descriptor = new BlendDescriptor(
+                BlendDescriptor descriptor = new(
                     enable,
                     blendConstant,
                     blend.ColorOp,

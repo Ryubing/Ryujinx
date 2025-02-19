@@ -125,7 +125,7 @@
                         Background="Transparent"
                         Click="Button_OnClick"
                         CornerRadius="15"
-                        Tag="https://discord.gg/dHPrkBkkyA"
+                        Tag="https://discord.gg/PEuzjrFXUA"
                         ToolTip.Tip="{ext:Locale AboutDiscordUrlTooltipMessage}">
                         <Image Source="{Binding DiscordLogo}" />
                     </Button>
@@ -142,42 +142,40 @@
         <Grid
             Grid.Column="2"
             HorizontalAlignment="Stretch"
-            VerticalAlignment="Stretch" RowDefinitions="Auto,Auto">
+            VerticalAlignment="Stretch" RowDefinitions="Auto,Auto,Auto">
             <StackPanel
                 Grid.Row="0"
-                Margin="0,10,0,0"
                 Spacing="2">
                 <TextBlock
-                    FontSize="15"
+                    Classes="h1"
                     FontWeight="Bold"
                     Text="{ext:Locale AboutRyujinxAboutTitle}" />
                 <TextBlock
-                    FontSize="10"
                     Text="{ext:Locale AboutRyujinxAboutContent}"
                     TextWrapping="Wrap" />
             </StackPanel>
+            <Separator Grid.Row="1" Margin="0,20" />
             <StackPanel
-                Grid.Row="1"
-                Margin="0,10,0,0"
+                Grid.Row="2"
                 Spacing="2">
                 <TextBlock
-                    FontSize="15"
+                    Classes="h1"
                     FontWeight="Bold"
                     Text="{ext:Locale AboutRyujinxMaintainersTitle}" />
                 <TextBlock
-                    FontSize="10"
                     Margin="0, 0, 0, 5"
                     TextWrapping="Wrap"
                     Text="{Binding Developers}"/>
                 <TextBlock
-                    FontSize="15"
+                    Classes="h1"
                     FontWeight="Bold"
                     Text="{ext:Locale AboutRyujinxFormerMaintainersTitle}" />
                 <TextBlock
-                    FontSize="10"
+                    FontSize="11"
                     Text="{Binding FormerDevelopers}"
                     TextWrapping="Wrap" />
                 <Button
+                    Margin="0, 5, 0, 0"
                     Padding="5"
                     HorizontalAlignment="Left"
                     Background="Transparent"

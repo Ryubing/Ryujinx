@@ -17,7 +17,7 @@ namespace Ryujinx.Graphics.Gpu.Shader
         public ComputeShaderCacheHashTable()
         {
             _cache = new PartitionedHashTable<ShaderSpecializationList>();
-            _shaderPrograms = new List<CachedShaderProgram>();
+            _shaderPrograms = [];
         }
 
         /// <summary>
@@ -26,7 +26,7 @@ namespace Ryujinx.Graphics.Gpu.Shader
         /// <param name="program">Program to be added</param>
         public void Add(CachedShaderProgram program)
         {
-            ShaderSpecializationList specList = _cache.GetOrAdd(program.Shaders[0].Code, new ShaderSpecializationList());
+            ShaderSpecializationList specList = _cache.GetOrAdd(program.Shaders[0].Code, []);
             specList.Add(program);
             _shaderPrograms.Add(program);
         }

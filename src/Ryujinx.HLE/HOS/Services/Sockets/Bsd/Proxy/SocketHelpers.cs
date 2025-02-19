@@ -1,4 +1,6 @@
+using Ryujinx.Common.Logging;
 using Ryujinx.HLE.HOS.Services.Ldn.UserServiceCreator.LdnRyu.Proxy;
+using Ryujinx.HLE.HOS.Services.Sockets.Bsd.Types;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -64,10 +66,18 @@ namespace Ryujinx.HLE.HOS.Services.Sockets.Bsd.Proxy
             {
                 if (_proxy.Supported(domain, type, protocol))
                 {
+                    Logger.Info?.PrintMsg(LogClass.ServiceBsd, $"Socket is using LDN proxy");
                     return new LdnProxySocket(domain, type, protocol, _proxy);
                 }
+                else
+                {
+                    Logger.Warning?.PrintMsg(LogClass.ServiceBsd, $"LDN proxy does not support socket {domain}, {type}, {protocol}");
+                }
             }
-
+            else
+            {
+                Logger.Info?.PrintMsg(LogClass.ServiceBsd, $"Opening socket using host networking stack");
+            }
             return new DefaultSocket(domain, type, protocol, lanInterfaceId);
         }
     }

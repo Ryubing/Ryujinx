@@ -25,11 +25,11 @@ namespace Ryujinx.HLE.HOS.Services.Nv
     [Service("nvdrv:t")]
     class INvDrvServices : IpcService
     {
-        private static readonly List<string> _deviceFileDebugRegistry = new()
-        {
+        private static readonly List<string> _deviceFileDebugRegistry =
+        [
             "/dev/nvhost-dbg-gpu",
-            "/dev/nvhost-prof-gpu",
-        };
+            "/dev/nvhost-prof-gpu"
+        ];
 
         private static readonly Dictionary<string, Type> _deviceFileRegistry = new()
         {
@@ -73,9 +73,10 @@ namespace Ryujinx.HLE.HOS.Services.Nv
 
             if (_deviceFileRegistry.TryGetValue(path, out Type deviceFileClass))
             {
-                ConstructorInfo constructor = deviceFileClass.GetConstructor(new[] { typeof(ServiceCtx), typeof(IVirtualMemoryManager), typeof(ulong) });
+                ConstructorInfo constructor = deviceFileClass.GetConstructor([typeof(ServiceCtx), typeof(IVirtualMemoryManager), typeof(ulong)
+                ]);
 
-                NvDeviceFile deviceFile = (NvDeviceFile)constructor.Invoke(new object[] { context, _clientMemory, _owner });
+                NvDeviceFile deviceFile = (NvDeviceFile)constructor.Invoke([context, _clientMemory, _owner]);
 
                 deviceFile.Path = path;
 

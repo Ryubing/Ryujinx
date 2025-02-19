@@ -32,7 +32,7 @@ namespace Ryujinx.Ava.UI.ViewModels
 
         public UserFirmwareAvatarSelectorViewModel()
         {
-            _images = new ObservableCollection<ProfileImageModel>();
+            _images = [];
 
             LoadImagesFromStore();
             PropertyChanged += (_, args) =>
@@ -104,7 +104,7 @@ namespace Ryujinx.Ava.UI.ViewModels
                     // TODO: Parse DatabaseInfo.bin and table.bin files for more accuracy.
                     if (item.Type == DirectoryEntryType.File && item.FullPath.Contains("chara") && item.FullPath.Contains("szs"))
                     {
-                        using UniqueRef<IFile> file = new UniqueRef<IFile>();
+                        using UniqueRef<IFile> file = new();
 
                         romfs.OpenFile(ref file.Ref, ("/" + item.FullPath).ToU8Span(), OpenMode.Read).ThrowIfFailure();
 

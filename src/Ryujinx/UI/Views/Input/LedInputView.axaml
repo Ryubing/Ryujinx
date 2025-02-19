@@ -1,0 +1,64 @@
+﻿<UserControl xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:controls="clr-namespace:Ryujinx.Ava.UI.Controls"
+             xmlns:ui="clr-namespace:FluentAvalonia.UI.Controls;assembly=FluentAvalonia"
+             xmlns:ext="clr-namespace:Ryujinx.Ava.Common.Markup"
+             xmlns:viewModels="clr-namespace:Ryujinx.Ava.UI.ViewModels.Input"
+             mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
+             x:DataType="viewModels:LedInputViewModel"
+             x:Class="Ryujinx.UI.Views.Input.LedInputView">
+    <StackPanel Orientation="Vertical" HorizontalAlignment="Center">
+        <StackPanel Orientation="Horizontal" IsVisible="{Binding ParentModel.CanClearLed}">
+            <TextBlock MinWidth="75" MaxWidth="200" Text="{ext:Locale ControllerSettingsLedColorDisable}" />
+            <CheckBox
+                Margin="5"
+                MinWidth="0"
+                IsChecked="{Binding TurnOffLed, Mode=TwoWay}"
+                Command="{Binding LedDisabledChanged}">
+            </CheckBox>
+        </StackPanel>
+        <StackPanel Orientation="Horizontal" IsEnabled="{Binding !TurnOffLed}">
+            <TextBlock MinWidth="75" MaxWidth="200" Text="{ext:Locale ControllerSettingsLedColorRainbow}" />
+            <CheckBox
+                Margin="5"
+                MinWidth="0"
+                IsChecked="{Binding UseRainbowLed, Mode=TwoWay}">
+            </CheckBox>
+        </StackPanel>
+        <StackPanel Orientation="Horizontal" IsEnabled="{Binding !TurnOffLed}">
+            <TextBlock MinWidth="75" MaxWidth="200" Text="{ext:Locale ControllerSettingsLedColorRainbowSpeed}" />
+            <Slider HorizontalAlignment="Center" 
+                    Value="{Binding RainbowSpeed}"
+                    Width="175"
+                    Margin="0,-3,0,0"
+                    Height="32"
+                    Padding="0,-5"
+                    TickFrequency="0.25"
+                    LargeChange="1"
+                    SmallChange="0.25"
+                    VerticalAlignment="Center"
+                    Minimum="1"
+                    Maximum="10" />
+            <TextBlock Margin="5,0"
+                       MinWidth="75"
+                       Text="{Binding RainbowSpeedText}" />
+        </StackPanel>
+        <StackPanel Orientation="Horizontal" IsEnabled="{Binding ShowLedColorPicker}">
+            <TextBlock MinWidth="75" MaxWidth="200" Text="{ext:Locale ControllerSettingsLedColor}" />
+            <ui:ColorPickerButton
+                Margin="5"
+                IsMoreButtonVisible="False"
+                UseColorPalette="False"
+                UseColorTriangle="False"
+                UseColorWheel="False"
+                ShowAcceptDismissButtons="False"
+                IsAlphaEnabled="False"
+                AttachedToVisualTree="ColorPickerButton_OnAttachedToVisualTree"
+                ColorChanged="ColorPickerButton_OnColorChanged"
+                Color="{Binding LedColor, Mode=TwoWay}">
+            </ui:ColorPickerButton>
+        </StackPanel>
+    </StackPanel>
+</UserControl>

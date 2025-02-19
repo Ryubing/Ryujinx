@@ -274,7 +274,7 @@ namespace Ryujinx.Graphics.Gpu.Engine.Threed.Blender
 
         private void Assemble(CC cc, Instruction inst, Dest dest, OpAC srcA, OpBD srcB, OpAC srcC, OpBD srcD)
         {
-            (_code ??= new List<uint>()).Add(new UcodeOp(cc, inst, _constantIndex, dest, srcA, srcB, srcC, srcD).Word);
+            (_code ??= []).Add(new UcodeOp(cc, inst, _constantIndex, dest, srcA, srcB, srcC, srcD).Word);
         }
 
         public void SetConstant(int index, float r, float g, float b)

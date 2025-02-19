@@ -17,7 +17,7 @@ namespace Ryujinx.Graphics.Shader.Decoders
         public DecodedFunction(ulong address)
         {
             Address = address;
-            _callers = new HashSet<DecodedFunction>();
+            _callers = [];
             Type = FunctionType.User;
             Id = -1;
         }

@@ -67,6 +67,10 @@
                     Header="{ext:Locale MenuBarFileOpenEmuFolder}"
                     ToolTip.Tip="{ext:Locale OpenRyujinxFolderTooltip}" />
                 <MenuItem
+                    Command="{Binding OpenScreenshotsFolder}"
+                    Header="{ext:Locale MenuBarFileOpenScreenshotsFolder}"
+                    ToolTip.Tip="{ext:Locale OpenScreenshotFolderTooltip}"/>
+                <MenuItem
                     Command="{Binding OpenLogsFolder}"
                     Header="{ext:Locale MenuBarFileOpenLogsFolder}"
                     ToolTip.Tip="{ext:Locale OpenRyujinxLogsTooltip}" />

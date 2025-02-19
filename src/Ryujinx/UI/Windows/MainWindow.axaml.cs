@@ -1,6 +1,7 @@
 using Avalonia;
 using Avalonia.Controls;
 using Avalonia.Controls.Primitives;
+using Avalonia.Input;
 using Avalonia.Interactivity;
 using Avalonia.Platform;
 using Avalonia.Threading;
@@ -19,6 +20,7 @@ using Ryujinx.Ava.UI.ViewModels;
 using Ryujinx.Ava.Utilities;
 using Ryujinx.Ava.Utilities.AppLibrary;
 using Ryujinx.Ava.Utilities.Configuration;
+using Ryujinx.Ava.Utilities.Configuration.UI;
 using Ryujinx.Common;
 using Ryujinx.Common.Helper;
 using Ryujinx.Common.Logging;
@@ -33,7 +35,6 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Reactive.Linq;
-using System.Runtime.InteropServices;
 using System.Runtime.Versioning;
 using System.Threading;
 using System.Threading.Tasks;
@@ -305,7 +306,7 @@ namespace Ryujinx.Ava.UI.Windows
                 LinuxHelper.RecommendedVmMaxMapCount);
 
             UserResult response = await ContentDialogHelper.ShowTextDialog(
-                $"Ryujinx - {LocaleManager.Instance[LocaleKeys.LinuxVmMaxMapCountDialogTitle]}",
+                RyujinxApp.FormatTitle(LocaleKeys.LinuxVmMaxMapCountDialogTitle, false),
                 LocaleManager.Instance[LocaleKeys.LinuxVmMaxMapCountDialogTextPrimary],
                 LocaleManager.Instance[LocaleKeys.LinuxVmMaxMapCountDialogTextSecondary],
                 LocaleManager.Instance[LocaleKeys.LinuxVmMaxMapCountDialogButtonUntilRestart],
@@ -403,10 +404,21 @@ namespace Ryujinx.Ava.UI.Windows
                 await Dispatcher.UIThread.InvokeAsync(async () => await UserErrorDialog.ShowUserErrorDialog(UserError.NoKeys));
             }
 
-            if (ConfigurationState.Instance.CheckUpdatesOnStart && !CommandLineState.HideAvailableUpdates && Updater.CanUpdate())
+            if (!Updater.CanUpdate() || CommandLineState.HideAvailableUpdates)
+                return;
+
+            switch (ConfigurationState.Instance.UpdateCheckerType.Value)
             {
-                await Updater.BeginUpdateAsync()
-                    .Catch(task => Logger.Error?.Print(LogClass.Application, $"Updater Error: {task.Exception}"));
+                case UpdaterType.PromptAtStartup:
+                    await Updater.BeginUpdateAsync()
+                        .Catch(task => Logger.Error?.Print(LogClass.Application, $"Updater Error: {task.Exception}"));
+                    break;
+                case UpdaterType.CheckInBackground:
+                    if ((await Updater.CheckVersionAsync()).TryGet(out (Version Current, Version Incoming) versions))
+                    {
+                        Dispatcher.UIThread.Post(() => RyujinxApp.MainWindow.ViewModel.UpdateAvailable = versions.Current < versions.Incoming);
+                    }
+                    break;
             }
         }
 
@@ -714,12 +726,13 @@ namespace Ryujinx.Ava.UI.Windows
 
         private void ShowNewContentAddedDialog(int numDlcAdded, int numDlcRemoved, int numUpdatesAdded, int numUpdatesRemoved)
         {
-            string[] messages = {
+            string[] messages =
+            [
                 numDlcRemoved > 0 ? string.Format(LocaleManager.Instance[LocaleKeys.AutoloadDlcRemovedMessage], numDlcRemoved): null,
                 numDlcAdded > 0 ? string.Format(LocaleManager.Instance[LocaleKeys.AutoloadDlcAddedMessage], numDlcAdded): null,
                 numUpdatesRemoved > 0 ? string.Format(LocaleManager.Instance[LocaleKeys.AutoloadUpdateRemovedMessage], numUpdatesRemoved): null,
                 numUpdatesAdded > 0 ? string.Format(LocaleManager.Instance[LocaleKeys.AutoloadUpdateAddedMessage], numUpdatesAdded) : null
-            };
+            ];
 
             string msg = String.Join("\r\n", messages);
 
@@ -750,6 +763,120 @@ namespace Ryujinx.Ava.UI.Windows
                 "Intel Macs are not supported and will not work properly.\nIf you continue, do not come to our Discord asking for support;\nand do not report bugs on the GitHub. They will be closed."));
 
             _intelMacWarningShown = true;
+        }
+        
+        private void InputElement_OnGotFocus(object sender, GotFocusEventArgs e)
+        {
+            if (ViewModel.AppHost is null) return;
+            
+            if (!_focusLoss.Active) 
+                return;
+
+            switch (_focusLoss.Type)
+            {
+                case FocusLostType.BlockInput:
+                    {
+                        if (!ViewModel.AppHost.NpadManager.InputUpdatesBlocked)
+                        {
+                            _focusLoss = default;
+                            return;
+                        }
+
+                        ViewModel.AppHost.NpadManager.UnblockInputUpdates();
+                        _focusLoss = default;
+                        break;
+                    }
+                case FocusLostType.MuteAudio:
+                    {
+                        if (!ViewModel.AppHost.Device.IsAudioMuted())
+                        {
+                            _focusLoss = default;
+                            return;
+                        }
+                        
+                        ViewModel.AppHost.Device.SetVolume(ViewModel.VolumeBeforeMute);
+                        
+                        _focusLoss = default;
+                        break;
+                    }
+                case FocusLostType.BlockInputAndMuteAudio:
+                    {
+                        if (!ViewModel.AppHost.Device.IsAudioMuted())
+                            goto case FocusLostType.BlockInput;
+                        
+                        ViewModel.AppHost.Device.SetVolume(ViewModel.VolumeBeforeMute);
+                        ViewModel.AppHost.NpadManager.UnblockInputUpdates();
+                        
+                        _focusLoss = default;
+                        break;
+                    }
+                case FocusLostType.PauseEmulation:
+                    {
+                        if (!ViewModel.AppHost.Device.System.IsPaused)
+                        {
+                            _focusLoss = default;
+                            return;
+                        }
+                        
+                        ViewModel.AppHost.Resume();
+                        
+                        _focusLoss = default;
+                        break;
+                    }
+            }
+        }
+        
+        private (FocusLostType Type, bool Active) _focusLoss;
+
+        private void InputElement_OnLostFocus(object sender, RoutedEventArgs e)
+        {
+            if (ConfigurationState.Instance.FocusLostActionType.Value is FocusLostType.DoNothing)
+                return;
+
+            if (ViewModel.AppHost is null) return;
+
+            switch (ConfigurationState.Instance.FocusLostActionType.Value)
+            {
+                case FocusLostType.BlockInput:
+                    {
+                        if (ViewModel.AppHost.NpadManager.InputUpdatesBlocked)
+                            return;
+            
+                        ViewModel.AppHost.NpadManager.BlockInputUpdates();
+                        _focusLoss = (FocusLostType.BlockInput, ViewModel.AppHost.NpadManager.InputUpdatesBlocked);
+                        break;
+                    }
+                case FocusLostType.MuteAudio:
+                    {
+                        if (ViewModel.AppHost.Device.GetVolume() is 0)
+                            return;
+
+                        ViewModel.VolumeBeforeMute = ViewModel.AppHost.Device.GetVolume();
+                        ViewModel.AppHost.Device.SetVolume(0);
+                        _focusLoss = (FocusLostType.MuteAudio, ViewModel.AppHost.Device.GetVolume() is 0f);
+                        break;
+                    }
+                case FocusLostType.BlockInputAndMuteAudio:
+                    {
+                        if (ViewModel.AppHost.Device.GetVolume() is 0)
+                            goto case FocusLostType.BlockInput;
+
+                        ViewModel.VolumeBeforeMute = ViewModel.AppHost.Device.GetVolume();
+                        ViewModel.AppHost.Device.SetVolume(0);
+                        ViewModel.AppHost.NpadManager.BlockInputUpdates();
+                        _focusLoss = (FocusLostType.BlockInputAndMuteAudio, ViewModel.AppHost.Device.GetVolume() is 0f && ViewModel.AppHost.NpadManager.InputUpdatesBlocked);
+                        break;
+                    }
+                case FocusLostType.PauseEmulation:
+                    {
+                        if (ViewModel.AppHost.Device.System.IsPaused)
+                            return;
+                        
+                        ViewModel.AppHost.Pause();
+                        _focusLoss = (FocusLostType.PauseEmulation, ViewModel.AppHost.Device.System.IsPaused);
+                        break;
+                    }
+            }
         }
     }
 }

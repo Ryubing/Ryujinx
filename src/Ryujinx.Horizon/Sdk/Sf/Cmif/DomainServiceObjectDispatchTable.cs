@@ -48,7 +48,7 @@ namespace Ryujinx.Horizon.Sdk.Sf.Cmif
 
                     int[] inObjectIds = new int[inHeader.ObjectsCount];
 
-                    DomainServiceObjectProcessor domainProcessor = new DomainServiceObjectProcessor(domain, inObjectIds);
+                    DomainServiceObjectProcessor domainProcessor = new(domain, inObjectIds);
 
                     if (context.Processor == null)
                     {

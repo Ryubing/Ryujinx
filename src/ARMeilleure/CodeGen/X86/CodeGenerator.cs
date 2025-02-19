@@ -1748,7 +1748,7 @@ namespace ARMeilleure.CodeGen.X86
 
         private static UnwindInfo WritePrologue(CodeGenContext context)
         {
-            List<UnwindPushEntry> pushEntries = new();
+            List<UnwindPushEntry> pushEntries = [];
 
             Operand rsp = Register(X86Register.Rsp);
 

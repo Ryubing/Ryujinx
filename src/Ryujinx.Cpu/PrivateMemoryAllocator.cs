@@ -38,10 +38,10 @@ namespace Ryujinx.Cpu
             {
                 Memory = memory;
                 Size = size;
-                _freeRanges = new List<Range>
-                {
-                    new Range(0, size),
-                };
+                _freeRanges =
+                [
+                    new(0, size)
+                ];
             }
 
             public ulong Allocate(ulong size, ulong alignment)
@@ -84,7 +84,7 @@ namespace Ryujinx.Cpu
 
             private void InsertFreeRange(ulong offset, ulong size)
             {
-                Range range = new Range(offset, size);
+                Range range = new(offset, size);
                 int index = _freeRanges.BinarySearch(range);
                 if (index < 0)
                 {
@@ -97,7 +97,7 @@ namespace Ryujinx.Cpu
             private void InsertFreeRangeComingled(ulong offset, ulong size)
             {
                 ulong endOffset = offset + size;
-                Range range = new Range(offset, size);
+                Range range = new(offset, size);
                 int index = _freeRanges.BinarySearch(range);
                 if (index < 0)
                 {
@@ -185,7 +185,7 @@ namespace Ryujinx.Cpu
 
         public PrivateMemoryAllocatorImpl(ulong blockAlignment, MemoryAllocationFlags allocationFlags)
         {
-            _blocks = new List<T>();
+            _blocks = [];
             _blockAlignment = blockAlignment;
             _allocationFlags = allocationFlags;
         }
@@ -214,7 +214,7 @@ namespace Ryujinx.Cpu
 
             ulong blockAlignedSize = BitUtils.AlignUp(size, _blockAlignment);
 
-            MemoryBlock memory = new MemoryBlock(blockAlignedSize, _allocationFlags);
+            MemoryBlock memory = new(blockAlignedSize, _allocationFlags);
             T newBlock = createBlock(memory, blockAlignedSize);
 
             InsertBlock(newBlock);

@@ -134,9 +134,9 @@ namespace Ryujinx.Graphics.Gpu
             HostInitalized = new ManualResetEvent(false);
             _gpuReadyEvent = new ManualResetEvent(false);
 
-            SyncActions = new List<ISyncActionHandler>();
-            SyncpointActions = new List<ISyncActionHandler>();
-            BufferMigrations = new List<BufferMigration>();
+            SyncActions = [];
+            SyncpointActions = [];
+            BufferMigrations = [];
 
             DeferredActions = new Queue<Action>();
 
@@ -199,7 +199,7 @@ namespace Ryujinx.Graphics.Gpu
         /// <exception cref="ArgumentException">Thrown if <paramref name="pid"/> was already registered</exception>
         public void RegisterProcess(ulong pid, Cpu.IVirtualMemoryManagerTracked cpuMemory)
         {
-            PhysicalMemory physicalMemory = new PhysicalMemory(this, cpuMemory);
+            PhysicalMemory physicalMemory = new(this, cpuMemory);
             if (!PhysicalMemoryRegistry.TryAdd(pid, physicalMemory))
             {
                 throw new ArgumentException("The PID was already registered", nameof(pid));

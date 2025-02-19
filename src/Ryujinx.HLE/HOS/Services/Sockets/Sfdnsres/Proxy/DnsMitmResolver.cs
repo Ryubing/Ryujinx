@@ -44,7 +44,7 @@ namespace Ryujinx.HLE.HOS.Services.Sockets.Sfdnsres.Proxy
                         continue;
                     }
 
-                    string[] entry = line.Split(new[] { ' ', '\t' }, StringSplitOptions.TrimEntries | StringSplitOptions.RemoveEmptyEntries);
+                    string[] entry = line.Split([' ', '\t'], StringSplitOptions.TrimEntries | StringSplitOptions.RemoveEmptyEntries);
 
                     // Hosts file example entry:
                     // 127.0.0.1  localhost loopback
@@ -92,9 +92,9 @@ namespace Ryujinx.HLE.HOS.Services.Sockets.Sfdnsres.Proxy
 
                     return new IPHostEntry
                     {
-                        AddressList = new[] { hostEntry.Value },
+                        AddressList = [hostEntry.Value],
                         HostName = hostEntry.Key,
-                        Aliases = Array.Empty<string>(),
+                        Aliases = [],
                     };
                 }
             }

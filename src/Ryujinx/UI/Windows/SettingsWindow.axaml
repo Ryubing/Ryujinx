@@ -10,6 +10,7 @@
     xmlns:viewModels="clr-namespace:Ryujinx.Ava.UI.ViewModels"
     xmlns:settings="clr-namespace:Ryujinx.Ava.UI.Views.Settings"
     xmlns:helpers="clr-namespace:Ryujinx.Ava.UI.Helpers"
+    xmlns:helper="clr-namespace:Ryujinx.Common.Helper;assembly=Ryujinx.Common"
     Width="1100"
     Height="768"
     MinWidth="800"
@@ -107,24 +108,36 @@
                 </Style>
             </ui:NavigationView.Styles>
         </ui:NavigationView>
-        <ReversibleStackPanel
-            Grid.Row="2"
-            Margin="10"
-            Spacing="10"
-            Orientation="Horizontal"
-            HorizontalAlignment="Right"
-            ReverseOrder="{Binding IsMacOS}">
-            <Button
-                Classes="accent"
-                Content="{ext:Locale SettingsButtonOk}"
-                Command="{Binding OkButton}" />
-            <Button
-                HotKey="Escape"
-                Content="{ext:Locale SettingsButtonCancel}"
-                Command="{Binding CancelButton}" />
-            <Button
-                Content="{ext:Locale SettingsButtonApply}"
-                Command="{Binding ApplyButton}" />
-        </ReversibleStackPanel>
+        <Grid Grid.Row="2"
+              ColumnDefinitions="Auto,*,Auto">
+            <StackPanel Grid.Column="0" Orientation="Horizontal">
+                <Button
+                    IsEnabled="{Binding WantsToReset}"
+                    Margin="10"
+                    Content="{ext:Locale SettingsButtonReset}"
+                    Command="{Binding ResetButton}" />
+                <CheckBox IsChecked="{Binding WantsToReset}"/>
+                <TextBlock Text="{ext:Locale SettingsButtonResetConfirm}"/>
+            </StackPanel>
+            <ReversibleStackPanel
+                Grid.Column="2"
+                Margin="10"
+                Spacing="10"
+                Orientation="Horizontal"
+                HorizontalAlignment="Right"
+                ReverseOrder="{x:Static helper:RunningPlatform.IsMacOS}">
+                <Button
+                    Classes="accent"
+                    Content="{ext:Locale SettingsButtonOk}"
+                    Command="{Binding OkButton}" />
+                <Button
+                    HotKey="Escape"
+                    Content="{ext:Locale SettingsButtonCancel}"
+                    Command="{Binding CancelButton}" />
+                <Button
+                    Content="{ext:Locale SettingsButtonApply}"
+                    Command="{Binding ApplyButton}" />
+            </ReversibleStackPanel>
+        </Grid>
     </Grid>
 </window:StyleableAppWindow>

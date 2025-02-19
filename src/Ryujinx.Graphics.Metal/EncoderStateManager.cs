@@ -125,7 +125,7 @@ namespace Ryujinx.Graphics.Metal
         public readonly MTLRenderCommandEncoder CreateRenderCommandEncoder()
         {
             // Initialise Pass & State
-            using MTLRenderPassDescriptor renderPassDescriptor = new MTLRenderPassDescriptor();
+            using MTLRenderPassDescriptor renderPassDescriptor = new();
 
             for (int i = 0; i < Constants.MaxColorAttachments; i++)
             {
@@ -185,7 +185,7 @@ namespace Ryujinx.Graphics.Metal
 
         public readonly MTLComputeCommandEncoder CreateComputeCommandEncoder()
         {
-            using MTLComputePassDescriptor descriptor = new MTLComputePassDescriptor();
+            using MTLComputePassDescriptor descriptor = new();
             MTLComputeCommandEncoder computeCommandEncoder = _pipeline.CommandBuffer.ComputeCommandEncoder(descriptor);
 
             return computeCommandEncoder;

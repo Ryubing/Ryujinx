@@ -44,6 +44,16 @@ namespace Ryujinx.Ava.Common.Locale
 
                 ConfigurationState.Instance.ToFileFormat().SaveConfig(Program.ConfigurationPath);
             }
+            
+            SetDynamicValues(LocaleKeys.DialogConfirmationTitle, RyujinxApp.FullAppName);
+            SetDynamicValues(LocaleKeys.DialogUpdaterTitle, RyujinxApp.FullAppName);
+            SetDynamicValues(LocaleKeys.DialogErrorTitle, RyujinxApp.FullAppName);
+            SetDynamicValues(LocaleKeys.DialogWarningTitle, RyujinxApp.FullAppName);
+            SetDynamicValues(LocaleKeys.DialogExitTitle, RyujinxApp.FullAppName);
+            SetDynamicValues(LocaleKeys.DialogStopEmulationTitle, RyujinxApp.FullAppName);
+            SetDynamicValues(LocaleKeys.RyujinxInfo, RyujinxApp.FullAppName);
+            SetDynamicValues(LocaleKeys.RyujinxConfirm, RyujinxApp.FullAppName);
+            SetDynamicValues(LocaleKeys.RyujinxUpdater, RyujinxApp.FullAppName);
         }
 
         public string this[LocaleKeys key]
@@ -88,11 +98,16 @@ namespace Ryujinx.Ava.Common.Locale
         public static string FormatDynamicValue(LocaleKeys key, params object[] values)
             => Instance.UpdateAndGetDynamicValue(key, values);
 
-        public string UpdateAndGetDynamicValue(LocaleKeys key, params object[] values)
+        public void SetDynamicValues(LocaleKeys key, params object[] values)
         {
             _dynamicValues[key] = values;
 
             OnPropertyChanged("Translation");
+        }
+        
+        public string UpdateAndGetDynamicValue(LocaleKeys key, params object[] values)
+        {
+            SetDynamicValues(key, values);
 
             return this[key];
         }
@@ -125,7 +140,7 @@ namespace Ryujinx.Ava.Common.Locale
 
         private static Dictionary<LocaleKeys, string> LoadJsonLanguage(string languageCode)
         {
-            Dictionary<LocaleKeys, string> localeStrings = new Dictionary<LocaleKeys, string>();
+            Dictionary<LocaleKeys, string> localeStrings = new();
 
             _localeData ??= EmbeddedResources.ReadAllText("Ryujinx/Assets/locales.json")
                 .Into(it => JsonHelper.Deserialize(it, LocalesJsonContext.Default.LocalesJson));

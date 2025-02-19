@@ -164,7 +164,7 @@ namespace Ryujinx.Common.Extensions
             // Not enough data in the current segment, try to peek for the data we need.
             T buffer = default;
 
-            Span<byte> tempSpan = new Span<byte>(&buffer, sizeof(T));
+            Span<byte> tempSpan = new(&buffer, sizeof(T));
 
             if (!reader.TryCopyTo(tempSpan))
             {

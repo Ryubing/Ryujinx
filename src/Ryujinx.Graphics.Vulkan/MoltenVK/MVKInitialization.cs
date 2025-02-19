@@ -40,7 +40,7 @@ namespace Ryujinx.Graphics.Vulkan.MoltenVK
                 path = path[..^VulkanLib.Length] + "libMoltenVK.dylib";
                 return [path];
             }
-            return Array.Empty<string>();
+            return [];
         }
 
         public static void InitializeResolver()

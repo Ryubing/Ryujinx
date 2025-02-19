@@ -75,9 +75,9 @@ namespace ARMeilleure.CodeGen.X86
         {
             _stream = stream;
             _labels = new Dictionary<Operand, long>();
-            _jumps = new List<Jump>();
+            _jumps = [];
 
-            _relocs = relocatable ? new List<Reloc>() : null;
+            _relocs = relocatable ? [] : null;
         }
 
         public void MarkLabel(Operand label)
@@ -1412,14 +1412,14 @@ namespace ARMeilleure.CodeGen.X86
             _stream.Seek(0, SeekOrigin.Begin);
 
             using RecyclableMemoryStream codeStream = MemoryStreamManager.Shared.GetStream();
-            Assembler assembler = new Assembler(codeStream, HasRelocs);
+            Assembler assembler = new(codeStream, HasRelocs);
 
             bool hasRelocs = HasRelocs;
             int relocIndex = 0;
             int relocOffset = 0;
             RelocEntry[] relocEntries = hasRelocs
                 ? new RelocEntry[relocs.Length]
-                : Array.Empty<RelocEntry>();
+                : [];
 
             for (int i = 0; i < jumps.Length; i++)
             {
@@ -1471,7 +1471,7 @@ namespace ARMeilleure.CodeGen.X86
             _stream.CopyTo(codeStream);
 
             byte[] code = codeStream.ToArray();
-            RelocInfo relocInfo = new RelocInfo(relocEntries);
+            RelocInfo relocInfo = new(relocEntries);
 
             return (code, relocInfo);
         }

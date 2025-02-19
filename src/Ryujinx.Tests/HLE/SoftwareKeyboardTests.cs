@@ -21,7 +21,8 @@ namespace Ryujinx.Tests.HLE
         [Test]
         public void StripUnicodeControlCodes_Passthrough()
         {
-            string[] prompts = {
+            string[] prompts =
+            [
                 "Please name him.",
                 "Name her, too.",
                 "Name your friend.",
@@ -29,8 +30,8 @@ namespace Ryujinx.Tests.HLE
                 "Name your pet.",
                 "Favorite homemade food?",
                 "What’s your favorite thing?",
-                "Are you sure?",
-            };
+                "Are you sure?"
+            ];
 
             foreach (string prompt in prompts)
             {

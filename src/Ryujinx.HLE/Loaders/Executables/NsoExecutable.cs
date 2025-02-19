@@ -2,6 +2,7 @@ using LibHac.Common.FixedArrays;
 using LibHac.Fs;
 using LibHac.Loader;
 using LibHac.Tools.FsSystem;
+using Ryujinx.Common.Helper;
 using Ryujinx.Common.Logging;
 using System;
 using System.Text;
@@ -28,13 +29,6 @@ namespace Ryujinx.HLE.Loaders.Executables
 
         public string Name;
         public Array32<byte> BuildId;
-
-        [GeneratedRegex(@"[a-z]:[\\/][ -~]{5,}\.nss", RegexOptions.IgnoreCase | RegexOptions.CultureInvariant)]
-        private static partial Regex ModuleRegex();
-        [GeneratedRegex(@"sdk_version: ([0-9.]*)")]
-        private static partial Regex FsSdkRegex();
-        [GeneratedRegex(@"SDK MW[ -~]*")]
-        private static partial Regex SdkMwRegex();
 
         public NsoExecutable(IStorage inStorage, string name = null)
         {
@@ -90,7 +84,7 @@ namespace Ryujinx.HLE.Loaders.Executables
 
             if (string.IsNullOrEmpty(modulePath))
             {
-                Match moduleMatch = ModuleRegex().Match(rawTextBuffer);
+                Match moduleMatch = Patterns.Module.Match(rawTextBuffer);
                 if (moduleMatch.Success)
                 {
                     modulePath = moduleMatch.Value;
@@ -99,13 +93,13 @@ namespace Ryujinx.HLE.Loaders.Executables
 
             stringBuilder.AppendLine($"    Module: {modulePath}");
 
-            Match fsSdkMatch = FsSdkRegex().Match(rawTextBuffer);
+            Match fsSdkMatch = Patterns.FsSdk.Match(rawTextBuffer);
             if (fsSdkMatch.Success)
             {
                 stringBuilder.AppendLine($"    FS SDK Version: {fsSdkMatch.Value.Replace("sdk_version: ", string.Empty)}");
             }
 
-            MatchCollection sdkMwMatches = SdkMwRegex().Matches(rawTextBuffer);
+            MatchCollection sdkMwMatches = Patterns.SdkMw.Matches(rawTextBuffer);
             if (sdkMwMatches.Count != 0)
             {
                 string libHeader = "    SDK Libraries: ";

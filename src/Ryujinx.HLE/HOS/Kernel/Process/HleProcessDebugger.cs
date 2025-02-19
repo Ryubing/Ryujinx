@@ -41,7 +41,7 @@ namespace Ryujinx.HLE.HOS.Kernel.Process
         {
             _owner = owner;
 
-            _images = new List<Image>();
+            _images = [];
         }
 
         public string GetGuestStackTrace(KThread thread)
@@ -414,7 +414,7 @@ namespace Ryujinx.HLE.HOS.Kernel.Process
             ulong strTblAddr = textOffset + strTab;
             ulong symTblAddr = textOffset + symTab;
 
-            List<ElfSymbol> symbols = new();
+            List<ElfSymbol> symbols = [];
 
             while (symTblAddr < strTblAddr)
             {

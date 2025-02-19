@@ -4,7 +4,6 @@ using LibHac.Fs.Fsa;
 using LibHac.Loader;
 using LibHac.Ns;
 using LibHac.Tools.FsSystem;
-using Ryujinx.Common;
 using Ryujinx.Common.Configuration;
 using Ryujinx.Common.Logging;
 using Ryujinx.Graphics.Gpu;
@@ -62,7 +61,7 @@ namespace Ryujinx.HLE.Loaders.Processes.Extensions
 
                 Logger.Info?.Print(LogClass.Loader, $"Loading {name}...");
 
-                using UniqueRef<IFile> nsoFile = new UniqueRef<IFile>();
+                using UniqueRef<IFile> nsoFile = new();
 
                 exeFs.OpenFile(ref nsoFile.Ref, $"/{name}".ToU8Span(), OpenMode.Read).ThrowIfFailure();
 
@@ -83,13 +82,6 @@ namespace Ryujinx.HLE.Loaders.Processes.Extensions
 
             // Apply Nsos patches.
             device.Configuration.VirtualFileSystem.ModLoader.ApplyNsoPatches(programId, nsoExecutables);
-
-            // Don't use PTC if ExeFS files have been replaced.
-            bool enablePtc = device.System.EnablePtc && !modLoadResult.Modified;
-            if (!enablePtc)
-            {
-                Logger.Warning?.Print(LogClass.Ptc, "Detected unsupported ExeFs modifications. PTC disabled.");
-            }
 
             string programName = string.Empty;
 
@@ -117,7 +109,8 @@ namespace Ryujinx.HLE.Loaders.Processes.Extensions
                 device.System.KernelContext,
                 metaLoader,
                 nacpData,
-                enablePtc,
+                device.System.EnablePtc,
+                modLoadResult.Hash,
                 true,
                 programName,
                 metaLoader.GetProgramId(),

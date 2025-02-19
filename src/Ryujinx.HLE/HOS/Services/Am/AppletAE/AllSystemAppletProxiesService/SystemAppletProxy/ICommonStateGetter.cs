@@ -214,7 +214,7 @@ namespace Ryujinx.HLE.HOS.Services.Am.AppletAE.AllSystemAppletProxiesService.Sys
 
             _vrModeEnabled = vrModeEnabled;
 
-            using LblApi lblApi = new LblApi();
+            using LblApi lblApi = new();
 
             if (vrModeEnabled)
             {

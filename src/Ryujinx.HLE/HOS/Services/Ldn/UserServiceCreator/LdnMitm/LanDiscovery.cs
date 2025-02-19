@@ -28,7 +28,7 @@ namespace Ryujinx.HLE.HOS.Services.Ldn.UserServiceCreator.LdnMitm
         private readonly Ssid _fakeSsid;
         private ILdnTcpSocket _tcp;
         private LdnProxyUdpServer _udp, _udp2;
-        private readonly List<LdnProxyTcpSession> _stations = new();
+        private readonly List<LdnProxyTcpSession> _stations = [];
         private readonly Lock _lock = new();
 
         private readonly AutoResetEvent _apConnected = new(false);
@@ -244,7 +244,7 @@ namespace Ryujinx.HLE.HOS.Services.Ldn.UserServiceCreator.LdnMitm
 
             byte[] ip = address.GetAddressBytes();
 
-            Array6<byte> macAddress = new Array6<byte>();
+            Array6<byte> macAddress = new();
             new byte[] { 0x02, 0x00, ip[0], ip[1], ip[2], ip[3] }.CopyTo(macAddress.AsSpan());
 
             return macAddress;
@@ -340,10 +340,10 @@ namespace Ryujinx.HLE.HOS.Services.Ldn.UserServiceCreator.LdnMitm
 
             if (_protocol.SendBroadcast(_udp, LanPacketType.Scan, DefaultPort) < 0)
             {
-                return Array.Empty<NetworkInfo>();
+                return [];
             }
 
-            List<NetworkInfo> outNetworkInfo = new();
+            List<NetworkInfo> outNetworkInfo = [];
 
             foreach (KeyValuePair<ulong, NetworkInfo> item in _udp.GetScanResults())
             {

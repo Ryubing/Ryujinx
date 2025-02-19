@@ -18,7 +18,7 @@ namespace Ryujinx.Graphics.Metal
         {
             MTLPixelFormat pixelFormat = FormatTable.GetFormat(Info.Format);
 
-            MTLTextureDescriptor descriptor = new MTLTextureDescriptor
+            MTLTextureDescriptor descriptor = new()
             {
                 PixelFormat = pixelFormat,
                 Usage = MTLTextureUsage.Unknown,

@@ -50,7 +50,7 @@ namespace Ryujinx.Ava.UI.Windows
         public static SKColor GetColor(SKBitmap image)
         {
             PaletteColor[] colors = new PaletteColor[TotalColors];
-            Dictionary<int, int> dominantColorBin = new Dictionary<int, int>();
+            Dictionary<int, int> dominantColorBin = new();
 
             SKColor[] buffer = GetBuffer(image);
 

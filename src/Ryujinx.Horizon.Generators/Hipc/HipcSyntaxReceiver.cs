@@ -12,7 +12,7 @@ namespace Ryujinx.Horizon.Generators.Hipc
 
         public HipcSyntaxReceiver()
         {
-            CommandInterfaces = new List<CommandInterface>();
+            CommandInterfaces = [];
         }
 
         public void OnVisitSyntaxNode(SyntaxNode syntaxNode)

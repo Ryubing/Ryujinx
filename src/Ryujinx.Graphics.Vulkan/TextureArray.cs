@@ -113,7 +113,7 @@ namespace Ryujinx.Graphics.Vulkan
 
             if (storages == null)
             {
-                storages = new HashSet<TextureStorage>();
+                storages = [];
 
                 for (int index = 0; index < _textureRefs.Length; index++)
                 {

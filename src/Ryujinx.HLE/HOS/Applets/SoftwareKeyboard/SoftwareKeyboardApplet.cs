@@ -205,7 +205,7 @@ namespace Ryujinx.HLE.HOS.Applets
             else
             {
                 // Call the configured GUI handler to get user's input.
-                SoftwareKeyboardUIArgs args = new SoftwareKeyboardUIArgs
+                SoftwareKeyboardUIArgs args = new()
                 {
                     KeyboardMode = _keyboardForegroundConfig.Mode,
                     HeaderText = StripUnicodeControlCodes(_keyboardForegroundConfig.HeaderText),

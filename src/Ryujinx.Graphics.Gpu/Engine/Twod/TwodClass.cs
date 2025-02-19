@@ -124,7 +124,7 @@ namespace Ryujinx.Graphics.Gpu.Engine.Twod
         /// <param name="bpp">Bytes per pixel</param>
         private void UnscaledFullCopy(TwodTexture src, TwodTexture dst, int w, int h, int bpp)
         {
-            OffsetCalculator srcCalculator = new OffsetCalculator(
+            OffsetCalculator srcCalculator = new(
                 w,
                 h,
                 src.Stride,
@@ -269,8 +269,8 @@ namespace Ryujinx.Graphics.Gpu.Engine.Twod
 
             // The source and destination textures should at least be as big as the region being requested.
             // The hints will only resize within alignment constraints, so out of bound copies won't resize in most cases.
-            Size srcHint = new Size(srcX2, srcY2, 1);
-            Size dstHint = new Size(dstX2, dstY2, 1);
+            Size srcHint = new(srcX2, srcY2, 1);
+            Size dstHint = new(dstX2, dstY2, 1);
 
             FormatInfo srcCopyTextureFormat = srcCopyTexture.Format.Convert();
 

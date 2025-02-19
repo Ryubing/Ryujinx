@@ -1,5 +1,4 @@
 using System;
-using System.Collections.Generic;
 using System.Threading;
 
 namespace Ryujinx.Horizon.Sdk.OsTypes
@@ -10,7 +9,7 @@ namespace Ryujinx.Horizon.Sdk.OsTypes
         {
             evnt = new EventType
             {
-                MultiWaitHolders = new LinkedList<MultiWaitHolderBase>(),
+                MultiWaitHolders = [],
                 Signaled = signaled,
                 InitiallySignaled = signaled,
                 ClearMode = clearMode,

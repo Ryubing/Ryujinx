@@ -51,7 +51,7 @@ namespace Ryujinx.Ava.Utilities
 
         public static void SaveTitleUpdatesJson(ulong applicationIdBase, List<(TitleUpdateModel, bool IsSelected)> updates)
         {
-            TitleUpdateMetadata titleUpdateWindowData = new TitleUpdateMetadata
+            TitleUpdateMetadata titleUpdateWindowData = new()
             {
                 Selected = string.Empty,
                 Paths = [],
@@ -79,7 +79,7 @@ namespace Ryujinx.Ava.Utilities
 
         private static List<(TitleUpdateModel Update, bool IsSelected)> LoadTitleUpdates(VirtualFileSystem vfs, TitleUpdateMetadata titleUpdateMetadata, ulong applicationIdBase)
         {
-            List<(TitleUpdateModel, bool IsSelected)> result = new List<(TitleUpdateModel, bool IsSelected)>();
+            List<(TitleUpdateModel, bool IsSelected)> result = [];
 
             IntegrityCheckLevel checkLevel = ConfigurationState.Instance.System.EnableFsIntegrityChecks
                 ? IntegrityCheckLevel.ErrorOnInvalid
@@ -116,7 +116,7 @@ namespace Ryujinx.Ava.Utilities
                         .ThrowIfFailure();
 
                     string displayVersion = controlData.DisplayVersionString.ToString();
-                    TitleUpdateModel update = new TitleUpdateModel(content.ApplicationId, content.Version.Version,
+                    TitleUpdateModel update = new(content.ApplicationId, content.Version.Version,
                         displayVersion, path);
 
                     result.Add((update, path == titleUpdateMetadata.Selected));

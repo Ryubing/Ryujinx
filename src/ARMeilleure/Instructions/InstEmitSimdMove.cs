@@ -12,17 +12,17 @@ namespace ARMeilleure.Instructions
     static partial class InstEmit
     {
         #region "Masks"
-        private static readonly long[] _masksE0_Uzp = new long[]
-        {
+        private static readonly long[] _masksE0_Uzp =
+        [
             13L << 56 | 09L << 48 | 05L << 40 | 01L << 32 | 12L << 24 | 08L << 16 | 04L << 8 | 00L << 0,
-            11L << 56 | 10L << 48 | 03L << 40 | 02L << 32 | 09L << 24 | 08L << 16 | 01L << 8 | 00L << 0,
-        };
+            11L << 56 | 10L << 48 | 03L << 40 | 02L << 32 | 09L << 24 | 08L << 16 | 01L << 8 | 00L << 0
+        ];
 
-        private static readonly long[] _masksE1_Uzp = new long[]
-        {
+        private static readonly long[] _masksE1_Uzp =
+        [
             15L << 56 | 11L << 48 | 07L << 40 | 03L << 32 | 14L << 24 | 10L << 16 | 06L << 8 | 02L << 0,
-            15L << 56 | 14L << 48 | 07L << 40 | 06L << 32 | 13L << 24 | 12L << 16 | 05L << 8 | 04L << 0,
-        };
+            15L << 56 | 14L << 48 | 07L << 40 | 06L << 32 | 13L << 24 | 12L << 16 | 05L << 8 | 04L << 0
+        ];
         #endregion
 
         public static void Dup_Gp(ArmEmitterContext context)
@@ -601,7 +601,7 @@ namespace ARMeilleure.Instructions
             {
                 Operand d = GetVec(op.Rd);
 
-                List<Operand> args = new();
+                List<Operand> args = [];
 
                 if (!isTbl)
                 {

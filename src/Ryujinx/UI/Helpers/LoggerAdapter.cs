@@ -1,6 +1,7 @@
 using Avalonia.Logging;
 using Avalonia.Utilities;
 using Gommon;
+using Ryujinx.Ava.Utilities.Configuration;
 using Ryujinx.Common.Logging;
 using System;
 using System.Text;
@@ -14,13 +15,19 @@ namespace Ryujinx.Ava.UI.Helpers
 
     internal class LoggerAdapter : ILogSink
     {
+        private static bool _avaloniaLogsEnabled = ConfigurationState.Instance.Logger.EnableAvaloniaLog; 
+        
         public static void Register()
         {
             AvaLogger.Sink = new LoggerAdapter();
+            ConfigurationState.Instance.Logger.EnableAvaloniaLog.Event 
+                += (_, e) => _avaloniaLogsEnabled = e.NewValue;
         }
 
         private static RyuLogger.Log? GetLog(AvaLogLevel level, string area)
         {
+            if (!_avaloniaLogsEnabled) return null;
+            
             return level switch
             {
                 AvaLogLevel.Verbose => RyuLogger.Debug,
@@ -50,8 +57,8 @@ namespace Ryujinx.Ava.UI.Helpers
 
         private static string Format(AvaLogLevel level, string area, string template, object source, object[] v)
         {
-            StringBuilder result = new StringBuilder();
-            CharacterReader r = new CharacterReader(template.AsSpan());
+            StringBuilder result = new();
+            CharacterReader r = new(template.AsSpan());
             int i = 0;
 
             result.Append('[');

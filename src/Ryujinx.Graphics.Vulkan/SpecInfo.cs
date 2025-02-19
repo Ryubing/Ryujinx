@@ -89,7 +89,7 @@ namespace Ryujinx.Graphics.Vulkan
             _data = new byte[data.Length];
             data.CopyTo(_data);
 
-            HashCode hc = new HashCode();
+            HashCode hc = new();
             hc.AddBytes(data);
             _hash = hc.ToHashCode();
         }

@@ -91,7 +91,7 @@ namespace Ryujinx.Common
                 return null;
             }
 
-            using StreamReader reader = new StreamReader(stream);
+            using StreamReader reader = new(stream);
             return reader.ReadToEnd();
         }
 
@@ -103,7 +103,7 @@ namespace Ryujinx.Common
                 return null;
             }
 
-            using StreamReader reader = new StreamReader(stream);
+            using StreamReader reader = new(stream);
             return await reader.ReadToEndAsync();
         }
 

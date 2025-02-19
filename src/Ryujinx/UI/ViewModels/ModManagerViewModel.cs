@@ -7,6 +7,7 @@ using Gommon;
 using Ryujinx.Ava.Common.Locale;
 using Ryujinx.Ava.UI.Helpers;
 using Ryujinx.Ava.UI.Models;
+using Ryujinx.Ava.Utilities.AppLibrary;
 using Ryujinx.Common.Configuration;
 using Ryujinx.Common.Logging;
 using Ryujinx.Common.Utilities;
@@ -23,12 +24,13 @@ namespace Ryujinx.Ava.UI.ViewModels
     {
         private readonly string _modJsonPath;
 
-        private AvaloniaList<ModModel> _mods = new();
-        [ObservableProperty] private AvaloniaList<ModModel> _views = new();
-        [ObservableProperty] private AvaloniaList<ModModel> _selectedMods = new();
+        private AvaloniaList<ModModel> _mods = [];
+        [ObservableProperty] private AvaloniaList<ModModel> _views = [];
+        [ObservableProperty] private AvaloniaList<ModModel> _selectedMods = [];
 
         private string _search;
         private readonly ulong _applicationId;
+        private readonly ulong[] _installedDlcIds;
         private readonly IStorageProvider _storageProvider;
 
         private static readonly ModMetadataJsonSerializerContext _serializerContext = new(JsonHelper.GetDefaultSerializerOptions());
@@ -61,18 +63,23 @@ namespace Ryujinx.Ava.UI.ViewModels
             get => string.Format(LocaleManager.Instance[LocaleKeys.ModWindowHeading], Mods.Count);
         }
 
-        public ModManagerViewModel(ulong applicationId)
+        public ModManagerViewModel(ulong applicationId, ulong applicationIdBase, ApplicationLibrary appLibrary)
         {
             _applicationId = applicationId;
+
+            _installedDlcIds = appLibrary.DownloadableContents.Keys
+                .Where(x => x.TitleIdBase == applicationIdBase)
+                .Select(x => x.TitleId)
+                .ToArray();
 
             _modJsonPath = Path.Combine(AppDataManager.GamesDirPath, applicationId.ToString("x16"), "mods.json");
 
             _storageProvider = RyujinxApp.MainWindow.StorageProvider;
 
-            LoadMods(applicationId);
+            LoadMods(applicationId, _installedDlcIds);
         }
 
-        private void LoadMods(ulong applicationId)
+        private void LoadMods(ulong applicationId, ulong[] installedDlcIds)
         {
             Mods.Clear();
             SelectedMods.Clear();
@@ -82,13 +89,13 @@ namespace Ryujinx.Ava.UI.ViewModels
             foreach (string path in modsBasePaths)
             {
                 bool inSd = path == ModLoader.GetSdModsBasePath();
-                ModLoader.ModCache modCache = new ModLoader.ModCache();
+                ModLoader.ModCache modCache = new();
 
-                ModLoader.QueryContentsDir(modCache, new DirectoryInfo(Path.Combine(path, "contents")), applicationId);
+                ModLoader.QueryContentsDir(modCache, new DirectoryInfo(Path.Combine(path, "contents")), applicationId, _installedDlcIds);
 
                 foreach (ModLoader.Mod<DirectoryInfo> mod in modCache.RomfsDirs)
                 {
-                    ModModel modModel = new ModModel(mod.Path.Parent.FullName, mod.Name, mod.Enabled, inSd);
+                    ModModel modModel = new(mod.Path.Parent.FullName, mod.Name, mod.Enabled, inSd);
                     if (Mods.All(x => x.Path != mod.Path.Parent.FullName))
                     {
                         Mods.Add(modModel);
@@ -102,7 +109,7 @@ namespace Ryujinx.Ava.UI.ViewModels
 
                 foreach (ModLoader.Mod<DirectoryInfo> mod in modCache.ExefsDirs)
                 {
-                    ModModel modModel = new ModModel(mod.Path.Parent.FullName, mod.Name, mod.Enabled, inSd);
+                    ModModel modModel = new(mod.Path.Parent.FullName, mod.Name, mod.Enabled, inSd);
                     if (Mods.All(x => x.Path != mod.Path.Parent.FullName))
                     {
                         Mods.Add(modModel);
@@ -278,7 +285,7 @@ namespace Ryujinx.Ava.UI.ViewModels
                 File.Copy(file, file.Replace(directory.Parent.ToString(), destinationDir), true);
             }
 
-            LoadMods(_applicationId);
+            LoadMods(_applicationId, _installedDlcIds);
         }
 
         public async void Add()

@@ -97,7 +97,7 @@ namespace Ryujinx.Graphics.Gpu.Image
             /// </summary>
             public TextureAliasList()
             {
-                _aliases = new List<Alias>();
+                _aliases = [];
             }
 
             /// <summary>

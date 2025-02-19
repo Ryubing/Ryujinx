@@ -232,14 +232,14 @@ namespace Spv.Generator
 
         private static readonly Dictionary<Specification.Op, string[]> _operandLabels = new()
         {
-            { Specification.Op.OpConstant, new [] { "Value" } },
-            { Specification.Op.OpTypeInt, new [] { "Width", "Signed" } },
-            { Specification.Op.OpTypeFloat, new [] { "Width" } },
+            { Specification.Op.OpConstant, ["Value"] },
+            { Specification.Op.OpTypeInt, ["Width", "Signed"] },
+            { Specification.Op.OpTypeFloat, ["Width"] },
         };
 
         public override string ToString()
         {
-            string[] labels = _operandLabels.TryGetValue(Opcode, out string[] opLabels) ? opLabels : Array.Empty<string>();
+            string[] labels = _operandLabels.TryGetValue(Opcode, out string[] opLabels) ? opLabels : [];
             string result = _resultType == null ? string.Empty : $"{_resultType} ";
             return $"{result}{Opcode}{_operands.ToString(labels)}";
         }

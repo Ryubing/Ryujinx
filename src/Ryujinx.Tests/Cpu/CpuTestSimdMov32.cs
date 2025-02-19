@@ -19,7 +19,7 @@ namespace Ryujinx.Tests.Cpu
                            [Values] bool q)
         {
             uint[] variants =
-            {
+            [
                 // I32
                 0b0000_0,
                 0b0010_0,
@@ -36,8 +36,8 @@ namespace Ryujinx.Tests.Cpu
                 0b1110_0,
                 0b1111_0,
 
-                0b1110_1,
-            };
+                0b1110_1
+            ];
 
             uint opcode = 0xf2800010u; // VMOV.I32 D0, #0
 
@@ -300,7 +300,7 @@ namespace Ryujinx.Tests.Cpu
                            [Values] bool q)
         {
             uint[] variants =
-            {
+            [
                 // I32
                 0b0000,
                 0b0010,
@@ -313,8 +313,8 @@ namespace Ryujinx.Tests.Cpu
 
                 // I32
                 0b1100,
-                0b1101,
-            };
+                0b1101
+            ];
 
             uint opcode = 0xf2800030u; // VMVN.I32 D0, #0
 

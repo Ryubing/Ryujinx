@@ -56,7 +56,7 @@ namespace Ryujinx.HLE.HOS
                         Nca nca = new(_system.KeySet, ncaStorage);
 
                         using IFileSystem ncaFileSystem = nca.OpenFileSystem(NcaSectionType.Data, _system.FsIntegrityCheckLevel);
-                        using UniqueRef<IFileSystem> ncaFsRef = new UniqueRef<IFileSystem>(ncaFileSystem);
+                        using UniqueRef<IFileSystem> ncaFsRef = new(ncaFileSystem);
 
                         Result result = _fsClient.Register(mountName.ToU8Span(), ref ncaFsRef.Ref).ToHorizonResult();
                         if (result.IsFailure)

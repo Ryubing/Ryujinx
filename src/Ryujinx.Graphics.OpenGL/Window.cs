@@ -394,7 +394,7 @@ namespace Ryujinx.Graphics.OpenGL
         {
             _upscaledTexture?.Dispose();
 
-            TextureCreateInfo info = new TextureCreateInfo(
+            TextureCreateInfo info = new(
                 _width,
                 _height,
                 1,

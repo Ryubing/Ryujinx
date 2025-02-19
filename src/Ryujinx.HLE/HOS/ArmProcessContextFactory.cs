@@ -20,6 +20,7 @@ namespace Ryujinx.HLE.HOS
         private readonly string _titleIdText;
         private readonly string _displayVersion;
         private readonly bool _diskCacheEnabled;
+        private readonly string _diskCacheSelector;
         private readonly ulong _codeAddress;
         private readonly ulong _codeSize;
 
@@ -31,6 +32,7 @@ namespace Ryujinx.HLE.HOS
             string titleIdText,
             string displayVersion,
             bool diskCacheEnabled,
+            string diskCacheSelector,
             ulong codeAddress,
             ulong codeSize)
         {
@@ -39,6 +41,7 @@ namespace Ryujinx.HLE.HOS
             _titleIdText = titleIdText;
             _displayVersion = displayVersion;
             _diskCacheEnabled = diskCacheEnabled;
+            _diskCacheSelector = diskCacheSelector;
             _codeAddress = codeAddress;
             _codeSize = codeSize;
         }
@@ -51,8 +54,8 @@ namespace Ryujinx.HLE.HOS
 
             if (OperatingSystem.IsMacOS() && isArm64Host && for64Bit && context.Device.Configuration.UseHypervisor)
             {
-                HvEngine cpuEngine = new HvEngine(_tickSource);
-                HvMemoryManager memoryManager = new HvMemoryManager(context.Memory, addressSpaceSize, invalidAccessHandler);
+                HvEngine cpuEngine = new(_tickSource);
+                HvMemoryManager memoryManager = new(context.Memory, addressSpaceSize, invalidAccessHandler);
                 processContext = new ArmProcessContext<HvMemoryManager>(pid, cpuEngine, _gpu, memoryManager, addressSpaceSize, for64Bit);
             }
             else
@@ -86,7 +89,7 @@ namespace Ryujinx.HLE.HOS
                 switch (mode)
                 {
                     case MemoryManagerMode.SoftwarePageTable:
-                        MemoryManager memoryManager = new MemoryManager(context.Memory, addressSpaceSize, invalidAccessHandler);
+                        MemoryManager memoryManager = new(context.Memory, addressSpaceSize, invalidAccessHandler);
                         processContext = new ArmProcessContext<MemoryManager>(pid, cpuEngine, _gpu, memoryManager, addressSpaceSize, for64Bit);
                         break;
 
@@ -94,7 +97,7 @@ namespace Ryujinx.HLE.HOS
                     case MemoryManagerMode.HostMappedUnsafe:
                         if (addressSpace == null)
                         {
-                            MemoryManagerHostTracked memoryManagerHostTracked = new MemoryManagerHostTracked(context.Memory, addressSpaceSize, mode == MemoryManagerMode.HostMappedUnsafe, invalidAccessHandler);
+                            MemoryManagerHostTracked memoryManagerHostTracked = new(context.Memory, addressSpaceSize, mode == MemoryManagerMode.HostMappedUnsafe, invalidAccessHandler);
                             processContext = new ArmProcessContext<MemoryManagerHostTracked>(pid, cpuEngine, _gpu, memoryManagerHostTracked, addressSpaceSize, for64Bit);
                         }
                         else
@@ -104,7 +107,7 @@ namespace Ryujinx.HLE.HOS
                                 Logger.Warning?.Print(LogClass.Emulation, $"Allocated address space (0x{addressSpace.AddressSpaceSize:X}) is smaller than guest application requirements (0x{addressSpaceSize:X})");
                             }
 
-                            MemoryManagerHostMapped memoryManagerHostMapped = new MemoryManagerHostMapped(addressSpace, mode == MemoryManagerMode.HostMappedUnsafe, invalidAccessHandler);
+                            MemoryManagerHostMapped memoryManagerHostMapped = new(addressSpace, mode == MemoryManagerMode.HostMappedUnsafe, invalidAccessHandler);
                             processContext = new ArmProcessContext<MemoryManagerHostMapped>(pid, cpuEngine, _gpu, memoryManagerHostMapped, addressSpace.AddressSpaceSize, for64Bit);
                         }
                         break;
@@ -114,7 +117,7 @@ namespace Ryujinx.HLE.HOS
                 }
             }
 
-            DiskCacheLoadState = processContext.Initialize(_titleIdText, _displayVersion, _diskCacheEnabled, _codeAddress, _codeSize, "default"); //Ready for exefs profiles
+            DiskCacheLoadState = processContext.Initialize(_titleIdText, _displayVersion, _diskCacheEnabled, _codeAddress, _codeSize, _diskCacheSelector ?? "default");
 
             return processContext;
         }

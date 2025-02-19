@@ -63,8 +63,8 @@ namespace Ryujinx.Graphics.Gpu.Shader
 
             for (int index = 0; index < totalSets; index++)
             {
-                _resourceDescriptors[index] = new();
-                _resourceUsages[index] = new();
+                _resourceDescriptors[index] = [];
+                _resourceUsages[index] = [];
             }
 
             AddDescriptor(SupportBufferStages, ResourceType.UniformBuffer, uniformSetIndex, 0, 1);
@@ -302,7 +302,7 @@ namespace Ryujinx.Graphics.Gpu.Shader
 
                 for (int index = oldLength; index <= setIndex; index++)
                 {
-                    _resourceDescriptors[index] = new();
+                    _resourceDescriptors[index] = [];
                 }
             }
 
@@ -323,7 +323,7 @@ namespace Ryujinx.Graphics.Gpu.Shader
 
                 for (int index = oldLength; index <= setIndex; index++)
                 {
-                    _resourceUsages[index] = new();
+                    _resourceUsages[index] = [];
                 }
             }
 

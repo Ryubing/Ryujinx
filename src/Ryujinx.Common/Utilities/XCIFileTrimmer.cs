@@ -46,7 +46,7 @@ namespace Ryujinx.Common.Utilities
         {
             if (Path.GetExtension(filename).Equals(".XCI", StringComparison.InvariantCultureIgnoreCase))
             {
-                XCIFileTrimmer trimmer = new XCIFileTrimmer(filename, log);
+                XCIFileTrimmer trimmer = new(filename, log);
                 return trimmer.CanBeTrimmed;
             }
 
@@ -57,7 +57,7 @@ namespace Ryujinx.Common.Utilities
         {
             if (Path.GetExtension(filename).Equals(".XCI", StringComparison.InvariantCultureIgnoreCase))
             {
-                XCIFileTrimmer trimmer = new XCIFileTrimmer(filename, log);
+                XCIFileTrimmer trimmer = new(filename, log);
                 return trimmer.CanBeUntrimmed;
             }
 
@@ -267,7 +267,7 @@ namespace Ryujinx.Common.Utilities
 
             try
             {
-                FileInfo info = new FileInfo(Filename);
+                FileInfo info = new(Filename);
                 if ((info.Attributes & FileAttributes.ReadOnly) == FileAttributes.ReadOnly)
                 {
                     try
@@ -288,7 +288,7 @@ namespace Ryujinx.Common.Utilities
                     return OperationOutcome.FileSizeChanged;
                 }
 
-                FileStream outfileStream = new FileStream(_filename, FileMode.Open, FileAccess.Write, FileShare.Write);
+                FileStream outfileStream = new(_filename, FileMode.Open, FileAccess.Write, FileShare.Write);
 
                 try
                 {
@@ -327,7 +327,7 @@ namespace Ryujinx.Common.Utilities
             {
                 Log?.Write(LogType.Info, "Untrimming...");
 
-                FileInfo info = new FileInfo(Filename);
+                FileInfo info = new(Filename);
                 if ((info.Attributes & FileAttributes.ReadOnly) == FileAttributes.ReadOnly)
                 {
                     try
@@ -348,7 +348,7 @@ namespace Ryujinx.Common.Utilities
                     return OperationOutcome.FileSizeChanged;
                 }
 
-                FileStream outfileStream = new FileStream(_filename, FileMode.Append, FileAccess.Write, FileShare.Write);
+                FileStream outfileStream = new(_filename, FileMode.Append, FileAccess.Write, FileShare.Write);
                 long bytesToWriteB = UntrimmedFileSizeB - FileSizeB;
 
                 try

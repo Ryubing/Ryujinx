@@ -12,7 +12,7 @@ namespace Ryujinx.Ava.UI.Helpers
     internal class XCITrimmerFileSpaceSavingsConverter : IValueConverter
     {
         private const long _bytesPerMB = 1024 * 1024;
-        public static XCITrimmerFileSpaceSavingsConverter Instance = new();
+        public static readonly XCITrimmerFileSpaceSavingsConverter Instance = new();
 
         public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
         {

@@ -39,10 +39,10 @@ namespace Ryujinx.HLE.HOS.Applets.Browser
 
             if ((_commonArguments.AppletVersion >= 0x80000 && _shimKind == ShimKind.Web) || (_commonArguments.AppletVersion >= 0x30000 && _shimKind == ShimKind.Share))
             {
-                List<BrowserOutput> result = new()
-                {
-                    new BrowserOutput(BrowserOutputType.ExitReason, (uint)WebExitReason.ExitButton),
-                };
+                List<BrowserOutput> result =
+                [
+                    new(BrowserOutputType.ExitReason, (uint)WebExitReason.ExitButton)
+                ];
 
                 _normalSession.Push(BuildResponseNew(result));
             }

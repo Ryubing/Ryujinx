@@ -1,6 +1,5 @@
 using Ryujinx.Graphics.GAL;
 using Ryujinx.Graphics.Shader;
-using System;
 using System.Runtime.CompilerServices;
 using System.Runtime.InteropServices;
 
@@ -19,7 +18,7 @@ namespace Ryujinx.Graphics.Gpu.Memory
         /// <param name="renderer">Renderer that the support buffer will be used with</param>
         public SupportBufferUpdater(IRenderer renderer) : base(renderer)
         {
-            Vector4<float> defaultScale = new Vector4<float> { X = 1f, Y = 0f, Z = 0f, W = 0f };
+            Vector4<float> defaultScale = new() { X = 1f, Y = 0f, Z = 0f, W = 0f };
             _data.RenderScale.AsSpan().Fill(defaultScale);
             DirtyRenderScale(0, SupportBuffer.RenderScaleMaxCount);
         }

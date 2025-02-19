@@ -186,7 +186,7 @@ namespace Ryujinx.Horizon.Sdk.Sf.Hipc
         {
             CommandType commandType = GetCmifCommandType(inMessage);
 
-            using ScopedInlineContextChange _ = new ScopedInlineContextChange(GetInlineContext(commandType, inMessage));
+            using ScopedInlineContextChange _ = new(GetInlineContext(commandType, inMessage));
 
             return commandType switch
             {
@@ -282,7 +282,7 @@ namespace Ryujinx.Horizon.Sdk.Sf.Hipc
                 return HipcResult.InvalidRequestSize;
             }
 
-            ServiceDispatchContext dispatchCtx = new ServiceDispatchContext
+            ServiceDispatchContext dispatchCtx = new()
             {
                 ServiceObject = objectHolder.ServiceObject,
                 Manager = this,

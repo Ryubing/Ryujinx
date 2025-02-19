@@ -14,33 +14,34 @@ namespace Ryujinx.Tests.Cpu
         #region "ValueSource (Opcodes)"
         private static uint[] _Vabs_Vneg_Vpaddl_I_()
         {
-            return new[]
-            {
+            return
+            [
                 0xf3b10300u, // VABS.S8   D0, D0
                 0xf3b10380u, // VNEG.S8   D0, D0
-                0xf3b00200u, // VPADDL.S8 D0, D0
-            };
+                0xf3b00200u // VPADDL.S8 D0, D0
+            ];
         }
 
         private static uint[] _Vabs_Vneg_F_()
         {
-            return new[]
-            {
+            return
+            [
                 0xf3b90700u, // VABS.F32 D0, D0
-                0xf3b90780u, // VNEG.F32 D0, D0
-            };
+                0xf3b90780u // VNEG.F32 D0, D0
+            ];
         }
         #endregion
 
         #region "ValueSource (Types)"
         private static ulong[] _8B4H2S_()
         {
-            return new[] {
+            return
+            [
                 0x0000000000000000ul, 0x7F7F7F7F7F7F7F7Ful,
                 0x8080808080808080ul, 0x7FFF7FFF7FFF7FFFul,
                 0x8000800080008000ul, 0x7FFFFFFF7FFFFFFFul,
-                0x8000000080000000ul, 0xFFFFFFFFFFFFFFFFul,
-            };
+                0x8000000080000000ul, 0xFFFFFFFFFFFFFFFFul
+            ];
         }
 
         private static IEnumerable<ulong> _1S_F_()

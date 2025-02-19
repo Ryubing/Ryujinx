@@ -40,12 +40,12 @@ namespace ARMeilleure.CodeGen.X86
                 return 0;
             }
 
-            ReadOnlySpan<byte> asmGetXcr0 = new byte[]
-            {
+            ReadOnlySpan<byte> asmGetXcr0 =
+            [
                 0x31, 0xc9, // xor ecx, ecx
                 0xf, 0x01, 0xd0, // xgetbv
-                0xc3, // ret
-            };
+                0xc3 // ret
+            ];
 
             using MemoryBlock memGetXcr0 = new((ulong)asmGetXcr0.Length);
 

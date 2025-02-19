@@ -12,7 +12,7 @@ namespace Ryujinx.Graphics.OpenGL.Image
         public IntermediatePool(OpenGLRenderer renderer)
         {
             _renderer = renderer;
-            _entries = new List<TextureView>();
+            _entries = [];
         }
 
         public TextureView GetOrCreateWithAtLeast(

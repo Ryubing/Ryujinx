@@ -83,7 +83,7 @@ namespace Ryujinx.Graphics.Vulkan
 
                 for (int j = 0; j < _dsCache[i].Length; j++)
                 {
-                    _dsCache[i][j] = new List<Auto<DescriptorSetCollection>>();
+                    _dsCache[i][j] = [];
                 }
             }
 
@@ -173,7 +173,7 @@ namespace Ryujinx.Graphics.Vulkan
         {
             FreeCompletedManualDescriptorSets();
 
-            List<ManualDescriptorSetEntry> list = _manualDsCache[setIndex] ??= new();
+            List<ManualDescriptorSetEntry> list = _manualDsCache[setIndex] ??= [];
             Span<ManualDescriptorSetEntry> span = CollectionsMarshal.AsSpan(list);
 
             Queue<int> freeQueue = _freeManualDsCacheEntries[setIndex];

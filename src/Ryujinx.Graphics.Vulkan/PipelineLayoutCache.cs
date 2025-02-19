@@ -81,7 +81,7 @@ namespace Ryujinx.Graphics.Vulkan
             ReadOnlyCollection<ResourceDescriptorCollection> setDescriptors,
             bool usePushDescriptors)
         {
-            PlceKey key = new PlceKey(setDescriptors, usePushDescriptors);
+            PlceKey key = new(setDescriptors, usePushDescriptors);
 
             return _plces.GetOrAdd(key, newKey => new PipelineLayoutCacheEntry(gd, device, setDescriptors, usePushDescriptors));
         }

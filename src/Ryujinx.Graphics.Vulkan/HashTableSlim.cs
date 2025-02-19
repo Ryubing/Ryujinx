@@ -65,7 +65,7 @@ namespace Ryujinx.Graphics.Vulkan
 
         public void Add(ref TKey key, TValue value)
         {
-            Entry entry = new Entry
+            Entry entry = new()
             {
                 Hash = key.GetHashCode(),
                 Key = key,
@@ -89,10 +89,10 @@ namespace Ryujinx.Graphics.Vulkan
             }
             else
             {
-                bucket.Entries = new[]
-                {
-                    entry,
-                };
+                bucket.Entries =
+                [
+                    entry
+                ];
             }
 
             bucket.Length++;

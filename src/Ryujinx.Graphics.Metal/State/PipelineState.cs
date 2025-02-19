@@ -118,7 +118,7 @@ namespace Ryujinx.Graphics.Metal
 
         private readonly MTLVertexDescriptor BuildVertexDescriptor()
         {
-            MTLVertexDescriptor vertexDescriptor = new MTLVertexDescriptor();
+            MTLVertexDescriptor vertexDescriptor = new();
 
             for (int i = 0; i < VertexAttributeDescriptionsCount; i++)
             {
@@ -146,7 +146,7 @@ namespace Ryujinx.Graphics.Metal
 
         private MTLRenderPipelineDescriptor CreateRenderDescriptor(Program program)
         {
-            MTLRenderPipelineDescriptor renderPipelineDescriptor = new MTLRenderPipelineDescriptor();
+            MTLRenderPipelineDescriptor renderPipelineDescriptor = new();
 
             for (int i = 0; i < Constants.MaxColorAttachments; i++)
             {
@@ -217,7 +217,7 @@ namespace Ryujinx.Graphics.Metal
 
             using MTLRenderPipelineDescriptor descriptor = CreateRenderDescriptor(program);
 
-            NSError error = new NSError(IntPtr.Zero);
+            NSError error = new(IntPtr.Zero);
             pipelineState = device.NewRenderPipelineState(descriptor, ref error);
             if (error != IntPtr.Zero)
             {
@@ -240,7 +240,7 @@ namespace Ryujinx.Graphics.Metal
                 throw new InvalidOperationException($"Local thread size for compute cannot be 0 in any dimension.");
             }
 
-            MTLComputePipelineDescriptor descriptor = new MTLComputePipelineDescriptor
+            MTLComputePipelineDescriptor descriptor = new()
             {
                 ComputeFunction = program.ComputeFunction,
                 MaxTotalThreadsPerThreadgroup = maxThreads,
@@ -259,7 +259,7 @@ namespace Ryujinx.Graphics.Metal
 
             using MTLComputePipelineDescriptor descriptor = CreateComputeDescriptor(program);
 
-            NSError error = new NSError(IntPtr.Zero);
+            NSError error = new(IntPtr.Zero);
             pipelineState = device.NewComputePipelineState(descriptor, MTLPipelineOption.None, 0, ref error);
             if (error != IntPtr.Zero)
             {

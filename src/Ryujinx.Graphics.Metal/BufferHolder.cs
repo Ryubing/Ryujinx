@@ -302,7 +302,7 @@ namespace Ryujinx.Graphics.Metal
                 return null;
             }
 
-            I8ToI16CacheKey key = new I8ToI16CacheKey(_renderer);
+            I8ToI16CacheKey key = new(_renderer);
 
             if (!_cachedConvertedBuffers.TryGetValue(offset, size, key, out BufferHolder holder))
             {
@@ -325,7 +325,7 @@ namespace Ryujinx.Graphics.Metal
                 return null;
             }
 
-            TopologyConversionCacheKey key = new TopologyConversionCacheKey(_renderer, pattern, indexSize);
+            TopologyConversionCacheKey key = new(_renderer, pattern, indexSize);
 
             if (!_cachedConvertedBuffers.TryGetValue(offset, size, key, out BufferHolder holder))
             {

@@ -44,7 +44,7 @@ namespace Ryujinx.Graphics.Vulkan
             _hostMemoryApi = hostMemoryApi;
             _device = device;
 
-            _allocations = new List<HostMemoryAllocation>();
+            _allocations = [];
             _allocationTree = new IntervalTree<ulong, HostMemoryAllocation>();
         }
 
@@ -108,7 +108,7 @@ namespace Ryujinx.Graphics.Vulkan
                     PHostPointer = (void*)pageAlignedPointer,
                 };
 
-                MemoryAllocateInfo memoryAllocateInfo = new MemoryAllocateInfo
+                MemoryAllocateInfo memoryAllocateInfo = new()
                 {
                     SType = StructureType.MemoryAllocateInfo,
                     AllocationSize = pageAlignedSize,
@@ -124,9 +124,9 @@ namespace Ryujinx.Graphics.Vulkan
                     return false;
                 }
 
-                MemoryAllocation allocation = new MemoryAllocation(this, deviceMemory, pageAlignedPointer, 0, pageAlignedSize);
-                Auto<MemoryAllocation> allocAuto = new Auto<MemoryAllocation>(allocation);
-                HostMemoryAllocation hostAlloc = new HostMemoryAllocation(allocAuto, pageAlignedPointer, pageAlignedSize);
+                MemoryAllocation allocation = new(this, deviceMemory, pageAlignedPointer, 0, pageAlignedSize);
+                Auto<MemoryAllocation> allocAuto = new(allocation);
+                HostMemoryAllocation hostAlloc = new(allocAuto, pageAlignedPointer, pageAlignedSize);
 
                 allocAuto.IncrementReferenceCount();
                 allocAuto.Dispose(); // Kept alive by ref count only.

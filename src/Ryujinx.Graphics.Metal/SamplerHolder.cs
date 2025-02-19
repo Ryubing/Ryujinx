@@ -21,7 +21,7 @@ namespace Ryujinx.Graphics.Metal
 
             MTLSamplerBorderColor borderColor = GetConstrainedBorderColor(info.BorderColor, out _);
 
-            using MTLSamplerDescriptor descriptor = new MTLSamplerDescriptor
+            using MTLSamplerDescriptor descriptor = new()
             {
                 BorderColor = borderColor,
                 MinFilter = minFilter,

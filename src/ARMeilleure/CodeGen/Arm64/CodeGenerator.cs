@@ -1079,7 +1079,7 @@ namespace ARMeilleure.CodeGen.Arm64
 
         private static UnwindInfo WritePrologue(CodeGenContext context)
         {
-            List<UnwindPushEntry> pushEntries = new();
+            List<UnwindPushEntry> pushEntries = [];
 
             Operand rsp = Register(SpRegister);
 

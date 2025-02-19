@@ -27,9 +27,9 @@ namespace Ryujinx.Graphics.Metal
         private readonly IProgram _programColorBlitMsF;
         private readonly IProgram _programColorBlitMsI;
         private readonly IProgram _programColorBlitMsU;
-        private readonly List<IProgram> _programsColorClearF = new();
-        private readonly List<IProgram> _programsColorClearI = new();
-        private readonly List<IProgram> _programsColorClearU = new();
+        private readonly List<IProgram> _programsColorClearF = [];
+        private readonly List<IProgram> _programsColorClearI = [];
+        private readonly List<IProgram> _programsColorClearU = [];
         private readonly IProgram _programDepthStencilClear;
         private readonly IProgram _programStrideChange;
         private readonly IProgram _programConvertD32S8ToD24S8;
@@ -239,7 +239,7 @@ namespace Ryujinx.Graphics.Metal
             buffer.Holder.SetDataUnchecked<float>(buffer.Offset, region);
             _pipeline.SetUniformBuffers([new BufferAssignment(0, buffer.Range)]);
 
-            Rectangle<float> rect = new Rectangle<float>(
+            Rectangle<float> rect = new(
                 MathF.Min(dstRegion.X1, dstRegion.X2),
                 MathF.Min(dstRegion.Y1, dstRegion.Y2),
                 MathF.Abs(dstRegion.X2 - dstRegion.X1),
@@ -365,7 +365,7 @@ namespace Ryujinx.Graphics.Metal
 
             Span<Viewport> viewports = stackalloc Viewport[16];
 
-            Rectangle<float> rect = new Rectangle<float>(
+            Rectangle<float> rect = new(
                 MathF.Min(dstRegion.X1, dstRegion.X2),
                 MathF.Min(dstRegion.Y1, dstRegion.Y2),
                 MathF.Abs(dstRegion.X2 - dstRegion.X1),
@@ -527,7 +527,7 @@ namespace Ryujinx.Graphics.Metal
 
             Span<Viewport> viewports = stackalloc Viewport[16];
 
-            Rectangle<float> rect = new Rectangle<float>(
+            Rectangle<float> rect = new(
                 MathF.Min(dstRegion.X1, dstRegion.X2),
                 MathF.Min(dstRegion.Y1, dstRegion.Y2),
                 MathF.Abs(dstRegion.X2 - dstRegion.X1),

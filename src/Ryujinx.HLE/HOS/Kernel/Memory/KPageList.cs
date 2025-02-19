@@ -10,7 +10,7 @@ namespace Ryujinx.HLE.HOS.Kernel.Memory
 
         public KPageList()
         {
-            Nodes = new LinkedList<KPageNode>();
+            Nodes = [];
         }
 
         public Result AddRange(ulong address, ulong pagesCount)

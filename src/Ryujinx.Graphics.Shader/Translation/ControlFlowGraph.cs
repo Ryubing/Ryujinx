@@ -13,7 +13,7 @@ namespace Ryujinx.Graphics.Shader.Translation
         {
             Blocks = blocks;
 
-            HashSet<BasicBlock> visited = new();
+            HashSet<BasicBlock> visited = [];
 
             Stack<BasicBlock> blockStack = new();
 
@@ -52,7 +52,7 @@ namespace Ryujinx.Graphics.Shader.Translation
         {
             Dictionary<Operand, BasicBlock> labels = new();
 
-            List<BasicBlock> blocks = new();
+            List<BasicBlock> blocks = [];
 
             BasicBlock currentBlock = null;
 

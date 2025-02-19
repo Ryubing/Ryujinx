@@ -26,7 +26,7 @@ namespace Ryujinx.Cpu.LightningJit.CodeGen.Arm64
         public Assembler(CodeWriter writer)
         {
             _code = writer.GetList();
-            _labels = new List<LabelState>();
+            _labels = [];
         }
 
         public readonly Operand CreateLabel()
@@ -342,7 +342,7 @@ namespace Ryujinx.Cpu.LightningJit.CodeGen.Arm64
 
         public readonly void Cset(Operand rd, ArmCondition condition)
         {
-            Operand zr = new Operand(ZrRegister, RegisterType.Integer, rd.Type);
+            Operand zr = new(ZrRegister, RegisterType.Integer, rd.Type);
             Csinc(rd, zr, zr, (ArmCondition)((int)condition ^ 1));
         }
 
@@ -857,7 +857,7 @@ namespace Ryujinx.Cpu.LightningJit.CodeGen.Arm64
 
         public readonly void PrfmI(Operand rn, int imm, uint type, uint target, uint policy)
         {
-            Operand rt = new Operand((int)EncodeTypeTargetPolicy(type, target, policy), RegisterType.Integer, OperandType.I32);
+            Operand rt = new((int)EncodeTypeTargetPolicy(type, target, policy), RegisterType.Integer, OperandType.I32);
             WriteInstruction(0xf9800000u | (EncodeUImm12(imm, 3) << 10), rt, rn);
         }
 
@@ -868,7 +868,7 @@ namespace Ryujinx.Cpu.LightningJit.CodeGen.Arm64
 
         public readonly void Prfum(Operand rn, int imm, uint type, uint target, uint policy)
         {
-            Operand rt = new Operand((int)EncodeTypeTargetPolicy(type, target, policy), RegisterType.Integer, OperandType.I32);
+            Operand rt = new((int)EncodeTypeTargetPolicy(type, target, policy), RegisterType.Integer, OperandType.I32);
             WriteInstruction(0xf8800000u | (EncodeSImm9(imm) << 12), rt, rn);
         }
 

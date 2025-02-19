@@ -12,8 +12,8 @@ namespace Ryujinx.Tests.Cpu
         #region "ValueSource (Opcodes)"
         private static uint[] SuHAddSub8()
         {
-            return new[]
-            {
+            return
+            [
                 0xe6100f90u, // SADD8  R0, R0, R0
                 0xe6100ff0u, // SSUB8  R0, R0, R0
                 0xe6300f90u, // SHADD8 R0, R0, R0
@@ -21,58 +21,58 @@ namespace Ryujinx.Tests.Cpu
                 0xe6500f90u, // UADD8  R0, R0, R0
                 0xe6500ff0u, // USUB8  R0, R0, R0
                 0xe6700f90u, // UHADD8 R0, R0, R0
-                0xe6700ff0u, // UHSUB8 R0, R0, R0
-            };
+                0xe6700ff0u // UHSUB8 R0, R0, R0
+            ];
         }
 
         private static uint[] UQAddSub16()
         {
-            return new[]
-            {
+            return
+            [
                 0xe6200f10u, // QADD16  R0, R0, R0
                 0xe6600f10u, // UQADD16 R0, R0, R0
-                0xe6600f70u, // UQSUB16 R0, R0, R0
-            };
+                0xe6600f70u // UQSUB16 R0, R0, R0
+            ];
         }
 
         private static uint[] UQAddSub8()
         {
-            return new[]
-            {
+            return
+            [
                 0xe6600f90u, // UQADD8 R0, R0, R0
-                0xe6600ff0u, // UQSUB8 R0, R0, R0
-            };
+                0xe6600ff0u // UQSUB8 R0, R0, R0
+            ];
         }
 
         private static uint[] SsatUsat()
         {
-            return new[]
-            {
+            return
+            [
                 0xe6a00010u, // SSAT R0, #1, R0, LSL #0
                 0xe6a00050u, // SSAT R0, #1, R0, ASR #32
                 0xe6e00010u, // USAT R0, #0, R0, LSL #0
-                0xe6e00050u, // USAT R0, #0, R0, ASR #32
-            };
+                0xe6e00050u // USAT R0, #0, R0, ASR #32
+            ];
         }
 
         private static uint[] Ssat16Usat16()
         {
-            return new[]
-            {
+            return
+            [
                 0xe6a00f30u, // SSAT16 R0, #1, R0
-                0xe6e00f30u, // USAT16 R0, #0, R0
-            };
+                0xe6e00f30u // USAT16 R0, #0, R0
+            ];
         }
 
         private static uint[] LsrLslAsrRor()
         {
-            return new[]
-            {
+            return
+            [
                 0xe1b00030u, // LSRS R0, R0, R0
                 0xe1b00010u, // LSLS R0, R0, R0
                 0xe1b00050u, // ASRS R0, R0, R0
-                0xe1b00070u, // RORS R0, R0, R0
-            };
+                0xe1b00070u // RORS R0, R0, R0
+            ];
         }
         #endregion
 

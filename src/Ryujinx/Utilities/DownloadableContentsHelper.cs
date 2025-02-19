@@ -45,7 +45,7 @@ namespace Ryujinx.Ava.Utilities
         public static void SaveDownloadableContentsJson(ulong applicationIdBase, List<(DownloadableContentModel, bool IsEnabled)> dlcs)
         {
             DownloadableContentContainer container = default;
-            List<DownloadableContentContainer> downloadableContentContainerList = new();
+            List<DownloadableContentContainer> downloadableContentContainerList = [];
 
             foreach ((DownloadableContentModel dlc, bool isEnabled) in dlcs)
             {
@@ -82,7 +82,7 @@ namespace Ryujinx.Ava.Utilities
 
         private static List<(DownloadableContentModel, bool IsEnabled)> LoadDownloadableContents(VirtualFileSystem vfs, List<DownloadableContentContainer> downloadableContentContainers)
         {
-            List<(DownloadableContentModel, bool IsEnabled)> result = new List<(DownloadableContentModel, bool IsEnabled)>();
+            List<(DownloadableContentModel, bool IsEnabled)> result = [];
 
             foreach (DownloadableContentContainer downloadableContentContainer in downloadableContentContainers)
             {
@@ -105,7 +105,7 @@ namespace Ryujinx.Ava.Utilities
                         continue;
                     }
 
-                    DownloadableContentModel content = new DownloadableContentModel(nca.Header.TitleId,
+                    DownloadableContentModel content = new(nca.Header.TitleId,
                         downloadableContentContainer.ContainerPath,
                         downloadableContentNca.FullPath);
 

@@ -1,6 +1,5 @@
 using ARMeilleure.IntermediateRepresentation;
 using ARMeilleure.Translation;
-using System;
 using System.Runtime.InteropServices;
 using static ARMeilleure.IntermediateRepresentation.Operand.Factory;
 
@@ -30,7 +29,7 @@ namespace ARMeilleure.Signal
 
             ControlFlowGraph cfg = context.GetControlFlowGraph();
 
-            OperandType[] argTypes = new OperandType[] { OperandType.I64 };
+            OperandType[] argTypes = [OperandType.I64];
 
             return Compiler.Compile(cfg, argTypes, OperandType.I32, CompilerOptions.HighCq, RuntimeInformation.ProcessArchitecture).Map<DebugPartialUnmap>();
         }
@@ -47,7 +46,7 @@ namespace ARMeilleure.Signal
 
             ControlFlowGraph cfg = context.GetControlFlowGraph();
 
-            OperandType[] argTypes = new OperandType[] { OperandType.I64 };
+            OperandType[] argTypes = [OperandType.I64];
 
             return Compiler.Compile(cfg, argTypes, OperandType.I32, CompilerOptions.HighCq, RuntimeInformation.ProcessArchitecture).Map<DebugThreadLocalMapGetOrReserve>();
         }
@@ -76,7 +75,7 @@ namespace ARMeilleure.Signal
 
             ControlFlowGraph cfg = context.GetControlFlowGraph();
 
-            OperandType[] argTypes = new OperandType[] { OperandType.I64 };
+            OperandType[] argTypes = [OperandType.I64];
 
             return Compiler.Compile(cfg, argTypes, OperandType.None, CompilerOptions.HighCq, RuntimeInformation.ProcessArchitecture).Map<DebugNativeWriteLoop>();
         }

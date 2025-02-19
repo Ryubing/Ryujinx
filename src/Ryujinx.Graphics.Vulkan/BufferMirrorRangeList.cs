@@ -150,10 +150,7 @@ namespace Ryujinx.Graphics.Vulkan
             }
             else
             {
-                _ranges = new List<Range>
-                {
-                    new Range(offset, size)
-                };
+                _ranges = [new(offset, size)];
             }
         }
 

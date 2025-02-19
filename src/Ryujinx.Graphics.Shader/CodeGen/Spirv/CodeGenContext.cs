@@ -4,7 +4,6 @@ using Ryujinx.Graphics.Shader.Translation;
 using Spv.Generator;
 using System;
 using System.Collections.Generic;
-using static Spv.Specification;
 using Instruction = Spv.Generator.Instruction;
 
 namespace Ryujinx.Graphics.Shader.CodeGen.Spirv
@@ -50,7 +49,7 @@ namespace Ryujinx.Graphics.Shader.CodeGen.Spirv
         private class BlockState
         {
             private int _entryCount;
-            private readonly List<Instruction> _labels = new();
+            private readonly List<Instruction> _labels = [];
 
             public Instruction GetNextLabel(CodeGenContext context)
             {
@@ -147,7 +146,7 @@ namespace Ryujinx.Graphics.Shader.CodeGen.Spirv
 
         public Instruction[] GetMainInterface()
         {
-            List<Instruction> mainInterface = new List<Instruction>();
+            List<Instruction> mainInterface = [];
 
             mainInterface.AddRange(Inputs.Values);
             mainInterface.AddRange(Outputs.Values);

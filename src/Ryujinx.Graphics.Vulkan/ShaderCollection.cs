@@ -93,7 +93,7 @@ namespace Ryujinx.Graphics.Vulkan
 
             for (int i = 0; i < shaders.Length; i++)
             {
-                Shader shader = new Shader(gd.Api, device, shaders[i]);
+                Shader shader = new(gd.Api, device, shaders[i]);
 
                 stages |= 1u << shader.StageFlags switch
                 {
@@ -168,7 +168,7 @@ namespace Ryujinx.Graphics.Vulkan
             // If binding 3 is immediately used, use an alternate set of reserved bindings.
             ReadOnlyCollection<ResourceUsage> uniformUsage = layout.SetUsages[0].Usages;
             bool hasBinding3 = uniformUsage.Any(x => x.Binding == 3);
-            int[] reserved = isCompute ? Array.Empty<int>() : gd.GetPushDescriptorReservedBindings(hasBinding3);
+            int[] reserved = isCompute ? [] : gd.GetPushDescriptorReservedBindings(hasBinding3);
 
             // Can't use any of the reserved usages.
             for (int i = 0; i < uniformUsage.Count; i++)
@@ -249,7 +249,7 @@ namespace Ryujinx.Graphics.Vulkan
 
             for (int setIndex = 0; setIndex < sets.Count; setIndex++)
             {
-                List<ResourceBindingSegment> currentSegments = new();
+                List<ResourceBindingSegment> currentSegments = [];
 
                 ResourceDescriptor currentDescriptor = default;
                 int currentCount = 0;
@@ -307,7 +307,7 @@ namespace Ryujinx.Graphics.Vulkan
 
             for (int setIndex = 0; setIndex < setUsages.Count; setIndex++)
             {
-                List<ResourceBindingSegment> currentSegments = new();
+                List<ResourceBindingSegment> currentSegments = [];
 
                 ResourceUsage currentUsage = default;
                 int currentCount = 0;

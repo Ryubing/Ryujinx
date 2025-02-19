@@ -11,7 +11,6 @@ using System.Runtime.InteropServices;
 using BlendOp = Silk.NET.Vulkan.BlendOp;
 using Buffer = Silk.NET.Vulkan.Buffer;
 using CompareOp = Ryujinx.Graphics.GAL.CompareOp;
-using Format = Ryujinx.Graphics.GAL.Format;
 using FrontFace = Ryujinx.Graphics.GAL.FrontFace;
 using IndexType = Ryujinx.Graphics.GAL.IndexType;
 using PolygonMode = Ryujinx.Graphics.GAL.PolygonMode;
@@ -105,7 +104,7 @@ namespace Ryujinx.Graphics.Vulkan
             AutoFlush = new AutoFlushCounter(gd);
             EndRenderPassDelegate = EndRenderPass;
 
-            PipelineCacheCreateInfo pipelineCacheCreateInfo = new PipelineCacheCreateInfo
+            PipelineCacheCreateInfo pipelineCacheCreateInfo = new()
             {
                 SType = StructureType.PipelineCacheCreateInfo,
             };
@@ -136,8 +135,8 @@ namespace Ryujinx.Graphics.Vulkan
         {
             _descriptorSetUpdater.Initialize(IsMainPipeline);
 
-            QuadsToTrisPattern = new IndexBufferPattern(Gd, 4, 6, 0, new[] { 0, 1, 2, 0, 2, 3 }, 4, false);
-            TriFanToTrisPattern = new IndexBufferPattern(Gd, 3, 3, 2, new[] { int.MinValue, -1, 0 }, 1, true);
+            QuadsToTrisPattern = new IndexBufferPattern(Gd, 4, 6, 0, [0, 1, 2, 0, 2, 3], 4, false);
+            TriFanToTrisPattern = new IndexBufferPattern(Gd, 3, 3, 2, [int.MinValue, -1, 0], 1, true);
         }
 
         public unsafe void Barrier()
@@ -220,8 +219,8 @@ namespace Ryujinx.Graphics.Vulkan
 
             BeginRenderPass();
 
-            ClearValue clearValue = new ClearValue(new ClearColorValue(color.Red, color.Green, color.Blue, color.Alpha));
-            ClearAttachment attachment = new ClearAttachment(ImageAspectFlags.ColorBit, (uint)index, clearValue);
+            ClearValue clearValue = new(new ClearColorValue(color.Red, color.Green, color.Blue, color.Alpha));
+            ClearAttachment attachment = new(ImageAspectFlags.ColorBit, (uint)index, clearValue);
             ClearRect clearRect = FramebufferParams.GetClearRect(ClearScissor, layer, layerCount);
 
             Gd.Api.CmdClearAttachments(CommandBuffer, 1, &attachment, 1, &clearRect);
@@ -234,7 +233,7 @@ namespace Ryujinx.Graphics.Vulkan
                 return;
             }
 
-            ClearValue clearValue = new ClearValue(null, new ClearDepthStencilValue(depthValue, (uint)stencilValue));
+            ClearValue clearValue = new(null, new ClearDepthStencilValue(depthValue, (uint)stencilValue));
             ImageAspectFlags flags = depthMask ? ImageAspectFlags.DepthBit : 0;
 
             if (stencilMask)
@@ -258,7 +257,7 @@ namespace Ryujinx.Graphics.Vulkan
 
             BeginRenderPass();
 
-            ClearAttachment attachment = new ClearAttachment(flags, 0, clearValue);
+            ClearAttachment attachment = new(flags, 0, clearValue);
             ClearRect clearRect = FramebufferParams.GetClearRect(ClearScissor, layer, layerCount);
 
             Gd.Api.CmdClearAttachments(CommandBuffer, 1, &attachment, 1, &clearRect);
@@ -1058,8 +1057,8 @@ namespace Ryujinx.Graphics.Vulkan
             for (int i = 0; i < count; i++)
             {
                 Rectangle<int> region = regions[i];
-                Offset2D offset = new Offset2D(region.X, region.Y);
-                Extent2D extent = new Extent2D((uint)region.Width, (uint)region.Height);
+                Offset2D offset = new(region.X, region.Y);
+                Extent2D extent = new((uint)region.Width, (uint)region.Height);
 
                 DynamicState.SetScissor(i, new Rect2D(offset, extent));
             }
@@ -1714,10 +1713,10 @@ namespace Ryujinx.Graphics.Vulkan
             {
                 FramebufferParams.InsertLoadOpBarriers(Gd, Cbs);
 
-                Rect2D renderArea = new Rect2D(null, new Extent2D(FramebufferParams.Width, FramebufferParams.Height));
-                ClearValue clearValue = new ClearValue();
+                Rect2D renderArea = new(null, new Extent2D(FramebufferParams.Width, FramebufferParams.Height));
+                ClearValue clearValue = new();
 
-                RenderPassBeginInfo renderPassBeginInfo = new RenderPassBeginInfo
+                RenderPassBeginInfo renderPassBeginInfo = new()
                 {
                     SType = StructureType.RenderPassBeginInfo,
                     RenderPass = _renderPass.Get(Cbs).Value,

@@ -89,7 +89,7 @@ namespace Ryujinx.Graphics.Vulkan
 
             ImageType type = info.Target.Convert();
 
-            Extent3D extent = new Extent3D((uint)info.Width, (uint)info.Height, depth);
+            Extent3D extent = new((uint)info.Width, (uint)info.Height, depth);
 
             SampleCountFlags sampleCountFlags = ConvertToSampleCountFlags(gd.Capabilities.SupportedSampleCounts, (uint)info.Samples);
 
@@ -111,7 +111,7 @@ namespace Ryujinx.Graphics.Vulkan
                 flags |= ImageCreateFlags.Create2DArrayCompatibleBit;
             }
 
-            ImageCreateInfo imageCreateInfo = new ImageCreateInfo
+            ImageCreateInfo imageCreateInfo = new()
             {
                 SType = StructureType.ImageCreateInfo,
                 ImageType = type,
@@ -274,9 +274,9 @@ namespace Ryujinx.Graphics.Vulkan
 
             ImageAspectFlags aspectFlags = _info.Format.ConvertAspectFlags();
 
-            ImageSubresourceRange subresourceRange = new ImageSubresourceRange(aspectFlags, 0, (uint)_info.Levels, 0, (uint)_info.GetLayers());
+            ImageSubresourceRange subresourceRange = new(aspectFlags, 0, (uint)_info.Levels, 0, (uint)_info.GetLayers());
 
-            ImageMemoryBarrier barrier = new ImageMemoryBarrier
+            ImageMemoryBarrier barrier = new()
             {
                 SType = StructureType.ImageMemoryBarrier,
                 SrcAccessMask = 0,
@@ -402,17 +402,17 @@ namespace Ryujinx.Graphics.Vulkan
 
                 int rowLength = (Info.GetMipStride(level) / Info.BytesPerPixel) * Info.BlockWidth;
 
-                ImageSubresourceLayers sl = new ImageSubresourceLayers(
+                ImageSubresourceLayers sl = new(
                     aspectFlags,
                     (uint)(dstLevel + level),
                     (uint)layer,
                     (uint)layers);
 
-                Extent3D extent = new Extent3D((uint)width, (uint)height, (uint)depth);
+                Extent3D extent = new((uint)width, (uint)height, (uint)depth);
 
                 int z = is3D ? dstLayer : 0;
 
-                BufferImageCopy region = new BufferImageCopy(
+                BufferImageCopy region = new(
                     (ulong)offset,
                     (uint)BitUtils.AlignUp(rowLength, Info.BlockWidth),
                     (uint)BitUtils.AlignUp(height, Info.BlockHeight),

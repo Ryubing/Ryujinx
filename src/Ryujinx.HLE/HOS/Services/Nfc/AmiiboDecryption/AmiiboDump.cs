@@ -91,7 +91,7 @@ namespace Ryujinx.HLE.HOS.Services.Nfc.AmiiboDecryption
                 Array.Copy(seedBytes, 0, dataForAes, 2, seedBytes.Length);
 
                 byte[] derivedBytes;
-                using (HMACSHA256 hmac = new HMACSHA256(key.HmacKey))
+                using (HMACSHA256 hmac = new(key.HmacKey))
                 {
                     derivedBytes = hmac.ComputeHash(dataForAes);
                 }
@@ -105,7 +105,7 @@ namespace Ryujinx.HLE.HOS.Services.Nfc.AmiiboDecryption
                 dataForHmacKey[1] = 0x01; // Counter (1)
                 Array.Copy(seedBytes, 0, dataForHmacKey, 2, seedBytes.Length);
 
-                using (HMACSHA256 hmac = new HMACSHA256(key.HmacKey))
+                using (HMACSHA256 hmac = new(key.HmacKey))
                 {
                     derivedBytes = hmac.ComputeHash(dataForHmacKey);
                 }
@@ -121,7 +121,7 @@ namespace Ryujinx.HLE.HOS.Services.Nfc.AmiiboDecryption
                 Array.Copy(seedBytes, 0, dataForHmacKey, 2, seedBytes.Length);
 
                 byte[] derivedBytes;
-                using (HMACSHA256 hmac = new HMACSHA256(key.HmacKey))
+                using (HMACSHA256 hmac = new(key.HmacKey))
                 {
                     derivedBytes = hmac.ComputeHash(dataForHmacKey);
                 }
@@ -229,7 +229,7 @@ namespace Ryujinx.HLE.HOS.Services.Nfc.AmiiboDecryption
             Array.Copy(data, 0x054, tagHmacData, 8, 44);
 
             byte[] tagHmac;
-            using (HMACSHA256 hmac = new HMACSHA256(hmacTagKey))
+            using (HMACSHA256 hmac = new(hmacTagKey))
             {
                 tagHmac = hmac.ComputeHash(tagHmacData);
             }
@@ -258,7 +258,7 @@ namespace Ryujinx.HLE.HOS.Services.Nfc.AmiiboDecryption
             Array.Copy(data, 0x054, dataHmacData, offset, len5);
 
             byte[] dataHmac;
-            using (HMACSHA256 hmac = new HMACSHA256(hmacDataKey))
+            using (HMACSHA256 hmac = new(hmacDataKey))
             {
                 dataHmac = hmac.ComputeHash(dataHmacData);
             }
@@ -278,7 +278,7 @@ namespace Ryujinx.HLE.HOS.Services.Nfc.AmiiboDecryption
             Array.Copy(data, 0x054, tagHmacData, 8, 44);
 
             byte[] calculatedTagHmac;
-            using (HMACSHA256 hmac = new HMACSHA256(hmacTagKey))
+            using (HMACSHA256 hmac = new(hmacTagKey))
             {
                 calculatedTagHmac = hmac.ComputeHash(tagHmacData);
             }
@@ -312,7 +312,7 @@ namespace Ryujinx.HLE.HOS.Services.Nfc.AmiiboDecryption
             Array.Copy(data, 0x054, dataHmacData, offset, len5);
 
             byte[] calculatedDataHmac;
-            using (HMACSHA256 hmac = new HMACSHA256(hmacDataKey))
+            using (HMACSHA256 hmac = new(hmacDataKey))
             {
                 calculatedDataHmac = hmac.ComputeHash(dataHmacData);
             }

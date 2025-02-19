@@ -192,7 +192,7 @@ namespace Ryujinx.Graphics.Shader.Translation
                             component = subIndex;
                         }
 
-                        TransformFeedbackVariable transformFeedbackVariable = new TransformFeedbackVariable(ioVariable, location, component);
+                        TransformFeedbackVariable transformFeedbackVariable = new(ioVariable, location, component);
                         _transformFeedbackDefinitions.TryAdd(transformFeedbackVariable, transformFeedbackOutputs[wordOffset]);
                     }
                 }
@@ -219,7 +219,7 @@ namespace Ryujinx.Graphics.Shader.Translation
                 return false;
             }
 
-            TransformFeedbackVariable transformFeedbackVariable = new TransformFeedbackVariable(ioVariable, location, component);
+            TransformFeedbackVariable transformFeedbackVariable = new(ioVariable, location, component);
             return _transformFeedbackDefinitions.TryGetValue(transformFeedbackVariable, out transformFeedbackOutput);
         }
 

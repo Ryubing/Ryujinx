@@ -1,7 +1,6 @@
 using Ryujinx.Audio;
 using Ryujinx.Audio.Integration;
 using Ryujinx.Audio.Renderer.Server;
-using Ryujinx.Common.Memory;
 using Ryujinx.Horizon.Common;
 using Ryujinx.Horizon.Sdk.Sf;
 using Ryujinx.Horizon.Sdk.Sf.Hipc;
@@ -64,7 +63,7 @@ namespace Ryujinx.Horizon.Sdk.Audio.Detail
             using MemoryHandle outputHandle = output.Pin();
             using MemoryHandle performanceOutputHandle = performanceOutput.Pin();
 
-            Result result = new Result((int)_renderSystem.Update(output, performanceOutput, input));
+            Result result = new((int)_renderSystem.Update(output, performanceOutput, input));
 
             return result;
         }

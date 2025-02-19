@@ -45,7 +45,7 @@ namespace Ryujinx.Graphics.Vulkan.Queries
                 QueryPipelineStatisticFlags flags = type == CounterType.PrimitivesGenerated ?
                     QueryPipelineStatisticFlags.GeometryShaderPrimitivesBit : 0;
 
-                QueryPoolCreateInfo queryPoolCreateInfo = new QueryPoolCreateInfo
+                QueryPoolCreateInfo queryPoolCreateInfo = new()
                 {
                     SType = StructureType.QueryPoolCreateInfo,
                     QueryCount = 1,

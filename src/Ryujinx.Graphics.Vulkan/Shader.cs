@@ -59,7 +59,7 @@ namespace Ryujinx.Graphics.Vulkan
 
                 fixed (byte* pCode = spirv)
                 {
-                    ShaderModuleCreateInfo shaderModuleCreateInfo = new ShaderModuleCreateInfo
+                    ShaderModuleCreateInfo shaderModuleCreateInfo = new()
                     {
                         SType = StructureType.ShaderModuleCreateInfo,
                         CodeSize = (uint)spirv.Length,
@@ -102,7 +102,7 @@ namespace Ryujinx.Graphics.Vulkan
                 return null;
             }
 
-            Span<byte> spirvBytes = new Span<byte>((void*)scr.CodePointer, (int)scr.CodeLength);
+            Span<byte> spirvBytes = new((void*)scr.CodePointer, (int)scr.CodeLength);
 
             byte[] code = new byte[(scr.CodeLength + 3) & ~3];
 

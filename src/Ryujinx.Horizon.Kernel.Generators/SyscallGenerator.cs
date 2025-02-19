@@ -128,7 +128,7 @@ namespace Ryujinx.Horizon.Kernel.Generators
         {
             SyscallSyntaxReceiver syntaxReceiver = (SyscallSyntaxReceiver)context.SyntaxReceiver;
 
-            CodeGenerator generator = new CodeGenerator();
+            CodeGenerator generator = new();
 
             generator.AppendLine("using Ryujinx.Common.Logging;");
             generator.AppendLine("using Ryujinx.Cpu;");
@@ -145,7 +145,7 @@ namespace Ryujinx.Horizon.Kernel.Generators
             GenerateResultCheckHelper(generator);
             generator.AppendLine();
 
-            List<SyscallIdAndName> syscalls = new List<SyscallIdAndName>();
+            List<SyscallIdAndName> syscalls = [];
 
             foreach (MethodDeclarationSyntax method in syntaxReceiver.SvcImplementations)
             {
@@ -200,11 +200,11 @@ namespace Ryujinx.Horizon.Kernel.Generators
             string[] args = new string[method.ParameterList.Parameters.Count];
             int index = 0;
 
-            RegisterAllocatorA32 regAlloc = new RegisterAllocatorA32();
+            RegisterAllocatorA32 regAlloc = new();
 
-            List<OutParameter> outParameters = new List<OutParameter>();
-            List<string> logInArgs = new List<string>();
-            List<string> logOutArgs = new List<string>();
+            List<OutParameter> outParameters = [];
+            List<string> logInArgs = [];
+            List<string> logOutArgs = [];
 
             foreach (ParameterSyntax methodParameter in method.ParameterList.Parameters)
             {
@@ -321,9 +321,9 @@ namespace Ryujinx.Horizon.Kernel.Generators
             int registerIndex = 0;
             int index = 0;
 
-            List<OutParameter> outParameters = new List<OutParameter>();
-            List<string> logInArgs = new List<string>();
-            List<string> logOutArgs = new List<string>();
+            List<OutParameter> outParameters = [];
+            List<string> logInArgs = [];
+            List<string> logOutArgs = [];
 
             foreach (ParameterSyntax methodParameter in method.ParameterList.Parameters)
             {

@@ -18,7 +18,7 @@ namespace Ryujinx.Ava.UI.Helpers
                 LocaleKeys.CompatibilityListNothing or 
                     LocaleKeys.CompatibilityListBoots or 
                     LocaleKeys.CompatibilityListMenus => Brushes.Red,
-                LocaleKeys.CompatibilityListIngame => Brushes.Yellow,
+                LocaleKeys.CompatibilityListIngame => Brushes.DarkOrange,
                 _ => Brushes.ForestGreen
             };
 

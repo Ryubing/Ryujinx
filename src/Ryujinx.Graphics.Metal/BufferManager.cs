@@ -74,7 +74,7 @@ namespace Ryujinx.Graphics.Metal
                 return BufferHandle.Null;
             }
 
-            BufferHolder holder = new BufferHolder(_renderer, _pipeline, buffer, size);
+            BufferHolder holder = new(_renderer, _pipeline, buffer, size);
 
             BufferCount++;
 

@@ -5,7 +5,6 @@ using Ryujinx.Cpu.LightningJit.Cache;
 using Ryujinx.Cpu.LightningJit.CodeGen.Arm64;
 using Ryujinx.Cpu.LightningJit.State;
 using Ryujinx.Cpu.Signal;
-using Ryujinx.Memory;
 using System;
 using System.Collections.Concurrent;
 using System.Collections.Generic;
@@ -134,7 +133,7 @@ namespace Ryujinx.Cpu.LightningJit
 
         public void InvalidateJitCacheRegion(ulong address, ulong size)
         {
-            ulong[] overlapAddresses = Array.Empty<ulong>();
+            ulong[] overlapAddresses = [];
 
             int overlapsCount = Functions.GetOverlaps(address, size, ref overlapAddresses);
 

@@ -39,7 +39,7 @@ namespace Ryujinx.Graphics.Vulkan
             bool isDepthStencil = format.IsDepthOrStencil();
 
             _device = device;
-            _attachments = new[] { view.GetImageViewForAttachment() };
+            _attachments = [view.GetImageViewForAttachment()];
             _validColorAttachments = isDepthStencil ? 0u : 1u;
             _baseAttachment = view;
 
@@ -49,7 +49,7 @@ namespace Ryujinx.Graphics.Vulkan
             }
             else
             {
-                _colors = new TextureView[] { view };
+                _colors = [view];
                 _colorsCanonical = _colors;
             }
 
@@ -57,9 +57,9 @@ namespace Ryujinx.Graphics.Vulkan
             Height = height;
             Layers = 1;
 
-            AttachmentSamples = new[] { (uint)view.Info.Samples };
-            AttachmentFormats = new[] { view.VkFormat };
-            AttachmentIndices = isDepthStencil ? Array.Empty<int>() : new[] { 0 };
+            AttachmentSamples = [(uint)view.Info.Samples];
+            AttachmentFormats = [view.VkFormat];
+            AttachmentIndices = isDepthStencil ? [] : [0];
             AttachmentIntegerFormatMask = format.IsInteger() ? 1u : 0u;
             LogicOpsAllowed = !format.IsFloatOrSrgb();
 
@@ -240,7 +240,7 @@ namespace Ryujinx.Graphics.Vulkan
                 attachments[i] = _attachments[i].Get(cbs).Value;
             }
 
-            FramebufferCreateInfo framebufferCreateInfo = new FramebufferCreateInfo
+            FramebufferCreateInfo framebufferCreateInfo = new()
             {
                 SType = StructureType.FramebufferCreateInfo,
                 RenderPass = renderPass.Get(cbs).Value,

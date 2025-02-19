@@ -10,7 +10,7 @@ namespace Ryujinx.Ava.UI.Helpers
 {
     internal class KeyValueConverter : IValueConverter
     {
-        public static KeyValueConverter Instance = new();
+        public static readonly KeyValueConverter Instance = new();
 
         private static readonly Dictionary<Key, LocaleKeys> _keysMap = new()
         {

@@ -10,7 +10,7 @@ Make sure your SDK version is higher or equal to the required version specified 
 
 ### Step 2
 
-Either use `git clone https://github.com/GreemDev/Ryujinx` on the command line to clone the repository or use Code --> Download zip button to get the files.
+Either use `git clone https://github.com/Ryubing/Ryujinx` on the command line to clone the repository or use Code --> Download zip button to get the files.
 
 ### Step 3
 

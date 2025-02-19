@@ -21,7 +21,7 @@ namespace Ryujinx.Cpu.Jit.HostTracked
         public AddressSpacePartitioned(MemoryTracking tracking, MemoryBlock backingMemory, NativePageTable nativePageTable, bool useProtectionMirrors)
         {
             _backingMemory = backingMemory;
-            _partitions = new();
+            _partitions = [];
             _asAllocator = new(tracking, nativePageTable.Read, _partitions);
             _updatePtCallback = nativePageTable.Update;
             _useProtectionMirrors = useProtectionMirrors;

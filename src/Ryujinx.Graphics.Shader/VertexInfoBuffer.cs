@@ -42,13 +42,12 @@ namespace Ryujinx.Graphics.Shader
 
         internal static StructureType GetStructureType()
         {
-            return new StructureType(new[]
-            {
+            return new StructureType([
                 new StructureField(AggregateType.Vector4 | AggregateType.U32, "vertex_counts"),
                 new StructureField(AggregateType.Vector4 | AggregateType.U32, "geometry_counts"),
                 new StructureField(AggregateType.Array | AggregateType.Vector4 | AggregateType.U32, "vertex_strides", ResourceReservations.MaxVertexBufferTextures),
-                new StructureField(AggregateType.Array | AggregateType.Vector4 | AggregateType.U32, "vertex_offsets", ResourceReservations.MaxVertexBufferTextures),
-            });
+                new StructureField(AggregateType.Array | AggregateType.Vector4 | AggregateType.U32, "vertex_offsets", ResourceReservations.MaxVertexBufferTextures)
+            ]);
         }
 
         public Vector4<int> VertexCounts;

@@ -23,8 +23,8 @@ namespace Ryujinx.HLE.HOS.Kernel.Threading
 
                 for (int core = 0; core < KScheduler.CpuCoresCount; core++)
                 {
-                    _suggestedThreadsPerPrioPerCore[prio][core] = new LinkedList<KThread>();
-                    _scheduledThreadsPerPrioPerCore[prio][core] = new LinkedList<KThread>();
+                    _suggestedThreadsPerPrioPerCore[prio][core] = [];
+                    _scheduledThreadsPerPrioPerCore[prio][core] = [];
                 }
             }
 

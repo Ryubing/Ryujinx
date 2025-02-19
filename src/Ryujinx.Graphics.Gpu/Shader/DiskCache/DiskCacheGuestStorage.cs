@@ -429,7 +429,7 @@ namespace Ryujinx.Graphics.Gpu.Shader.DiskCache
         {
             if (!_toc.TryGetValue(hash, out List<TocMemoryEntry> list))
             {
-                _toc.Add(hash, list = new List<TocMemoryEntry>());
+                _toc.Add(hash, list = []);
             }
 
             list.Add(new TocMemoryEntry(dataOffset, codeSize, cb1DataSize, index));

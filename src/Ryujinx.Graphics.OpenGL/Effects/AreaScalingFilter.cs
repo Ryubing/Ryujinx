@@ -2,7 +2,6 @@ using OpenTK.Graphics.OpenGL;
 using Ryujinx.Common;
 using Ryujinx.Graphics.GAL;
 using Ryujinx.Graphics.OpenGL.Image;
-using System;
 using static Ryujinx.Graphics.OpenGL.Effects.ShaderHelper;
 
 namespace Ryujinx.Graphics.OpenGL.Effects

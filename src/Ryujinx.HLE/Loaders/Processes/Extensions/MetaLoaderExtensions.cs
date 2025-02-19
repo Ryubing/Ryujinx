@@ -45,7 +45,7 @@ namespace Ryujinx.HLE.Loaders.Processes.Extensions
                 path = ProcessConst.MainNpdmPath;
             }
 
-            using UniqueRef<IFile> npdmFile = new UniqueRef<IFile>();
+            using UniqueRef<IFile> npdmFile = new();
 
             fileSystem.OpenFile(ref npdmFile.Ref, path.ToU8Span(), OpenMode.Read).ThrowIfFailure();
 

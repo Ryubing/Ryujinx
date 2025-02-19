@@ -138,7 +138,7 @@ namespace Ryujinx.HLE.HOS.Services.Ldn.UserServiceCreator.LdnMitm.Proxy
 
             lock (_scanLock)
             {
-                Dictionary<ulong, NetworkInfo> results = new Dictionary<ulong, NetworkInfo>();
+                Dictionary<ulong, NetworkInfo> results = new();
 
                 foreach (KeyValuePair<ulong, NetworkInfo> last in _scanResultsLast)
                 {

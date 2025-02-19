@@ -208,7 +208,7 @@ namespace Ryujinx.Graphics.Gpu.Engine.InlineToMemory
                     }
                 }
 
-                OffsetCalculator dstCalculator = new OffsetCalculator(
+                OffsetCalculator dstCalculator = new(
                     _dstWidth,
                     _dstHeight,
                     _dstStride,

@@ -113,7 +113,7 @@ namespace Ryujinx.Graphics.Vulkan
 
         public unsafe Auto<DisposableBufferView> CreateView(VkFormat format, int offset, int size, Action invalidateView)
         {
-            BufferViewCreateInfo bufferViewCreateInfo = new BufferViewCreateInfo
+            BufferViewCreateInfo bufferViewCreateInfo = new()
             {
                 SType = StructureType.BufferViewCreateInfo,
                 Buffer = new VkBuffer(_bufferHandle),
@@ -205,7 +205,7 @@ namespace Ryujinx.Graphics.Vulkan
 
             // Build data for the new mirror.
 
-            Span<byte> baseData = new Span<byte>((void*)(_map + offset), size);
+            Span<byte> baseData = new((void*)(_map + offset), size);
             Span<byte> modData = _pendingData.AsSpan(offset, size);
 
             StagingBufferReserved? newMirror = _gd.BufferManager.StagingBuffer.TryReserveData(cbs, size);
@@ -486,7 +486,7 @@ namespace Ryujinx.Graphics.Vulkan
                 (int keyOffset, int keySize) = FromMirrorKey(key);
                 if (!(offset + size <= keyOffset || offset >= keyOffset + keySize))
                 {
-                    toRemove ??= new List<ulong>();
+                    toRemove ??= [];
 
                     toRemove.Add(key);
                 }
@@ -723,7 +723,7 @@ namespace Ryujinx.Graphics.Vulkan
                 dstOffset,
                 size);
 
-            BufferCopy region = new BufferCopy((ulong)srcOffset, (ulong)dstOffset, (ulong)size);
+            BufferCopy region = new((ulong)srcOffset, (ulong)dstOffset, (ulong)size);
 
             gd.Api.CmdCopyBuffer(cbs.CommandBuffer, srcBuffer, dstBuffer, 1, &region);
 
@@ -804,7 +804,7 @@ namespace Ryujinx.Graphics.Vulkan
                 return null;
             }
 
-            I8ToI16CacheKey key = new I8ToI16CacheKey(_gd);
+            I8ToI16CacheKey key = new(_gd);
 
             if (!_cachedConvertedBuffers.TryGetValue(offset, size, key, out BufferHolder holder))
             {
@@ -828,7 +828,7 @@ namespace Ryujinx.Graphics.Vulkan
                 return null;
             }
 
-            AlignedVertexBufferCacheKey key = new AlignedVertexBufferCacheKey(_gd, stride, alignment);
+            AlignedVertexBufferCacheKey key = new(_gd, stride, alignment);
 
             if (!_cachedConvertedBuffers.TryGetValue(offset, size, key, out BufferHolder holder))
             {
@@ -854,7 +854,7 @@ namespace Ryujinx.Graphics.Vulkan
                 return null;
             }
 
-            TopologyConversionCacheKey key = new TopologyConversionCacheKey(_gd, pattern, indexSize);
+            TopologyConversionCacheKey key = new(_gd, pattern, indexSize);
 
             if (!_cachedConvertedBuffers.TryGetValue(offset, size, key, out BufferHolder holder))
             {

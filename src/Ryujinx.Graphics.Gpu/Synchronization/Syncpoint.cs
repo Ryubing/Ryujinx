@@ -24,7 +24,7 @@ namespace Ryujinx.Graphics.Gpu.Synchronization
         public Syncpoint(uint id)
         {
             Id = id;
-            _waiters = new List<SyncpointWaiterHandle>();
+            _waiters = [];
         }
 
         /// <summary>
@@ -92,7 +92,7 @@ namespace Ryujinx.Graphics.Gpu.Synchronization
                         }
                         else
                         {
-                            expiredList ??= new List<SyncpointWaiterHandle>();
+                            expiredList ??= [];
 
                             expiredList.Add(item);
                         }

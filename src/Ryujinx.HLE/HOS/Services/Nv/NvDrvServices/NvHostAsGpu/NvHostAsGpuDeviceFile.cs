@@ -15,7 +15,7 @@ namespace Ryujinx.HLE.HOS.Services.Nv.NvDrvServices.NvHostAsGpu
         private const uint SmallPageSize = 0x1000;
         private const uint BigPageSize = 0x10000;
 
-        private static readonly uint[] _pageSizes = { SmallPageSize, BigPageSize };
+        private static readonly uint[] _pageSizes = [SmallPageSize, BigPageSize];
 
         private const ulong SmallRegionLimit = 0x400000000UL; // 16 GiB
         private const ulong DefaultUserSize = 1UL << 37;
@@ -32,10 +32,11 @@ namespace Ryujinx.HLE.HOS.Services.Nv.NvDrvServices.NvHostAsGpu
             }
         }
 
-        private static readonly VmRegion[] _vmRegions = {
-            new VmRegion((ulong)BigPageSize << 16, SmallRegionLimit),
-            new VmRegion(SmallRegionLimit, DefaultUserSize),
-        };
+        private static readonly VmRegion[] _vmRegions =
+        [
+            new((ulong)BigPageSize << 16, SmallRegionLimit),
+            new(SmallRegionLimit, DefaultUserSize)
+        ];
 
         private readonly AddressSpaceContext _asContext;
         private readonly NvMemoryAllocator _memoryAllocator;

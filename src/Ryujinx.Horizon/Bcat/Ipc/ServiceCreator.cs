@@ -39,7 +39,7 @@ namespace Ryujinx.Horizon.Bcat.Ipc
         [CmifCommand(1)]
         public Result CreateDeliveryCacheStorageService(out IDeliveryCacheStorageService service, [ClientProcessId] ulong pid)
         {
-            using SharedRef<LibHac.Bcat.Impl.Ipc.IDeliveryCacheStorageService> libHacService = new SharedRef<LibHac.Bcat.Impl.Ipc.IDeliveryCacheStorageService>();
+            using SharedRef<LibHac.Bcat.Impl.Ipc.IDeliveryCacheStorageService> libHacService = new();
 
             LibHac.Result resultCode = _libHacService.Get.CreateDeliveryCacheStorageService(ref libHacService.Ref, pid);
 
@@ -58,7 +58,7 @@ namespace Ryujinx.Horizon.Bcat.Ipc
         [CmifCommand(2)]
         public Result CreateDeliveryCacheStorageServiceWithApplicationId(out IDeliveryCacheStorageService service, ApplicationId applicationId)
         {
-            using SharedRef<LibHac.Bcat.Impl.Ipc.IDeliveryCacheStorageService> libHacService = new SharedRef<LibHac.Bcat.Impl.Ipc.IDeliveryCacheStorageService>();
+            using SharedRef<LibHac.Bcat.Impl.Ipc.IDeliveryCacheStorageService> libHacService = new();
 
             LibHac.Result resultCode = _libHacService.Get.CreateDeliveryCacheStorageServiceWithApplicationId(ref libHacService.Ref, new LibHac.ApplicationId(applicationId.Id));
 

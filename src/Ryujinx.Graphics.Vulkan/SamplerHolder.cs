@@ -28,7 +28,7 @@ namespace Ryujinx.Graphics.Vulkan
 
             BorderColor borderColor = GetConstrainedBorderColor(info.BorderColor, out bool cantConstrain);
 
-            Silk.NET.Vulkan.SamplerCreateInfo samplerCreateInfo = new Silk.NET.Vulkan.SamplerCreateInfo
+            Silk.NET.Vulkan.SamplerCreateInfo samplerCreateInfo = new()
             {
                 SType = StructureType.SamplerCreateInfo,
                 MagFilter = info.MagFilter.Convert(),
@@ -52,7 +52,7 @@ namespace Ryujinx.Graphics.Vulkan
 
             if (cantConstrain && gd.Capabilities.SupportsCustomBorderColor)
             {
-                ClearColorValue color = new ClearColorValue(
+                ClearColorValue color = new(
                     info.BorderColor.Red,
                     info.BorderColor.Green,
                     info.BorderColor.Blue,

@@ -95,23 +95,23 @@ namespace Ryujinx.Graphics.Vulkan
                 swizzleG = tempB;
             }
 
-            ComponentMapping componentMapping = new ComponentMapping(swizzleR, swizzleG, swizzleB, swizzleA);
+            ComponentMapping componentMapping = new(swizzleR, swizzleG, swizzleB, swizzleA);
 
             ImageAspectFlags aspectFlags = info.Format.ConvertAspectFlags(info.DepthStencilMode);
             ImageAspectFlags aspectFlagsDepth = info.Format.ConvertAspectFlags();
 
-            ImageSubresourceRange subresourceRange = new ImageSubresourceRange(aspectFlags, (uint)firstLevel, levels, (uint)firstLayer, layers);
-            ImageSubresourceRange subresourceRangeDepth = new ImageSubresourceRange(aspectFlagsDepth, (uint)firstLevel, levels, (uint)firstLayer, layers);
+            ImageSubresourceRange subresourceRange = new(aspectFlags, (uint)firstLevel, levels, (uint)firstLayer, layers);
+            ImageSubresourceRange subresourceRangeDepth = new(aspectFlagsDepth, (uint)firstLevel, levels, (uint)firstLayer, layers);
 
             unsafe Auto<DisposableImageView> CreateImageView(ComponentMapping cm, ImageSubresourceRange sr, ImageViewType viewType, ImageUsageFlags usageFlags)
             {
-                ImageViewUsageCreateInfo imageViewUsage = new ImageViewUsageCreateInfo
+                ImageViewUsageCreateInfo imageViewUsage = new()
                 {
                     SType = StructureType.ImageViewUsageCreateInfo,
                     Usage = usageFlags,
                 };
 
-                ImageViewCreateInfo imageCreateInfo = new ImageViewCreateInfo
+                ImageViewCreateInfo imageCreateInfo = new()
                 {
                     SType = StructureType.ImageViewCreateInfo,
                     Image = storage.GetImageForViewCreation(),
@@ -136,7 +136,7 @@ namespace Ryujinx.Graphics.Vulkan
             _imageView = CreateImageView(componentMapping, subresourceRange, type, shaderUsage);
 
             // Framebuffer attachments and storage images requires a identity component mapping.
-            ComponentMapping identityComponentMapping = new ComponentMapping(
+            ComponentMapping identityComponentMapping = new(
                 ComponentSwizzle.R,
                 ComponentSwizzle.G,
                 ComponentSwizzle.B,
@@ -934,17 +934,17 @@ namespace Ryujinx.Graphics.Vulkan
                     aspectFlags = ImageAspectFlags.DepthBit;
                 }
 
-                ImageSubresourceLayers sl = new ImageSubresourceLayers(
+                ImageSubresourceLayers sl = new(
                     aspectFlags,
                     (uint)(FirstLevel + dstLevel + level),
                     (uint)(FirstLayer + layer),
                     (uint)layers);
 
-                Extent3D extent = new Extent3D((uint)width, (uint)height, (uint)depth);
+                Extent3D extent = new((uint)width, (uint)height, (uint)depth);
 
                 int z = is3D ? dstLayer : 0;
 
-                BufferImageCopy region = new BufferImageCopy(
+                BufferImageCopy region = new(
                     (ulong)offset,
                     (uint)AlignUpNpot(rowLength, Info.BlockWidth),
                     (uint)AlignUpNpot(height, Info.BlockHeight),
@@ -993,9 +993,9 @@ namespace Ryujinx.Graphics.Vulkan
                 aspectFlags = ImageAspectFlags.DepthBit;
             }
 
-            ImageSubresourceLayers sl = new ImageSubresourceLayers(aspectFlags, (uint)(FirstLevel + dstLevel), (uint)(FirstLayer + dstLayer), 1);
+            ImageSubresourceLayers sl = new(aspectFlags, (uint)(FirstLevel + dstLevel), (uint)(FirstLayer + dstLayer), 1);
 
-            Extent3D extent = new Extent3D((uint)width, (uint)height, 1);
+            Extent3D extent = new((uint)width, (uint)height, 1);
 
             int rowLengthAlignment = Info.BlockWidth;
 
@@ -1005,7 +1005,7 @@ namespace Ryujinx.Graphics.Vulkan
                 rowLengthAlignment = 4 / Info.BytesPerPixel;
             }
 
-            BufferImageCopy region = new BufferImageCopy(
+            BufferImageCopy region = new(
                 0,
                 (uint)AlignUpNpot(width, rowLengthAlignment),
                 (uint)AlignUpNpot(height, Info.BlockHeight),

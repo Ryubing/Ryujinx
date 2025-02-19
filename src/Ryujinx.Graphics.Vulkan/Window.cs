@@ -127,7 +127,7 @@ namespace Ryujinx.Graphics.Vulkan
 
             SwapchainKHR oldSwapchain = _swapchain;
 
-            SwapchainCreateInfoKHR swapchainCreateInfo = new SwapchainCreateInfoKHR
+            SwapchainCreateInfoKHR swapchainCreateInfo = new()
             {
                 SType = StructureType.SwapchainCreateInfoKhr,
                 Surface = _surface,
@@ -144,7 +144,7 @@ namespace Ryujinx.Graphics.Vulkan
                 Clipped = true,
             };
 
-            TextureCreateInfo textureCreateInfo = new TextureCreateInfo(
+            TextureCreateInfo textureCreateInfo = new(
                 _width,
                 _height,
                 1,
@@ -179,7 +179,7 @@ namespace Ryujinx.Graphics.Vulkan
                 _swapchainImageViews[i] = CreateSwapchainImageView(_swapchainImages[i], surfaceFormat.Format, textureCreateInfo);
             }
 
-            SemaphoreCreateInfo semaphoreCreateInfo = new SemaphoreCreateInfo
+            SemaphoreCreateInfo semaphoreCreateInfo = new()
             {
                 SType = StructureType.SemaphoreCreateInfo,
             };
@@ -201,7 +201,7 @@ namespace Ryujinx.Graphics.Vulkan
 
         private unsafe TextureView CreateSwapchainImageView(Image swapchainImage, VkFormat format, TextureCreateInfo info)
         {
-            ComponentMapping componentMapping = new ComponentMapping(
+            ComponentMapping componentMapping = new(
                 ComponentSwizzle.R,
                 ComponentSwizzle.G,
                 ComponentSwizzle.B,
@@ -209,9 +209,9 @@ namespace Ryujinx.Graphics.Vulkan
 
             ImageAspectFlags aspectFlags = ImageAspectFlags.ColorBit;
 
-            ImageSubresourceRange subresourceRange = new ImageSubresourceRange(aspectFlags, 0, 1, 0, 1);
+            ImageSubresourceRange subresourceRange = new(aspectFlags, 0, 1, 0, 1);
 
-            ImageViewCreateInfo imageCreateInfo = new ImageViewCreateInfo
+            ImageViewCreateInfo imageCreateInfo = new()
             {
                 SType = StructureType.ImageViewCreateInfo,
                 Image = swapchainImage,
@@ -394,7 +394,7 @@ namespace Ryujinx.Graphics.Vulkan
                     _gd.CommandBufferPool.Return(
                         cbs,
                         null,
-                        stackalloc[] { PipelineStageFlags.ColorAttachmentOutputBit },
+                        [PipelineStageFlags.ColorAttachmentOutputBit],
                         null);
                     _gd.FlushAllCommands();
                     cbs.GetFence().Wait();
@@ -457,9 +457,9 @@ namespace Ryujinx.Graphics.Vulkan
 
             _gd.CommandBufferPool.Return(
                 cbs,
-                stackalloc[] { _imageAvailableSemaphores[semaphoreIndex] },
-                stackalloc[] { PipelineStageFlags.ColorAttachmentOutputBit },
-                stackalloc[] { _renderFinishedSemaphores[semaphoreIndex] });
+                [_imageAvailableSemaphores[semaphoreIndex]],
+                [PipelineStageFlags.ColorAttachmentOutputBit],
+                [_renderFinishedSemaphores[semaphoreIndex]]);
 
             // TODO: Present queue.
             Semaphore semaphore = _renderFinishedSemaphores[semaphoreIndex];
@@ -467,7 +467,7 @@ namespace Ryujinx.Graphics.Vulkan
 
             Result result;
 
-            PresentInfoKHR presentInfo = new PresentInfoKHR
+            PresentInfoKHR presentInfo = new()
             {
                 SType = StructureType.PresentInfoKhr,
                 WaitSemaphoreCount = 1,
@@ -594,9 +594,9 @@ namespace Ryujinx.Graphics.Vulkan
             ImageLayout srcLayout,
             ImageLayout dstLayout)
         {
-            ImageSubresourceRange subresourceRange = new ImageSubresourceRange(ImageAspectFlags.ColorBit, 0, 1, 0, 1);
+            ImageSubresourceRange subresourceRange = new(ImageAspectFlags.ColorBit, 0, 1, 0, 1);
 
-            ImageMemoryBarrier barrier = new ImageMemoryBarrier
+            ImageMemoryBarrier barrier = new()
             {
                 SType = StructureType.ImageMemoryBarrier,
                 SrcAccessMask = srcAccess,

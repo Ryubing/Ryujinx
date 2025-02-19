@@ -29,22 +29,22 @@ namespace Ryujinx.HLE.HOS.Services.Ldn.UserServiceCreator.LdnRyu.Proxy
 
         private const ushort AuthWaitSeconds = 1;
 
-        private readonly ReaderWriterLockSlim _lock = new ReaderWriterLockSlim(LockRecursionPolicy.SupportsRecursion);
+        private readonly ReaderWriterLockSlim _lock = new(LockRecursionPolicy.SupportsRecursion);
 
         public ushort PrivatePort { get; }
 
         private ushort _publicPort;
 
         private bool _disposed;
-        private readonly CancellationTokenSource _disposedCancellation = new CancellationTokenSource();
+        private readonly CancellationTokenSource _disposedCancellation = new();
 
         private NatDevice _natDevice;
         private Mapping _portMapping;
 
-        private readonly List<P2pProxySession> _players = new List<P2pProxySession>();
+        private readonly List<P2pProxySession> _players = [];
 
-        private readonly List<ExternalProxyToken> _waitingTokens = new List<ExternalProxyToken>();
-        private readonly AutoResetEvent _tokenEvent = new AutoResetEvent(false);
+        private readonly List<ExternalProxyToken> _waitingTokens = [];
+        private readonly AutoResetEvent _tokenEvent = new(false);
 
         private uint _broadcastAddress;
 
@@ -112,8 +112,8 @@ namespace Ryujinx.HLE.HOS.Services.Ldn.UserServiceCreator.LdnRyu.Proxy
 
         public async Task<ushort> NatPunch()
         {
-            NatDiscoverer discoverer = new NatDiscoverer();
-            CancellationTokenSource cts = new CancellationTokenSource(1000);
+            NatDiscoverer discoverer = new();
+            CancellationTokenSource cts = new(2500);
 
             NatDevice device;
 
@@ -300,7 +300,7 @@ namespace Ryujinx.HLE.HOS.Services.Ldn.UserServiceCreator.LdnRyu.Proxy
 
                         session.SetIpv4(waitToken.VirtualIp);
 
-                        ProxyConfig pconfig = new ProxyConfig
+                        ProxyConfig pconfig = new()
                         {
                             ProxyIp = session.VirtualIpAddress,
                             ProxySubnetMask = 0xFFFF0000 // TODO: Use from server.

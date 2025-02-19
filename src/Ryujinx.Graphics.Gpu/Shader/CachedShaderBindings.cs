@@ -2,7 +2,6 @@ using Ryujinx.Graphics.GAL;
 using Ryujinx.Graphics.Gpu.Engine;
 using Ryujinx.Graphics.Gpu.Image;
 using Ryujinx.Graphics.Shader;
-using System;
 using System.Linq;
 
 namespace Ryujinx.Graphics.Gpu.Shader
@@ -48,10 +47,10 @@ namespace Ryujinx.Graphics.Gpu.Shader
 
                 if (stage == null)
                 {
-                    TextureBindings[i] = Array.Empty<TextureBindingInfo>();
-                    ImageBindings[i] = Array.Empty<TextureBindingInfo>();
-                    ConstantBufferBindings[i] = Array.Empty<BufferDescriptor>();
-                    StorageBufferBindings[i] = Array.Empty<BufferDescriptor>();
+                    TextureBindings[i] = [];
+                    ImageBindings[i] = [];
+                    ConstantBufferBindings[i] = [];
+                    StorageBufferBindings[i] = [];
 
                     continue;
                 }
@@ -60,7 +59,7 @@ namespace Ryujinx.Graphics.Gpu.Shader
                 {
                     Target target = descriptor.Type != SamplerType.None ? ShaderTexture.GetTarget(descriptor.Type) : default;
 
-                    TextureBindingInfo result = new TextureBindingInfo(
+                    TextureBindingInfo result = new(
                         target,
                         descriptor.Set,
                         descriptor.Binding,
@@ -88,7 +87,7 @@ namespace Ryujinx.Graphics.Gpu.Shader
                     Target target = ShaderTexture.GetTarget(descriptor.Type);
                     FormatInfo formatInfo = ShaderTexture.GetFormatInfo(descriptor.Format);
 
-                    TextureBindingInfo result = new TextureBindingInfo(
+                    TextureBindingInfo result = new(
                         target,
                         formatInfo,
                         descriptor.Set,

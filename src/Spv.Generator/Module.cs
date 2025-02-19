@@ -46,21 +46,21 @@ namespace Spv.Generator
         {
             _version = version;
             _bound = 1;
-            _capabilities = new List<Capability>();
-            _extensions = new List<string>();
+            _capabilities = [];
+            _extensions = [];
             _extInstImports = new Dictionary<DeterministicStringKey, Instruction>();
             _addressingModel = AddressingModel.Logical;
             _memoryModel = MemoryModel.Simple;
-            _entrypoints = new List<Instruction>();
-            _executionModes = new List<Instruction>();
-            _debug = new List<Instruction>();
-            _annotations = new List<Instruction>();
+            _entrypoints = [];
+            _executionModes = [];
+            _debug = [];
+            _annotations = [];
             _typeDeclarations = new Dictionary<TypeDeclarationKey, Instruction>();
-            _typeDeclarationsList = new List<Instruction>();
+            _typeDeclarationsList = [];
             _constants = new Dictionary<ConstantKey, Instruction>();
-            _globals = new List<Instruction>();
-            _functionsDeclarations = new List<Instruction>();
-            _functionsDefinitions = new List<Instruction>();
+            _globals = [];
+            _functionsDeclarations = [];
+            _functionsDefinitions = [];
 
             _instPool = instPool ?? new GeneratorPool<Instruction>();
             _integerPool = integerPool ?? new GeneratorPool<LiteralInteger>();
@@ -93,7 +93,7 @@ namespace Spv.Generator
 
         public Instruction AddExtInstImport(string import)
         {
-            DeterministicStringKey key = new DeterministicStringKey(import);
+            DeterministicStringKey key = new(import);
 
             if (_extInstImports.TryGetValue(key, out Instruction extInstImport))
             {
@@ -113,7 +113,7 @@ namespace Spv.Generator
 
         private void AddTypeDeclaration(Instruction instruction, bool forceIdAllocation)
         {
-            TypeDeclarationKey key = new TypeDeclarationKey(instruction);
+            TypeDeclarationKey key = new(instruction);
 
             if (!forceIdAllocation)
             {
@@ -214,7 +214,7 @@ namespace Spv.Generator
                          constant.Opcode == Op.OpConstantNull ||
                          constant.Opcode == Op.OpConstantComposite);
 
-            ConstantKey key = new ConstantKey(constant);
+            ConstantKey key = new(constant);
 
             if (_constants.TryGetValue(key, out Instruction global))
             {
@@ -333,7 +333,7 @@ namespace Spv.Generator
             }
 
             // Ensure that everything is in the right order in the declarations section.
-            List<Instruction> declarations = new();
+            List<Instruction> declarations = [];
             declarations.AddRange(_typeDeclarationsList);
             declarations.AddRange(_globals);
             declarations.AddRange(_constants.Values);

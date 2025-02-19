@@ -2,7 +2,6 @@ using Avalonia;
 using Avalonia.Controls;
 using Avalonia.Layout;
 using Avalonia.Threading;
-using CommunityToolkit.Mvvm.Input;
 using Gommon;
 using LibHac.Common;
 using LibHac.Ns;
@@ -51,13 +50,9 @@ namespace Ryujinx.Ava.UI.Views.Main
             UninstallFileTypesMenuItem.Command = Commands.Create(UninstallFileTypes);
             XciTrimmerMenuItem.Command = Commands.Create(XCITrimmerWindow.Show);
             AboutWindowMenuItem.Command = Commands.Create(AboutWindow.Show);
-            CompatibilityListMenuItem.Command = Commands.Create(CompatibilityList.Show);
-            
-            UpdateMenuItem.Command = Commands.Create(async () =>
-            {
-                if (Updater.CanUpdate(true))
-                    await Updater.BeginUpdateAsync(true);
-            });
+            CompatibilityListMenuItem.Command = Commands.Create(() => CompatibilityList.Show());
+
+            UpdateMenuItem.Command = MainWindowViewModel.UpdateCommand;
 
             FaqMenuItem.Command = 
                 SetupGuideMenuItem.Command = 
@@ -134,7 +129,12 @@ namespace Ryujinx.Ava.UI.Views.Main
         {
             Window.SettingsWindow = new(Window.VirtualFileSystem, Window.ContentManager);
 
+            Rainbow.Enable();
+            
             await Window.SettingsWindow.ShowDialog(Window);
+            
+            Rainbow.Disable();
+            Rainbow.Reset();
 
             Window.SettingsWindow = null;
 

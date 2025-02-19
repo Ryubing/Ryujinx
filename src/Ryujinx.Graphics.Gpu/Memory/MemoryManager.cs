@@ -1,5 +1,4 @@
 using Ryujinx.Common.Memory;
-using Ryujinx.Graphics.Gpu.Image;
 using Ryujinx.Memory;
 using Ryujinx.Memory.Range;
 using System;
@@ -458,7 +457,7 @@ namespace Ryujinx.Graphics.Gpu.Memory
 
             int pages = (int)((endVaRounded - va) / PageSize);
 
-            List<MemoryRange> regions = new List<MemoryRange>();
+            List<MemoryRange> regions = [];
 
             for (int page = 0; page < pages - 1; page++)
             {

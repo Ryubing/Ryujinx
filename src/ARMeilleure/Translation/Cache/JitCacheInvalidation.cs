@@ -1,13 +1,12 @@
 using ARMeilleure.Memory;
-using System;
 using System.Runtime.InteropServices;
 
 namespace ARMeilleure.Translation.Cache
 {
     class JitCacheInvalidation
     {
-        private static readonly int[] _invalidationCode = new int[]
-        {
+        private static readonly int[] _invalidationCode =
+        [
             unchecked((int)0xd53b0022), // mrs  x2, ctr_el0
             unchecked((int)0xd3504c44), // ubfx x4, x2, #16, #4
             unchecked((int)0x52800083), // mov  w3, #0x4
@@ -35,8 +34,8 @@ namespace ARMeilleure.Translation.Cache
             unchecked((int)0x54ffffa8), // b.hi 54 <ic_clear_loop>
             unchecked((int)0xd5033b9f), // dsb  ish
             unchecked((int)0xd5033fdf), // isb
-            unchecked((int)0xd65f03c0), // ret
-        };
+            unchecked((int)0xd65f03c0) // ret
+        ];
 
         private delegate void InvalidateCache(ulong start, ulong end);
 

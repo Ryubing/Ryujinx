@@ -13,7 +13,7 @@ namespace Ryujinx.Input.SDL2
 
         public string DriverName => "SDL2";
 
-        private static readonly string[] _keyboardIdentifers = new string[1] { "0" };
+        private static readonly string[] _keyboardIdentifers = ["0"];
 
         public ReadOnlySpan<string> GamepadsIds => _keyboardIdentifers;
 

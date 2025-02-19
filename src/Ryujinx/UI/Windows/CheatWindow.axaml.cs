@@ -34,7 +34,10 @@ namespace Ryujinx.Ava.UI.Windows
 
         public CheatWindow(VirtualFileSystem virtualFileSystem, string titleId, string titleName, string titlePath)
         {
-            LoadedCheats = new AvaloniaList<CheatNode>();
+            MinWidth = 500;
+            MinHeight = 650;
+            
+            LoadedCheats = [];
             IntegrityCheckLevel checkLevel = ConfigurationState.Instance.System.EnableFsIntegrityChecks
                 ? IntegrityCheckLevel.ErrorOnInvalid
                 : IntegrityCheckLevel.None;
@@ -59,9 +62,9 @@ namespace Ryujinx.Ava.UI.Windows
 
             int cheatAdded = 0;
 
-            ModLoader.ModCache mods = new ModLoader.ModCache();
+            ModLoader.ModCache mods = new();
 
-            ModLoader.QueryContentsDir(mods, new DirectoryInfo(Path.Combine(modsBasePath, "contents")), titleIdValue);
+            ModLoader.QueryContentsDir(mods, new DirectoryInfo(Path.Combine(modsBasePath, "contents")), titleIdValue, []);
 
             string currentCheatFile = string.Empty;
             string buildId = string.Empty;
@@ -81,7 +84,7 @@ namespace Ryujinx.Ava.UI.Windows
                     LoadedCheats.Add(currentGroup);
                 }
 
-                CheatNode model = new CheatNode(cheat.Name, buildId, string.Empty, false, enabled.Contains($"{buildId}-{cheat.Name}"));
+                CheatNode model = new(cheat.Name, buildId, string.Empty, false, enabled.Contains($"{buildId}-{cheat.Name}"));
                 currentGroup?.SubNodes.Add(model);
 
                 cheatAdded++;

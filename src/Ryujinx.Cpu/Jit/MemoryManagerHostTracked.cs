@@ -8,7 +8,6 @@ using Ryujinx.Memory.Tracking;
 using System;
 using System.Buffers;
 using System.Collections.Generic;
-using System.Linq;
 using System.Runtime.CompilerServices;
 
 namespace Ryujinx.Cpu.Jit
@@ -443,7 +442,7 @@ namespace Ryujinx.Cpu.Jit
                 return null;
             }
 
-            List<HostMemoryRange> regions = new List<HostMemoryRange>();
+            List<HostMemoryRange> regions = [];
             ulong endVa = va + size;
 
             try

@@ -1,5 +1,6 @@
 using Gommon;
 using Ryujinx.Common.Configuration;
+using Ryujinx.Common.Helper;
 using Ryujinx.Common.Logging;
 using Ryujinx.Graphics.GAL;
 using Ryujinx.Graphics.Shader;
@@ -84,8 +85,8 @@ namespace Ryujinx.Graphics.Vulkan
         private readonly string _preferredGpuId;
 
         private int[] _pdReservedBindings;
-        private readonly static int[] _pdReservedBindingsNvn = { 3, 18, 21, 36, 30 };
-        private readonly static int[] _pdReservedBindingsOgl = { 17, 18, 34, 35, 36 };
+        private readonly static int[] _pdReservedBindingsNvn = [3, 18, 21, 36, 30];
+        private readonly static int[] _pdReservedBindingsOgl = [17, 18, 34, 35, 36];
 
         internal Vendor Vendor { get; private set; }
         internal bool IsAmdWindows { get; private set; }
@@ -215,7 +216,7 @@ namespace Ryujinx.Graphics.Vulkan
 
             bool supportsPushDescriptors = _physicalDevice.IsDeviceExtensionPresent(KhrPushDescriptor.ExtensionName);
 
-            PhysicalDevicePushDescriptorPropertiesKHR propertiesPushDescriptor = new PhysicalDevicePushDescriptorPropertiesKHR()
+            PhysicalDevicePushDescriptorPropertiesKHR propertiesPushDescriptor = new()
             {
                 SType = StructureType.PhysicalDevicePushDescriptorPropertiesKhr
             };
@@ -375,11 +376,11 @@ namespace Ryujinx.Graphics.Vulkan
 
             GpuVersion = $"Vulkan v{ParseStandardVulkanVersion(properties.ApiVersion)}, Driver v{ParseDriverVersion(ref properties)}";
 
-            IsAmdGcn = !IsMoltenVk && Vendor == Vendor.Amd && VendorUtils.AmdGcnRegex().IsMatch(GpuRenderer);
+            IsAmdGcn = !IsMoltenVk && Vendor == Vendor.Amd && Patterns.AmdGcn.IsMatch(GpuRenderer);
 
             if (Vendor == Vendor.Nvidia)
             {
-                Match match = VendorUtils.NvidiaConsumerClassRegex().Match(GpuRenderer);
+                Match match = Patterns.NvidiaConsumerClass.Match(GpuRenderer);
 
                 if (match != null && int.TryParse(match.Groups[2].Value, out int gpuNumber))
                 {
@@ -522,7 +523,7 @@ namespace Ryujinx.Graphics.Vulkan
                 }
                 else
                 {
-                    _pdReservedBindings = Array.Empty<int>();
+                    _pdReservedBindings = [];
                 }
             }
 
@@ -832,7 +833,7 @@ namespace Ryujinx.Graphics.Vulkan
             {
                 Logger.Error?.PrintMsg(LogClass.Gpu, $"Error querying Vulkan devices: {ex.Message}");
 
-                return Array.Empty<DeviceInfo>();
+                return [];
             }
         }
 
@@ -845,7 +846,7 @@ namespace Ryujinx.Graphics.Vulkan
             catch (Exception)
             {
                 // If we got an exception here, Vulkan is most likely not supported.
-                return Array.Empty<DeviceInfo>();
+                return [];
             }
         }
 

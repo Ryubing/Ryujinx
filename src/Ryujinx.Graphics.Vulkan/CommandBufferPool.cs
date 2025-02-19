@@ -37,7 +37,7 @@ namespace Ryujinx.Graphics.Vulkan
 
             public void Initialize(Vk api, Device device, CommandPool pool)
             {
-                CommandBufferAllocateInfo allocateInfo = new CommandBufferAllocateInfo
+                CommandBufferAllocateInfo allocateInfo = new()
                 {
                     SType = StructureType.CommandBufferAllocateInfo,
                     CommandBufferCount = 1,
@@ -47,8 +47,8 @@ namespace Ryujinx.Graphics.Vulkan
 
                 api.AllocateCommandBuffers(device, in allocateInfo, out CommandBuffer);
 
-                Dependants = new List<IAuto>();
-                Waitables = new List<MultiFenceHolder>();
+                Dependants = [];
+                Waitables = [];
             }
         }
 
@@ -75,7 +75,7 @@ namespace Ryujinx.Graphics.Vulkan
             _concurrentFenceWaitUnsupported = concurrentFenceWaitUnsupported;
             _owner = Thread.CurrentThread;
 
-            CommandPoolCreateInfo commandPoolCreateInfo = new CommandPoolCreateInfo
+            CommandPoolCreateInfo commandPoolCreateInfo = new()
             {
                 SType = StructureType.CommandPoolCreateInfo,
                 QueueFamilyIndex = queueFamilyIndex,
@@ -248,7 +248,7 @@ namespace Ryujinx.Graphics.Vulkan
 
                         _inUseCount++;
 
-                        CommandBufferBeginInfo commandBufferBeginInfo = new CommandBufferBeginInfo
+                        CommandBufferBeginInfo commandBufferBeginInfo = new()
                         {
                             SType = StructureType.CommandBufferBeginInfo,
                         };

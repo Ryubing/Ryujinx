@@ -1,5 +1,5 @@
 <UserControl
-    x:Class="Ryujinx.Ava.UI.Applet.UserSelectorDialog"
+    x:Class="Ryujinx.Ava.UI.Applet.ProfileSelectorDialog"
     xmlns="https://github.com/avaloniaui"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
@@ -12,14 +12,9 @@
     d:DesignWidth="800"
     mc:Ignorable="d"
     Focusable="True"
-    x:DataType="viewModels:UserSelectorDialogViewModel">
-    
-    <UserControl.Resources>
-        <helpers:BitmapArrayValueConverter x:Key="ByteImage" />
-    </UserControl.Resources>
-    
+    x:DataType="viewModels:ProfileSelectorDialogViewModel">
     <Design.DataContext>
-        <viewModels:UserSelectorDialogViewModel />
+        <viewModels:ProfileSelectorDialogViewModel />
     </Design.DataContext>
     
     <Grid HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
@@ -80,7 +75,7 @@
                                         Height="96"
                                         HorizontalAlignment="Stretch"
                                         VerticalAlignment="Top"
-                                        Source="{Binding Image, Converter={StaticResource ByteImage}}" />
+                                        Source="{Binding Image, Converter={x:Static helpers:BitmapArrayValueConverter.Instance}}" />
                                     <TextBlock
                                         HorizontalAlignment="Stretch"
                                         MaxWidth="90"
@@ -110,12 +105,5 @@
             </ListBox>
         </Border>
         
-        <StackPanel
-            Grid.Row="1"
-            Margin="0 24 0 0"
-            HorizontalAlignment="Left"
-            Orientation="Horizontal"
-            Spacing="10">
-        </StackPanel>
     </Grid>
 </UserControl>

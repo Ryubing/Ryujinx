@@ -56,7 +56,7 @@ namespace Ryujinx.Graphics.Metal
             {
                 ShaderSource shader = _shaders[i];
 
-                using MTLCompileOptions compileOptions = new MTLCompileOptions
+                using MTLCompileOptions compileOptions = new()
                 {
                     PreserveInvariance = true,
                     LanguageVersion = MTLLanguageVersion.Version31,
@@ -118,7 +118,7 @@ namespace Ryujinx.Graphics.Metal
 
             for (int setIndex = 0; setIndex < setUsages.Count; setIndex++)
             {
-                List<ResourceBindingSegment> currentSegments = new();
+                List<ResourceBindingSegment> currentSegments = [];
 
                 ResourceUsage currentUsage = default;
                 int currentCount = 0;

@@ -61,7 +61,7 @@ namespace Ryujinx.HLE.FileSystem
 
         public void LoadRomFs(ulong pid, string fileName)
         {
-            FileStream romfsStream = new FileStream(fileName, FileMode.Open, FileAccess.Read);
+            FileStream romfsStream = new(fileName, FileMode.Open, FileAccess.Read);
 
             _romFsByPid.AddOrUpdate(pid, romfsStream, (pid, oldStream) =>
             {
@@ -194,7 +194,7 @@ namespace Ryujinx.HLE.FileSystem
             }
 
             fsServerClient = horizon.CreatePrivilegedHorizonClient();
-            FileSystemServer fsServer = new FileSystemServer(fsServerClient);
+            FileSystemServer fsServer = new(fsServerClient);
 
             RandomDataGenerator randomGenerator = Random.Shared.NextBytes;
 
@@ -208,7 +208,7 @@ namespace Ryujinx.HLE.FileSystem
 
             SdCard.SetSdCardInserted(true);
 
-            FileSystemServerConfig fsServerConfig = new FileSystemServerConfig
+            FileSystemServerConfig fsServerConfig = new()
             {
                 ExternalKeySet = KeySet.ExternalKeySet,
                 FsCreators = fsServerObjects.FsCreators,
@@ -270,7 +270,7 @@ namespace Ryujinx.HLE.FileSystem
         {
             foreach (DirectoryEntryEx ticketEntry in fs.EnumerateEntries("/", "*.tik"))
             {
-                using UniqueRef<IFile> ticketFile = new UniqueRef<IFile>();
+                using UniqueRef<IFile> ticketFile = new();
 
                 Result result = fs.OpenFile(ref ticketFile.Ref, ticketEntry.FullPath.ToU8Span(), OpenMode.Read);
 
@@ -334,7 +334,7 @@ namespace Ryujinx.HLE.FileSystem
         {
             Span<SaveDataInfo> info = stackalloc SaveDataInfo[8];
 
-            using UniqueRef<SaveDataIterator> iterator = new UniqueRef<SaveDataIterator>();
+            using UniqueRef<SaveDataIterator> iterator = new();
 
             Result rc = hos.Fs.OpenSaveDataIterator(ref iterator.Ref, spaceId);
             if (rc.IsFailure())
@@ -439,7 +439,7 @@ namespace Ryujinx.HLE.FileSystem
 
             U8Span mountName = "system".ToU8Span();
             DirectoryHandle handle = default;
-            List<ulong> localList = new();
+            List<ulong> localList = [];
 
             try
             {

@@ -27,11 +27,11 @@ namespace Ryujinx.Graphics.Shader.IntermediateRepresentation
                         value.AsgOp = this;
                     }
 
-                    _dests = new[] { value };
+                    _dests = [value];
                 }
                 else
                 {
-                    _dests = Array.Empty<Operand>();
+                    _dests = [];
                 }
             }
         }
@@ -82,7 +82,7 @@ namespace Ryujinx.Graphics.Shader.IntermediateRepresentation
             }
             else
             {
-                _dests = Array.Empty<Operand>();
+                _dests = [];
             }
         }
 
@@ -94,11 +94,11 @@ namespace Ryujinx.Graphics.Shader.IntermediateRepresentation
             {
                 dest.AsgOp = this;
 
-                _dests = new[] { dest };
+                _dests = [dest];
             }
             else
             {
-                _dests = Array.Empty<Operand>();
+                _dests = [];
             }
         }
 
@@ -111,11 +111,11 @@ namespace Ryujinx.Graphics.Shader.IntermediateRepresentation
             {
                 dest.AsgOp = this;
 
-                _dests = new[] { dest };
+                _dests = [dest];
             }
             else
             {
-                _dests = Array.Empty<Operand>();
+                _dests = [];
             }
         }
 
@@ -258,7 +258,7 @@ namespace Ryujinx.Graphics.Shader.IntermediateRepresentation
                 source.UseOps.Add(this);
             }
 
-            _sources = new Operand[] { source };
+            _sources = [source];
         }
 
         public void TurnDoubleIntoFloat()

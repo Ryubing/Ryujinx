@@ -13,72 +13,80 @@ namespace Ryujinx.Tests.Cpu
         #region "ValueSource"
         private static ulong[] _1D_()
         {
-            return new[] {
+            return
+            [
                 0x0000000000000000ul, 0x7FFFFFFFFFFFFFFFul,
-                0x8000000000000000ul, 0xFFFFFFFFFFFFFFFFul,
-            };
+                0x8000000000000000ul, 0xFFFFFFFFFFFFFFFFul
+            ];
         }
 
         private static ulong[] _2S_()
         {
-            return new[] {
+            return
+            [
                 0x0000000000000000ul, 0x7FFFFFFF7FFFFFFFul,
-                0x8000000080000000ul, 0xFFFFFFFFFFFFFFFFul,
-            };
+                0x8000000080000000ul, 0xFFFFFFFFFFFFFFFFul
+            ];
         }
 
         private static ulong[] _4H_()
         {
-            return new[] {
+            return
+            [
                 0x0000000000000000ul, 0x7FFF7FFF7FFF7FFFul,
-                0x8000800080008000ul, 0xFFFFFFFFFFFFFFFFul,
-            };
+                0x8000800080008000ul, 0xFFFFFFFFFFFFFFFFul
+            ];
         }
 
         private static ulong[] _8B_()
         {
-            return new[] {
+            return
+            [
                 0x0000000000000000ul, 0x7F7F7F7F7F7F7F7Ful,
-                0x8080808080808080ul, 0xFFFFFFFFFFFFFFFFul,
-            };
+                0x8080808080808080ul, 0xFFFFFFFFFFFFFFFFul
+            ];
         }
 
         private static ulong[] _8B4H_()
         {
-            return new[] {
+            return
+            [
                 0x0000000000000000ul, 0x7F7F7F7F7F7F7F7Ful,
                 0x8080808080808080ul, 0x7FFF7FFF7FFF7FFFul,
-                0x8000800080008000ul, 0xFFFFFFFFFFFFFFFFul,
-            };
+                0x8000800080008000ul, 0xFFFFFFFFFFFFFFFFul
+            ];
         }
 
         private static ulong[] _8B4H2S_()
         {
-            return new[] {
+            return
+            [
                 0x0000000000000000ul, 0x7F7F7F7F7F7F7F7Ful,
                 0x8080808080808080ul, 0x7FFF7FFF7FFF7FFFul,
                 0x8000800080008000ul, 0x7FFFFFFF7FFFFFFFul,
-                0x8000000080000000ul, 0xFFFFFFFFFFFFFFFFul,
-            };
+                0x8000000080000000ul, 0xFFFFFFFFFFFFFFFFul
+            ];
         }
 
         private static uint[] _W_()
         {
-            return new[] {
+            return
+            [
                 0x00000000u, 0x0000007Fu,
                 0x00000080u, 0x000000FFu,
                 0x00007FFFu, 0x00008000u,
                 0x0000FFFFu, 0x7FFFFFFFu,
-                0x80000000u, 0xFFFFFFFFu,
-            };
+                0x80000000u, 0xFFFFFFFFu
+            ];
         }
 
         private static ulong[] _X_()
         {
-            return new[] {
+            return
+            [
                 0x0000000000000000ul, 0x7FFFFFFFFFFFFFFFul,
-                0x8000000000000000ul, 0xFFFFFFFFFFFFFFFFul,
-            };
+                0x8000000000000000ul, 0xFFFFFFFFFFFFFFFFul
+            ];
         }
         #endregion
 

@@ -307,7 +307,7 @@ namespace Ryujinx.Graphics.Shader.CodeGen.Spirv
         {
             AstBlockVisitor visitor = new(block);
 
-            Dictionary<AstBlock, (SpvInstruction, SpvInstruction)> loopTargets = new Dictionary<AstBlock, (SpvInstruction, SpvInstruction)>();
+            Dictionary<AstBlock, (SpvInstruction, SpvInstruction)> loopTargets = new();
 
             context.LoopTargets = loopTargets;
 

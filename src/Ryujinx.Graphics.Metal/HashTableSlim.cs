@@ -89,10 +89,10 @@ namespace Ryujinx.Graphics.Metal
             }
             else
             {
-                bucket.Entries = new[]
-                {
-                    entry,
-                };
+                bucket.Entries =
+                [
+                    entry
+                ];
             }
 
             bucket.Length++;

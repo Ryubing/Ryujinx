@@ -27,8 +27,8 @@ namespace Ryujinx.Input.SDL2
         private StandardKeyboardInputConfig _configuration;
         private readonly List<ButtonMappingEntry> _buttonsUserMapping;
 
-        private static readonly SDL_Keycode[] _keysDriverMapping = new SDL_Keycode[(int)Key.Count]
-        {
+        private static readonly SDL_Keycode[] _keysDriverMapping =
+        [
             // INVALID
             SDL_Keycode.SDLK_0,
             // Presented as modifiers, so invalid here.
@@ -166,15 +166,15 @@ namespace Ryujinx.Input.SDL2
             SDL_Keycode.SDLK_BACKSLASH,
 
             // Invalids
-            SDL_Keycode.SDLK_0,
-        };
+            SDL_Keycode.SDLK_0
+        ];
 
         public SDL2Keyboard(SDL2KeyboardDriver driver, string id, string name)
         {
             _driver = driver;
             Id = id;
             Name = name;
-            _buttonsUserMapping = new List<ButtonMappingEntry>();
+            _buttonsUserMapping = [];
         }
 
         private bool HasConfiguration => _configuration != null;

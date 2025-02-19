@@ -98,7 +98,7 @@ namespace Ryujinx.Graphics.OpenGL.Effects
             {
                 _intermediaryTexture?.Dispose();
                 TextureCreateInfo originalInfo = view.Info;
-                TextureCreateInfo info = new TextureCreateInfo(width,
+                TextureCreateInfo info = new(width,
                     height,
                     originalInfo.Depth,
                     originalInfo.Levels,

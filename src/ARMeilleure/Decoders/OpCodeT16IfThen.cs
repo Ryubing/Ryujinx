@@ -12,7 +12,7 @@ namespace ARMeilleure.Decoders
 
         public OpCodeT16IfThen(InstDescriptor inst, ulong address, int opCode) : base(inst, address, opCode)
         {
-            List<Condition> conds = new();
+            List<Condition> conds = [];
 
             int cond = (opCode >> 4) & 0xf;
             int mask = opCode & 0xf;

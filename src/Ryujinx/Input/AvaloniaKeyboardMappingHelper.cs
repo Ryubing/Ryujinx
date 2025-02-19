@@ -7,7 +7,8 @@ namespace Ryujinx.Ava.Input
 {
     internal static class AvaloniaKeyboardMappingHelper
     {
-        private static readonly AvaKey[] _keyMapping = {
+        private static readonly AvaKey[] _keyMapping =
+        [
             // NOTE: Invalid
             AvaKey.None,
 
@@ -143,8 +144,8 @@ namespace Ryujinx.Ava.Input
             AvaKey.OemBackslash,
 
             // NOTE: invalid
-            AvaKey.None,
-        };
+            AvaKey.None
+        ];
 
         private static readonly Dictionary<AvaKey, Key> _avaKeyMapping;
 

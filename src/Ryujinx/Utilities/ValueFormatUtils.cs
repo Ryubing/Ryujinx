@@ -10,10 +10,10 @@ namespace Ryujinx.Ava.Utilities
     public static class ValueFormatUtils
     {
         private static readonly string[] _fileSizeUnitStrings =
-        {
+        [
             "B", "KiB", "MiB", "GiB", "TiB", "PiB", "EiB",  // Base 10 units, used for formatting and parsing
-            "KB", "MB", "GB", "TB", "PB", "EB",             // Base 2 units, used for parsing legacy values
-        };
+            "KB", "MB", "GB", "TB", "PB", "EB" // Base 2 units, used for parsing legacy values
+        ];
 
         /// <summary>
         /// Used by <see cref="FormatFileSize"/>.

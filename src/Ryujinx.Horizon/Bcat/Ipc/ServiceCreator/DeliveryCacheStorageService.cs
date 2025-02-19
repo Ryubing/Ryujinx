@@ -22,7 +22,7 @@ namespace Ryujinx.Horizon.Bcat.Ipc
         [CmifCommand(0)]
         public Result CreateFileService(out IDeliveryCacheFileService service)
         {
-            using SharedRef<LibHac.Bcat.Impl.Ipc.IDeliveryCacheFileService> libHacService = new SharedRef<LibHac.Bcat.Impl.Ipc.IDeliveryCacheFileService>();
+            using SharedRef<LibHac.Bcat.Impl.Ipc.IDeliveryCacheFileService> libHacService = new();
 
             LibHac.Result resultCode = _libHacService.Get.CreateFileService(ref libHacService.Ref);
 
@@ -41,7 +41,7 @@ namespace Ryujinx.Horizon.Bcat.Ipc
         [CmifCommand(1)]
         public Result CreateDirectoryService(out IDeliveryCacheDirectoryService service)
         {
-            using SharedRef<LibHac.Bcat.Impl.Ipc.IDeliveryCacheDirectoryService> libHacService = new SharedRef<LibHac.Bcat.Impl.Ipc.IDeliveryCacheDirectoryService>();
+            using SharedRef<LibHac.Bcat.Impl.Ipc.IDeliveryCacheDirectoryService> libHacService = new();
 
             LibHac.Result resultCode = _libHacService.Get.CreateDirectoryService(ref libHacService.Ref);
 

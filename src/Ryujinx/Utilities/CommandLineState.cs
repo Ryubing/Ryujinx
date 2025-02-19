@@ -10,6 +10,7 @@ namespace Ryujinx.Ava.Utilities
         public static bool? OverrideDockedMode { get; private set; }
         public static bool? OverrideHardwareAcceleration { get; private set; }
         public static string OverrideGraphicsBackend { get; private set; }
+        public static string OverrideBackendThreading { get; private set; }
         public static string OverrideHideCursor { get; private set; }
         public static string BaseDirPathArg { get; private set; }
         public static string Profile { get; private set; }
@@ -20,7 +21,7 @@ namespace Ryujinx.Ava.Utilities
 
         public static void ParseArguments(string[] args)
         {
-            List<string> arguments = new();
+            List<string> arguments = [];
 
             // Parse Arguments.
             for (int i = 0; i < args.Length; ++i)
@@ -73,6 +74,16 @@ namespace Ryujinx.Ava.Utilities
                         }
 
                         OverrideGraphicsBackend = args[++i];
+                        break;
+                    case "--backend-threading":
+                        if (i + 1 >= args.Length)
+                        {
+                            Logger.Error?.Print(LogClass.Application, $"Invalid option '{arg}'");
+
+                            continue;
+                        }
+
+                        OverrideBackendThreading = args[++i];
                         break;
                     case "-i":
                     case "--application-id":
