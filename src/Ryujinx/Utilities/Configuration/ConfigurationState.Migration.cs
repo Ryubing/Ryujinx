@@ -438,7 +438,8 @@ namespace Ryujinx.Ava.Utilities.Configuration
                 (64, static cff => cff.LoggingEnableAvalonia = false),
                 (65, static cff => cff.UpdateCheckerType = cff.CheckUpdatesOnStart ? UpdaterType.PromptAtStartup : UpdaterType.Off),
                 (66, static cff => cff.DisableInputWhenOutOfFocus = false),
-                (67, static cff => cff.FocusLostActionType = cff.DisableInputWhenOutOfFocus ? FocusLostType.BlockInput : FocusLostType.DoNothing)
+                (67, static cff => cff.FocusLostActionType = cff.DisableInputWhenOutOfFocus ? FocusLostType.BlockInput : FocusLostType.DoNothing),
+                (68, static cff => cff.CustomVSyncInterval = 60)
             );
     }
 }
