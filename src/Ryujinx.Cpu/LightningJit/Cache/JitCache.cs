@@ -27,7 +27,7 @@ namespace Ryujinx.Cpu.LightningJit.Cache
 
         private static readonly Lock _lock = new();
         private static bool _initialized;
-        private static readonly List<ReservedRegion> _jitRegions = new();
+        private static readonly List<ReservedRegion> _jitRegions = [];
         private static int _activeRegionIndex = 0;
 
         [SupportedOSPlatform("windows")]

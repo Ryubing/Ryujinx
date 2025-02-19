@@ -41,7 +41,7 @@ namespace Ryujinx.HLE.HOS.Applets.Browser
             {
                 List<BrowserOutput> result =
                 [
-                    new BrowserOutput(BrowserOutputType.ExitReason, (uint)WebExitReason.ExitButton)
+                    new(BrowserOutputType.ExitReason, (uint)WebExitReason.ExitButton)
                 ];
 
                 _normalSession.Push(BuildResponseNew(result));

@@ -1,4 +1,4 @@
-using Ryujinx.Common.Memory;
+﻿using Ryujinx.Common.Memory;
 using Ryujinx.Graphics.Nvdec.Vp9.Common;
 using Ryujinx.Graphics.Nvdec.Vp9.Types;
 using Ryujinx.Graphics.Video;
@@ -12,15 +12,15 @@ namespace Ryujinx.Graphics.Nvdec.Vp9
 
         private readonly MemoryAllocator _allocator = new();
 
-        public ISurface CreateSurface(int width, int height) => new Surface(width, height);
-
-        private static ReadOnlySpan<byte> LiteralToFilter => new byte[]
+        public ISurface CreateSurface(int width, int height)
         {
-            Constants.EightTapSmooth,
-            Constants.EightTap,
-            Constants.EightTapSharp,
-            Constants.Bilinear,
-        };
+            return new Surface(width, height);
+        }
+
+        private static ReadOnlySpan<byte> LiteralToFilter =>
+        [
+            Constants.EightTapSmooth, Constants.EightTap, Constants.EightTapSharp, Constants.Bilinear
+        ];
 
         public unsafe bool Decode(
             ref Vp9PictureInfo pictureInfo,
@@ -29,25 +29,24 @@ namespace Ryujinx.Graphics.Nvdec.Vp9
             ReadOnlySpan<Vp9MvRef> mvsIn,
             Span<Vp9MvRef> mvsOut)
         {
-            Vp9Common cm = new()
-            {
-                FrameType = pictureInfo.IsKeyFrame ? FrameType.KeyFrame : FrameType.InterFrame,
-                IntraOnly = pictureInfo.IntraOnly,
+            Vp9Common cm = new();
 
-                Width = output.Width,
-                Height = output.Height,
-                SubsamplingX = 1,
-                SubsamplingY = 1,
+            cm.FrameType = pictureInfo.IsKeyFrame ? FrameType.KeyFrame : FrameType.InterFrame;
+            cm.IntraOnly = pictureInfo.IntraOnly;
 
-                UsePrevFrameMvs = pictureInfo.UsePrevInFindMvRefs,
+            cm.Width = output.Width;
+            cm.Height = output.Height;
+            cm.SubsamplingX = 1;
+            cm.SubsamplingY = 1;
 
-                RefFrameSignBias = pictureInfo.RefFrameSignBias,
+            cm.UsePrevFrameMvs = pictureInfo.UsePrevInFindMvRefs;
 
-                BaseQindex = pictureInfo.BaseQIndex,
-                YDcDeltaQ = pictureInfo.YDcDeltaQ,
-                UvAcDeltaQ = pictureInfo.UvAcDeltaQ,
-                UvDcDeltaQ = pictureInfo.UvDcDeltaQ,
-            };
+            cm.RefFrameSignBias = pictureInfo.RefFrameSignBias;
+
+            cm.BaseQindex = pictureInfo.BaseQIndex;
+            cm.YDcDeltaQ = pictureInfo.YDcDeltaQ;
+            cm.UvAcDeltaQ = pictureInfo.UvAcDeltaQ;
+            cm.UvDcDeltaQ = pictureInfo.UvDcDeltaQ;
 
             cm.Mb.Lossless = pictureInfo.Lossless;
             cm.Mb.Bd = 8;
@@ -68,6 +67,8 @@ namespace Ryujinx.Graphics.Nvdec.Vp9
             cm.CompFixedRef = pictureInfo.CompFixedRef;
             cm.CompVarRef = pictureInfo.CompVarRef;
 
+            cm.BitDepth = BitDepth.Bits8;
+
             cm.Log2TileCols = pictureInfo.Log2TileCols;
             cm.Log2TileRows = pictureInfo.Log2TileRows;
 
@@ -78,6 +79,8 @@ namespace Ryujinx.Graphics.Nvdec.Vp9
             cm.Seg.FeatureMask = pictureInfo.SegmentFeatureEnable;
             cm.Seg.FeatureData = pictureInfo.SegmentFeatureData;
 
+            cm.Lf.FilterLevel = pictureInfo.LoopFilterLevel;
+            cm.Lf.SharpnessLevel = pictureInfo.LoopFilterSharpnessLevel;
             cm.Lf.ModeRefDeltaEnabled = pictureInfo.ModeRefDeltaEnabled;
             cm.Lf.RefDeltas = pictureInfo.RefDeltas;
             cm.Lf.ModeDeltas = pictureInfo.ModeDeltas;
@@ -105,7 +108,12 @@ namespace Ryujinx.Graphics.Nvdec.Vp9
             cm.SetupSegmentationDequant();
             cm.SetupScaleFactors();
 
-            SetMvs(ref cm, mvsIn);
+            cm.SetMvs(mvsIn);
+
+            if (cm.Lf.FilterLevel != 0 && cm.SkipLoopFilter == 0)
+            {
+                LoopFilter.LoopFilterFrameInit(ref cm, cm.Lf.FilterLevel);
+            }
 
             fixed (byte* dataPtr = bitstream)
             {
@@ -114,10 +122,27 @@ namespace Ryujinx.Graphics.Nvdec.Vp9
                     if (maxThreads > 1 && tileRows == 1 && tileCols > 1)
                     {
                         DecodeFrame.DecodeTilesMt(ref cm, new ArrayPtr<byte>(dataPtr, bitstream.Length), maxThreads);
+
+                        LoopFilter.LoopFilterFrameMt(
+                            ref cm.Mb.CurBuf,
+                            ref cm,
+                            ref cm.Mb,
+                            cm.Lf.FilterLevel,
+                            false,
+                            false,
+                            maxThreads);
                     }
                     else
                     {
                         DecodeFrame.DecodeTiles(ref cm, new ArrayPtr<byte>(dataPtr, bitstream.Length));
+
+                        LoopFilter.LoopFilterFrame(
+                            ref cm.Mb.CurBuf,
+                            ref cm,
+                            ref cm.Mb,
+                            cm.Lf.FilterLevel,
+                            false,
+                            false);
                     }
                 }
                 catch (InternalErrorException)
@@ -126,7 +151,7 @@ namespace Ryujinx.Graphics.Nvdec.Vp9
                 }
             }
 
-            GetMvs(ref cm, mvsOut);
+            cm.GetMvs(mvsOut);
 
             cm.FreeTileWorkerData(_allocator);
             cm.FreeContextBuffers(_allocator);
@@ -134,48 +159,9 @@ namespace Ryujinx.Graphics.Nvdec.Vp9
             return true;
         }
 
-        private static void SetMvs(ref Vp9Common cm, ReadOnlySpan<Vp9MvRef> mvs)
+        public void Dispose()
         {
-            if (mvs.Length > cm.PrevFrameMvs.Length)
-            {
-                throw new ArgumentException($"Size mismatch, expected: {cm.PrevFrameMvs.Length}, but got: {mvs.Length}.");
-            }
-
-            for (int i = 0; i < mvs.Length; i++)
-            {
-                ref var mv = ref cm.PrevFrameMvs[i];
-
-                mv.Mv[0].Row = mvs[i].Mvs[0].Row;
-                mv.Mv[0].Col = mvs[i].Mvs[0].Col;
-                mv.Mv[1].Row = mvs[i].Mvs[1].Row;
-                mv.Mv[1].Col = mvs[i].Mvs[1].Col;
-
-                mv.RefFrame[0] = (sbyte)mvs[i].RefFrames[0];
-                mv.RefFrame[1] = (sbyte)mvs[i].RefFrames[1];
-            }
+            _allocator.Dispose();
         }
-
-        private static void GetMvs(ref Vp9Common cm, Span<Vp9MvRef> mvs)
-        {
-            if (mvs.Length > cm.CurFrameMvs.Length)
-            {
-                throw new ArgumentException($"Size mismatch, expected: {cm.CurFrameMvs.Length}, but got: {mvs.Length}.");
-            }
-
-            for (int i = 0; i < mvs.Length; i++)
-            {
-                ref var mv = ref cm.CurFrameMvs[i];
-
-                mvs[i].Mvs[0].Row = mv.Mv[0].Row;
-                mvs[i].Mvs[0].Col = mv.Mv[0].Col;
-                mvs[i].Mvs[1].Row = mv.Mv[1].Row;
-                mvs[i].Mvs[1].Col = mv.Mv[1].Col;
-
-                mvs[i].RefFrames[0] = mv.RefFrame[0];
-                mvs[i].RefFrames[1] = mv.RefFrame[1];
-            }
-        }
-
-        public void Dispose() => _allocator.Dispose();
     }
 }

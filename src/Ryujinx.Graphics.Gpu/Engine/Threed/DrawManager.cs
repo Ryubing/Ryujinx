@@ -913,7 +913,7 @@ namespace Ryujinx.Graphics.Gpu.Engine.Threed
 
                 Span<Rectangle<int>> scissors =
                 [
-                    new Rectangle<int>(scissorX, scissorY, scissorW, scissorH)
+                    new(scissorX, scissorY, scissorW, scissorH)
                 ];
 
                 _context.Renderer.Pipeline.SetScissors(scissors);

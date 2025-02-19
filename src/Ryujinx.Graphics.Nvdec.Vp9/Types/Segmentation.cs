@@ -1,4 +1,6 @@
-using Ryujinx.Common.Memory;
+﻿using Ryujinx.Common.Memory;
+using Ryujinx.Graphics.Video;
+using System;
 using System.Diagnostics;
 using System.Runtime.InteropServices;
 
@@ -6,8 +8,16 @@ namespace Ryujinx.Graphics.Nvdec.Vp9.Types
 {
     internal struct Segmentation
     {
-        private static readonly int[] _segFeatureDataSigned = { 1, 1, 0, 0 };
-        private static readonly int[] _segFeatureDataMax = { QuantCommon.MaxQ, Vp9.LoopFilter.MaxLoopFilter, 3, 0 };
+        public const int SegmentDeltadata = 0;
+        public const int SegmentAbsdata = 1;
+
+        public const int MaxSegments = 8;
+        public const int SegTreeProbs = MaxSegments - 1;
+
+        public const int PredictionProbs = 3;
+
+        private static readonly int[] _segFeatureDataSigned = [1, 1, 0, 0];
+        private static readonly int[] _segFeatureDataMax = [QuantCommon.MaxQ, Vp9.LoopFilter.MaxLoopFilter, 3, 0];
 
         public bool Enabled;
         public bool UpdateMap;
@@ -66,6 +76,89 @@ namespace Ryujinx.Graphics.Nvdec.Vp9.Types
         internal short GetSegData(int segmentId, SegLvlFeatures featureId)
         {
             return FeatureData[segmentId][(int)featureId];
+        }
+
+        public int GetQIndex(int segmentId, int baseQIndex)
+        {
+            if (IsSegFeatureActive(segmentId, SegLvlFeatures.AltQ) != 0)
+            {
+                int data = GetSegData(segmentId, SegLvlFeatures.AltQ);
+                int segQIndex = AbsDelta == Constants.SegmentAbsData ? data : baseQIndex + data;
+                return Math.Clamp(segQIndex, 0, QuantCommon.MaxQ);
+            }
+
+            return baseQIndex;
+        }
+
+        public void SetupSegmentation(ref Vp9EntropyProbs fc, ref ReadBitBuffer rb)
+        {
+            UpdateMap = false;
+            UpdateData = 0;
+
+            Enabled = rb.ReadBit() != 0;
+            if (!Enabled)
+            {
+                return;
+            }
+
+            // Segmentation map update
+            UpdateMap = rb.ReadBit() != 0;
+            if (UpdateMap)
+            {
+                for (int i = 0; i < SegTreeProbs; i++)
+                {
+                    fc.SegTreeProb[i] = rb.ReadBit() != 0
+                        ? (byte)rb.ReadLiteral(8)
+                        : (byte)Prob.MaxProb;
+                }
+
+                TemporalUpdate = rb.ReadBit() != 0;
+                if (TemporalUpdate)
+                {
+                    for (int i = 0; i < PredictionProbs; i++)
+                    {
+                        fc.SegPredProb[i] = rb.ReadBit() != 0
+                            ? (byte)rb.ReadLiteral(8)
+                            : (byte)Prob.MaxProb;
+                    }
+                }
+                else
+                {
+                    for (int i = 0; i < PredictionProbs; i++)
+                    {
+                        fc.SegPredProb[i] = Prob.MaxProb;
+                    }
+                }
+            }
+
+            // Segmentation data update
+            UpdateData = (byte)rb.ReadBit();
+            if (UpdateData != 0)
+            {
+                AbsDelta = (byte)rb.ReadBit();
+
+                ClearAllSegFeatures();
+
+                for (int i = 0; i < Constants.MaxSegments; i++)
+                {
+                    for (int j = 0; j < (int)SegLvlFeatures.Max; j++)
+                    {
+                        int data = 0;
+                        int featureEnabled = rb.ReadBit();
+                        if (featureEnabled != 0)
+                        {
+                            EnableSegFeature(i, (SegLvlFeatures)j);
+                            data = rb.DecodeUnsignedMax(FeatureDataMax((SegLvlFeatures)j));
+                            if (IsSegFeatureSigned((SegLvlFeatures)j) != 0)
+                            {
+                                data = rb.ReadBit() != 0 ? -data : data;
+                            }
+                        }
+
+                        SetSegData(i, (SegLvlFeatures)j, data);
+                    }
+                }
+            }
         }
     }
 }
