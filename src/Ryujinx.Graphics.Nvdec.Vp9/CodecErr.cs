@@ -1,56 +1,75 @@
-namespace Ryujinx.Graphics.Nvdec.Vp9
+﻿namespace Ryujinx.Graphics.Nvdec.Vp9
 {
     internal enum CodecErr
     {
-        /*!\brief Operation completed without error */
-        CodecOk,
+        /// <summary>
+        /// Operation completed without error
+        /// </summary>
+        Ok,
 
-        /*!\brief Unspecified error */
-        CodecError,
+        /// <summary>
+        /// Unspecified error
+        /// </summary>
+        Error,
 
-        /*!\brief Memory operation failed */
-        CodecMemError,
+        /// <summary>
+        /// Memory operation failed
+        /// </summary>
+        MemError,
 
-        /*!\brief ABI version mismatch */
-        CodecAbiMismatch,
+        /// <summary>
+        /// ABI version mismatch
+        /// </summary>
+        AbiMismatch,
 
-        /*!\brief Algorithm does not have required capability */
-        CodecIncapable,
+        /// <summary>
+        /// Algorithm does not have required capability
+        /// </summary>
+        Incapable,
 
-        /*!\brief The given bitstream is not supported.
-         *
-         * The bitstream was unable to be parsed at the highest level. The decoder
-         * is unable to proceed. This error \ref SHOULD be treated as fatal to the
-         * stream. */
-        CodecUnsupBitstream,
+        /// <summary>
+        /// The given bitstream is not supported.
+        /// </summary>
+        /// <remarks>
+        /// The bitstream was unable to be parsed at the highest level.<br/>
+        /// The decoder is unable to proceed.<br/>
+        /// This error SHOULD be treated as fatal to the stream.
+        /// </remarks>
+        UnsupBitstream,
 
-        /*!\brief Encoded bitstream uses an unsupported feature
-         *
-         * The decoder does not implement a feature required by the encoder. This
-         * return code should only be used for features that prevent future
-         * pictures from being properly decoded. This error \ref MAY be treated as
-         * fatal to the stream or \ref MAY be treated as fatal to the current GOP.
-         */
-        CodecUnsupFeature,
+        /// <summary>
+        /// Encoded bitstream uses an unsupported feature
+        /// </summary>
+        /// <remarks>
+        /// The decoder does not implement a feature required by the encoder.<br/>
+        /// This return code should only be used for features that prevent future
+        /// pictures from being properly decoded.<br/>
+        /// <br/>
+        /// This error MAY be treated as fatal to the stream or MAY be treated as fatal to the current GOP.
+        /// </remarks>
+        UnsupFeature,
 
-        /*!\brief The coded data for this stream is corrupt or incomplete
-         *
-         * There was a problem decoding the current frame.  This return code
-         * should only be used for failures that prevent future pictures from
-         * being properly decoded. This error \ref MAY be treated as fatal to the
-         * stream or \ref MAY be treated as fatal to the current GOP. If decoding
-         * is continued for the current GOP, artifacts may be present.
-         */
-        CodecCorruptFrame,
+         /// <summary>
+         /// The coded data for this stream is corrupt or incomplete.
+         /// </summary>
+         /// <remarks>
+         /// There was a problem decoding the current frame.<br/>
+         /// This return code should only be used
+         /// for failures that prevent future pictures from being properly decoded.<br/>
+         /// <br/>
+         /// This error MAY be treated as fatal to the stream or MAY be treated as fatal to the current GOP.<br/>
+         /// If decoding is continued for the current GOP, artifacts may be present.
+         /// </remarks>
+         CorruptFrame,
 
-        /*!\brief An application-supplied parameter is not valid.
-         *
-         */
-        CodecInvalidParam,
+        /// <summary>
+        /// An application-supplied parameter is not valid.
+        /// </summary>
+        InvalidParam,
 
-        /*!\brief An iterator reached the end of list.
-         *
-         */
-        CodecListEnd,
+        /// <summary>
+        /// An iterator reached the end of list.
+        /// </summary>
+        ListEnd
     }
 }

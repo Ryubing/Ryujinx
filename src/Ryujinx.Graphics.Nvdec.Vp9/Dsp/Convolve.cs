@@ -1,4 +1,4 @@
-using Ryujinx.Common.Memory;
+﻿using Ryujinx.Common.Memory;
 using Ryujinx.Graphics.Nvdec.Vp9.Common;
 using System.Diagnostics;
 using System.Runtime.CompilerServices;
@@ -75,17 +75,16 @@ namespace Ryujinx.Graphics.Nvdec.Vp9.Dsp
             Vector128<int> zero = Vector128<int>.Zero;
             Vector128<int> const64 = Vector128.Create(64);
 
-            ulong x, y;
-            src -= SubpelTaps / 2 - 1;
+            src -= (SubpelTaps / 2) - 1;
 
             fixed (Array8<short>* xFilter = xFilters)
             {
-                Vector128<short> vfilter = Sse2.LoadVector128((short*)xFilter + (uint)(x0Q4 & SubpelMask) * 8);
+                Vector128<short> vfilter = Sse2.LoadVector128((short*)xFilter + ((uint)(x0Q4 & SubpelMask) * 8));
 
-                for (y = 0; y < (uint)h; ++y)
+                for (ulong y = 0; y < (uint)h; ++y)
                 {
                     ulong srcOffset = (uint)x0Q4 >> SubpelBits;
-                    for (x = 0; x < (uint)w; x += 4)
+                    for (ulong x = 0; x < (uint)w; x += 4)
                     {
                         Vector128<short> vsrc0 = Sse41.ConvertToVector128Int16(&src[srcOffset + x]);
                         Vector128<short> vsrc1 = Sse41.ConvertToVector128Int16(&src[srcOffset + x + 1]);
@@ -94,8 +93,10 @@ namespace Ryujinx.Graphics.Nvdec.Vp9.Dsp
 
                         Vector128<int> sum0123 = MultiplyAddAdjacent(vsrc0, vsrc1, vsrc2, vsrc3, vfilter, zero);
 
-                        Sse.StoreScalar((float*)&dst[x], PackUnsignedSaturate(RoundShift(sum0123, const64), zero).AsSingle());
+                        Sse.StoreScalar((float*)&dst[x],
+                            PackUnsignedSaturate(RoundShift(sum0123, const64), zero).AsSingle());
                     }
+
                     src += srcStride;
                     dst += dstStride;
                 }
@@ -117,22 +118,20 @@ namespace Ryujinx.Graphics.Nvdec.Vp9.Dsp
             if (Sse41.IsSupported && UseIntrinsics && xStepQ4 == 1 << SubpelBits)
             {
                 ConvolveHorizSse41(src, srcStride, dst, dstStride, xFilters, x0Q4, w, h);
-
                 return;
             }
 
-            int x, y;
-            src -= SubpelTaps / 2 - 1;
+            src -= (SubpelTaps / 2) - 1;
 
-            for (y = 0; y < h; ++y)
+            for (int y = 0; y < h; ++y)
             {
                 int xQ4 = x0Q4;
-                for (x = 0; x < w; ++x)
+                for (int x = 0; x < w; ++x)
                 {
                     byte* srcX = &src[xQ4 >> SubpelBits];
                     ref Array8<short> xFilter = ref xFilters[xQ4 & SubpelMask];
-                    int k, sum = 0;
-                    for (k = 0; k < SubpelTaps; ++k)
+                    int sum = 0;
+                    for (int k = 0; k < SubpelTaps; ++k)
                     {
                         sum += srcX[k] * xFilter[k];
                     }
@@ -140,6 +139,7 @@ namespace Ryujinx.Graphics.Nvdec.Vp9.Dsp
                     dst[x] = BitUtils.ClipPixel(BitUtils.RoundPowerOfTwo(sum, FilterBits));
                     xQ4 += xStepQ4;
                 }
+
                 src += srcStride;
                 dst += dstStride;
             }
@@ -156,25 +156,26 @@ namespace Ryujinx.Graphics.Nvdec.Vp9.Dsp
             int w,
             int h)
         {
-            int x, y;
-            src -= SubpelTaps / 2 - 1;
+            src -= (SubpelTaps / 2) - 1;
 
-            for (y = 0; y < h; ++y)
+            for (int y = 0; y < h; ++y)
             {
                 int xQ4 = x0Q4;
-                for (x = 0; x < w; ++x)
+                for (int x = 0; x < w; ++x)
                 {
                     byte* srcX = &src[xQ4 >> SubpelBits];
                     ref Array8<short> xFilter = ref xFilters[xQ4 & SubpelMask];
-                    int k, sum = 0;
-                    for (k = 0; k < SubpelTaps; ++k)
+                    int sum = 0;
+                    for (int k = 0; k < SubpelTaps; ++k)
                     {
                         sum += srcX[k] * xFilter[k];
                     }
 
-                    dst[x] = (byte)BitUtils.RoundPowerOfTwo(dst[x] + BitUtils.ClipPixel(BitUtils.RoundPowerOfTwo(sum, FilterBits)), 1);
+                    dst[x] = (byte)BitUtils.RoundPowerOfTwo(
+                        dst[x] + BitUtils.ClipPixel(BitUtils.RoundPowerOfTwo(sum, FilterBits)), 1);
                     xQ4 += xStepQ4;
                 }
+
                 src += srcStride;
                 dst += dstStride;
             }
@@ -203,18 +204,17 @@ namespace Ryujinx.Graphics.Nvdec.Vp9.Dsp
                 srcStride * 6,
                 srcStride * 7);
 
-            ulong x, y;
-            src -= srcStride * (SubpelTaps / 2 - 1);
+            src -= srcStride * ((SubpelTaps / 2) - 1);
 
             fixed (Array8<short>* yFilter = yFilters)
             {
-                Vector128<short> vfilter = Sse2.LoadVector128((short*)yFilter + (uint)(y0Q4 & SubpelMask) * 8);
+                Vector128<short> vfilter = Sse2.LoadVector128((short*)yFilter + ((uint)(y0Q4 & SubpelMask) * 8));
 
                 ulong srcBaseY = (uint)y0Q4 >> SubpelBits;
-                for (y = 0; y < (uint)h; ++y)
+                for (ulong y = 0; y < (uint)h; ++y)
                 {
                     ulong srcOffset = (srcBaseY + y) * (uint)srcStride;
-                    for (x = 0; x < (uint)w; x += 4)
+                    for (ulong x = 0; x < (uint)w; x += 4)
                     {
                         Vector256<int> vsrc = Avx2.GatherVector256((uint*)&src[srcOffset + x], indices, 1).AsInt32();
 
@@ -240,8 +240,10 @@ namespace Ryujinx.Graphics.Nvdec.Vp9.Dsp
 
                         Vector128<int> sum0123 = MultiplyAddAdjacent(vsrc0, vsrc1, vsrc2, vsrc3, vfilter, zero);
 
-                        Sse.StoreScalar((float*)&dst[x], PackUnsignedSaturate(RoundShift(sum0123, const64), zero).AsSingle());
+                        Sse.StoreScalar((float*)&dst[x],
+                            PackUnsignedSaturate(RoundShift(sum0123, const64), zero).AsSingle());
                     }
+
                     dst += dstStride;
                 }
             }
@@ -262,22 +264,20 @@ namespace Ryujinx.Graphics.Nvdec.Vp9.Dsp
             if (Avx2.IsSupported && UseIntrinsics && yStepQ4 == 1 << SubpelBits)
             {
                 ConvolveVertAvx2(src, srcStride, dst, dstStride, yFilters, y0Q4, w, h);
-
                 return;
             }
 
-            int x, y;
-            src -= srcStride * (SubpelTaps / 2 - 1);
+            src -= srcStride * ((SubpelTaps / 2) - 1);
 
-            for (x = 0; x < w; ++x)
+            for (int x = 0; x < w; ++x)
             {
                 int yQ4 = y0Q4;
-                for (y = 0; y < h; ++y)
+                for (int y = 0; y < h; ++y)
                 {
                     byte* srcY = &src[(yQ4 >> SubpelBits) * srcStride];
                     ref Array8<short> yFilter = ref yFilters[yQ4 & SubpelMask];
-                    int k, sum = 0;
-                    for (k = 0; k < SubpelTaps; ++k)
+                    int sum = 0;
+                    for (int k = 0; k < SubpelTaps; ++k)
                     {
                         sum += srcY[k * srcStride] * yFilter[k];
                     }
@@ -285,6 +285,7 @@ namespace Ryujinx.Graphics.Nvdec.Vp9.Dsp
                     dst[y * dstStride] = BitUtils.ClipPixel(BitUtils.RoundPowerOfTwo(sum, FilterBits));
                     yQ4 += yStepQ4;
                 }
+
                 ++src;
                 ++dst;
             }
@@ -301,18 +302,17 @@ namespace Ryujinx.Graphics.Nvdec.Vp9.Dsp
             int w,
             int h)
         {
-            int x, y;
-            src -= srcStride * (SubpelTaps / 2 - 1);
+            src -= srcStride * ((SubpelTaps / 2) - 1);
 
-            for (x = 0; x < w; ++x)
+            for (int x = 0; x < w; ++x)
             {
                 int yQ4 = y0Q4;
-                for (y = 0; y < h; ++y)
+                for (int y = 0; y < h; ++y)
                 {
                     byte* srcY = &src[(yQ4 >> SubpelBits) * srcStride];
                     ref Array8<short> yFilter = ref yFilters[yQ4 & SubpelMask];
-                    int k, sum = 0;
-                    for (k = 0; k < SubpelTaps; ++k)
+                    int sum = 0;
+                    for (int k = 0; k < SubpelTaps; ++k)
                     {
                         sum += srcY[k * srcStride] * yFilter[k];
                     }
@@ -321,6 +321,7 @@ namespace Ryujinx.Graphics.Nvdec.Vp9.Dsp
                         dst[y * dstStride] + BitUtils.ClipPixel(BitUtils.RoundPowerOfTwo(sum, FilterBits)), 1);
                     yQ4 += yStepQ4;
                 }
+
                 ++src;
                 ++dst;
             }
@@ -420,15 +421,16 @@ namespace Ryujinx.Graphics.Nvdec.Vp9.Dsp
             // ==> yStepQ4 = 64. Since w and h are at most 16, the temp buffer is still
             // big enough.
             byte* temp = stackalloc byte[64 * 135];
-            int intermediateHeight = (((h - 1) * yStepQ4 + y0Q4) >> SubpelBits) + SubpelTaps;
+            int intermediateHeight = ((((h - 1) * yStepQ4) + y0Q4) >> SubpelBits) + SubpelTaps;
 
             Debug.Assert(w <= 64);
             Debug.Assert(h <= 64);
             Debug.Assert(yStepQ4 <= 32 || (yStepQ4 <= 64 && h <= 32));
             Debug.Assert(xStepQ4 <= 64);
 
-            ConvolveHoriz(src - srcStride * (SubpelTaps / 2 - 1), srcStride, temp, 64, filter, x0Q4, xStepQ4, w, intermediateHeight);
-            ConvolveVert(temp + 64 * (SubpelTaps / 2 - 1), 64, dst, dstStride, filter, y0Q4, yStepQ4, w, h);
+            ConvolveHoriz(src - (srcStride * ((SubpelTaps / 2) - 1)), srcStride, temp, 64, filter, x0Q4, xStepQ4, w,
+                intermediateHeight);
+            ConvolveVert(temp + (64 * ((SubpelTaps / 2) - 1)), 64, dst, dstStride, filter, y0Q4, yStepQ4, w, h);
         }
 
         public static unsafe void Convolve8Avg(
@@ -489,11 +491,9 @@ namespace Ryujinx.Graphics.Nvdec.Vp9.Dsp
             int w,
             int h)
         {
-            int x, y;
-
-            for (y = 0; y < h; ++y)
+            for (int y = 0; y < h; ++y)
             {
-                for (x = 0; x < w; ++x)
+                for (int x = 0; x < w; ++x)
                 {
                     dst[x] = (byte)BitUtils.RoundPowerOfTwo(dst[x] + src[x], 1);
                 }
@@ -611,18 +611,17 @@ namespace Ryujinx.Graphics.Nvdec.Vp9.Dsp
             int h,
             int bd)
         {
-            int x, y;
-            src -= SubpelTaps / 2 - 1;
+            src -= (SubpelTaps / 2) - 1;
 
-            for (y = 0; y < h; ++y)
+            for (int y = 0; y < h; ++y)
             {
                 int xQ4 = x0Q4;
-                for (x = 0; x < w; ++x)
+                for (int x = 0; x < w; ++x)
                 {
                     ushort* srcX = &src[xQ4 >> SubpelBits];
                     ref Array8<short> xFilter = ref xFilters[xQ4 & SubpelMask];
-                    int k, sum = 0;
-                    for (k = 0; k < SubpelTaps; ++k)
+                    int sum = 0;
+                    for (int k = 0; k < SubpelTaps; ++k)
                     {
                         sum += srcX[k] * xFilter[k];
                     }
@@ -630,6 +629,7 @@ namespace Ryujinx.Graphics.Nvdec.Vp9.Dsp
                     dst[x] = BitUtils.ClipPixelHighbd(BitUtils.RoundPowerOfTwo(sum, FilterBits), bd);
                     xQ4 += xStepQ4;
                 }
+
                 src += srcStride;
                 dst += dstStride;
             }
@@ -647,25 +647,26 @@ namespace Ryujinx.Graphics.Nvdec.Vp9.Dsp
             int h,
             int bd)
         {
-            int x, y;
-            src -= SubpelTaps / 2 - 1;
+            src -= (SubpelTaps / 2) - 1;
 
-            for (y = 0; y < h; ++y)
+            for (int y = 0; y < h; ++y)
             {
                 int xQ4 = x0Q4;
-                for (x = 0; x < w; ++x)
+                for (int x = 0; x < w; ++x)
                 {
                     ushort* srcX = &src[xQ4 >> SubpelBits];
                     ref Array8<short> xFilter = ref xFilters[xQ4 & SubpelMask];
-                    int k, sum = 0;
-                    for (k = 0; k < SubpelTaps; ++k)
+                    int sum = 0;
+                    for (int k = 0; k < SubpelTaps; ++k)
                     {
                         sum += srcX[k] * xFilter[k];
                     }
 
-                    dst[x] = (ushort)BitUtils.RoundPowerOfTwo(dst[x] + BitUtils.ClipPixelHighbd(BitUtils.RoundPowerOfTwo(sum, FilterBits), bd), 1);
+                    dst[x] = (ushort)BitUtils.RoundPowerOfTwo(
+                        dst[x] + BitUtils.ClipPixelHighbd(BitUtils.RoundPowerOfTwo(sum, FilterBits), bd), 1);
                     xQ4 += xStepQ4;
                 }
+
                 src += srcStride;
                 dst += dstStride;
             }
@@ -683,18 +684,17 @@ namespace Ryujinx.Graphics.Nvdec.Vp9.Dsp
             int h,
             int bd)
         {
-            int x, y;
-            src -= srcStride * (SubpelTaps / 2 - 1);
+            src -= srcStride * ((SubpelTaps / 2) - 1);
 
-            for (x = 0; x < w; ++x)
+            for (int x = 0; x < w; ++x)
             {
                 int yQ4 = y0Q4;
-                for (y = 0; y < h; ++y)
+                for (int y = 0; y < h; ++y)
                 {
                     ushort* srcY = &src[(yQ4 >> SubpelBits) * srcStride];
                     ref Array8<short> yFilter = ref yFilters[yQ4 & SubpelMask];
-                    int k, sum = 0;
-                    for (k = 0; k < SubpelTaps; ++k)
+                    int sum = 0;
+                    for (int k = 0; k < SubpelTaps; ++k)
                     {
                         sum += srcY[k * srcStride] * yFilter[k];
                     }
@@ -702,6 +702,7 @@ namespace Ryujinx.Graphics.Nvdec.Vp9.Dsp
                     dst[y * dstStride] = BitUtils.ClipPixelHighbd(BitUtils.RoundPowerOfTwo(sum, FilterBits), bd);
                     yQ4 += yStepQ4;
                 }
+
                 ++src;
                 ++dst;
             }
@@ -719,26 +720,27 @@ namespace Ryujinx.Graphics.Nvdec.Vp9.Dsp
             int h,
             int bd)
         {
-            int x, y;
-            src -= srcStride * (SubpelTaps / 2 - 1);
+            src -= srcStride * ((SubpelTaps / 2) - 1);
 
-            for (x = 0; x < w; ++x)
+            for (int x = 0; x < w; ++x)
             {
                 int yQ4 = y0Q4;
-                for (y = 0; y < h; ++y)
+                for (int y = 0; y < h; ++y)
                 {
                     ushort* srcY = &src[(yQ4 >> SubpelBits) * srcStride];
                     ref Array8<short> yFilter = ref yFilters[yQ4 & SubpelMask];
-                    int k, sum = 0;
-                    for (k = 0; k < SubpelTaps; ++k)
+                    int sum = 0;
+                    for (int k = 0; k < SubpelTaps; ++k)
                     {
                         sum += srcY[k * srcStride] * yFilter[k];
                     }
 
                     dst[y * dstStride] = (ushort)BitUtils.RoundPowerOfTwo(
-                        dst[y * dstStride] + BitUtils.ClipPixelHighbd(BitUtils.RoundPowerOfTwo(sum, FilterBits), bd), 1);
+                        dst[y * dstStride] + BitUtils.ClipPixelHighbd(BitUtils.RoundPowerOfTwo(sum, FilterBits), bd),
+                        1);
                     yQ4 += yStepQ4;
                 }
+
                 ++src;
                 ++dst;
             }
@@ -771,15 +773,17 @@ namespace Ryujinx.Graphics.Nvdec.Vp9.Dsp
             // --Require an additional SubpelTaps rows for the 8-tap filter tails.
             // --((64 - 1) * 32 + 15) >> 4 + 8 = 135.
             ushort* temp = stackalloc ushort[64 * 135];
-            int intermediateHeight = (((h - 1) * yStepQ4 + y0Q4) >> SubpelBits) + SubpelTaps;
+            int intermediateHeight = ((((h - 1) * yStepQ4) + y0Q4) >> SubpelBits) + SubpelTaps;
 
             Debug.Assert(w <= 64);
             Debug.Assert(h <= 64);
             Debug.Assert(yStepQ4 <= 32);
             Debug.Assert(xStepQ4 <= 32);
 
-            HighbdConvolveHoriz(src - srcStride * (SubpelTaps / 2 - 1), srcStride, temp, 64, filter, x0Q4, xStepQ4, w, intermediateHeight, bd);
-            HighbdConvolveVert(temp + 64 * (SubpelTaps / 2 - 1), 64, dst, dstStride, filter, y0Q4, yStepQ4, w, h, bd);
+            HighbdConvolveHoriz(src - (srcStride * ((SubpelTaps / 2) - 1)), srcStride, temp, 64, filter, x0Q4, xStepQ4,
+                w, intermediateHeight, bd);
+            HighbdConvolveVert(temp + (64 * ((SubpelTaps / 2) - 1)), 64, dst, dstStride, filter, y0Q4, yStepQ4, w, h,
+                bd);
         }
 
         public static unsafe void HighbdConvolve8Horiz(
@@ -928,11 +932,9 @@ namespace Ryujinx.Graphics.Nvdec.Vp9.Dsp
             int h,
             int bd)
         {
-            int x, y;
-
-            for (y = 0; y < h; ++y)
+            for (int y = 0; y < h; ++y)
             {
-                for (x = 0; x < w; ++x)
+                for (int x = 0; x < w; ++x)
                 {
                     dst[x] = (ushort)BitUtils.RoundPowerOfTwo(dst[x] + src[x], 1);
                 }
