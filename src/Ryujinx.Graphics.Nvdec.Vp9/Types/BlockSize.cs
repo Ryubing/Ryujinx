@@ -2,19 +2,19 @@
 {
     internal enum BlockSize
     {
-        Block4x4,
-        Block4x8,
-        Block8x4,
-        Block8x8,
-        Block8x16,
-        Block16x8,
-        Block16x16,
-        Block16x32,
-        Block32x16,
-        Block32x32,
-        Block32x64,
-        Block64x32,
-        Block64x64,
+        Block4X4,
+        Block4X8,
+        Block8X4,
+        Block8X8,
+        Block8X16,
+        Block16X8,
+        Block16X16,
+        Block16X32,
+        Block32X16,
+        Block32X32,
+        Block32X64,
+        Block64X32,
+        Block64X64,
         BlockSizes,
         BlockInvalid = BlockSizes
     }

@@ -87,7 +87,7 @@ namespace Ryujinx.Graphics.Nvdec.Vp9.Dsp
         }
 
         [SkipLocalsInit]
-        public static void Iwht4x416Add(ReadOnlySpan<int> input, Span<byte> dest, int stride)
+        public static void Iwht4X416Add(ReadOnlySpan<int> input, Span<byte> dest, int stride)
         {
             /* 4-point reversible, orthonormal inverse Walsh-Hadamard in 3.5 adds,
                0.5 shifts per pixel. */
@@ -143,7 +143,7 @@ namespace Ryujinx.Graphics.Nvdec.Vp9.Dsp
         }
 
         [SkipLocalsInit]
-        public static void Iwht4x41Add(ReadOnlySpan<int> input, Span<byte> dest, int stride)
+        public static void Iwht4X41Add(ReadOnlySpan<int> input, Span<byte> dest, int stride)
         {
             long a1, e1;
             Span<int> tmp = stackalloc int[4];
@@ -233,7 +233,7 @@ namespace Ryujinx.Graphics.Nvdec.Vp9.Dsp
         }
 
         [SkipLocalsInit]
-        public static void Idct4x416Add(ReadOnlySpan<int> input, Span<byte> dest, int stride)
+        public static void Idct4X416Add(ReadOnlySpan<int> input, Span<byte> dest, int stride)
         {
             Span<int> output = stackalloc int[4 * 4];
             Span<int> outptr = output;
@@ -265,7 +265,7 @@ namespace Ryujinx.Graphics.Nvdec.Vp9.Dsp
             }
         }
 
-        public static void Idct4x41Add(ReadOnlySpan<int> input, Span<byte> dest, int stride)
+        public static void Idct4X41Add(ReadOnlySpan<int> input, Span<byte> dest, int stride)
         {
             long a1;
             int output = WrapLow(DctConstRoundShift((short)input[0] * CosPi1664));
@@ -419,7 +419,7 @@ namespace Ryujinx.Graphics.Nvdec.Vp9.Dsp
         }
 
         [SkipLocalsInit]
-        public static void Idct8x864Add(ReadOnlySpan<int> input, Span<byte> dest, int stride)
+        public static void Idct8X864Add(ReadOnlySpan<int> input, Span<byte> dest, int stride)
         {
             Span<int> output = stackalloc int[8 * 8];
             Span<int> outptr = output;
@@ -452,7 +452,7 @@ namespace Ryujinx.Graphics.Nvdec.Vp9.Dsp
         }
 
         [SkipLocalsInit]
-        public static void Idct8x812Add(ReadOnlySpan<int> input, Span<byte> dest, int stride)
+        public static void Idct8X812Add(ReadOnlySpan<int> input, Span<byte> dest, int stride)
         {
             Span<int> output = stackalloc int[8 * 8];
             Span<int> outptr = output;
@@ -487,7 +487,7 @@ namespace Ryujinx.Graphics.Nvdec.Vp9.Dsp
             }
         }
 
-        public static void Idct8x81Add(ReadOnlySpan<int> input, Span<byte> dest, int stride)
+        public static void Idct8X81Add(ReadOnlySpan<int> input, Span<byte> dest, int stride)
         {
             long a1;
             int output = WrapLow(DctConstRoundShift((short)input[0] * CosPi1664));
@@ -843,7 +843,7 @@ namespace Ryujinx.Graphics.Nvdec.Vp9.Dsp
         }
 
         [SkipLocalsInit]
-        public static void Idct16x16256Add(ReadOnlySpan<int> input, Span<byte> dest, int stride)
+        public static void Idct16X16256Add(ReadOnlySpan<int> input, Span<byte> dest, int stride)
         {
             Span<int> output = stackalloc int[16 * 16];
             Span<int> outptr = output;
@@ -876,7 +876,7 @@ namespace Ryujinx.Graphics.Nvdec.Vp9.Dsp
         }
 
         [SkipLocalsInit]
-        public static void Idct16x1638Add(ReadOnlySpan<int> input, Span<byte> dest, int stride)
+        public static void Idct16X1638Add(ReadOnlySpan<int> input, Span<byte> dest, int stride)
         {
             Span<int> output = stackalloc int[16 * 16];
             Span<int> outptr = output;
@@ -912,7 +912,7 @@ namespace Ryujinx.Graphics.Nvdec.Vp9.Dsp
         }
 
         [SkipLocalsInit]
-        public static void Idct16x1610Add(ReadOnlySpan<int> input, Span<byte> dest, int stride)
+        public static void Idct16X1610Add(ReadOnlySpan<int> input, Span<byte> dest, int stride)
         {
             Span<int> output = stackalloc int[16 * 16];
             Span<int> outptr = output;
@@ -947,7 +947,7 @@ namespace Ryujinx.Graphics.Nvdec.Vp9.Dsp
             }
         }
 
-        public static void Idct16x161Add(ReadOnlySpan<int> input, Span<byte> dest, int stride)
+        public static void Idct16X161Add(ReadOnlySpan<int> input, Span<byte> dest, int stride)
         {
             long a1;
             int output = WrapLow(DctConstRoundShift((short)input[0] * CosPi1664));
@@ -1336,7 +1336,7 @@ namespace Ryujinx.Graphics.Nvdec.Vp9.Dsp
         }
 
         [SkipLocalsInit]
-        public static void Idct32x321024Add(ReadOnlySpan<int> input, Span<byte> dest, int stride)
+        public static void Idct32X321024Add(ReadOnlySpan<int> input, Span<byte> dest, int stride)
         {
             Span<int> output = stackalloc int[32 * 32];
             Span<int> outptr = output;
@@ -1383,7 +1383,7 @@ namespace Ryujinx.Graphics.Nvdec.Vp9.Dsp
         }
 
         [SkipLocalsInit]
-        public static void Idct32x32135Add(ReadOnlySpan<int> input, Span<byte> dest, int stride)
+        public static void Idct32X32135Add(ReadOnlySpan<int> input, Span<byte> dest, int stride)
         {
             Span<int> output = stackalloc int[32 * 32];
             Span<int> outptr = output;
@@ -1419,7 +1419,7 @@ namespace Ryujinx.Graphics.Nvdec.Vp9.Dsp
         }
 
         [SkipLocalsInit]
-        public static void Idct32x3234Add(ReadOnlySpan<int> input, Span<byte> dest, int stride)
+        public static void Idct32X3234Add(ReadOnlySpan<int> input, Span<byte> dest, int stride)
         {
             Span<int> output = stackalloc int[32 * 32];
             Span<int> outptr = output;
@@ -1454,7 +1454,7 @@ namespace Ryujinx.Graphics.Nvdec.Vp9.Dsp
             }
         }
 
-        public static void Idct32x321Add(ReadOnlySpan<int> input, Span<byte> dest, int stride)
+        public static void Idct32X321Add(ReadOnlySpan<int> input, Span<byte> dest, int stride)
         {
             long a1;
             int output = WrapLow(DctConstRoundShift((short)input[0] * CosPi1664));
@@ -1474,7 +1474,7 @@ namespace Ryujinx.Graphics.Nvdec.Vp9.Dsp
         }
 
         [SkipLocalsInit]
-        public static void HighbdIwht4x416Add(ReadOnlySpan<int> input, Span<ushort> dest, int stride, int bd)
+        public static void HighbdIwht4X416Add(ReadOnlySpan<int> input, Span<ushort> dest, int stride, int bd)
         {
             /* 4-point reversible, orthonormal inverse Walsh-Hadamard in 3.5 adds,
                0.5 shifts per pixel. */
@@ -1530,7 +1530,7 @@ namespace Ryujinx.Graphics.Nvdec.Vp9.Dsp
         }
 
         [SkipLocalsInit]
-        public static void HighbdIwht4x41Add(ReadOnlySpan<int> input, Span<ushort> dest, int stride, int bd)
+        public static void HighbdIwht4X41Add(ReadOnlySpan<int> input, Span<ushort> dest, int stride, int bd)
         {
             long a1, e1;
             Span<int> tmp = stackalloc int[4];
@@ -1633,7 +1633,7 @@ namespace Ryujinx.Graphics.Nvdec.Vp9.Dsp
         }
 
         [SkipLocalsInit]
-        public static void HighbdIdct4x416Add(ReadOnlySpan<int> input, Span<ushort> dest, int stride, int bd)
+        public static void HighbdIdct4X416Add(ReadOnlySpan<int> input, Span<ushort> dest, int stride, int bd)
         {
             Span<int> output = stackalloc int[4 * 4];
             Span<int> outptr = output;
@@ -1665,7 +1665,7 @@ namespace Ryujinx.Graphics.Nvdec.Vp9.Dsp
             }
         }
 
-        public static void HighbdIdct4x41Add(ReadOnlySpan<int> input, Span<ushort> dest, int stride, int bd)
+        public static void HighbdIdct4X41Add(ReadOnlySpan<int> input, Span<ushort> dest, int stride, int bd)
         {
             long a1;
             int output = HighbdWrapLow(DctConstRoundShift(input[0] * (long)CosPi1664), bd);
@@ -1824,7 +1824,7 @@ namespace Ryujinx.Graphics.Nvdec.Vp9.Dsp
         }
 
         [SkipLocalsInit]
-        public static void HighbdIdct8x864Add(ReadOnlySpan<int> input, Span<ushort> dest, int stride, int bd)
+        public static void HighbdIdct8X864Add(ReadOnlySpan<int> input, Span<ushort> dest, int stride, int bd)
         {
             Span<int> output = stackalloc int[8 * 8];
             Span<int> outptr = output;
@@ -1857,7 +1857,7 @@ namespace Ryujinx.Graphics.Nvdec.Vp9.Dsp
         }
 
         [SkipLocalsInit]
-        public static void HighbdIdct8x812Add(ReadOnlySpan<int> input, Span<ushort> dest, int stride, int bd)
+        public static void HighbdIdct8X812Add(ReadOnlySpan<int> input, Span<ushort> dest, int stride, int bd)
         {
             Span<int> output = stackalloc int[8 * 8];
             Span<int> outptr = output;
@@ -1892,7 +1892,7 @@ namespace Ryujinx.Graphics.Nvdec.Vp9.Dsp
             }
         }
 
-        public static void VpxHighbdidct8x81AddC(ReadOnlySpan<int> input, Span<ushort> dest, int stride, int bd)
+        public static void VpxHighbdidct8X81AddC(ReadOnlySpan<int> input, Span<ushort> dest, int stride, int bd)
         {
             long a1;
             int output = HighbdWrapLow(DctConstRoundShift(input[0] * (long)CosPi1664), bd);
@@ -2261,7 +2261,7 @@ namespace Ryujinx.Graphics.Nvdec.Vp9.Dsp
         }
 
         [SkipLocalsInit]
-        public static void HighbdIdct16x16256Add(ReadOnlySpan<int> input, Span<ushort> dest, int stride, int bd)
+        public static void HighbdIdct16X16256Add(ReadOnlySpan<int> input, Span<ushort> dest, int stride, int bd)
         {
             Span<int> output = stackalloc int[16 * 16];
             Span<int> outptr = output;
@@ -2294,7 +2294,7 @@ namespace Ryujinx.Graphics.Nvdec.Vp9.Dsp
         }
 
         [SkipLocalsInit]
-        public static void HighbdIdct16x1638Add(ReadOnlySpan<int> input, Span<ushort> dest, int stride, int bd)
+        public static void HighbdIdct16X1638Add(ReadOnlySpan<int> input, Span<ushort> dest, int stride, int bd)
         {
             Span<int> output = stackalloc int[16 * 16];
             Span<int> outptr = output;
@@ -2331,7 +2331,7 @@ namespace Ryujinx.Graphics.Nvdec.Vp9.Dsp
         }
 
         [SkipLocalsInit]
-        public static void HighbdIdct16x1610Add(ReadOnlySpan<int> input, Span<ushort> dest, int stride, int bd)
+        public static void HighbdIdct16X1610Add(ReadOnlySpan<int> input, Span<ushort> dest, int stride, int bd)
         {
             Span<int> output = stackalloc int[16 * 16];
             Span<int> outptr = output;
@@ -2366,7 +2366,7 @@ namespace Ryujinx.Graphics.Nvdec.Vp9.Dsp
             }
         }
 
-        public static void HighbdIdct16x161Add(ReadOnlySpan<int> input, Span<ushort> dest, int stride, int bd)
+        public static void HighbdIdct16X161Add(ReadOnlySpan<int> input, Span<ushort> dest, int stride, int bd)
         {
             long a1;
             int output = HighbdWrapLow(DctConstRoundShift(input[0] * (long)CosPi1664), bd);
@@ -2762,7 +2762,7 @@ namespace Ryujinx.Graphics.Nvdec.Vp9.Dsp
         }
 
         [SkipLocalsInit]
-        public static void HighbdIdct32x321024Add(ReadOnlySpan<int> input, Span<ushort> dest, int stride, int bd)
+        public static void HighbdIdct32X321024Add(ReadOnlySpan<int> input, Span<ushort> dest, int stride, int bd)
         {
             Span<int> output = stackalloc int[32 * 32];
             Span<int> outptr = output;
@@ -2809,7 +2809,7 @@ namespace Ryujinx.Graphics.Nvdec.Vp9.Dsp
         }
 
         [SkipLocalsInit]
-        public static void HighbdIdct32x32135Add(ReadOnlySpan<int> input, Span<ushort> dest, int stride, int bd)
+        public static void HighbdIdct32X32135Add(ReadOnlySpan<int> input, Span<ushort> dest, int stride, int bd)
         {
             Span<int> output = stackalloc int[32 * 32];
             Span<int> outptr = output;
@@ -2846,7 +2846,7 @@ namespace Ryujinx.Graphics.Nvdec.Vp9.Dsp
         }
 
         [SkipLocalsInit]
-        public static void HighbdIdct32x3234Add(ReadOnlySpan<int> input, Span<ushort> dest, int stride, int bd)
+        public static void HighbdIdct32X3234Add(ReadOnlySpan<int> input, Span<ushort> dest, int stride, int bd)
         {
             Span<int> output = stackalloc int[32 * 32];
             Span<int> outptr = output;
@@ -2881,7 +2881,7 @@ namespace Ryujinx.Graphics.Nvdec.Vp9.Dsp
             }
         }
 
-        public static void HighbdIdct32x321Add(ReadOnlySpan<int> input, Span<ushort> dest, int stride, int bd)
+        public static void HighbdIdct32X321Add(ReadOnlySpan<int> input, Span<ushort> dest, int stride, int bd)
         {
             int a1;
             int output = HighbdWrapLow(DctConstRoundShift(input[0] * (long)CosPi1664), bd);

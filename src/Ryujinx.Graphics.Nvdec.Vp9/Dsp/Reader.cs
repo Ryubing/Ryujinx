@@ -7,8 +7,8 @@ namespace Ryujinx.Graphics.Nvdec.Vp9.Dsp
 {
     internal struct Reader
     {
-        private static readonly byte[] Norm =
-        {
+        private static readonly byte[] _norm =
+        [
             0, 7, 6, 6, 5, 5, 5, 5, 4, 4, 4, 4, 4, 4, 4, 4, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 2, 2, 2,
             2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 1, 1, 1, 1, 1, 1,
             1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1,
@@ -17,7 +17,7 @@ namespace Ryujinx.Graphics.Nvdec.Vp9.Dsp
             0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
             0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
             0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
-        };
+        ];
 
         private const int BdValueSize = sizeof(ulong) * 8;
 
@@ -144,7 +144,7 @@ namespace Ryujinx.Graphics.Nvdec.Vp9.Dsp
             }
 
             {
-                int shift = Norm[range];
+                int shift = _norm[range];
                 range <<= shift;
                 value <<= shift;
                 count -= shift;
@@ -203,7 +203,7 @@ namespace Ryujinx.Graphics.Nvdec.Vp9.Dsp
                 range = range - split;
                 value = value - bigsplit;
                 {
-                    int shift = Norm[range];
+                    int shift = _norm[range];
                     range <<= shift;
                     value <<= shift;
                     count -= shift;
@@ -213,7 +213,7 @@ namespace Ryujinx.Graphics.Nvdec.Vp9.Dsp
 
             range = split;
             {
-                int shift = Norm[range];
+                int shift = _norm[range];
                 range <<= shift;
                 value <<= shift;
                 count -= shift;
@@ -235,10 +235,10 @@ namespace Ryujinx.Graphics.Nvdec.Vp9.Dsp
 
         private int DecodeUniform()
         {
-            const int l = 8;
-            const int m = (1 << l) - 191;
-            int v = ReadLiteral(l - 1);
-            return v < m ? v : (v << 1) - m + ReadBit();
+            const int L = 8;
+            const int M = (1 << L) - 191;
+            int v = ReadLiteral(L - 1);
+            return v < M ? v : (v << 1) - M + ReadBit();
         }
 
         public int DecodeTermSubexp()
@@ -264,7 +264,7 @@ namespace Ryujinx.Graphics.Nvdec.Vp9.Dsp
         public TxMode ReadTxMode()
         {
             TxMode txMode = (TxMode)ReadLiteral(2);
-            if (txMode == TxMode.Allow32x32)
+            if (txMode == TxMode.Allow32X32)
             {
                 txMode += ReadBit();
             }

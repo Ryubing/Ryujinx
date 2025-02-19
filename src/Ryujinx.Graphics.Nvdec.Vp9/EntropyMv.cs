@@ -14,22 +14,22 @@ namespace Ryujinx.Graphics.Nvdec.Vp9
 
 
         public static readonly sbyte[] JointTree =
-        {
+        [
             -(sbyte)MvJointType.Zero, 2, -(sbyte)MvJointType.Hnzvz, 4,
             -(sbyte)MvJointType.Hzvnz, -(sbyte)MvJointType.Hnzvnz
-        };
+        ];
 
         public static readonly sbyte[] ClassTree =
-        {
+        [
             -(sbyte)MvClassType.Class0, 2, -(sbyte)MvClassType.Class1, 4, 6, 8, -(sbyte)MvClassType.Class2,
             -(sbyte)MvClassType.Class3, 10, 12, -(sbyte)MvClassType.Class4, -(sbyte)MvClassType.Class5,
             -(sbyte)MvClassType.Class6, 14, 16, 18, -(sbyte)MvClassType.Class7, -(sbyte)MvClassType.Class8,
             -(sbyte)MvClassType.Class9, -(sbyte)MvClassType.Class10
-        };
+        ];
 
-        public static readonly sbyte[] Class0Tree = { -0, -1 };
+        public static readonly sbyte[] Class0Tree = [-0, -1];
 
-        public static readonly sbyte[] FpTree = { -0, 2, -1, 4, -2, -3 };
+        public static readonly sbyte[] FpTree = [-0, 2, -1, 4, -2, -3];
 
         private static bool JointVertical(MvJointType type)
         {
@@ -41,8 +41,8 @@ namespace Ryujinx.Graphics.Nvdec.Vp9
             return type == MvJointType.Hnzvz || type == MvJointType.Hnzvnz;
         }
 
-        private static readonly byte[] LogInBase2 =
-        {
+        private static readonly byte[] _logInBase2 =
+        [
             0, 0, 1, 1, 2, 2, 2, 2, 3, 3, 3, 3, 3, 3, 3, 3, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 5, 5, 5,
             5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 6, 6, 6, 6, 6, 6,
             6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6,
@@ -73,7 +73,7 @@ namespace Ryujinx.Graphics.Nvdec.Vp9
             9, 9, 9, 9, 9, 9, 9, 9, 9, 9, 9, 9, 9, 9, 9, 9, 9, 9, 9, 9, 9, 9, 9, 9, 9, 9, 9, 9, 9, 9, 9, 9, 9, 9, 9,
             9, 9, 9, 9, 9, 9, 9, 9, 9, 9, 9, 9, 9, 9, 9, 9, 9, 9, 9, 9, 9, 9, 9, 9, 9, 9, 9, 9, 9, 9, 9, 9, 9, 9, 9,
             9, 9, 9, 9, 9, 9, 9, 9, 9, 10
-        };
+        ];
 
         private static int ClassBase(MvClassType c)
         {
@@ -84,7 +84,7 @@ namespace Ryujinx.Graphics.Nvdec.Vp9
         {
             MvClassType c = z >= Class0Size * 4096
                 ? MvClassType.Class10
-                : (MvClassType)LogInBase2[z >> 3];
+                : (MvClassType)_logInBase2[z >> 3];
             if (!offset.IsNull)
             {
                 offset.Value = z - ClassBase(c);
@@ -95,18 +95,18 @@ namespace Ryujinx.Graphics.Nvdec.Vp9
 
         private static void IncComponent(int v, ref Vp9BackwardUpdates compCounts, int compIndex, int incr, int usehp)
         {
-            int s, z, c, o = 0, d, e, f;
+            int o = 0;
             Debug.Assert(v != 0); /* should not be zero */
-            s = v < 0 ? 1 : 0;
+            int s = v < 0 ? 1 : 0;
             compCounts.Sign[compIndex][s] += (uint)incr;
-            z = (s != 0 ? -v : v) - 1; /* magnitude - 1 */
+            int z = (s != 0 ? -v : v) - 1 /* magnitude - 1 */;
 
-            c = (int)GetClass(z, new Ptr<int>(ref o));
+            int c = (int)GetClass(z, new Ptr<int>(ref o));
             compCounts.Classes[compIndex][c] += (uint)incr;
 
-            d = o >> 3; /* int mv data */
-            f = (o >> 1) & 3; /* fractional pel mv data */
-            e = o & 1; /* high precision mv data */
+            int d = o >> 3 /* int mv data */;
+            int f = (o >> 1) & 3 /* fractional pel mv data */;
+            int e = o & 1 /* high precision mv data */;
 
             if (c == (int)MvClassType.Class0)
             {

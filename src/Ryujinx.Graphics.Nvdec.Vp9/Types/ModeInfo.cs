@@ -29,12 +29,12 @@ namespace Ryujinx.Graphics.Nvdec.Vp9.Types
 
         public PredictionMode GetYMode(int block)
         {
-            return SbType < BlockSize.Block8x8 ? Bmi[block].Mode : Mode;
+            return SbType < BlockSize.Block8X8 ? Bmi[block].Mode : Mode;
         }
 
         public TxSize GetUvTxSize(ref MacroBlockDPlane pd)
         {
-            Debug.Assert(SbType < BlockSize.Block8x8 ||
+            Debug.Assert(SbType < BlockSize.Block8X8 ||
                          Luts.SsSizeLookup[(int)SbType][pd.SubsamplingX][pd.SubsamplingY] != BlockSize.BlockInvalid);
             return Luts.UvTxsizeLookup[(int)SbType][(int)TxSize][pd.SubsamplingX][pd.SubsamplingY];
         }
@@ -49,17 +49,17 @@ namespace Ryujinx.Graphics.Nvdec.Vp9.Types
             return RefFrame[1] > Constants.IntraFrame;
         }
 
-        private static readonly int[][] IdxNColumnToSubblock =
-        {
-            new[] { 1, 2 }, new[] { 1, 3 }, new[] { 3, 2 }, new[] { 3, 3 }
-        };
+        private static readonly int[][] _idxNColumnToSubblock =
+        [
+            [1, 2], [1, 3], [3, 2], [3, 3]
+        ];
 
         // This function returns either the appropriate sub block or block's mv
         // on whether the block_size < 8x8 and we have check_sub_blocks set.
         public Mv GetSubBlockMv(int whichMv, int searchCol, int blockIdx)
         {
-            return blockIdx >= 0 && SbType < BlockSize.Block8x8
-                ? Bmi[IdxNColumnToSubblock[blockIdx][searchCol == 0 ? 1 : 0]].Mv[whichMv]
+            return blockIdx >= 0 && SbType < BlockSize.Block8X8
+                ? Bmi[_idxNColumnToSubblock[blockIdx][searchCol == 0 ? 1 : 0]].Mv[whichMv]
                 : Mv[whichMv];
         }
 

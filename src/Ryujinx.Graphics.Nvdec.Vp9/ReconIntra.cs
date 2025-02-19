@@ -8,7 +8,7 @@ namespace Ryujinx.Graphics.Nvdec.Vp9
     internal static class ReconIntra
     {
         public static readonly TxType[] IntraModeToTxTypeLookup =
-        {
+        [
             TxType.DctDct, // DC
             TxType.AdstDct, // V
             TxType.DctAdst, // H
@@ -19,14 +19,14 @@ namespace Ryujinx.Graphics.Nvdec.Vp9
             TxType.DctAdst, // D207
             TxType.AdstDct, // D63
             TxType.AdstAdst // TM
-        };
+        ];
 
         private const int NeedLeft = 1 << 1;
         private const int NeedAbove = 1 << 2;
         private const int NeedAboveRight = 1 << 3;
 
-        private static ReadOnlySpan<byte> ExtendModes => new byte[]
-        {
+        private static ReadOnlySpan<byte> ExtendModes =>
+        [
             NeedAbove | NeedLeft, // DC
             NeedAbove, // V
             NeedLeft, // H
@@ -37,123 +37,103 @@ namespace Ryujinx.Graphics.Nvdec.Vp9
             NeedLeft, // D207
             NeedAboveRight, // D63
             NeedLeft | NeedAbove // TM
-        };
+        ];
 
         private unsafe delegate void IntraPredFn(byte* dst, int stride, byte* above, byte* left);
 
-        private static readonly unsafe IntraPredFn[][] Pred =
-        {
-            new IntraPredFn[] { null, null, null, null },
-            new IntraPredFn[] { VPredictor4x4, VPredictor8x8, VPredictor16x16, VPredictor32x32 },
-            new IntraPredFn[] { HPredictor4x4, HPredictor8x8, HPredictor16x16, HPredictor32x32 },
-            new IntraPredFn[] { D45Predictor4x4, D45Predictor8x8, D45Predictor16x16, D45Predictor32x32 },
-            new IntraPredFn[] { D135Predictor4x4, D135Predictor8x8, D135Predictor16x16, D135Predictor32x32 },
-            new IntraPredFn[] { D117Predictor4x4, D117Predictor8x8, D117Predictor16x16, D117Predictor32x32 },
-            new IntraPredFn[] { D153Predictor4x4, D153Predictor8x8, D153Predictor16x16, D153Predictor32x32 },
-            new IntraPredFn[] { D207Predictor4x4, D207Predictor8x8, D207Predictor16x16, D207Predictor32x32 },
-            new IntraPredFn[] { D63Predictor4x4, D63Predictor8x8, D63Predictor16x16, D63Predictor32x32 },
-            new IntraPredFn[] { TmPredictor4x4, TmPredictor8x8, TmPredictor16x16, TmPredictor32x32 }
-        };
+        private static readonly unsafe IntraPredFn[][] _pred =
+        [
+            [null, null, null, null],
+            [VPredictor4X4, VPredictor8X8, VPredictor16X16, VPredictor32X32],
+            [HPredictor4X4, HPredictor8X8, HPredictor16X16, HPredictor32X32],
+            [D45Predictor4X4, D45Predictor8X8, D45Predictor16X16, D45Predictor32X32],
+            [D135Predictor4X4, D135Predictor8X8, D135Predictor16X16, D135Predictor32X32],
+            [D117Predictor4X4, D117Predictor8X8, D117Predictor16X16, D117Predictor32X32],
+            [D153Predictor4X4, D153Predictor8X8, D153Predictor16X16, D153Predictor32X32],
+            [D207Predictor4X4, D207Predictor8X8, D207Predictor16X16, D207Predictor32X32],
+            [D63Predictor4X4, D63Predictor8X8, D63Predictor16X16, D63Predictor32X32],
+            [TmPredictor4X4, TmPredictor8X8, TmPredictor16X16, TmPredictor32X32]
+        ];
 
-        private static readonly unsafe IntraPredFn[][][] DcPred =
-        {
-            new[]
-            {
-                new IntraPredFn[]
-                {
-                    Dc128Predictor4x4, Dc128Predictor8x8, Dc128Predictor16x16, Dc128Predictor32x32
-                },
-                new IntraPredFn[]
-                {
-                    DcTopPredictor4x4, DcTopPredictor8x8, DcTopPredictor16x16, DcTopPredictor32x32
-                }
-            },
-            new[]
-            {
-                new IntraPredFn[]
-                {
-                    DcLeftPredictor4x4, DcLeftPredictor8x8, DcLeftPredictor16x16, DcLeftPredictor32x32
-                },
-                new IntraPredFn[] { DcPredictor4x4, DcPredictor8x8, DcPredictor16x16, DcPredictor32x32 }
-            }
-        };
+        private static readonly unsafe IntraPredFn[][][] _dcPred =
+        [
+            [
+                [
+                    Dc128Predictor4X4, Dc128Predictor8X8, Dc128Predictor16X16, Dc128Predictor32X32
+                ],
+                [
+                    DcTopPredictor4X4, DcTopPredictor8X8, DcTopPredictor16X16, DcTopPredictor32X32
+                ]
+            ],
+            [
+                [
+                    DcLeftPredictor4X4, DcLeftPredictor8X8, DcLeftPredictor16X16, DcLeftPredictor32X32
+                ],
+                [DcPredictor4X4, DcPredictor8X8, DcPredictor16X16, DcPredictor32X32]
+            ]
+        ];
 
         private unsafe delegate void IntraHighPredFn(ushort* dst, int stride, ushort* above, ushort* left, int bd);
 
-        private static readonly unsafe IntraHighPredFn[][] PredHigh =
-        {
-            new IntraHighPredFn[] { null, null, null, null },
-            new IntraHighPredFn[]
-            {
-                HighbdVPredictor4x4, HighbdVPredictor8x8, HighbdVPredictor16x16, HighbdVPredictor32x32
-            },
-            new IntraHighPredFn[]
-            {
-                HighbdHPredictor4x4, HighbdHPredictor8x8, HighbdHPredictor16x16, HighbdHPredictor32x32
-            },
-            new IntraHighPredFn[]
-            {
-                HighbdD45Predictor4x4, HighbdD45Predictor8x8, HighbdD45Predictor16x16, HighbdD45Predictor32x32
-            },
-            new IntraHighPredFn[]
-            {
-                HighbdD135Predictor4x4, HighbdD135Predictor8x8, HighbdD135Predictor16x16,
-                HighbdD135Predictor32x32
-            },
-            new IntraHighPredFn[]
-            {
-                HighbdD117Predictor4x4, HighbdD117Predictor8x8, HighbdD117Predictor16x16,
-                HighbdD117Predictor32x32
-            },
-            new IntraHighPredFn[]
-            {
-                HighbdD153Predictor4x4, HighbdD153Predictor8x8, HighbdD153Predictor16x16,
-                HighbdD153Predictor32x32
-            },
-            new IntraHighPredFn[]
-            {
-                HighbdD207Predictor4x4, HighbdD207Predictor8x8, HighbdD207Predictor16x16,
-                HighbdD207Predictor32x32
-            },
-            new IntraHighPredFn[]
-            {
-                HighbdD63Predictor4x4, HighbdD63Predictor8x8, HighbdD63Predictor16x16, HighbdD63Predictor32x32
-            },
-            new IntraHighPredFn[]
-            {
-                HighbdTmPredictor4x4, HighbdTmPredictor8x8, HighbdTmPredictor16x16, HighbdTmPredictor32x32
-            }
-        };
+        private static readonly unsafe IntraHighPredFn[][] _predHigh =
+        [
+            [null, null, null, null],
+            [
+                HighbdVPredictor4X4, HighbdVPredictor8X8, HighbdVPredictor16X16, HighbdVPredictor32X32
+            ],
+            [
+                HighbdHPredictor4X4, HighbdHPredictor8X8, HighbdHPredictor16X16, HighbdHPredictor32X32
+            ],
+            [
+                HighbdD45Predictor4X4, HighbdD45Predictor8X8, HighbdD45Predictor16X16, HighbdD45Predictor32X32
+            ],
+            [
+                HighbdD135Predictor4X4, HighbdD135Predictor8X8, HighbdD135Predictor16X16,
+                HighbdD135Predictor32X32
+            ],
+            [
+                HighbdD117Predictor4X4, HighbdD117Predictor8X8, HighbdD117Predictor16X16,
+                HighbdD117Predictor32X32
+            ],
+            [
+                HighbdD153Predictor4X4, HighbdD153Predictor8X8, HighbdD153Predictor16X16,
+                HighbdD153Predictor32X32
+            ],
+            [
+                HighbdD207Predictor4X4, HighbdD207Predictor8X8, HighbdD207Predictor16X16,
+                HighbdD207Predictor32X32
+            ],
+            [
+                HighbdD63Predictor4X4, HighbdD63Predictor8X8, HighbdD63Predictor16X16, HighbdD63Predictor32X32
+            ],
+            [
+                HighbdTmPredictor4X4, HighbdTmPredictor8X8, HighbdTmPredictor16X16, HighbdTmPredictor32X32
+            ]
+        ];
 
-        private static readonly unsafe IntraHighPredFn[][][] DcPredHigh =
-        {
-            new[]
-            {
-                new IntraHighPredFn[]
-                {
-                    HighbdDc128Predictor4x4, HighbdDc128Predictor8x8, HighbdDc128Predictor16x16,
-                    HighbdDc128Predictor32x32
-                },
-                new IntraHighPredFn[]
-                {
-                    HighbdDcTopPredictor4x4, HighbdDcTopPredictor8x8, HighbdDcTopPredictor16x16,
-                    HighbdDcTopPredictor32x32
-                }
-            },
-            new[]
-            {
-                new IntraHighPredFn[]
-                {
-                    HighbdDcLeftPredictor4x4, HighbdDcLeftPredictor8x8, HighbdDcLeftPredictor16x16,
-                    HighbdDcLeftPredictor32x32
-                },
-                new IntraHighPredFn[]
-                {
-                    HighbdDcPredictor4x4, HighbdDcPredictor8x8, HighbdDcPredictor16x16,
-                    HighbdDcPredictor32x32
-                }
-            }
-        };
+        private static readonly unsafe IntraHighPredFn[][][] _dcPredHigh =
+        [
+            [
+                [
+                    HighbdDc128Predictor4X4, HighbdDc128Predictor8X8, HighbdDc128Predictor16X16,
+                    HighbdDc128Predictor32X32
+                ],
+                [
+                    HighbdDcTopPredictor4X4, HighbdDcTopPredictor8X8, HighbdDcTopPredictor16X16,
+                    HighbdDcTopPredictor32X32
+                ]
+            ],
+            [
+                [
+                    HighbdDcLeftPredictor4X4, HighbdDcLeftPredictor8X8, HighbdDcLeftPredictor16X16,
+                    HighbdDcLeftPredictor32X32
+                ],
+                [
+                    HighbdDcPredictor4X4, HighbdDcPredictor8X8, HighbdDcPredictor16X16,
+                    HighbdDcPredictor32X32
+                ]
+            ]
+        ];
 
         private static unsafe void BuildIntraPredictorsHigh(
             ref MacroBlockD xd,
@@ -371,11 +351,11 @@ namespace Ryujinx.Graphics.Nvdec.Vp9
             // Predict
             if (mode == PredictionMode.DcPred)
             {
-                DcPredHigh[leftAvailable][upAvailable][(int)txSize](dst, dstStride, constAboveRow, leftCol, xd.Bd);
+                _dcPredHigh[leftAvailable][upAvailable][(int)txSize](dst, dstStride, constAboveRow, leftCol, xd.Bd);
             }
             else
             {
-                PredHigh[(int)mode][(int)txSize](dst, dstStride, constAboveRow, leftCol, xd.Bd);
+                _predHigh[(int)mode][(int)txSize](dst, dstStride, constAboveRow, leftCol, xd.Bd);
             }
         }
 
@@ -588,11 +568,11 @@ namespace Ryujinx.Graphics.Nvdec.Vp9
             // Predict
             if (mode == PredictionMode.DcPred)
             {
-                DcPred[leftAvailable][upAvailable][(int)txSize](dst, dstStride, constAboveRow, leftCol);
+                _dcPred[leftAvailable][upAvailable][(int)txSize](dst, dstStride, constAboveRow, leftCol);
             }
             else
             {
-                Pred[(int)mode][(int)txSize](dst, dstStride, constAboveRow, leftCol);
+                _pred[(int)mode][(int)txSize](dst, dstStride, constAboveRow, leftCol);
             }
         }
 

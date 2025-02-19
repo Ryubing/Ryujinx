@@ -65,23 +65,23 @@ namespace Ryujinx.Graphics.Nvdec.Vp9.Types
 
         public Surface(int width, int height)
         {
-            const int border = 32;
-            const int ssX = 1;
-            const int ssY = 1;
-            const bool highbd = false;
+            const int Border = 32;
+            const int SsX = 1;
+            const int SsY = 1;
+            const bool Highbd = false;
 
             int alignedWidth = (width + 7) & ~7;
             int alignedHeight = (height + 7) & ~7;
-            int yStride = (alignedWidth + (2 * border) + 31) & ~31;
-            int yplaneSize = (alignedHeight + (2 * border)) * yStride;
-            int uvWidth = alignedWidth >> ssX;
-            int uvHeight = alignedHeight >> ssY;
-            int uvStride = yStride >> ssX;
-            int uvBorderW = border >> ssX;
-            int uvBorderH = border >> ssY;
+            int yStride = (alignedWidth + (2 * Border) + 31) & ~31;
+            int yplaneSize = (alignedHeight + (2 * Border)) * yStride;
+            int uvWidth = alignedWidth >> SsX;
+            int uvHeight = alignedHeight >> SsY;
+            int uvStride = yStride >> SsX;
+            int uvBorderW = Border >> SsX;
+            int uvBorderH = Border >> SsY;
             int uvplaneSize = (uvHeight + (2 * uvBorderH)) * uvStride;
 
-            int frameSize = (highbd ? 2 : 1) * (yplaneSize + (2 * uvplaneSize));
+            int frameSize = (Highbd ? 2 : 1) * (yplaneSize + (2 * uvplaneSize));
 
             nint pointer = Marshal.AllocHGlobal(frameSize);
             _pointer = pointer;
@@ -90,8 +90,8 @@ namespace Ryujinx.Graphics.Nvdec.Vp9.Types
             AlignedWidth = alignedWidth;
             AlignedHeight = alignedHeight;
             Stride = yStride;
-            UvWidth = (width + ssX) >> ssX;
-            UvHeight = (height + ssY) >> ssY;
+            UvWidth = (width + SsX) >> SsX;
+            UvHeight = (height + SsY) >> SsY;
             UvAlignedWidth = uvWidth;
             UvAlignedHeight = uvHeight;
             UvStride = uvStride;
@@ -101,7 +101,7 @@ namespace Ryujinx.Graphics.Nvdec.Vp9.Types
                 return new ArrayPtr<byte>(pointer + start + border, size - border);
             }
 
-            YBuffer = NewPlane(0, yplaneSize, (border * yStride) + border);
+            YBuffer = NewPlane(0, yplaneSize, (Border * yStride) + Border);
             UBuffer = NewPlane(yplaneSize, uvplaneSize, (uvBorderH * uvStride) + uvBorderW);
             VBuffer = NewPlane(yplaneSize + uvplaneSize, uvplaneSize, (uvBorderH * uvStride) + uvBorderW);
         }
@@ -146,8 +146,8 @@ namespace Ryujinx.Graphics.Nvdec.Vp9.Types
 
             if (cb != null)
             {
-                const int alignAddrExtraSize = 31;
-                ulong externalFrameSize = frameSize + alignAddrExtraSize;
+                const int AlignAddrExtraSize = 31;
+                ulong externalFrameSize = frameSize + AlignAddrExtraSize;
 
                 Debug.Assert(!fb.IsNull);
 

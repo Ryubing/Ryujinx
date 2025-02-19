@@ -1553,7 +1553,7 @@ namespace Ryujinx.Graphics.Nvdec.Vp9.Dsp
             }
         }
 
-        private static unsafe void Transpose8x16(
+        private static unsafe void Transpose8X16(
             ArrayPtr<byte> in0,
             ArrayPtr<byte> in1,
             int inP,
@@ -1633,15 +1633,15 @@ namespace Ryujinx.Graphics.Nvdec.Vp9.Dsp
             int inP,
             ReadOnlySpan<ArrayPtr<byte>> dst,
             int outP,
-            int num8x8ToTranspose)
+            int num8X8ToTranspose)
         {
-            int idx8x8 = 0;
+            int idx8X8 = 0;
             Vector128<byte> x0, x1, x2, x3, x4, x5, x6, x7;
 
             do
             {
-                ArrayPtr<byte> input = src[idx8x8];
-                ArrayPtr<byte> output = dst[idx8x8];
+                ArrayPtr<byte> input = src[idx8X8];
+                ArrayPtr<byte> output = dst[idx8X8];
 
                 x0 = Sse2.LoadScalarVector128((long*)(input.ToPointer() + (0 * inP)))
                     .AsByte(); // 00 01 02 03 04 05 06 07
@@ -1697,7 +1697,7 @@ namespace Ryujinx.Graphics.Nvdec.Vp9.Dsp
 
                 Sse2.StoreScalar((long*)(output.ToPointer() + (6 * outP)), x7.AsInt64()); // 06 16 26 36 46 56 66 76
                 Sse2.StoreHigh((double*)(output.ToPointer() + (7 * outP)), x7.AsDouble()); // 07 17 27 37 47 57 67 77
-            } while (++idx8x8 < num8x8ToTranspose);
+            } while (++idx8X8 < num8X8ToTranspose);
         }
 
         public static unsafe void LpfVertical4Dual(
@@ -1716,7 +1716,7 @@ namespace Ryujinx.Graphics.Nvdec.Vp9.Dsp
             Span<ArrayPtr<byte>> dst = stackalloc ArrayPtr<byte>[2];
 
             // Transpose 8x16
-            Transpose8x16(s.Slice(-4), s.Slice(-4 + (pitch * 8)), pitch, tDst, 16);
+            Transpose8X16(s.Slice(-4), s.Slice(-4 + (pitch * 8)), pitch, tDst, 16);
 
             // Loop filtering
             LpfHorizontal4Dual(tDst.Slice(4 * 16), 16, blimit0, limit0, thresh0, blimit1, limit1, thresh1);
@@ -1770,7 +1770,7 @@ namespace Ryujinx.Graphics.Nvdec.Vp9.Dsp
             Span<ArrayPtr<byte>> dst = stackalloc ArrayPtr<byte>[2];
 
             // Transpose 8x16
-            Transpose8x16(s.Slice(-4), s.Slice(-4 + (pitch * 8)), pitch, tDst, 16);
+            Transpose8X16(s.Slice(-4), s.Slice(-4 + (pitch * 8)), pitch, tDst, 16);
 
             // Loop filtering
             LpfHorizontal8Dual(tDst.Slice(4 * 16), 16, blimit0, limit0, thresh0, blimit1, limit1, thresh1);
@@ -1823,15 +1823,15 @@ namespace Ryujinx.Graphics.Nvdec.Vp9.Dsp
             ArrayPtr<byte> tDst = new((byte*)tDstStorage, 256);
 
             // Transpose 16x16
-            Transpose8x16(s.Slice(-8), s.Slice(-8 + (8 * pitch)), pitch, tDst, 16);
-            Transpose8x16(s, s.Slice(8 * pitch), pitch, tDst.Slice(8 * 16), 16);
+            Transpose8X16(s.Slice(-8), s.Slice(-8 + (8 * pitch)), pitch, tDst, 16);
+            Transpose8X16(s, s.Slice(8 * pitch), pitch, tDst.Slice(8 * 16), 16);
 
             // Loop filtering
             LpfHorizontal16Dual(tDst.Slice(8 * 16), 16, blimit, limit, thresh);
 
             // Transpose back
-            Transpose8x16(tDst, tDst.Slice(8 * 16), 16, s.Slice(-8), pitch);
-            Transpose8x16(tDst.Slice(8), tDst.Slice(8 + (8 * 16)), 16, s.Slice(-8 + (8 * pitch)), pitch);
+            Transpose8X16(tDst, tDst.Slice(8 * 16), 16, s.Slice(-8), pitch);
+            Transpose8X16(tDst.Slice(8), tDst.Slice(8 + (8 * 16)), 16, s.Slice(-8 + (8 * pitch)), pitch);
         }
     }
 }

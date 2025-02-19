@@ -189,7 +189,7 @@ namespace Ryujinx.Ava.UI.Controls
                 DirectoryInfo mainDir = new(Path.Combine(AppDataManager.GamesDirPath, viewModel.SelectedApplication.IdString, "cache", "cpu", "0"));
                 DirectoryInfo backupDir = new(Path.Combine(AppDataManager.GamesDirPath, viewModel.SelectedApplication.IdString, "cache", "cpu", "1"));
 
-                List<FileInfo> cacheFiles = new();
+                List<FileInfo> cacheFiles = [];
 
                 if (mainDir.Exists)
                 {

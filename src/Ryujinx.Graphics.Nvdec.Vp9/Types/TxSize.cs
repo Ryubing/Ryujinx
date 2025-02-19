@@ -2,10 +2,10 @@
 {
     public enum TxSize
     {
-        Tx4x4, // 4x4 transform
-        Tx8x8, // 8x8 transform
-        Tx16x16, // 16x16 transform
-        Tx32x32, // 32x32 transform
+        Tx4X4, // 4x4 transform
+        Tx8X8, // 8x8 transform
+        Tx16X16, // 16x16 transform
+        Tx32X32, // 32x32 transform
         TxSizes
     }
 }

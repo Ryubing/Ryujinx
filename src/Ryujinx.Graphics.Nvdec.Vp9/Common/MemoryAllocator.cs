@@ -59,7 +59,7 @@ namespace Ryujinx.Graphics.Nvdec.Vp9.Common
                 }
             }
 
-            ArrayPtr<T> allocation = new ArrayPtr<T>(ptr, length);
+            ArrayPtr<T> allocation = new(ptr, length);
 
             allocation.AsSpan().Fill(default);
 

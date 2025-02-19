@@ -17,10 +17,10 @@ namespace Ryujinx.Graphics.Nvdec.Vp9
 
         private static int GetCoefContext(ReadOnlySpan<short> neighbors, ReadOnlySpan<byte> tokenCache, int c)
         {
-            const int maxNeighbors = 2;
+            const int MaxNeighbors = 2;
 
-            return (1 + tokenCache[neighbors[(maxNeighbors * c) + 0]] +
-                    tokenCache[neighbors[(maxNeighbors * c) + 1]]) >> 1;
+            return (1 + tokenCache[neighbors[(MaxNeighbors * c) + 0]] +
+                    tokenCache[neighbors[(MaxNeighbors * c) + 1]]) >> 1;
         }
 
         private static int DecodeCoefs(
@@ -42,7 +42,7 @@ namespace Ryujinx.Graphics.Nvdec.Vp9
             ref Array6<Array6<Array3<byte>>> coefProbs = ref fc.CoefProbs[(int)txSize][(int)type][refr];
             Span<byte> tokenCache = stackalloc byte[32 * 32];
             ReadOnlySpan<byte> bandTranslate = Luts.GetBandTranslate(txSize);
-            int dqShift = txSize == TxSize.Tx32x32 ? 1 : 0;
+            int dqShift = txSize == TxSize.Tx32X32 ? 1 : 0;
             int v;
             short dqv = dq[0];
             ReadOnlySpan<byte> cat6Prob = xd.Bd == 12
@@ -242,7 +242,7 @@ namespace Ryujinx.Graphics.Nvdec.Vp9
 
             switch (txSize)
             {
-                case TxSize.Tx4x4:
+                case TxSize.Tx4X4:
                     ctx = a[0] != 0 ? 1 : 0;
                     ctx += l[0] != 0 ? 1 : 0;
                     eob = DecodeCoefs(
@@ -257,8 +257,8 @@ namespace Ryujinx.Graphics.Nvdec.Vp9
                         ref r);
                     a[0] = l[0] = (sbyte)(eob > 0 ? 1 : 0);
                     break;
-                case TxSize.Tx8x8:
-                    GetCtxShift(ref xd, ref ctxShiftA, ref ctxShiftL, x, y, 1 << (int)TxSize.Tx8x8);
+                case TxSize.Tx8X8:
+                    GetCtxShift(ref xd, ref ctxShiftA, ref ctxShiftL, x, y, 1 << (int)TxSize.Tx8X8);
                     ctx = MemoryMarshal.Cast<sbyte, ushort>(a)[0] != 0 ? 1 : 0;
                     ctx += MemoryMarshal.Cast<sbyte, ushort>(l)[0] != 0 ? 1 : 0;
                     eob = DecodeCoefs(
@@ -274,8 +274,8 @@ namespace Ryujinx.Graphics.Nvdec.Vp9
                     MemoryMarshal.Cast<sbyte, ushort>(a)[0] = (ushort)((eob > 0 ? 0x0101 : 0) >> ctxShiftA);
                     MemoryMarshal.Cast<sbyte, ushort>(l)[0] = (ushort)((eob > 0 ? 0x0101 : 0) >> ctxShiftL);
                     break;
-                case TxSize.Tx16x16:
-                    GetCtxShift(ref xd, ref ctxShiftA, ref ctxShiftL, x, y, 1 << (int)TxSize.Tx16x16);
+                case TxSize.Tx16X16:
+                    GetCtxShift(ref xd, ref ctxShiftA, ref ctxShiftL, x, y, 1 << (int)TxSize.Tx16X16);
                     ctx = MemoryMarshal.Cast<sbyte, uint>(a)[0] != 0 ? 1 : 0;
                     ctx += MemoryMarshal.Cast<sbyte, uint>(l)[0] != 0 ? 1 : 0;
                     eob = DecodeCoefs(
@@ -291,8 +291,8 @@ namespace Ryujinx.Graphics.Nvdec.Vp9
                     MemoryMarshal.Cast<sbyte, uint>(a)[0] = (uint)((eob > 0 ? 0x01010101 : 0) >> ctxShiftA);
                     MemoryMarshal.Cast<sbyte, uint>(l)[0] = (uint)((eob > 0 ? 0x01010101 : 0) >> ctxShiftL);
                     break;
-                case TxSize.Tx32x32:
-                    GetCtxShift(ref xd, ref ctxShiftA, ref ctxShiftL, x, y, 1 << (int)TxSize.Tx32x32);
+                case TxSize.Tx32X32:
+                    GetCtxShift(ref xd, ref ctxShiftA, ref ctxShiftL, x, y, 1 << (int)TxSize.Tx32X32);
                     // NOTE: Casting to ulong here is safe because the default memory
                     // alignment is at least 8 bytes and the Tx32x32 is aligned on 8 byte
                     // boundaries.

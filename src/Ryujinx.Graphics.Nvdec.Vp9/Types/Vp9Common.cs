@@ -845,30 +845,30 @@ namespace Ryujinx.Graphics.Nvdec.Vp9.Types
 
             if (TxMode == TxMode.TxModeSelect)
             {
-                Array1<Array2<uint>> branchCt8x8P = new();
-                Array2<Array2<uint>> branchCt16x16P = new();
-                Array3<Array2<uint>> branchCt32x32P = new();
+                Array1<Array2<uint>> branchCt8X8P = new();
+                Array2<Array2<uint>> branchCt16X16P = new();
+                Array3<Array2<uint>> branchCt32X32P = new();
 
                 for (int i = 0; i < EntropyMode.TxSizeContexts; ++i)
                 {
-                    EntropyMode.TxCountsToBranchCounts8x8(counts.Tx8x8[i].AsSpan(), ref branchCt8x8P);
+                    EntropyMode.TxCountsToBranchCounts8X8(counts.Tx8x8[i].AsSpan(), ref branchCt8X8P);
                     for (int j = 0; j < (int)TxSize.TxSizes - 3; ++j)
                     {
-                        fc.Tx8x8Prob[i][j] = Prob.ModeMvMergeProbs(preFc.Tx8x8Prob[i][j], ref branchCt8x8P[j]);
+                        fc.Tx8x8Prob[i][j] = Prob.ModeMvMergeProbs(preFc.Tx8x8Prob[i][j], ref branchCt8X8P[j]);
                     }
 
-                    EntropyMode.TxCountsToBranchCounts16x16(counts.Tx16x16[i].AsSpan(), ref branchCt16x16P);
+                    EntropyMode.TxCountsToBranchCounts16X16(counts.Tx16x16[i].AsSpan(), ref branchCt16X16P);
                     for (int j = 0; j < (int)TxSize.TxSizes - 2; ++j)
                     {
                         fc.Tx16x16Prob[i][j] =
-                            Prob.ModeMvMergeProbs(preFc.Tx16x16Prob[i][j], ref branchCt16x16P[j]);
+                            Prob.ModeMvMergeProbs(preFc.Tx16x16Prob[i][j], ref branchCt16X16P[j]);
                     }
 
-                    EntropyMode.TxCountsToBranchCounts32x32(counts.Tx32x32[i].AsSpan(), ref branchCt32x32P);
+                    EntropyMode.TxCountsToBranchCounts32X32(counts.Tx32x32[i].AsSpan(), ref branchCt32X32P);
                     for (int j = 0; j < (int)TxSize.TxSizes - 1; ++j)
                     {
                         fc.Tx32x32Prob[i][j] =
-                            Prob.ModeMvMergeProbs(preFc.Tx32x32Prob[i][j], ref branchCt32x32P[j]);
+                            Prob.ModeMvMergeProbs(preFc.Tx32x32Prob[i][j], ref branchCt32X32P[j]);
                     }
                 }
             }
@@ -900,7 +900,7 @@ namespace Ryujinx.Graphics.Nvdec.Vp9.Types
                 countSat = Entropy.CoefCountSat;
             }
 
-            for (t = (int)TxSize.Tx4x4; t <= (int)TxSize.Tx32x32; t++)
+            for (t = (int)TxSize.Tx4X4; t <= (int)TxSize.Tx32X32; t++)
             {
                 AdaptCoefProbs(t, countSat, updateFactor);
             }
@@ -990,10 +990,10 @@ namespace Ryujinx.Graphics.Nvdec.Vp9.Types
 
         public void DefaultCoefProbs()
         {
-            Entropy.CopyProbs(ref Fc.Value.CoefProbs[(int)TxSize.Tx4x4], Entropy.DefaultCoefProbs4x4);
-            Entropy.CopyProbs(ref Fc.Value.CoefProbs[(int)TxSize.Tx8x8], Entropy.DefaultCoefProbs8x8);
-            Entropy.CopyProbs(ref Fc.Value.CoefProbs[(int)TxSize.Tx16x16], Entropy.DefaultCoefProbs16x16);
-            Entropy.CopyProbs(ref Fc.Value.CoefProbs[(int)TxSize.Tx32x32], Entropy.DefaultCoefProbs32x32);
+            Entropy.CopyProbs(ref Fc.Value.CoefProbs[(int)TxSize.Tx4X4], Entropy.DefaultCoefProbs4X4);
+            Entropy.CopyProbs(ref Fc.Value.CoefProbs[(int)TxSize.Tx8X8], Entropy.DefaultCoefProbs8X8);
+            Entropy.CopyProbs(ref Fc.Value.CoefProbs[(int)TxSize.Tx16X16], Entropy.DefaultCoefProbs16X16);
+            Entropy.CopyProbs(ref Fc.Value.CoefProbs[(int)TxSize.Tx32X32], Entropy.DefaultCoefProbs32X32);
         }
     }
 }
