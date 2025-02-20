@@ -1,4 +1,4 @@
-using Ryujinx.Common.Memory;
+﻿using Ryujinx.Common.Memory;
 using Ryujinx.Graphics.Nvdec.Vp9.Types;
 using System;
 
@@ -6,174 +6,182 @@ namespace Ryujinx.Graphics.Nvdec.Vp9
 {
     internal static class Luts
     {
-        public static ReadOnlySpan<byte> SizeGroupLookup => new byte[] { 0, 0, 0, 1, 1, 1, 2, 2, 2, 3, 3, 3, 3 };
+        public static ReadOnlySpan<byte> SizeGroupLookup => [0, 0, 0, 1, 1, 1, 2, 2, 2, 3, 3, 3, 3];
 
-        public static readonly BlockSize[][] SubsizeLookup = {
-            new[]
-            { // PARTITION_NONE
-                BlockSize.Block4x4, BlockSize.Block4x8, BlockSize.Block8x4, BlockSize.Block8x8, BlockSize.Block8x16, BlockSize.Block16x8,
-                BlockSize.Block16x16, BlockSize.Block16x32, BlockSize.Block32x16, BlockSize.Block32x32, BlockSize.Block32x64,
-                BlockSize.Block64x32, BlockSize.Block64x64,
-            },
-            new[]
-            { // PARTITION_HORZ
-                BlockSize.BlockInvalid, BlockSize.BlockInvalid, BlockSize.BlockInvalid, BlockSize.Block8x4, BlockSize.BlockInvalid,
-                BlockSize.BlockInvalid, BlockSize.Block16x8, BlockSize.BlockInvalid, BlockSize.BlockInvalid, BlockSize.Block32x16,
-                BlockSize.BlockInvalid, BlockSize.BlockInvalid, BlockSize.Block64x32,
-            },
-            new[]
-            { // PARTITION_VERT
-                BlockSize.BlockInvalid, BlockSize.BlockInvalid, BlockSize.BlockInvalid, BlockSize.Block4x8, BlockSize.BlockInvalid,
-                BlockSize.BlockInvalid, BlockSize.Block8x16, BlockSize.BlockInvalid, BlockSize.BlockInvalid, BlockSize.Block16x32,
-                BlockSize.BlockInvalid, BlockSize.BlockInvalid, BlockSize.Block32x64,
-            },
-            new[]
-            { // PARTITION_SPLIT
-                BlockSize.BlockInvalid, BlockSize.BlockInvalid, BlockSize.BlockInvalid, BlockSize.Block4x4, BlockSize.BlockInvalid,
-                BlockSize.BlockInvalid, BlockSize.Block8x8, BlockSize.BlockInvalid, BlockSize.BlockInvalid, BlockSize.Block16x16,
-                BlockSize.BlockInvalid, BlockSize.BlockInvalid, BlockSize.Block32x32,
-            },
+        public static readonly BlockSize[][] SubsizeLookup = new BlockSize[][]
+        {
+            [ // PARTITION_NONE
+                BlockSize.Block4X4, BlockSize.Block4X8, BlockSize.Block8X4, BlockSize.Block8X8, BlockSize.Block8X16, BlockSize.Block16X8,
+                BlockSize.Block16X16, BlockSize.Block16X32, BlockSize.Block32X16, BlockSize.Block32X32, BlockSize.Block32X64,
+                BlockSize.Block64X32, BlockSize.Block64X64
+            ],
+            [ // PARTITION_HORZ
+                BlockSize.BlockInvalid, BlockSize.BlockInvalid, BlockSize.BlockInvalid, BlockSize.Block8X4, BlockSize.BlockInvalid,
+                BlockSize.BlockInvalid, BlockSize.Block16X8, BlockSize.BlockInvalid, BlockSize.BlockInvalid, BlockSize.Block32X16,
+                BlockSize.BlockInvalid, BlockSize.BlockInvalid, BlockSize.Block64X32
+            ],
+            [ // PARTITION_VERT
+                BlockSize.BlockInvalid, BlockSize.BlockInvalid, BlockSize.BlockInvalid, BlockSize.Block4X8, BlockSize.BlockInvalid,
+                BlockSize.BlockInvalid, BlockSize.Block8X16, BlockSize.BlockInvalid, BlockSize.BlockInvalid, BlockSize.Block16X32,
+                BlockSize.BlockInvalid, BlockSize.BlockInvalid, BlockSize.Block32X64
+            ],
+            [ // PARTITION_SPLIT
+                BlockSize.BlockInvalid, BlockSize.BlockInvalid, BlockSize.BlockInvalid, BlockSize.Block4X4, BlockSize.BlockInvalid,
+                BlockSize.BlockInvalid, BlockSize.Block8X8, BlockSize.BlockInvalid, BlockSize.BlockInvalid, BlockSize.Block16X16,
+                BlockSize.BlockInvalid, BlockSize.BlockInvalid, BlockSize.Block32X32
+            ]
         };
 
-        public static readonly TxSize[] MaxTxSizeLookup = {
-            TxSize.Tx4x4,   TxSize.Tx4x4,   TxSize.Tx4x4,   TxSize.Tx8x8,   TxSize.Tx8x8,   TxSize.Tx8x8,  TxSize.Tx16x16,
-            TxSize.Tx16x16, TxSize.Tx16x16, TxSize.Tx32x32, TxSize.Tx32x32, TxSize.Tx32x32, TxSize.Tx32x32,
-        };
+        public static readonly TxSize[] MaxTxSizeLookup =
+        [
+            TxSize.Tx4X4,   TxSize.Tx4X4,   TxSize.Tx4X4,   TxSize.Tx8X8,   TxSize.Tx8X8,   TxSize.Tx8X8,  TxSize.Tx16X16,
+            TxSize.Tx16X16, TxSize.Tx16X16, TxSize.Tx32X32, TxSize.Tx32X32, TxSize.Tx32X32, TxSize.Tx32X32
+        ];
 
-        public static readonly TxSize[] TxModeToBiggestTxSize = {
-            TxSize.Tx4x4, // ONLY_4X4
-            TxSize.Tx8x8, // ALLOW_8X8
-            TxSize.Tx16x16, // ALLOW_16X16
-            TxSize.Tx32x32, // ALLOW_32X32
-            TxSize.Tx32x32, // TX_MODE_SELECT
-        };
+        public static readonly TxSize[] TxModeToBiggestTxSize =
+        [
+            TxSize.Tx4X4,    // ONLY_4X4
+            TxSize.Tx8X8,    // ALLOW_8X8
+            TxSize.Tx16X16,  // ALLOW_16X16
+            TxSize.Tx32X32,  // ALLOW_32X32
+            TxSize.Tx32X32 // TX_MODE_SELECT
+        ];
 
-        public static readonly BlockSize[][][] SsSizeLookup = {
+        public static readonly BlockSize[][][] SsSizeLookup =
+        [
             //  ss_x == 0    ss_x == 0        ss_x == 1      ss_x == 1
             //  ss_y == 0    ss_y == 1        ss_y == 0      ss_y == 1
-            new[] { new[] { BlockSize.Block4x4, BlockSize.BlockInvalid }, new[] { BlockSize.BlockInvalid, BlockSize.BlockInvalid } },
-            new[] { new[] { BlockSize.Block4x8, BlockSize.Block4x4 }, new[] { BlockSize.BlockInvalid, BlockSize.BlockInvalid } },
-            new[] { new[] { BlockSize.Block8x4, BlockSize.BlockInvalid }, new[] { BlockSize.Block4x4, BlockSize.BlockInvalid } },
-            new[] { new[] { BlockSize.Block8x8, BlockSize.Block8x4 }, new[] { BlockSize.Block4x8, BlockSize.Block4x4 } },
-            new[] { new[] { BlockSize.Block8x16, BlockSize.Block8x8 }, new[] { BlockSize.BlockInvalid, BlockSize.Block4x8 } },
-            new[] { new[] { BlockSize.Block16x8, BlockSize.BlockInvalid }, new[] { BlockSize.Block8x8, BlockSize.Block8x4 } },
-            new[] { new[] { BlockSize.Block16x16, BlockSize.Block16x8 }, new[] { BlockSize.Block8x16, BlockSize.Block8x8 } },
-            new[] { new[] { BlockSize.Block16x32, BlockSize.Block16x16 }, new[] { BlockSize.BlockInvalid, BlockSize.Block8x16 } },
-            new[] { new[] { BlockSize.Block32x16, BlockSize.BlockInvalid }, new[] { BlockSize.Block16x16, BlockSize.Block16x8 } },
-            new[] { new[] { BlockSize.Block32x32, BlockSize.Block32x16 }, new[] { BlockSize.Block16x32, BlockSize.Block16x16 } },
-            new[] { new[] { BlockSize.Block32x64, BlockSize.Block32x32 }, new[] { BlockSize.BlockInvalid, BlockSize.Block16x32 } },
-            new[] { new[] { BlockSize.Block64x32, BlockSize.BlockInvalid }, new[] { BlockSize.Block32x32, BlockSize.Block32x16 } },
-            new[] { new[] { BlockSize.Block64x64, BlockSize.Block64x32 }, new[] { BlockSize.Block32x64, BlockSize.Block32x32 } },
-        };
+            new BlockSize[][] { [BlockSize.Block4X4, BlockSize.BlockInvalid], [BlockSize.BlockInvalid, BlockSize.BlockInvalid
+                ]
+            },
+            new BlockSize[][] { [BlockSize.Block4X8, BlockSize.Block4X4], [BlockSize.BlockInvalid, BlockSize.BlockInvalid
+                ]
+            },
+            new BlockSize[][] { [BlockSize.Block8X4, BlockSize.BlockInvalid], [BlockSize.Block4X4, BlockSize.BlockInvalid
+                ]
+            },
+            new BlockSize[][] { [BlockSize.Block8X8, BlockSize.Block8X4], [BlockSize.Block4X8, BlockSize.Block4X4] },
+            new BlockSize[][] { [BlockSize.Block8X16, BlockSize.Block8X8], [BlockSize.BlockInvalid, BlockSize.Block4X8]
+            },
+            new BlockSize[][] { [BlockSize.Block16X8, BlockSize.BlockInvalid], [BlockSize.Block8X8, BlockSize.Block8X4]
+            },
+            new BlockSize[][] { [BlockSize.Block16X16, BlockSize.Block16X8], [BlockSize.Block8X16, BlockSize.Block8X8] },
+            new BlockSize[][] { [BlockSize.Block16X32, BlockSize.Block16X16], [BlockSize.BlockInvalid, BlockSize.Block8X16
+                ]
+            },
+            new BlockSize[][] { [BlockSize.Block32X16, BlockSize.BlockInvalid], [BlockSize.Block16X16, BlockSize.Block16X8
+                ]
+            },
+            new BlockSize[][] { [BlockSize.Block32X32, BlockSize.Block32X16], [BlockSize.Block16X32, BlockSize.Block16X16
+                ]
+            },
+            new BlockSize[][] { [BlockSize.Block32X64, BlockSize.Block32X32], [BlockSize.BlockInvalid, BlockSize.Block16X32
+                ]
+            },
+            new BlockSize[][] { [BlockSize.Block64X32, BlockSize.BlockInvalid], [BlockSize.Block32X32, BlockSize.Block32X16
+                ]
+            },
+            new BlockSize[][] { [BlockSize.Block64X64, BlockSize.Block64X32], [BlockSize.Block32X64, BlockSize.Block32X32
+                ]
+            }
+        ];
 
-        public static readonly TxSize[][][][] UvTxsizeLookup = {
-          //  ss_x == 0    ss_x == 0        ss_x == 1      ss_x == 1
+        public static readonly TxSize[][][][] UvTxsizeLookup =
+        [
+            //  ss_x == 0    ss_x == 0        ss_x == 1      ss_x == 1
           //  ss_y == 0    ss_y == 1        ss_y == 0      ss_y == 1
-          new[]
-          {
-              // BLOCK_4X4
-              new[] { new[] { TxSize.Tx4x4, TxSize.Tx4x4 }, new[] { TxSize.Tx4x4, TxSize.Tx4x4 } },
-              new[] { new[] { TxSize.Tx4x4, TxSize.Tx4x4 }, new[] { TxSize.Tx4x4, TxSize.Tx4x4 } },
-              new[] { new[] { TxSize.Tx4x4, TxSize.Tx4x4 }, new[] { TxSize.Tx4x4, TxSize.Tx4x4 } },
-              new[] { new[] { TxSize.Tx4x4, TxSize.Tx4x4 }, new[] { TxSize.Tx4x4, TxSize.Tx4x4 } },
-          },
-          new[]
-          {
-              // BLOCK_4X8
-              new[] { new[] { TxSize.Tx4x4, TxSize.Tx4x4 }, new[] { TxSize.Tx4x4, TxSize.Tx4x4 } },
-              new[] { new[] { TxSize.Tx4x4, TxSize.Tx4x4 }, new[] { TxSize.Tx4x4, TxSize.Tx4x4 } },
-              new[] { new[] { TxSize.Tx4x4, TxSize.Tx4x4 }, new[] { TxSize.Tx4x4, TxSize.Tx4x4 } },
-              new[] { new[] { TxSize.Tx4x4, TxSize.Tx4x4 }, new[] { TxSize.Tx4x4, TxSize.Tx4x4 } },
-          },
-          new[]
-          {
-              // BLOCK_8X4
-              new[] { new[] { TxSize.Tx4x4, TxSize.Tx4x4 }, new[] { TxSize.Tx4x4, TxSize.Tx4x4 } },
-              new[] { new[] { TxSize.Tx4x4, TxSize.Tx4x4 }, new[] { TxSize.Tx4x4, TxSize.Tx4x4 } },
-              new[] { new[] { TxSize.Tx4x4, TxSize.Tx4x4 }, new[] { TxSize.Tx4x4, TxSize.Tx4x4 } },
-              new[] { new[] { TxSize.Tx4x4, TxSize.Tx4x4 }, new[] { TxSize.Tx4x4, TxSize.Tx4x4 } },
-          },
-          new[]
-          {
-              // BLOCK_8X8
-              new[] { new[] { TxSize.Tx4x4, TxSize.Tx4x4 }, new[] { TxSize.Tx4x4, TxSize.Tx4x4 } },
-              new[] { new[] { TxSize.Tx8x8, TxSize.Tx4x4 }, new[] { TxSize.Tx4x4, TxSize.Tx4x4 } },
-              new[] { new[] { TxSize.Tx8x8, TxSize.Tx4x4 }, new[] { TxSize.Tx4x4, TxSize.Tx4x4 } },
-              new[] { new[] { TxSize.Tx8x8, TxSize.Tx4x4 }, new[] { TxSize.Tx4x4, TxSize.Tx4x4 } },
-          },
-          new[]
-          {
-              // BLOCK_8X16
-              new[] { new[] { TxSize.Tx4x4, TxSize.Tx4x4 }, new[] { TxSize.Tx4x4, TxSize.Tx4x4 } },
-              new[] { new[] { TxSize.Tx8x8, TxSize.Tx8x8 }, new[] { TxSize.Tx4x4, TxSize.Tx4x4 } },
-              new[] { new[] { TxSize.Tx8x8, TxSize.Tx8x8 }, new[] { TxSize.Tx4x4, TxSize.Tx4x4 } },
-              new[] { new[] { TxSize.Tx8x8, TxSize.Tx8x8 }, new[] { TxSize.Tx4x4, TxSize.Tx4x4 } },
-          },
-          new[]
-          {
-              // BLOCK_16X8
-              new[] { new[] { TxSize.Tx4x4, TxSize.Tx4x4 }, new[] { TxSize.Tx4x4, TxSize.Tx4x4 } },
-              new[] { new[] { TxSize.Tx8x8, TxSize.Tx4x4 }, new[] { TxSize.Tx8x8, TxSize.Tx4x4 } },
-              new[] { new[] { TxSize.Tx8x8, TxSize.Tx4x4 }, new[] { TxSize.Tx8x8, TxSize.Tx8x8 } },
-              new[] { new[] { TxSize.Tx8x8, TxSize.Tx4x4 }, new[] { TxSize.Tx8x8, TxSize.Tx8x8 } },
-          },
-          new[]
-          {
-              // BLOCK_16X16
-              new[] { new[] { TxSize.Tx4x4, TxSize.Tx4x4 }, new[] { TxSize.Tx4x4, TxSize.Tx4x4 } },
-              new[] { new[] { TxSize.Tx8x8, TxSize.Tx8x8 }, new[] { TxSize.Tx8x8, TxSize.Tx8x8 } },
-              new[] { new[] { TxSize.Tx16x16, TxSize.Tx8x8 }, new[] { TxSize.Tx8x8, TxSize.Tx8x8 } },
-              new[] { new[] { TxSize.Tx16x16, TxSize.Tx8x8 }, new[] { TxSize.Tx8x8, TxSize.Tx8x8 } },
-          },
-          new[]
-          {
-              // BLOCK_16X32
-              new[] { new[] { TxSize.Tx4x4, TxSize.Tx4x4 }, new[] { TxSize.Tx4x4, TxSize.Tx4x4 } },
-              new[] { new[] { TxSize.Tx8x8, TxSize.Tx8x8 }, new[] { TxSize.Tx8x8, TxSize.Tx8x8 } },
-              new[] { new[] { TxSize.Tx16x16, TxSize.Tx16x16 }, new[] { TxSize.Tx8x8, TxSize.Tx8x8 } },
-              new[] { new[] { TxSize.Tx16x16, TxSize.Tx16x16 }, new[] { TxSize.Tx8x8, TxSize.Tx8x8 } },
-          },
-          new[]
-          {
-              // BLOCK_32X16
-              new[] { new[] { TxSize.Tx4x4, TxSize.Tx4x4 }, new[] { TxSize.Tx4x4, TxSize.Tx4x4 } },
-              new[] { new[] { TxSize.Tx8x8, TxSize.Tx8x8 }, new[] { TxSize.Tx8x8, TxSize.Tx8x8 } },
-              new[] { new[] { TxSize.Tx16x16, TxSize.Tx8x8 }, new[] { TxSize.Tx16x16, TxSize.Tx8x8 } },
-              new[] { new[] { TxSize.Tx16x16, TxSize.Tx8x8 }, new[] { TxSize.Tx16x16, TxSize.Tx8x8 } },
-          },
-          new[]
-          {
-              // BLOCK_32X32
-              new[] { new[] { TxSize.Tx4x4, TxSize.Tx4x4 }, new[] { TxSize.Tx4x4, TxSize.Tx4x4 } },
-              new[] { new[] { TxSize.Tx8x8, TxSize.Tx8x8 }, new[] { TxSize.Tx8x8, TxSize.Tx8x8 } },
-              new[] { new[] { TxSize.Tx16x16, TxSize.Tx16x16 }, new[] { TxSize.Tx16x16, TxSize.Tx16x16 } },
-              new[] { new[] { TxSize.Tx32x32, TxSize.Tx16x16 }, new[] { TxSize.Tx16x16, TxSize.Tx16x16 } },
-          },
-          new[]
-          {
-              // BLOCK_32X64
-              new[] { new[] { TxSize.Tx4x4, TxSize.Tx4x4 }, new[] { TxSize.Tx4x4, TxSize.Tx4x4 } },
-              new[] { new[] { TxSize.Tx8x8, TxSize.Tx8x8 }, new[] { TxSize.Tx8x8, TxSize.Tx8x8 } },
-              new[] { new[] { TxSize.Tx16x16, TxSize.Tx16x16 }, new[] { TxSize.Tx16x16, TxSize.Tx16x16 } },
-              new[] { new[] { TxSize.Tx32x32, TxSize.Tx32x32 }, new[] { TxSize.Tx16x16, TxSize.Tx16x16 } },
-          },
-          new[]
-          {
-              // BLOCK_64X32
-              new[] { new[] { TxSize.Tx4x4, TxSize.Tx4x4 }, new[] { TxSize.Tx4x4, TxSize.Tx4x4 } },
-              new[] { new[] { TxSize.Tx8x8, TxSize.Tx8x8 }, new[] { TxSize.Tx8x8, TxSize.Tx8x8 } },
-              new[] { new[] { TxSize.Tx16x16, TxSize.Tx16x16 }, new[] { TxSize.Tx16x16, TxSize.Tx16x16 } },
-              new[] { new[] { TxSize.Tx32x32, TxSize.Tx16x16 }, new[] { TxSize.Tx32x32, TxSize.Tx16x16 } },
-          },
-          new[]
-          {
-              // BLOCK_64X64
-              new[] { new[] { TxSize.Tx4x4, TxSize.Tx4x4 }, new[] { TxSize.Tx4x4, TxSize.Tx4x4 } },
-              new[] { new[] { TxSize.Tx8x8, TxSize.Tx8x8 }, new[] { TxSize.Tx8x8, TxSize.Tx8x8 } },
-              new[] { new[] { TxSize.Tx16x16, TxSize.Tx16x16 }, new[] { TxSize.Tx16x16, TxSize.Tx16x16 } },
-              new[] { new[] { TxSize.Tx32x32, TxSize.Tx32x32 }, new[] { TxSize.Tx32x32, TxSize.Tx32x32 } },
-          },
-        };
+            [
+                // BLOCK_4X4
+              new TxSize[][] { [TxSize.Tx4X4, TxSize.Tx4X4], [TxSize.Tx4X4, TxSize.Tx4X4] },
+              new TxSize[][] { [TxSize.Tx4X4, TxSize.Tx4X4], [TxSize.Tx4X4, TxSize.Tx4X4] },
+              new TxSize[][] { [TxSize.Tx4X4, TxSize.Tx4X4], [TxSize.Tx4X4, TxSize.Tx4X4] },
+              new TxSize[][] { [TxSize.Tx4X4, TxSize.Tx4X4], [TxSize.Tx4X4, TxSize.Tx4X4] }
+            ],
+            [
+                // BLOCK_4x8
+              new TxSize[][] { [TxSize.Tx4X4, TxSize.Tx4X4], [TxSize.Tx4X4, TxSize.Tx4X4] },
+              new TxSize[][] { [TxSize.Tx4X4, TxSize.Tx4X4], [TxSize.Tx4X4, TxSize.Tx4X4] },
+              new TxSize[][] { [TxSize.Tx4X4, TxSize.Tx4X4], [TxSize.Tx4X4, TxSize.Tx4X4] },
+              new TxSize[][] { [TxSize.Tx4X4, TxSize.Tx4X4], [TxSize.Tx4X4, TxSize.Tx4X4] }
+            ],
+            [
+                // BLOCK_8x4
+              new TxSize[][] { [TxSize.Tx4X4, TxSize.Tx4X4], [TxSize.Tx4X4, TxSize.Tx4X4] },
+              new TxSize[][] { [TxSize.Tx4X4, TxSize.Tx4X4], [TxSize.Tx4X4, TxSize.Tx4X4] },
+              new TxSize[][] { [TxSize.Tx4X4, TxSize.Tx4X4], [TxSize.Tx4X4, TxSize.Tx4X4] },
+              new TxSize[][] { [TxSize.Tx4X4, TxSize.Tx4X4], [TxSize.Tx4X4, TxSize.Tx4X4] }
+            ],
+            [
+                // BLOCK_8X8
+              new TxSize[][] { [TxSize.Tx4X4, TxSize.Tx4X4], [TxSize.Tx4X4, TxSize.Tx4X4] },
+              new TxSize[][] { [TxSize.Tx8X8, TxSize.Tx4X4], [TxSize.Tx4X4, TxSize.Tx4X4] },
+              new TxSize[][] { [TxSize.Tx8X8, TxSize.Tx4X4], [TxSize.Tx4X4, TxSize.Tx4X4] },
+              new TxSize[][] { [TxSize.Tx8X8, TxSize.Tx4X4], [TxSize.Tx4X4, TxSize.Tx4X4] }
+            ],
+            [
+                // BLOCK_8x16
+              new TxSize[][] { [TxSize.Tx4X4, TxSize.Tx4X4], [TxSize.Tx4X4, TxSize.Tx4X4] },
+              new TxSize[][] { [TxSize.Tx8X8, TxSize.Tx8X8], [TxSize.Tx4X4, TxSize.Tx4X4] },
+              new TxSize[][] { [TxSize.Tx8X8, TxSize.Tx8X8], [TxSize.Tx4X4, TxSize.Tx4X4] },
+              new TxSize[][] { [TxSize.Tx8X8, TxSize.Tx8X8], [TxSize.Tx4X4, TxSize.Tx4X4] }
+            ],
+            [
+                // BLOCK_16x8
+              new TxSize[][] { [TxSize.Tx4X4, TxSize.Tx4X4], [TxSize.Tx4X4, TxSize.Tx4X4] },
+              new TxSize[][] { [TxSize.Tx8X8, TxSize.Tx4X4], [TxSize.Tx8X8, TxSize.Tx4X4] },
+              new TxSize[][] { [TxSize.Tx8X8, TxSize.Tx4X4], [TxSize.Tx8X8, TxSize.Tx8X8] },
+              new TxSize[][] { [TxSize.Tx8X8, TxSize.Tx4X4], [TxSize.Tx8X8, TxSize.Tx8X8] }
+            ],
+            [
+                // BLOCK_16X16
+              new TxSize[][] { [TxSize.Tx4X4, TxSize.Tx4X4], [TxSize.Tx4X4, TxSize.Tx4X4] },
+              new TxSize[][] { [TxSize.Tx8X8, TxSize.Tx8X8], [TxSize.Tx8X8, TxSize.Tx8X8] },
+              new TxSize[][] { [TxSize.Tx16X16, TxSize.Tx8X8], [TxSize.Tx8X8, TxSize.Tx8X8] },
+              new TxSize[][] { [TxSize.Tx16X16, TxSize.Tx8X8], [TxSize.Tx8X8, TxSize.Tx8X8] }
+            ],
+            [
+                // BLOCK_16x32
+              new TxSize[][] { [TxSize.Tx4X4, TxSize.Tx4X4], [TxSize.Tx4X4, TxSize.Tx4X4] },
+              new TxSize[][] { [TxSize.Tx8X8, TxSize.Tx8X8], [TxSize.Tx8X8, TxSize.Tx8X8] },
+              new TxSize[][] { [TxSize.Tx16X16, TxSize.Tx16X16], [TxSize.Tx8X8, TxSize.Tx8X8] },
+              new TxSize[][] { [TxSize.Tx16X16, TxSize.Tx16X16], [TxSize.Tx8X8, TxSize.Tx8X8] }
+            ],
+            [
+                // BLOCK_32x16
+              new TxSize[][] { [TxSize.Tx4X4, TxSize.Tx4X4], [TxSize.Tx4X4, TxSize.Tx4X4] },
+              new TxSize[][] { [TxSize.Tx8X8, TxSize.Tx8X8], [TxSize.Tx8X8, TxSize.Tx8X8] },
+              new TxSize[][] { [TxSize.Tx16X16, TxSize.Tx8X8], [TxSize.Tx16X16, TxSize.Tx8X8] },
+              new TxSize[][] { [TxSize.Tx16X16, TxSize.Tx8X8], [TxSize.Tx16X16, TxSize.Tx8X8] }
+            ],
+            [
+                // BLOCK_32X32
+              new TxSize[][] { [TxSize.Tx4X4, TxSize.Tx4X4], [TxSize.Tx4X4, TxSize.Tx4X4] },
+              new TxSize[][] { [TxSize.Tx8X8, TxSize.Tx8X8], [TxSize.Tx8X8, TxSize.Tx8X8] },
+              new TxSize[][] { [TxSize.Tx16X16, TxSize.Tx16X16], [TxSize.Tx16X16, TxSize.Tx16X16] },
+              new TxSize[][] { [TxSize.Tx32X32, TxSize.Tx16X16], [TxSize.Tx16X16, TxSize.Tx16X16] }
+            ],
+            [
+                // BLOCK_32x64
+              new TxSize[][] { [TxSize.Tx4X4, TxSize.Tx4X4], [TxSize.Tx4X4, TxSize.Tx4X4] },
+              new TxSize[][] { [TxSize.Tx8X8, TxSize.Tx8X8], [TxSize.Tx8X8, TxSize.Tx8X8] },
+              new TxSize[][] { [TxSize.Tx16X16, TxSize.Tx16X16], [TxSize.Tx16X16, TxSize.Tx16X16] },
+              new TxSize[][] { [TxSize.Tx32X32, TxSize.Tx32X32], [TxSize.Tx16X16, TxSize.Tx16X16] }
+            ],
+            [
+                // BLOCK_64x32
+              new TxSize[][] { [TxSize.Tx4X4, TxSize.Tx4X4], [TxSize.Tx4X4, TxSize.Tx4X4] },
+              new TxSize[][] { [TxSize.Tx8X8, TxSize.Tx8X8], [TxSize.Tx8X8, TxSize.Tx8X8] },
+              new TxSize[][] { [TxSize.Tx16X16, TxSize.Tx16X16], [TxSize.Tx16X16, TxSize.Tx16X16] },
+              new TxSize[][] { [TxSize.Tx32X32, TxSize.Tx16X16], [TxSize.Tx32X32, TxSize.Tx16X16] }
+            ],
+            [
+                // BLOCK_64x64
+              new TxSize[][] { [TxSize.Tx4X4, TxSize.Tx4X4], [TxSize.Tx4X4, TxSize.Tx4X4] },
+              new TxSize[][] { [TxSize.Tx8X8, TxSize.Tx8X8], [TxSize.Tx8X8, TxSize.Tx8X8] },
+              new TxSize[][] { [TxSize.Tx16X16, TxSize.Tx16X16], [TxSize.Tx16X16, TxSize.Tx16X16] },
+              new TxSize[][] { [TxSize.Tx32X32, TxSize.Tx32X32], [TxSize.Tx32X32, TxSize.Tx32X32] }
+            ]
+        ];
 
         public struct PartitionContextPair
         {
@@ -190,25 +198,27 @@ namespace Ryujinx.Graphics.Nvdec.Vp9
         // Generates 4 bit field in which each bit set to 1 represents
         // a blocksize partition  1111 means we split 64x64, 32x32, 16x16
         // and 8x8. 1000 means we just split the 64x64 to 32x32
-        public static readonly PartitionContextPair[] PartitionContextLookup = {
-            new(15, 15), // 4X4   - {0b1111, 0b1111}
-            new(15, 14), // 4X8   - {0b1111, 0b1110}
-            new(14, 15), // 8X4   - {0b1110, 0b1111}
-            new(14, 14), // 8X8   - {0b1110, 0b1110}
-            new(14, 12), // 8X16  - {0b1110, 0b1100}
-            new(12, 14), // 16X8  - {0b1100, 0b1110}
-            new(12, 12), // 16X16 - {0b1100, 0b1100}
-            new(12, 8), // 16X32 - {0b1100, 0b1000}
-            new(8, 12), // 32X16 - {0b1000, 0b1100}
-            new(8, 8), // 32X32 - {0b1000, 0b1000}
-            new(8, 0), // 32X64 - {0b1000, 0b0000}
-            new(0, 8), // 64X32 - {0b0000, 0b1000}
-            new(0, 0), // 64X64 - {0b0000, 0b0000}
-        };
+        public static readonly PartitionContextPair[] PartitionContextLookup =
+        [
+            new(15, 15),  // 4X4   - {0b1111, 0b1111}
+            new(15, 14),  // 4x8   - {0b1111, 0b1110}
+            new(14, 15),  // 8x4   - {0b1110, 0b1111}
+            new(14, 14),  // 8X8   - {0b1110, 0b1110}
+            new(14, 12),  // 8x16  - {0b1110, 0b1100}
+            new(12, 14),  // 16x8  - {0b1100, 0b1110}
+            new(12, 12),  // 16X16 - {0b1100, 0b1100}
+            new(12, 8),   // 16x32 - {0b1100, 0b1000}
+            new(8, 12),   // 32x16 - {0b1000, 0b1100}
+            new(8, 8),    // 32X32 - {0b1000, 0b1000}
+            new(8, 0),    // 32x64 - {0b1000, 0b0000}
+            new(0, 8),    // 64x32 - {0b0000, 0b1000}
+            new(0, 0) // 64x64 - {0b0000, 0b0000}
+        ];
 
         // Filter
 
-        private static readonly Array8<short>[] _bilinearFilters = {
+        private static readonly Array8<short>[] _bilinearFilters =
+        [
             NewArray8Short(0, 0, 0, 128, 0, 0, 0, 0),  NewArray8Short(0, 0, 0, 120, 8, 0, 0, 0),
             NewArray8Short(0, 0, 0, 112, 16, 0, 0, 0), NewArray8Short(0, 0, 0, 104, 24, 0, 0, 0),
             NewArray8Short(0, 0, 0, 96, 32, 0, 0, 0),  NewArray8Short(0, 0, 0, 88, 40, 0, 0, 0),
@@ -216,11 +226,12 @@ namespace Ryujinx.Graphics.Nvdec.Vp9
             NewArray8Short(0, 0, 0, 64, 64, 0, 0, 0),  NewArray8Short(0, 0, 0, 56, 72, 0, 0, 0),
             NewArray8Short(0, 0, 0, 48, 80, 0, 0, 0),  NewArray8Short(0, 0, 0, 40, 88, 0, 0, 0),
             NewArray8Short(0, 0, 0, 32, 96, 0, 0, 0),  NewArray8Short(0, 0, 0, 24, 104, 0, 0, 0),
-            NewArray8Short(0, 0, 0, 16, 112, 0, 0, 0), NewArray8Short(0, 0, 0, 8, 120, 0, 0, 0),
-        };
+            NewArray8Short(0, 0, 0, 16, 112, 0, 0, 0), NewArray8Short(0, 0, 0, 8, 120, 0, 0, 0)
+        ];
 
         // Lagrangian interpolation filter
-        private static readonly Array8<short>[] _subPelFilters8 = {
+        private static readonly Array8<short>[] _subPelFilters8 =
+        [
             NewArray8Short(0, 0, 0, 128, 0, 0, 0, 0),        NewArray8Short(0, 1, -5, 126, 8, -3, 1, 0),
             NewArray8Short(-1, 3, -10, 122, 18, -6, 2, 0),   NewArray8Short(-1, 4, -13, 118, 27, -9, 3, -1),
             NewArray8Short(-1, 4, -16, 112, 37, -11, 4, -1), NewArray8Short(-1, 5, -18, 105, 48, -14, 4, -1),
@@ -228,11 +239,12 @@ namespace Ryujinx.Graphics.Nvdec.Vp9
             NewArray8Short(-1, 6, -19, 78, 78, -19, 6, -1),  NewArray8Short(-1, 5, -18, 68, 88, -19, 6, -1),
             NewArray8Short(-1, 5, -16, 58, 97, -19, 5, -1),  NewArray8Short(-1, 4, -14, 48, 105, -18, 5, -1),
             NewArray8Short(-1, 4, -11, 37, 112, -16, 4, -1), NewArray8Short(-1, 3, -9, 27, 118, -13, 4, -1),
-            NewArray8Short(0, 2, -6, 18, 122, -10, 3, -1),   NewArray8Short(0, 1, -3, 8, 126, -5, 1, 0),
-        };
+            NewArray8Short(0, 2, -6, 18, 122, -10, 3, -1),   NewArray8Short(0, 1, -3, 8, 126, -5, 1, 0)
+        ];
 
         // DCT based filter
-        private static readonly Array8<short>[] _subPelFilters8S = {
+        private static readonly Array8<short>[] _subPelFilters8S =
+        [
             NewArray8Short(0, 0, 0, 128, 0, 0, 0, 0),         NewArray8Short(-1, 3, -7, 127, 8, -3, 1, 0),
             NewArray8Short(-2, 5, -13, 125, 17, -6, 3, -1),   NewArray8Short(-3, 7, -17, 121, 27, -10, 5, -2),
             NewArray8Short(-4, 9, -20, 115, 37, -13, 6, -2),  NewArray8Short(-4, 10, -23, 108, 48, -16, 8, -3),
@@ -240,11 +252,12 @@ namespace Ryujinx.Graphics.Nvdec.Vp9
             NewArray8Short(-4, 11, -23, 80, 80, -23, 11, -4), NewArray8Short(-4, 10, -21, 70, 90, -24, 11, -4),
             NewArray8Short(-3, 9, -19, 59, 100, -24, 10, -4), NewArray8Short(-3, 8, -16, 48, 108, -23, 10, -4),
             NewArray8Short(-2, 6, -13, 37, 115, -20, 9, -4),  NewArray8Short(-2, 5, -10, 27, 121, -17, 7, -3),
-            NewArray8Short(-1, 3, -6, 17, 125, -13, 5, -2),   NewArray8Short(0, 1, -3, 8, 127, -7, 3, -1),
-        };
+            NewArray8Short(-1, 3, -6, 17, 125, -13, 5, -2),   NewArray8Short(0, 1, -3, 8, 127, -7, 3, -1)
+        ];
 
         // freqmultiplier = 0.5
-        private static readonly Array8<short>[] _subPelFilters8Lp = {
+        private static readonly Array8<short>[] _subPelFilters8Lp =
+        [
             NewArray8Short(0, 0, 0, 128, 0, 0, 0, 0),       NewArray8Short(-3, -1, 32, 64, 38, 1, -3, 0),
             NewArray8Short(-2, -2, 29, 63, 41, 2, -3, 0),   NewArray8Short(-2, -2, 26, 63, 43, 4, -4, 0),
             NewArray8Short(-2, -3, 24, 62, 46, 5, -4, 0),   NewArray8Short(-2, -3, 21, 60, 49, 7, -4, 0),
@@ -252,65 +265,74 @@ namespace Ryujinx.Graphics.Nvdec.Vp9
             NewArray8Short(-1, -4, 14, 55, 55, 14, -4, -1), NewArray8Short(-1, -4, 12, 53, 57, 16, -4, -1),
             NewArray8Short(0, -4, 9, 51, 59, 18, -4, -1),   NewArray8Short(0, -4, 7, 49, 60, 21, -3, -2),
             NewArray8Short(0, -4, 5, 46, 62, 24, -3, -2),   NewArray8Short(0, -4, 4, 43, 63, 26, -2, -2),
-            NewArray8Short(0, -3, 2, 41, 63, 29, -2, -2),   NewArray8Short(0, -3, 1, 38, 64, 32, -1, -3),
-        };
+            NewArray8Short(0, -3, 2, 41, 63, 29, -2, -2),   NewArray8Short(0, -3, 1, 38, 64, 32, -1, -3)
+        ];
 
         private static Array8<short> NewArray8Short(short e0, short e1, short e2, short e3, short e4, short e5, short e6, short e7)
         {
-            Array8<short> output = new();
-
-            output[0] = e0;
-            output[1] = e1;
-            output[2] = e2;
-            output[3] = e3;
-            output[4] = e4;
-            output[5] = e5;
-            output[6] = e6;
-            output[7] = e7;
+            Array8<short> output = new() 
+            { 
+                [0] = e0, 
+                [1] = e1, 
+                [2] = e2, 
+                [3] = e3,
+                [4] = e4,
+                [5] = e5,
+                [6] = e6,
+                [7] = e7
+            };
 
             return output;
         }
 
-        public static readonly Array8<short>[][] Vp9FilterKernels = {
-            _subPelFilters8, _subPelFilters8Lp, _subPelFilters8S, _bilinearFilters,
-        };
+        public static readonly Array8<short>[][] FilterKernels =
+        [
+            _subPelFilters8, _subPelFilters8Lp, _subPelFilters8S, _bilinearFilters
+        ];
 
         // Scan
 
-        private static readonly short[] _defaultScan4X4 = {
-            0, 4, 1, 5, 8, 2, 12, 9, 3, 6, 13, 10, 7, 14, 11, 15,
-        };
+        private static readonly short[] _defaultScan4X4 =
+        [
+            0, 4, 1, 5, 8, 2, 12, 9, 3, 6, 13, 10, 7, 14, 11, 15
+        ];
 
-        private static readonly short[] _colScan4X4 = {
-            0, 4, 8, 1, 12, 5, 9, 2, 13, 6, 10, 3, 7, 14, 11, 15,
-        };
+        private static readonly short[] _colScan4X4 =
+        [
+            0, 4, 8, 1, 12, 5, 9, 2, 13, 6, 10, 3, 7, 14, 11, 15
+        ];
 
-        private static readonly short[] _rowScan4X4 = {
-            0, 1, 4, 2, 5, 3, 6, 8, 9, 7, 12, 10, 13, 11, 14, 15,
-        };
+        private static readonly short[] _rowScan4X4 =
+        [
+            0, 1, 4, 2, 5, 3, 6, 8, 9, 7, 12, 10, 13, 11, 14, 15
+        ];
 
-        private static readonly short[] _defaultScan8X8 = {
+        private static readonly short[] _defaultScan8X8 =
+        [
             0,  8,  1,  16, 9,  2,  17, 24, 10, 3,  18, 25, 32, 11, 4,  26,
             33, 19, 40, 12, 34, 27, 5,  41, 20, 48, 13, 35, 42, 28, 21, 6,
             49, 56, 36, 43, 29, 7,  14, 50, 57, 44, 22, 37, 15, 51, 58, 30,
-            45, 23, 52, 59, 38, 31, 60, 53, 46, 39, 61, 54, 47, 62, 55, 63,
-        };
+            45, 23, 52, 59, 38, 31, 60, 53, 46, 39, 61, 54, 47, 62, 55, 63
+        ];
 
-        private static readonly short[] _colScan8X8 = {
+        private static readonly short[] _colScan8X8 =
+        [
             0,  8,  16, 1,  24, 9,  32, 17, 2,  40, 25, 10, 33, 18, 48, 3,
             26, 41, 11, 56, 19, 34, 4,  49, 27, 42, 12, 35, 20, 57, 50, 28,
             5,  43, 13, 36, 58, 51, 21, 44, 6,  29, 59, 37, 14, 52, 22, 7,
-            45, 60, 30, 15, 38, 53, 23, 46, 31, 61, 39, 54, 47, 62, 55, 63,
-        };
+            45, 60, 30, 15, 38, 53, 23, 46, 31, 61, 39, 54, 47, 62, 55, 63
+        ];
 
-        private static readonly short[] _rowScan8X8 = {
+        private static readonly short[] _rowScan8X8 =
+        [
             0,  1,  2,  8,  9,  3,  16, 10, 4,  17, 11, 24, 5,  18, 25, 12,
             19, 26, 32, 6,  13, 20, 33, 27, 7,  34, 40, 21, 28, 41, 14, 35,
             48, 42, 29, 36, 49, 22, 43, 15, 56, 37, 50, 44, 30, 57, 23, 51,
-            58, 45, 38, 52, 31, 59, 53, 46, 60, 39, 61, 47, 54, 55, 62, 63,
-        };
+            58, 45, 38, 52, 31, 59, 53, 46, 60, 39, 61, 47, 54, 55, 62, 63
+        ];
 
-        private static readonly short[] _defaultScan16X16 = {
+        private static readonly short[] _defaultScan16X16 =
+        [
             0,   16,  1,   32,  17,  2,   48,  33,  18,  3,   64,  34,  49,  19,  65,
             80,  50,  4,   35,  66,  20,  81,  96,  51,  5,   36,  82,  97,  67,  112,
             21,  52,  98,  37,  83,  113, 6,   68,  128, 53,  22,  99,  114, 84,  7,
@@ -328,10 +350,11 @@ namespace Ryujinx.Graphics.Nvdec.Vp9
             172, 110, 247, 157, 79,  218, 203, 126, 233, 188, 248, 95,  173, 142, 219,
             111, 249, 234, 158, 127, 189, 204, 250, 235, 143, 174, 220, 205, 159, 251,
             190, 221, 175, 236, 237, 191, 206, 252, 222, 253, 207, 238, 223, 254, 239,
-            255,
-        };
+            255
+        ];
 
-        private static readonly short[] _colScan16X16 = {
+        private static readonly short[] _colScan16X16 =
+        [
             0,   16,  32,  48,  1,   64,  17,  80,  33,  96,  49,  2,   65,  112, 18,
             81,  34,  128, 50,  97,  3,   66,  144, 19,  113, 35,  82,  160, 98,  51,
             129, 4,   67,  176, 20,  114, 145, 83,  36,  99,  130, 52,  192, 5,   161,
@@ -349,10 +372,11 @@ namespace Ryujinx.Graphics.Nvdec.Vp9
             78,  203, 31,  141, 234, 94,  47,  188, 63,  157, 110, 250, 219, 79,  126,
             204, 173, 142, 95,  189, 111, 235, 158, 220, 251, 127, 174, 143, 205, 236,
             159, 190, 221, 252, 175, 206, 237, 191, 253, 222, 238, 207, 254, 223, 239,
-            255,
-        };
+            255
+        ];
 
-        private static readonly short[] _rowScan16X16 = {
+        private static readonly short[] _rowScan16X16 =
+        [
             0,   1,   2,   16,  3,   17,  4,   18,  32,  5,   33,  19,  6,   34,  48,
             20,  49,  7,   35,  21,  50,  64,  8,   36,  65,  22,  51,  37,  80,  9,
             66,  52,  23,  38,  81,  67,  10,  53,  24,  82,  68,  96,  39,  11,  54,
@@ -370,10 +394,11 @@ namespace Ryujinx.Graphics.Nvdec.Vp9
             217, 231, 95,  246, 232, 126, 203, 247, 233, 173, 218, 142, 111, 158, 188,
             248, 127, 234, 219, 249, 189, 204, 143, 174, 159, 250, 235, 205, 220, 175,
             190, 251, 221, 191, 206, 236, 207, 237, 252, 222, 253, 223, 238, 239, 254,
-            255,
-        };
+            255
+        ];
 
-        private static readonly short[] _defaultScan32X32 = {
+        private static readonly short[] _defaultScan32X32 =
+        [
             0,    32,   1,    64,  33,   2,    96,   65,   34,   128,  3,    97,   66,
             160,  129,  35,   98,  4,    67,   130,  161,  192,  36,   99,   224,  5,
             162,  193,  68,   131, 37,   100,  225,  194,  256,  163,  69,   132,  6,
@@ -452,57 +477,64 @@ namespace Ryujinx.Graphics.Nvdec.Vp9
             767,  920,  796,  952, 921,  828,  797,  984,  953,  922,  860,  829,  798,
             1016, 985,  954,  923, 892,  861,  830,  799,  1017, 986,  955,  893,  862,
             831,  1018, 987,  894, 863,  1019, 895,  924,  956,  925,  988,  957,  926,
-            1020, 989,  958,  927, 1021, 990,  959,  1022, 991,  1023,
-        };
+            1020, 989,  958,  927, 1021, 990,  959,  1022, 991,  1023
+        ];
 
         // Neighborhood 2-tuples for various scans and blocksizes,
         // in {top, left} order for each position in corresponding scan order.
-        private static readonly short[] _defaultScan4X4Neighbors = {
+        private static readonly short[] _defaultScan4X4Neighbors =
+        [
             0, 0, 0, 0, 0,  0, 1, 4, 4, 4,  1,  1, 8,  8,  5,  8, 2,
-            2, 2, 5, 9, 12, 6, 9, 3, 6, 10, 13, 7, 10, 11, 14, 0, 0,
-        };
+            2, 2, 5, 9, 12, 6, 9, 3, 6, 10, 13, 7, 10, 11, 14, 0, 0
+        ];
 
-        private static readonly short[] _colScan4X4Neighbors = {
+        private static readonly short[] _colScan4X4Neighbors =
+        [
             0, 0, 0, 0, 4, 4, 0, 0, 8, 8,  1,  1, 5, 5,  1,  1, 9,
-            9, 2, 2, 6, 6, 2, 2, 3, 3, 10, 10, 7, 7, 11, 11, 0, 0,
-        };
+            9, 2, 2, 6, 6, 2, 2, 3, 3, 10, 10, 7, 7, 11, 11, 0, 0
+        ];
 
-        private static readonly short[] _rowScan4X4Neighbors = {
+        private static readonly short[] _rowScan4X4Neighbors =
+        [
             0, 0, 0, 0, 0, 0, 1, 1,  4,  4,  2,  2,  5,  5,  4,  4, 8,
-            8, 6, 6, 8, 8, 9, 9, 12, 12, 10, 10, 13, 13, 14, 14, 0, 0,
-        };
+            8, 6, 6, 8, 8, 9, 9, 12, 12, 10, 10, 13, 13, 14, 14, 0, 0
+        ];
 
-        private static readonly short[] _colScan8X8Neighbors = {
+        private static readonly short[] _colScan8X8Neighbors =
+        [
             0,  0,  0,  0,  8,  8,  0,  0,  16, 16, 1,  1,  24, 24, 9,  9,  1,  1,  32,
             32, 17, 17, 2,  2,  25, 25, 10, 10, 40, 40, 2,  2,  18, 18, 33, 33, 3,  3,
             48, 48, 11, 11, 26, 26, 3,  3,  41, 41, 19, 19, 34, 34, 4,  4,  27, 27, 12,
             12, 49, 49, 42, 42, 20, 20, 4,  4,  35, 35, 5,  5,  28, 28, 50, 50, 43, 43,
             13, 13, 36, 36, 5,  5,  21, 21, 51, 51, 29, 29, 6,  6,  44, 44, 14, 14, 6,
             6,  37, 37, 52, 52, 22, 22, 7,  7,  30, 30, 45, 45, 15, 15, 38, 38, 23, 23,
-            53, 53, 31, 31, 46, 46, 39, 39, 54, 54, 47, 47, 55, 55, 0,  0,
-        };
+            53, 53, 31, 31, 46, 46, 39, 39, 54, 54, 47, 47, 55, 55, 0,  0
+        ];
 
-        private static readonly short[] _rowScan8X8Neighbors = {
+        private static readonly short[] _rowScan8X8Neighbors =
+        [
             0,  0,  0,  0,  1,  1,  0,  0,  8,  8,  2,  2,  8,  8,  9,  9,  3,  3,  16,
             16, 10, 10, 16, 16, 4,  4,  17, 17, 24, 24, 11, 11, 18, 18, 25, 25, 24, 24,
             5,  5,  12, 12, 19, 19, 32, 32, 26, 26, 6,  6,  33, 33, 32, 32, 20, 20, 27,
             27, 40, 40, 13, 13, 34, 34, 40, 40, 41, 41, 28, 28, 35, 35, 48, 48, 21, 21,
             42, 42, 14, 14, 48, 48, 36, 36, 49, 49, 43, 43, 29, 29, 56, 56, 22, 22, 50,
             50, 57, 57, 44, 44, 37, 37, 51, 51, 30, 30, 58, 58, 52, 52, 45, 45, 59, 59,
-            38, 38, 60, 60, 46, 46, 53, 53, 54, 54, 61, 61, 62, 62, 0,  0,
-        };
+            38, 38, 60, 60, 46, 46, 53, 53, 54, 54, 61, 61, 62, 62, 0,  0
+        ];
 
-        private static readonly short[] _defaultScan8X8Neighbors = {
+        private static readonly short[] _defaultScan8X8Neighbors =
+        [
             0,  0,  0,  0,  0,  0,  8,  8,  1,  8,  1,  1,  9,  16, 16, 16, 2,  9,  2,
             2,  10, 17, 17, 24, 24, 24, 3,  10, 3,  3,  18, 25, 25, 32, 11, 18, 32, 32,
             4,  11, 26, 33, 19, 26, 4,  4,  33, 40, 12, 19, 40, 40, 5,  12, 27, 34, 34,
             41, 20, 27, 13, 20, 5,  5,  41, 48, 48, 48, 28, 35, 35, 42, 21, 28, 6,  6,
             6,  13, 42, 49, 49, 56, 36, 43, 14, 21, 29, 36, 7,  14, 43, 50, 50, 57, 22,
             29, 37, 44, 15, 22, 44, 51, 51, 58, 30, 37, 23, 30, 52, 59, 45, 52, 38, 45,
-            31, 38, 53, 60, 46, 53, 39, 46, 54, 61, 47, 54, 55, 62, 0,  0,
-        };
+            31, 38, 53, 60, 46, 53, 39, 46, 54, 61, 47, 54, 55, 62, 0,  0
+        ];
 
-        private static readonly short[] _colScan16X16Neighbors = {
+        private static readonly short[] _colScan16X16Neighbors =
+        [
             0,   0,   0,   0,   16,  16,  32,  32,  0,   0,   48,  48,  1,   1,   64,
             64,  17,  17,  80,  80,  33,  33,  1,   1,   49,  49,  96,  96,  2,   2,
             65,  65,  18,  18,  112, 112, 34,  34,  81,  81,  2,   2,   50,  50,  128,
@@ -537,10 +569,11 @@ namespace Ryujinx.Graphics.Nvdec.Vp9
             142, 204, 204, 235, 235, 111, 111, 158, 158, 127, 127, 189, 189, 220, 220,
             143, 143, 174, 174, 205, 205, 236, 236, 159, 159, 190, 190, 221, 221, 175,
             175, 237, 237, 206, 206, 222, 222, 191, 191, 238, 238, 207, 207, 223, 223,
-            239, 239, 0,   0,
-        };
+            239, 239, 0,   0
+        ];
 
-        private static readonly short[] _rowScan16X16Neighbors = {
+        private static readonly short[] _rowScan16X16Neighbors =
+        [
             0,   0,   0,   0,   1,   1,   0,   0,   2,   2,   16,  16,  3,   3,   17,
             17,  16,  16,  4,   4,   32,  32,  18,  18,  5,   5,   33,  33,  32,  32,
             19,  19,  48,  48,  6,   6,   34,  34,  20,  20,  49,  49,  48,  48,  7,
@@ -575,10 +608,11 @@ namespace Ryujinx.Graphics.Nvdec.Vp9
             142, 173, 173, 158, 158, 249, 249, 234, 234, 204, 204, 219, 219, 174, 174,
             189, 189, 250, 250, 220, 220, 190, 190, 205, 205, 235, 235, 206, 206, 236,
             236, 251, 251, 221, 221, 252, 252, 222, 222, 237, 237, 238, 238, 253, 253,
-            254, 254, 0,   0,
-        };
+            254, 254, 0,   0
+        ];
 
-        private static readonly short[] _defaultScan16X16Neighbors = {
+        private static readonly short[] _defaultScan16X16Neighbors =
+        [
             0,   0,   0,   0,   0,   0,   16,  16,  1,   16,  1,   1,   32,  32,  17,
             32,  2,   17,  2,   2,   48,  48,  18,  33,  33,  48,  3,   18,  49,  64,
             64,  64,  34,  49,  3,   3,   19,  34,  50,  65,  4,   19,  65,  80,  80,
@@ -613,10 +647,11 @@ namespace Ryujinx.Graphics.Nvdec.Vp9
             249, 219, 234, 127, 142, 158, 173, 204, 219, 189, 204, 143, 158, 235, 250,
             174, 189, 205, 220, 159, 174, 220, 235, 221, 236, 175, 190, 190, 205, 236,
             251, 206, 221, 237, 252, 191, 206, 222, 237, 207, 222, 238, 253, 223, 238,
-            239, 254, 0,   0,
-        };
+            239, 254, 0,   0
+        ];
 
-        private static readonly short[] _defaultScan32X32Neighbors = {
+        private static readonly short[] _defaultScan32X32Neighbors =
+        [
             0,   0,    0,   0,    0,   0,    32,  32,   1,   32,  1,   1,    64,  64,
             33,  64,   2,   33,   96,  96,   2,   2,    65,  96,  34,  65,   128, 128,
             97,  128,  3,   34,   66,  97,   3,   3,    35,  66,  98,  129,  129, 160,
@@ -763,43 +798,50 @@ namespace Ryujinx.Graphics.Nvdec.Vp9
             799, 830,  986, 1017, 955, 986,  862, 893,  831, 862, 987, 1018, 863, 894,
             892, 923,  924, 955,  893, 924,  956, 987,  925, 956, 894, 925,  988, 1019,
             957, 988,  926, 957,  895, 926,  989, 1020, 958, 989, 927, 958,  990, 1021,
-            959, 990,  991, 1022, 0,   0,
-        };
+            959, 990,  991, 1022, 0,   0
+        ];
 
-        private static readonly short[] _vp9DefaultIscan4X4 = {
-            0, 2, 5, 8, 1, 3, 9, 12, 4, 7, 11, 14, 6, 10, 13, 15,
-        };
+        private static readonly short[] _defaultIscan4X4 =
+        [
+            0, 2, 5, 8, 1, 3, 9, 12, 4, 7, 11, 14, 6, 10, 13, 15
+        ];
 
-        private static readonly short[] _vp9ColIscan4X4 = {
-            0, 3, 7, 11, 1, 5, 9, 12, 2, 6, 10, 14, 4, 8, 13, 15,
-        };
+        private static readonly short[] _colIscan4X4 =
+        [
+            0, 3, 7, 11, 1, 5, 9, 12, 2, 6, 10, 14, 4, 8, 13, 15
+        ];
 
-        private static readonly short[] _vp9RowIscan4X4 = {
-            0, 1, 3, 5, 2, 4, 6, 9, 7, 8, 11, 13, 10, 12, 14, 15,
-        };
+        private static readonly short[] _rowIscan4X4 =
+        [
+            0, 1, 3, 5, 2, 4, 6, 9, 7, 8, 11, 13, 10, 12, 14, 15
+        ];
 
-        private static readonly short[] _vp9ColIscan8X8 = {
+        private static readonly short[] _colIscan8X8 =
+        [
             0,  3,  8,  15, 22, 32, 40, 47, 1,  5,  11, 18, 26, 34, 44, 51,
             2,  7,  13, 20, 28, 38, 46, 54, 4,  10, 16, 24, 31, 41, 50, 56,
             6,  12, 21, 27, 35, 43, 52, 58, 9,  17, 25, 33, 39, 48, 55, 60,
-            14, 23, 30, 37, 45, 53, 59, 62, 19, 29, 36, 42, 49, 57, 61, 63,
-        };
+            14, 23, 30, 37, 45, 53, 59, 62, 19, 29, 36, 42, 49, 57, 61, 63
+        ];
 
-        private static readonly short[] _vp9RowIscan8X8 = {
+        private static readonly short[] _rowIscan8X8 =
+        [
             0,  1,  2,  5,  8,  12, 19, 24, 3,  4,  7,  10, 15, 20, 30, 39,
             6,  9,  13, 16, 21, 27, 37, 46, 11, 14, 17, 23, 28, 34, 44, 52,
             18, 22, 25, 31, 35, 41, 50, 57, 26, 29, 33, 38, 43, 49, 55, 59,
-            32, 36, 42, 47, 51, 54, 60, 61, 40, 45, 48, 53, 56, 58, 62, 63,
-        };
+            32, 36, 42, 47, 51, 54, 60, 61, 40, 45, 48, 53, 56, 58, 62, 63
+        ];
 
-        private static readonly short[] _vp9DefaultIscan8X8 = {
+        private static readonly short[] _defaultIscan8X8 =
+        [
             0,  2,  5,  9,  14, 22, 31, 37, 1,  4,  8,  13, 19, 26, 38, 44,
             3,  6,  10, 17, 24, 30, 42, 49, 7,  11, 15, 21, 29, 36, 47, 53,
             12, 16, 20, 27, 34, 43, 52, 57, 18, 23, 28, 35, 41, 48, 56, 60,
-            25, 32, 39, 45, 50, 55, 59, 62, 33, 40, 46, 51, 54, 58, 61, 63,
-        };
+            25, 32, 39, 45, 50, 55, 59, 62, 33, 40, 46, 51, 54, 58, 61, 63
+        ];
 
-        private static readonly short[] _vp9ColIscan16X16 = {
+        private static readonly short[] _colIscan16X16 =
+        [
             0,  4,  11,  20,  31,  43,  59,  75,  85,  109, 130, 150, 165, 181, 195, 198,
             1,  6,  14,  23,  34,  47,  64,  81,  95,  114, 135, 153, 171, 188, 201, 212,
             2,  8,  16,  25,  38,  52,  67,  83,  101, 116, 136, 157, 172, 190, 205, 216,
@@ -815,10 +857,11 @@ namespace Ryujinx.Graphics.Nvdec.Vp9
             42, 61, 77,  90,  106, 121, 134, 148, 160, 173, 191, 211, 225, 238, 245, 251,
             50, 72, 87,  100, 118, 128, 145, 158, 168, 183, 204, 222, 233, 242, 249, 253,
             57, 80, 97,  111, 131, 143, 155, 169, 178, 192, 214, 231, 239, 246, 250, 254,
-            65, 88, 107, 124, 139, 152, 163, 177, 185, 199, 221, 234, 243, 248, 252, 255,
-        };
+            65, 88, 107, 124, 139, 152, 163, 177, 185, 199, 221, 234, 243, 248, 252, 255
+        ];
 
-        private static readonly short[] _vp9RowIscan16X16 = {
+        private static readonly short[] _rowIscan16X16 =
+        [
             0,   1,   2,   4,   6,   9,   12,  17,  22,  29,  36,  43,  54,  64,  76,
             86,  3,   5,   7,   11,  15,  19,  25,  32,  38,  48,  59,  68,  84,  99,
             115, 130, 8,   10,  13,  18,  23,  27,  33,  42,  51,  60,  72,  88,  103,
@@ -836,10 +879,11 @@ namespace Ryujinx.Graphics.Nvdec.Vp9
             156, 166, 172, 180, 189, 199, 200, 210, 220, 228, 238, 242, 249, 251, 152,
             163, 171, 183, 186, 193, 201, 211, 214, 218, 227, 236, 245, 247, 252, 253,
             158, 173, 187, 194, 198, 209, 213, 217, 225, 229, 235, 241, 248, 250, 254,
-            255,
-        };
+            255
+        ];
 
-        private static readonly short[] _vp9DefaultIscan16X16 = {
+        private static readonly short[] _defaultIscan16X16 =
+        [
             0,   2,   5,   9,   17,  24,  36,  44,  55,  72,  88,  104, 128, 143, 166,
             179, 1,   4,   8,   13,  20,  30,  40,  54,  66,  79,  96,  113, 141, 154,
             178, 196, 3,   7,   11,  18,  25,  33,  46,  57,  71,  86,  101, 119, 148,
@@ -857,10 +901,11 @@ namespace Ryujinx.Graphics.Nvdec.Vp9
             126, 136, 149, 162, 171, 183, 194, 204, 215, 224, 236, 241, 248, 252, 121,
             135, 144, 158, 170, 181, 192, 200, 209, 218, 227, 233, 243, 244, 251, 254,
             137, 152, 160, 174, 184, 195, 206, 212, 220, 226, 232, 239, 247, 249, 253,
-            255,
-        };
+            255
+        ];
 
-        private static readonly short[] _vp9DefaultIscan32X32 = {
+        private static readonly short[] _defaultIscan32X32 =
+        [
             0,    2,    5,    10,   17,   25,   38,   47,   62,   83,   101,  121,  145,
             170,  193,  204,  210,  219,  229,  233,  245,  257,  275,  299,  342,  356,
             377,  405,  455,  471,  495,  527,  1,    4,    8,    15,   22,   30,   45,
@@ -939,8 +984,8 @@ namespace Ryujinx.Graphics.Nvdec.Vp9
             850,  876,  889,  905,  917,  937,  947,  959,  968,  982,  989,  997,  1003,
             1011, 1015, 1019, 1022, 496,  528,  552,  568,  618,  646,  667,  681,  724,
             748,  766,  778,  814,  834,  849,  859,  888,  904,  916,  924,  946,  958,
-            967,  973,  988,  996,  1002, 1006, 1014, 1018, 1021, 1023,
-        };
+            967,  973,  988,  996,  1002, 1006, 1014, 1018, 1021, 1023
+        ];
 
         public class ScanOrder
         {
@@ -956,90 +1001,92 @@ namespace Ryujinx.Graphics.Nvdec.Vp9
             }
         }
 
-        public static readonly ScanOrder[] Vp9DefaultScanOrders = {
-            new(_defaultScan4X4, _vp9DefaultIscan4X4, _defaultScan4X4Neighbors),
-            new(_defaultScan8X8, _vp9DefaultIscan8X8, _defaultScan8X8Neighbors),
-            new(_defaultScan16X16, _vp9DefaultIscan16X16, _defaultScan16X16Neighbors),
-            new(_defaultScan32X32, _vp9DefaultIscan32X32, _defaultScan32X32Neighbors),
-        };
+        public static readonly ScanOrder[] DefaultScanOrders =
+        [
+            new(_defaultScan4X4, _defaultIscan4X4, _defaultScan4X4Neighbors),
+            new(_defaultScan8X8, _defaultIscan8X8, _defaultScan8X8Neighbors),
+            new(_defaultScan16X16, _defaultIscan16X16, _defaultScan16X16Neighbors),
+            new(_defaultScan32X32, _defaultIscan32X32, _defaultScan32X32Neighbors)
+        ];
 
-        public static readonly ScanOrder[][] Vp9ScanOrders = {
-            new ScanOrder[]
-            { // TX_4X4
-                new(_defaultScan4X4, _vp9DefaultIscan4X4, _defaultScan4X4Neighbors),
-                new(_rowScan4X4, _vp9RowIscan4X4, _rowScan4X4Neighbors),
-                new(_colScan4X4, _vp9ColIscan4X4, _colScan4X4Neighbors),
-                new(_defaultScan4X4, _vp9DefaultIscan4X4, _defaultScan4X4Neighbors),
-            },
-            new ScanOrder[]
-            { // TX_8X8
-                new(_defaultScan8X8, _vp9DefaultIscan8X8, _defaultScan8X8Neighbors),
-                new(_rowScan8X8, _vp9RowIscan8X8, _rowScan8X8Neighbors),
-                new(_colScan8X8, _vp9ColIscan8X8, _colScan8X8Neighbors),
-                new(_defaultScan8X8, _vp9DefaultIscan8X8, _defaultScan8X8Neighbors),
-            },
-            new ScanOrder[]
-            { // TX_16X16
-                new(_defaultScan16X16, _vp9DefaultIscan16X16, _defaultScan16X16Neighbors),
-                new(_rowScan16X16, _vp9RowIscan16X16, _rowScan16X16Neighbors),
-                new(_colScan16X16, _vp9ColIscan16X16, _colScan16X16Neighbors),
-                new(_defaultScan16X16, _vp9DefaultIscan16X16, _defaultScan16X16Neighbors),
-            },
-            new ScanOrder[]
-            { // TX_32X32
-                new(_defaultScan32X32, _vp9DefaultIscan32X32, _defaultScan32X32Neighbors),
-                new(_defaultScan32X32, _vp9DefaultIscan32X32, _defaultScan32X32Neighbors),
-                new(_defaultScan32X32, _vp9DefaultIscan32X32, _defaultScan32X32Neighbors),
-                new(_defaultScan32X32, _vp9DefaultIscan32X32, _defaultScan32X32Neighbors),
-            },
+        public static readonly ScanOrder[][] ScanOrders = new ScanOrder[][]
+        {
+            [ // TX_4X4
+                new ScanOrder(_defaultScan4X4, _defaultIscan4X4, _defaultScan4X4Neighbors),
+                new ScanOrder(_rowScan4X4, _rowIscan4X4, _rowScan4X4Neighbors),
+                new ScanOrder(_colScan4X4, _colIscan4X4, _colScan4X4Neighbors),
+                new ScanOrder(_defaultScan4X4, _defaultIscan4X4, _defaultScan4X4Neighbors)
+            ],
+            [ // TX_8X8
+                new ScanOrder(_defaultScan8X8, _defaultIscan8X8, _defaultScan8X8Neighbors),
+                new ScanOrder(_rowScan8X8, _rowIscan8X8, _rowScan8X8Neighbors),
+                new ScanOrder(_colScan8X8, _colIscan8X8, _colScan8X8Neighbors),
+                new ScanOrder(_defaultScan8X8, _defaultIscan8X8, _defaultScan8X8Neighbors)
+            ],
+            [ // TX_16X16
+                new ScanOrder(_defaultScan16X16, _defaultIscan16X16, _defaultScan16X16Neighbors),
+                new ScanOrder(_rowScan16X16, _rowIscan16X16, _rowScan16X16Neighbors),
+                new ScanOrder(_colScan16X16, _colIscan16X16, _colScan16X16Neighbors),
+                new ScanOrder(_defaultScan16X16, _defaultIscan16X16, _defaultScan16X16Neighbors)
+            ],
+            [ // TX_32X32
+                new ScanOrder(_defaultScan32X32, _defaultIscan32X32, _defaultScan32X32Neighbors),
+                new ScanOrder(_defaultScan32X32, _defaultIscan32X32, _defaultScan32X32Neighbors),
+                new ScanOrder(_defaultScan32X32, _defaultIscan32X32, _defaultScan32X32Neighbors),
+                new ScanOrder(_defaultScan32X32, _defaultIscan32X32, _defaultScan32X32Neighbors)
+            ]
         };
 
         // Entropy MV
 
-        public static readonly sbyte[] Vp9MvJointTree = {
-            -(sbyte)MvJointType.MvJointZero, 2, -(sbyte)MvJointType.MvJointHnzvz, 4, -(sbyte)MvJointType.MvJointHzvnz, -(sbyte)MvJointType.MvJointHnzvnz,
-        };
+        public static readonly sbyte[] MvJointTree =
+        [
+            -(sbyte)MvJointType.Zero, 2, -(sbyte)MvJointType.Hnzvz, 4, -(sbyte)MvJointType.Hzvnz, -(sbyte)MvJointType.Hnzvnz
+        ];
 
-        public static readonly sbyte[] Vp9MvClassTree = {
-            -(sbyte)MvClassType.MvClass0,
+        public static readonly sbyte[] MvClassTree =
+        [
+            -(sbyte)MvClassType.Class0,
             2,
-            -(sbyte)MvClassType.MvClass1,
+            -(sbyte)MvClassType.Class1,
             4,
             6,
             8,
-            -(sbyte)MvClassType.MvClass2,
-            -(sbyte)MvClassType.MvClass3,
+            -(sbyte)MvClassType.Class2,
+            -(sbyte)MvClassType.Class3,
             10,
             12,
-            -(sbyte)MvClassType.MvClass4,
-            -(sbyte)MvClassType.MvClass5,
-            -(sbyte)MvClassType.MvClass6,
+            -(sbyte)MvClassType.Class4,
+            -(sbyte)MvClassType.Class5,
+            -(sbyte)MvClassType.Class6,
             14,
             16,
             18,
-            -(sbyte)MvClassType.MvClass7,
-            -(sbyte)MvClassType.MvClass8,
-            -(sbyte)MvClassType.MvClass9,
-            -(sbyte)MvClassType.MvClass10,
-        };
+            -(sbyte)MvClassType.Class7,
+            -(sbyte)MvClassType.Class8,
+            -(sbyte)MvClassType.Class9,
+            -(sbyte)MvClassType.Class10
+        ];
 
-        public static ReadOnlySpan<sbyte> Vp9MvFPTree => new sbyte[] { -0, 2, -1, 4, -2, -3 };
+        public static ReadOnlySpan<sbyte> MvFpTree => [-0, 2, -1, 4, -2, -3];
 
         // Entropy
 
-        public static ReadOnlySpan<byte> Vp9Cat1Prob => new byte[] { 159 };
-        public static ReadOnlySpan<byte> Vp9Cat2Prob => new byte[] { 165, 145 };
-        public static ReadOnlySpan<byte> Vp9Cat3Prob => new byte[] { 173, 148, 140 };
-        public static ReadOnlySpan<byte> Vp9Cat4Prob => new byte[] { 176, 155, 140, 135 };
-        public static ReadOnlySpan<byte> Vp9Cat5Prob => new byte[] { 180, 157, 141, 134, 130 };
-        public static ReadOnlySpan<byte> Vp9Cat6Prob => new byte[] { 254, 254, 254, 252, 249, 243, 230, 196, 177, 153, 140, 133, 130, 129 };
+        public static ReadOnlySpan<byte> Cat1Prob => [159];
+        public static ReadOnlySpan<byte> Cat2Prob => [165, 145];
+        public static ReadOnlySpan<byte> Cat3Prob => [173, 148, 140];
+        public static ReadOnlySpan<byte> Cat4Prob => [176, 155, 140, 135];
+        public static ReadOnlySpan<byte> Cat5Prob => [180, 157, 141, 134, 130];
+        public static ReadOnlySpan<byte> Cat6Prob => [254, 254, 254, 252, 249, 243, 230, 196, 177, 153, 140, 133, 130, 129
+        ];
 
-        public static ReadOnlySpan<byte> Vp9Cat6ProbHigh12 => new byte[]
-        {
-            255, 255, 255, 255, 254, 254, 54, 252, 249, 243, 230, 196, 177, 153, 140, 133, 130, 129,
-        };
+        public static ReadOnlySpan<byte> Cat6ProbHigh12 =>
+        [
+            255, 255, 255, 255, 254, 254, 54, 252, 249, 243, 230, 196, 177, 153, 140, 133, 130, 129
+        ];
 
-        private static readonly byte[] _vp9CoefbandTrans8X8Plus = {
+        private static readonly byte[] _coefbandTrans8X8Plus =
+        [
             0, 1, 1, 2, 2, 2, 3, 3, 3, 3, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 5,
             // Beyond MAXBAND_INDEX+1 all values are filled as 5
             5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5,
@@ -1080,308 +1127,228 @@ namespace Ryujinx.Graphics.Nvdec.Vp9
             5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5,
             5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5,
             5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5,
-            5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5,
-        };
+            5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5
+        ];
 
-        private static ReadOnlySpan<byte> Vp9CoefbandTrans4X4 => new byte[]
-        {
-            0, 1, 1, 2, 2, 2, 3, 3, 3, 3, 4, 4, 4, 5, 5, 5,
-        };
+        private static ReadOnlySpan<byte> CoefbandTrans4X4 =>
+        [
+            0, 1, 1, 2, 2, 2, 3, 3, 3, 3, 4, 4, 4, 5, 5, 5
+        ];
 
         public static ReadOnlySpan<byte> GetBandTranslate(TxSize txSize)
         {
-            return txSize == TxSize.Tx4x4 ? Vp9CoefbandTrans4X4 : _vp9CoefbandTrans8X8Plus;
+            return txSize == TxSize.Tx4X4 ? CoefbandTrans4X4 : _coefbandTrans8X8Plus;
         }
 
-        public static readonly byte[][] Vp9Pareto8Full = {
-            new byte[] { 3, 86, 128, 6, 86, 23, 88, 29 },
-            new byte[] { 6, 86, 128, 11, 87, 42, 91, 52 },
-            new byte[] { 9, 86, 129, 17, 88, 61, 94, 76 },
-            new byte[] { 12, 86, 129, 22, 88, 77, 97, 93 },
-            new byte[] { 15, 87, 129, 28, 89, 93, 100, 110 },
-            new byte[] { 17, 87, 129, 33, 90, 105, 103, 123 },
-            new byte[] { 20, 88, 130, 38, 91, 118, 106, 136 },
-            new byte[] { 23, 88, 130, 43, 91, 128, 108, 146 },
-            new byte[] { 26, 89, 131, 48, 92, 139, 111, 156 },
-            new byte[] { 28, 89, 131, 53, 93, 147, 114, 163 },
-            new byte[] { 31, 90, 131, 58, 94, 156, 117, 171 },
-            new byte[] { 34, 90, 131, 62, 94, 163, 119, 177 },
-            new byte[] { 37, 90, 132, 66, 95, 171, 122, 184 },
-            new byte[] { 39, 90, 132, 70, 96, 177, 124, 189 },
-            new byte[] { 42, 91, 132, 75, 97, 183, 127, 194 },
-            new byte[] { 44, 91, 132, 79, 97, 188, 129, 198 },
-            new byte[] { 47, 92, 133, 83, 98, 193, 132, 202 },
-            new byte[] { 49, 92, 133, 86, 99, 197, 134, 205 },
-            new byte[] { 52, 93, 133, 90, 100, 201, 137, 208 },
-            new byte[] { 54, 93, 133, 94, 100, 204, 139, 211 },
-            new byte[] { 57, 94, 134, 98, 101, 208, 142, 214 },
-            new byte[] { 59, 94, 134, 101, 102, 211, 144, 216 },
-            new byte[] { 62, 94, 135, 105, 103, 214, 146, 218 },
-            new byte[] { 64, 94, 135, 108, 103, 216, 148, 220 },
-            new byte[] { 66, 95, 135, 111, 104, 219, 151, 222 },
-            new byte[] { 68, 95, 135, 114, 105, 221, 153, 223 },
-            new byte[] { 71, 96, 136, 117, 106, 224, 155, 225 },
-            new byte[] { 73, 96, 136, 120, 106, 225, 157, 226 },
-            new byte[] { 76, 97, 136, 123, 107, 227, 159, 228 },
-            new byte[] { 78, 97, 136, 126, 108, 229, 160, 229 },
-            new byte[] { 80, 98, 137, 129, 109, 231, 162, 231 },
-            new byte[] { 82, 98, 137, 131, 109, 232, 164, 232 },
-            new byte[] { 84, 98, 138, 134, 110, 234, 166, 233 },
-            new byte[] { 86, 98, 138, 137, 111, 235, 168, 234 },
-            new byte[] { 89, 99, 138, 140, 112, 236, 170, 235 },
-            new byte[] { 91, 99, 138, 142, 112, 237, 171, 235 },
-            new byte[] { 93, 100, 139, 145, 113, 238, 173, 236 },
-            new byte[] { 95, 100, 139, 147, 114, 239, 174, 237 },
-            new byte[] { 97, 101, 140, 149, 115, 240, 176, 238 },
-            new byte[] { 99, 101, 140, 151, 115, 241, 177, 238 },
-            new byte[] { 101, 102, 140, 154, 116, 242, 179, 239 },
-            new byte[] { 103, 102, 140, 156, 117, 242, 180, 239 },
-            new byte[] { 105, 103, 141, 158, 118, 243, 182, 240 },
-            new byte[] { 107, 103, 141, 160, 118, 243, 183, 240 },
-            new byte[] { 109, 104, 141, 162, 119, 244, 185, 241 },
-            new byte[] { 111, 104, 141, 164, 119, 244, 186, 241 },
-            new byte[] { 113, 104, 142, 166, 120, 245, 187, 242 },
-            new byte[] { 114, 104, 142, 168, 121, 245, 188, 242 },
-            new byte[] { 116, 105, 143, 170, 122, 246, 190, 243 },
-            new byte[] { 118, 105, 143, 171, 122, 246, 191, 243 },
-            new byte[] { 120, 106, 143, 173, 123, 247, 192, 244 },
-            new byte[] { 121, 106, 143, 175, 124, 247, 193, 244 },
-            new byte[] { 123, 107, 144, 177, 125, 248, 195, 244 },
-            new byte[] { 125, 107, 144, 178, 125, 248, 196, 244 },
-            new byte[] { 127, 108, 145, 180, 126, 249, 197, 245 },
-            new byte[] { 128, 108, 145, 181, 127, 249, 198, 245 },
-            new byte[] { 130, 109, 145, 183, 128, 249, 199, 245 },
-            new byte[] { 132, 109, 145, 184, 128, 249, 200, 245 },
-            new byte[] { 134, 110, 146, 186, 129, 250, 201, 246 },
-            new byte[] { 135, 110, 146, 187, 130, 250, 202, 246 },
-            new byte[] { 137, 111, 147, 189, 131, 251, 203, 246 },
-            new byte[] { 138, 111, 147, 190, 131, 251, 204, 246 },
-            new byte[] { 140, 112, 147, 192, 132, 251, 205, 247 },
-            new byte[] { 141, 112, 147, 193, 132, 251, 206, 247 },
-            new byte[] { 143, 113, 148, 194, 133, 251, 207, 247 },
-            new byte[] { 144, 113, 148, 195, 134, 251, 207, 247 },
-            new byte[] { 146, 114, 149, 197, 135, 252, 208, 248 },
-            new byte[] { 147, 114, 149, 198, 135, 252, 209, 248 },
-            new byte[] { 149, 115, 149, 199, 136, 252, 210, 248 },
-            new byte[] { 150, 115, 149, 200, 137, 252, 210, 248 },
-            new byte[] { 152, 115, 150, 201, 138, 252, 211, 248 },
-            new byte[] { 153, 115, 150, 202, 138, 252, 212, 248 },
-            new byte[] { 155, 116, 151, 204, 139, 253, 213, 249 },
-            new byte[] { 156, 116, 151, 205, 139, 253, 213, 249 },
-            new byte[] { 158, 117, 151, 206, 140, 253, 214, 249 },
-            new byte[] { 159, 117, 151, 207, 141, 253, 215, 249 },
-            new byte[] { 161, 118, 152, 208, 142, 253, 216, 249 },
-            new byte[] { 162, 118, 152, 209, 142, 253, 216, 249 },
-            new byte[] { 163, 119, 153, 210, 143, 253, 217, 249 },
-            new byte[] { 164, 119, 153, 211, 143, 253, 217, 249 },
-            new byte[] { 166, 120, 153, 212, 144, 254, 218, 250 },
-            new byte[] { 167, 120, 153, 212, 145, 254, 219, 250 },
-            new byte[] { 168, 121, 154, 213, 146, 254, 220, 250 },
-            new byte[] { 169, 121, 154, 214, 146, 254, 220, 250 },
-            new byte[] { 171, 122, 155, 215, 147, 254, 221, 250 },
-            new byte[] { 172, 122, 155, 216, 147, 254, 221, 250 },
-            new byte[] { 173, 123, 155, 217, 148, 254, 222, 250 },
-            new byte[] { 174, 123, 155, 217, 149, 254, 222, 250 },
-            new byte[] { 176, 124, 156, 218, 150, 254, 223, 250 },
-            new byte[] { 177, 124, 156, 219, 150, 254, 223, 250 },
-            new byte[] { 178, 125, 157, 220, 151, 254, 224, 251 },
-            new byte[] { 179, 125, 157, 220, 151, 254, 224, 251 },
-            new byte[] { 180, 126, 157, 221, 152, 254, 225, 251 },
-            new byte[] { 181, 126, 157, 221, 152, 254, 225, 251 },
-            new byte[] { 183, 127, 158, 222, 153, 254, 226, 251 },
-            new byte[] { 184, 127, 158, 223, 154, 254, 226, 251 },
-            new byte[] { 185, 128, 159, 224, 155, 255, 227, 251 },
-            new byte[] { 186, 128, 159, 224, 155, 255, 227, 251 },
-            new byte[] { 187, 129, 160, 225, 156, 255, 228, 251 },
-            new byte[] { 188, 130, 160, 225, 156, 255, 228, 251 },
-            new byte[] { 189, 131, 160, 226, 157, 255, 228, 251 },
-            new byte[] { 190, 131, 160, 226, 158, 255, 228, 251 },
-            new byte[] { 191, 132, 161, 227, 159, 255, 229, 251 },
-            new byte[] { 192, 132, 161, 227, 159, 255, 229, 251 },
-            new byte[] { 193, 133, 162, 228, 160, 255, 230, 252 },
-            new byte[] { 194, 133, 162, 229, 160, 255, 230, 252 },
-            new byte[] { 195, 134, 163, 230, 161, 255, 231, 252 },
-            new byte[] { 196, 134, 163, 230, 161, 255, 231, 252 },
-            new byte[] { 197, 135, 163, 231, 162, 255, 231, 252 },
-            new byte[] { 198, 135, 163, 231, 162, 255, 231, 252 },
-            new byte[] { 199, 136, 164, 232, 163, 255, 232, 252 },
-            new byte[] { 200, 136, 164, 232, 164, 255, 232, 252 },
-            new byte[] { 201, 137, 165, 233, 165, 255, 233, 252 },
-            new byte[] { 201, 137, 165, 233, 165, 255, 233, 252 },
-            new byte[] { 202, 138, 166, 233, 166, 255, 233, 252 },
-            new byte[] { 203, 138, 166, 233, 166, 255, 233, 252 },
-            new byte[] { 204, 139, 166, 234, 167, 255, 234, 252 },
-            new byte[] { 205, 139, 166, 234, 167, 255, 234, 252 },
-            new byte[] { 206, 140, 167, 235, 168, 255, 235, 252 },
-            new byte[] { 206, 140, 167, 235, 168, 255, 235, 252 },
-            new byte[] { 207, 141, 168, 236, 169, 255, 235, 252 },
-            new byte[] { 208, 141, 168, 236, 170, 255, 235, 252 },
-            new byte[] { 209, 142, 169, 237, 171, 255, 236, 252 },
-            new byte[] { 209, 143, 169, 237, 171, 255, 236, 252 },
-            new byte[] { 210, 144, 169, 237, 172, 255, 236, 252 },
-            new byte[] { 211, 144, 169, 237, 172, 255, 236, 252 },
-            new byte[] { 212, 145, 170, 238, 173, 255, 237, 252 },
-            new byte[] { 213, 145, 170, 238, 173, 255, 237, 252 },
-            new byte[] { 214, 146, 171, 239, 174, 255, 237, 253 },
-            new byte[] { 214, 146, 171, 239, 174, 255, 237, 253 },
-            new byte[] { 215, 147, 172, 240, 175, 255, 238, 253 },
-            new byte[] { 215, 147, 172, 240, 175, 255, 238, 253 },
-            new byte[] { 216, 148, 173, 240, 176, 255, 238, 253 },
-            new byte[] { 217, 148, 173, 240, 176, 255, 238, 253 },
-            new byte[] { 218, 149, 173, 241, 177, 255, 239, 253 },
-            new byte[] { 218, 149, 173, 241, 178, 255, 239, 253 },
-            new byte[] { 219, 150, 174, 241, 179, 255, 239, 253 },
-            new byte[] { 219, 151, 174, 241, 179, 255, 239, 253 },
-            new byte[] { 220, 152, 175, 242, 180, 255, 240, 253 },
-            new byte[] { 221, 152, 175, 242, 180, 255, 240, 253 },
-            new byte[] { 222, 153, 176, 242, 181, 255, 240, 253 },
-            new byte[] { 222, 153, 176, 242, 181, 255, 240, 253 },
-            new byte[] { 223, 154, 177, 243, 182, 255, 240, 253 },
-            new byte[] { 223, 154, 177, 243, 182, 255, 240, 253 },
-            new byte[] { 224, 155, 178, 244, 183, 255, 241, 253 },
-            new byte[] { 224, 155, 178, 244, 183, 255, 241, 253 },
-            new byte[] { 225, 156, 178, 244, 184, 255, 241, 253 },
-            new byte[] { 225, 157, 178, 244, 184, 255, 241, 253 },
-            new byte[] { 226, 158, 179, 244, 185, 255, 242, 253 },
-            new byte[] { 227, 158, 179, 244, 185, 255, 242, 253 },
-            new byte[] { 228, 159, 180, 245, 186, 255, 242, 253 },
-            new byte[] { 228, 159, 180, 245, 186, 255, 242, 253 },
-            new byte[] { 229, 160, 181, 245, 187, 255, 242, 253 },
-            new byte[] { 229, 160, 181, 245, 187, 255, 242, 253 },
-            new byte[] { 230, 161, 182, 246, 188, 255, 243, 253 },
-            new byte[] { 230, 162, 182, 246, 188, 255, 243, 253 },
-            new byte[] { 231, 163, 183, 246, 189, 255, 243, 253 },
-            new byte[] { 231, 163, 183, 246, 189, 255, 243, 253 },
-            new byte[] { 232, 164, 184, 247, 190, 255, 243, 253 },
-            new byte[] { 232, 164, 184, 247, 190, 255, 243, 253 },
-            new byte[] { 233, 165, 185, 247, 191, 255, 244, 253 },
-            new byte[] { 233, 165, 185, 247, 191, 255, 244, 253 },
-            new byte[] { 234, 166, 185, 247, 192, 255, 244, 253 },
-            new byte[] { 234, 167, 185, 247, 192, 255, 244, 253 },
-            new byte[] { 235, 168, 186, 248, 193, 255, 244, 253 },
-            new byte[] { 235, 168, 186, 248, 193, 255, 244, 253 },
-            new byte[] { 236, 169, 187, 248, 194, 255, 244, 253 },
-            new byte[] { 236, 169, 187, 248, 194, 255, 244, 253 },
-            new byte[] { 236, 170, 188, 248, 195, 255, 245, 253 },
-            new byte[] { 236, 170, 188, 248, 195, 255, 245, 253 },
-            new byte[] { 237, 171, 189, 249, 196, 255, 245, 254 },
-            new byte[] { 237, 172, 189, 249, 196, 255, 245, 254 },
-            new byte[] { 238, 173, 190, 249, 197, 255, 245, 254 },
-            new byte[] { 238, 173, 190, 249, 197, 255, 245, 254 },
-            new byte[] { 239, 174, 191, 249, 198, 255, 245, 254 },
-            new byte[] { 239, 174, 191, 249, 198, 255, 245, 254 },
-            new byte[] { 240, 175, 192, 249, 199, 255, 246, 254 },
-            new byte[] { 240, 176, 192, 249, 199, 255, 246, 254 },
-            new byte[] { 240, 177, 193, 250, 200, 255, 246, 254 },
-            new byte[] { 240, 177, 193, 250, 200, 255, 246, 254 },
-            new byte[] { 241, 178, 194, 250, 201, 255, 246, 254 },
-            new byte[] { 241, 178, 194, 250, 201, 255, 246, 254 },
-            new byte[] { 242, 179, 195, 250, 202, 255, 246, 254 },
-            new byte[] { 242, 180, 195, 250, 202, 255, 246, 254 },
-            new byte[] { 242, 181, 196, 250, 203, 255, 247, 254 },
-            new byte[] { 242, 181, 196, 250, 203, 255, 247, 254 },
-            new byte[] { 243, 182, 197, 251, 204, 255, 247, 254 },
-            new byte[] { 243, 183, 197, 251, 204, 255, 247, 254 },
-            new byte[] { 244, 184, 198, 251, 205, 255, 247, 254 },
-            new byte[] { 244, 184, 198, 251, 205, 255, 247, 254 },
-            new byte[] { 244, 185, 199, 251, 206, 255, 247, 254 },
-            new byte[] { 244, 185, 199, 251, 206, 255, 247, 254 },
-            new byte[] { 245, 186, 200, 251, 207, 255, 247, 254 },
-            new byte[] { 245, 187, 200, 251, 207, 255, 247, 254 },
-            new byte[] { 246, 188, 201, 252, 207, 255, 248, 254 },
-            new byte[] { 246, 188, 201, 252, 207, 255, 248, 254 },
-            new byte[] { 246, 189, 202, 252, 208, 255, 248, 254 },
-            new byte[] { 246, 190, 202, 252, 208, 255, 248, 254 },
-            new byte[] { 247, 191, 203, 252, 209, 255, 248, 254 },
-            new byte[] { 247, 191, 203, 252, 209, 255, 248, 254 },
-            new byte[] { 247, 192, 204, 252, 210, 255, 248, 254 },
-            new byte[] { 247, 193, 204, 252, 210, 255, 248, 254 },
-            new byte[] { 248, 194, 205, 252, 211, 255, 248, 254 },
-            new byte[] { 248, 194, 205, 252, 211, 255, 248, 254 },
-            new byte[] { 248, 195, 206, 252, 212, 255, 249, 254 },
-            new byte[] { 248, 196, 206, 252, 212, 255, 249, 254 },
-            new byte[] { 249, 197, 207, 253, 213, 255, 249, 254 },
-            new byte[] { 249, 197, 207, 253, 213, 255, 249, 254 },
-            new byte[] { 249, 198, 208, 253, 214, 255, 249, 254 },
-            new byte[] { 249, 199, 209, 253, 214, 255, 249, 254 },
-            new byte[] { 250, 200, 210, 253, 215, 255, 249, 254 },
-            new byte[] { 250, 200, 210, 253, 215, 255, 249, 254 },
-            new byte[] { 250, 201, 211, 253, 215, 255, 249, 254 },
-            new byte[] { 250, 202, 211, 253, 215, 255, 249, 254 },
-            new byte[] { 250, 203, 212, 253, 216, 255, 249, 254 },
-            new byte[] { 250, 203, 212, 253, 216, 255, 249, 254 },
-            new byte[] { 251, 204, 213, 253, 217, 255, 250, 254 },
-            new byte[] { 251, 205, 213, 253, 217, 255, 250, 254 },
-            new byte[] { 251, 206, 214, 254, 218, 255, 250, 254 },
-            new byte[] { 251, 206, 215, 254, 218, 255, 250, 254 },
-            new byte[] { 252, 207, 216, 254, 219, 255, 250, 254 },
-            new byte[] { 252, 208, 216, 254, 219, 255, 250, 254 },
-            new byte[] { 252, 209, 217, 254, 220, 255, 250, 254 },
-            new byte[] { 252, 210, 217, 254, 220, 255, 250, 254 },
-            new byte[] { 252, 211, 218, 254, 221, 255, 250, 254 },
-            new byte[] { 252, 212, 218, 254, 221, 255, 250, 254 },
-            new byte[] { 253, 213, 219, 254, 222, 255, 250, 254 },
-            new byte[] { 253, 213, 220, 254, 222, 255, 250, 254 },
-            new byte[] { 253, 214, 221, 254, 223, 255, 250, 254 },
-            new byte[] { 253, 215, 221, 254, 223, 255, 250, 254 },
-            new byte[] { 253, 216, 222, 254, 224, 255, 251, 254 },
-            new byte[] { 253, 217, 223, 254, 224, 255, 251, 254 },
-            new byte[] { 253, 218, 224, 254, 225, 255, 251, 254 },
-            new byte[] { 253, 219, 224, 254, 225, 255, 251, 254 },
-            new byte[] { 254, 220, 225, 254, 225, 255, 251, 254 },
-            new byte[] { 254, 221, 226, 254, 225, 255, 251, 254 },
-            new byte[] { 254, 222, 227, 255, 226, 255, 251, 254 },
-            new byte[] { 254, 223, 227, 255, 226, 255, 251, 254 },
-            new byte[] { 254, 224, 228, 255, 227, 255, 251, 254 },
-            new byte[] { 254, 225, 229, 255, 227, 255, 251, 254 },
-            new byte[] { 254, 226, 230, 255, 228, 255, 251, 254 },
-            new byte[] { 254, 227, 230, 255, 229, 255, 251, 254 },
-            new byte[] { 255, 228, 231, 255, 230, 255, 251, 254 },
-            new byte[] { 255, 229, 232, 255, 230, 255, 251, 254 },
-            new byte[] { 255, 230, 233, 255, 231, 255, 252, 254 },
-            new byte[] { 255, 231, 234, 255, 231, 255, 252, 254 },
-            new byte[] { 255, 232, 235, 255, 232, 255, 252, 254 },
-            new byte[] { 255, 233, 236, 255, 232, 255, 252, 254 },
-            new byte[] { 255, 235, 237, 255, 233, 255, 252, 254 },
-            new byte[] { 255, 236, 238, 255, 234, 255, 252, 254 },
-            new byte[] { 255, 238, 240, 255, 235, 255, 252, 255 },
-            new byte[] { 255, 239, 241, 255, 235, 255, 252, 254 },
-            new byte[] { 255, 241, 243, 255, 236, 255, 252, 254 },
-            new byte[] { 255, 243, 245, 255, 237, 255, 252, 254 },
-            new byte[] { 255, 246, 247, 255, 239, 255, 253, 255 },
+        public static readonly byte[][] Pareto8Full = new byte[][]
+        {
+            [3, 86, 128, 6, 86, 23, 88, 29], [6, 86, 128, 11, 87, 42, 91, 52], [9, 86, 129, 17, 88, 61, 94, 76], [12, 86, 129, 22, 88, 77, 97, 93
+            ],
+            [15, 87, 129, 28, 89, 93, 100, 110], [17, 87, 129, 33, 90, 105, 103, 123], [20, 88, 130, 38, 91, 118, 106, 136
+            ],
+            [23, 88, 130, 43, 91, 128, 108, 146], [26, 89, 131, 48, 92, 139, 111, 156], [28, 89, 131, 53, 93, 147, 114, 163
+            ],
+            [31, 90, 131, 58, 94, 156, 117, 171], [34, 90, 131, 62, 94, 163, 119, 177], [37, 90, 132, 66, 95, 171, 122, 184
+            ],
+            [39, 90, 132, 70, 96, 177, 124, 189], [42, 91, 132, 75, 97, 183, 127, 194], [44, 91, 132, 79, 97, 188, 129, 198
+            ],
+            [47, 92, 133, 83, 98, 193, 132, 202], [49, 92, 133, 86, 99, 197, 134, 205], [52, 93, 133, 90, 100, 201, 137, 208
+            ],
+            [54, 93, 133, 94, 100, 204, 139, 211], [57, 94, 134, 98, 101, 208, 142, 214], [59, 94, 134, 101, 102, 211, 144, 216
+            ],
+            [62, 94, 135, 105, 103, 214, 146, 218], [64, 94, 135, 108, 103, 216, 148, 220], [66, 95, 135, 111, 104, 219, 151, 222
+            ],
+            [68, 95, 135, 114, 105, 221, 153, 223], [71, 96, 136, 117, 106, 224, 155, 225], [73, 96, 136, 120, 106, 225, 157, 226
+            ],
+            [76, 97, 136, 123, 107, 227, 159, 228], [78, 97, 136, 126, 108, 229, 160, 229], [80, 98, 137, 129, 109, 231, 162, 231
+            ],
+            [82, 98, 137, 131, 109, 232, 164, 232], [84, 98, 138, 134, 110, 234, 166, 233], [86, 98, 138, 137, 111, 235, 168, 234
+            ],
+            [89, 99, 138, 140, 112, 236, 170, 235], [91, 99, 138, 142, 112, 237, 171, 235], [93, 100, 139, 145, 113, 238, 173, 236
+            ],
+            [95, 100, 139, 147, 114, 239, 174, 237], [97, 101, 140, 149, 115, 240, 176, 238], [99, 101, 140, 151, 115, 241, 177, 238
+            ],
+            [101, 102, 140, 154, 116, 242, 179, 239], [103, 102, 140, 156, 117, 242, 180, 239], [105, 103, 141, 158, 118, 243, 182, 240
+            ],
+            [107, 103, 141, 160, 118, 243, 183, 240], [109, 104, 141, 162, 119, 244, 185, 241], [111, 104, 141, 164, 119, 244, 186, 241
+            ],
+            [113, 104, 142, 166, 120, 245, 187, 242], [114, 104, 142, 168, 121, 245, 188, 242], [116, 105, 143, 170, 122, 246, 190, 243
+            ],
+            [118, 105, 143, 171, 122, 246, 191, 243], [120, 106, 143, 173, 123, 247, 192, 244], [121, 106, 143, 175, 124, 247, 193, 244
+            ],
+            [123, 107, 144, 177, 125, 248, 195, 244], [125, 107, 144, 178, 125, 248, 196, 244], [127, 108, 145, 180, 126, 249, 197, 245
+            ],
+            [128, 108, 145, 181, 127, 249, 198, 245], [130, 109, 145, 183, 128, 249, 199, 245], [132, 109, 145, 184, 128, 249, 200, 245
+            ],
+            [134, 110, 146, 186, 129, 250, 201, 246], [135, 110, 146, 187, 130, 250, 202, 246], [137, 111, 147, 189, 131, 251, 203, 246
+            ],
+            [138, 111, 147, 190, 131, 251, 204, 246], [140, 112, 147, 192, 132, 251, 205, 247], [141, 112, 147, 193, 132, 251, 206, 247
+            ],
+            [143, 113, 148, 194, 133, 251, 207, 247], [144, 113, 148, 195, 134, 251, 207, 247], [146, 114, 149, 197, 135, 252, 208, 248
+            ],
+            [147, 114, 149, 198, 135, 252, 209, 248], [149, 115, 149, 199, 136, 252, 210, 248], [150, 115, 149, 200, 137, 252, 210, 248
+            ],
+            [152, 115, 150, 201, 138, 252, 211, 248], [153, 115, 150, 202, 138, 252, 212, 248], [155, 116, 151, 204, 139, 253, 213, 249
+            ],
+            [156, 116, 151, 205, 139, 253, 213, 249], [158, 117, 151, 206, 140, 253, 214, 249], [159, 117, 151, 207, 141, 253, 215, 249
+            ],
+            [161, 118, 152, 208, 142, 253, 216, 249], [162, 118, 152, 209, 142, 253, 216, 249], [163, 119, 153, 210, 143, 253, 217, 249
+            ],
+            [164, 119, 153, 211, 143, 253, 217, 249], [166, 120, 153, 212, 144, 254, 218, 250], [167, 120, 153, 212, 145, 254, 219, 250
+            ],
+            [168, 121, 154, 213, 146, 254, 220, 250], [169, 121, 154, 214, 146, 254, 220, 250], [171, 122, 155, 215, 147, 254, 221, 250
+            ],
+            [172, 122, 155, 216, 147, 254, 221, 250], [173, 123, 155, 217, 148, 254, 222, 250], [174, 123, 155, 217, 149, 254, 222, 250
+            ],
+            [176, 124, 156, 218, 150, 254, 223, 250], [177, 124, 156, 219, 150, 254, 223, 250], [178, 125, 157, 220, 151, 254, 224, 251
+            ],
+            [179, 125, 157, 220, 151, 254, 224, 251], [180, 126, 157, 221, 152, 254, 225, 251], [181, 126, 157, 221, 152, 254, 225, 251
+            ],
+            [183, 127, 158, 222, 153, 254, 226, 251], [184, 127, 158, 223, 154, 254, 226, 251], [185, 128, 159, 224, 155, 255, 227, 251
+            ],
+            [186, 128, 159, 224, 155, 255, 227, 251], [187, 129, 160, 225, 156, 255, 228, 251], [188, 130, 160, 225, 156, 255, 228, 251
+            ],
+            [189, 131, 160, 226, 157, 255, 228, 251], [190, 131, 160, 226, 158, 255, 228, 251], [191, 132, 161, 227, 159, 255, 229, 251
+            ],
+            [192, 132, 161, 227, 159, 255, 229, 251], [193, 133, 162, 228, 160, 255, 230, 252], [194, 133, 162, 229, 160, 255, 230, 252
+            ],
+            [195, 134, 163, 230, 161, 255, 231, 252], [196, 134, 163, 230, 161, 255, 231, 252], [197, 135, 163, 231, 162, 255, 231, 252
+            ],
+            [198, 135, 163, 231, 162, 255, 231, 252], [199, 136, 164, 232, 163, 255, 232, 252], [200, 136, 164, 232, 164, 255, 232, 252
+            ],
+            [201, 137, 165, 233, 165, 255, 233, 252], [201, 137, 165, 233, 165, 255, 233, 252], [202, 138, 166, 233, 166, 255, 233, 252
+            ],
+            [203, 138, 166, 233, 166, 255, 233, 252], [204, 139, 166, 234, 167, 255, 234, 252], [205, 139, 166, 234, 167, 255, 234, 252
+            ],
+            [206, 140, 167, 235, 168, 255, 235, 252], [206, 140, 167, 235, 168, 255, 235, 252], [207, 141, 168, 236, 169, 255, 235, 252
+            ],
+            [208, 141, 168, 236, 170, 255, 235, 252], [209, 142, 169, 237, 171, 255, 236, 252], [209, 143, 169, 237, 171, 255, 236, 252
+            ],
+            [210, 144, 169, 237, 172, 255, 236, 252], [211, 144, 169, 237, 172, 255, 236, 252], [212, 145, 170, 238, 173, 255, 237, 252
+            ],
+            [213, 145, 170, 238, 173, 255, 237, 252], [214, 146, 171, 239, 174, 255, 237, 253], [214, 146, 171, 239, 174, 255, 237, 253
+            ],
+            [215, 147, 172, 240, 175, 255, 238, 253], [215, 147, 172, 240, 175, 255, 238, 253], [216, 148, 173, 240, 176, 255, 238, 253
+            ],
+            [217, 148, 173, 240, 176, 255, 238, 253], [218, 149, 173, 241, 177, 255, 239, 253], [218, 149, 173, 241, 178, 255, 239, 253
+            ],
+            [219, 150, 174, 241, 179, 255, 239, 253], [219, 151, 174, 241, 179, 255, 239, 253], [220, 152, 175, 242, 180, 255, 240, 253
+            ],
+            [221, 152, 175, 242, 180, 255, 240, 253], [222, 153, 176, 242, 181, 255, 240, 253], [222, 153, 176, 242, 181, 255, 240, 253
+            ],
+            [223, 154, 177, 243, 182, 255, 240, 253], [223, 154, 177, 243, 182, 255, 240, 253], [224, 155, 178, 244, 183, 255, 241, 253
+            ],
+            [224, 155, 178, 244, 183, 255, 241, 253], [225, 156, 178, 244, 184, 255, 241, 253], [225, 157, 178, 244, 184, 255, 241, 253
+            ],
+            [226, 158, 179, 244, 185, 255, 242, 253], [227, 158, 179, 244, 185, 255, 242, 253], [228, 159, 180, 245, 186, 255, 242, 253
+            ],
+            [228, 159, 180, 245, 186, 255, 242, 253], [229, 160, 181, 245, 187, 255, 242, 253], [229, 160, 181, 245, 187, 255, 242, 253
+            ],
+            [230, 161, 182, 246, 188, 255, 243, 253], [230, 162, 182, 246, 188, 255, 243, 253], [231, 163, 183, 246, 189, 255, 243, 253
+            ],
+            [231, 163, 183, 246, 189, 255, 243, 253], [232, 164, 184, 247, 190, 255, 243, 253], [232, 164, 184, 247, 190, 255, 243, 253
+            ],
+            [233, 165, 185, 247, 191, 255, 244, 253], [233, 165, 185, 247, 191, 255, 244, 253], [234, 166, 185, 247, 192, 255, 244, 253
+            ],
+            [234, 167, 185, 247, 192, 255, 244, 253], [235, 168, 186, 248, 193, 255, 244, 253], [235, 168, 186, 248, 193, 255, 244, 253
+            ],
+            [236, 169, 187, 248, 194, 255, 244, 253], [236, 169, 187, 248, 194, 255, 244, 253], [236, 170, 188, 248, 195, 255, 245, 253
+            ],
+            [236, 170, 188, 248, 195, 255, 245, 253], [237, 171, 189, 249, 196, 255, 245, 254], [237, 172, 189, 249, 196, 255, 245, 254
+            ],
+            [238, 173, 190, 249, 197, 255, 245, 254], [238, 173, 190, 249, 197, 255, 245, 254], [239, 174, 191, 249, 198, 255, 245, 254
+            ],
+            [239, 174, 191, 249, 198, 255, 245, 254], [240, 175, 192, 249, 199, 255, 246, 254], [240, 176, 192, 249, 199, 255, 246, 254
+            ],
+            [240, 177, 193, 250, 200, 255, 246, 254], [240, 177, 193, 250, 200, 255, 246, 254], [241, 178, 194, 250, 201, 255, 246, 254
+            ],
+            [241, 178, 194, 250, 201, 255, 246, 254], [242, 179, 195, 250, 202, 255, 246, 254], [242, 180, 195, 250, 202, 255, 246, 254
+            ],
+            [242, 181, 196, 250, 203, 255, 247, 254], [242, 181, 196, 250, 203, 255, 247, 254], [243, 182, 197, 251, 204, 255, 247, 254
+            ],
+            [243, 183, 197, 251, 204, 255, 247, 254], [244, 184, 198, 251, 205, 255, 247, 254], [244, 184, 198, 251, 205, 255, 247, 254
+            ],
+            [244, 185, 199, 251, 206, 255, 247, 254], [244, 185, 199, 251, 206, 255, 247, 254], [245, 186, 200, 251, 207, 255, 247, 254
+            ],
+            [245, 187, 200, 251, 207, 255, 247, 254], [246, 188, 201, 252, 207, 255, 248, 254], [246, 188, 201, 252, 207, 255, 248, 254
+            ],
+            [246, 189, 202, 252, 208, 255, 248, 254], [246, 190, 202, 252, 208, 255, 248, 254], [247, 191, 203, 252, 209, 255, 248, 254
+            ],
+            [247, 191, 203, 252, 209, 255, 248, 254], [247, 192, 204, 252, 210, 255, 248, 254], [247, 193, 204, 252, 210, 255, 248, 254
+            ],
+            [248, 194, 205, 252, 211, 255, 248, 254], [248, 194, 205, 252, 211, 255, 248, 254], [248, 195, 206, 252, 212, 255, 249, 254
+            ],
+            [248, 196, 206, 252, 212, 255, 249, 254], [249, 197, 207, 253, 213, 255, 249, 254], [249, 197, 207, 253, 213, 255, 249, 254
+            ],
+            [249, 198, 208, 253, 214, 255, 249, 254], [249, 199, 209, 253, 214, 255, 249, 254], [250, 200, 210, 253, 215, 255, 249, 254
+            ],
+            [250, 200, 210, 253, 215, 255, 249, 254], [250, 201, 211, 253, 215, 255, 249, 254], [250, 202, 211, 253, 215, 255, 249, 254
+            ],
+            [250, 203, 212, 253, 216, 255, 249, 254], [250, 203, 212, 253, 216, 255, 249, 254], [251, 204, 213, 253, 217, 255, 250, 254
+            ],
+            [251, 205, 213, 253, 217, 255, 250, 254], [251, 206, 214, 254, 218, 255, 250, 254], [251, 206, 215, 254, 218, 255, 250, 254
+            ],
+            [252, 207, 216, 254, 219, 255, 250, 254], [252, 208, 216, 254, 219, 255, 250, 254], [252, 209, 217, 254, 220, 255, 250, 254
+            ],
+            [252, 210, 217, 254, 220, 255, 250, 254], [252, 211, 218, 254, 221, 255, 250, 254], [252, 212, 218, 254, 221, 255, 250, 254
+            ],
+            [253, 213, 219, 254, 222, 255, 250, 254], [253, 213, 220, 254, 222, 255, 250, 254], [253, 214, 221, 254, 223, 255, 250, 254
+            ],
+            [253, 215, 221, 254, 223, 255, 250, 254], [253, 216, 222, 254, 224, 255, 251, 254], [253, 217, 223, 254, 224, 255, 251, 254
+            ],
+            [253, 218, 224, 254, 225, 255, 251, 254], [253, 219, 224, 254, 225, 255, 251, 254], [254, 220, 225, 254, 225, 255, 251, 254
+            ],
+            [254, 221, 226, 254, 225, 255, 251, 254], [254, 222, 227, 255, 226, 255, 251, 254], [254, 223, 227, 255, 226, 255, 251, 254
+            ],
+            [254, 224, 228, 255, 227, 255, 251, 254], [254, 225, 229, 255, 227, 255, 251, 254], [254, 226, 230, 255, 228, 255, 251, 254
+            ],
+            [254, 227, 230, 255, 229, 255, 251, 254], [255, 228, 231, 255, 230, 255, 251, 254], [255, 229, 232, 255, 230, 255, 251, 254
+            ],
+            [255, 230, 233, 255, 231, 255, 252, 254], [255, 231, 234, 255, 231, 255, 252, 254], [255, 232, 235, 255, 232, 255, 252, 254
+            ],
+            [255, 233, 236, 255, 232, 255, 252, 254], [255, 235, 237, 255, 233, 255, 252, 254], [255, 236, 238, 255, 234, 255, 252, 254
+            ],
+            [255, 238, 240, 255, 235, 255, 252, 255], [255, 239, 241, 255, 235, 255, 252, 254], [255, 241, 243, 255, 236, 255, 252, 254
+            ],
+            [255, 243, 245, 255, 237, 255, 252, 254], [255, 246, 247, 255, 239, 255, 253, 255],
         };
 
-        // Array indices are identical to previously-existing INTRAMODECONTEXTNODES.
-        public static readonly sbyte[] Vp9IntraModeTree = {
-            -(sbyte)PredictionMode.DcPred,   2,                                 // 0 = DC_NODE
-            -(sbyte)PredictionMode.TmPred,   4,                                 // 1 = TM_NODE
-            -(sbyte)PredictionMode.VPred,    6,                                 // 2 = V_NODE
-            8,                               12,                                // 3 = COM_NODE
-            -(sbyte)PredictionMode.HPred,    10,                                // 4 = H_NODE
-            -(sbyte)PredictionMode.D135Pred, -(sbyte)PredictionMode.D117Pred,   // 5 = D135_NODE
-            -(sbyte)PredictionMode.D45Pred,  14,                                // 6 = D45_NODE
-            -(sbyte)PredictionMode.D63Pred,  16,                                // 7 = D63_NODE
-            -(sbyte)PredictionMode.D153Pred, -(sbyte)PredictionMode.D207Pred,   // 8 = D153_NODE
-        };
+        /* Array indices are identical to previously-existing INTRAMODECONTEXTNODES. */
+        public static readonly sbyte[] IntraModeTree =
+        [
+            -(sbyte)PredictionMode.DcPred,   2,                                 /* 0 = DC_NODE */
+            -(sbyte)PredictionMode.TmPred,   4,                                 /* 1 = TM_NODE */
+            -(sbyte)PredictionMode.VPred,    6,                                 /* 2 = V_NODE */
+            8,                                 12,                                /* 3 = COM_NODE */
+            -(sbyte)PredictionMode.HPred,    10,                                /* 4 = H_NODE */
+            -(sbyte)PredictionMode.D135Pred, -(sbyte)PredictionMode.D117Pred, /* 5 = D135_NODE */
+            -(sbyte)PredictionMode.D45Pred,  14,                                /* 6 = D45_NODE */
+            -(sbyte)PredictionMode.D63Pred,  16,                                /* 7 = D63_NODE */
+            -(sbyte)PredictionMode.D153Pred, -(sbyte)PredictionMode.D207Pred  /* 8 = D153_NODE */
+        ];
 
-        public static readonly sbyte[] Vp9InterModeTree = {
+        public static readonly sbyte[] InterModeTree =
+        [
             -((sbyte)PredictionMode.ZeroMv - (sbyte)PredictionMode. NearestMv), 2,
             -((sbyte)PredictionMode.NearestMv - (sbyte)PredictionMode.NearestMv), 4,
             -((sbyte)PredictionMode.NearMv - (sbyte)PredictionMode.NearestMv),
-            -((sbyte)PredictionMode.NewMv - (sbyte)PredictionMode.NearestMv),
-        };
+            -((sbyte)PredictionMode.NewMv - (sbyte)PredictionMode.NearestMv)
+        ];
 
-        public static readonly sbyte[] Vp9PartitionTree = {
-            -(sbyte)PartitionType.PartitionNone, 2, -(sbyte)PartitionType.PartitionHorz, 4, -(sbyte)PartitionType.PartitionVert, -(sbyte)PartitionType.PartitionSplit,
-        };
+        public static readonly sbyte[] PartitionTree =
+        [
+            -(sbyte)PartitionType.PartitionNone, 2, -(sbyte)PartitionType.PartitionHorz, 4, -(sbyte)PartitionType.PartitionVert, -(sbyte)PartitionType.PartitionSplit
+        ];
 
-        public static readonly sbyte[] Vp9SwitchableInterpTree = {
-            -Constants.EightTap, 2, -Constants.EightTapSmooth, -Constants.EightTapSharp,
-        };
+        public static readonly sbyte[] SwitchableInterpTree =
+        [
+            -Constants.EightTap, 2, -Constants.EightTapSmooth, -Constants.EightTapSharp
+        ];
 
-        public static readonly sbyte[] Vp9SegmentTree = {
-            2, 4, 6, 8, 10, 12, 0, -1, -2, -3, -4, -5, -6, -7,
-        };
+        public static readonly sbyte[] SegmentTree =
+        [
+            2, 4, 6, 8, 10, 12, 0, -1, -2, -3, -4, -5, -6, -7
+        ];
 
         // MV Ref
 
@@ -1390,192 +1357,195 @@ namespace Ryujinx.Graphics.Nvdec.Vp9
         // adding 9 for each intra block, 3 for each zero mv and 1 for each new
         // motion vector. This single number is then converted into a context
         // with a single lookup ( CounterToContext ).
-        public static readonly int[] Mode2Counter = {
-            9, // DC_PRED
-            9, // V_PRED
-            9, // H_PRED
-            9, // D45_PRED
-            9, // D135_PRED
-            9, // D117_PRED
-            9, // D153_PRED
-            9, // D207_PRED
-            9, // D63_PRED
-            9, // TM_PRED
-            0, // NEARESTMV
-            0, // NEARMV
-            3, // ZEROMV
-            1, // NEWMV
-        };
+        public static readonly int[] Mode2Counter =
+        [
+            9,  // DC_PRED
+            9,  // V_PRED
+            9,  // H_PRED
+            9,  // D45_PRED
+            9,  // D135_PRED
+            9,  // D117_PRED
+            9,  // D153_PRED
+            9,  // D207_PRED
+            9,  // D63_PRED
+            9,  // TM_PRED
+            0,  // NEARESTMV
+            0,  // NEARMV
+            3,  // ZEROMV
+            1 // NEWMV
+        ];
 
         // There are 3^3 different combinations of 3 counts that can be either 0,1 or
         // 2. However the actual count can never be greater than 2 so the highest
         // counter we need is 18. 9 is an invalid counter that's never used.
-        public static readonly MotionVectorContext[] CounterToContext = {
-            MotionVectorContext.BothPredicted, // 0
-            MotionVectorContext.NewPlusNonIntra, // 1
-            MotionVectorContext.BothNew, // 2
+        public static readonly MotionVectorContext[] CounterToContext =
+        [
+            MotionVectorContext.BothPredicted,     // 0
+            MotionVectorContext.NewPlusNonIntra,   // 1
+            MotionVectorContext.BothNew,           // 2
             MotionVectorContext.ZeroPlusPredicted, // 3
-            MotionVectorContext.NewPlusNonIntra, // 4
-            MotionVectorContext.InvalidCase, // 5
-            MotionVectorContext.BothZero, // 6
-            MotionVectorContext.InvalidCase, // 7
-            MotionVectorContext.InvalidCase, // 8
+            MotionVectorContext.NewPlusNonIntra,   // 4
+            MotionVectorContext.InvalidCase,       // 5
+            MotionVectorContext.BothZero,          // 6
+            MotionVectorContext.InvalidCase,       // 7
+            MotionVectorContext.InvalidCase,       // 8
             MotionVectorContext.IntraPlusNonIntra, // 9
             MotionVectorContext.IntraPlusNonIntra, // 10
-            MotionVectorContext.InvalidCase, // 11
+            MotionVectorContext.InvalidCase,       // 11
             MotionVectorContext.IntraPlusNonIntra, // 12
-            MotionVectorContext.InvalidCase, // 13
-            MotionVectorContext.InvalidCase, // 14
-            MotionVectorContext.InvalidCase, // 15
-            MotionVectorContext.InvalidCase, // 16
-            MotionVectorContext.InvalidCase, // 17
-            MotionVectorContext.BothIntra, // 18
-        };
+            MotionVectorContext.InvalidCase,       // 13
+            MotionVectorContext.InvalidCase,       // 14
+            MotionVectorContext.InvalidCase,       // 15
+            MotionVectorContext.InvalidCase,       // 16
+            MotionVectorContext.InvalidCase,       // 17
+            MotionVectorContext.BothIntra          // 18
+        ];
 
-        public static readonly Position[][] MvRefBlocks = {
+        public static readonly Position[][] MvRefBlocks = new Position[][]
+        {
             // 4X4
-            new Position[] {
-                new(-1, 0),
-                new(0, -1),
-                new(-1, -1),
-                new(-2, 0),
-                new(0, -2),
-                new(-2, -1),
-                new(-1, -2),
-                new(-2, -2),
-            },
-            // 4X8
-            new Position[] {
-                new(-1, 0),
-                new(0, -1),
-                new(-1, -1),
-                new(-2, 0),
-                new(0, -2),
-                new(-2, -1),
-                new(-1, -2),
-                new(-2, -2),
-            },
-            // 8X4
-            new Position[] {
-                new(-1, 0),
-                new(0, -1),
-                new(-1, -1),
-                new(-2, 0),
-                new(0, -2),
-                new(-2, -1),
-                new(-1, -2),
-                new(-2, -2),
-            },
+            [
+                new Position( -1, 0 ),
+            new Position( 0, -1 ),
+            new Position( -1, -1 ),
+            new Position( -2, 0 ),
+            new Position( 0, -2 ),
+            new Position( -2, -1 ),
+            new Position( -1, -2 ),
+            new Position( -2, -2 )
+            ],
+            // 4x8
+            [
+                new Position( -1, 0 ),
+            new Position( 0, -1 ),
+            new Position( -1, -1 ),
+            new Position( -2, 0 ),
+            new Position( 0, -2 ),
+            new Position( -2, -1 ),
+            new Position( -1, -2 ),
+            new Position( -2, -2 )
+            ],
+            // 8x4
+            [
+                new Position( -1, 0 ),
+            new Position( 0, -1 ),
+            new Position( -1, -1 ),
+            new Position( -2, 0 ),
+            new Position( 0, -2 ),
+            new Position( -2, -1 ),
+            new Position( -1, -2 ),
+            new Position( -2, -2 )
+            ],
             // 8X8
-            new Position[] {
-                new(-1, 0),
-                new(0, -1),
-                new(-1, -1),
-                new(-2, 0),
-                new(0, -2),
-                new(-2, -1),
-                new(-1, -2),
-                new(-2, -2),
-            },
-            // 8X16
-            new Position[] {
-                new(0, -1),
-                new(-1, 0),
-                new(1, -1),
-                new(-1, -1),
-                new(0, -2),
-                new(-2, 0),
-                new(-2, -1),
-                new(-1, -2),
-            },
-            // 16X8
-            new Position[] {
-                new(-1, 0),
-                new(0, -1),
-                new(-1, 1),
-                new(-1, -1),
-                new(-2, 0),
-                new(0, -2),
-                new(-1, -2),
-                new(-2, -1),
-            },
+            [
+                new Position( -1, 0 ),
+            new Position( 0, -1 ),
+            new Position( -1, -1 ),
+            new Position( -2, 0 ),
+            new Position( 0, -2 ),
+            new Position( -2, -1 ),
+            new Position( -1, -2 ),
+            new Position( -2, -2 )
+            ],
+            // 8x16
+            [
+                new Position( 0, -1 ),
+            new Position( -1, 0 ),
+            new Position( 1, -1 ),
+            new Position( -1, -1 ),
+            new Position( 0, -2 ),
+            new Position( -2, 0 ),
+            new Position( -2, -1 ),
+            new Position( -1, -2 )
+            ],
+            // 16x8
+            [
+                new Position( -1, 0 ),
+            new Position( 0, -1 ),
+            new Position( -1, 1 ),
+            new Position( -1, -1 ),
+            new Position( -2, 0 ),
+            new Position( 0, -2 ),
+            new Position( -1, -2 ),
+            new Position( -2, -1 )
+            ],
             // 16X16
-            new Position[] {
-                new(-1, 0),
-                new(0, -1),
-                new(-1, 1),
-                new(1, -1),
-                new(-1, -1),
-                new(-3, 0),
-                new(0, -3),
-                new(-3, -3),
-            },
-            // 16X32
-            new Position[] {
-                new(0, -1),
-                new(-1, 0),
-                new(2, -1),
-                new(-1, -1),
-                new(-1, 1),
-                new(0, -3),
-                new(-3, 0),
-                new(-3, -3),
-            },
-            // 32X16
-            new Position[] {
-                new(-1, 0),
-                new(0, -1),
-                new(-1, 2),
-                new(-1, -1),
-                new(1, -1),
-                new(-3, 0),
-                new(0, -3),
-                new(-3, -3),
-            },
+            [
+                new Position( -1, 0 ),
+            new Position( 0, -1 ),
+            new Position( -1, 1 ),
+            new Position( 1, -1 ),
+            new Position( -1, -1 ),
+            new Position( -3, 0 ),
+            new Position( 0, -3 ),
+            new Position( -3, -3 )
+            ],
+            // 16x32
+            [
+                new Position( 0, -1 ),
+            new Position( -1, 0 ),
+            new Position( 2, -1 ),
+            new Position( -1, -1 ),
+            new Position( -1, 1 ),
+            new Position( 0, -3 ),
+            new Position( -3, 0 ),
+            new Position( -3, -3 )
+            ],
+            // 32x16
+            [
+                new Position( -1, 0 ),
+            new Position( 0, -1 ),
+            new Position( -1, 2 ),
+            new Position( -1, -1 ),
+            new Position( 1, -1 ),
+            new Position( -3, 0 ),
+            new Position( 0, -3 ),
+            new Position( -3, -3 )
+            ],
             // 32X32
-            new Position[] {
-                new(-1, 1),
-                new(1, -1),
-                new(-1, 2),
-                new(2, -1),
-                new(-1, -1),
-                new(-3, 0),
-                new(0, -3),
-                new(-3, -3),
-            },
-            // 32X64
-            new Position[] {
-                new(0, -1),
-                new(-1, 0),
-                new(4, -1),
-                new(-1, 2),
-                new(-1, -1),
-                new(0, -3),
-                new(-3, 0),
-                new(2, -1),
-            },
-            // 64X32
-            new Position[] {
-                new(-1, 0),
-                new(0, -1),
-                new(-1, 4),
-                new(2, -1),
-                new(-1, -1),
-                new(-3, 0),
-                new(0, -3),
-                new(-1, 2),
-            },
-            // 64X64
-            new Position[] {
-                new(-1, 3),
-                new(3, -1),
-                new(-1, 4),
-                new(4, -1),
-                new(-1, -1),
-                new(-1, 0),
-                new(0, -1),
-                new(-1, 6),
-            },
+            [
+                new Position( -1, 1 ),
+            new Position( 1, -1 ),
+            new Position( -1, 2 ),
+            new Position( 2, -1 ),
+            new Position( -1, -1 ),
+            new Position( -3, 0 ),
+            new Position( 0, -3 ),
+            new Position( -3, -3 )
+            ],
+            // 32x64
+            [
+                new Position( 0, -1 ),
+            new Position( -1, 0 ),
+            new Position( 4, -1 ),
+            new Position( -1, 2 ),
+            new Position( -1, -1 ),
+            new Position( 0, -3 ),
+            new Position( -3, 0 ),
+            new Position( 2, -1 )
+            ],
+            // 64x32
+            [
+                new Position( -1, 0 ),
+            new Position( 0, -1 ),
+            new Position( -1, 4 ),
+            new Position( 2, -1 ),
+            new Position( -1, -1 ),
+            new Position( -3, 0 ),
+            new Position( 0, -3 ),
+            new Position( -1, 2 )
+            ],
+            // 64x64
+            [
+                new Position( -1, 3 ),
+            new Position( 3, -1 ),
+            new Position( -1, 4 ),
+            new Position( 4, -1 ),
+            new Position( -1, -1 ),
+            new Position( -1, 0 ),
+            new Position( 0, -1 ),
+            new Position( -1, 6 )
+            ]
         };
     }
 }

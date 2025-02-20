@@ -289,7 +289,8 @@ namespace Ryujinx.Headless
 
             DriverUtilities.InitDriverConfig(option.BackendThreading == BackendThreading.Off);
             
-            if (_inputConfiguration.OfType<StandardControllerInputConfig>().Any(ic => ic.Led.UseRainbow))
+            if (_inputConfiguration.OfType<StandardControllerInputConfig>()
+                .Any(ic => ic?.Led?.UseRainbow ?? false))
                 Rainbow.Enable();
 
             while (true)

@@ -56,7 +56,7 @@ namespace Ryujinx.Graphics.Nvdec.Vp9.Types
         private static int GetMinLog2TileCols(int sb64Cols)
         {
             int minLog2 = 0;
-            while ((MaxTileWidthB64 << minLog2) < sb64Cols)
+            while (MaxTileWidthB64 << minLog2 < sb64Cols)
             {
                 ++minLog2;
             }
@@ -67,7 +67,7 @@ namespace Ryujinx.Graphics.Nvdec.Vp9.Types
         private static int GetMaxLog2TileCols(int sb64Cols)
         {
             int maxLog2 = 1;
-            while ((sb64Cols >> maxLog2) >= MinTileWidthB64)
+            while (sb64Cols >> maxLog2 >= MinTileWidthB64)
             {
                 ++maxLog2;
             }
@@ -75,7 +75,7 @@ namespace Ryujinx.Graphics.Nvdec.Vp9.Types
             return maxLog2 - 1;
         }
 
-        public static void GetTileNBits(int miCols, ref int minLog2TileCols, ref int maxLog2TileCols)
+        public static void GetTileNBits(int miCols, out int minLog2TileCols, out int maxLog2TileCols)
         {
             int sb64Cols = MiColsAlignedToSb(miCols) >> Constants.MiBlockSizeLog2;
             minLog2TileCols = GetMinLog2TileCols(sb64Cols);
