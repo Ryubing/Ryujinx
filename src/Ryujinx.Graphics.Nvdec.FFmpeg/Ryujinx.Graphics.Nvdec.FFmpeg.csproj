@@ -3,11 +3,39 @@
   <PropertyGroup>
     <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
     <DefaultItemExcludes>$(DefaultItemExcludes);._*</DefaultItemExcludes>
+    <RuntimeIdentifiers>win-x64;osx-x64;osx-arm64;linux-x64;linux-arm64</RuntimeIdentifiers>
   </PropertyGroup>
 
   <ItemGroup>
     <ProjectReference Include="..\Ryujinx.Common\Ryujinx.Common.csproj" />
     <ProjectReference Include="..\Ryujinx.Graphics.Video\Ryujinx.Graphics.Video.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ContentWithTargetPath Include="Library\win-x64\*" Condition="'$(RuntimeIdentifier)' == 'win-x64'">
+        <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+        <TargetPath>%(Filename)%(Extension)</TargetPath>
+    </ContentWithTargetPath>
+
+    <ContentWithTargetPath Include="Library\osx-x64\*" Condition="'$(RuntimeIdentifier)' == 'osx-x64'">
+        <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+        <TargetPath>%(Filename)%(Extension)</TargetPath>
+    </ContentWithTargetPath>
+
+    <ContentWithTargetPath Include="Library\osx-arm64\*" Condition="'$(RuntimeIdentifier)' == 'osx-arm64'">
+        <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+        <TargetPath>%(Filename)%(Extension)</TargetPath>
+    </ContentWithTargetPath>
+
+    <ContentWithTargetPath Include="Library\linux-x64\*" Condition="'$(RuntimeIdentifier)' == 'linux-x64'">
+        <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+        <TargetPath>%(Filename)%(Extension)</TargetPath>
+    </ContentWithTargetPath>
+
+    <ContentWithTargetPath Include="Library\linux-arm64\*" Condition="'$(RuntimeIdentifier)' == 'linux-arm64'">
+        <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+        <TargetPath>%(Filename)%(Extension)</TargetPath>
+    </ContentWithTargetPath>
   </ItemGroup>
 
 </Project>

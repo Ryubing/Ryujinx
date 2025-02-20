@@ -10,6 +10,7 @@ namespace Ryujinx.Graphics.Nvdec.FFmpeg.Native
         public const string AvCodecLibraryName = "avcodec";
         public const string AvUtilLibraryName = "avutil";
 
+        // Library Name, Min Version, Max Version.
         private static readonly Dictionary<string, (int, int)> _librariesWhitelist = new()
         {
             { AvCodecLibraryName, (58, 59) },
