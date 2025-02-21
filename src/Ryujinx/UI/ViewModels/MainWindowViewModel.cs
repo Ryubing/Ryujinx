@@ -798,7 +798,7 @@ namespace Ryujinx.Ava.UI.ViewModels
             return false;
         }
 
-        private async Task HandleFirmwareInstallation(string filename)
+        public async Task HandleFirmwareInstallation(string filename)
         {
             try
             {

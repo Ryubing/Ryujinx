@@ -1,5 +1,6 @@
 using ARMeilleure;
 using Gommon;
+using Ryujinx.Ava.Utilities.AppLibrary;
 using Ryujinx.Ava.Utilities.Configuration.System;
 using Ryujinx.Ava.Utilities.Configuration.UI;
 using Ryujinx.Common;
@@ -646,6 +647,14 @@ namespace Ryujinx.Ava.Utilities.Configuration
             /// LDN Server
             /// </summary>
             public ReactiveObject<string> LdnServer { get; private set; }
+
+            public string GetLdnServer()
+            {
+                string ldnServer = LdnServer;
+                return string.IsNullOrEmpty(ldnServer) 
+                    ? SharedConstants.DefaultLanPlayHost 
+                    : ldnServer;
+            }
 
             public MultiplayerSection()
             {
