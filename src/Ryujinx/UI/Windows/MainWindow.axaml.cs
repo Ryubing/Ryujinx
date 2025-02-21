@@ -139,8 +139,21 @@ namespace Ryujinx.Ava.UI.Windows
             base.OnApplyTemplate(e);
 
             NotificationHelper.SetNotificationManager(this);
-
-            Executor.ExecuteBackgroundAsync(ShowIntelMacWarningAsync);
+            
+            Executor.ExecuteBackgroundAsync(async () =>
+            {
+                await ShowIntelMacWarningAsync();
+                FilePath firmwarePath = CommandLineState.FirmwareToInstallPathArg;
+                if (firmwarePath is not null)
+                {
+                    if ((firmwarePath.ExistsAsFile && firmwarePath.Extension is "xci" or "zip") ||
+                        firmwarePath.ExistsAsDirectory)
+                        await Dispatcher.UIThread.InvokeAsync(() => 
+                            ViewModel.HandleFirmwareInstallation(firmwarePath));
+                    else
+                        Logger.Notice.Print(LogClass.UI, "Invalid firmware type provided. Path must be a directory, or a .zip or .xci file.");
+                }
+            });
         }
 
         private void OnScalingChanged(object sender, EventArgs e)
