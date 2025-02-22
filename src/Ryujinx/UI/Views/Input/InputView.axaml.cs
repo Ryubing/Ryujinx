@@ -48,7 +48,6 @@ namespace Ryujinx.Ava.UI.Views.Input
 
                 if (result == UserResult.Yes)
                 {
-                    ViewModel.InitInputPage = false;
                     ViewModel.Save();
                 }
 
@@ -63,13 +62,14 @@ namespace Ryujinx.Ava.UI.Views.Input
                     }
                     return;
                 }
-                
-                ViewModel.PlayerId = ViewModel.PlayerIdChoose;
 
                 ViewModel.IsModified = false;
+                ViewModel.PlayerId = ViewModel.PlayerIdChoose;
+                               
             }
             
         }
+
 
         public void Dispose()
         {
