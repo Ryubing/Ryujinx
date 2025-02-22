@@ -13,10 +13,9 @@
     <DefaultItemExcludes>$(DefaultItemExcludes);._*</DefaultItemExcludes>
   </PropertyGroup>
 
-  <Target Name="BuildValidationProj" BeforeTargets="BeforeBuild">
-    <Message Text="Building Validation Project for $(TargetFramework)" Importance="high" Condition="'$(RuntimeIdentifier)' == ''" />
-    <Exec WorkingDirectory="..\Ryujinx.BuildValidationTasks\" Command="dotnet build -c Debug /clp:NoSummary" />
-    
+  <Target Name="BuildValidationProj" BeforeTargets="BeforeRebuild">
+    <MSBuild Projects="..\Ryujinx.BuildValidationTasks\Ryujinx.BuildValidationTasks.csproj" Targets="Rebuild">
+    </MSBuild>
   </Target>
 
   <Target Name="PostBuild" AfterTargets="PostBuildEvent" Condition="$([MSBuild]::IsOSPlatform('OSX'))">
@@ -48,9 +47,6 @@
     <PackageReference Include="Avalonia.Markup.Xaml.Loader" />
     <PackageReference Include="Avalonia.Svg" />
     <PackageReference Include="Avalonia.Svg.Skia" />
-    <PackageReference Include="CommandLineParser" />
-    <PackageReference Include="CommunityToolkit.Mvvm" />
-    <PackageReference Include="DiscordRichPresence" />
     <PackageReference Include="DynamicData" />
     <PackageReference Include="FluentAvaloniaUI" />
     <PackageReference Include="Projektanker.Icons.Avalonia" />
@@ -60,8 +56,6 @@
     <PackageReference Include="Ryujinx.Audio.OpenAL.Dependencies" Condition="'$(RuntimeIdentifier)' != 'linux-x64' AND '$(RuntimeIdentifier)' != 'linux-arm64' AND '$(RuntimeIdentifier)' != 'osx-x64' AND '$(RuntimeIdentifier)' != 'osx-arm64'" />
     <PackageReference Include="Ryujinx.Graphics.Nvdec.Dependencies" />
     <PackageReference Include="Ryujinx.Graphics.Vulkan.Dependencies.MoltenVK" Condition="'$(RuntimeIdentifier)' != 'linux-x64' AND '$(RuntimeIdentifier)' != 'linux-arm64' AND '$(RuntimeIdentifier)' != 'win-x64'" />
-    <PackageReference Include="securifybv.ShellLink" />
-    <PackageReference Include="Sep" />
     <PackageReference Include="Silk.NET.Vulkan" />
     <PackageReference Include="Silk.NET.Vulkan.Extensions.EXT" />
     <PackageReference Include="Silk.NET.Vulkan.Extensions.KHR" />
@@ -72,8 +66,6 @@
   <ItemGroup>
     <ProjectReference Include="..\Ryujinx.Audio.Backends.SDL2\Ryujinx.Audio.Backends.SDL2.csproj" />
     <ProjectReference Include="..\Ryujinx.Graphics.Vulkan\Ryujinx.Graphics.Vulkan.csproj" />
-    <ProjectReference Include="..\Ryujinx.Graphics.OpenGL\Ryujinx.Graphics.OpenGL.csproj" />
-    <ProjectReference Include="..\Ryujinx.Graphics.Metal\Ryujinx.Graphics.Metal.csproj" />
     <ProjectReference Include="..\Ryujinx.Input\Ryujinx.Input.csproj" />
     <ProjectReference Include="..\Ryujinx.Input.SDL2\Ryujinx.Input.SDL2.csproj" />
     <ProjectReference Include="..\Ryujinx.Audio.Backends.OpenAL\Ryujinx.Audio.Backends.OpenAL.csproj" />
@@ -81,7 +73,9 @@
     <ProjectReference Include="..\Ryujinx.Common\Ryujinx.Common.csproj" />
     <ProjectReference Include="..\Ryujinx.HLE\Ryujinx.HLE.csproj" />
     <ProjectReference Include="..\ARMeilleure\ARMeilleure.csproj" />
+    <ProjectReference Include="..\Ryujinx.Graphics.OpenGL\Ryujinx.Graphics.OpenGL.csproj" />
     <ProjectReference Include="..\Ryujinx.Graphics.Gpu\Ryujinx.Graphics.Gpu.csproj" />
+    <ProjectReference Include="..\Ryujinx.UI.Common\Ryujinx.UI.Common.csproj" />
     <ProjectReference Include="..\Ryujinx.UI.LocaleGenerator\Ryujinx.UI.LocaleGenerator.csproj" OutputItemType="Analyzer" ReferenceOutputAssembly="false" />
   </ItemGroup>
 
@@ -114,10 +108,6 @@
     <AvaloniaResource Include="UI\**\*.xaml">
       <SubType>Designer</SubType>
     </AvaloniaResource>
-    <AvaloniaResource Include="Assets\Fonts\Mono\JetBrainsMonoNL-Bold.ttf" />
-    <AvaloniaResource Include="Assets\Fonts\Mono\JetBrainsMonoNL-BoldItalic.ttf" />
-    <AvaloniaResource Include="Assets\Fonts\Mono\JetBrainsMonoNL-Italic.ttf" />
-    <AvaloniaResource Include="Assets\Fonts\Mono\JetBrainsMonoNL-Regular.ttf" />
     <AvaloniaResource Include="Assets\Fonts\SegoeFluentIcons.ttf" />
     <AvaloniaResource Include="Assets\Styles\Themes.xaml">
       <Generator>MSBuild:Compile</Generator>
@@ -127,6 +117,7 @@
 
   <ItemGroup>
     <None Remove="Assets\locales.json" />
+    <None Remove="Assets\Styles\Styles.xaml" />
     <None Remove="Assets\Styles\Themes.xaml" />
     <None Remove="Assets\Icons\Controller_JoyConLeft.svg" />
     <None Remove="Assets\Icons\Controller_JoyConPair.svg" />
@@ -135,42 +126,14 @@
   </ItemGroup>
 
   <ItemGroup>
-    <EmbeddedResource Include="..\..\distribution\linux\shortcut-template.desktop">
-      <Link>Assets\ShortcutFiles\shortcut-template.desktop</Link>
-    </EmbeddedResource>
-    <EmbeddedResource Include="..\..\distribution\macos\shortcut-launch-script.sh">
-      <Link>Assets\ShortcutFiles\shortcut-launch-script.sh</Link>
-    </EmbeddedResource>
-    <EmbeddedResource Include="..\..\distribution\macos\shortcut-template.plist">
-      <Link>Assets\ShortcutFiles\shortcut-template.plist</Link>
-    </EmbeddedResource>
-    <EmbeddedResource Include="..\..\docs\compatibility.csv" LogicalName="RyujinxGameCompatibilityList">
-      <Link>Assets\RyujinxGameCompatibility.csv</Link>
-    </EmbeddedResource>
     <EmbeddedResource Include="Assets\locales.json" />
     <EmbeddedResource Include="Assets\Styles\Styles.xaml" />
     <EmbeddedResource Include="Assets\Icons\Controller_JoyConLeft.svg" />
     <EmbeddedResource Include="Assets\Icons\Controller_JoyConPair.svg" />
     <EmbeddedResource Include="Assets\Icons\Controller_JoyConRight.svg" />
     <EmbeddedResource Include="Assets\Icons\Controller_ProCon.svg" />
-    <EmbeddedResource Include="Assets\UIImages\Icon_NCA.png" />
-    <EmbeddedResource Include="Assets\UIImages\Icon_NRO.png" />
-    <EmbeddedResource Include="Assets\UIImages\Icon_NSO.png" />
-    <EmbeddedResource Include="Assets\UIImages\Icon_NSP.png" />
-    <EmbeddedResource Include="Assets\UIImages\Icon_XCI.png" />
-    <EmbeddedResource Include="Assets\UIImages\Logo_Amiibo.png" />
-    <EmbeddedResource Include="Assets\UIImages\Logo_Discord_Dark.png" />
-    <EmbeddedResource Include="Assets\UIImages\Logo_Discord_Light.png" />
-    <EmbeddedResource Include="Assets\UIImages\Logo_GitHub_Dark.png" />
-    <EmbeddedResource Include="Assets\UIImages\Logo_GitHub_Light.png" />
-    <EmbeddedResource Include="Assets\UIImages\Logo_Ryujinx.png" />
-    <EmbeddedResource Include="Assets\UIImages\Logo_Ryujinx_AntiAlias.png" />
   </ItemGroup>
   <ItemGroup>
     <AdditionalFiles Include="Assets\locales.json" />
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="Assets\Fonts\Mono\" />
-  </ItemGroup>
-
 </Project>
