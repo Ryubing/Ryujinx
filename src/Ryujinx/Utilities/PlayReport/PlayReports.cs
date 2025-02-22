@@ -71,7 +71,7 @@ namespace Ryujinx.Ava.Utilities.PlayReport
                         [
                             // Metadata to figure out what PlayReport we have.
                             "match_mode", "match_submode", "anniversary", "fighter", "reason", "challenge_count",
-                            "adv_slot",
+                            "adv_slot", "is_created",
                             // List of Fighters
                             "player_1_fighter", "player_2_fighter", "player_3_fighter", "player_4_fighter",
                             "player_5_fighter", "player_6_fighter", "player_7_fighter", "player_8_fighter",

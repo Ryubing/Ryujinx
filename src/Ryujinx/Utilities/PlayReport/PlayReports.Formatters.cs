@@ -115,6 +115,11 @@ namespace Ryujinx.Ava.Utilities.PlayReport
                 return $"Achievement Unlocked - ID: {anniversary}";
             }
 
+            if (values.Matched.ContainsKey("is_created"))
+            {
+                return "Edited a Custom Stage!"; 
+            }
+
             if (values.Matched.ContainsKey("adv_slot"))
             {
                 return
