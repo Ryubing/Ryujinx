@@ -15,6 +15,7 @@ namespace Ryujinx.Graphics.Nvdec.Vp9.Types
 
         // Number of 4x4s in current block
         public ushort N4W, N4H;
+
         // Log2 of N4W, N4H
         public byte N4Wl, N4Hl;
     }

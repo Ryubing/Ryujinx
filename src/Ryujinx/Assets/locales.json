@@ -142,7 +142,7 @@
         "sv_SE": "Direkt musåtkomst",
         "th_TH": "เข้าถึงเมาส์ได้โดยตรง",
         "tr_TR": "Doğrudan Mouse Erişimi",
-        "uk_UA": "Прямий доступ мишею",
+        "uk_UA": "Пряме керування мишею",
         "zh_CN": "直通鼠标操作",
         "zh_TW": "滑鼠直接存取"
       }
@@ -417,7 +417,7 @@
         "sv_SE": "Läs in titeluppdateringar från mapp",
         "th_TH": "โหลดไฟล์อัพเดตจากโฟลเดอร์",
         "tr_TR": "",
-        "uk_UA": "Завантажити оновлення заголовків з теки",
+        "uk_UA": "Завантажити оновлення ігор з теки",
         "zh_CN": "从文件夹加载游戏更新",
         "zh_TW": "從資料夾中載入遊戲更新"
       }
@@ -463,11 +463,11 @@
         "no_NO": "",
         "pl_PL": "",
         "pt_BR": "Abrir Pasta de Capturas de Tela",
-        "ru_RU": "",
+        "ru_RU": "Открыть папку со скриншотами",
         "sv_SE": "",
         "th_TH": "",
         "tr_TR": "",
-        "uk_UA": "",
+        "uk_UA": "Відкрити теку скріншотів",
         "zh_CN": "",
         "zh_TW": ""
       }
@@ -613,11 +613,11 @@
         "no_NO": "Start Spillet med UI Gjemt",
         "pl_PL": "",
         "pt_BR": "Iniciar Jogos Ocultando a Interface",
-        "ru_RU": "",
+        "ru_RU": "Запускать игры скрывая интерфейс",
         "sv_SE": "Starta spel med dolt användargränssnitt",
         "th_TH": "",
         "tr_TR": "",
-        "uk_UA": "",
+        "uk_UA": "Запускати ігри з прихованим інтерфейсом",
         "zh_CN": "启动游戏时隐藏 UI",
         "zh_TW": ""
       }
@@ -688,7 +688,7 @@
         "no_NO": "_Administrere Brukerprofiler",
         "pl_PL": "_Zarządzaj profilami użytkowników",
         "pt_BR": "_Gerenciar Perfis de Usuário",
-        "ru_RU": "_Менеджер учетных записей",
+        "ru_RU": "_Менеджер учётных записей",
         "sv_SE": "_Hantera användarprofiler",
         "th_TH": "_จัดการโปรไฟล์ผู้ใช้งาน",
         "tr_TR": "_Kullanıcı Profillerini Yönet",
@@ -1217,7 +1217,7 @@
         "sv_SE": "_Hjälp",
         "th_TH": "_ช่วยเหลือ",
         "tr_TR": "_Yardım",
-        "uk_UA": "_Допомога",
+        "uk_UA": "_Довідка",
         "zh_CN": "帮助(_H)",
         "zh_TW": "說明(_H)"
       }
@@ -1563,11 +1563,11 @@
         "no_NO": "Utviklet av {0}",
         "pl_PL": "",
         "pt_BR": "Desenvolvido por {0}",
-        "ru_RU": "",
+        "ru_RU": "Разработана {0}",
         "sv_SE": "",
         "th_TH": "",
         "tr_TR": "",
-        "uk_UA": "",
+        "uk_UA": "Розроблено: {0}",
         "zh_CN": "由 {0} 开发",
         "zh_TW": ""
       }
@@ -1863,11 +1863,11 @@
         "no_NO": "Kompatibilitet",
         "pl_PL": "",
         "pt_BR": "Compatibilidade:",
-        "ru_RU": "",
+        "ru_RU": "Совместимость:",
         "sv_SE": "",
         "th_TH": "",
         "tr_TR": "",
-        "uk_UA": "",
+        "uk_UA": "Сумісність:",
         "zh_CN": "兼容性:",
         "zh_TW": ""
       }
@@ -1888,11 +1888,11 @@
         "no_NO": "Tittel ID:",
         "pl_PL": "",
         "pt_BR": "ID do Título:",
-        "ru_RU": "",
+        "ru_RU": "ID приложения",
         "sv_SE": "",
         "th_TH": "",
         "tr_TR": "",
-        "uk_UA": "",
+        "uk_UA": "ID гри:",
         "zh_CN": "标题 ID:",
         "zh_TW": ""
       }
@@ -1913,11 +1913,11 @@
         "no_NO": "Spill som Arrangeres: {0}",
         "pl_PL": "",
         "pt_BR": "Jogos Hospedados: {0}",
-        "ru_RU": "",
+        "ru_RU": "Запущенно игр: {0}",
         "sv_SE": "",
         "th_TH": "",
         "tr_TR": "",
-        "uk_UA": "",
+        "uk_UA": "Розміщені ігри: {0}",
         "zh_CN": "服务的游戏: {0}",
         "zh_TW": ""
       }
@@ -1938,11 +1938,11 @@
         "no_NO": "Online-spillere: {0}",
         "pl_PL": "",
         "pt_BR": "Jogadores Online: {0}",
-        "ru_RU": "",
+        "ru_RU": "Игроков онлайн: {0}",
         "sv_SE": "",
         "th_TH": "",
         "tr_TR": "",
-        "uk_UA": "",
+        "uk_UA": "Гравців онлайн: {0}",
         "zh_CN": "在线玩家: {0}",
         "zh_TW": ""
       }
@@ -2288,11 +2288,11 @@
         "no_NO": "Tøm PPTC-bufferen",
         "pl_PL": "",
         "pt_BR": "Limpar Cache PPTC",
-        "ru_RU": "",
+        "ru_RU": "Очистить кэш PPTC",
         "sv_SE": "",
         "th_TH": "",
         "tr_TR": "",
-        "uk_UA": "",
+        "uk_UA": "Очистити кеш PPTC",
         "zh_CN": "清理 PPTC 缓存",
         "zh_TW": ""
       }
@@ -2313,11 +2313,11 @@
         "no_NO": "Sletter alle PPTC-cache-filer for applikasjonen",
         "pl_PL": "",
         "pt_BR": "Apaga os arquivos de cache PPTC do aplicativo",
-        "ru_RU": "",
+        "ru_RU": "Удаляет все файлы кэша PPTC для приложения",
         "sv_SE": "",
         "th_TH": "",
         "tr_TR": "",
-        "uk_UA": "",
+        "uk_UA": "Видаляє всі файли кешу PPTC для застосунку",
         "zh_CN": "删除应用程序的所有 PPTC 缓存",
         "zh_TW": ""
       }
@@ -2638,11 +2638,11 @@
         "no_NO": "Pakk ut RomFS filene fra valgt DLC fil",
         "pl_PL": "",
         "pt_BR": "Extraia o RomFS de um arquivo DLC selecionado",
-        "ru_RU": "",
+        "ru_RU": "Извлекает файлы RomFS из выбранного файла DLC",
         "sv_SE": "Extrahera RomFS från en vald DLC-fil",
         "th_TH": "",
         "tr_TR": "",
-        "uk_UA": "",
+        "uk_UA": "Витягти RomFS з обраного файлу DLC",
         "zh_CN": "从选定的 DLC 文件中解压 RomFS",
         "zh_TW": ""
       }
@@ -2788,11 +2788,11 @@
         "no_NO": "Vis kompatibilitetsoppføring",
         "pl_PL": "",
         "pt_BR": "Mostrar Dados de Compatibilidade",
-        "ru_RU": "",
+        "ru_RU": "Показать записи о совместимости",
         "sv_SE": "",
         "th_TH": "",
         "tr_TR": "",
-        "uk_UA": "",
+        "uk_UA": "Iнформація про сумісність",
         "zh_CN": "显示兼容性项目",
         "zh_TW": ""
       }
@@ -2813,11 +2813,11 @@
         "no_NO": "Vis det valgte spillet i kompatibilitetslisten, som du vanligvis får tilgang til via Hjelp-menyen.",
         "pl_PL": "",
         "pt_BR": "Exibe o jogo selecionado na Lista de Compatibilidade, que normalmente pode ser acessada pelo menu Ajuda.",
-        "ru_RU": "",
+        "ru_RU": "Отобразить выбранную игру в списке совместимости, доступ к которому вы обычно можете получить через меню Справки.",
         "sv_SE": "",
         "th_TH": "",
         "tr_TR": "",
-        "uk_UA": "",
+        "uk_UA": "Показати цю гру в Списку Сумісності. Список сумісності також можна зайти в меню Довідки.",
         "zh_CN": "在兼容性列表中显示选定的游戏,您通常可以通过帮助菜单访问。",
         "zh_TW": ""
       }
@@ -2838,11 +2838,11 @@
         "no_NO": "Vis Spill Info",
         "pl_PL": "",
         "pt_BR": "Mostrar Informações do Jogo",
-        "ru_RU": "",
+        "ru_RU": "Показать информацию об игре",
         "sv_SE": "",
         "th_TH": "",
         "tr_TR": "",
-        "uk_UA": "",
+        "uk_UA": "Інформація про гру",
         "zh_CN": "显示游戏信息",
         "zh_TW": ""
       }
@@ -2863,11 +2863,11 @@
         "no_NO": "Vis statistikk og detaljer om det valgte spillet.",
         "pl_PL": "",
         "pt_BR": "Exibe estatísticas e detalhes sobre o jogo selecionado.",
-        "ru_RU": "",
+        "ru_RU": "Показывать статистику и подробную информацию о выбранной игре.",
         "sv_SE": "",
         "th_TH": "",
         "tr_TR": "",
-        "uk_UA": "",
+        "uk_UA": "Показати статистику та деталі обраної гри.",
         "zh_CN": "显示当前选定游戏的状态与详细信息。",
         "zh_TW": ""
       }
@@ -3388,11 +3388,11 @@
         "no_NO": "Se etter Oppdateringer:",
         "pl_PL": "",
         "pt_BR": "Verificar Atualizações:",
-        "ru_RU": "",
+        "ru_RU": "Проверка наличия обновлений",
         "sv_SE": "",
         "th_TH": "",
         "tr_TR": "",
-        "uk_UA": "",
+        "uk_UA": "Перевірка оновлень:",
         "zh_CN": "检查更新",
         "zh_TW": ""
       }
@@ -3413,11 +3413,11 @@
         "no_NO": "Av",
         "pl_PL": "",
         "pt_BR": "Desligado",
-        "ru_RU": "",
+        "ru_RU": "Отключить",
         "sv_SE": "",
         "th_TH": "",
         "tr_TR": "",
-        "uk_UA": "",
+        "uk_UA": "Вимкнути",
         "zh_CN": "关闭",
         "zh_TW": ""
       }
@@ -3438,11 +3438,11 @@
         "no_NO": "Spør",
         "pl_PL": "",
         "pt_BR": "Ao Abrir",
-        "ru_RU": "",
+        "ru_RU": "При запуске",
         "sv_SE": "",
         "th_TH": "",
         "tr_TR": "",
-        "uk_UA": "",
+        "uk_UA": "Запитувати щоразу",
         "zh_CN": "提示",
         "zh_TW": ""
       }
@@ -3463,11 +3463,11 @@
         "no_NO": "Bakgrunn",
         "pl_PL": "",
         "pt_BR": "2° Plano",
-        "ru_RU": "",
+        "ru_RU": "В фоне",
         "sv_SE": "",
         "th_TH": "",
         "tr_TR": "",
-        "uk_UA": "",
+        "uk_UA": "Оновлювати в фоні",
         "zh_CN": "背景",
         "zh_TW": ""
       }
@@ -3488,11 +3488,11 @@
         "no_NO": "På Emulator Fokus Tapt:",
         "pl_PL": "",
         "pt_BR": "Ao Perder o Foco:",
-        "ru_RU": "",
+        "ru_RU": "При выходе эмулятора из фокуса",
         "sv_SE": "",
         "th_TH": "",
         "tr_TR": "",
-        "uk_UA": "",
+        "uk_UA": "При втраті фокуса емулятором:",
         "zh_CN": "当模拟器在后台时：",
         "zh_TW": ""
       }
@@ -3513,11 +3513,11 @@
         "no_NO": "Gjør Ingenting",
         "pl_PL": "",
         "pt_BR": "Não Fazer Nada",
-        "ru_RU": "",
+        "ru_RU": "Ничего не делать",
         "sv_SE": "",
         "th_TH": "",
         "tr_TR": "",
-        "uk_UA": "",
+        "uk_UA": "Нічого не робити",
         "zh_CN": "什么事情也不做",
         "zh_TW": ""
       }
@@ -3538,11 +3538,11 @@
         "no_NO": "Blokkinngang",
         "pl_PL": "",
         "pt_BR": "Bloquear Controles",
-        "ru_RU": "",
+        "ru_RU": "Блокировать управление",
         "sv_SE": "",
         "th_TH": "",
         "tr_TR": "",
-        "uk_UA": "",
+        "uk_UA": "Блокувати введення",
         "zh_CN": "禁用输入",
         "zh_TW": ""
       }
@@ -3563,11 +3563,11 @@
         "no_NO": "Demp Lyd",
         "pl_PL": "",
         "pt_BR": "Ficar Mudo",
-        "ru_RU": "",
+        "ru_RU": "Отключить звук",
         "sv_SE": "",
         "th_TH": "",
         "tr_TR": "",
-        "uk_UA": "",
+        "uk_UA": "Вимкнути звук",
         "zh_CN": "静音",
         "zh_TW": ""
       }
@@ -3588,11 +3588,11 @@
         "no_NO": "Blokker Inputs og demp Volumet",
         "pl_PL": "",
         "pt_BR": "Bloquear Controles & Ficar Mudo",
-        "ru_RU": "",
+        "ru_RU": "Блокировать управление и отключить звук",
         "sv_SE": "",
         "th_TH": "",
         "tr_TR": "",
-        "uk_UA": "",
+        "uk_UA": "Блокувати введення та Вимкнути звук",
         "zh_CN": "阻止输入且静音",
         "zh_TW": ""
       }
@@ -3613,11 +3613,11 @@
         "no_NO": "Pause Emulatoren",
         "pl_PL": "",
         "pt_BR": "Pausar a Emulação",
-        "ru_RU": "",
+        "ru_RU": "Поставить паузу",
         "sv_SE": "",
         "th_TH": "",
         "tr_TR": "",
-        "uk_UA": "",
+        "uk_UA": "Поставити на паузу",
         "zh_CN": "暂停模拟",
         "zh_TW": ""
       }
@@ -3688,7 +3688,7 @@
         "no_NO": "Deaktiver inndata når vinduet er ute av fokus",
         "pl_PL": "",
         "pt_BR": "Desativar Controles Quando Estiver Fora de Foco",
-        "ru_RU": "",
+        "ru_RU": "Отключает управление при выходе из фокуса",
         "sv_SE": "",
         "th_TH": "",
         "tr_TR": "",
@@ -3742,7 +3742,7 @@
         "sv_SE": "Dölj markör:",
         "th_TH": "ซ่อน เคอร์เซอร์:",
         "tr_TR": "İşaretçiyi Gizle:",
-        "uk_UA": "Сховати вказівник:",
+        "uk_UA": "Сховати курсор:",
         "zh_CN": "隐藏鼠标指针：",
         "zh_TW": "隱藏滑鼠游標:"
       }
@@ -4648,56 +4648,6 @@
       }
     },
     {
-      "ID": "SettingsTabSystemSystemLanguageSwedish",
-      "Translations": {
-        "ar_SA": "",
-        "de_DE": "",
-        "el_GR": "",
-        "en_US": "Swedish",
-        "es_ES": "",
-        "fr_FR": "",
-        "he_IL": "",
-        "it_IT": "",
-        "ja_JP": "",
-        "ko_KR": "스웨덴어",
-        "no_NO": "Svensk",
-        "pl_PL": "",
-        "pt_BR": "Sueco",
-        "ru_RU": "",
-        "sv_SE": "Svenska",
-        "th_TH": "",
-        "tr_TR": "",
-        "uk_UA": "",
-        "zh_CN": "瑞典语",
-        "zh_TW": ""
-      }
-    },
-    {
-      "ID": "SettingsTabSystemSystemLanguageNorwegian",
-      "Translations": {
-        "ar_SA": "",
-        "de_DE": "",
-        "el_GR": "",
-        "en_US": "Norwegian",
-        "es_ES": "",
-        "fr_FR": "",
-        "he_IL": "",
-        "it_IT": "",
-        "ja_JP": "",
-        "ko_KR": "노르웨이어",
-        "no_NO": "Norsk",
-        "pl_PL": "",
-        "pt_BR": "Norueguês",
-        "ru_RU": "",
-        "sv_SE": "Norska",
-        "th_TH": "",
-        "tr_TR": "",
-        "uk_UA": "",
-        "zh_CN": "挪威语",
-        "zh_TW": ""
-      }
-    },
-    {
       "ID": "SettingsTabSystemSystemTimeZone",
       "Translations": {
         "ar_SA": "النطاق الزمني للنظام:",
@@ -4763,7 +4713,7 @@
         "no_NO": "Match systemtid",
         "pl_PL": "",
         "pt_BR": "Sincronizar com o Sistema PC",
-        "ru_RU": "",
+        "ru_RU": "Соответствовать времени в системе",
         "sv_SE": "",
         "th_TH": "",
         "tr_TR": "",
@@ -5188,11 +5138,11 @@
         "no_NO": "",
         "pl_PL": "",
         "pt_BR": "Ignorar Applet do Controlador",
-        "ru_RU": "",
+        "ru_RU": "Игнорировать апплет контроллера",
         "sv_SE": "",
         "th_TH": "",
         "tr_TR": "",
-        "uk_UA": "",
+        "uk_UA": "Ігнорувати Аплет Контролера",
         "zh_CN": "",
         "zh_TW": ""
       }
@@ -6038,11 +5988,11 @@
         "no_NO": "Aktivere UI-logger",
         "pl_PL": "",
         "pt_BR": "Habilitar Logs da IU",
-        "ru_RU": "",
+        "ru_RU": "Включить журнал интерфейса",
         "sv_SE": "",
         "th_TH": "",
         "tr_TR": "",
-        "uk_UA": "",
+        "uk_UA": "Увімкнути журнали інтерфейсу",
         "zh_CN": "启用 UI 日志",
         "zh_TW": ""
       }
@@ -6067,7 +6017,7 @@
         "sv_SE": "Aktivera loggar för filsystemsåtkomst",
         "th_TH": "เปิดใช้งานการบันทึกประวัติการเข้าถึง Fs",
         "tr_TR": "Fs Erişim Loglarını Etkinleştir",
-        "uk_UA": "Увімкнути журнали доступу Fs",
+        "uk_UA": "Увімкнути журнали доступу до файлової системи",
         "zh_CN": "启用文件访问日志",
         "zh_TW": "啟用檔案系統存取日誌"
       }
@@ -6092,7 +6042,7 @@
         "sv_SE": "Loggläge för global filsystemsåtkomst:",
         "th_TH": "โหมด การเข้าถึงประวัติส่วนกลาง:",
         "tr_TR": "Fs Evrensel Erişim Log Modu:",
-        "uk_UA": "Режим журналу глобального доступу Fs:",
+        "uk_UA": "Режим журналу глобального доступу файлової системи:",
         "zh_CN": "文件系统全局访问日志模式：",
         "zh_TW": "檔案系統全域存取日誌模式:"
       }
@@ -6317,7 +6267,7 @@
         "sv_SE": "Inmatning",
         "th_TH": "ป้อนข้อมูล",
         "tr_TR": "Giriş Yöntemi",
-        "uk_UA": "Введення",
+        "uk_UA": "Керування",
         "zh_CN": "输入",
         "zh_TW": "輸入"
       }
@@ -6438,11 +6388,11 @@
         "no_NO": "Tilbakestill innstillinger",
         "pl_PL": "",
         "pt_BR": "Redefinir Configurações",
-        "ru_RU": "",
+        "ru_RU": "Сбросить настройки",
         "sv_SE": "",
         "th_TH": "",
         "tr_TR": "",
-        "uk_UA": "",
+        "uk_UA": "Скинути налаштування",
         "zh_CN": "重置设置",
         "zh_TW": ""
       }
@@ -6463,11 +6413,11 @@
         "no_NO": "Jeg vil tilbakestille innstillingene mine.",
         "pl_PL": "",
         "pt_BR": "Quero redefinir minhas configurações.",
-        "ru_RU": "",
+        "ru_RU": "Я хочу сбросить свои настройки.",
         "sv_SE": "",
         "th_TH": "",
         "tr_TR": "",
-        "uk_UA": "",
+        "uk_UA": "Я хочу скинути налаштування.",
         "zh_CN": "我要重置我的设置。",
         "zh_TW": ""
       }
@@ -8438,7 +8388,7 @@
         "no_NO": "",
         "pl_PL": "",
         "pt_BR": "",
-        "ru_RU": "",
+        "ru_RU": "LED-подсветка",
         "sv_SE": "",
         "th_TH": "",
         "tr_TR": "",
@@ -8463,7 +8413,7 @@
         "no_NO": "Deaktiver",
         "pl_PL": "",
         "pt_BR": "Desabilitar",
-        "ru_RU": "",
+        "ru_RU": "Отключить",
         "sv_SE": "Inaktivera",
         "th_TH": "",
         "tr_TR": "",
@@ -8488,7 +8438,7 @@
         "no_NO": "Regnbue",
         "pl_PL": "",
         "pt_BR": "Arco-íris",
-        "ru_RU": "",
+        "ru_RU": "Радужная",
         "sv_SE": "Regnbåge",
         "th_TH": "",
         "tr_TR": "",
@@ -8513,7 +8463,7 @@
         "no_NO": "Regnbue Hastighet",
         "pl_PL": "",
         "pt_BR": "Velocidade do Arco-íris",
-        "ru_RU": "",
+        "ru_RU": "Скорость переливания",
         "sv_SE": "",
         "th_TH": "",
         "tr_TR": "",
@@ -8538,7 +8488,7 @@
         "no_NO": "Farge",
         "pl_PL": "",
         "pt_BR": "Cor",
-        "ru_RU": "",
+        "ru_RU": "Цвет",
         "sv_SE": "Färg",
         "th_TH": "",
         "tr_TR": "",
@@ -9563,7 +9513,7 @@
         "no_NO": "Numerisk 1",
         "pl_PL": "",
         "pt_BR": "",
-        "ru_RU": "1 (цифровий блок)",
+        "ru_RU": "Блок цифр 1",
         "sv_SE": "",
         "th_TH": "",
         "tr_TR": "",
@@ -10487,7 +10437,7 @@
         "ko_KR": "연동 해제",
         "no_NO": "Ikke bundet",
         "pl_PL": "",
-        "pt_BR": "",
+        "pt_BR": "Não Atribuído",
         "ru_RU": "Не привязано",
         "sv_SE": "Obunden",
         "th_TH": "",
@@ -10817,7 +10767,7 @@
         "sv_SE": "",
         "th_TH": "",
         "tr_TR": "Rehber",
-        "uk_UA": "",
+        "uk_UA": "Меню",
         "zh_CN": "主页键",
         "zh_TW": "快顯功能表鍵"
       }
@@ -10967,7 +10917,7 @@
         "sv_SE": "",
         "th_TH": "",
         "tr_TR": "",
-        "uk_UA": "",
+        "uk_UA": "Сенсорна панель",
         "zh_CN": "触摸板",
         "zh_TW": "觸控板"
       }
@@ -11988,7 +11938,7 @@
         "no_NO": "Vis/Skjul favorittstatus for spillet",
         "pl_PL": "Przełącz status Ulubionej Gry",
         "pt_BR": "Marca ou desmarca o jogo como favorito",
-        "ru_RU": "Добавляет игру в избранное и помечает звездочкой",
+        "ru_RU": "Добавляет игру в избранное и помечает звёздочкой",
         "sv_SE": "Växla favoritstatus för spelet",
         "th_TH": "สลับสถานะเกมที่ชื่นชอบ",
         "tr_TR": "Oyunu Favorilere Ekle/Çıkar",
@@ -12063,7 +12013,7 @@
         "no_NO": "Mørk",
         "pl_PL": "Ciemny",
         "pt_BR": "Escuro",
-        "ru_RU": "Темная",
+        "ru_RU": "Тёмная",
         "sv_SE": "Mörkt",
         "th_TH": "มืด",
         "tr_TR": "Karanlık",
@@ -12263,7 +12213,7 @@
         "no_NO": "{0} - Bekreftelse",
         "pl_PL": "{0} - Potwierdzenie",
         "pt_BR": "{0} - Confirmação",
-        "ru_RU": "{0} - Подтверждение",
+        "ru_RU": "{0} — Подтверждение",
         "sv_SE": "{0} - Bekräftelse",
         "th_TH": "{0} - ยืนยัน",
         "tr_TR": "{0} - Onay",
@@ -12288,7 +12238,7 @@
         "no_NO": "{0} – Oppdaterer",
         "pl_PL": "{0} - Asystent aktualizacji",
         "pt_BR": "{0} - Atualizador",
-        "ru_RU": "{0} - Обновление",
+        "ru_RU": "{0} — Обновление",
         "sv_SE": "{0} - Uppdatering",
         "th_TH": "{0} - อัพเดต",
         "tr_TR": "{0} - Güncelleyici",
@@ -12313,7 +12263,7 @@
         "no_NO": "{0} - Feil",
         "pl_PL": "{0} - Błąd",
         "pt_BR": "{0} - Erro",
-        "ru_RU": "{0} - Ошибка",
+        "ru_RU": "{0} — Ошибка",
         "sv_SE": "{0} - Fel",
         "th_TH": "{0} - ผิดพลาด",
         "tr_TR": "{0} - Hata",
@@ -12338,7 +12288,7 @@
         "no_NO": "{0} - Advarsel",
         "pl_PL": "{0} - Ostrzeżenie",
         "pt_BR": "{0} - Alerta",
-        "ru_RU": "{0} - Предупреждение",
+        "ru_RU": "{0} — Предупреждение",
         "sv_SE": "{0} - Varning",
         "th_TH": "{0} - คำเตือน",
         "tr_TR": "{0} - Uyarı",
@@ -12363,7 +12313,7 @@
         "no_NO": "{0} - Avslutt",
         "pl_PL": "{0} - Wyjdź",
         "pt_BR": "{0} - Sair",
-        "ru_RU": "{0} - Выход",
+        "ru_RU": "{0} — Выход",
         "sv_SE": "{0} - Avslut",
         "th_TH": "{0} - ออก",
         "tr_TR": "{0} - Çıkış",
@@ -12438,7 +12388,7 @@
         "no_NO": "Alle ulagrede data vil gå tapt!",
         "pl_PL": "Wszystkie niezapisane dane zostaną utracone!",
         "pt_BR": "Todos os dados que não foram salvos serão perdidos!",
-        "ru_RU": "Все несохраненные данные будут потеряны",
+        "ru_RU": "Все несохранённые данные будут потеряны",
         "sv_SE": "Allt data som inte sparats kommer att förloras!",
         "th_TH": "ข้อมูลทั้งหมดที่ไม่ได้บันทึกทั้งหมดจะสูญหาย!",
         "tr_TR": "Kaydedilmeyen bütün veriler kaybedilecek!",
@@ -13567,7 +13517,7 @@
         "sv_SE": "Amiibo-API",
         "th_TH": "",
         "tr_TR": "",
-        "uk_UA": "",
+        "uk_UA": "API Amiibo",
         "zh_CN": "",
         "zh_TW": ""
       }
@@ -13813,11 +13763,11 @@
         "no_NO": "Du er i ferd med å slette alle PPTC-data fra:\n\n{0}\n\n\nEr du sikker på at du vil fortsette?",
         "pl_PL": "",
         "pt_BR": "Você está prestes a limpar todos os dados PPTC de:\n\n{0}\n\nTem certeza de que deseja continuar?",
-        "ru_RU": "",
+        "ru_RU": "Вы собираетесь удалить все данные PPTC из:\n\n{0}\n\nВы уверены, что хотите продолжить?",
         "sv_SE": "",
         "th_TH": "",
         "tr_TR": "",
-        "uk_UA": "",
+        "uk_UA": "Ви збираєтесь видалити всі дані PPTC з:\n\n{0}\n\nБажаєте продовжити цю операцію?",
         "zh_CN": "您正要清理 PPTC 数据:\n\n{0}\n\n您确实要继续吗?",
         "zh_TW": ""
       }
@@ -14117,7 +14067,7 @@
         "sv_SE": "En ogiltig nyckelfil hittades i {0}",
         "th_TH": "",
         "tr_TR": "",
-        "uk_UA": "",
+        "uk_UA": "Виявлено неправильний файл ключів у теці {0}",
         "zh_CN": "在 {0} 发现了一个无效的密匙文件",
         "zh_TW": "找到無效的金鑰檔案 {0}"
       }
@@ -14363,7 +14313,7 @@
         "no_NO": "Du har gjort endringer i denne brukerprofilen som ikke er lagret.",
         "pl_PL": "Wprowadziłeś zmiany dla tego profilu użytkownika, które nie zostały zapisane.",
         "pt_BR": "Você fez alterações para este perfil de usuário que não foram salvas.",
-        "ru_RU": "В эту учетную запись внесены изменения, которые не были сохранены.",
+        "ru_RU": "В эту учётную запись внесены изменения, которые не были сохранены.",
         "sv_SE": "Du har gjort ändringar i denna användarprofil som inte har sparats.",
         "th_TH": "คุณได้ทำการเปลี่ยนแปลงโปรไฟล์ผู้ใช้นี้โดยไม่ได้รับการบันทึก",
         "tr_TR": "Kullanıcı profilinizde kaydedilmemiş değişiklikler var.",
@@ -15792,7 +15742,7 @@
         "sv_SE": "Favorit",
         "th_TH": "สิ่งที่ชื่นชอบ",
         "tr_TR": "Favori",
-        "uk_UA": "Вибрані",
+        "uk_UA": "Обрані",
         "zh_CN": "收藏",
         "zh_TW": "我的最愛"
       }
@@ -15913,7 +15863,7 @@
         "no_NO": "Velg om Ryujinx skal vises på din \"spillende\" Discord aktivitet eller ikke",
         "pl_PL": "Wybierz, czy chcesz wyświetlać Ryujinx w swojej \"aktualnie grane\" aktywności Discord",
         "pt_BR": "Escolha se deseja mostrar Ryujinx ou não na sua atividade do Discord quando estiver usando-o",
-        "ru_RU": "Включает или отключает отображение статуса \"Играет в игру\" в Discord",
+        "ru_RU": "Включает или отключает отображение статуса «Играет в игру» в Discord",
         "sv_SE": "Välj huruvida Ryujinx ska visas på din \"spelar för tillfället\" Discord-aktivitet",
         "th_TH": "เลือกว่าจะแสดง Ryujinx ในกิจกรรม Discord \"ที่กำลังเล่นอยู่\" ของคุณหรือไม่?",
         "tr_TR": "Ryujinx'i \"şimdi oynanıyor\" Discord aktivitesinde göstermeyi veya göstermemeyi seçin",
@@ -16217,7 +16167,7 @@
         "sv_SE": "Stöd för direkt musåtkomst (HID). Ger spel åtkomst till din mus som pekdon.\n\nFungerar endast med spel som har inbyggt stöd för  muskontroller på Switch-hårdvara, som är endast ett fåtal.\n\nViss pekskärmsfunktionalitet kanske inte fungerar när aktiverat.\n\nLämna AV om du är osäker.",
         "th_TH": "รองรับการเข้าถึงเมาส์โดยตรง (HID) ให้เกมเข้าถึงเมาส์ของคุณเป็นอุปกรณ์ชี้ตำแหน่ง\n\nใช้งานได้เฉพาะกับเกมที่รองรับการควบคุมเมาส์บนฮาร์ดแวร์ของ Switch เท่านั้น ซึ่งมีอยู่ไม่มากนัก\n\nเมื่อเปิดใช้งาน ฟังก์ชั่นหน้าจอสัมผัสอาจไม่ทำงาน\n\nหากคุณไม่แน่ใจให้ปิดใช้งานไว้",
         "tr_TR": "",
-        "uk_UA": "Підтримка прямого доступу до миші (HID). Надає іграм доступ до миші, як пристрій вказування.\n\nПрацює тільки з іграми, які підтримують мишу на обладнанні Switch (таких небагато).\n\nФункціонал сенсорного екрану може не працювати, якщо ця функція ввімкнена.\n\nЗалиште вимкненим, якщо не впевнені.",
+        "uk_UA": "Підтримка прямого доступу до миші (HID). Надає іграм доступ до миші, як пристрій вказування.\n\nПрацює тільки з тими іграми, що підтримують мишу на обладнанні Switch (таких небагато).\n\nФункціонал сенсорного екрану може не працювати, якщо увімкнути цю функцію.\n\nЗалиште вимкненим, якщо не впевнені.",
         "zh_CN": "直接鼠标访问(HID)支持，游戏可以直接访问鼠标作为指针输入设备。\n\n只适用于在 Switch 硬件上原生支持鼠标控制的游戏，这种游戏很少。\n\n启用后，触屏功能可能无法正常工作。\n\n如果不确定，请保持关闭状态。",
         "zh_TW": "支援滑鼠直接存取 (HID)。遊戲可將滑鼠作為指向裝置使用。\n\n僅適用於在 Switch 硬體上原生支援滑鼠控制的遊戲，這類遊戲很少。\n\n啟用後，觸控螢幕功能可能無法使用。\n\n如果不確定，請保持關閉狀態。"
       }
@@ -16312,7 +16262,7 @@
         "ko_KR": "시스템 시간 변경",
         "no_NO": "Endre systemtid",
         "pl_PL": "Zmień czas systemowy",
-        "pt_BR": "Mudar a Hora do Sistema",
+        "pt_BR": "Mudar a Data e Hora do Sistema",
         "ru_RU": "Меняет системное время системы",
         "sv_SE": "Ändra systemtid",
         "th_TH": "เปลี่ยนเวลาของระบบ",
@@ -16487,8 +16437,8 @@
         "ko_KR": "게스트 메모리 매핑 및 접속 방법을 변경합니다. 에뮬레이트된 CPU 성능에 큰 영향을 미칩니다.\n\n모르면 호스트 확인 안 함으로 설정합니다.",
         "no_NO": "Endre hvordan gjesteminne tilordnes og åpnes. Påvirker emulator CPU-ytelsen veldig mye.\n\nSett til HOST UNCHECKED hvis usikker.",
         "pl_PL": "Zmień sposób mapowania i uzyskiwania dostępu do pamięci gości. Znacznie wpływa na wydajność emulowanego procesora.\n\nUstaw na HOST UNCHECKED, jeśli nie masz pewności.",
-        "pt_BR": "Altera como a memória do convidado é mapeada e acessada. Afeta muito o desempenho da CPU emulada.\n\nDefina como HOST UNCHECKED se não tiver certeza.",
-        "ru_RU": "Меняет разметку и доступ к гостевой памяти. Значительно влияет на производительность процессора.\n\nРекомендуется оставить \"Хост не установлен\"",
+        "pt_BR": "Altera como a memória do convidado é mapeada e acessada. Afeta muito o desempenho da CPU emulada.\n\nDefina como HÓSPEDE SEM VERIFICAÇÃO se não tiver certeza.",
+        "ru_RU": "Меняет разметку и доступ к гостевой памяти. Значительно влияет на производительность процессора.\n\nРекомендуется оставить «Хост не установлен»",
         "sv_SE": "Ändra hur gästminne mappas och ges åtkomst till. Påverkar emulerad CPU-prestanda mycket.\n\nStäll in till \"Värd inte kontrollerad\" om du är osäker.",
         "th_TH": "เปลี่ยนวิธีการเข้าถึงหน่วยความจำของผู้เยี่ยมชม ส่งผลอย่างมากต่อประสิทธิภาพการทำงานของ CPU ที่จำลอง\n\nตั้งค่าเป็น ไม่ได้ตรวจสอบโฮสต์ หากคุณไม่แน่ใจ",
         "tr_TR": "Guest hafızasının nasıl tahsis edilip erişildiğini değiştirir. Emüle edilen CPU performansını ciddi biçimde etkiler.\n\nEmin değilseniz HOST UNCHECKED seçeneğine ayarlayın.",
@@ -16612,7 +16562,7 @@
         "ko_KR": "Switch 개발 모델을 모방하기 위해 8GB DRAM이 포함된 대체 메모리 모드를 활용합니다.\n\n이는 고해상도 텍스처 팩 또는 4K 해상도 모드에만 유용합니다. 성능을 개선하지 않습니다.\n\n모르면 끔으로 두세요.",
         "no_NO": "Bruker en alternativ minnemodus med 8GiB i DRAM for og etterligne Switch utvikler modeller.\n\nDette er bare nyttig for teksturpakker eller 4k oppløsningsmoduler. Forbedrer IKKE ytelsen.\n\nLa AV hvis usikker.",
         "pl_PL": "Wykorzystuje alternatywny układ MemoryMode, aby naśladować model rozwojowy Switcha.\n\nJest to przydatne tylko w przypadku pakietów tekstur o wyższej rozdzielczości lub modów w rozdzielczości 4k. NIE poprawia wydajności.\n\nW razie wątpliwości pozostaw WYŁĄCZONE.",
-        "pt_BR": "Utiliza um modo de memória alternativo com 8 GB de DRAM para imitar um modelo de desenvolvimento do Switch.\n\nIsso só é útil para pacotes de textura de alta resolução ou mods de resolução 4k. NÃO melhora o desempenho.\n\nDeixe OFF se não tiver certeza.",
+        "pt_BR": "Utiliza um modo de memória alternativo com 6, 8 ou 12 GB de DRAM para imitar um modelo de desenvolvimento do Switch.\n\nIsso só é útil para pacotes de textura de alta resolução ou mods de resolução 4k. NÃO melhora o desempenho.\n\nDeixe em 4 GB se não tiver certeza.",
         "ru_RU": "Использует альтернативный макет MemoryMode для имитации использования Nintendo Switch в режиме разработчика.\n\nПолезно только для пакетов текстур с высоким разрешением или модов добавляющих разрешение 4К. Не улучшает производительность.\n\nРекомендуется оставить выключенным.",
         "sv_SE": "Använder ett alternativt minnesläge med 8GiB av DRAM för att efterlikna en utvecklingsmodell av Switch.\n\nDetta är endast användbart för texturpaket med högre upplösning eller moddar för 4k-upplösning. Det förbättrar INTE prestandan.\n\nLämna AV om du är osäker.",
         "th_TH": "ใช้รูปแบบ MemoryMode ทางเลือกเพื่อเลียนแบบโมเดลการพัฒนาสวิตช์\n\nสิ่งนี้มีประโยชน์สำหรับแพ็กพื้นผิวที่มีความละเอียดสูงกว่าหรือม็อดที่มีความละเอียด 4k เท่านั้น\n\nปล่อยให้ปิดหากคุณไม่แน่ใจ",
@@ -16642,7 +16592,7 @@
         "sv_SE": "Ignorerar Horizon OS-tjänster som inte har implementerats. Detta kan avhjälpa krascher när vissa spel startar upp.\n\nLämna AV om du är osäker.",
         "th_TH": "ละเว้นบริการ Horizon OS ที่ยังไม่ได้ใช้งาน วิธีนี้อาจช่วยในการหลีกเลี่ยงข้อผิดพลาดเมื่อบูตเกมบางเกม\n\nปล่อยให้ปิดหากคุณไม่แน่ใจ",
         "tr_TR": "Henüz programlanmamış Horizon işletim sistemi servislerini görmezden gelir. Bu seçenek belirli oyunların açılırken çökmesinin önüne geçmeye yardımcı olabilir.\n\nEmin değilseniz devre dışı bırakın.",
-        "uk_UA": "Ігнорує нереалізовані служби Horizon OS. Це може допомогти в обході збоїв під час завантаження певних ігор.\n\nЗалиште вимкненим, якщо не впевнені.",
+        "uk_UA": "Ігнорує нереалізовані служби Horizon OS. Це може допомогти в обході збоїв під час завантаження певних ігор.\n\nЗалиште вимкненим якщо не впевнені.",
         "zh_CN": "开启后，游戏会忽略未实现的系统服务，从而继续运行。\n少部分新发布的游戏由于使用了新的未知系统服务，可能需要此选项来避免闪退。\n模拟器更新完善系统服务之后，则无需开启此选项。\n\n如果不确定，请保持关闭状态。",
         "zh_TW": "忽略未實現的 Horizon OS 服務。這可能有助於在啟動某些遊戲時避免崩潰。\n\n如果不確定，請保持關閉狀態。"
       }
@@ -16663,11 +16613,11 @@
         "no_NO": "",
         "pl_PL": "",
         "pt_BR": "A caixa de diálogo do Applet do controlador não aparecerá se o controle for desconectado enquanto um aplicativo estiver em execução.\n\nDeixe a opção DESLIGADO se não tiver certeza.",
-        "ru_RU": "",
+        "ru_RU": "Диалоговое окно апплета контроллера не будет отображаться, если геймпад отключен во время работы приложения.\n\nОставьте выключенным, если не уверены.",
         "sv_SE": "",
         "th_TH": "",
         "tr_TR": "",
-        "uk_UA": "",
+        "uk_UA": "Діалогове вікно Аплету Контролера не з'явиться, якщо геймпад було відключено під час роботи програми.\n\nЗалиште вимкненим якщо не впевнені.",
         "zh_CN": "",
         "zh_TW": ""
       }
@@ -16692,7 +16642,7 @@
         "sv_SE": "Kör kommandon för grafikbakände i en andra tråd.\n\nSnabbar upp shader compilation, minskar stuttering och förbättrar prestandan på GPU-drivrutiner utan stöd för egen multithreading. Något bättre prestanda på drivrutiner med multithreading.\n\nStäll in till AUTO om du är osäker.",
         "th_TH": "ดำเนินการคำสั่งแบ็กเอนด์กราฟิกบนเธรดที่สอง\n\nเร่งความเร็วการคอมไพล์ ลดการกระตุก และปรับปรุงประสิทธิภาพการทำงานของไดรเวอร์ GPU โดยไม่ต้องรองรับมัลติเธรดในตัว ประสิทธิภาพที่ดีขึ้นเล็กน้อยสำหรับไดรเวอร์ที่มีมัลติเธรด\n\nตั้งเป็น อัตโนมัติ หากคุณไม่แน่ใจ",
         "tr_TR": "Grafik arka uç komutlarını ikinci bir iş parçacığında işletir.\n\nKendi multithreading desteği olmayan sürücülerde shader derlemeyi hızlandırıp performansı artırır. Multithreading desteği olan sürücülerde çok az daha iyi performans sağlar.\n\nEmin değilseniz Otomatik seçeneğine ayarlayın.",
-        "uk_UA": "Виконує команди графічного сервера в другому потоці.\n\nПрискорює компіляцію шейдерів, зменшує затримки та покращує продуктивність драйверів GPU без власної підтримки багатопоточності. Трохи краща продуктивність на драйверах з багатопотоковістю.\nВстановіть значення «Авто», якщо не впевнені",
+        "uk_UA": "Виконує команди графічного сервера в другому потоці.\n\nПрискорює компіляцію шейдерів, зменшує затримки та покращує продуктивність драйверів GPU без власної підтримки багатопоточності. Трохи краща продуктивність на драйверах з багатопотоковістю.\nВстановіть значення «Авто» якщо не впевнені",
         "zh_CN": "在第二个线程上执行图形引擎指令。\n\n可以加速着色器编译，减少卡顿，提高 GPU 的性能。\n\n如果不确定，请设置为“自动”。",
         "zh_TW": "在第二個執行緒上執行圖形後端指令。\n\n在本身不支援多執行緒的 GPU 驅動程式上，可加快著色器編譯、減少卡頓並提高效能。在支援多執行緒的驅動程式上效能略有提升。\n\n如果不確定，請設定為自動。"
       }
@@ -16717,7 +16667,7 @@
         "sv_SE": "Kör kommandon för grafikbakände i en andra tråd.\n\nSnabbar upp shader compilation, minskar stuttering och förbättrar prestandan på GPU-drivrutiner utan stöd för egen multithreading. Något bättre prestanda på drivrutiner med multithreading.\n\nStäll in till AUTO om du är osäker.",
         "th_TH": "ดำเนินการคำสั่งแบ็กเอนด์กราฟิกบนเธรดที่สอง\n\nเร่งความเร็วการคอมไพล์เชเดอร์ ลดการกระตุก และปรับปรุงประสิทธิภาพการทำงานของไดรเวอร์ GPU โดยไม่ต้องรองรับมัลติเธรดในตัว ประสิทธิภาพที่ดีขึ้นเล็กน้อยสำหรับไดรเวอร์ที่มีมัลติเธรด\n\nตั้งเป็น อัตโนมัติ หากคุณไม่แน่ใจ",
         "tr_TR": "Grafik arka uç komutlarını ikinci bir iş parçacığında işletir.\n\nKendi multithreading desteği olmayan sürücülerde shader derlemeyi hızlandırıp performansı artırır. Multithreading desteği olan sürücülerde çok az daha iyi performans sağlar.\n\nEmin değilseniz Otomatik seçeneğine ayarlayın.",
-        "uk_UA": "Виконує команди графічного сервера в другому потоці.\n\nПрискорює компіляцію шейдерів, зменшує затримки та покращує продуктивність драйверів GPU без власної підтримки багатопоточності. Трохи краща продуктивність на драйверах з багатопотоковістю.\n\nВстановіть значення «Авто», якщо не впевнені.",
+        "uk_UA": "Виконує команди графічного сервера в другому потоці.\n\nПрискорює компіляцію шейдерів, зменшує затримки та покращує продуктивність драйверів GPU без власної підтримки багатопоточності. Трохи краща продуктивність на драйверах з багатопотоковістю.\n\nВстановіть значення «Авто» якщо не впевнені.",
         "zh_CN": "在第二个线程上执行图形引擎指令。\n\n可以加速着色器编译，减少卡顿，提高 GPU 的性能。\n\n如果不确定，请设置为“自动”。",
         "zh_TW": "在第二個執行緒上執行圖形後端指令。\n\n在本身不支援多執行緒的 GPU 驅動程式上，可加快著色器編譯、減少卡頓並提高效能。在支援多執行緒的驅動程式上效能略有提升。\n\n如果不確定，請設定為自動。"
       }
@@ -16737,12 +16687,12 @@
         "ko_KR": "후속 실행 시 끊김 현상을 줄이는 디스크 셰이더 캐시를 저장합니다.\n\n모르면 켬으로 두세요.",
         "no_NO": "Lagrer en disk shader cache som reduserer hakking jo flere ganger du spiller.\n\nLa være PÅ om usikker.",
         "pl_PL": "Zapisuje pamięć podręczną shaderów na dysku, co zmniejsza zacinanie się w kolejnych uruchomieniach.\n\nPozostaw WŁĄCZONE, jeśli nie masz pewności.",
-        "pt_BR": "Salva um cache de shader de disco que reduz a trepidação em execuções subsequentes.\n\nDeixe LIGADO se não tiver certeza.",
+        "pt_BR": "Salva um cache de shader no disco que reduz a trepidação em execuções subsequentes.\n\nDeixe LIGADO se não tiver certeza.",
         "ru_RU": "Сохраняет кэш шейдеров на диске, для уменьшения статтеров при последующих запусках.\n\nРекомендуется оставить включенным.",
         "sv_SE": "Sparar en disk shader cache som minskar stuttering i efterföljande körningar.\n\nLämna PÅ om du är osäker.",
         "th_TH": "บันทึกแคชแสงเงาของดิสก์ซึ่งช่วยลดการกระตุกในการรันครั้งต่อๆ ไป\n\nเปิดทิ้งไว้หากคุณไม่แน่ใจ",
         "tr_TR": "Sonraki çalışmalarda takılmaları engelleyen bir gölgelendirici disk önbelleğine kaydeder.",
-        "uk_UA": "Зберігає кеш дискового шейдера, що зменшує затримки під час наступних запусків.\n\nЗалиште увімкненим, якщо не впевнені.",
+        "uk_UA": "Зберігає кеш дискового шейдера, що зменшує затримки під час наступних запусків.\n\nЗалиште увімкненим якщо не впевнені.",
         "zh_CN": "模拟器将已编译的着色器保存到硬盘，可以减少游戏再次渲染相同图形导致的卡顿。\n\n如果不确定，请保持开启状态。",
         "zh_TW": "儲存磁碟著色器快取，減少後續執行時的卡頓。\n\n如果不確定，請保持開啟狀態。"
       }
@@ -16763,7 +16713,7 @@
         "no_NO": "Dobler spillets gjengivelse.\n\nNoen få spill fungerer kanskje ikke med dette aktivert og kan se veldig pikselert ut selv når gjengivelsen er økt; for de spillene, så kan det hende du må bruke modifikasjoner som fjerner anti-aliasing eller som øker den interne gjengivelsen. For og bruke sistnenvte, så vil du helst bruke \"Native\".\n\nHa til tanke at 4x er unødig for virituelt alle maskiner.",
         "pl_PL": "",
         "pt_BR": "Multiplica a resolução de renderização do jogo.\n\nAlguns jogos podem não funcionar bem com essa opção e apresentar uma aparência pixelada, mesmo com o aumento da resolução; para esses jogos, talvez seja necessário encontrar mods que removam o anti-aliasing ou aumentem a resolução de renderização interna. Ao usar a segunda opção, provavelmente desejará selecionar Nativa.\n\nEssa opção pode ser alterada enquanto um jogo está em execução, clicando em  \"Aplicar\" abaixo; basta mover a janela de configurações para o lado e experimentar até encontrar o visual preferido para o jogo.\n\nLembre-se de que 4x é exagerado para praticamente qualquer configuração.",
-        "ru_RU": "Увеличивает разрешение рендера игры.\n\nНекоторые игры могут не работать с этой настройкой и выглядеть смазано даже когда разрешение увеличено. Для таких игр может потребоваться установка модов, которые убирают сглаживание или увеличивают разрешение рендеринга. \nДля использования последнего, вам нужно будет выбрать опцию \"Нативное\".\n\nЭта опция может быть изменена во время игры по нажатию кнопки \"Применить\" ниже. Вы можете просто переместить окно настроек в сторону и поэкспериментировать, пока не подберете подходящие настройки для конкретной игры.\n\nИмейте в виду, что \"4x\" является излишеством.",
+        "ru_RU": "Увеличивает разрешение рендера игры.\n\nНекоторые игры могут не работать с этой настройкой и выглядеть смазано даже когда разрешение увеличено. Для таких игр может потребоваться установка модов, которые убирают сглаживание или увеличивают разрешение рендеринга. \nДля использования последнего, вам нужно будет выбрать опцию «Нативное».\n\nЭта опция может быть изменена во время игры по нажатию кнопки «Применить» ниже. Вы можете просто переместить окно настроек в сторону и поэкспериментировать, пока не подберете подходящие настройки для конкретной игры.\n\nИмейте в виду, что «4x» является излишеством.",
         "sv_SE": "Multiplicerar spelets renderingsupplösning.\n\nNågra spel kanske inte fungerar med detta och ser pixelerade ut även när upplösningen ökas; för dessa spel så kan du behöva hitta moddar som tar bort anti-aliasing eller som ökar deras interna renderingsupplösning. För att använda det senare, kommer du sannolikt vilja välja Inbyggd.\n\nDet här alternativet kan ändras medan ett spel körs genom att klicka på \"Tillämpa\" nedan. du kan helt enkelt flytta inställningsfönstret åt sidan och experimentera tills du hittar ditt föredragna utseende för ett spel.\n\nTänk på att 4x är overkill för praktiskt taget alla maskiner.",
         "th_TH": "คูณความละเอียดการเรนเดอร์ของเกม\n\nเกมบางเกมอาจไม่สามารถใช้งานได้และดูเป็นพิกเซลแม้ว่าความละเอียดจะเพิ่มขึ้นก็ตาม สำหรับเกมเหล่านั้น คุณอาจต้องค้นหาม็อดที่ลบรอยหยักของภาพหรือเพิ่มความละเอียดในการเรนเดอร์ภายใน หากต้องการใช้อย่างหลัง คุณอาจต้องเลือก Native\n\nตัวเลือกนี้สามารถเปลี่ยนแปลงได้ในขณะที่เกมกำลังทำงานอยู่โดยคลิก \"นำมาใช้\" ด้านล่าง คุณสามารถย้ายหน้าต่างการตั้งค่าไปด้านข้างและทดลองจนกว่าคุณจะพบรูปลักษณ์ที่คุณต้องการสำหรับเกม\n\nโปรดทราบว่า 4x นั้นเกินความจำเป็นสำหรับการตั้งค่าแทบทุกประเภท",
         "tr_TR": "",
@@ -17092,7 +17042,7 @@
         "sv_SE": "Aktiverar loggutdata för filsystemsåtkomst i konsollen. Möjliga lägen är 0-3",
         "th_TH": "เปิดใช้งาน เอาต์พุตประวัติการเข้าถึง FS ไปยังคอนโซล โหมดที่เป็นไปได้คือ 0-3",
         "tr_TR": "Konsola FS erişim loglarının yazılmasını etkinleştirir. Kullanılabilir modlar 0-3'tür",
-        "uk_UA": "Вмикає виведення журналу доступу (access log) до FS на консоль. Можливі режими 0-3",
+        "uk_UA": "Увімкнути виведення журналу доступу (access log) до файлової системи в консоль. Можливі режими: 0-3",
         "zh_CN": "在控制台中显示文件系统访问日志，可选模式为 0-3。",
         "zh_TW": "啟用檔案系統存取日誌輸出到控制台中。可能的模式為 0 到 3"
       }
@@ -17138,11 +17088,11 @@
         "no_NO": "Skriver ut Avalonia (UI)-loggmeldinger i konsollen.",
         "pl_PL": "",
         "pt_BR": "Imprime mensagens de log do Avalonia (UI) no console.",
-        "ru_RU": "",
+        "ru_RU": "Выводит сообщения журнала Avalonia (интерфейс) в консоли.",
         "sv_SE": "",
         "th_TH": "",
         "tr_TR": "",
-        "uk_UA": "",
+        "uk_UA": "Виводити повідомлення журналу Avalonia (UI) в консоль",
         "zh_CN": "在控制台显示 Avalonia (UI) 的日志信息",
         "zh_TW": ""
       }
@@ -17292,7 +17242,7 @@
         "sv_SE": "Öppna en filutforskare för att välja en eller flera mappar att läsa in alla titeluppdateringar från",
         "th_TH": "เปิดตัวสำรวจไฟล์เพื่อเลือกหนึ่งโฟลเดอร์ขึ้นไปเพื่อโหลดไฟล์อัปเดตจำนวนมาก",
         "tr_TR": "",
-        "uk_UA": "Відкриває Файловий провідник для обрання однієї або декількох тек для масового завантаження оновлень",
+        "uk_UA": "Відкриває Файловий Провідник для обрання однієї або декількох тек для масового завантаження оновлень",
         "zh_CN": "打开文件资源管理器以选择一个或多个文件夹来批量加载游戏更新。",
         "zh_TW": "開啟檔案總管，選擇一個或多個資料夾來大量載入遊戲更新"
       }
@@ -17338,11 +17288,11 @@
         "no_NO": "",
         "pl_PL": "",
         "pt_BR": "Abre a pasta de capturas de tela do Ryujinx",
-        "ru_RU": "",
+        "ru_RU": "Открывает папку скриншотов Ryujinx",
         "sv_SE": "",
         "th_TH": "",
         "tr_TR": "",
-        "uk_UA": "",
+        "uk_UA": "Відкрити теку куди зберігаються скріншоти Ryujinx",
         "zh_CN": "",
         "zh_TW": ""
       }
@@ -17363,11 +17313,11 @@
         "no_NO": "Åpner mappen hvor logger er lagret",
         "pl_PL": "Otwiera folder, w którym zapisywane są logi",
         "pt_BR": "Abre a pasta onde os logs são gravados",
-        "ru_RU": "Открывает папку в которую записываются логи",
+        "ru_RU": "Открывает папку, в которую записываются логи",
         "sv_SE": "Öppnar mappen där loggarna har skrivits till",
         "th_TH": "เปิดโฟลเดอร์ ที่เก็บไฟล์ประวัติ",
         "tr_TR": "Log dosyalarının bulunduğu klasörü açar",
-        "uk_UA": "Відкриває теку, куди записуються журнали (logs)",
+        "uk_UA": "Відкриває теку, куди зберігаються журнали (logs)",
         "zh_CN": "打开日志存放的目录",
         "zh_TW": "開啟日誌被寫入的資料夾"
       }
@@ -17392,7 +17342,7 @@
         "sv_SE": "Avsluta Ryujinx",
         "th_TH": "ออกจากโปรแกรม Ryujinx",
         "tr_TR": "Ryujinx'ten çıkış yapmayı sağlar",
-        "uk_UA": "Виходить з Ryujinx",
+        "uk_UA": "Закриває Ryujinx",
         "zh_CN": "退出 Ryujinx 模拟器",
         "zh_TW": "結束 Ryujinx"
       }
@@ -17438,7 +17388,7 @@
         "no_NO": "Åpne vindu for brukerprofiler",
         "pl_PL": "Otwórz okno Menedżera Profili Użytkownika",
         "pt_BR": "Abrir Janela de Gerenciamento de Perfis",
-        "ru_RU": "Открыть менеджер учетных записей",
+        "ru_RU": "Открыть менеджер учётных записей",
         "sv_SE": "Öppna hanterare för användarprofiler",
         "th_TH": "เปิดหน้าต่างตัวจัดการโปรไฟล์ผู้ใช้",
         "tr_TR": "Kullanıcı profil yöneticisi penceresini açar",
@@ -18088,11 +18038,11 @@
         "no_NO": "Oppdatering tilgjengelig!",
         "pl_PL": "",
         "pt_BR": "Atualização Disponível!",
-        "ru_RU": "",
+        "ru_RU": "Доступно обновление!",
         "sv_SE": "",
         "th_TH": "",
         "tr_TR": "",
-        "uk_UA": "",
+        "uk_UA": "Доступне оновлення!",
         "zh_CN": "有可用的更新！",
         "zh_TW": ""
       }
@@ -18967,7 +18917,7 @@
         "sv_SE": "Cabinet-dialog",
         "th_TH": "",
         "tr_TR": "",
-        "uk_UA": "",
+        "uk_UA": "Сповіщення Cabinet",
         "zh_CN": "档案对话框",
         "zh_TW": "Cabinet 對話方塊"
       }
@@ -19888,11 +19838,11 @@
         "no_NO": "LED-innstillinger",
         "pl_PL": "",
         "pt_BR": "Configurações de LED",
-        "ru_RU": "",
+        "ru_RU": "Настройки LED-подсветки",
         "sv_SE": "LED-inställningar",
         "th_TH": "",
         "tr_TR": "",
-        "uk_UA": "",
+        "uk_UA": "Налаштування LED",
         "zh_CN": "LED 设置",
         "zh_TW": ""
       }
@@ -20488,7 +20438,7 @@
         "no_NO": "Bruker Profiler Behandler",
         "pl_PL": "Menedżer Profili Użytkowników",
         "pt_BR": "Gerenciador de Perfis de Usuário",
-        "ru_RU": "Менеджер учетных записей",
+        "ru_RU": "Менеджер учётных записей",
         "sv_SE": "Hanterare för användarprofiler",
         "th_TH": "จัดการโปรไฟล์ผู้ใช้",
         "tr_TR": "Kullanıcı Profillerini Yönet",
@@ -20842,7 +20792,7 @@
         "sv_SE": "Markera visade",
         "th_TH": "",
         "tr_TR": "",
-        "uk_UA": "Вибрати показане",
+        "uk_UA": "Вибрати показані",
         "zh_CN": "选定显示的",
         "zh_TW": "選擇已顯示"
       }
@@ -21692,7 +21642,7 @@
         "sv_SE": "Automatiskt",
         "th_TH": "",
         "tr_TR": "",
-        "uk_UA": "",
+        "uk_UA": "Автоматично",
         "zh_CN": "自动",
         "zh_TW": "自動"
       }
@@ -21717,7 +21667,7 @@
         "sv_SE": "Använder Vulkan.\nPå en ARM Mac och vid spel som körs bra på den så används Metal-bakänden.",
         "th_TH": "",
         "tr_TR": "",
-        "uk_UA": "",
+        "uk_UA": "Використовує Vulkan.\nНа Mac з ARM-архітектурою, якщо гра добре працює з Vulkan, використовується графічний рушій Metal.",
         "zh_CN": "使用 Vulkan。\n在 ARM Mac 上，当玩在其下运行良好的游戏时，使用 Metal 后端。",
         "zh_TW": "使用Vulkan。\n在 ARM Mac 上，如果遊戲執行性能良好時，則將使用 Metal 後端。"
       }
@@ -21813,7 +21763,7 @@
         "no_NO": "Velg grafikkkortet som skal brukes sammen med Vulkan grafikkbackenden\n\nPåvirker ikke GPU-er som OpenGL skal bruke.\n\nSett til GPU-merket som \"dGPU\" hvis usikker. Hvis det ikke det er en, la være uberørt.",
         "pl_PL": "Wybierz kartę graficzną, która będzie używana z backendem graficznym Vulkan.\n\nNie wpływa na GPU używane przez OpenGL.\n\nW razie wątpliwości ustaw flagę GPU jako \"dGPU\". Jeśli żadnej nie ma, pozostaw nietknięte.",
         "pt_BR": "Selecione a placa de vídeo que será usada com o renderizador gráfico Vulkan.\n\nNão afeta a GPU que OpenGL usará.\n\nSelecione \"dGPU\" em caso de dúvida. Se não houver nenhuma, não mexa.",
-        "ru_RU": "Выберает видеоадаптер, который будет использоваться графическим бэкендом Vulkan.\n\nЭта настройка не влияет на видеоадаптер, который будет использоваться с OpenGL.\n\nЕсли вы не уверены что нужно выбрать, используйте графический процессор, помеченный как \"dGPU\". Если его нет, оставьте выбор по умолчанию.",
+        "ru_RU": "Выберает видеоадаптер, который будет использоваться графическим бэкендом Vulkan.\n\nЭта настройка не влияет на видеоадаптер, который будет использоваться с OpenGL.\n\nЕсли вы не уверены что нужно выбрать, используйте графический процессор, помеченный как «dGPU». Если его нет, оставьте выбор по умолчанию.",
         "sv_SE": "Välj grafikkortet som ska användas med Vulkan-grafikbakänden.\n\nPåverkar inte GPU:n som OpenGL använder.\n\nStäll in till den GPU som flaggats som \"dGPU\" om osäker. Om det inte finns någon, lämna orörd.",
         "th_TH": "เลือกการ์ดจอที่จะใช้กับแบ็กเอนด์กราฟิก Vulkan\n\nไม่ส่งผลต่อ GPU ที่ OpenGL จะใช้\n\nตั้งค่าเป็น GPU ที่ถูกตั้งค่าสถานะเป็น \"dGPU\" ถ้าหากคุณไม่แน่ใจ ,หากไม่มีก็ปล่อยทิ้งไว้โดยไม่ต้องแตะต้องมัน",
         "tr_TR": "Vulkan Grafik Arka Ucu ile kullanılacak Ekran Kartını Seçin.\n\nOpenGL'nin kullanacağı GPU'yu etkilemez.\n\n Emin değilseniz \"dGPU\" olarak işaretlenmiş GPU'ya ayarlayın.  Eğer yoksa, dokunmadan bırakın.\n",
@@ -22313,7 +22263,7 @@
         "no_NO": "Gjenopprett tapte kontoer",
         "pl_PL": "Odzyskaj Utracone Konta",
         "pt_BR": "Recuperar Contas Perdidas",
-        "ru_RU": "Восстановить учетные записи",
+        "ru_RU": "Восстановить учётные записи",
         "sv_SE": "Återskapa förlorade konton",
         "th_TH": "กู้คืนบัญชีที่สูญหาย",
         "tr_TR": "Kayıp Hesapları Kurtar",
@@ -22388,7 +22338,7 @@
         "no_NO": "Ingen profiler å gjenopprette",
         "pl_PL": "Brak profili do odzyskania",
         "pt_BR": "Nenhum perfil para recuperar",
-        "ru_RU": "Нет учетных записей для восстановления",
+        "ru_RU": "Нет учётных записей для восстановления",
         "sv_SE": "Inga profiler att återskapa",
         "th_TH": "ไม่มีโปรไฟล์ที่สามารถกู้คืนได้",
         "tr_TR": "Kurtarılacak profil bulunamadı",
@@ -22413,7 +22363,7 @@
         "no_NO": "Aktiverer anti-aliasing til spill render.\n\nFXAA vil gjøre det meste av bildet, mens SMAA vil forsøke å finne berørte kanter og glatte dem ut.\n\nAnbefales ikke til bruk i forbindelse med FSR-skaleringsfilteret.\n\nDette valget kan endres mens et spill kjører ved å klikke \"Apply\" nedenfor; du kan bare flytte innstillingsvinduet til du finner det foretrukne utseendet til et spill.\n\nForlat på NONE hvis usikker.",
         "pl_PL": "",
         "pt_BR": "Aplica anti-aliasing à renderização do jogo.\n\nFXAA borrará a maior parte da imagem, enquanto SMAA tentará identificar e suavizar bordas serrilhadas.\n\nNão é recomendado usar em conjunto com o filtro de escala FSR.\n\nEssa opção pode ser alterada enquanto o jogo está em execução clicando em \"Aplicar\" abaixo; basta mover a janela de configurações para o lado e experimentar até encontrar o visual preferido para o jogo.\n\nDeixe em NENHUM se estiver em dúvida.",
-        "ru_RU": "Применимое сглаживание для рендера.\n\nFXAA размывает большую часть изображения, SMAA попытается найти \"зазубренные\" края и сгладить их.\n\nНе рекомендуется использовать вместе с масштабирующим фильтром FSR.\n\nЭта опция может быть изменена во время игры по нажатию \"Применить\" ниже; \nВы можете просто переместить окно настроек в сторону и поэкспериментировать, пока не найдёте подходящую настройку игры.\n\nРекомендуется использовать \"Нет\".",
+        "ru_RU": "Применимое сглаживание для рендера.\n\nFXAA размывает большую часть изображения, SMAA попытается найти «зазубренные» края и сгладить их.\n\nНе рекомендуется использовать вместе с масштабирующим фильтром FSR.\n\nЭта опция может быть изменена во время игры по нажатию «Применить» ниже; \nВы можете просто переместить окно настроек в сторону и поэкспериментировать, пока не найдёте подходящую настройку игры.\n\nРекомендуется использовать «Нет».",
         "sv_SE": "Tillämpar anti-aliasing på spelrenderaren.\n\nFXAA kommer att sudda det mesta av bilden, medan SMAA kommer att försöka hitta taggiga kanter och släta ut dem.\n\nRekommenderas inte att använda tillsammans med skalfiltret FSR.\n\nDet här alternativet kan ändras medan ett spel körs genom att klicka på \"Tillämpa\" nedan. Du kan helt enkelt flytta inställningsfönstret åt sidan och experimentera tills du hittar ditt föredragna utseende för ett spel.\n\nLämna som INGEN om du är osäker.",
         "th_TH": "ใช้การลดรอยหยักกับการเรนเดอร์เกม\n\nFXAA จะเบลอภาพส่วนใหญ่ ในขณะที่ SMAA จะพยายามค้นหารอยหยักและปรับให้เรียบ\n\nไม่แนะนำให้ใช้ร่วมกับตัวกรองสเกล FSR\n\nตัวเลือกนี้สามารถเปลี่ยนแปลงได้ในขณะที่เกมกำลังทำงานอยู่โดยคลิก \"นำไปใช้\" ด้านล่าง คุณสามารถย้ายหน้าต่างการตั้งค่าไปด้านข้างและทดลองจนกว่าคุณจะพบรูปลักษณ์ที่คุณต้องการสำหรับเกม\n\nปล่อยไว้ที่ NONE หากไม่แน่ใจ",
         "tr_TR": "",
@@ -22488,7 +22438,7 @@
         "no_NO": "Velg det skaleringsfilteret som skal brukes når du bruker oppløsningsskalaen.\n\nBilinear fungerer godt for 3D-spill og er et trygt standardalternativ.\n\nNærmeste anbefales for pixel kunst-spill.\n\nFSR 1.0 er bare et skarpere filter, ikke anbefalt for bruk med FXAA eller SMAA.\n\nOmrådeskalering anbefales når nedskalering er større enn utgangsvinduet. Den kan brukes til å oppnå en superprøvetaket anti-aliasingseffekt når en nedskalerer med mer enn 2x.\n\nDette valget kan endres mens et spill kjører ved å klikke \"Apply\" nedenfor; du kan bare flytte innstillingsvinduet til du finner det foretrukne utseendet til et spill.\n\nLa være på BILINEAR hvis usikker.",
         "pl_PL": "Choose the scaling filter that will be applied when using resolution scale.\n\nBilinear works well for 3D games and is a safe default option.\n\nNearest is recommended for pixel art games.\n\nFSR 1.0 is merely a sharpening filter, not recommended for use with FXAA or SMAA.\n\nThis option can be changed while a game is running by clicking \"Apply\" below; you can simply move the settings window aside and experiment until you find your preferred look for a game.\n\nLeave on BILINEAR if unsure.",
         "pt_BR": "Escolha o filtro de escala que será aplicado ao usar a escala de resolução.\n\nBilinear funciona bem para jogos 3D e é uma opção padrão segura.\n\nNearest é recomendado para jogos em pixel art.\n\nFSR 1.0 é apenas um filtro de nitidez, não recomendado para uso com FXAA ou SMAA.\n\nEssa opção pode ser alterada enquanto o jogo está em execução, clicando em \"Aplicar\" abaixo; basta mover a janela de configurações para o lado e experimentar até encontrar o visual preferido para o jogo.\n\nMantenha em BILINEAR se estiver em dúvida.",
-        "ru_RU": "Фильтрация текстур, которая будет применяться при масштабировании.\n\nБилинейная хорошо работает для 3D-игр и является настройкой по умолчанию.\n\nСтупенчатая рекомендуется для пиксельных игр.\n\nFSR это фильтр резкости, который не рекомендуется использовать с FXAA или SMAA.\n\nЭта опция может быть изменена во время игры по нажатию кнопки \"Применить\" ниже; \nВы можете просто переместить окно настроек в сторону и поэкспериментировать, пока не подберете подходящие настройки для конкретной игры.\n\nРекомендуется использовать \"Билинейная\".",
+        "ru_RU": "Фильтрация текстур, которая будет применяться при масштабировании.\n\nБилинейная хорошо работает для 3D-игр и является настройкой по умолчанию.\n\nСтупенчатая рекомендуется для пиксельных игр.\n\nFSR это фильтр резкости, который не рекомендуется использовать с FXAA или SMAA.\n\nЗональная рекомендуется в случае использования разрешения больше разрешения окна. Можно использовать для достижения эффекта суперсемплига (SSAA) при даунскейле более чем в 2 раза.\n\nЭта опция может быть изменена во время игры по нажатию кнопки «Применить» ниже; \nВы можете просто переместить окно настроек в сторону и поэкспериментировать, пока не подберете подходящие настройки для конкретной игры.\n\nРекомендуется использовать «Билинейная».",
         "sv_SE": "Välj det skalfilter som ska tillämpas vid användning av upplösningsskala.\n\nBilinjär fungerar bra för 3D-spel och är ett säkert standardalternativ.\n\nNärmast rekommenderas för pixel art-spel.\n\nFSR 1.0 är bara ett skarpningsfilter, rekommenderas inte för FXAA eller SMAA.\n\nOmrådesskalning rekommenderas vid nedskalning av upplösning som är större än utdatafönstret. Det kan användas för att uppnå en supersamplad anti-alias-effekt vid nedskalning med mer än 2x.\n\nDetta alternativ kan ändras medan ett spel körs genom att klicka på \"Tillämpa\" nedan. du kan helt enkelt flytta inställningsfönstret åt sidan och experimentera tills du hittar ditt föredragna utseende för ett spel.\n\nLämna som BILINJÄR om du är osäker.",
         "th_TH": "เลือกตัวกรองสเกลที่จะใช้เมื่อใช้สเกลความละเอียด\n\nBilinear ทำงานได้ดีกับเกม 3D และเป็นตัวเลือกเริ่มต้นที่ปลอดภัย\n\nแนะนำให้ใช้เกมภาพพิกเซลที่ใกล้เคียงที่สุด\n\nFSR 1.0 เป็นเพียงตัวกรองความคมชัด ไม่แนะนำให้ใช้กับ FXAA หรือ SMAA\n\nตัวเลือกนี้สามารถเปลี่ยนแปลงได้ในขณะที่เกมกำลังทำงานอยู่โดยคลิก \"นำไปใช้\" ด้านล่าง คุณสามารถย้ายหน้าต่างการตั้งค่าไปด้านข้างและทดลองจนกว่าคุณจะพบรูปลักษณ์ที่คุณต้องการสำหรับเกม",
         "tr_TR": "Choose the scaling filter that will be applied when using resolution scale.\n\nBilinear works well for 3D games and is a safe default option.\n\nNearest is recommended for pixel art games.\n\nFSR 1.0 is merely a sharpening filter, not recommended for use with FXAA or SMAA.\n\nThis option can be changed while a game is running by clicking \"Apply\" below; you can simply move the settings window aside and experiment until you find your preferred look for a game.\n\nLeave on BILINEAR if unsure.",
@@ -22638,7 +22588,7 @@
         "no_NO": "Definer FSR 1,0 skarpere nivå. Høyere er skarpere.",
         "pl_PL": "Ustaw poziom ostrzeżenia FSR 1.0. Wyższy jest ostrzejszy.",
         "pt_BR": "Defina o nível de nitidez do FSR 1.0. Quanto maior, mais nítido.",
-        "ru_RU": "Выбор режима работы FSR 1.0. Выше - четче.",
+        "ru_RU": "Выбор режима работы FSR 1.0. Выше — четче.",
         "sv_SE": "Ställ in nivå för FSR 1.0 sharpening. Högre är skarpare.",
         "th_TH": "ตั้งค่าระดับความคมชัด FSR 1.0 ยิ่งสูงกว่าจะยิ่งคมชัดกว่า",
         "tr_TR": "",
@@ -22838,7 +22788,7 @@
         "no_NO": "Nettverksgrensesnittets grensesnitt brukt for LAN/LDN funksjoner.\n\ni konjuksjon med en VPN eller XLink Kai og ett spill med LAN støtte, kan bli brukt til og spoofe ett \"samme-nettverk\" tilkobling over nettet.\n\nLa være på DEFAULT om usikker.",
         "pl_PL": "Interfejs sieciowy używany dla funkcji LAN/LDN.\n\nw połączeniu z VPN lub XLink Kai i grą z obsługą sieci LAN, może być użyty do spoofowania połączenia z tą samą siecią przez Internet.\n\nZostaw DOMYŚLNE, jeśli nie ma pewności.",
         "pt_BR": "A interface de rede usada para recursos de LAN/LDN.\n\nEm conjunto com uma VPN ou XLink Kai e um jogo com suporte a LAN, pode ser usada para simular uma conexão na mesma rede pela Internet.\n\nMantenha em PADRÃO se estiver em dúvida.",
-        "ru_RU": "Сетевой интерфейс, используемый для функций LAN/LDN.\n\nМожет использоваться для игры через интернет в сочетании с VPN или XLink Kai и игрой с поддержкой LAN.\n\nРекомендуется использовать \"По умолчанию\".",
+        "ru_RU": "Сетевой интерфейс, используемый для функций LAN/LDN.\n\nМожет использоваться для игры через интернет в сочетании с VPN или XLink Kai и игрой с поддержкой LAN.\n\nРекомендуется использовать «По умолчанию».",
         "sv_SE": "Nätverksgränssnittet som används för LAN/LDN-funktioner.\n\nTillsammans med en VPN eller XLink Kai och ett spel med LAN-stöd så kan detta användas för att spoofa en same-network-anslutning över internet.\n\nLämna som STANDARD om du är osäker.",
         "th_TH": "อินเทอร์เฟซเครือข่ายที่ใช้สำหรับคุณสมบัติ LAN/LDN\n\nเมื่อใช้ร่วมกับ VPN หรือ XLink Kai และเกมที่รองรับ LAN สามารถใช้เพื่อปลอมการเชื่อมต่อเครือข่ายเดียวกันผ่านทางอินเทอร์เน็ต\n\nปล่อยให้เป็น ค่าเริ่มต้น หากคุณไม่แน่ใจ",
         "tr_TR": "",
@@ -23013,7 +22963,7 @@
         "no_NO": "Endre LDN flerspillermodus.\n\nLdnMitm vil endre lokal trådløst/lokal spillfunksjonalitet i spill som skal fungere som om den var LAN, noe som tillater lokal, samme nettverk forbindelser med andre Ryujinx instanser og hacket Nintendo Switch konsoller som har installert ldn_mitm-modulen.\n\nFlerspiller krever at alle spillerne er på samme versjon (dvs. Super Smash Bros. Ultimat v13.0.1 kan ikke koble til v13.0.0).\n\nForlat DEAKTIVERT hvis usikker.",
         "pl_PL": "",
         "pt_BR": "Alterar o modo multiplayer LDN.\n\nLdnMitm modificará a funcionalidade de jogo sem fio/local nos jogos para funcionar como se fosse LAN, permitindo conexões locais, na mesma rede, com outras instâncias do Ryujinx e consoles Nintendo Switch hackeados que possuem o módulo ldn_mitm instalado.\n\nO multiplayer exige que todos os jogadores estejam na mesma versão do jogo (ex.: Super Smash Bros. Ultimate v13.0.1 não consegue se conectar à v13.0.0).\n\nDeixe DESATIVADO se estiver em dúvida.",
-        "ru_RU": "Меняет многопользовательский режим LDN.\n\nLdnMitm модифицирует функциональность локальной беспроводной/игры на одном устройстве в играх, позволяя играть с другими пользователями Ryujinx или взломанными консолями Nintendo Switch с установленным модулем ldn_mitm, находящимися в одной локальной сети друг с другом.\n\nМногопользовательская игра требует наличия у всех игроков одной и той же версии игры (т.е. Super Smash Bros. Ultimate v13.0.1 не может подключиться к v13.0.0).\n\nРекомендуется оставить отключенным.",
+        "ru_RU": "Меняет многопользовательский режим LDN.\n\nLdnMitm модифицирует функциональность локальной беспроводной/игры на одном устройстве в играх, позволяя играть с другими пользователями Ryujinx или взломанными консолями Nintendo Switch с установленным модулем ldn_mitm, находящимися в одной локальной сети друг с другом.\n\nМногопользовательская игра требует наличия у всех игроков одной и той же версии игры (т.е. Super Smash Bros. Ultimate v13.0.1 не может подключиться к v13.0.0).\n\nРекомендуется оставить выключенным.",
         "sv_SE": "Ändra LDN-flerspelarläge\n\nLdnMitm kommer att ändra lokal funktionalitet för trådlös/lokalt spel att fungera som om det vore ett LAN, vilket ger stöd för anslutningar med local och same-network med andra Ryujinx-instanser och hackade Nintendo Switch-konsoller som har modulen ldn_mitm installerad.\n\nFlerspelare kräver att alla spelare har samma spelversion (t.ex. Super Smash Bros. Ultimate v13.0.1 kan inte ansluta till v13.0.0).\n\nLämna INAKTIVERAD om du är osäker.",
         "th_TH": "เปลี่ยนโหมดผู้เล่นหลายคนของ LDN\n\nLdnMitm จะปรับเปลี่ยนฟังก์ชันการเล่นแบบไร้สาย/ภายใน จะให้เกมทำงานเหมือนกับว่าเป็น LAN ช่วยให้สามารถเชื่อมต่อภายในเครือข่ายเดียวกันกับอินสแตนซ์ Ryujinx อื่น ๆ และคอนโซล Nintendo Switch ที่ถูกแฮ็กซึ่งมีโมดูล ldn_mitm ติดตั้งอยู่\n\nผู้เล่นหลายคนต้องการให้ผู้เล่นทุกคนอยู่ในเกมเวอร์ชันเดียวกัน (เช่น Super Smash Bros. Ultimate v13.0.1 ไม่สามารถเชื่อมต่อกับ v13.0.0)\n\nปล่อยให้ปิดการใช้งานหากไม่แน่ใจ",
         "tr_TR": "",
@@ -23363,7 +23313,7 @@
         "no_NO": "Ugyldig passordfrase! Må være i formatet \"Ryujinx-<8 hex tegn>\"",
         "pl_PL": "",
         "pt_BR": "Frase-senha inválida! Deve estar no formato \"Ryujinx-<8 hex chars>\"",
-        "ru_RU": "Неверный пароль! Пароль должен быть в формате \"Ryujinx-<8 шестнадцатеричных символов>\"",
+        "ru_RU": "Неверный пароль! Пароль должен быть в формате «Ryujinx-<8 шестнадцатеричных символов>»",
         "sv_SE": "Ogiltig lösenfras! Måste vara i formatet \"Ryujinx-<8 hextecken>\"",
         "th_TH": "",
         "tr_TR": "",
@@ -23513,7 +23463,7 @@
         "no_NO": "Emulert vertikal synkronisering. «Switch» emulerer Switchs oppdateringsfrekvens på 60 Hz. «Ubegrenset» er en ubegrenset oppdateringsfrekvens.",
         "pl_PL": "",
         "pt_BR": "Sincronização vertical emulada. 'Switch' emula a taxa de atualização de 60 Hz do Switch. 'Ilimitada' é uma taxa de atualização sem limite.",
-        "ru_RU": "Эмулированная вертикальная синхронизация. 'Консоль' эмулирует частоту обновления консоли, равную 60 Гц. 'Без ограничений' - неограниченная частота кадров.",
+        "ru_RU": "Эмулированная вертикальная синхронизация. «Консоль» эмулирует частоту обновления консоли, равную 60 Гц. «Без ограничений» — неограниченная частота кадров.",
         "sv_SE": "Emulerad vertikal synk. 'Switch' emulerar Switchens uppdateringsfrekvens på 60Hz. 'Obunden' är en obegränsad uppdateringsfrekvens.",
         "th_TH": "",
         "tr_TR": "",
@@ -23538,7 +23488,7 @@
         "no_NO": "Emulert vertikal synkronisering. «Switch» emulerer Switchs oppdateringsfrekvens på 60 Hz. «Ubegrenset» er en ubegrenset oppdateringsfrekvens. «Egendefinert» emulerer den angitte egendefinerte oppdateringsfrekvensen.",
         "pl_PL": "",
         "pt_BR": "Sincronização Vertical Emulada. 'Switch' emula a taxa de atualização de 60 Hz do Switch. 'Ilimitada' é uma taxa de atualização sem limite. 'Taxa de atualização personalizada' emula a taxa de atualização personalizada especificada.",
-        "ru_RU": "Эмулированная вертикальная синхронизация. 'Консоль' эмулирует частоту обновления консоли, равную 60 Гц. 'Без ограничений' - неограниченная частота кадров. 'Пользовательска частота кадров' эмулирует выбранную пользователем частоту кадров.",
+        "ru_RU": "Эмулированная вертикальная синхронизация. «Консоль» эмулирует частоту обновления консоли, равную 60 Гц. «Без ограничений» — неограниченная частота кадров. «Пользовательска частота кадров» эмулирует выбранную пользователем частоту кадров.",
         "sv_SE": "Emulerad vertikal synk. 'Switch' emulerar Switchens uppdateringsfrekvens på 60Hz. 'Obunden' är en obegränsad uppdateringsfrekvens. 'Anpassad uppdateringsfrekvens' emulerar den angivna anpassade uppdateringsfrekvensen.",
         "th_TH": "",
         "tr_TR": "",
@@ -23692,7 +23642,7 @@
         "sv_SE": "Intervall",
         "th_TH": "",
         "tr_TR": "",
-        "uk_UA": "",
+        "uk_UA": "Інтервал",
         "zh_CN": "间隔",
         "zh_TW": "間隔"
       }
@@ -23788,11 +23738,11 @@
         "no_NO": "Sist oppdatert: {0}",
         "pl_PL": "",
         "pt_BR": "Última atualização: {0}",
-        "ru_RU": "",
+        "ru_RU": "Последнее обновление: {0}",
         "sv_SE": "Senast uppdaterad: {0}",
         "th_TH": "",
         "tr_TR": "",
-        "uk_UA": "",
+        "uk_UA": "Останнє оновлення: {0}",
         "zh_CN": "最后更新于: {0}",
         "zh_TW": "上次更新時間: {0}"
       }
@@ -23813,11 +23763,11 @@
         "no_NO": "Denne kompatibilitetslisten kan inneholde oppføringer som er tomme for data.\nVær ikke imot å teste spill i statusen «Ingame».",
         "pl_PL": "",
         "pt_BR": "Esta lista de compatibilidade pode estar desatualizada.\nNão se oponha a testar os jogos",
-        "ru_RU": "",
+        "ru_RU": "В списке совместимости могут содержаться устаревшие записи.\nНе стестняйтесь тестировать игр в статусе «Запускается»",
         "sv_SE": "Denna kompatibilitetslista kan innehålla utdaterade poster.\nTesta gärna spelen som listas med \"Spelproblem\"-status.",
         "th_TH": "",
         "tr_TR": "",
-        "uk_UA": "",
+        "uk_UA": "Цей список сумісності може містити застарілі дані.\nНе відмовляйтеся від тестування ігор що мають статус \"Запускаються\".",
         "zh_CN": "此兼容性列表可能包含过时的条目。\n不要只测试 \"进入游戏\" 状态的游戏。",
         "zh_TW": "這個相容性列表可能含有已過時的紀錄。\n敬請繼續測試「大致可遊玩 (Ingame)」狀態的遊戲並回報以更新紀錄。"
       }
@@ -23838,11 +23788,11 @@
         "no_NO": "Søk i kompatibilitetsoppføringer...",
         "pl_PL": "",
         "pt_BR": "Pesquisa de compatibilidade",
-        "ru_RU": "",
+        "ru_RU": "Поиск записей о совместимости...",
         "sv_SE": "Sök i kompatibilitetsposter...",
         "th_TH": "",
         "tr_TR": "",
-        "uk_UA": "",
+        "uk_UA": "Перевірити сумісність гри...",
         "zh_CN": "正在搜索兼容性条目...",
         "zh_TW": "搜尋相容性列表紀錄..."
       }
@@ -23863,11 +23813,11 @@
         "no_NO": "Åpne kompatibilitetslisten",
         "pl_PL": "",
         "pt_BR": "Lista de Compatibilidade",
-        "ru_RU": "",
+        "ru_RU": "Открыть список совместимости",
         "sv_SE": "Öppna kompatibilitetslistan",
         "th_TH": "",
         "tr_TR": "",
-        "uk_UA": "",
+        "uk_UA": "Відкрити Список Сумісності",
         "zh_CN": "打开兼容性列表",
         "zh_TW": "開啟相容性列表"
       }
@@ -23888,11 +23838,11 @@
         "no_NO": "Vis bare eide spill",
         "pl_PL": "",
         "pt_BR": "Mostrar apenas jogos disponíveis",
-        "ru_RU": "",
+        "ru_RU": "Показывать только свои игры",
         "sv_SE": "Visa endast ägda spel",
         "th_TH": "",
         "tr_TR": "",
-        "uk_UA": "",
+        "uk_UA": "Показувати лише ігри в наявності",
         "zh_CN": "仅显示拥有的游戏",
         "zh_TW": "只顯示已擁有的遊戲"
       }
@@ -23913,11 +23863,11 @@
         "no_NO": "Spillbar",
         "pl_PL": "",
         "pt_BR": "Jogável",
-        "ru_RU": "",
+        "ru_RU": "Играбельно",
         "sv_SE": "Spelbart",
         "th_TH": "",
         "tr_TR": "",
-        "uk_UA": "",
+        "uk_UA": "Оптимально",
         "zh_CN": "可游玩",
         "zh_TW": "可暢順遊玩"
       }
@@ -23938,11 +23888,11 @@
         "no_NO": "",
         "pl_PL": "",
         "pt_BR": "No jogo",
-        "ru_RU": "",
+        "ru_RU": "Запускается",
         "sv_SE": "Spelproblem",
         "th_TH": "",
         "tr_TR": "",
-        "uk_UA": "",
+        "uk_UA": "З недоліками",
         "zh_CN": "进入游戏",
         "zh_TW": "大致可遊玩"
       }
@@ -23963,11 +23913,11 @@
         "no_NO": "Menyer",
         "pl_PL": "",
         "pt_BR": "Menu",
-        "ru_RU": "",
+        "ru_RU": "Меню",
         "sv_SE": "Menyer",
         "th_TH": "",
         "tr_TR": "",
-        "uk_UA": "",
+        "uk_UA": "Меню",
         "zh_CN": "菜单",
         "zh_TW": "只開啟至遊戲開始功能表"
       }
@@ -23988,11 +23938,11 @@
         "no_NO": "Starter",
         "pl_PL": "",
         "pt_BR": "Inicializa",
-        "ru_RU": "",
+        "ru_RU": "Стартует",
         "sv_SE": "Startar",
         "th_TH": "",
         "tr_TR": "",
-        "uk_UA": "",
+        "uk_UA": "Запускається",
         "zh_CN": "启动",
         "zh_TW": "只能啟動"
       }
@@ -24013,11 +23963,11 @@
         "no_NO": "Ingenting",
         "pl_PL": "",
         "pt_BR": "Nada",
-        "ru_RU": "",
+        "ru_RU": "Ничего",
         "sv_SE": "Ingenting",
         "th_TH": "",
         "tr_TR": "",
-        "uk_UA": "",
+        "uk_UA": "Не працює",
         "zh_CN": "什么都没有",
         "zh_TW": "無法啟動"
       }
@@ -24038,11 +23988,11 @@
         "no_NO": "Starter opp og spiller uten krasj eller GPU-feil av noe slag, og med en hastighet som er rask nok til å ha rimelig glede av på en gjennomsnittlig PC.",
         "pl_PL": "",
         "pt_BR": "Inicializa e roda sem travamentos ou bugs de GPU de qualquer tipo, e em uma velocidade rápida o suficiente para ser aproveitado em um PC comum.",
-        "ru_RU": "",
+        "ru_RU": "Запускается и работает без любого рода сбоев или графисечких ошибок и на скорости, достаточной для работы на обычном ПК.",
         "sv_SE": "",
         "th_TH": "",
         "tr_TR": "",
-        "uk_UA": "",
+        "uk_UA": "Запускається та оптимально працює (без збоїв або графічних багів) на середньостатистичному комп'ютері.",
         "zh_CN": "启动和游戏时不会出现任何崩溃或任何类型的 GPU bug 且速度足够快可以在一般 PC 上尽情游玩。",
         "zh_TW": ""
       }
@@ -24063,11 +24013,11 @@
         "no_NO": "Starter og går i gang i spillet, men lider av ett eller flere av følgende: krasjer, fastlåser, GPU-feil, distraherende dårlig lyd eller er rett og slett for tregt. Spillet kan fortsatt spilles helt til ende, men ikke slik det er ment å spilles.",
         "pl_PL": "",
         "pt_BR": "Inicializa e entra no jogo, mas sofre de um ou mais dos seguintes: travamentos, deadlocks, bugs de GPU, áudio ruim que distrai ou é simplesmente muito lento. O jogo ainda pode ser jogado até o fim, mas não da forma como foi criado para ser jogado.",
-        "ru_RU": "",
+        "ru_RU": "Запускается и работает, но возникает одна или несколько из следующих проблем: сбои, взаимоблокировки, ошибки GPU, отвлекающие звуки или просто слишком медленная работа. Возможно, игру всё же удастся пройти до конца, но не так, как она задумана.",
         "sv_SE": "",
         "th_TH": "",
         "tr_TR": "",
-        "uk_UA": "",
+        "uk_UA": "Запускається, але в грі на вас чекатимуть одна або декілька наступних проблем: збої, зависання, графічні баги, спотворений звук або ж гра загалом працюватиме надто повільно. Можливо, її все ще можна пройти, але досвід буде не найкращим.",
         "zh_CN": "可以成功启动并进入游戏但可能会遇到以下一种或多种问题: 崩溃、卡死、GPU bug、令人无法接受的音频,或者只是太慢。仍然可以继续进行游戏,但是可能无法达到预期。",
         "zh_TW": ""
       }
@@ -24088,11 +24038,11 @@
         "no_NO": "Starter opp og går forbi tittelskjermen, men kommer ikke inn i hovedspillet.",
         "pl_PL": "",
         "pt_BR": "Inicializa e passa da tela de título, mas não entra no jogo principal.",
-        "ru_RU": "",
+        "ru_RU": "Загружается титульный экран и можно перейти дальше, но сама игра не работает.",
         "sv_SE": "",
         "th_TH": "",
         "tr_TR": "",
-        "uk_UA": "",
+        "uk_UA": "Запускається та проходить початковий екран, але пограти не вийде.",
         "zh_CN": "可以启动并通过标题画面但是无法进入到主要的游戏流程。",
         "zh_TW": ""
       }
@@ -24113,11 +24063,11 @@
         "no_NO": "Starter, men kommer ikke lenger enn til tittelskjermen.",
         "pl_PL": "",
         "pt_BR": "Inizializa, mas não passa da tela de título.",
-        "ru_RU": "",
+        "ru_RU": "Загружается, но не проходит дальше титульного экрана.",
         "sv_SE": "",
         "th_TH": "",
         "tr_TR": "",
-        "uk_UA": "",
+        "uk_UA": "Запускається, але не відображає навіть початкового екрану.",
         "zh_CN": "可以启动但是无法通过标题画面。",
         "zh_TW": ""
       }
@@ -24138,11 +24088,11 @@
         "no_NO": "Starter ikke opp eller viser ingen tegn til aktivitet.",
         "pl_PL": "",
         "pt_BR": "Não inicializa ou não mostra sinais de atividade.",
-        "ru_RU": "",
+        "ru_RU": "Не запускается или не подаёт признаков жизни.",
         "sv_SE": "",
         "th_TH": "",
         "tr_TR": "",
-        "uk_UA": "",
+        "uk_UA": "Взагалі не запускається.",
         "zh_CN": "无法启动或显示无任何动静。",
         "zh_TW": ""
       }
@@ -24163,11 +24113,11 @@
         "no_NO": "Velg en DLC og hente ut",
         "pl_PL": "",
         "pt_BR": "Selecione um DLC para Extrair",
-        "ru_RU": "",
+        "ru_RU": "Выберите DLC для извлечения",
         "sv_SE": "Välj en DLC att extrahera",
         "th_TH": "",
         "tr_TR": "",
-        "uk_UA": "",
+        "uk_UA": "Оберіть DLC які бажаєте вилучити",
         "zh_CN": "选择一个要解压的 DLC",
         "zh_TW": ""
       }
@@ -24188,11 +24138,11 @@
         "no_NO": "Rikt nærværsbilde",
         "pl_PL": "",
         "pt_BR": "Imagem da Presença do Discord",
-        "ru_RU": "",
+        "ru_RU": "Изображение для статуса активности",
         "sv_SE": "",
         "th_TH": "",
         "tr_TR": "",
-        "uk_UA": "",
+        "uk_UA": "Зображення картки активності Discord",
         "zh_CN": "Rich Presence 图像",
         "zh_TW": ""
       }
@@ -24213,11 +24163,11 @@
         "no_NO": "Dynamisk og rik tilstedeværelse",
         "pl_PL": "",
         "pt_BR": "Presença Dinâmica do Discord",
-        "ru_RU": "",
+        "ru_RU": "Динамический статус активности",
         "sv_SE": "",
         "th_TH": "",
         "tr_TR": "",
-        "uk_UA": "",
+        "uk_UA": "Динамічна картка активності Discord",
         "zh_CN": "动态 Rich Presence",
         "zh_TW": ""
       }

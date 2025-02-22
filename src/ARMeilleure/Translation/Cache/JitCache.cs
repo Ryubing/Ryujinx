@@ -31,7 +31,7 @@ namespace ARMeilleure.Translation.Cache
         private static readonly Lock _lock = new();
         private static bool _initialized;
 
-        private static readonly List<ReservedRegion> _jitRegions = new();
+        private static readonly List<ReservedRegion> _jitRegions = [];
         private static int _activeRegionIndex = 0;
 
         [SupportedOSPlatform("windows")]
@@ -180,7 +180,7 @@ namespace ARMeilleure.Translation.Cache
             }
 
             int exhaustedRegion = _activeRegionIndex;
-            var newRegion = new ReservedRegion(_jitRegions[0].Allocator, CacheSize);
+            ReservedRegion newRegion = new(_jitRegions[0].Allocator, CacheSize);
             _jitRegions.Add(newRegion);
             _activeRegionIndex = _jitRegions.Count - 1;
             
