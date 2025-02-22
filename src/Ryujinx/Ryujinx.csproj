@@ -130,12 +130,36 @@
   </ItemGroup>
 
   <ItemGroup>
+    <EmbeddedResource Include="..\..\distribution\linux\shortcut-template.desktop">
+      <Link>Assets\ShortcutFiles\shortcut-template.desktop</Link>
+    </EmbeddedResource>
+    <EmbeddedResource Include="..\..\distribution\macos\shortcut-launch-script.sh">
+      <Link>Assets\ShortcutFiles\shortcut-launch-script.sh</Link>
+    </EmbeddedResource>
+    <EmbeddedResource Include="..\..\distribution\macos\shortcut-template.plist">
+      <Link>Assets\ShortcutFiles\shortcut-template.plist</Link>
+    </EmbeddedResource>
+    <EmbeddedResource Include="..\..\docs\compatibility.csv" LogicalName="RyujinxGameCompatibilityList">
+      <Link>Assets\RyujinxGameCompatibility.csv</Link>
+    </EmbeddedResource>
     <EmbeddedResource Include="Assets\locales.json" />
     <EmbeddedResource Include="Assets\Styles\Styles.xaml" />
     <EmbeddedResource Include="Assets\Icons\Controller_JoyConLeft.svg" />
     <EmbeddedResource Include="Assets\Icons\Controller_JoyConPair.svg" />
     <EmbeddedResource Include="Assets\Icons\Controller_JoyConRight.svg" />
     <EmbeddedResource Include="Assets\Icons\Controller_ProCon.svg" />
+    <EmbeddedResource Include="Assets\UIImages\Icon_NCA.png" />
+    <EmbeddedResource Include="Assets\UIImages\Icon_NRO.png" />
+    <EmbeddedResource Include="Assets\UIImages\Icon_NSO.png" />
+    <EmbeddedResource Include="Assets\UIImages\Icon_NSP.png" />
+    <EmbeddedResource Include="Assets\UIImages\Icon_XCI.png" />
+    <EmbeddedResource Include="Assets\UIImages\Logo_Amiibo.png" />
+    <EmbeddedResource Include="Assets\UIImages\Logo_Discord_Dark.png" />
+    <EmbeddedResource Include="Assets\UIImages\Logo_Discord_Light.png" />
+    <EmbeddedResource Include="Assets\UIImages\Logo_GitHub_Dark.png" />
+    <EmbeddedResource Include="Assets\UIImages\Logo_GitHub_Light.png" />
+    <EmbeddedResource Include="Assets\UIImages\Logo_Ryujinx.png" />
+    <EmbeddedResource Include="Assets\UIImages\Logo_Ryujinx_AntiAlias.png" />
   </ItemGroup>
   <ItemGroup>
     <AdditionalFiles Include="Assets\locales.json" />

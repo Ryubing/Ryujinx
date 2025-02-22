@@ -6,6 +6,7 @@
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:ext="clr-namespace:Ryujinx.Ava.Common.Markup"
     xmlns:viewModels="clr-namespace:Ryujinx.Ava.UI.ViewModels"
+    xmlns:helper="clr-namespace:Ryujinx.Common.Helper;assembly=Ryujinx.Common"
     mc:Ignorable="d"
     x:DataType="viewModels:SettingsViewModel">
     <Design.DataContext>
@@ -69,7 +70,7 @@
                         </ComboBox>
                     </StackPanel>
                     <CheckBox IsChecked="{Binding UseHypervisor}"
-                              IsVisible="{Binding IsHypervisorAvailable}"
+                              IsVisible="{x:Static helper:RunningPlatform.IsArmMac}"
                               ToolTip.Tip="{ext:Locale UseHypervisorTooltip}">
                         <TextBlock Text="{ext:Locale SettingsTabSystemUseHypervisor}"
                                    ToolTip.Tip="{ext:Locale UseHypervisorTooltip}" />

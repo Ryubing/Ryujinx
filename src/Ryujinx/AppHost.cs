@@ -891,7 +891,7 @@ namespace Ryujinx.Ava
             VirtualFileSystem.ReloadKeySet();
 
             // Initialize Renderer.
-            GraphicsBackend backend = TitleIDs.SelectGraphicsBackend(ApplicationId.ToString("X16"), ConfigurationState.Instance.Graphics.GraphicsBackend);
+            GraphicsBackend backend = ConfigurationState.Instance.Graphics.GraphicsBackend;
 
             IRenderer renderer = backend switch
             {

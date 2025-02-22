@@ -45,9 +45,9 @@ namespace Ryujinx.Ava.UI.Renderer
             FlowDirection = FlowDirection.LeftToRight;
 
             EmbeddedWindow =
-#pragma warning disable CS8509
-                TitleIDs.SelectGraphicsBackend(titleId, ConfigurationState.Instance.Graphics.GraphicsBackend) switch
-#pragma warning restore CS8509
+#pragma warning disable CS8524
+                ConfigurationState.Instance.Graphics.GraphicsBackend.Value switch
+#pragma warning restore CS8524
                 {
                     GraphicsBackend.OpenGl => new EmbeddedWindowOpenGL(),
                     GraphicsBackend.Vulkan => new EmbeddedWindowVulkan(),
