@@ -10,9 +10,9 @@ using StickInputId = Ryujinx.Common.Configuration.Hid.Controller.StickInputId;
 
 namespace Ryujinx.Ava.Input
 {
-    public class ControllerAssignmentManager
+    public static class ControllerAssignmentManager
     {
-        private readonly uint[] _playerColors =
+        private static readonly uint[] _playerColors =
         [
             0xFFFF0000, // Player 1 - Red
             0xFF0000FF, // Player 2 - Blue
@@ -43,11 +43,17 @@ namespace Ryujinx.Ava.Input
             return reorderedConfig;
         }
         
-        public List<InputConfig> GetConfiguredControllers(
+        public static List<InputConfig> GetConfiguredControllers(
             List<IGamepad> controllers,
             List<InputConfig> oldConfig,
             out bool hasNewControllersConnected)
         {
+            if(controllers == null || controllers.Count == 0)
+            {
+                hasNewControllersConnected = false;
+                return [];
+            }
+            
             Dictionary<string, InputConfig> oldConfigMap = oldConfig
                 .Where(c => c?.Id != null)
                 .ToDictionary(x => x.Id);
@@ -134,7 +140,7 @@ namespace Ryujinx.Ava.Input
             return -1; // Should not happen unless MaxControllers is exceeded
         }
 
-        private void UpdatePlayerIndicesAndLEDs(List<InputConfig> orderedConfigs)
+        private static void UpdatePlayerIndicesAndLEDs(List<InputConfig> orderedConfigs)
         {
             for (int index = 0; index < orderedConfigs.Count; index++)
             {

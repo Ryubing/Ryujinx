@@ -15,7 +15,6 @@ namespace Ryujinx.Ava.Input
         private readonly InputManager _inputManager;
         private readonly MainWindowViewModel _viewModel;
         private readonly ConfigurationState _configurationState;
-        private readonly ControllerAssignmentManager _assignmentManager;
 
         public event Action ConfigurationUpdated;
 
@@ -24,7 +23,6 @@ namespace Ryujinx.Ava.Input
             _inputManager = inputManager;
             _viewModel = mainWindowViewModel;
             _configurationState = ConfigurationState.Instance;
-            _assignmentManager = new ControllerAssignmentManager();
 
             _inputManager.GamepadDriver.OnGamepadConnected += HandleOnGamepadConnected;
             _inputManager.GamepadDriver.OnGamepadDisconnected += HandleOnGamepadDisconnected;
@@ -51,7 +49,7 @@ namespace Ryujinx.Ava.Input
             List<IGamepad> controllers = _inputManager.GamepadDriver.GetGamepads().ToList();
             List<InputConfig> oldConfig = _configurationState.Hid.InputConfig.Value.Where(x => x != null).ToList();
 
-            List<InputConfig> newConfig = _assignmentManager.GetConfiguredControllers(
+            List<InputConfig> newConfig = ControllerAssignmentManager.GetConfiguredControllers(
                 controllers, oldConfig, out bool hasNewControllersConnected);
 
             _viewModel.AppHost?.NpadManager.ReloadConfiguration(newConfig, _configurationState.Hid.EnableKeyboard, _configurationState.Hid.EnableMouse);
