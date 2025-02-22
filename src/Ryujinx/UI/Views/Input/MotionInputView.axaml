@@ -66,6 +66,17 @@
                 Margin="0,5" />
             <CheckBox
                 Margin="5"
+                IsChecked="{Binding EnableHandheldMotion}">
+                <TextBlock
+                    Margin="0,3,0,0"
+                    VerticalAlignment="Center"
+                    Text="{ext:Locale ControllerSettingsMotionUseHandheldCompatibleMotion}" />
+            </CheckBox>
+            <Separator
+                Height="1"
+                Margin="0,5" />
+            <CheckBox
+                Margin="5"
                 IsChecked="{Binding EnableCemuHookMotion}">
                 <TextBlock
                     Margin="0,3,0,0"
