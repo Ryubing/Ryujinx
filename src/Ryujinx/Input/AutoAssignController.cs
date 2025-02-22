@@ -52,7 +52,6 @@ namespace Ryujinx.Ava.Input
             List<InputConfig> newConfig = ControllerAssignmentManager.GetConfiguredControllers(
                 controllers, oldConfig, out bool hasNewControllersConnected);
 
-
             if (!hasNewControllersConnected)
             {
                 // there is no *new* controller, we must switch the order of the controllers in
