@@ -14,8 +14,8 @@ namespace Ryujinx.Ava.Input
     {
         private static readonly uint[] _playerColors =
         [
-            0xFFFF0000, // Player 1 - Red
-            0xFF0000FF, // Player 2 - Blue
+            0xFF0000FF, // Player 1 - Blue
+            0xFFFF0000, // Player 2 - Red
             0xFF00FF00, // Player 3 - Green
             0xFFFFFF00, // Player 4 - Yellow
             0xFFFF00FF, // Player 5 - Magenta
@@ -28,6 +28,8 @@ namespace Ryujinx.Ava.Input
 
         public static List<InputConfig> ReorderControllers(List<InputConfig> newConfig, List<InputConfig> oldConfig)
         {
+            if(newConfig == null || oldConfig == null || newConfig.Count == 0 || oldConfig.Count == 0) return [];
+            
             List<InputConfig> reorderedConfig = oldConfig.Select(config => new GamepadInputConfig(config).GetConfig()).ToList();
 
             foreach (var config in newConfig)

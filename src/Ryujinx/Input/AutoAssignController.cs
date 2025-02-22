@@ -52,7 +52,6 @@ namespace Ryujinx.Ava.Input
             List<InputConfig> newConfig = ControllerAssignmentManager.GetConfiguredControllers(
                 controllers, oldConfig, out bool hasNewControllersConnected);
 
-            _viewModel.AppHost?.NpadManager.ReloadConfiguration(newConfig, _configurationState.Hid.EnableKeyboard, _configurationState.Hid.EnableMouse);
 
             if (!hasNewControllersConnected)
             {
@@ -62,6 +61,7 @@ namespace Ryujinx.Ava.Input
                 newConfig = ControllerAssignmentManager.ReorderControllers(newConfig, oldConfig);
             }
 
+            _viewModel.AppHost?.NpadManager.ReloadConfiguration(newConfig, _configurationState.Hid.EnableKeyboard, _configurationState.Hid.EnableMouse);
             _configurationState.Hid.InputConfig.Value = newConfig;
             
             // we want to save the configuration only if a *new* controller was connected
