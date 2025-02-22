@@ -1,10 +1,13 @@
 using LibHac.Common;
+using LibHac.Ncm;
 using LibHac.Ns;
+using LibHac.Tools.FsSystem.NcaUtils;
 using Ryujinx.Audio.Backends.CompatLayer;
 using Ryujinx.Audio.Integration;
 using Ryujinx.Common;
 using Ryujinx.Common.Configuration;
 using Ryujinx.Graphics.Gpu;
+using Ryujinx.HLE.Exceptions;
 using Ryujinx.HLE.FileSystem;
 using Ryujinx.HLE.HOS;
 using Ryujinx.HLE.HOS.Services.Apm;
@@ -157,6 +160,19 @@ namespace Ryujinx.HLE
                 TitleIDs.CurrentApplication.Value = null;
                 Shared = null;
             }
+        }
+
+        public bool LoadSystemProgramId(ulong programId)
+        {
+            string contentPath = System.ContentManager.GetInstalledContentPath(programId, StorageId.BuiltInSystem, NcaContentType.Program);
+            string filePath = VirtualFileSystem.SwitchPathToSystemPath(contentPath);
+
+            if (string.IsNullOrWhiteSpace(filePath))
+            {
+                throw new InvalidSystemResourceException("Specified title ID is not installed on the system.");
+            }
+
+            return Processes.LoadNca(filePath);
         }
     }
 }

@@ -167,8 +167,8 @@ namespace Ryujinx.HLE.HOS.Services.Nv.NvDrvServices.NvHostChannel
 
                 foreach (CommandBuffer commandBuffer in commandBuffers)
                 {
-                    NvMapHandle map = NvMapDeviceFile.GetMapFromHandle(Owner, commandBuffer.Mem);
-
+                    NvMapHandle map = NvMapDeviceFile.GetMapFromHandle(commandBuffer.Mem);
+                    
                     ReadOnlySpan<byte> data = _memory.GetSpan(map.Address + commandBuffer.Offset, commandBuffer.WordsCount * 4);
 
                     _host1xContext.Host1x.Submit(MemoryMarshal.Cast<byte, int>(data), _contextId);
@@ -237,8 +237,8 @@ namespace Ryujinx.HLE.HOS.Services.Nv.NvDrvServices.NvHostChannel
 
             foreach (ref CommandBufferHandle commandBufferEntry in commandBufferEntries)
             {
-                NvMapHandle map = NvMapDeviceFile.GetMapFromHandle(Owner, commandBufferEntry.MapHandle);
-
+                NvMapHandle map = NvMapDeviceFile.GetMapFromHandle(commandBufferEntry.MapHandle);
+                
                 if (map == null)
                 {
                     Logger.Warning?.Print(LogClass.ServiceNv, $"Invalid handle 0x{commandBufferEntry.MapHandle:x8}!");
@@ -279,8 +279,8 @@ namespace Ryujinx.HLE.HOS.Services.Nv.NvDrvServices.NvHostChannel
 
             foreach (ref CommandBufferHandle commandBufferEntry in commandBufferEntries)
             {
-                NvMapHandle map = NvMapDeviceFile.GetMapFromHandle(Owner, commandBufferEntry.MapHandle);
-
+                NvMapHandle map = NvMapDeviceFile.GetMapFromHandle(commandBufferEntry.MapHandle);
+                
                 if (map == null)
                 {
                     Logger.Warning?.Print(LogClass.ServiceNv, $"Invalid handle 0x{commandBufferEntry.MapHandle:x8}!");

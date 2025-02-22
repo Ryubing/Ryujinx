@@ -384,7 +384,7 @@ namespace Ryujinx.Graphics.Gpu.Engine.MME
 
             ulong indirectBufferGpuVa = count.GpuVa;
 
-            BufferCache bufferCache = _processor.MemoryManager.Physical.BufferCache;
+            BufferCache bufferCache = _processor.MemoryManager.GetBackingMemory(indirectBufferGpuVa).BufferCache;
 
             bool useBuffer = bufferCache.CheckModified(_processor.MemoryManager, indirectBufferGpuVa, IndirectIndexedDataEntrySize, out ulong indirectBufferAddress);
 
@@ -394,6 +394,8 @@ namespace Ryujinx.Graphics.Gpu.Engine.MME
 
                 _processor.ThreedClass.DrawIndirect(
                     topology,
+                    bufferCache,
+                    null,
                     new MultiRange(indirectBufferAddress, IndirectIndexedDataEntrySize),
                     default,
                     1,
@@ -491,22 +493,24 @@ namespace Ryujinx.Graphics.Gpu.Engine.MME
                     }
                 }
             }
-
-            BufferCache bufferCache = _processor.MemoryManager.Physical.BufferCache;
+            BufferCache indirectBufferCache = _processor.MemoryManager.GetBackingMemory(indirectBufferGpuVa).BufferCache;
+            BufferCache parameterBufferCache = _processor.MemoryManager.GetBackingMemory(parameterBufferGpuVa).BufferCache;
 
             ulong indirectBufferSize = (ulong)maxDrawCount * (ulong)stride;
 
-            MultiRange indirectBufferRange = bufferCache.TranslateAndCreateMultiBuffers(_processor.MemoryManager, indirectBufferGpuVa, indirectBufferSize, BufferStage.Indirect);
-            MultiRange parameterBufferRange = bufferCache.TranslateAndCreateMultiBuffers(_processor.MemoryManager, parameterBufferGpuVa, 4, BufferStage.Indirect);
+            MultiRange indirectBufferRange = indirectBufferCache.TranslateAndCreateMultiBuffers(_processor.MemoryManager, indirectBufferGpuVa, indirectBufferSize, BufferStage.Indirect);
+            MultiRange parameterBufferRange = parameterBufferCache.TranslateAndCreateMultiBuffers(_processor.MemoryManager, parameterBufferGpuVa, 4, BufferStage.Indirect);
 
             _processor.ThreedClass.DrawIndirect(
                 topology,
+                indirectBufferCache,
+                parameterBufferCache,
                 indirectBufferRange,
                 parameterBufferRange,
                 maxDrawCount,
                 stride,
                 indexCount,
-                Threed.IndirectDrawType.DrawIndexedIndirectCount);
+                IndirectDrawType.DrawIndexedIndirectCount);
         }
 
         /// <summary>

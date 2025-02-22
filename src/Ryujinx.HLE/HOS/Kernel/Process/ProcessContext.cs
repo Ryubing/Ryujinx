@@ -6,11 +6,11 @@ namespace Ryujinx.HLE.HOS.Kernel.Process
 {
     class ProcessContext : IProcessContext
     {
-        public IVirtualMemoryManager AddressSpace { get; }
+        public IVirtualMemoryManagerTracked AddressSpace { get; }
 
         public ulong AddressSpaceSize { get; }
 
-        public ProcessContext(IVirtualMemoryManager asManager, ulong addressSpaceSize)
+        public ProcessContext(IVirtualMemoryManagerTracked asManager, ulong addressSpaceSize)
         {
             AddressSpace = asManager;
             AddressSpaceSize = addressSpaceSize;

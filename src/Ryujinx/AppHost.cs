@@ -41,6 +41,7 @@ using Ryujinx.HLE.FileSystem;
 using Ryujinx.HLE.HOS;
 using Ryujinx.HLE.HOS.Services.Account.Acc;
 using Ryujinx.HLE.HOS.SystemState;
+using Ryujinx.HLE.Loaders.Processes;
 using Ryujinx.Input;
 using Ryujinx.Input.HLE;
 using SkiaSharp;
@@ -672,6 +673,7 @@ namespace Ryujinx.Ava
             DiscordIntegrationModule.GuestAppStartedAt = Timestamps.Now;
             
             InitEmulatedSwitch();
+            Device.LoadSystemProgramId(0x010000000000100C);
             MainWindow.UpdateGraphicsConfig();
 
             SystemVersion firmwareVersion = ContentManager.GetCurrentFirmwareVersion();

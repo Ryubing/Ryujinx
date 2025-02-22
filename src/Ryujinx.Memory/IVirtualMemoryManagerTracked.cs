@@ -3,7 +3,7 @@ using Ryujinx.Memory.Tracking;
 using System;
 using System.Collections.Generic;
 
-namespace Ryujinx.Cpu
+namespace Ryujinx.Memory
 {
     public interface IVirtualMemoryManagerTracked : IVirtualMemoryManager
     {
