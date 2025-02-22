@@ -951,7 +951,7 @@ namespace Ryujinx.Ava
                 ConfigurationState.Instance.Multiplayer.Mode,
                 ConfigurationState.Instance.Multiplayer.DisableP2p,
                 ConfigurationState.Instance.Multiplayer.LdnPassphrase,
-                ConfigurationState.Instance.Multiplayer.LdnServer,
+                ConfigurationState.Instance.Multiplayer.GetLdnServer(),
                 ConfigurationState.Instance.Graphics.CustomVSyncInterval.Value,
                 ConfigurationState.Instance.Hacks.ShowDirtyHacks ? ConfigurationState.Instance.Hacks.EnabledHacks : null));
         }
