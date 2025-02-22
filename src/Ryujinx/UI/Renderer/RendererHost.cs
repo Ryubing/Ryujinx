@@ -1,12 +1,15 @@
-using Avalonia;
+﻿using Avalonia;
 using Avalonia.Controls;
+using Avalonia.Media;
+using Ryujinx.Ava.Utilities.Configuration;
+using Ryujinx.Common;
 using Ryujinx.Common.Configuration;
-using Ryujinx.UI.Common.Configuration;
+using Ryujinx.Common.Logging;
 using System;
 
 namespace Ryujinx.Ava.UI.Renderer
 {
-    public partial class RendererHost : UserControl, IDisposable
+    public class RendererHost : UserControl, IDisposable
     {
         public readonly EmbeddedWindow EmbeddedWindow;
 
@@ -15,20 +18,54 @@ namespace Ryujinx.Ava.UI.Renderer
 
         public RendererHost()
         {
-            InitializeComponent();
+            Focusable = true;
+            FlowDirection = FlowDirection.LeftToRight;
 
-            if (ConfigurationState.Instance.Graphics.GraphicsBackend.Value == GraphicsBackend.OpenGl)
+            EmbeddedWindow = ConfigurationState.Instance.Graphics.GraphicsBackend.Value switch
             {
-                EmbeddedWindow = new EmbeddedWindowOpenGL();
-            }
-            else
-            {
-                EmbeddedWindow = new EmbeddedWindowVulkan();
-            }
+                GraphicsBackend.OpenGl => new EmbeddedWindowOpenGL(),
+                GraphicsBackend.Vulkan => new EmbeddedWindowVulkan(),
+                _ => throw new NotSupportedException()
+            };
 
             Initialize();
         }
 
+        public GraphicsBackend Backend =>
+            EmbeddedWindow switch
+            {
+                EmbeddedWindowVulkan => GraphicsBackend.Vulkan,
+                EmbeddedWindowOpenGL => GraphicsBackend.OpenGl,
+                _ => throw new NotImplementedException()
+            };
+
+        public RendererHost(string titleId)
+        {
+            Focusable = true;
+            FlowDirection = FlowDirection.LeftToRight;
+
+            EmbeddedWindow =
+#pragma warning disable CS8509
+                TitleIDs.SelectGraphicsBackend(titleId, ConfigurationState.Instance.Graphics.GraphicsBackend) switch
+#pragma warning restore CS8509
+                {
+                    GraphicsBackend.OpenGl => new EmbeddedWindowOpenGL(),
+                    GraphicsBackend.Vulkan => new EmbeddedWindowVulkan(),
+                };
+
+            string backendText = EmbeddedWindow switch
+            {
+                EmbeddedWindowVulkan => "Vulkan",
+                EmbeddedWindowOpenGL => "OpenGL",
+                _ => throw new NotImplementedException()
+            };
+                    
+            Logger.Info?.PrintMsg(LogClass.Gpu, $"Backend ({ConfigurationState.Instance.Graphics.GraphicsBackend.Value}): {backendText}");
+
+            Initialize();
+        }
+        
+        
         private void Initialize()
         {
             EmbeddedWindow.WindowCreated += CurrentWindow_WindowCreated;

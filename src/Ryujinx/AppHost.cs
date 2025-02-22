@@ -3,6 +3,7 @@ using Avalonia.Controls;
 using Avalonia.Controls.ApplicationLifetimes;
 using Avalonia.Input;
 using Avalonia.Threading;
+using DiscordRPC;
 using LibHac.Common;
 using LibHac.Ns;
 using LibHac.Tools.FsSystem;
@@ -19,11 +20,15 @@ using Ryujinx.Ava.UI.Models;
 using Ryujinx.Ava.UI.Renderer;
 using Ryujinx.Ava.UI.ViewModels;
 using Ryujinx.Ava.UI.Windows;
+using Ryujinx.Ava.Utilities;
+using Ryujinx.Ava.Utilities.AppLibrary;
+using Ryujinx.Ava.Utilities.Configuration;
 using Ryujinx.Common;
 using Ryujinx.Common.Configuration;
 using Ryujinx.Common.Configuration.Multiplayer;
 using Ryujinx.Common.Logging;
 using Ryujinx.Common.SystemInterop;
+using Ryujinx.Common.UI;
 using Ryujinx.Common.Utilities;
 using Ryujinx.Graphics.GAL;
 using Ryujinx.Graphics.GAL.Multithreading;
@@ -37,11 +42,6 @@ using Ryujinx.HLE.HOS.Services.Account.Acc;
 using Ryujinx.HLE.HOS.SystemState;
 using Ryujinx.Input;
 using Ryujinx.Input.HLE;
-using Ryujinx.UI.App.Common;
-using Ryujinx.UI.Common;
-using Ryujinx.UI.Common.Configuration;
-using Ryujinx.UI.Common.Helper;
-using Silk.NET.Vulkan;
 using SkiaSharp;
 using SPB.Graphics.Vulkan;
 using System;
@@ -238,10 +238,10 @@ namespace Ryujinx.Ava
                     _lastCursorMoveTime = Stopwatch.GetTimestamp();
                 }
 
-                var point = e.GetCurrentPoint(window).Position;
-                var bounds = RendererHost.EmbeddedWindow.Bounds;
-                var windowYOffset = bounds.Y + window.MenuBarHeight;
-                var windowYLimit = (int)window.Bounds.Height - window.StatusBarHeight - 1;
+                Point point = e.GetCurrentPoint(window).Position;
+                Rect bounds = RendererHost.EmbeddedWindow.Bounds;
+                double windowYOffset = bounds.Y + window.MenuBarHeight;
+                double windowYLimit = (int)window.Bounds.Height - window.StatusBarHeight - 1;
 
                 if (!_viewModel.ShowMenuAndStatusBar)
                 {
@@ -265,10 +265,10 @@ namespace Ryujinx.Ava
 
             if (sender is MainWindow window)
             {
-                var point = e.GetCurrentPoint(window).Position;
-                var bounds = RendererHost.EmbeddedWindow.Bounds;
-                var windowYOffset = bounds.Y + window.MenuBarHeight;
-                var windowYLimit = (int)window.Bounds.Height - window.StatusBarHeight - 1;
+                Point point = e.GetCurrentPoint(window).Position;
+                Rect bounds = RendererHost.EmbeddedWindow.Bounds;
+                double windowYOffset = bounds.Y + window.MenuBarHeight;
+                double windowYLimit = (int)window.Bounds.Height - window.StatusBarHeight - 1;
 
                 if (!_viewModel.ShowMenuAndStatusBar)
                 {
@@ -287,19 +287,19 @@ namespace Ryujinx.Ava
 
         private void UpdateScalingFilterLevel(object sender, ReactiveEventArgs<int> e)
         {
-            _renderer.Window?.SetScalingFilter((Graphics.GAL.ScalingFilter)ConfigurationState.Instance.Graphics.ScalingFilter.Value);
-            _renderer.Window?.SetScalingFilterLevel(ConfigurationState.Instance.Graphics.ScalingFilterLevel.Value);
+            _renderer.Window?.SetScalingFilter(ConfigurationState.Instance.Graphics.ScalingFilter);
+            _renderer.Window?.SetScalingFilterLevel(ConfigurationState.Instance.Graphics.ScalingFilterLevel);
         }
 
         private void UpdateScalingFilter(object sender, ReactiveEventArgs<ScalingFilter> e)
         {
-            _renderer.Window?.SetScalingFilter((Graphics.GAL.ScalingFilter)ConfigurationState.Instance.Graphics.ScalingFilter.Value);
-            _renderer.Window?.SetScalingFilterLevel(ConfigurationState.Instance.Graphics.ScalingFilterLevel.Value);
+            _renderer.Window?.SetScalingFilter(ConfigurationState.Instance.Graphics.ScalingFilter);
+            _renderer.Window?.SetScalingFilterLevel(ConfigurationState.Instance.Graphics.ScalingFilterLevel);
         }
 
         private void UpdateColorSpacePassthrough(object sender, ReactiveEventArgs<bool> e)
         {
-            _renderer.Window?.SetColorSpacePassthrough((bool)ConfigurationState.Instance.Graphics.EnableColorSpacePassthrough.Value);
+            _renderer.Window?.SetColorSpacePassthrough(ConfigurationState.Instance.Graphics.EnableColorSpacePassthrough);
         }
 
         public void UpdateVSyncMode(object sender, ReactiveEventArgs<VSyncMode> e)
@@ -309,39 +309,21 @@ namespace Ryujinx.Ava
                 Device.VSyncMode = e.NewValue;
                 Device.UpdateVSyncInterval();
             }
-            _renderer.Window?.ChangeVSyncMode((Ryujinx.Graphics.GAL.VSyncMode)e.NewValue);
+            
+            _renderer.Window?.ChangeVSyncMode(e.NewValue);
 
-            _viewModel.ShowCustomVSyncIntervalPicker = (e.NewValue == VSyncMode.Custom);
+            _viewModel.UpdateVSyncIntervalPicker();
         }
 
         public void VSyncModeToggle()
         {
             VSyncMode oldVSyncMode = Device.VSyncMode;
-            VSyncMode newVSyncMode = VSyncMode.Switch;
             bool customVSyncIntervalEnabled = ConfigurationState.Instance.Graphics.EnableCustomVSyncInterval.Value;
 
-            switch (oldVSyncMode)
-            {
-                case VSyncMode.Switch:
-                    newVSyncMode = VSyncMode.Unbounded;
-                    break;
-                case VSyncMode.Unbounded:
-                    if (customVSyncIntervalEnabled)
-                    {
-                        newVSyncMode = VSyncMode.Custom;
-                    }
-                    else
-                    {
-                        newVSyncMode = VSyncMode.Switch;
-                    }
-
-                    break;
-                case VSyncMode.Custom:
-                    newVSyncMode = VSyncMode.Switch;
-                    break;
-            }
-
-            UpdateVSyncMode(this, new ReactiveEventArgs<VSyncMode>(oldVSyncMode, newVSyncMode));
+            UpdateVSyncMode(this, new ReactiveEventArgs<VSyncMode>(
+                oldVSyncMode, 
+                oldVSyncMode.Next(customVSyncIntervalEnabled))
+            );
         }
 
         private void UpdateCustomVSyncIntervalValue(object sender, ReactiveEventArgs<int> e)
@@ -434,7 +416,7 @@ namespace Ryujinx.Ava
                             return;
                         }
 
-                        var colorType = e.IsBgra ? SKColorType.Bgra8888 : SKColorType.Rgba8888;
+                        SKColorType colorType = e.IsBgra ? SKColorType.Bgra8888 : SKColorType.Rgba8888;
                         using SKBitmap bitmap = new(new SKImageInfo(e.Width, e.Height, colorType, SKAlphaType.Premul));
 
                         Marshal.Copy(e.Data, 0, bitmap.GetPixels(), e.Data.Length);
@@ -447,7 +429,7 @@ namespace Ryujinx.Ava
                         float scaleX = e.FlipX ? -1 : 1;
                         float scaleY = e.FlipY ? -1 : 1;
 
-                        var matrix = SKMatrix.CreateScale(scaleX, scaleY, bitmap.Width / 2f, bitmap.Height / 2f);
+                        SKMatrix matrix = SKMatrix.CreateScale(scaleX, scaleY, bitmap.Width / 2f, bitmap.Height / 2f);
 
                         canvas.SetMatrix(matrix);
                         canvas.DrawBitmap(bitmap, SKPoint.Empty);
@@ -466,8 +448,8 @@ namespace Ryujinx.Ava
 
         private static void SaveBitmapAsPng(SKBitmap bitmap, string path)
         {
-            using var data = bitmap.Encode(SKEncodedImageFormat.Png, 100);
-            using var stream = File.OpenWrite(path);
+            using SKData data = bitmap.Encode(SKEncodedImageFormat.Png, 100);
+            using FileStream stream = File.OpenWrite(path);
 
             data.SaveTo(stream);
         }
@@ -488,7 +470,7 @@ namespace Ryujinx.Ava
 
             Dispatcher.UIThread.InvokeAsync(() =>
             {
-                _viewModel.Title = TitleHelper.ActiveApplicationTitle(Device.Processes.ActiveApplication, Program.Version);
+                _viewModel.Title = TitleHelper.ActiveApplicationTitle(Device.Processes.ActiveApplication, Program.Version, !ConfigurationState.Instance.ShowTitleBar);
             });
 
             _viewModel.SetUiProgressHandlers(Device);
@@ -500,6 +482,8 @@ namespace Ryujinx.Ava
             _renderingThread.Start();
 
             _viewModel.Volume = ConfigurationState.Instance.System.AudioVolume.Value;
+            
+            Rainbow.Enable();
 
             MainLoop();
 
@@ -524,7 +508,7 @@ namespace Ryujinx.Ava
 
         private void UpdateAntiAliasing(object sender, ReactiveEventArgs<AntiAliasing> e)
         {
-            _renderer?.Window?.SetAntiAliasing((Graphics.GAL.AntiAliasing)e.NewValue);
+            _renderer?.Window?.SetAntiAliasing(e.NewValue);
         }
 
         private void UpdateDockedModeState(object sender, ReactiveEventArgs<bool> e)
@@ -532,7 +516,7 @@ namespace Ryujinx.Ava
             Device?.System.ChangeDockedModeState(e.NewValue);
         }
 
-        private void UpdateAudioVolumeState(object sender, ReactiveEventArgs<float> e)
+        public void UpdateAudioVolumeState(object sender, ReactiveEventArgs<float> e)
         {
             Device?.SetVolume(e.NewValue);
 
@@ -575,7 +559,6 @@ namespace Ryujinx.Ava
         public void Stop()
         {
             _isActive = false;
-            DiscordIntegrationModule.SwitchToMainState();
         }
 
         private void Exit()
@@ -586,6 +569,17 @@ namespace Ryujinx.Ava
             {
                 return;
             }
+
+            foreach (IGamepad gamepad in RyujinxApp.MainWindow.InputManager.GamepadDriver.GetGamepads())
+            {
+                gamepad?.ClearLed();
+                gamepad?.Dispose();
+            }
+
+            DiscordIntegrationModule.GuestAppStartedAt = null;
+            
+            Rainbow.Disable();
+            Rainbow.Reset();
 
             _isStopped = true;
             Stop();
@@ -674,7 +668,9 @@ namespace Ryujinx.Ava
 
         public async Task<bool> LoadGuestApplication(BlitStruct<ApplicationControlProperty>? customNacpData = null)
         {
-            InitializeSwitchInstance();
+            DiscordIntegrationModule.GuestAppStartedAt = Timestamps.Now;
+            
+            InitEmulatedSwitch();
             MainWindow.UpdateGraphicsConfig();
 
             SystemVersion firmwareVersion = ContentManager.GetCurrentFirmwareVersion();
@@ -757,6 +753,8 @@ namespace Ryujinx.Ava
                 {
                     romFsFiles = Directory.GetFiles(ApplicationPath, "*.romfs");
                 }
+                
+                Logger.Notice.Print(LogClass.Application, $"Loading unpacked content archive from '{ApplicationPath}'.");
 
                 if (romFsFiles.Length > 0)
                 {
@@ -783,6 +781,8 @@ namespace Ryujinx.Ava
             }
             else if (File.Exists(ApplicationPath))
             {
+                Logger.Notice.Print(LogClass.Application, $"Loading content archive from '{ApplicationPath}'.");
+                
                 switch (Path.GetExtension(ApplicationPath).ToLowerInvariant())
                 {
                     case ".xci":
@@ -859,12 +859,10 @@ namespace Ryujinx.Ava
 
                 return false;
             }
-
-            ApplicationMetadata appMeta = ApplicationLibrary.LoadAndSaveMetaData(Device.Processes.ActiveApplication.ProgramIdText,
+            
+            ApplicationLibrary.LoadAndSaveMetaData(Device.Processes.ActiveApplication.ProgramIdText,
                 appMetadata => appMetadata.UpdatePreGame()
             );
-
-            DiscordIntegrationModule.SwitchToPlayingState(appMeta, Device.Processes.ActiveApplication);
 
             return true;
         }
@@ -874,7 +872,7 @@ namespace Ryujinx.Ava
             Device?.System.TogglePauseEmulation(false);
 
             _viewModel.IsPaused = false;
-            _viewModel.Title = TitleHelper.ActiveApplicationTitle(Device?.Processes.ActiveApplication, Program.Version);
+            _viewModel.Title = TitleHelper.ActiveApplicationTitle(Device?.Processes.ActiveApplication, Program.Version, !ConfigurationState.Instance.ShowTitleBar);
             Logger.Info?.Print(LogClass.Emulation, "Emulation was resumed");
         }
 
@@ -883,26 +881,30 @@ namespace Ryujinx.Ava
             Device?.System.TogglePauseEmulation(true);
 
             _viewModel.IsPaused = true;
-            _viewModel.Title = TitleHelper.ActiveApplicationTitle(Device?.Processes.ActiveApplication, Program.Version, LocaleManager.Instance[LocaleKeys.Paused]);
+            _viewModel.Title = TitleHelper.ActiveApplicationTitle(Device?.Processes.ActiveApplication, Program.Version, !ConfigurationState.Instance.ShowTitleBar, LocaleManager.Instance[LocaleKeys.Paused]);
             Logger.Info?.Print(LogClass.Emulation, "Emulation was paused");
         }
 
-        private void InitializeSwitchInstance()
+        private void InitEmulatedSwitch()
         {
             // Initialize KeySet.
             VirtualFileSystem.ReloadKeySet();
 
             // Initialize Renderer.
-            IRenderer renderer = ConfigurationState.Instance.Graphics.GraphicsBackend.Value == GraphicsBackend.OpenGl
-                ? new OpenGLRenderer()
-                : VulkanRenderer.Create(
+            GraphicsBackend backend = TitleIDs.SelectGraphicsBackend(ApplicationId.ToString("X16"), ConfigurationState.Instance.Graphics.GraphicsBackend);
+
+            IRenderer renderer = backend switch
+            {
+                GraphicsBackend.Vulkan => VulkanRenderer.Create(
                     ConfigurationState.Instance.Graphics.PreferredGpu,
                     (RendererHost.EmbeddedWindow as EmbeddedWindowVulkan)!.CreateSurface,
-                    VulkanHelper.GetRequiredInstanceExtensions);
+                    VulkanHelper.GetRequiredInstanceExtensions),
+                _ => new OpenGLRenderer()
+            };
 
             BackendThreading threadingMode = ConfigurationState.Instance.Graphics.BackendThreading;
 
-            var isGALThreaded = threadingMode == BackendThreading.On || (threadingMode == BackendThreading.Auto && renderer.PreferThreading);
+            bool isGALThreaded = threadingMode == BackendThreading.On || (threadingMode == BackendThreading.Auto && renderer.PreferThreading);
             if (isGALThreaded)
             {
                 renderer = new ThreadedRenderer(renderer);
@@ -911,9 +913,9 @@ namespace Ryujinx.Ava
             Logger.Info?.PrintMsg(LogClass.Gpu, $"Backend Threading ({threadingMode}): {isGALThreaded}");
 
             // Initialize Configuration.
-            var memoryConfiguration = ConfigurationState.Instance.System.DramSize.Value;
+            MemoryConfiguration memoryConfiguration = ConfigurationState.Instance.System.DramSize.Value;
 
-            Device = new HLE.Switch(new HLEConfiguration(
+            Device = new Switch(new HLEConfiguration(
                 VirtualFileSystem,
                 _viewModel.LibHacHorizonManager,
                 ContentManager,
@@ -931,7 +933,9 @@ namespace Ryujinx.Ava
                 ConfigurationState.Instance.System.EnableInternetAccess,
                 ConfigurationState.Instance.System.EnableFsIntegrityChecks ? IntegrityCheckLevel.ErrorOnInvalid : IntegrityCheckLevel.None,
                 ConfigurationState.Instance.System.FsGlobalAccessLogMode,
-                ConfigurationState.Instance.System.SystemTimeOffset,
+                ConfigurationState.Instance.System.MatchSystemTime 
+                    ? 0 
+                    : ConfigurationState.Instance.System.SystemTimeOffset,
                 ConfigurationState.Instance.System.TimeZone,
                 ConfigurationState.Instance.System.MemoryManagerMode,
                 ConfigurationState.Instance.System.IgnoreMissingServices,
@@ -942,19 +946,20 @@ namespace Ryujinx.Ava
                 ConfigurationState.Instance.Multiplayer.Mode,
                 ConfigurationState.Instance.Multiplayer.DisableP2p,
                 ConfigurationState.Instance.Multiplayer.LdnPassphrase,
-                ConfigurationState.Instance.Multiplayer.LdnServer,
-                ConfigurationState.Instance.Graphics.CustomVSyncInterval.Value));
+                ConfigurationState.Instance.Multiplayer.GetLdnServer(),
+                ConfigurationState.Instance.Graphics.CustomVSyncInterval.Value,
+                ConfigurationState.Instance.Hacks.ShowDirtyHacks ? ConfigurationState.Instance.Hacks.EnabledHacks : null));
         }
 
         private static IHardwareDeviceDriver InitializeAudio()
         {
-            var availableBackends = new List<AudioBackend>
-            {
+            List<AudioBackend> availableBackends =
+            [
                 AudioBackend.SDL2,
                 AudioBackend.SoundIo,
                 AudioBackend.OpenAl,
-                AudioBackend.Dummy,
-            };
+                AudioBackend.Dummy
+            ];
 
             AudioBackend preferredBackend = ConfigurationState.Instance.System.AudioBackend.Value;
 
@@ -1031,9 +1036,10 @@ namespace Ryujinx.Ava
                 if (_viewModel.StartGamesInFullscreen)
                 {
                     _viewModel.WindowState = WindowState.FullScreen;
+                    _viewModel.Window.TitleBar.ExtendsContentIntoTitleBar = true;
                 }
 
-                if (_viewModel.WindowState is WindowState.FullScreen)
+                if (_viewModel.WindowState is WindowState.FullScreen || _viewModel.StartGamesWithoutUI)
                 {
                     _viewModel.ShowMenuAndStatusBar = false;
                 }
@@ -1047,10 +1053,10 @@ namespace Ryujinx.Ava
 
             Device.Gpu.Renderer.Initialize(_glLogLevel);
 
-            _renderer?.Window?.SetAntiAliasing((Graphics.GAL.AntiAliasing)ConfigurationState.Instance.Graphics.AntiAliasing.Value);
-            _renderer?.Window?.SetScalingFilter((Graphics.GAL.ScalingFilter)ConfigurationState.Instance.Graphics.ScalingFilter.Value);
-            _renderer?.Window?.SetScalingFilterLevel(ConfigurationState.Instance.Graphics.ScalingFilterLevel.Value);
-            _renderer?.Window?.SetColorSpacePassthrough(ConfigurationState.Instance.Graphics.EnableColorSpacePassthrough.Value);
+            _renderer?.Window?.SetAntiAliasing(ConfigurationState.Instance.Graphics.AntiAliasing);
+            _renderer?.Window?.SetScalingFilter(ConfigurationState.Instance.Graphics.ScalingFilter);
+            _renderer?.Window?.SetScalingFilterLevel(ConfigurationState.Instance.Graphics.ScalingFilterLevel);
+            _renderer?.Window?.SetColorSpacePassthrough(ConfigurationState.Instance.Graphics.EnableColorSpacePassthrough);
 
             Width = (int)RendererHost.Bounds.Width;
             Height = (int)RendererHost.Bounds.Height;
@@ -1064,7 +1070,7 @@ namespace Ryujinx.Ava
                 Device.Gpu.SetGpuThread();
                 Device.Gpu.InitializeShaderCache(_gpuCancellationTokenSource.Token);
 
-                _renderer.Window.ChangeVSyncMode((Ryujinx.Graphics.GAL.VSyncMode)Device.VSyncMode);
+                _renderer.Window.ChangeVSyncMode(Device.VSyncMode);
 
                 while (_isActive)
                 {
@@ -1111,7 +1117,7 @@ namespace Ryujinx.Ava
 
         public void InitStatus()
         {
-            _viewModel.BackendText = ConfigurationState.Instance.Graphics.GraphicsBackend.Value switch
+            _viewModel.BackendText = RendererHost.Backend switch
             {
                 GraphicsBackend.Vulkan => "Vulkan",
                 GraphicsBackend.OpenGl => "OpenGL",
@@ -1139,8 +1145,8 @@ namespace Ryujinx.Ava
                 LocaleManager.Instance[LocaleKeys.VolumeShort] + $": {(int)(Device.GetVolume() * 100)}%",
                 dockedMode,
                 ConfigurationState.Instance.Graphics.AspectRatio.Value.ToText(),
-                $"{Device.Statistics.GetGameFrameRate():00.00} FPS ({Device.Statistics.GetGameFrameTime():00.00} ms)",
-                $"FIFO: {Device.Statistics.GetFifoPercent():00.00} %",
+                Device.Statistics.FormatGameFrameRate(),
+                Device.Statistics.FormatFifoPercent(),
                 _displayCount));
         }
 
