@@ -243,7 +243,6 @@ namespace Ryujinx.Ava
                 {
                     "opengl" => GraphicsBackend.OpenGl,
                     "vulkan" => GraphicsBackend.Vulkan,
-                    "metal" => GraphicsBackend.Metal,
                     _ => ConfigurationState.Instance.Graphics.GraphicsBackend
                 };
 

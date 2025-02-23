@@ -117,7 +117,7 @@ namespace Ryujinx.Graphics.Gpu.Shader
         private static string GetDiskCachePath()
         {
             return GraphicsConfig.EnableShaderCache && GraphicsConfig.TitleId != null
-                ? Path.Combine(AppDataManager.GamesDirPath, GraphicsConfig.TitleId.ToLower(), "cache", "shader")
+                ? Path.Combine(AppDataManager.GamesDirPath, GraphicsConfig.TitleId, "cache", "shader")
                 : null;
         }
 
@@ -204,7 +204,7 @@ namespace Ryujinx.Graphics.Gpu.Shader
             GpuChannelComputeState computeState,
             ulong gpuVa)
         {
-            if (_cpPrograms.TryGetValue(gpuVa, out CachedShaderProgram cpShader) && IsShaderEqual(channel, poolState, computeState, cpShader, gpuVa))
+            if (_cpPrograms.TryGetValue(gpuVa, out var cpShader) && IsShaderEqual(channel, poolState, computeState, cpShader, gpuVa))
             {
                 return cpShader;
             }
@@ -223,11 +223,8 @@ namespace Ryujinx.Graphics.Gpu.Shader
             TranslatorContext translatorContext = DecodeComputeShader(gpuAccessor, _context.Capabilities.Api, gpuVa);
             TranslatedShader translatedShader = TranslateShader(_dumper, channel, translatorContext, cachedGuestCode, asCompute: false);
 
-            ShaderSource[] shaderSourcesArray = [CreateShaderSource(translatedShader.Program)];
-            ShaderInfo info = ShaderInfoBuilder.BuildForCompute(
-                _context,
-                translatedShader.Program.Info,
-                computeState.GetLocalSize());
+            ShaderSource[] shaderSourcesArray = new ShaderSource[] { CreateShaderSource(translatedShader.Program) };
+            ShaderInfo info = ShaderInfoBuilder.BuildForCompute(_context, translatedShader.Program.Info);
             IProgram hostProgram = _context.Renderer.CreateProgram(shaderSourcesArray, info);
 
             cpShader = new CachedShaderProgram(hostProgram, specState, translatedShader.Shader);
@@ -254,8 +251,8 @@ namespace Ryujinx.Graphics.Gpu.Shader
         {
             channel.TextureManager.UpdateRenderTargets();
 
-            RtControl rtControl = state.RtControl;
-            TextureMsaaMode msaaMode = state.RtMsaaMode;
+            var rtControl = state.RtControl;
+            var msaaMode = state.RtMsaaMode;
 
             pipeline.SamplesCount = msaaMode.SamplesInX() * msaaMode.SamplesInY();
 
@@ -265,7 +262,7 @@ namespace Ryujinx.Graphics.Gpu.Shader
             {
                 int rtIndex = rtControl.UnpackPermutationIndex(index);
 
-                RtColorState colorState = state.RtColorState[rtIndex];
+                var colorState = state.RtColorState[rtIndex];
 
                 if (index >= count || colorState.Format == 0 || colorState.WidthOrStride == 0)
                 {
@@ -310,12 +307,12 @@ namespace Ryujinx.Graphics.Gpu.Shader
             ref GpuChannelGraphicsState graphicsState,
             ShaderAddresses addresses)
         {
-            if (_gpPrograms.TryGetValue(addresses, out CachedShaderProgram gpShaders) && IsShaderEqual(channel, ref poolState, ref graphicsState, gpShaders, addresses))
+            if (_gpPrograms.TryGetValue(addresses, out var gpShaders) && IsShaderEqual(channel, ref poolState, ref graphicsState, gpShaders, addresses))
             {
                 return gpShaders;
             }
 
-            if (_graphicsShaderCache.TryFind(channel, ref poolState, ref graphicsState, addresses, out gpShaders, out CachedGraphicsGuestCode cachedGuestCode))
+            if (_graphicsShaderCache.TryFind(channel, ref poolState, ref graphicsState, addresses, out gpShaders, out var cachedGuestCode))
             {
                 _gpPrograms[addresses] = gpShaders;
                 return gpShaders;
@@ -368,7 +365,7 @@ namespace Ryujinx.Graphics.Gpu.Shader
             bool geometryToCompute = ShouldConvertGeometryToCompute(_context, geometryHasStore);
 
             CachedShaderStage[] shaders = new CachedShaderStage[Constants.ShaderStages + 1];
-            List<ShaderSource> shaderSources = [];
+            List<ShaderSource> shaderSources = new();
 
             TranslatorContext previousStage = null;
             ShaderInfoBuilder infoBuilder = new(_context, transformFeedbackDescriptors != null, vertexToCompute);
@@ -428,8 +425,7 @@ namespace Ryujinx.Graphics.Gpu.Shader
 
                             TranslatorContext lastInVertexPipeline = geometryToCompute ? translatorContexts[4] ?? currentStage : currentStage;
 
-                            (program, ShaderProgramInfo vacInfo) = lastInVertexPipeline.GenerateVertexPassthroughForCompute();
-                            infoBuilder.AddStageInfoVac(vacInfo);
+                            program = lastInVertexPipeline.GenerateVertexPassthroughForCompute();
                         }
                         else
                         {
@@ -534,9 +530,9 @@ namespace Ryujinx.Graphics.Gpu.Shader
         private ShaderAsCompute CreateHostVertexAsComputeProgram(ShaderProgram program, TranslatorContext context, bool tfEnabled)
         {
             ShaderSource source = new(program.Code, program.BinaryCode, ShaderStage.Compute, program.Language);
-            ShaderInfo info = ShaderInfoBuilder.BuildForVertexAsCompute(_context, program.Info, context.GetVertexAsComputeInfo(), tfEnabled);
+            ShaderInfo info = ShaderInfoBuilder.BuildForVertexAsCompute(_context, program.Info, tfEnabled);
 
-            return new(_context.Renderer.CreateProgram([source], info), program.Info, context.GetResourceReservations());
+            return new(_context.Renderer.CreateProgram(new[] { source }, info), program.Info, context.GetResourceReservations());
         }
 
         /// <summary>
@@ -586,7 +582,7 @@ namespace Ryujinx.Graphics.Gpu.Shader
 
             for (int i = 0; i < Constants.TotalTransformFeedbackBuffers; i++)
             {
-                TfState tf = state.TfState[i];
+                var tf = state.TfState[i];
 
                 descs[i] = new TransformFeedbackDescriptor(
                     tf.BufferIndex,
@@ -692,7 +688,7 @@ namespace Ryujinx.Graphics.Gpu.Shader
         /// <returns>The generated translator context</returns>
         public static TranslatorContext DecodeComputeShader(IGpuAccessor gpuAccessor, TargetApi api, ulong gpuVa)
         {
-            TranslationOptions options = CreateTranslationOptions(api, DefaultFlags | TranslationFlags.Compute);
+            var options = CreateTranslationOptions(api, DefaultFlags | TranslationFlags.Compute);
             return Translator.CreateContext(gpuVa, gpuAccessor, options);
         }
 
@@ -709,7 +705,7 @@ namespace Ryujinx.Graphics.Gpu.Shader
         /// <returns>The generated translator context</returns>
         public static TranslatorContext DecodeGraphicsShader(IGpuAccessor gpuAccessor, TargetApi api, TranslationFlags flags, ulong gpuVa)
         {
-            TranslationOptions options = CreateTranslationOptions(api, flags);
+            var options = CreateTranslationOptions(api, flags);
             return Translator.CreateContext(gpuVa, gpuAccessor, options);
         }
 
@@ -735,7 +731,7 @@ namespace Ryujinx.Graphics.Gpu.Shader
         {
             ulong cb1DataAddress = channel.BufferManager.GetGraphicsUniformBufferAddress(0, 1);
 
-            MemoryManager memoryManager = channel.MemoryManager;
+            var memoryManager = channel.MemoryManager;
 
             codeA ??= memoryManager.GetSpan(vertexA.Address, vertexA.Size).ToArray();
             codeB ??= memoryManager.GetSpan(currentStage.Address, currentStage.Size).ToArray();
@@ -773,7 +769,7 @@ namespace Ryujinx.Graphics.Gpu.Shader
         /// <returns>Compiled graphics shader code</returns>
         private static TranslatedShader TranslateShader(ShaderDumper dumper, GpuChannel channel, TranslatorContext context, byte[] code, bool asCompute)
         {
-            MemoryManager memoryManager = channel.MemoryManager;
+            var memoryManager = channel.MemoryManager;
 
             ulong cb1DataAddress = context.Stage == ShaderStage.Compute
                 ? channel.BufferManager.GetComputeUniformBufferAddress(1)
@@ -801,7 +797,7 @@ namespace Ryujinx.Graphics.Gpu.Shader
         {
             if (address == MemoryManager.PteUnmapped || size == 0)
             {
-                return [];
+                return Array.Empty<byte>();
             }
 
             return memoryManager.Physical.GetSpan(address, size).ToArray();
@@ -826,20 +822,16 @@ namespace Ryujinx.Graphics.Gpu.Shader
 
         /// <summary>
         /// Creates shader translation options with the requested graphics API and flags.
-        /// The shader language is chosen based on the current configuration and graphics API.
+        /// The shader language is choosen based on the current configuration and graphics API.
         /// </summary>
         /// <param name="api">Target graphics API</param>
         /// <param name="flags">Translation flags</param>
         /// <returns>Translation options</returns>
         private static TranslationOptions CreateTranslationOptions(TargetApi api, TranslationFlags flags)
         {
-            TargetLanguage lang = api switch
-            {
-                TargetApi.OpenGL => TargetLanguage.Glsl,
-                TargetApi.Vulkan => GraphicsConfig.EnableSpirvCompilationOnVulkan ? TargetLanguage.Spirv : TargetLanguage.Glsl,
-                TargetApi.Metal => TargetLanguage.Msl,
-                _ => throw new NotImplementedException()
-            };
+            TargetLanguage lang = GraphicsConfig.EnableSpirvCompilationOnVulkan && api == TargetApi.Vulkan
+                ? TargetLanguage.Spirv
+                : TargetLanguage.Glsl;
 
             return new TranslationOptions(lang, api, flags);
         }
