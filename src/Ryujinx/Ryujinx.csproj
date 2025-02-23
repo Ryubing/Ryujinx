@@ -112,6 +112,10 @@
     <AvaloniaResource Include="UI\**\*.xaml">
       <SubType>Designer</SubType>
     </AvaloniaResource>
+    <AvaloniaResource Include="Assets\Fonts\Mono\JetBrainsMonoNL-Bold.ttf" />
+    <AvaloniaResource Include="Assets\Fonts\Mono\JetBrainsMonoNL-BoldItalic.ttf" />
+    <AvaloniaResource Include="Assets\Fonts\Mono\JetBrainsMonoNL-Italic.ttf" />
+    <AvaloniaResource Include="Assets\Fonts\Mono\JetBrainsMonoNL-Regular.ttf" />
     <AvaloniaResource Include="Assets\Fonts\SegoeFluentIcons.ttf" />
     <AvaloniaResource Include="Assets\Styles\Themes.xaml">
       <Generator>MSBuild:Compile</Generator>
