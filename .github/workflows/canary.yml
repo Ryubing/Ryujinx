@@ -124,7 +124,6 @@ jobs:
         if: matrix.platform.os == 'windows-latest'
         run: |
           pushd publish
-          rm libarmeilleure-jitsupport.dylib
           7z a ../release_output/ryujinx-canary-${{ steps.version_info.outputs.build_version }}-${{ matrix.platform.zip_os_name }}.zip ../publish
           popd
         shell: bash
@@ -133,7 +132,6 @@ jobs:
         if: matrix.platform.os == 'ubuntu-latest'
         run: |
           pushd publish
-          rm libarmeilleure-jitsupport.dylib
           chmod +x Ryujinx.sh Ryujinx
           tar -czvf ../release_output/ryujinx-canary-${{ steps.version_info.outputs.build_version }}-${{ matrix.platform.zip_os_name }}.tar.gz ../publish
           popd
