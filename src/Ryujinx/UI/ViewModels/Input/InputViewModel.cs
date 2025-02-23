@@ -459,7 +459,9 @@ namespace Ryujinx.Ava.UI.ViewModels.Input
 
                 if (Config != null)
                 {
-                    LoadSavedConfiguration(); // Load configuration after connection if it is in the configuration file
+                    // Load configuration after connection if it is in the configuration file
+                    IsModified = true;
+                    LoadSavedConfiguration(); 
                 }
 
                 _isChangeTrackingActive = true;
