@@ -1,4 +1,3 @@
-using Ryujinx.Common.Configuration;
 using Ryujinx.Common.Logging;
 using Ryujinx.Graphics.GAL;
 using Ryujinx.Graphics.Shader;
@@ -367,9 +366,6 @@ namespace Ryujinx.Graphics.Gpu.Shader.DiskCache
         {
             try
             {
-                if (_context.Capabilities.Api == TargetApi.Metal && _context.DirtyHacks.IsEnabled(DirtyHack.ShaderTranslationDelay))
-                    Thread.Sleep(_context.DirtyHacks[DirtyHack.ShaderTranslationDelay]);
-                
                 AsyncProgramTranslation asyncTranslation = new(guestShaders, specState, programIndex, isCompute);
                 _asyncTranslationQueue.Add(asyncTranslation, _cancellationToken);
             }
@@ -494,12 +490,7 @@ namespace Ryujinx.Graphics.Gpu.Shader.DiskCache
             {
                 ShaderSource[] shaderSources = new ShaderSource[compilation.TranslatedStages.Length];
 
-                ref GpuChannelComputeState computeState = ref compilation.SpecializationState.ComputeState;
-
-                ShaderInfoBuilder shaderInfoBuilder = new(
-                    _context,
-                    compilation.SpecializationState.TransformFeedbackDescriptors != null,
-                    computeLocalSize: computeState.GetLocalSize());
+                ShaderInfoBuilder shaderInfoBuilder = new(_context, compilation.SpecializationState.TransformFeedbackDescriptors != null);
 
                 for (int index = 0; index < compilation.TranslatedStages.Length; index++)
                 {

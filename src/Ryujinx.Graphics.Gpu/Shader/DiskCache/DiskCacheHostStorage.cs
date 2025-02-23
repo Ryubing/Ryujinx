@@ -324,11 +324,6 @@ namespace Ryujinx.Graphics.Gpu.Shader.DiskCache
 
                 bool loadHostCache = header.CodeGenVersion == CodeGenVersion;
 
-                if (context.Capabilities.Api == TargetApi.Metal)
-                {
-                    loadHostCache = false;
-                }
-
                 int programIndex = 0;
 
                 DataEntry entry = new();
@@ -397,8 +392,7 @@ namespace Ryujinx.Graphics.Gpu.Shader.DiskCache
                                 context,
                                 shaders,
                                 specState.PipelineState,
-                                specState.TransformFeedbackDescriptors != null,
-                                specState.ComputeState.GetLocalSize());
+                                specState.TransformFeedbackDescriptors != null);
 
                             IProgram hostProgram;
 
@@ -635,10 +629,7 @@ namespace Ryujinx.Graphics.Gpu.Shader.DiskCache
                 return;
             }
 
-            if (context.Capabilities.Api != TargetApi.Metal)
-            {
-                WriteHostCode(context, hostCode, program.Shaders, streams, timestamp);
-            }
+            WriteHostCode(context, hostCode, program.Shaders, streams, timestamp);
         }
 
         /// <summary>
