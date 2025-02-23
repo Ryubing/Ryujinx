@@ -907,12 +907,14 @@ namespace Ryujinx.Ava.UI.ViewModels.Input
         }
 
         public void LoadSavedConfiguration()
-        {        
-            LoadConfiguration();
-            LoadDevice();
-            LoadProfiles();
-            IsModified = false;
-            OnPropertyChanged();
+        {
+            if (IsModified) // Fixes random gamepad appearance in "disabled" option
+            {
+                LoadDevice();
+                LoadConfiguration();
+                IsModified = false;
+                OnPropertyChanged();
+            }
         }
 
         public void Save()
