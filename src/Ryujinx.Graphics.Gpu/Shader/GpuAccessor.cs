@@ -17,7 +17,7 @@ namespace Ryujinx.Graphics.Gpu.Shader
         private readonly GpuAccessorState _state;
         private readonly int _stageIndex;
         private readonly bool _compute;
-        private readonly bool _isOpenGL;
+        private readonly bool _isVulkan;
         private readonly bool _hasGeometryShader;
         private readonly bool _supportsQuads;
 
@@ -39,7 +39,7 @@ namespace Ryujinx.Graphics.Gpu.Shader
             _channel = channel;
             _state = state;
             _stageIndex = stageIndex;
-            _isOpenGL = context.Capabilities.Api == TargetApi.OpenGL;
+            _isVulkan = context.Capabilities.Api == TargetApi.Vulkan;
             _hasGeometryShader = hasGeometryShader;
             _supportsQuads = context.Capabilities.SupportsQuads;
 
@@ -117,10 +117,10 @@ namespace Ryujinx.Graphics.Gpu.Shader
         public GpuGraphicsState QueryGraphicsState()
         {
             return _state.GraphicsState.CreateShaderGraphicsState(
-                _isOpenGL,
+                !_isVulkan,
                 _supportsQuads,
                 _hasGeometryShader,
-                !_isOpenGL || _state.GraphicsState.YNegateEnabled);
+                _isVulkan || _state.GraphicsState.YNegateEnabled);
         }
 
         /// <inheritdoc/>

@@ -64,34 +64,34 @@ namespace Ryujinx.Ava.UI.Windows
             {
                 switch (navItem.Tag.ToString())
                 {
-                    case nameof(UiPage):
+                    case "UiPage":
                         UiPage.ViewModel = ViewModel;
                         NavPanel.Content = UiPage;
                         break;
-                    case nameof(InputPage):
+                    case "InputPage":
                         NavPanel.Content = InputPage;
                         break;
-                    case nameof(HotkeysPage):
+                    case "HotkeysPage":
                         NavPanel.Content = HotkeysPage;
                         break;
-                    case nameof(SystemPage):
+                    case "SystemPage":
                         SystemPage.ViewModel = ViewModel;
                         NavPanel.Content = SystemPage;
                         break;
-                    case nameof(CpuPage):
+                    case "CpuPage":
                         NavPanel.Content = CpuPage;
                         break;
-                    case nameof(GraphicsPage):
+                    case "GraphicsPage":
                         NavPanel.Content = GraphicsPage;
                         break;
-                    case nameof(AudioPage):
+                    case "AudioPage":
                         NavPanel.Content = AudioPage;
                         break;
-                    case nameof(NetworkPage):
+                    case "NetworkPage":
                         NetworkPage.ViewModel = ViewModel;
                         NavPanel.Content = NetworkPage;
                         break;
-                    case nameof(LoggingPage):
+                    case "LoggingPage":
                         NavPanel.Content = LoggingPage;
                         break;
                     case nameof(HacksPage):

@@ -36,10 +36,9 @@ namespace Ryujinx.Graphics.Shader.StructuredIr
             AttributeUsage attributeUsage,
             ShaderDefinitions definitions,
             ResourceManager resourceManager,
-            bool precise,
             bool debugMode)
         {
-            Info = new StructuredProgramInfo(precise);
+            Info = new StructuredProgramInfo();
 
             Definitions = definitions;
             ResourceManager = resourceManager;

@@ -8,7 +8,6 @@
     xmlns:ui="clr-namespace:FluentAvalonia.UI.Controls;assembly=FluentAvalonia"
     xmlns:ext="clr-namespace:Ryujinx.Ava.Common.Markup"
     xmlns:viewModels="clr-namespace:Ryujinx.Ava.UI.ViewModels"
-    xmlns:helper="clr-namespace:Ryujinx.Common.Helper;assembly=Ryujinx.Common"
     Design.Width="1000"
     mc:Ignorable="d"
     x:DataType="viewModels:SettingsViewModel">
@@ -34,23 +33,15 @@
                                 ToolTip.Tip="{ext:Locale SettingsTabGraphicsBackendTooltip}"
                                 Text="{ext:Locale SettingsTabGraphicsBackend}"
                                 Width="250" />
-                        <ComboBox
-                            Name="GraphicsBackendSelector"
-                            Width="350"
-                            HorizontalContentAlignment="Left"
-                            ToolTip.Tip="{ext:Locale SettingsTabGraphicsBackendTooltip}"
-                            SelectedIndex="{Binding GraphicsBackendIndex}">
-                            <ComboBoxItem IsVisible="{Binding IsVulkanAvailable}" ToolTip.Tip="{ext:Locale SettingsTabGraphicsBackendAutoTooltip}" >
-                                <TextBlock Text="{ext:Locale SettingsTabGraphicsBackendAuto}" />
-                            </ComboBoxItem>
+                        <ComboBox Width="350"
+                                HorizontalContentAlignment="Left"
+                                ToolTip.Tip="{ext:Locale SettingsTabGraphicsBackendTooltip}"
+                                SelectedIndex="{Binding GraphicsBackendIndex}">
                             <ComboBoxItem IsVisible="{Binding IsVulkanAvailable}">
                                 <TextBlock Text="Vulkan" />
                             </ComboBoxItem>
                             <ComboBoxItem IsEnabled="{Binding IsOpenGLAvailable}">
                                 <TextBlock Text="OpenGL" />
-                            </ComboBoxItem>
-                            <ComboBoxItem IsEnabled="{x:Static helper:RunningPlatform.IsArmMac}">
-                                <TextBlock Text="Metal (ARM Mac only, Experimental)" />
                             </ComboBoxItem>
                         </ComboBox>
                     </StackPanel>
