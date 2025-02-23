@@ -7073,6 +7073,81 @@
       }
     },
     {
+      "ID": "ControllerSettingsModifiedNotification",
+      "Translations": {
+        "ar_SA": "(تم التعديل!)",
+        "de_DE": "(modifiziert!)",
+        "el_GR": "(τροποποιημένο!)",
+        "en_US": "(Modified!)",
+        "es_ES": "(modificado!)",
+        "fr_FR": "(modifié!)",
+        "he_IL": "(שונה!)",
+        "it_IT": "(modificato!)",
+        "ja_JP": "(変更済み!)",
+        "ko_KR": "(수정됨!)",
+        "no_NO": "(modifisert!)",
+        "pl_PL": "(zmodyfikowane!)",
+        "pt_BR": "(modificado!)",
+        "ru_RU": "(изменено!)",
+        "sv_SE": "(ändrad!)",
+        "th_TH": "(แก้ไขแล้ว!)",
+        "tr_TR": "(değiştirildi!)",
+        "uk_UA": "(модифіковано!)",
+        "zh_CN": "(已修改!)",
+        "zh_TW": "(已修改!)"
+      }
+    },
+    {
+      "ID": "ControllerSettingsDisableDeviceForSaving",
+      "Translations": {
+        "ar_SA": "تم إعداد التحكم.\n\nفي انتظار اتصال وحدة التحكم...",
+        "de_DE": "Steuerung konfiguriert.\n\nWarten auf die Verbindung des Controllers...",
+        "el_GR": "Η διαχείριση έχει ρυθμιστεί.\n\nΑναμένεται σύνδεση του χειριστηρίου...",
+        "en_US": "Control configured.\n\nWaiting for controller connection...",
+        "es_ES": "Control configurado.\n\nEsperando la conexión del controlador...",
+        "fr_FR": "Contrôle configuré.\n\nEn attente de la connexion du contrôleur...",
+        "he_IL": "השליטה הוגדרה.\n\nממתין לחיבור הבקר...",
+        "it_IT": "Controllo configurato.\n\nIn attesa della connessione del controller...",
+        "ja_JP": "コントロールが設定されました。\n\nコントローラーの接続を待っています...",
+        "ko_KR": "제어가 설정되었습니다.\n\n컨트롤러 연결 대기 중...",
+        "no_NO": "Kontroll konfigurert.\n\nVenter på tilkobling av kontroller...",
+        "pl_PL": "Sterowanie skonfigurowane.\n\nOczekiwanie na połączenie kontrolera...",
+        "pt_BR": "Controle configurado.\n\nAguardando conexão do controle...",
+        "ru_RU": "Управление настроено.\n\nОжидается подключение контроллера...",
+        "sv_SE": "Kontroll konfigurerad.\n\nVäntar på anslutning av kontrollen...",
+        "th_TH": "การควบคุมได้รับการตั้งค่าแล้ว\n\nกำลังรอการเชื่อมต่อคอนโทรลเลอร์...",
+        "tr_TR": "Kontrol yapılandırıldı.\n\nKontrolcü bağlantısı bekleniyor...",
+        "uk_UA": "Керування налаштовано.\n\nОчікується підключення контролера...",
+        "zh_CN": "控制已配置。\n\n等待控制器连接...",
+        "zh_TW": "控制已設定。\n\n等待控制器連接..."
+      }
+    },
+    {
+      "ID": "ControllerSettingsUnlink",
+      "Translations": {
+        "ar_SA": "إلغاء الربط",
+        "de_DE": "Entkoppeln",
+        "el_GR": "Αποσύνδεση",
+        "en_US": "Unlink",
+        "es_ES": "Desvincular",
+        "fr_FR": "Dissocier",
+        "he_IL": "ניתוק קישור",
+        "it_IT": "Scollega",
+        "ja_JP": "リンク解除",
+        "ko_KR": "연결 해제",
+        "no_NO": "Frakoble",
+        "pl_PL": "Odłącz",
+        "pt_BR": "Desvincular",
+        "ru_RU": "Отвязать",
+        "sv_SE": "Koppla från",
+        "th_TH": "ยกเลิกการเชื่อมโยง",
+        "tr_TR": "Bağlantıyı Kes",
+        "uk_UA": "Відв'язати",
+        "zh_CN": "解除绑定",
+        "zh_TW": "解除綁定"
+      }
+    },
+    {
       "ID": "ControllerSettingsRemove",
       "Translations": {
         "ar_SA": "إزالة",
@@ -11720,6 +11795,31 @@
         "uk_UA": "Зберегти профіль",
         "zh_CN": "保存配置文件",
         "zh_TW": "儲存設定檔"
+      }
+    },
+    {
+      "ID": "ControllerSettingsCancelCurrentChangesToolTip",
+      "Translations": {
+        "ar_SA": "إلغاء التغييرات الحالية",
+        "de_DE": "Aktuelle Änderungen abbrechen",
+        "el_GR": "Ακύρωση τρεχουσών αλλαγών",
+        "en_US": "Cancel current changes",
+        "es_ES": "Cancelar los cambios actuales",
+        "fr_FR": "Annuler les modifications en cours",
+        "he_IL": "ביטול השינויים הנוכחיים",
+        "it_IT": "Annulla le modifiche correnti",
+        "ja_JP": "現在の変更をキャンセル",
+        "ko_KR": "현재 변경 취소",
+        "no_NO": "Avbryt gjeldende endringer",
+        "pl_PL": "Anuluj bieżące zmiany",
+        "pt_BR": "Cancelar alterações atuais",
+        "ru_RU": "Отменить текущие изменения",
+        "sv_SE": "Avbryt aktuella ändringar",
+        "th_TH": "ยกเลิกการเปลี่ยนแปลงปัจจุบัน",
+        "tr_TR": "Geçerli değişiklikleri iptal et",
+        "uk_UA": "Скасувати поточні зміни",
+        "zh_CN": "取消当前更改",
+        "zh_TW": "取消當前變更"
       }
     },
     {

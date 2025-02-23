@@ -50,13 +50,21 @@
                     <Grid.ColumnDefinitions>
                         <ColumnDefinition Width="Auto"/>
                         <ColumnDefinition Width="*" />
+                        <ColumnDefinition Width="Auto"/>
                     </Grid.ColumnDefinitions>
-                    <TextBlock
+                    <StackPanel 
+                        Orientation="Vertical"                             
                         Margin="5,0,10,0"
-                        Width="90"
                         HorizontalAlignment="Left"
                         VerticalAlignment="Center"
-                        Text="{ext:Locale ControllerSettingsPlayer}" />
+                        Width="90">
+                        <TextBlock
+                            Text="{ext:Locale ControllerSettingsPlayer}" />
+                         <TextBlock                        
+                            Classes="pending" 
+                            Text ="{ext:Locale ControllerSettingsModifiedNotification}"
+                            IsVisible="{Binding IsModified}"/>
+                    </StackPanel>
                     <ComboBox
                         Grid.Column="1"
                         Name="PlayerIndexBox"
@@ -71,6 +79,18 @@
                             </DataTemplate>
                         </ComboBox.ItemTemplate>
                     </ComboBox>
+                    <Button
+                        Grid.Column="2"
+                            MinWidth="0"
+                            Margin="5,0,0,0"
+                            VerticalAlignment="Center"
+                            ToolTip.Tip="{ext:Locale ControllerSettingsCancelCurrentChangesToolTip}"
+                            Command="{Binding LoadSavedConfiguration}">
+                        <ui:SymbolIcon
+                            Symbol="Cancel"
+                            FontSize="15"
+                            Height="20" />
+                    </Button>
                 </Grid>
                 <!-- Profile Selection -->
                 <Grid
@@ -174,7 +194,7 @@
                         MinWidth="0"
                         Margin="5,0,0,0"
                         VerticalAlignment="Center"
-                        Command="{Binding LoadDevices}">
+                        Command="{Binding LoadDevice}">
                         <ui:SymbolIcon
                             Symbol="Refresh"
                             FontSize="15"
@@ -211,15 +231,37 @@
                 </Grid>
             </Grid>
         </StackPanel>
-        <ContentControl Content="{Binding ConfigViewModel}" IsVisible="{Binding ShowSettings}">
-            <ContentControl.DataTemplates>
-                <DataTemplate DataType="viewModels:ControllerInputViewModel">
-                    <views:ControllerInputView />
-                </DataTemplate>
-                <DataTemplate DataType="viewModels:KeyboardInputViewModel">
-                    <views:KeyboardInputView />
-                </DataTemplate>
-            </ContentControl.DataTemplates>
+        <ContentControl IsVisible="{Binding NotificationView}">
+            <ContentControl.Content>
+                <StackPanel>
+                    <TextBlock 
+                        Margin="5,20,0,0"
+                        Text="{ext:Locale ControllerSettingsDisableDeviceForSaving}" />
+        
+                    <Button
+                        MinWidth="0"
+                        Width="90"
+                        Height="27"
+                        Margin="5,10,0,0"
+                        VerticalAlignment="Center"
+                        Command="{Binding DisableDeviceForSaving}">
+                        <TextBlock
+                            Text="{ext:Locale ControllerSettingsUnlink}"
+                            VerticalAlignment="Center"
+                            HorizontalAlignment="Center" />
+                    </Button>
+                </StackPanel>
+            </ContentControl.Content>
         </ContentControl>
+            <ContentControl Content="{Binding ConfigViewModel}" IsVisible="{Binding ShowSettings}">        
+                <ContentControl.DataTemplates>
+                    <DataTemplate DataType="viewModels:ControllerInputViewModel">
+                        <views:ControllerInputView />
+                    </DataTemplate>
+                    <DataTemplate DataType="viewModels:KeyboardInputViewModel">
+                        <views:KeyboardInputView />
+                    </DataTemplate>
+                </ContentControl.DataTemplates>
+            </ContentControl>
     </StackPanel>
 </UserControl>

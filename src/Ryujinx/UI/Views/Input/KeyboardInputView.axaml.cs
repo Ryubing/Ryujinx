@@ -73,7 +73,7 @@ namespace Ryujinx.Ava.UI.Views.Input
                         if (e.ButtonValue.HasValue)
                         {
                             Button buttonValue = e.ButtonValue.Value;
-                            viewModel.ParentModel.IsModified = true;
+                            FlagInputConfigChanged();
 
                             switch (button.Name)
                             {
@@ -182,6 +182,11 @@ namespace Ryujinx.Ava.UI.Views.Input
                 _currentAssigner?.Cancel();
                 _currentAssigner = null;
             }
+        }
+
+        private void FlagInputConfigChanged()
+        {
+            (DataContext as KeyboardInputViewModel)!.ParentModel.IsModified = true;
         }
 
         private void MouseClick(object sender, PointerPressedEventArgs e)

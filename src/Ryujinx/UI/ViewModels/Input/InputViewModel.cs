@@ -91,7 +91,19 @@ namespace Ryujinx.Ava.UI.ViewModels.Input
         public bool HasLed => SelectedGamepad.Features.HasFlag(GamepadFeaturesFlag.Led);
         public bool CanClearLed => SelectedGamepad.Name.ContainsIgnoreCase("DualSense");
 
-        public bool IsModified { get; set; }
+        public bool _isChangeTrackingActive;
+
+        public bool _isModified;
+        public bool IsModified
+        {
+            get => _isModified;
+            set 
+            {
+                _isModified = value;
+                OnPropertyChanged();
+            }
+        }
+
         public event Action NotifyChangesEvent;
 
         public PlayerIndex PlayerIdChoose
@@ -106,14 +118,14 @@ namespace Ryujinx.Ava.UI.ViewModels.Input
             set
             {
                 if (IsModified)
-                {
-
+                {                 
                     _playerIdChoose = value;
                     return;
                 }
-
+             
                 IsModified = false;
                 _playerId = value;
+                _isChangeTrackingActive = false;
 
                 if (!Enum.IsDefined<PlayerIndex>(_playerId))
                 {
@@ -121,13 +133,12 @@ namespace Ryujinx.Ava.UI.ViewModels.Input
 
                 }
                 _isLoaded = false;
-
                 LoadConfiguration();
                 LoadDevice();
                 LoadProfiles();
 
                 _isLoaded = true;
-
+                _isChangeTrackingActive = true;
                 OnPropertyChanged();
             }
         }
@@ -171,11 +182,12 @@ namespace Ryujinx.Ava.UI.ViewModels.Input
                             IsLeft = false;
                             break;
                     }
-
+                    
                     LoadInputDriver();
                     LoadProfiles();
+                    SetChangeTrackingActive();
                 }
-
+       
                 OnPropertyChanged();
                 NotifyChanges();
             }
@@ -233,13 +245,27 @@ namespace Ryujinx.Ava.UI.ViewModels.Input
                         LoadConfiguration(LoadDefaultConfiguration());
                     }
                 }
-
+                FindPairedDevice();
+                SetChangeTrackingActive();
                 OnPropertyChanged();
                 NotifyChanges();
             }
         }
 
+
         public InputConfig Config { get; set; }
+
+        public bool _notificationView;
+
+        public bool NotificationView
+        {
+            get => _notificationView;
+            set
+            {
+                _notificationView = value;
+                OnPropertyChanged();
+            }
+        }
 
         public InputViewModel(UserControl owner) : this()
         {
@@ -260,6 +286,8 @@ namespace Ryujinx.Ava.UI.ViewModels.Input
 
                 PlayerId = PlayerIndex.Player1;
             }
+
+            _isChangeTrackingActive = true;
         }
 
         public InputViewModel()
@@ -296,7 +324,53 @@ namespace Ryujinx.Ava.UI.ViewModels.Input
             {
                 ConfigViewModel = new ControllerInputViewModel(this, new GamepadInputConfig(controllerInputConfig));
             }
+
+            FindPairedDevice();
         }
+
+        private void FindPairedDevice()
+        {
+            // This feature allows you to display a notification
+            // if a configuration is found, but the gamepad is not connected.
+            if (Config != null)
+            {
+                (DeviceType Type, string Id, string Name) activeDevice = Devices.FirstOrDefault(d => d.Id == Config.Id);
+
+                if (activeDevice.Id != Config.Id)
+                {
+                    // display notification when input device is turned off, and
+                    // if device and configuration do not match (different controllers)
+                    NotificationView = true; 
+                }
+                else
+                {
+                    NotificationView = false;
+                }
+            }
+            else
+            {
+                NotificationView = false;
+            }
+        }
+
+        private void SetChangeTrackingActive()
+        {
+          
+            if (_isChangeTrackingActive)
+            {
+                IsModified = true;
+            }
+        }
+
+
+        public void DisableDeviceForSaving()
+        {
+            // "Disabled" mode is available after unbinding the device
+            // NOTE: the IsModified flag to be able to apply the settings.
+            IsModified = true;
+            NotificationView = false;
+        }
+
 
         public void LoadDevice()
         {
@@ -363,14 +437,33 @@ namespace Ryujinx.Ava.UI.ViewModels.Input
             }
         }
 
-        private void HandleOnGamepadDisconnected(string id)
+        private async void HandleOnGamepadDisconnected(string id)
         {
-            Dispatcher.UIThread.Post(LoadDevices);
+            _isChangeTrackingActive = false;
+            await Dispatcher.UIThread.InvokeAsync(() =>
+            {
+                LoadDevices();
+                FindPairedDevice();
+                _isChangeTrackingActive = true;
+                return System.Threading.Tasks.Task.CompletedTask;
+            });
         }
 
-        private void HandleOnGamepadConnected(string id)
+        private async void HandleOnGamepadConnected(string id)
         {
-            Dispatcher.UIThread.Post(LoadDevices);
+            _isChangeTrackingActive = false;
+
+            await Dispatcher.UIThread.InvokeAsync(() =>
+            {
+                LoadDevices();
+
+                if (Config != null)
+                {
+                    LoadSavedConfiguration(); // Load configuration after connection if it is in the configuration file
+                }
+
+                _isChangeTrackingActive = true;
+            });
         }
 
         private string GetCurrentGamepadId()
@@ -813,8 +906,23 @@ namespace Ryujinx.Ava.UI.ViewModels.Input
             }
         }
 
+        public void LoadSavedConfiguration()
+        {        
+            LoadConfiguration();
+            LoadDevice();
+            LoadProfiles();
+            IsModified = false;
+            OnPropertyChanged();
+        }
+
         public void Save()
         {
+            
+            if (!IsModified)
+            {
+                return; //If the input settings were not touched, then do nothing
+            }
+
             IsModified = false;
 
             List<InputConfig> newConfig = [];
