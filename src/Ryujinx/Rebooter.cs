@@ -42,52 +42,33 @@ namespace Ryujinx.Ava
                 List<string> arguments = CommandLineState.Arguments.ToList();
                 string executableDirectory = AppDomain.CurrentDomain.BaseDirectory;
 
-                // On macOS we perform the update at relaunch.
-                if (OperatingSystem.IsMacOS())
+                var dialogTask = taskDialog.ShowAsync(true);
+                await Task.Delay(500);
+
+                // Find the process name.
+                string ryuName = Path.GetFileName(Environment.ProcessPath) ?? string.Empty;
+
+                // Fallback if the executable could not be found.
+                if (ryuName.Length == 0 || !Path.Exists(Path.Combine(executableDirectory, ryuName)))
                 {
-                    string baseBundlePath = Path.GetFullPath(Path.Combine(executableDirectory, "..", ".."));
-                    string newBundlePath = Path.Combine(_updateDir, "Ryujinx.app");
-                    string updaterScriptPath = Path.Combine(newBundlePath, "Contents", "Resources", "updater.sh");
-                    string currentPid = Environment.ProcessId.ToString();
-
-                    arguments.InsertRange(0, new List<string> { updaterScriptPath, baseBundlePath, newBundlePath, currentPid });
-                    Process.Start("/bin/bash", arguments);
+                    ryuName = OperatingSystem.IsWindows() ? "Ryujinx.exe" : "Ryujinx";
                 }
-                else
+
+                ProcessStartInfo processStart = new(ryuName)
                 {
-                    var dialogTask = taskDialog.ShowAsync(true);
-                    await Task.Delay(500);
+                    UseShellExecute = true,
+                    WorkingDirectory = executableDirectory,
+                };
 
-                    // Find the process name.
-                    string ryuName = Path.GetFileName(Environment.ProcessPath) ?? string.Empty;
-
-                    // Some operating systems can see the renamed executable, so strip off the .ryuold if found.
-                    if (ryuName.EndsWith(".ryuold"))
-                    {
-                        ryuName = ryuName[..^7];
-                    }
-
-                    // Fallback if the executable could not be found.
-                    if (ryuName.Length == 0 || !Path.Exists(Path.Combine(executableDirectory, ryuName)))
-                    {
-                        ryuName = OperatingSystem.IsWindows() ? "Ryujinx.exe" : "Ryujinx";
-                    }
-
-                    ProcessStartInfo processStart = new(ryuName)
-                    {
-                        UseShellExecute = true,
-                        WorkingDirectory = executableDirectory,
-                    };
-
-                    foreach (var arg in args)
-                    {
-                         processStart.ArgumentList.Add(arg);
-                    }
-
-                     processStart.ArgumentList.Add(gamePath);
-
-                     Process.Start(processStart);
+                foreach (var arg in args)
+                {
+                    processStart.ArgumentList.Add(arg);
                 }
+
+                processStart.ArgumentList.Add(gamePath);
+
+                Process.Start(processStart);
+
                 Environment.Exit(0);
             }
         }
