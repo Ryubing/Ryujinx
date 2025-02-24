@@ -81,7 +81,7 @@
                                             TextWrapping="Wrap" />
                                         <TextBlock
                                             IsVisible="{Binding HasIndependentConfiguration}"
-                                            Text="{ext:Locale UserConfigurationHeader}"
+                                            Text="{ext:Locale GameSpecificConfigurationHeader}"
                                             TextAlignment="Center"
                                             TextWrapping="Wrap"
                                             Foreground="{DynamicResource Warning}" />
@@ -110,7 +110,7 @@
                                 <TextBlock
                                     HorizontalAlignment="Center"
                                     VerticalAlignment="Center"
-                                    Text="{ext:Locale UserConfigurationHeader}"
+                                    Text="{ext:Locale GameSpecificConfigurationHeader}"
                                     TextAlignment="Center"
                                     TextWrapping="Wrap" />
                             </Border>

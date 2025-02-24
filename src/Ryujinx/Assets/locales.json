@@ -2748,28 +2748,53 @@
       }
     },
     {
-      "ID": "GameListContextMenuEditGameConfiguration",
+      "ID": "GameListContextMenuCreateCustomConfiguration",
       "Translations": {
-        "ar_SA": "تعديل تكوين اللعبة",
-        "de_DE": "Spielkonfiguration bearbeiten",
-        "el_GR": "Επεξεργασία ρυθμίσεων παιχνιδιού",
-        "en_US": "Edit Game Configuration",
-        "es_ES": "Editar configuración del juego",
-        "fr_FR": "Modifier la configuration du jeu",
-        "he_IL": "ערוך את הגדרת המשחק",
-        "it_IT": "Modifica configurazione gioco",
-        "ja_JP": "ゲーム設定を編集",
-        "ko_KR": "게임 설정 편집",
-        "no_NO": "Rediger spillkonfig.",
-        "pl_PL": "Edytuj konfigurację gry",
-        "pt_BR": "Editar configuração do jogo",
-        "ru_RU": "Редактировать конфигурацию игры",
-        "sv_SE": "Redigera spelkonfiguration",
-        "th_TH": "แก้ไขการตั้งค่าเกม",
-        "tr_TR": "Oyunun yapılandırmasını düzenle",
-        "uk_UA": "Редагувати конфігурацію гри",
-        "zh_CN": "编辑游戏配置",
-        "zh_TW": "編輯遊戲設定"
+        "ar_SA": "",
+        "de_DE": "",
+        "el_GR": "",
+        "en_US": "Create Custom Configuration",
+        "es_ES": "",
+        "fr_FR": "",
+        "he_IL": "",
+        "it_IT": "",
+        "ja_JP": "",
+        "ko_KR": "",
+        "no_NO": "",
+        "pl_PL": "",
+        "pt_BR": "",
+        "ru_RU": "",
+        "sv_SE": "",
+        "th_TH": "",
+        "tr_TR": "",
+        "uk_UA": "",
+        "zh_CN": "",
+        "zh_TW": ""
+      }
+    },
+    {
+      "ID": "GameListContextMenuEditCustomConfiguration",
+      "Translations": {
+        "ar_SA": "",
+        "de_DE": "",
+        "el_GR": "",
+        "en_US": "Edit Custom Configuration",
+        "es_ES": "",
+        "fr_FR": "",
+        "he_IL": "",
+        "it_IT": "",
+        "ja_JP": "",
+        "ko_KR": "",
+        "no_NO": "",
+        "pl_PL": "",
+        "pt_BR": "",
+        "ru_RU": "",
+        "sv_SE": "",
+        "th_TH": "",
+        "tr_TR": "",
+        "uk_UA": "",
+        "zh_CN": "",
+        "zh_TW": ""
       }
     },
     {
@@ -2798,12 +2823,12 @@
       }
     },
     {
-      "ID": "EditGameConfigurationToolTip",
+      "ID": "CreateCustomConfigurationToolTip",
       "Translations": {
         "ar_SA": "ينشئ تكوينًا مستقلًا للعبة الحالية",
         "de_DE": "Erstellt eine unabhängige Konfiguration für das aktuelle Spiel",
         "el_GR": "Δημιουργεί μια ανεξάρτητη διαμόρφωση για το τρέχον παιχνίδι",
-        "en_US": "Creates an independent configuration for the current game",
+        "en_US": "Creates an independent configuration for the selected game",
         "es_ES": "Crea una configuración independiente para el juego actual",
         "fr_FR": "Crée une configuration indépendante pour le jeu en cours",
         "he_IL": "יוצר תצורה עצמאית למשחק הנוכחי",
@@ -2820,6 +2845,31 @@
         "uk_UA": "Створює незалежну конфігурацію для поточної гри",
         "zh_CN": "为当前游戏创建独立的配置",
         "zh_TW": "為當前遊戲創建獨立的配置"
+      }
+    },
+    {
+      "ID": "EditCustomConfigurationToolTip",
+      "Translations": {
+        "ar_SA": "",
+        "de_DE": "",
+        "el_GR": "",
+        "en_US": "Edit your existing independent configuration for the selected game",
+        "es_ES": "",
+        "fr_FR": "",
+        "he_IL": "",
+        "it_IT": "",
+        "ja_JP": "",
+        "ko_KR": "",
+        "no_NO": "",
+        "pl_PL": "",
+        "pt_BR": "",
+        "ru_RU": "",
+        "sv_SE": "",
+        "th_TH": "",
+        "tr_TR": "",
+        "uk_UA": "",
+        "zh_CN": "",
+        "zh_TW": ""
       }
     },
     {
@@ -24123,12 +24173,37 @@
       }
     },
     {
-      "ID": "UserConfigurationHeader",
+      "ID": "GameSpecificConfigurationHeader",
       "Translations": {
         "ar_SA": "",
         "de_DE": "",
         "el_GR": "",
-        "en_US": "User Config",
+        "en_US": "Custom Config",
+        "es_ES": "",
+        "fr_FR": "",
+        "he_IL": "",
+        "it_IT": "",
+        "ja_JP": "",
+        "ko_KR": "",
+        "no_NO": "",
+        "pl_PL": "",
+        "pt_BR": "",
+        "ru_RU": "",
+        "sv_SE": "",
+        "th_TH": "",
+        "tr_TR": "",
+        "uk_UA": "",
+        "zh_CN": "",
+        "zh_TW": ""
+      }
+    },
+    {
+      "ID": "GameSpecificConfigurationGlobal",
+      "Translations": {
+        "ar_SA": "",
+        "de_DE": "",
+        "el_GR": "",
+        "en_US": "(Global)",
         "es_ES": "",
         "fr_FR": "",
         "he_IL": "",

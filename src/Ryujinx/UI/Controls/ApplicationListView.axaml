@@ -160,7 +160,7 @@
                                     <TextBlock
                                         HorizontalAlignment="Stretch"
                                         IsVisible="{Binding HasIndependentConfiguration}"
-                                        Text="{ext:Locale UserConfigurationHeader}"
+                                        Text="{ext:Locale GameSpecificConfigurationHeader}"
                                         TextAlignment="Start"
                                         TextWrapping="Wrap"
                                         Foreground="{DynamicResource Warning}" />

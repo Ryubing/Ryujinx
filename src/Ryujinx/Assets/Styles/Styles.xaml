@@ -343,7 +343,7 @@
         <Setter Property="Foreground" Value="SeaGreen"/>
         <Setter Property="Margin" Value="5,0,0,0"/>
         <Setter Property="VerticalAlignment" Value="Center"/>
-        <Setter Property="Text" Value="(Global)"/>  
+        <Setter Property="Text" Value="{ext:Locale GameSpecificConfigurationGlobal}"/>  
     </Style>
     <Style Selector="StackPanel.globalConfigMarker">
     </Style>
