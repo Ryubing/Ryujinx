@@ -59,9 +59,8 @@ namespace Ryujinx.Ava.Utilities.PlayReport
             .AddSpec(
                 ["0100a3d008c5c000", "01008f6008c5e000"],
                 spec => spec
-                    .WithDescription("based on what area of Paldea you're exploring.")
-                    .AddValueFormatter("area_no", PokemonSVArea)
-                    .AddValueFormatter("team_circle", PokemonSVUnionCircle)
+                    .WithDescription("based on if you're playing alone or in a group and what area of Paldea you're exploring.")
+                    .AddMultiValueFormatter(["team_circle", "area_no"], PokemonSV)
             )
             .AddSpec(
                 "01006a800016e000",
