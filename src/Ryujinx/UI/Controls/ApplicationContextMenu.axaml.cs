@@ -200,7 +200,7 @@ namespace Ryujinx.Ava.UI.Controls
                 if (backupDir.Exists)
                 {
                     cacheFiles.AddRange(backupDir.EnumerateFiles("*.cache"));
-                    cacheFiles.AddRange(mainDir.EnumerateFiles("*.info"));
+                    cacheFiles.AddRange(backupDir.EnumerateFiles("*.info"));
                 }
 
                 if (cacheFiles.Count > 0)

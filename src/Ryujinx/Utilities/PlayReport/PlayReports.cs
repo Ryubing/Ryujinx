@@ -59,9 +59,8 @@ namespace Ryujinx.Ava.Utilities.PlayReport
             .AddSpec(
                 ["0100a3d008c5c000", "01008f6008c5e000"],
                 spec => spec
-                    .WithDescription("based on what area of Paldea you're exploring.")
-                    .AddValueFormatter("area_no", PokemonSVArea)
-                    .AddValueFormatter("team_circle", PokemonSVUnionCircle)
+                    .WithDescription("based on if you're playing alone or in a group and what area of Paldea you're exploring.")
+                    .AddMultiValueFormatter(["team_circle", "area_no"], PokemonSV)
             )
             .AddSpec(
                 "01006a800016e000",
@@ -71,7 +70,7 @@ namespace Ryujinx.Ava.Utilities.PlayReport
                         [
                             // Metadata to figure out what PlayReport we have.
                             "match_mode", "match_submode", "anniversary", "fighter", "reason", "challenge_count",
-                            "adv_slot",
+                            "adv_slot", "is_created",
                             // List of Fighters
                             "player_1_fighter", "player_2_fighter", "player_3_fighter", "player_4_fighter",
                             "player_5_fighter", "player_6_fighter", "player_7_fighter", "player_8_fighter",

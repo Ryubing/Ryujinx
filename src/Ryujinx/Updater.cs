@@ -43,17 +43,9 @@ namespace Ryujinx.Ava
         private const int ConnectionCount = 4;
 
         private static string _buildVer;
+        
 
-        private static readonly string _platformExt = 
-            RunningPlatform.IsMacOS 
-                ? "macos_universal.app.tar.gz"
-                : RunningPlatform.IsWindows
-                    ? "win_x64.zip"
-                    : RunningPlatform.IsX64Linux
-                        ? "linux_x64.tar.gz"
-                        : RunningPlatform.IsArmLinux
-                            ? "linux_arm64.tar.gz"
-                            : throw new PlatformNotSupportedException();
+        private static readonly string _platformExt = BuildPlatformExtension();
         
         private static string _buildUrl;
         private static long _buildSize;
@@ -780,5 +772,34 @@ namespace Ryujinx.Ava
         public static void CleanupUpdate() =>
             Directory.GetFiles(_homeDir, "*.ryuold", SearchOption.AllDirectories)
                 .ForEach(File.Delete);
+        
+        private static string BuildPlatformExtension()
+        {
+            if (RunningPlatform.IsMacOS)
+                return "macos_universal.app.tar.gz";
+
+#pragma warning disable CS8509 // It is exhaustive for any values this can contain.
+            string osPrefix = RunningPlatform.CurrentOS switch
+            {
+                OperatingSystemType.Linux => "linux",
+                OperatingSystemType.Windows => "win"
+            };
+
+            string archSuffix = RunningPlatform.Architecture switch
+            {
+                Architecture.Arm64 => "arm64",
+                Architecture.X64 => "x64",
+                _ => throw new PlatformNotSupportedException($"Unknown architecture {Enum.GetName(RunningPlatform.Architecture)}."),
+            };
+            
+            string fileExtension = RunningPlatform.CurrentOS switch
+#pragma warning restore CS8509
+            {
+                OperatingSystemType.Linux => "tar.gz",
+                OperatingSystemType.Windows => "zip"
+            };
+
+            return $"{osPrefix}_{archSuffix}.{fileExtension}";
+        }
     }
 }
