@@ -140,8 +140,8 @@ namespace Ryujinx.Ava
             // Logging system information.
             PrintSystemInfo();
 
-            // Enable OGL multithreading on the driver, and some other flags.
-            DriverUtilities.InitDriverConfig(ConfigurationState.Instance.Graphics.BackendThreading == BackendThreading.Off);
+            // Enable OGL multithreading on the driver, when available.
+            DriverUtilities.ToggleOGLThreading(ConfigurationState.Instance.Graphics.BackendThreading == BackendThreading.Off);
 
             // Check if keys exists.
             if (!File.Exists(Path.Combine(AppDataManager.KeysDirPath, "prod.keys")))
