@@ -97,7 +97,7 @@ If you are planning to contribute or just want to learn more about this project 
 
 - **Input**
 
-  We currently have support for keyboard, mouse, touch input, JoyCon input support, and nearly all controllers.
+  We currently have support for keyboard, mouse, touch input, Joy-Con input support, and nearly all controllers.
   Motion controls are natively supported in most cases; for dual-JoyCon motion support, DS4Windows or BetterJoy are currently required.
   In all scenarios, you can set up everything inside the input configuration menu.
 
