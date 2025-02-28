@@ -234,7 +234,7 @@ namespace Ryujinx.Ava.UI.Windows
             _deferLoad = true;
             _launchPath = launchPathArg;
             _launchApplicationId = launchApplicationId;
-            _startFullscreen = startFullscreenArg;
+            _startFullscreen = startFullscreenArg;          
         }
 
         public void SwitchToGameControl(bool startFullscreen = false)
@@ -385,6 +385,7 @@ namespace Ryujinx.Ava.UI.Windows
 
                             if (applicationData != null)
                             {
+                                ViewModel.SelectedApplication = applicationData;
                                 await ViewModel.LoadApplication(applicationData, _startFullscreen);
                             }
                             else
@@ -396,6 +397,7 @@ namespace Ryujinx.Ava.UI.Windows
                         else
                         {
                             applicationData = applications[0];
+                            ViewModel.SelectedApplication = applicationData;
                             await ViewModel.LoadApplication(applicationData, _startFullscreen);
                         }
                     }

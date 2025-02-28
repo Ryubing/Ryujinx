@@ -7,6 +7,7 @@
     xmlns:helpers="clr-namespace:Ryujinx.Ava.UI.Helpers"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:ui="clr-namespace:FluentAvalonia.UI.Controls;assembly=FluentAvalonia"
+    xmlns:ext="clr-namespace:Ryujinx.Ava.Common.Markup"
     d:DesignHeight="450"
     d:DesignWidth="800"
     Focusable="True"
@@ -73,12 +74,18 @@
                                     HorizontalAlignment="Stretch"
                                     VerticalAlignment="Stretch"
                                     IsVisible="{Binding $parent[UserControl].((viewModels:MainWindowViewModel)DataContext).ShowNames}">
-                                    <TextBlock
-                                        HorizontalAlignment="Center"
-                                        VerticalAlignment="Center"
-                                        Text="{Binding Name}"
-                                        TextAlignment="Center"
-                                        TextWrapping="Wrap" />
+                                    <StackPanel HorizontalAlignment="Center" VerticalAlignment="Center">
+                                        <TextBlock
+                                            Text="{Binding Name}"
+                                            TextAlignment="Center"
+                                            TextWrapping="Wrap" />
+                                        <TextBlock
+                                            IsVisible="{Binding HasIndependentConfiguration}"
+                                            Text="{ext:Locale GameSpecificConfigurationHeader}"
+                                            TextAlignment="Center"
+                                            TextWrapping="Wrap"
+                                            Foreground="{DynamicResource Warning}" />
+                                    </StackPanel>
                                 </Panel>
                             </Grid>
                         </Border>
@@ -86,10 +93,28 @@
                             Margin="5,5,0,0"
                             HorizontalAlignment="Left"
                             VerticalAlignment="Top"
-                            FontSize="16"
+                            FontSize="18"
                             Foreground="{DynamicResource FavoriteApplicationIconColor}"
                             IsVisible="{Binding Favorite}"
                             Symbol="StarFilled" />
+                        <Grid IsVisible="{Binding !$parent[UserControl].((viewModels:MainWindowViewModel)DataContext).ShowNames}">
+                            <Border
+                                Margin="15,35,5,15"
+                                HorizontalAlignment="Left"
+                                VerticalAlignment="Bottom"
+                                Width="90"
+                                Height="20"
+                                CornerRadius="4"
+                                IsVisible="{Binding HasIndependentConfiguration}"
+                                Background="{DynamicResource ThemeContentBackgroundColor}">
+                                <TextBlock
+                                    HorizontalAlignment="Center"
+                                    VerticalAlignment="Center"
+                                    Text="{ext:Locale GameSpecificConfigurationHeader}"
+                                    TextAlignment="Center"
+                                    TextWrapping="Wrap" />
+                            </Border>
+                        </Grid>
                     </Grid>
                 </DataTemplate>
             </ListBox.ItemTemplate>

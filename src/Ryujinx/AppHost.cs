@@ -1113,6 +1113,13 @@ namespace Ryujinx.Ava
             });
 
             (RendererHost.EmbeddedWindow as EmbeddedWindowOpenGL)?.MakeCurrent(true);
+            
+            // Reload settings when the game is turned off
+            // (resets custom settings if there were any)
+            Program.ReloadConfig();
+
+            // Reload application list (changes the status of the user setting if it was added or removed during the game)
+            Dispatcher.UIThread.Post(() => RyujinxApp.MainWindow.LoadApplications());
         }
 
         public void InitStatus()

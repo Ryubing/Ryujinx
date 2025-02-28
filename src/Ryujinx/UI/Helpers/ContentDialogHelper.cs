@@ -1,6 +1,7 @@
 using Avalonia;
 using Avalonia.Controls;
 using Avalonia.Controls.ApplicationLifetimes;
+using Avalonia.Input;
 using Avalonia.Layout;
 using Avalonia.Media;
 using Avalonia.Threading;
@@ -384,6 +385,10 @@ namespace Ryujinx.Ava.UI.Helpers
                     Position = parent.PointToScreen(new Point()),
                     ShowInTaskbar = false,
                 };
+                
+#if DEBUG
+                _contentDialogOverlayWindow.AttachDevTools(new KeyGesture(Key.F12, KeyModifiers.Control));
+#endif
 
                 parent.PositionChanged += OverlayOnPositionChanged;
 

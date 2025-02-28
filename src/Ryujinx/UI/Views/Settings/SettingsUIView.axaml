@@ -27,20 +27,42 @@
                 <TextBlock Classes="h1" Text="{ext:Locale SettingsTabGeneralGeneral}" />
                 <StackPanel Margin="10,0,0,0" Orientation="Vertical">
                     <CheckBox IsChecked="{Binding EnableDiscordIntegration}">
-                        <TextBlock VerticalAlignment="Center"
-                                   ToolTip.Tip="{ext:Locale ToggleDiscordTooltip}"
-                                   Text="{ext:Locale SettingsTabGeneralEnableDiscordRichPresence}" />
+                        <StackPanel Orientation="Horizontal">
+                            <TextBlock VerticalAlignment="Center"
+                                       ToolTip.Tip="{ext:Locale ToggleDiscordTooltip}"
+                                       Text="{ext:Locale SettingsTabGeneralEnableDiscordRichPresence}" />
+                        </StackPanel>
                     </CheckBox>
-                    <CheckBox IsChecked="{Binding ShowConfirmExit}">
-                        <TextBlock Text="{ext:Locale SettingsTabGeneralShowConfirmExitDialog}" />
+                    <CheckBox 
+                        IsEnabled="{Binding !IsGameTitleNotNull}"
+                        Opacity="{Binding PanelOpacity}"
+                        IsChecked="{Binding ShowConfirmExit}">
+                        <StackPanel Orientation="Horizontal">
+                            <TextBlock Text="{ext:Locale SettingsTabGeneralShowConfirmExitDialog}" />
+                            <TextBlock Classes="globalConfigMarker" IsVisible="{Binding IsGameTitleNotNull}" />
+                        </StackPanel>
                     </CheckBox>
-                    <CheckBox IsChecked="{Binding RememberWindowState}">
-                        <TextBlock Text="{ext:Locale SettingsTabGeneralRememberWindowState}" />
+                    <CheckBox 
+                        IsEnabled="{Binding !IsGameTitleNotNull}"
+                        Opacity="{Binding PanelOpacity}"
+                        IsChecked="{Binding RememberWindowState}">
+                        <StackPanel Orientation="Horizontal">
+                            <TextBlock Text="{ext:Locale SettingsTabGeneralRememberWindowState}" />
+                            <TextBlock Classes="globalConfigMarker" IsVisible="{Binding IsGameTitleNotNull}" />
+                            </StackPanel>
                     </CheckBox>
-                    <CheckBox IsChecked="{Binding ShowTitleBar}" IsVisible="{x:Static helper:RunningPlatform.IsWindows}">
-                        <TextBlock Text="{ext:Locale SettingsTabGeneralShowTitleBar}" />
+                    <CheckBox
+                        IsEnabled="{Binding !IsGameTitleNotNull}"
+                        Opacity="{Binding PanelOpacity}"
+                        IsChecked="{Binding ShowTitleBar}" IsVisible="{x:Static helper:RunningPlatform.IsWindows}">
+                        <StackPanel Orientation="Horizontal">
+                            <TextBlock Text="{ext:Locale SettingsTabGeneralShowTitleBar}" />
+                            <TextBlock Classes="globalConfigMarker" IsVisible="{Binding IsGameTitleNotNull}" />
+                        </StackPanel>
                     </CheckBox>
-                    <StackPanel Margin="0, 15, 0, 0" Orientation="Horizontal">
+                    <StackPanel 
+                        Margin="0, 15, 0, 0" 
+                        Orientation="Horizontal">
                         <TextBlock VerticalAlignment="Center"
                                    Text="{ext:Locale SettingsTabGeneralFocusLossType}"
                                    Width="150" />
@@ -64,7 +86,11 @@
                             </ComboBoxItem>
                         </ComboBox>
                     </StackPanel>
-                    <StackPanel Margin="0, 15, 0, 0" Orientation="Horizontal">
+                    <StackPanel 
+                        IsEnabled="{Binding !IsGameTitleNotNull}"
+                        Opacity="{Binding PanelOpacity}"
+                        Margin="0, 15, 0, 0" 
+                        Orientation="Horizontal">
                         <TextBlock VerticalAlignment="Center"
                                    Text="{ext:Locale SettingsTabGeneralCheckUpdatesOnLaunch}"
                                    Width="150" />
@@ -81,8 +107,11 @@
                                 <TextBlock Text="{ext:Locale SettingsTabGeneralCheckUpdatesOnLaunchBackground}" />
                             </ComboBoxItem>
                         </ComboBox>
+                        <TextBlock  Classes="globalConfigMarker" IsVisible="{Binding IsGameTitleNotNull}"/>
                     </StackPanel>
-                    <StackPanel Margin="0, 15, 0, 0" Orientation="Horizontal">
+                    <StackPanel 
+                        Margin="0, 15, 0, 0" 
+                        Orientation="Horizontal">
                         <TextBlock VerticalAlignment="Center"
                                    Text="{ext:Locale SettingsTabGeneralHideCursor}"
                                    Width="150" />
@@ -100,7 +129,11 @@
                             </ComboBoxItem>
                         </ComboBox>
                     </StackPanel>
-                    <StackPanel Margin="0, 15, 0, 10" Orientation="Horizontal">
+                    <StackPanel 
+                        IsEnabled="{Binding !IsGameTitleNotNull}"
+                        Opacity="{Binding PanelOpacity}"
+                        Margin="0, 15, 0, 10" 
+                        Orientation="Horizontal">
                         <TextBlock
                             VerticalAlignment="Center"
                             Text="{ext:Locale SettingsTabGeneralTheme}"
@@ -118,11 +151,17 @@
                                 <TextBlock Text="{ext:Locale SettingsTabGeneralThemeDark}" />
                             </ComboBoxItem>
                         </ComboBox>
+                        <TextBlock  Classes="globalConfigMarker" IsVisible="{Binding IsGameTitleNotNull}"/>
                     </StackPanel>
                 </StackPanel>
                 <Separator Height="1" />
-                <TextBlock Classes="h1" Text="{ext:Locale SettingsTabGeneralGameDirectories}" />
+                <StackPanel Orientation="Horizontal">
+                    <TextBlock Classes="h1" Text="{ext:Locale SettingsTabGeneralGameDirectories}" />
+                    <TextBlock  Classes="globalConfigMarker" IsVisible="{Binding IsGameTitleNotNull}"/>
+                </StackPanel>
                 <StackPanel
+                    IsEnabled="{Binding !IsGameTitleNotNull}"
+                    Opacity="{Binding PanelOpacity}"
                     Margin="10,0,0,0"
                     HorizontalAlignment="Stretch"
                     Orientation="Vertical"
@@ -172,10 +211,15 @@
                 </StackPanel>
                 <Separator Height="1" />
                <StackPanel Orientation="Vertical" Spacing="5">
-                    <TextBlock Classes="h1" Text="{ext:Locale SettingsTabGeneralAutoloadDirectories}" />
+                    <StackPanel Orientation="Horizontal">
+                        <TextBlock Classes="h1" Text="{ext:Locale SettingsTabGeneralAutoloadDirectories}" />
+                        <TextBlock  Classes="globalConfigMarker" IsVisible="{Binding IsGameTitleNotNull}"/>
+                    </StackPanel>
                     <TextBlock Foreground="{DynamicResource SecondaryTextColor}" Text="{ext:Locale SettingsTabGeneralAutoloadNote}" />
                 </StackPanel>
                 <StackPanel
+                    IsEnabled="{Binding !IsGameTitleNotNull}"
+                    Opacity="{Binding PanelOpacity}"
                     Margin="10,0,0,0"
                     HorizontalAlignment="Stretch"
                     Orientation="Vertical"

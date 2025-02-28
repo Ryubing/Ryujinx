@@ -356,6 +356,11 @@ namespace Ryujinx.Ava.UI.ViewModels
                     _ => null,
                 };
             }
+            set
+            {
+                ListSelectedApplication = value;
+                GridSelectedApplication = value;
+            }        
         }
 
         public bool HasCompatibilityEntry => SelectedApplication.HasPlayabilityInfo;
@@ -1085,7 +1090,7 @@ namespace Ryujinx.Ava.UI.ViewModels
             _rendererWaitEvent.WaitOne();
 
             AppHost?.Start();
-
+            
             AppHost?.DisposeContext();
         }
 
@@ -1551,8 +1556,50 @@ namespace Ryujinx.Ava.UI.ViewModels
             }
         }
 
+        public bool InitializeUserConfig(ApplicationData application)
+        {
+            // Code where conditions will be met before loading the user configuration (Global Config)      
+            BackendThreading backendThreadingValue = ConfigurationState.Instance.Graphics.BackendThreading.Value;
+            string BackendThreadingInit = Program.BackendThreadingArg;
+
+            if (BackendThreadingInit is null)
+            {
+                BackendThreadingInit = ConfigurationState.Instance.Graphics.BackendThreading.Value.ToString();
+            }
+            
+            // If a configuration is found in the "/games/xxxxxxxxxxxxxx" folder, the program will load the user setting. 
+            string idGame = application.IdBaseString;
+            if (ConfigurationFileFormat.TryLoad(Program.GetDirGameUserConfig(idGame), out ConfigurationFileFormat configurationFileFormat))
+            {
+                // Loads the user configuration, having previously changed the global configuration to the user configuration
+                ConfigurationState.Instance.Load(configurationFileFormat, Program.GetDirGameUserConfig(idGame, true, true), idGame);
+            }
+
+            // Code where conditions will be executed after loading user configuration
+            if (ConfigurationState.Instance.Graphics.BackendThreading.Value.ToString() != BackendThreadingInit)
+            {
+
+                List<string> Arguments = new List<string>
+                {
+                    "--bt", ConfigurationState.Instance.Graphics.BackendThreading.Value.ToString() // BackendThreading
+                };
+
+                Rebooter.RebootAppWithGame(application.Path, Arguments);
+ 
+                return true;
+            }
+
+            return false;
+        }
+
         public async Task LoadApplication(ApplicationData application, bool startFullscreen = false, BlitStruct<ApplicationControlProperty>? customNacpData = null)
         {
+
+            if (InitializeUserConfig(application))
+            {
+                return;
+            }
+
             if (AppHost != null)
             {
                 await ContentDialogHelper.CreateInfoDialog(
@@ -1568,7 +1615,7 @@ namespace Ryujinx.Ava.UI.ViewModels
 #if RELEASE
             await PerformanceCheck();
 #endif
-
+         
             Logger.RestartTime();
 
             SelectedIcon ??= ApplicationLibrary.GetApplicationIcon(application.Path, ConfigurationState.Instance.System.Language, application.Id);
@@ -1613,6 +1660,7 @@ namespace Ryujinx.Ava.UI.ViewModels
 
             Thread gameThread = new(InitializeGame) { Name = "GUI.WindowThread" };
             gameThread.Start();
+            
         }
 
         public void SwitchToRenderer(bool startFullscreen) =>
@@ -1699,7 +1747,7 @@ namespace Ryujinx.Ava.UI.ViewModels
                 string titleId = AppHost.Device.Processes.ActiveApplication.ProgramIdText.ToUpper();
                 AmiiboWindow window = new(ShowAll, LastScannedAmiiboId, titleId);
 
-                await window.ShowDialog(Window);
+                await StyleableAppWindow.ShowAsync(window);
 
                 if (window.IsScanned)
                 {
