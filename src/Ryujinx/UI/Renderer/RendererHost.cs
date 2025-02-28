@@ -24,7 +24,8 @@ namespace Ryujinx.Ava.UI.Renderer
             EmbeddedWindow = ConfigurationState.Instance.Graphics.GraphicsBackend.Value switch
             {
                 GraphicsBackend.OpenGl => new EmbeddedWindowOpenGL(),
-                GraphicsBackend.Vulkan => new EmbeddedWindowVulkan(),
+                GraphicsBackend.Metal => new EmbeddedWindowMetal(),
+                GraphicsBackend.Vulkan or GraphicsBackend.Auto => new EmbeddedWindowVulkan(),
                 _ => throw new NotSupportedException()
             };
 
@@ -36,6 +37,7 @@ namespace Ryujinx.Ava.UI.Renderer
             {
                 EmbeddedWindowVulkan => GraphicsBackend.Vulkan,
                 EmbeddedWindowOpenGL => GraphicsBackend.OpenGl,
+                EmbeddedWindowMetal => GraphicsBackend.Metal,
                 _ => throw new NotImplementedException()
             };
 
@@ -45,11 +47,12 @@ namespace Ryujinx.Ava.UI.Renderer
             FlowDirection = FlowDirection.LeftToRight;
 
             EmbeddedWindow =
-#pragma warning disable CS8524
-                ConfigurationState.Instance.Graphics.GraphicsBackend.Value switch
-#pragma warning restore CS8524
+#pragma warning disable CS8509
+                TitleIDs.SelectGraphicsBackend(titleId, ConfigurationState.Instance.Graphics.GraphicsBackend) switch
+#pragma warning restore CS8509
                 {
                     GraphicsBackend.OpenGl => new EmbeddedWindowOpenGL(),
+                    GraphicsBackend.Metal => new EmbeddedWindowMetal(),
                     GraphicsBackend.Vulkan => new EmbeddedWindowVulkan(),
                 };
 
@@ -57,6 +60,7 @@ namespace Ryujinx.Ava.UI.Renderer
             {
                 EmbeddedWindowVulkan => "Vulkan",
                 EmbeddedWindowOpenGL => "OpenGL",
+                EmbeddedWindowMetal => "Metal",
                 _ => throw new NotImplementedException()
             };
                     
@@ -103,3 +107,4 @@ namespace Ryujinx.Ava.UI.Renderer
         }
     }
 }
+

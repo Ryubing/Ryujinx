@@ -33,6 +33,7 @@ using Ryujinx.Common.Utilities;
 using Ryujinx.Graphics.GAL;
 using Ryujinx.Graphics.GAL.Multithreading;
 using Ryujinx.Graphics.Gpu;
+using Ryujinx.Graphics.Metal;
 using Ryujinx.Graphics.OpenGL;
 using Ryujinx.Graphics.Vulkan;
 using Ryujinx.HLE;
@@ -891,10 +892,14 @@ namespace Ryujinx.Ava
             VirtualFileSystem.ReloadKeySet();
 
             // Initialize Renderer.
-            GraphicsBackend backend = ConfigurationState.Instance.Graphics.GraphicsBackend;
+            GraphicsBackend backend = TitleIDs.SelectGraphicsBackend(ApplicationId.ToString("X16"), ConfigurationState.Instance.Graphics.GraphicsBackend);
 
             IRenderer renderer = backend switch
             {
+#pragma warning disable CA1416 // This call site is reachable on all platforms
+                // SelectGraphicsBackend does a check for Mac, on top of checking if it's an ARM Mac. This isn't a problem.
+                GraphicsBackend.Metal => new MetalRenderer((RendererHost.EmbeddedWindow as EmbeddedWindowMetal)!.CreateSurface),
+#pragma warning restore CA1416
                 GraphicsBackend.Vulkan => VulkanRenderer.Create(
                     ConfigurationState.Instance.Graphics.PreferredGpu,
                     (RendererHost.EmbeddedWindow as EmbeddedWindowVulkan)!.CreateSurface,
@@ -1128,6 +1133,7 @@ namespace Ryujinx.Ava
             {
                 GraphicsBackend.Vulkan => "Vulkan",
                 GraphicsBackend.OpenGl => "OpenGL",
+                GraphicsBackend.Metal => "Metal",
                 _ => throw new NotImplementedException()
             };
 
