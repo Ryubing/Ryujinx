@@ -3,11 +3,14 @@ using Avalonia.Controls.Primitives;
 using Avalonia.Input;
 using Avalonia.Interactivity;
 using Avalonia.LogicalTree;
+using Avalonia.VisualTree;
+using DynamicData;
 using Ryujinx.Ava.Input;
 using Ryujinx.Ava.UI.Helpers;
 using Ryujinx.Ava.UI.ViewModels;
 using Ryujinx.Input;
 using Ryujinx.Input.Assigner;
+using System.Linq;
 using Button = Ryujinx.Input.Button;
 using Key = Ryujinx.Common.Configuration.Hid.Key;
 
@@ -21,16 +24,21 @@ namespace Ryujinx.Ava.UI.Views.Settings
         public SettingsHotkeysView()
         {
             InitializeComponent();
+            RegisterEvents();
+            _avaloniaKeyboardDriver = new AvaloniaKeyboardDriver(this);
+            CycleControllers.LayoutUpdated += (_, _1) => RegisterEvents();
+        }
 
+        private void RegisterEvents()
+        {
             foreach (ILogical visual in SettingButtons.GetLogicalDescendants())
             {
                 if (visual is ToggleButton button and not CheckBox)
                 {
+                    button.IsCheckedChanged -= Button_IsCheckedChanged;
                     button.IsCheckedChanged += Button_IsCheckedChanged;
                 }
             }
-
-            _avaloniaKeyboardDriver = new AvaloniaKeyboardDriver(this);
         }
 
         protected override void OnPointerReleased(PointerReleasedEventArgs e)
@@ -115,6 +123,13 @@ namespace Ryujinx.Ava.UI.Views.Settings
                                         break;
                                     case "CustomVSyncIntervalDecrement":
                                         viewModel.KeyboardHotkey.CustomVSyncIntervalDecrement = buttonValue.AsHidType<Key>();
+                                        break;
+                                    default:
+                                        var index = button.FindAncestorOfType<ItemsControl>().GetLogicalDescendants().OfType<ToggleButton>().IndexOf(button);
+                                        if (index >= 0 && viewModel.KeyboardHotkey.CycleControllers != null)
+                                        {
+                                            viewModel.KeyboardHotkey.CycleControllers[index].Hotkey = buttonValue.AsHidType<Key>();
+                                        }
                                         break;
                                 }
                             }
