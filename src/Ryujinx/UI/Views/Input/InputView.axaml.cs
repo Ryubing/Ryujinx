@@ -62,13 +62,14 @@ namespace Ryujinx.Ava.UI.Views.Input
                     }
                     return;
                 }
-                
-                ViewModel.PlayerId = ViewModel.PlayerIdChoose;
 
                 ViewModel.IsModified = false;
+                ViewModel.PlayerId = ViewModel.PlayerIdChoose;
+                               
             }
             
         }
+
 
         public void Dispose()
         {
