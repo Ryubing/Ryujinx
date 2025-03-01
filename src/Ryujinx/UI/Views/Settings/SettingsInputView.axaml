@@ -58,6 +58,12 @@
                                 <TextBlock
                                     Text="{ext:Locale SettingsTabInputDirectMouseAccess}" />
                             </CheckBox>
+                            <CheckBox
+                                ToolTip.Tip="{ext:Locale AutoAssignTooltip}"
+                                IsChecked="{Binding EnableAutoAssign}">
+                                <TextBlock
+                                    Text="{ext:Locale SettingsTabInputAutoAssign}" />
+                            </CheckBox>
                         </StackPanel>
                     </StackPanel>
                 </Grid>

@@ -144,6 +144,7 @@ namespace Ryujinx.Ava.Utilities.Configuration
 
             Hid.EnableKeyboard.Value = cff.EnableKeyboard;
             Hid.EnableMouse.Value = cff.EnableMouse;
+            Hid.EnableAutoAssign.Value = cff.EnableAutoAssign;
             Hid.DisableInputWhenOutOfFocus.Value = shouldLoadFromFile ? cff.DisableInputWhenOutOfFocus: Hid.DisableInputWhenOutOfFocus.Value; // Get from global config only
             Hid.Hotkeys.Value = shouldLoadFromFile ? cff.Hotkeys : Hid.Hotkeys.Value; // Get from global config only
             Hid.InputConfig.Value = cff.InputConfig ?? [];

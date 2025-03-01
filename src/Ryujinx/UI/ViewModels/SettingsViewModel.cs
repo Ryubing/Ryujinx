@@ -140,6 +140,7 @@ namespace Ryujinx.Ava.UI.ViewModels
         public bool EnableDockedMode { get; set; }
         public bool EnableKeyboard { get; set; }
         public bool EnableMouse { get; set; }
+        public bool EnableAutoAssign { get; set; }
         public bool DisableInputWhenOutOfFocus { get; set; }
         
         public int FocusLostActionType { get; set; }
@@ -563,6 +564,7 @@ namespace Ryujinx.Ava.UI.ViewModels
             EnableDockedMode = config.System.EnableDockedMode;
             EnableKeyboard = config.Hid.EnableKeyboard;
             EnableMouse = config.Hid.EnableMouse;
+            EnableAutoAssign = config.Hid.EnableAutoAssign;
             DisableInputWhenOutOfFocus = config.Hid.DisableInputWhenOutOfFocus;
 
             // Keyboard Hotkeys
@@ -668,6 +670,8 @@ namespace Ryujinx.Ava.UI.ViewModels
             config.System.EnableDockedMode.Value = EnableDockedMode;
             config.Hid.EnableKeyboard.Value = EnableKeyboard;
             config.Hid.EnableMouse.Value = EnableMouse;
+            bool activatingAutoAssign = EnableAutoAssign && !config.Hid.EnableAutoAssign;
+            config.Hid.EnableAutoAssign.Value = EnableAutoAssign;
             config.Hid.DisableInputWhenOutOfFocus.Value = DisableInputWhenOutOfFocus;
 
             // Keyboard Hotkeys
@@ -690,7 +694,7 @@ namespace Ryujinx.Ava.UI.ViewModels
             config.System.EnableFsIntegrityChecks.Value = EnableFsIntegrityChecks;
             config.System.DramSize.Value = DramSize;
             config.System.IgnoreMissingServices.Value = IgnoreMissingServices;
-            config.System.IgnoreControllerApplet.Value = IgnoreApplet;
+            config.System.IgnoreControllerApplet.Value = (EnableAutoAssign) || IgnoreApplet;
 
             // CPU
             config.System.EnablePtc.Value = EnablePptc;
@@ -766,7 +770,14 @@ namespace Ryujinx.Ava.UI.ViewModels
             MainWindow.UpdateGraphicsConfig();
             RyujinxApp.MainWindow.ViewModel.VSyncModeSettingChanged();
 
-            SaveSettingsEvent?.Invoke();
+            if(activatingAutoAssign)
+            {
+                RyujinxApp.MainWindow.AutoAssignController.RefreshControllers();
+            }
+            else
+            {
+                SaveSettingsEvent?.Invoke();
+            }
 
             GameListNeedsRefresh = false;
         }
