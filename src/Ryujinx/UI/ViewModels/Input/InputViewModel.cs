@@ -106,6 +106,21 @@ namespace Ryujinx.Ava.UI.ViewModels.Input
 
         public event Action NotifyChangesEvent;
 
+        public int _profileChoose;
+        public int ProfileChoose
+        {
+            get => _profileChoose;
+            set
+            {
+                if (value >= 0)
+                {
+                    _profileChoose = value;
+                }
+               
+                OnPropertyChanged();
+            }
+        }
+
         public PlayerIndex PlayerIdChoose
         {
             get => _playerIdChoose;
@@ -821,7 +836,8 @@ namespace Ryujinx.Ava.UI.ViewModels.Input
 
                 LoadConfiguration(config);
 
-                LoadDevice();
+                // This line of code hard-links profiles to controllers, the commented line allows profiles to be applied to all controllers
+                // LoadDevice();
 
                 _isLoaded = true;
 
@@ -873,6 +889,8 @@ namespace Ryujinx.Ava.UI.ViewModels.Input
                     await File.WriteAllTextAsync(path, jsonString);
 
                     LoadProfiles();
+
+                    ProfileChoose = ProfilesList.IndexOf(ProfileName); // Show new profile
                 }
                 else
                 {
@@ -905,6 +923,8 @@ namespace Ryujinx.Ava.UI.ViewModels.Input
                 }
 
                 LoadProfiles();
+
+                ProfileChoose = 0; // Show default profile
             }
         }
 

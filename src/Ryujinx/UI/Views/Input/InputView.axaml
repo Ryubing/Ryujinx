@@ -117,7 +117,7 @@
                         Name="ProfileBox"
                         HorizontalAlignment="Stretch"
                         VerticalAlignment="Center"
-                        SelectedIndex="0"
+                        SelectedIndex="{Binding ProfileChoose}"
                         ItemsSource="{Binding ProfilesList}"
                         Text="{Binding ProfileName, Mode=TwoWay}" />
                     <Button
