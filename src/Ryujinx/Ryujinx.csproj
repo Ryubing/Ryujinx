@@ -13,10 +13,9 @@
     <DefaultItemExcludes>$(DefaultItemExcludes);._*</DefaultItemExcludes>
   </PropertyGroup>
 
-  <Target Name="BuildValidationProj" BeforeTargets="BeforeBuild">
-    <Message Text="Building Validation Project for $(TargetFramework)" Importance="high" Condition="'$(RuntimeIdentifier)' == ''" />
-    <Exec WorkingDirectory="..\Ryujinx.BuildValidationTasks\" Command="dotnet build -c Debug /clp:NoSummary" />
-    
+  <Target Name="BuildValidationProj" BeforeTargets="BeforeRebuild">
+    <MSBuild Projects="..\Ryujinx.BuildValidationTasks\Ryujinx.BuildValidationTasks.csproj" Targets="Rebuild">
+    </MSBuild>
   </Target>
 
   <Target Name="PostBuild" AfterTargets="PostBuildEvent" Condition="$([MSBuild]::IsOSPlatform('OSX'))">
@@ -48,11 +47,11 @@
     <PackageReference Include="Avalonia.Markup.Xaml.Loader" />
     <PackageReference Include="Avalonia.Svg" />
     <PackageReference Include="Avalonia.Svg.Skia" />
+    <PackageReference Include="DynamicData" />
+    <PackageReference Include="FluentAvaloniaUI" />
     <PackageReference Include="CommandLineParser" />
     <PackageReference Include="CommunityToolkit.Mvvm" />
     <PackageReference Include="DiscordRichPresence" />
-    <PackageReference Include="DynamicData" />
-    <PackageReference Include="FluentAvaloniaUI" />
     <PackageReference Include="Projektanker.Icons.Avalonia" />
     <PackageReference Include="Projektanker.Icons.Avalonia.FontAwesome" />
     <PackageReference Include="Projektanker.Icons.Avalonia.MaterialDesign" />
@@ -72,8 +71,6 @@
   <ItemGroup>
     <ProjectReference Include="..\Ryujinx.Audio.Backends.SDL2\Ryujinx.Audio.Backends.SDL2.csproj" />
     <ProjectReference Include="..\Ryujinx.Graphics.Vulkan\Ryujinx.Graphics.Vulkan.csproj" />
-    <ProjectReference Include="..\Ryujinx.Graphics.OpenGL\Ryujinx.Graphics.OpenGL.csproj" />
-    <ProjectReference Include="..\Ryujinx.Graphics.Metal\Ryujinx.Graphics.Metal.csproj" />
     <ProjectReference Include="..\Ryujinx.Input\Ryujinx.Input.csproj" />
     <ProjectReference Include="..\Ryujinx.Input.SDL2\Ryujinx.Input.SDL2.csproj" />
     <ProjectReference Include="..\Ryujinx.Audio.Backends.OpenAL\Ryujinx.Audio.Backends.OpenAL.csproj" />
@@ -81,6 +78,7 @@
     <ProjectReference Include="..\Ryujinx.Common\Ryujinx.Common.csproj" />
     <ProjectReference Include="..\Ryujinx.HLE\Ryujinx.HLE.csproj" />
     <ProjectReference Include="..\ARMeilleure\ARMeilleure.csproj" />
+    <ProjectReference Include="..\Ryujinx.Graphics.OpenGL\Ryujinx.Graphics.OpenGL.csproj" />
     <ProjectReference Include="..\Ryujinx.Graphics.Gpu\Ryujinx.Graphics.Gpu.csproj" />
     <ProjectReference Include="..\Ryujinx.UI.LocaleGenerator\Ryujinx.UI.LocaleGenerator.csproj" OutputItemType="Analyzer" ReferenceOutputAssembly="false" />
   </ItemGroup>
@@ -127,6 +125,7 @@
 
   <ItemGroup>
     <None Remove="Assets\locales.json" />
+    <None Remove="Assets\Styles\Styles.xaml" />
     <None Remove="Assets\Styles\Themes.xaml" />
     <None Remove="Assets\Icons\Controller_JoyConLeft.svg" />
     <None Remove="Assets\Icons\Controller_JoyConPair.svg" />
@@ -169,8 +168,4 @@
   <ItemGroup>
     <AdditionalFiles Include="Assets\locales.json" />
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="Assets\Fonts\Mono\" />
-  </ItemGroup>
-
 </Project>

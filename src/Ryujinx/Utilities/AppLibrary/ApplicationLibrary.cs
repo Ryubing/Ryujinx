@@ -42,7 +42,6 @@ namespace Ryujinx.Ava.Utilities.AppLibrary
 {
     public class ApplicationLibrary
     {
-        public const string DefaultLanPlayWebHost = "ryuldnweb.vudjun.com";
         public Language DesiredLanguage { get; set; }
         public event EventHandler<ApplicationCountUpdatedEventArgs> ApplicationCountUpdated;
         public event Action<LdnGameDataReceivedEventArgs> LdnGameDataReceived;
@@ -505,7 +504,7 @@ namespace Ryujinx.Ava.Utilities.AppLibrary
                 if (data.Id != 0)
                 {
                     ApplicationMetadata appMetadata = LoadAndSaveMetaData(data.IdString, appMetadata =>
-                    {
+                    {                        
                         appMetadata.Title = data.Name;
 
                         // Only do the migration if time_played has a value and timespan_played hasn't been updated yet.
@@ -529,10 +528,11 @@ namespace Ryujinx.Ava.Utilities.AppLibrary
 
                         }
                     });
-
+            
                     data.Favorite = appMetadata.Favorite;
                     data.TimePlayed = appMetadata.TimePlayed;
                     data.LastPlayed = appMetadata.LastPlayed;
+                    data.HasIndependentConfiguration = File.Exists(Program.GetDirGameUserConfig(data.IdBaseString, false, false)); // Just check user config
                 }
 
                 data.FileExtension = Path.GetExtension(applicationPath).TrimStart('.').ToUpper();
@@ -826,7 +826,6 @@ namespace Ryujinx.Ava.Utilities.AppLibrary
 
         public async Task RefreshLdn()
         {
-
             if (ConfigurationState.Instance.Multiplayer.Mode == MultiplayerMode.LdnRyu)
             {
                 try
@@ -834,33 +833,22 @@ namespace Ryujinx.Ava.Utilities.AppLibrary
                     string ldnWebHost = ConfigurationState.Instance.Multiplayer.LdnServer;
                     if (string.IsNullOrEmpty(ldnWebHost))
                     {
-                        ldnWebHost = DefaultLanPlayWebHost;
+                        ldnWebHost = SharedConstants.DefaultLanPlayWebHost;
                     }
-                    IEnumerable<LdnGameData> ldnGameDataArray = Array.Empty<LdnGameData>();
+                    
                     using HttpClient httpClient = new();
                     string ldnGameDataArrayString = await httpClient.GetStringAsync($"https://{ldnWebHost}/api/public_games");
-                    ldnGameDataArray = JsonHelper.Deserialize(ldnGameDataArrayString, _ldnDataSerializerContext.IEnumerableLdnGameData);
-                    LdnGameDataReceived?.Invoke(new LdnGameDataReceivedEventArgs
-                    {
-                        LdnData = ldnGameDataArray
-                    });
+                    LdnGameData[] ldnGameDataArray = JsonHelper.Deserialize(ldnGameDataArrayString, _ldnDataSerializerContext.IEnumerableLdnGameData).ToArray();
+                    LdnGameDataReceived?.Invoke(new LdnGameDataReceivedEventArgs(ldnGameDataArray));
+                    return;
                 }
                 catch (Exception ex)
                 {
                     Logger.Warning?.Print(LogClass.Application, $"Failed to fetch the public games JSON from the API. Player and game count in the game list will be unavailable.\n{ex.Message}");
-                    LdnGameDataReceived?.Invoke(new LdnGameDataReceivedEventArgs
-                    {
-                        LdnData = Array.Empty<LdnGameData>()
-                    });
                 }
             }
-            else
-            {
-                LdnGameDataReceived?.Invoke(new LdnGameDataReceivedEventArgs
-                {
-                    LdnData = Array.Empty<LdnGameData>()
-                });
-            }
+            
+            LdnGameDataReceived?.Invoke(LdnGameDataReceivedEventArgs.Empty);
         }
 
         // Replace the currently stored DLC state for the game with the provided DLC state.

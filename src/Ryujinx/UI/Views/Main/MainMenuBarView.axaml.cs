@@ -19,6 +19,7 @@ using Ryujinx.Common.Utilities;
 using Ryujinx.HLE.HOS.Services.Nfc.AmiiboDecryption;
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
 
@@ -130,9 +131,26 @@ namespace Ryujinx.Ava.UI.Views.Main
             Window.SettingsWindow = new(Window.VirtualFileSystem, Window.ContentManager);
 
             Rainbow.Enable();
-            
-            await Window.SettingsWindow.ShowDialog(Window);
-            
+
+            if (ViewModel.SelectedApplication is null) // Checks if game data exists
+            {
+                await StyleableAppWindow.ShowAsync(Window.SettingsWindow);
+            }
+            else
+            { 
+                bool customConfigExists = File.Exists(Program.GetDirGameUserConfig(ViewModel.SelectedApplication.IdString));
+
+                if (!ViewModel.IsGameRunning || !customConfigExists)
+                {
+                    await Window.SettingsWindow.ShowDialog(Window); // The game is not running, or if the user configuration does not exist
+                }
+                else
+                {
+                    // If there is a custom configuration in the folder
+                    await StyleableAppWindow.ShowAsync(new GameSpecificSettingsWindow(ViewModel, customConfigExists));
+                }
+            }
+
             Rainbow.Disable();
             Rainbow.Reset();
 
@@ -158,11 +176,13 @@ namespace Ryujinx.Ava.UI.Views.Main
 
             string name = ViewModel.AppHost.Device.Processes.ActiveApplication.ApplicationControlProperties.Title[(int)ViewModel.AppHost.Device.System.State.DesiredTitleLanguage].NameString.ToString();
 
-            await new CheatWindow(
-                Window.VirtualFileSystem,
-                ViewModel.AppHost.Device.Processes.ActiveApplication.ProgramIdText,
-                name,
-                ViewModel.SelectedApplication.Path).ShowDialog(Window);
+            await StyleableAppWindow.ShowAsync(
+                new CheatWindow(
+                    Window.VirtualFileSystem,
+                    ViewModel.AppHost.Device.Processes.ActiveApplication.ProgramIdText,
+                    name,
+                    ViewModel.SelectedApplication.Path)
+            );
 
             ViewModel.AppHost.Device.EnableCheats();
         }

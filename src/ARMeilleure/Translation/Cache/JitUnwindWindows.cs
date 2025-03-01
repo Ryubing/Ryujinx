@@ -52,6 +52,11 @@ namespace ARMeilleure.Translation.Cache
             nint context,
             [MarshalAs(UnmanagedType.LPWStr)] string outOfProcessCallbackDll);
 
+        [LibraryImport("kernel32.dll")]
+        [return: MarshalAs(UnmanagedType.Bool)]
+        private static unsafe partial bool RtlDeleteFunctionTable(
+            ulong tableIdentifier);
+
         private static GetRuntimeFunctionCallback _getRuntimeFunctionCallback;
 
         private static int _sizeOfRuntimeFunction;
@@ -88,6 +93,23 @@ namespace ARMeilleure.Translation.Cache
             if (!result)
             {
                 throw new InvalidOperationException("Failure installing function table callback.");
+            }
+        }
+
+        public static void RemoveFunctionTableHandler(nint codeCachePointer)
+        {
+            ulong codeCachePtr = (ulong)codeCachePointer.ToInt64();
+
+            bool result;
+
+            unsafe
+            {
+                result = RtlDeleteFunctionTable(codeCachePtr | 3);
+            }
+
+            if (!result)
+            {
+                throw new InvalidOperationException("Failure removing function table callback.");
             }
         }
 

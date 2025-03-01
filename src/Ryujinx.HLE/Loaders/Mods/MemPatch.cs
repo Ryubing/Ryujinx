@@ -71,16 +71,24 @@ namespace Ryujinx.HLE.Loaders.Mods
                 int patchOffset = (int)offset;
                 int patchSize = patch.Length;
 
-                if (patchOffset < protectedOffset || patchOffset > memory.Length)
+                if (patchOffset < protectedOffset)
                 {
-                    continue; // Add warning?
+                    Logger.Warning?.Print(LogClass.ModLoader, $"Attempted to patch protected memory ({patchOffset:x} is within protected boundary of {protectedOffset:x}).");
+                    continue;
+                }
+                
+                if (patchOffset > memory.Length)
+                {
+                    Logger.Warning?.Print(LogClass.ModLoader, $"Attempted to patch out of bounds memory (offset {patchOffset} ({patchOffset:x}) exceeds memory buffer length {memory.Length}).");
+                    continue;
                 }
 
                 patchOffset -= protectedOffset;
 
                 if (patchOffset + patchSize > memory.Length)
                 {
-                    patchSize = memory.Length - patchOffset; // Add warning?
+                    Logger.Warning?.Print(LogClass.ModLoader, $"Patch offset ({patchOffset:x}) + size ({patchSize}) is greater than the size of the memory buffer ({memory.Length}). Attempting to fix this...");
+                    patchSize = memory.Length - patchOffset;
                 }
 
                 Logger.Info?.Print(LogClass.ModLoader, $"Patching address offset {patchOffset:x} <= {BitConverter.ToString(patch).Replace('-', ' ')} len={patchSize}");

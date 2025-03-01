@@ -1,7 +1,8 @@
-﻿<Styles
+<Styles
     xmlns="https://github.com/avaloniaui"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:ui="clr-namespace:FluentAvalonia.UI.Controls;assembly=FluentAvalonia"
+    xmlns:ext="clr-namespace:Ryujinx.Ava.Common.Markup"
     xmlns:windowing="clr-namespace:FluentAvalonia.UI.Windowing;assembly=FluentAvalonia">
     <Design.PreviewWith>
         <Border Height="2000"
@@ -30,7 +31,8 @@
                         <Button
                             Name="btnRem"
                             HorizontalAlignment="Right"
-                            Content="Add" />
+                            Content="Add" 
+                            Classes="red"/>                
                         <TextBox
                             Width="100"
                             VerticalAlignment="Center"
@@ -41,7 +43,13 @@
                     </StackPanel>
                 </Grid>
                 <ui:NumberBox Value="1" />
+                <MenuItem
+                    Header="123 0000"
+                    ToolTip.Tip="What this"/>
+                <TextBlock
+                         Classes="globalConfigMarker"/>
             </StackPanel>
+            
         </Border>
     </Design.PreviewWith>
     <Style Selector="DropDownButton">
@@ -331,6 +339,14 @@
         <Setter Property="Margin"
                 Value="0,5,0,0" />
     </Style>
+    <Style Selector="TextBlock.globalConfigMarker" >
+        <Setter Property="Foreground" Value="SeaGreen"/>
+        <Setter Property="Margin" Value="5,0,0,0"/>
+        <Setter Property="VerticalAlignment" Value="Center"/>
+        <Setter Property="Text" Value="{ext:Locale GameSpecificConfigurationGlobal}"/>  
+    </Style>
+    <Style Selector="StackPanel.globalConfigMarker">
+    </Style>
     <Style Selector="ContextMenu">
         <Setter Property="BorderBrush"
                 Value="{DynamicResource MenuFlyoutPresenterBorderBrush}" />
@@ -373,6 +389,19 @@
         <Setter Property="Background"
                 Value="{DynamicResource AppListHoverBackgroundColor}" />
     </Style>
+    <Style Selector="Button.red /template/ ContentPresenter">
+        <Setter Property="CornerRadius" Value="4"/>
+            <Setter Property="Background" Value="red"/>
+            <Setter Property="Foreground" Value="White"/>
+        </Style>
+        <Style Selector="Button.red:pointerover /template/ ContentPresenter">
+            <Setter Property="CornerRadius" Value="4"/>
+            <Setter Property="Background" Value="{DynamicResource WarningBackgroundColor}" />
+            <Setter Property="Foreground" Value="White"/>
+    </Style>
+
+
+
     <Styles.Resources>
         <SolidColorBrush x:Key="ThemeAccentColorBrush"
                          Color="{DynamicResource SystemAccentColor}" />

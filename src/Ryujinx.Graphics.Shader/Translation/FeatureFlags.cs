@@ -26,6 +26,5 @@ namespace Ryujinx.Graphics.Shader.Translation
         SharedMemory = 1 << 11,
         Store = 1 << 12,
         VtgAsCompute = 1 << 13,
-        Precise = 1 << 14,
     }
 }

@@ -6,6 +6,7 @@
     xmlns:helpers="clr-namespace:Ryujinx.Ava.UI.Helpers"
     xmlns:ui="clr-namespace:FluentAvalonia.UI.Controls;assembly=FluentAvalonia"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:ext="clr-namespace:Ryujinx.Ava.Common.Markup"
     d:DesignHeight="450"
     d:DesignWidth="800"
     Focusable="True"
@@ -156,6 +157,13 @@
                                         Text="{Binding Converter={x:Static helpers:MultiplayerInfoConverter.Instance}}"
                                         TextAlignment="Start"
                                         TextWrapping="Wrap"/>
+                                    <TextBlock
+                                        HorizontalAlignment="Stretch"
+                                        IsVisible="{Binding HasIndependentConfiguration}"
+                                        Text="{ext:Locale GameSpecificConfigurationHeader}"
+                                        TextAlignment="Start"
+                                        TextWrapping="Wrap"
+                                        Foreground="{DynamicResource Warning}" />
                                 </StackPanel>
                                 <StackPanel
                                     Grid.Column="4"

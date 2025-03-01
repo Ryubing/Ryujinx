@@ -18,7 +18,7 @@ namespace Ryujinx.Ava.Utilities.AppLibrary
         public IEnumerable<string> Players { get; set; }
 
         public static Array GetArrayForApp(
-            IEnumerable<LdnGameData> receivedData, ref ApplicationControlProperty acp)
+            LdnGameData[] receivedData, ref ApplicationControlProperty acp)
         {
             LibHac.Common.FixedArrays.Array8<ulong> communicationId = acp.LocalCommunicationId;
 
@@ -39,5 +39,11 @@ namespace Ryujinx.Ava.Utilities.AppLibrary
             public int PlayerCount => _ldnDatas.Sum(it => it.PlayerCount);
             public int GameCount => _ldnDatas.Length;
         }
+    }
+
+    public static class LdnGameDataHelper
+    {
+        public static LdnGameData.Array Where(this LdnGameData[] unfilteredDatas, ref ApplicationControlProperty acp) 
+            => LdnGameData.GetArrayForApp(unfilteredDatas, ref acp);
     }
 }

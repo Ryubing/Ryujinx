@@ -24,7 +24,7 @@ namespace ARMeilleure.Translation.Cache
 
         private static JitCacheInvalidation _jitCacheInvalidator;
 
-        private static CacheMemoryAllocator _cacheAllocator;
+        private static List<CacheMemoryAllocator> _cacheAllocators = [];
 
         private static readonly List<CacheEntry> _cacheEntries = [];
 
@@ -40,28 +40,41 @@ namespace ARMeilleure.Translation.Cache
 
         public static void Initialize(IJitMemoryAllocator allocator)
         {
-            if (_initialized)
-            {
-                return;
-            }
-
             lock (_lock)
             {
                 if (_initialized)
                 {
-                    return;
+                    if (OperatingSystem.IsWindows())
+                    {
+                        JitUnwindWindows.RemoveFunctionTableHandler(
+                            _jitRegions[0].Pointer);
+                    }
+
+                    for (int i = 0; i < _jitRegions.Count; i++)
+                    {
+                        _jitRegions[i].Dispose();
+                    }
+
+                    _jitRegions.Clear();
+                    _cacheAllocators.Clear();
                 }
+                else
+                {
+                    _initialized = true;
+                }
+
+                _activeRegionIndex = 0;
 
                 ReservedRegion firstRegion = new(allocator, CacheSize);
                 _jitRegions.Add(firstRegion);
-                _activeRegionIndex = 0;
+
+                CacheMemoryAllocator firstCacheAllocator = new(CacheSize);
+                _cacheAllocators.Add(firstCacheAllocator);
 
                 if (!OperatingSystem.IsWindows() && !OperatingSystem.IsMacOS())
                 {
                     _jitCacheInvalidator = new JitCacheInvalidation(allocator);
                 }
-
-                _cacheAllocator = new CacheMemoryAllocator(CacheSize);
 
                 if (OperatingSystem.IsWindows())
                 {
@@ -69,8 +82,6 @@ namespace ARMeilleure.Translation.Cache
                         firstRegion.Pointer, CacheSize, firstRegion.Pointer + Allocate(_pageSize)
                     );
                 }
-
-                _initialized = true;
             }
         }
 
@@ -136,7 +147,7 @@ namespace ARMeilleure.Translation.Cache
 
                     if (TryFind(funcOffset, out CacheEntry entry, out int entryIndex) && entry.Offset == funcOffset)
                     {
-                        _cacheAllocator.Free(funcOffset, AlignCodeSize(entry.Size));
+                        _cacheAllocators[_activeRegionIndex].Free(funcOffset, AlignCodeSize(entry.Size));
                         _cacheEntries.RemoveAt(entryIndex);
                     }
 
@@ -167,30 +178,24 @@ namespace ARMeilleure.Translation.Cache
         {
             codeSize = AlignCodeSize(codeSize);
 
-            for (int i = _activeRegionIndex; i < _jitRegions.Count; i++)
+            int allocOffset = _cacheAllocators[_activeRegionIndex].Allocate(codeSize);
+
+            if (allocOffset >= 0)
             {
-                int allocOffset = _cacheAllocator.Allocate(codeSize);
-        
-                if (allocOffset >= 0)
-                {
-                    _jitRegions[i].ExpandIfNeeded((ulong)allocOffset + (ulong)codeSize);
-                    _activeRegionIndex = i;
-                    return allocOffset;
-                }
+                _jitRegions[_activeRegionIndex].ExpandIfNeeded((ulong)allocOffset + (ulong)codeSize);
+                return allocOffset;
             }
 
             int exhaustedRegion = _activeRegionIndex;
             ReservedRegion newRegion = new(_jitRegions[0].Allocator, CacheSize);
             _jitRegions.Add(newRegion);
             _activeRegionIndex = _jitRegions.Count - 1;
-            
-            int newRegionNumber = _activeRegionIndex;
 
-            Logger.Warning?.Print(LogClass.Cpu, $"JIT Cache Region {exhaustedRegion} exhausted, creating new Cache Region {newRegionNumber} ({((long)(newRegionNumber + 1) * CacheSize).Bytes()} Total Allocation).");
-        
-            _cacheAllocator = new CacheMemoryAllocator(CacheSize);
+            Logger.Warning?.Print(LogClass.Cpu, $"JIT Cache Region {exhaustedRegion} exhausted, creating new Cache Region {_activeRegionIndex} ({((long)(_activeRegionIndex + 1) * CacheSize).Bytes()} Total Allocation).");
 
-            int allocOffsetNew = _cacheAllocator.Allocate(codeSize);
+            _cacheAllocators.Add(new CacheMemoryAllocator(CacheSize));
+
+            int allocOffsetNew = _cacheAllocators[_activeRegionIndex].Allocate(codeSize);
             if (allocOffsetNew < 0)
             {
                 throw new OutOfMemoryException("Failed to allocate in new Cache Region!");

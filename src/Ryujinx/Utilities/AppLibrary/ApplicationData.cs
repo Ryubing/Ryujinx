@@ -16,7 +16,6 @@ using Ryujinx.HLE.FileSystem;
 using Ryujinx.HLE.Loaders.Processes.Extensions;
 using System;
 using System.IO;
-using System.Text;
 using System.Text.Json.Serialization;
 
 namespace Ryujinx.Ava.Utilities.AppLibrary
@@ -24,6 +23,7 @@ namespace Ryujinx.Ava.Utilities.AppLibrary
     public class ApplicationData
     {
         public bool Favorite { get; set; }
+        public bool HasIndependentConfiguration { get; set; }
         public byte[] Icon { get; set; }
         public string Name { get; set; } = "Unknown";
 

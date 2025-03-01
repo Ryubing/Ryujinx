@@ -1,5 +1,5 @@
 <window:StyleableAppWindow
-    x:Class="Ryujinx.Ava.UI.Windows.SettingsWindow"
+    x:Class="Ryujinx.Ava.UI.Windows.GameSpecificSettingsWindow"
     xmlns="https://github.com/avaloniaui"
     xmlns:ui="clr-namespace:FluentAvalonia.UI.Controls;assembly=FluentAvalonia"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
@@ -12,7 +12,7 @@
     xmlns:helpers="clr-namespace:Ryujinx.Ava.UI.Helpers"
     xmlns:helper="clr-namespace:Ryujinx.Common.Helper;assembly=Ryujinx.Common"
     Width="1100"
-    Height="918"
+    Height="910"
     MinWidth="800"
     MinHeight="480"
     WindowStartupLocation="CenterOwner"
@@ -31,7 +31,6 @@
         <Grid Name="Pages" IsVisible="False" Grid.Row="2">
             <settings:SettingsUiView Name="UiPage" />
             <settings:SettingsInputView Name="InputPage" />
-            <settings:SettingsHotkeysView Name="HotkeysPage" />
             <settings:SettingsSystemView Name="SystemPage" />
             <settings:SettingsCPUView Name="CpuPage" />
             <settings:SettingsGraphicsView Name="GraphicsPage" />
@@ -49,7 +48,38 @@
             Margin="2,10,10,0"
             VerticalAlignment="Stretch"
             HorizontalAlignment="Stretch"
-            OpenPaneLength="200">
+            OpenPaneLength="200"
+            IsPaneToggleButtonVisible="False">
+
+            <!-- For image -->
+            <ui:NavigationView.PaneHeader>
+                <Grid HorizontalAlignment="Center" VerticalAlignment="Center">
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="5"/>
+                    </Grid.RowDefinitions>
+                    <TextBlock Text="{Binding GameId}"
+                        HorizontalAlignment="Center"
+                        VerticalAlignment="Center"
+                        Margin="0,0,0,10"
+                        TextAlignment="Center" Grid.Row="0" />
+                    <Image Source="{Binding GameIcon}" 
+                        Width="160" 
+                        Height="160" 
+                        Grid.Row="1" 
+                        Margin="0,0,0,10"
+                        HorizontalAlignment="Center" />
+                    <TextBlock Text="{Binding GameTitle}"
+                        HorizontalAlignment="Center"
+                        VerticalAlignment="Center"
+                        Margin="0,0,0,10"
+                        TextAlignment="Center" Grid.Row="2" />
+                    <Separator Height="1" Grid.Row="3" Margin="0,0,0,10" HorizontalAlignment="Stretch"/>
+                </Grid>
+            </ui:NavigationView.PaneHeader>
+                      
             <ui:NavigationView.MenuItems>
                 <ui:NavigationViewItem
                     IsSelected="True"
@@ -60,10 +90,6 @@
                     Content="{ext:Locale SettingsTabInput}"
                     Tag="InputPage"
                     IconSource="Games" />
-                <ui:NavigationViewItem
-                    Content="{ext:Locale SettingsTabHotkeys}"
-                    Tag="HotkeysPage"
-                    IconSource="Keyboard" />
                 <ui:NavigationViewItem
                     Content="{ext:Locale SettingsTabSystem}"
                     Tag="SystemPage"
@@ -99,45 +125,31 @@
                     Tag="HacksPage"
                     IconSource="Code" />
             </ui:NavigationView.MenuItems>
-            <ui:NavigationView.Styles>
-                <Style Selector="Grid#PlaceholderGrid">
-                    <Setter Property="Height" Value="40" />
-                </Style>
-                <Style Selector="ui|NavigationViewItem ui|SymbolIcon">
-                    <Setter Property="FlowDirection" Value="LeftToRight" />
-                </Style>
-            </ui:NavigationView.Styles>
         </ui:NavigationView>
-        <Grid Grid.Row="2"
-              ColumnDefinitions="Auto,*,Auto">
-            <StackPanel Grid.Column="0" Orientation="Horizontal">
-                <Button
-                    IsEnabled="{Binding WantsToReset}"
-                    Margin="10"
-                    Content="{ext:Locale SettingsButtonReset}"
-                    Command="{Binding ResetButton}" />
-                <CheckBox IsChecked="{Binding WantsToReset}"/>
-                <TextBlock Text="{ext:Locale SettingsButtonResetConfirm}"/>
-            </StackPanel>
-            <ReversibleStackPanel
-                Grid.Column="2"
-                Margin="10"
-                Spacing="10"
-                Orientation="Horizontal"
-                HorizontalAlignment="Right"
-                ReverseOrder="{x:Static helper:RunningPlatform.IsMacOS}">
-                <Button
-                    Classes="accent"
-                    Content="{ext:Locale SettingsButtonOk}"
-                    Command="{Binding OkButton}" />
-                <Button
-                    HotKey="Escape"
-                    Content="{ext:Locale SettingsButtonCancel}"
-                    Command="{Binding CancelButton}" />
-                <Button
-                    Content="{ext:Locale SettingsButtonApply}"
-                    Command="{Binding ApplyButton}" />
-            </ReversibleStackPanel>
-        </Grid>
+       
+        <ReversibleStackPanel
+            Grid.Row="2"
+            Margin="10"
+            Spacing="10"
+            Orientation="Horizontal"
+            HorizontalAlignment="Right"
+            ReverseOrder="{x:Static helper:RunningPlatform.IsMacOS}">
+            <Button
+                Content="{ext:Locale SettingsButtonSave}"
+                Command="{Binding SaveUserConfig}" />
+            <Button
+                HotKey="Escape"
+                Content="{ext:Locale SettingsButtonClose}"
+                Command="{Binding CancelButton}" />
+            <Button
+                IsVisible="{Binding IsGameRunning}"
+                Content="{ext:Locale SettingsButtonApply}"
+                Command="{Binding ApplyButton}" />
+            <Button
+                IsVisible="{Binding !IsGameRunning}"
+                Content="{ext:Locale UserProfilesDelete}"
+                Command="{Binding DeleteConfigGame}"
+                Classes="red"/>
+        </ReversibleStackPanel>
     </Grid>
 </window:StyleableAppWindow>

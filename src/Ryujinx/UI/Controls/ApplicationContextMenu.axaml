@@ -20,6 +20,18 @@
         Icon="{ext:Icon fa-solid fa-bookmark}"
         ToolTip.Tip="{OnPlatform Default={ext:Locale GameListContextMenuCreateShortcutToolTip}, macOS={ext:Locale GameListContextMenuCreateShortcutToolTipMacOS}}" />
     <MenuItem
+        Click="EditGameConfiguration_Click"
+        IsVisible="{Binding SelectedApplication.HasIndependentConfiguration}"
+        Header="{ext:Locale GameListContextMenuEditCustomConfiguration}"
+        Icon="{ext:Icon fa-solid fa-gear}"
+        ToolTip.Tip="{ext:Locale EditCustomConfigurationToolTip}" />
+    <MenuItem
+       Click="EditGameConfiguration_Click"
+       IsVisible="{Binding !SelectedApplication.HasIndependentConfiguration}"
+       Header="{ext:Locale GameListContextMenuCreateCustomConfiguration}"
+       Icon="{ext:Icon fa-solid fa-gear}"
+       ToolTip.Tip="{ext:Locale CreateCustomConfigurationToolTip}" />
+    <MenuItem
         IsVisible="{Binding HasCompatibilityEntry}"
         Click="OpenApplicationCompatibility_Click"
         Header="{ext:Locale GameListContextMenuShowCompatEntry}"

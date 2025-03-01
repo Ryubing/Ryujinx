@@ -5,6 +5,14 @@ namespace Ryujinx.Ava.Utilities.AppLibrary
 {
     public class LdnGameDataReceivedEventArgs : EventArgs
     {
-        public IEnumerable<LdnGameData> LdnData { get; set; }
+        public static new readonly LdnGameDataReceivedEventArgs Empty = new(null);
+        
+        public LdnGameDataReceivedEventArgs(LdnGameData[] ldnData)
+        {
+            LdnData = ldnData ?? [];
+        }
+        
+        
+        public LdnGameData[] LdnData { get; set; }
     }
 }

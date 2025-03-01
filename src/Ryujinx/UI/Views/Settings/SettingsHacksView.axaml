@@ -43,39 +43,6 @@
                         Text="Xenoblade Chronicles 2 Menu Softlock Fix" />
                 </StackPanel>
                 <Separator/>
-                <StackPanel
-                    Margin="0,10,0,0"
-                    Orientation="Horizontal"
-                    HorizontalAlignment="Center"
-                    ToolTip.Tip="{Binding DirtyHacks.ShaderTranslationDelayTooltip}">
-                    <CheckBox
-                        Margin="0"
-                        IsChecked="{Binding DirtyHacks.ShaderTranslationDelayEnabled}"/>
-                    <TextBlock VerticalAlignment="Center"
-                               Text="Arbitrary Delay on Shader Translation"/>
-                </StackPanel>
-                <StackPanel
-                    IsVisible="{Binding DirtyHacks.ShaderTranslationDelayEnabled}"
-                    Margin="0,10,0,0"
-                    Orientation="Horizontal"
-                    HorizontalAlignment="Center">
-                    <Slider HorizontalAlignment="Center" 
-                            Value="{Binding DirtyHacks.ShaderTranslationDelay}"
-                            Width="175"
-                            Margin="0,-3,0,0"
-                            Height="32"
-                            Padding="0,-5"
-                            TickFrequency="1"
-                            IsSnapToTickEnabled="True"
-                            LargeChange="10"
-                            SmallChange="1"
-                            VerticalAlignment="Center"
-                            Minimum="1"
-                            Maximum="1000" />
-                    <TextBlock Margin="5,0"
-                               Text="{Binding DirtyHacks.ShaderTranslationDelayValueText}"/>
-                </StackPanel>
-                <Separator/>
             </StackPanel>
         </Border>
     </ScrollViewer>

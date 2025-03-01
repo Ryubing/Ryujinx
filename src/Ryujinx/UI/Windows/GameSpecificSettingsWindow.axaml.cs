@@ -1,23 +1,46 @@
+using Avalonia;
 using Avalonia.Controls;
+using Avalonia.Controls.Shapes;
+using Avalonia.Input;
+using Avalonia.Media.Imaging;
+using FluentAvalonia.Core;
 using FluentAvalonia.UI.Controls;
+using Projektanker.Icons.Avalonia;
 using Ryujinx.Ava.Common.Locale;
+using Ryujinx.Ava.UI.Models;
 using Ryujinx.Ava.UI.ViewModels;
+using Ryujinx.Ava.UI.ViewModels.Input;
+using Ryujinx.Ava.Utilities;
+using Ryujinx.Ava.Utilities.Configuration;
+using Ryujinx.Common.Configuration;
 using Ryujinx.HLE.FileSystem;
+using Ryujinx.HLE.HOS.SystemState;
 using Ryujinx.Input;
 using System;
+using System.IO;
 using System.Linq;
+using Key = Avalonia.Input.Key;
+
 
 namespace Ryujinx.Ava.UI.Windows
 {
-    public partial class SettingsWindow : StyleableAppWindow
+    public partial class GameSpecificSettingsWindow : StyleableAppWindow
     {
         internal readonly SettingsViewModel ViewModel;
 
-        public SettingsWindow(VirtualFileSystem virtualFileSystem, ContentManager contentManager)
+        public GameSpecificSettingsWindow(MainWindowViewModel viewModel, bool findUserConfigDir = true)
         {
-            Title = RyujinxApp.FormatTitle(LocaleKeys.Settings);
+            Title = string.Format(LocaleManager.Instance[LocaleKeys.SettingsWithInfo], viewModel.SelectedApplication.Name, viewModel.SelectedApplication.IdString);
 
-            DataContext = ViewModel = new SettingsViewModel(virtualFileSystem, contentManager);
+            DataContext = ViewModel = new SettingsViewModel(
+                viewModel.VirtualFileSystem, 
+                viewModel.ContentManager,
+                viewModel.IsGameRunning,
+                viewModel.SelectedApplication.Path,
+                viewModel.SelectedApplication.Name,
+                viewModel.SelectedApplication.IdString,
+                viewModel.SelectedApplication.Icon,
+                findUserConfigDir);
 
             ViewModel.CloseWindow += Close;
             ViewModel.SaveSettingsEvent += SaveSettings;
@@ -26,23 +49,11 @@ namespace Ryujinx.Ava.UI.Windows
             Load();
         }
 
-        public SettingsWindow()
-        {
-            DataContext = ViewModel = new SettingsViewModel();
-
-            InitializeComponent();
-            Load();
-        }
-
         public void SaveSettings()
         {
             InputPage.InputView?.SaveCurrentProfile();
-
-            if (Owner is MainWindow window && ViewModel.GameListNeedsRefresh)
-            {
-                window.LoadApplications();
-            }
         }
+
 
         private void Load()
         {
@@ -53,38 +64,36 @@ namespace Ryujinx.Ava.UI.Windows
 
         private void NavPanelOnSelectionChanged(object sender, NavigationViewSelectionChangedEventArgs e)
         {
+            
             if (e.SelectedItem is NavigationViewItem navItem && navItem.Tag is not null)
             {
                 switch (navItem.Tag.ToString())
                 {
-                    case "UiPage":
+                    case nameof(UiPage):
                         UiPage.ViewModel = ViewModel;
                         NavPanel.Content = UiPage;
                         break;
-                    case "InputPage":
+                    case nameof(InputPage):
                         NavPanel.Content = InputPage;
                         break;
-                    case "HotkeysPage":
-                        NavPanel.Content = HotkeysPage;
-                        break;
-                    case "SystemPage":
+                    case nameof(SystemPage):
                         SystemPage.ViewModel = ViewModel;
                         NavPanel.Content = SystemPage;
                         break;
-                    case "CpuPage":
+                    case nameof(CpuPage):
                         NavPanel.Content = CpuPage;
                         break;
-                    case "GraphicsPage":
+                    case nameof(GraphicsPage):
                         NavPanel.Content = GraphicsPage;
                         break;
-                    case "AudioPage":
+                    case nameof(AudioPage):
                         NavPanel.Content = AudioPage;
                         break;
-                    case "NetworkPage":
+                    case nameof(NetworkPage):
                         NetworkPage.ViewModel = ViewModel;
                         NavPanel.Content = NetworkPage;
                         break;
-                    case "LoggingPage":
+                    case nameof(LoggingPage):
                         NavPanel.Content = LoggingPage;
                         break;
                     case nameof(HacksPage):
@@ -94,19 +103,12 @@ namespace Ryujinx.Ava.UI.Windows
                     default:
                         throw new NotImplementedException();
                 }
-            }
+            }        
         }
 
         protected override void OnClosing(WindowClosingEventArgs e)
         {
-            HotkeysPage.Dispose();
-            
-            foreach (IGamepad gamepad in RyujinxApp.MainWindow.InputManager.GamepadDriver.GetGamepads())
-            {
-                gamepad?.ClearLed();
-            }
-            
-            InputPage.Dispose();
+            InputPage.Dispose(); // You need to unload the gamepad settings, otherwise the controls will be blocked
             base.OnClosing(e);
         }
     }

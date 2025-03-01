@@ -133,12 +133,6 @@
                             <ComboBoxItem>
                                 <TextBlock Text="{ext:Locale SettingsTabSystemSystemLanguageBrazilianPortuguese}" />
                             </ComboBoxItem>
-                            <ComboBoxItem>
-                                <TextBlock Text="{ext:Locale SettingsTabSystemSystemLanguageSwedish}" />
-                            </ComboBoxItem>
-                            <ComboBoxItem>
-                                <TextBlock Text="{ext:Locale SettingsTabSystemSystemLanguageNorwegian}" />
-                            </ComboBoxItem>
                         </ComboBox>
                     </StackPanel>
                     <StackPanel
@@ -162,6 +156,8 @@
                             ValueMemberBinding="{Binding Mode=OneWay, Converter={x:Static helpers:TimeZoneConverter.Instance}}" />
                     </StackPanel>
                     <StackPanel
+                        IsEnabled="{Binding !IsGameTitleNotNull}"
+                        Opacity="{Binding PanelOpacity}"
                         Margin="0,0,0,10"
                         Orientation="Horizontal">
                         <TextBlock
@@ -175,8 +171,11 @@
                             SelectedDate="{Binding CurrentDate}"
                             ToolTip.Tip="{ext:Locale TimeTooltip}"
                             Width="350" />
+                        <TextBlock  Classes="globalConfigMarker" IsVisible="{Binding IsGameTitleNotNull}"/>
                     </StackPanel>
                     <StackPanel
+                        IsEnabled="{Binding !IsGameTitleNotNull}"
+                        Opacity="{Binding PanelOpacity}"
                         Margin="250,0,0,10"
                         Orientation="Horizontal">
                         <TimePicker
@@ -186,8 +185,12 @@
                             SelectedTime="{Binding CurrentTime}"
                             Width="350"
                             ToolTip.Tip="{ext:Locale TimeTooltip}" />
+                        <TextBlock  Classes="globalConfigMarker" IsVisible="{Binding IsGameTitleNotNull}"/>
                     </StackPanel>
-                    <StackPanel Orientation="Horizontal">
+                    <StackPanel
+                        IsEnabled="{Binding !IsGameTitleNotNull}"
+                        Opacity="{Binding PanelOpacity}"
+                        Orientation="Horizontal">
                         <TextBlock
                             VerticalAlignment="Center"
                             Text="{ext:Locale SettingsTabSystemSystemTimeMatch}"
@@ -197,6 +200,7 @@
                             VerticalAlignment="Center"
                             IsChecked="{Binding MatchSystemTime}"
                             ToolTip.Tip="{ext:Locale MatchTimeTooltip}"/>
+                        <TextBlock  Classes="globalConfigMarker" IsVisible="{Binding IsGameTitleNotNull}"/>
                     </StackPanel>
                     <Separator />
                     <StackPanel Margin="0,10,0,10"

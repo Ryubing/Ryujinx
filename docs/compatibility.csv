@@ -1436,7 +1436,7 @@
 010083A018262000,"Hitman: Blood Money — Reprisal",deadlock,ingame,2024-09-28 16:28:50
 01004B100A5CC000,"Hob: The Definitive Edition",,playable,2021-01-13 09:39:19
 0100F7300ED2C000,"Hoggy2",,playable,2022-10-10 13:53:35
-0100F7E00C70E000,"Hogwarts Legacy",slow,ingame,2024-09-03 19:53:58
+0100F7E00C70E000,"Hogwarts Legacy",UE4;slow,ingame,2024-09-03 19:53:58
 0100633007D48000,"Hollow Knight",nvdec,playable,2023-01-16 15:44:56
 0100F2100061E800,"Hollow0",UE4;gpu,ingame,2021-03-03 23:42:56
 0100342009E16000,"Holy Potatoes! What The Hell?!",,playable,2020-07-03 10:48:56
@@ -1800,6 +1800,7 @@
 010005A00B312000,"Megaton Rainfall",gpu;opengl,boots,2022-08-04 18:29:43
 0100EA100DF92000,"Meiji Katsugeki Haikara Ryuuseigumi - Seibai Shimaseu, Yonaoshi Kagyou",32-bit;nvdec,playable,2022-12-05 13:19:12
 0100B360068B2000,"Mekorama",gpu,boots,2021-06-17 16:37:21
+010012301932A000,"Melatonin",,playable,2025-02-16 04:08:17
 01000FA010340000,"Melbits World",nvdec;online,menus,2021-11-26 13:51:22
 0100F68019636000,"Melon Journey",,playable,2023-04-23 21:20:01
 010079C012896000,"Memories Off -Innocent Fille- for Dearest",,playable,2020-08-04 07:31:22
