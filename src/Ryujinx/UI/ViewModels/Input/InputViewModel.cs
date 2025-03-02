@@ -465,7 +465,15 @@ namespace Ryujinx.Ava.UI.ViewModels.Input
             await Dispatcher.UIThread.InvokeAsync(() =>
             {
                 LoadDevices();
+
+                if (Config != null)
+                {
+                    // Load configuration after disconnection if it is in the configuration file
+                    IsModified = true;
+                    LoadSavedConfiguration();
+                }
                 FindPairedDevice();
+
                 _isChangeTrackingActive = true;
                 return System.Threading.Tasks.Task.CompletedTask;
             });
@@ -474,7 +482,6 @@ namespace Ryujinx.Ava.UI.ViewModels.Input
         private async void HandleOnGamepadConnected(string id)
         {
             _isChangeTrackingActive = false;
-
             await Dispatcher.UIThread.InvokeAsync(() =>
             {
                 LoadDevices();
@@ -485,7 +492,6 @@ namespace Ryujinx.Ava.UI.ViewModels.Input
                     IsModified = true;
                     LoadSavedConfiguration();                  
                 }
-
                 _isChangeTrackingActive = true;
             });
         }
@@ -846,6 +852,8 @@ namespace Ryujinx.Ava.UI.ViewModels.Input
             if (config != null)
             {
                 _isLoaded = false;
+
+                config.Id = null; // ignore device IDs (there is no longer a need to store device IDs for presets due to their independence from devices)
 
                 LoadConfiguration(config);
 
