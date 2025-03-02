@@ -87,7 +87,7 @@ namespace Ryujinx.Ava.UI.ViewModels.Input
         public bool IsKeyboard => !IsController;
         public bool IsRight { get; set; }
         public bool IsLeft { get; set; }
-
+        public int DeviceIndexBeforeChange { get; set; }
         public bool HasLed => SelectedGamepad.Features.HasFlag(GamepadFeaturesFlag.Led);
         public bool CanClearLed => SelectedGamepad.Name.ContainsIgnoreCase("DualSense");
 
@@ -106,17 +106,17 @@ namespace Ryujinx.Ava.UI.ViewModels.Input
 
         public event Action NotifyChangesEvent;
 
-        public int _profileChoose;
-        public int ProfileChoose
+        public string _profileChoose;
+        public string ProfileChoose
         {
             get => _profileChoose;
             set
             {
-                if (value >= 0)
-                {
-                    _profileChoose = value;
-                }
-               
+                // When you select a profile, the settings from the profile will be applied.
+                // To save the settings, you still need to click the apply button
+
+                _profileChoose = value;
+                LoadProfile();
                 OnPropertyChanged();
             }
         }
@@ -152,6 +152,7 @@ namespace Ryujinx.Ava.UI.ViewModels.Input
                 LoadDevice();
                 LoadProfiles();
 
+                DeviceIndexBeforeChange = Device;
                 _isLoaded = true;
                 _isChangeTrackingActive = true;
                 OnPropertyChanged();
@@ -242,6 +243,11 @@ namespace Ryujinx.Ava.UI.ViewModels.Input
             get => _device;
             set
             {
+                if (!IsModified)
+                {
+                    DeviceIndexBeforeChange = _device;
+                }
+
                 _device = value < 0 ? 0 : value;
 
                 if (_device >= Devices.Count)
@@ -260,6 +266,7 @@ namespace Ryujinx.Ava.UI.ViewModels.Input
                         LoadConfiguration(LoadDefaultConfiguration());
                     }
                 }
+
                 FindPairedDevice();
                 SetChangeTrackingActive();
                 OnPropertyChanged();
@@ -476,7 +483,7 @@ namespace Ryujinx.Ava.UI.ViewModels.Input
                 {
                     // Load configuration after connection if it is in the configuration file
                     IsModified = true;
-                    LoadSavedConfiguration(); 
+                    LoadSavedConfiguration();                  
                 }
 
                 _isChangeTrackingActive = true;
@@ -783,6 +790,12 @@ namespace Ryujinx.Ava.UI.ViewModels.Input
             return config;
         }
 
+        public void LoadProfileButton()
+        {
+            IsModified = true;
+            LoadProfile();
+        }
+
         public async void LoadProfile()
         {
             if (Device == 0)
@@ -890,7 +903,7 @@ namespace Ryujinx.Ava.UI.ViewModels.Input
 
                     LoadProfiles();
 
-                    ProfileChoose = ProfilesList.IndexOf(ProfileName); // Show new profile
+                    ProfileChoose = ProfileName; // Show new profile
                 }
                 else
                 {
@@ -924,17 +937,24 @@ namespace Ryujinx.Ava.UI.ViewModels.Input
 
                 LoadProfiles();
 
-                ProfileChoose = 0; // Show default profile
+                ProfileChoose = ProfilesList[0].ToString(); // Show default profile
             }
         }
 
         public void LoadSavedConfiguration()
         {
+            // Restores settings and sets the previously selected device to the last saved state
+            // NOTE: The current order allows the configuration and device to be loaded correctly until the configuration is changed.
+
             if (IsModified) // Fixes random gamepad appearance in "disabled" option
             {
+                Device = DeviceIndexBeforeChange;
+
                 LoadDevice();
                 LoadConfiguration();
+
                 IsModified = false;
+
                 OnPropertyChanged();
             }
         }
@@ -948,8 +968,8 @@ namespace Ryujinx.Ava.UI.ViewModels.Input
             }
 
             IsModified = false;
-
-            List<InputConfig> newConfig = [];
+            DeviceIndexBeforeChange = Device;
+            List <InputConfig> newConfig = [];
 
             newConfig.AddRange(ConfigurationState.Instance.Hid.InputConfig.Value);
 

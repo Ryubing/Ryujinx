@@ -87,7 +87,7 @@
                             ToolTip.Tip="{ext:Locale ControllerSettingsCancelCurrentChangesToolTip}"
                             Command="{Binding LoadSavedConfiguration}">
                         <ui:SymbolIcon
-                            Symbol="Cancel"
+                            Symbol="Undo"
                             FontSize="15"
                             Height="20" />
                     </Button>
@@ -117,7 +117,8 @@
                         Name="ProfileBox"
                         HorizontalAlignment="Stretch"
                         VerticalAlignment="Center"
-                        SelectedIndex="{Binding ProfileChoose}"
+                        SelectedItem="{Binding ProfileChoose, Mode=TwoWay}"
+                        SelectionChanged="ComboBox_SelectionChanged"
                         ItemsSource="{Binding ProfilesList}"
                         Text="{Binding ProfileName, Mode=TwoWay}" />
                     <Button
@@ -126,7 +127,7 @@
                         Margin="5,0,0,0"
                         VerticalAlignment="Center"
                         ToolTip.Tip="{ext:Locale ControllerSettingsLoadProfileToolTip}"
-                        Command="{Binding LoadProfile}">
+                        Command="{Binding LoadProfileButton}">
                         <ui:SymbolIcon
                             Symbol="View"
                             FontSize="15"

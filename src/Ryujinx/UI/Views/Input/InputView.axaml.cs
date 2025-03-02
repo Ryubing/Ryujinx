@@ -1,4 +1,5 @@
 using Avalonia.Controls;
+using FluentAvalonia.UI.Controls;
 using Ryujinx.Ava.Common.Locale;
 using Ryujinx.Ava.UI.Helpers;
 using Ryujinx.Ava.UI.Models;
@@ -65,11 +66,19 @@ namespace Ryujinx.Ava.UI.Views.Input
 
                 ViewModel.IsModified = false;
                 ViewModel.PlayerId = ViewModel.PlayerIdChoose;
-                               
-            }
+                
+            }   
             
         }
 
+        private void ComboBox_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            if (sender is FAComboBox faComboBox)
+            {
+                faComboBox.IsDropDownOpen = false;
+                ViewModel.IsModified = true;
+            }
+        }
 
         public void Dispose()
         {
