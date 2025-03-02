@@ -466,12 +466,8 @@ namespace Ryujinx.Ava.UI.ViewModels.Input
             {
                 LoadDevices();
 
-                if (Config != null)
-                {
-                    // Load configuration after disconnection if it is in the configuration file
-                    IsModified = true;
-                    LoadSavedConfiguration();
-                }
+                IsModified = true;
+                LoadSavedConfiguration();
                 FindPairedDevice();
 
                 _isChangeTrackingActive = true;
