@@ -2733,7 +2733,7 @@
 0100C2500FC20000,"Splatoon™ 3",ldn-works;opengl-backend-bug;LAN;amd-vendor-bug,playable,2024-08-04 23:49:11
 0100BA0018500000,"Splatoon™ 3: Splatfest World Premiere",gpu;online-broken;demo,ingame,2022-09-19 03:17:12
 010062800D39C000,"SpongeBob SquarePants: Battle for Bikini Bottom - Rehydrated",online-broken;UE4;ldn-broken;vulkan-backend-bug,playable,2023-08-01 19:29:34
-01009FB0172F4000,"SpongeBob SquarePants: The Cosmic Shake",gpu;UE4,ingame,2023-08-01 19:29:53
+01009FB0172F4000,"SpongeBob SquarePants: The Cosmic Shake",gpu;UE4,ingame,2024-03-04 16:35:00
 010097C01336A000,"Spooky Chase",,playable,2022-11-04 12:17:44
 0100C6100D75E000,"Spooky Ghosts Dot Com",,playable,2021-06-15 15:16:11
 0100DE9005170000,"Sports Party",nvdec,playable,2021-03-05 13:40:42
