@@ -631,6 +631,7 @@
 010030D012FF6000,"Bus Driver Simulator",,playable,2022-10-17 13:55:27
 0100A9101418C000,"BUSTAFELLOWS",nvdec,playable,2020-10-17 20:04:41
 0100177005C8A000,"BUTCHER",,playable,2021-01-11 18:50:17
+01008c2019598000,"Bluey: The Videogame",,playable,2025-02-11 04:38:00
 01000B900D8B0000,"Cadence of Hyrule: Crypt of the NecroDancer Featuring The Legend of Zelda",slow;nvdec,playable,2024-04-01 22:43:40
 010065700EE06000,"Cadence of Hyrule: Crypt of the NecroDancer Featuring The Legend of Zelda Demo",demo;gpu;nvdec,ingame,2021-02-14 21:48:15
 01005C00117A8000,"Café Enchanté",,playable,2020-11-13 14:54:25
@@ -1382,6 +1383,9 @@
 0100763015C2E000,"Gunvolt Chronicles: Luminous Avenger iX 2",crash;Needs Update,nothing,2022-04-29 15:34:34
 01002C8018554000,"Gurimugurimoa OnceMore Demo",,playable,2022-07-29 22:07:31
 0100AC601DCA8000,"GYLT",crash,ingame,2024-03-18 20:16:51
+0100c3c012718000,"Grand Theft Auto: III – The Definitive Edition",gpu;UE4,ingame,2022-10-31 20:13:52
+0100182014022000,"Grand Theft Auto: Vice City – The Definitive Edition",gpu;UE4,ingame,2022-10-31 20:13:52
+010065a014024000,"Grand Theft Auto: San Andreas – The Definitive Edition",gpu;UE4,ingame,2022-10-31 20:13:52
 0100822012D76000,"HAAK",gpu,ingame,2023-02-19 14:31:05
 01007E100EFA8000,"Habroxia",,playable,2020-06-16 23:04:42
 0100535012974000,"Hades",vulkan,playable,2022-10-05 10:45:21
@@ -2729,7 +2733,7 @@
 0100C2500FC20000,"Splatoon™ 3",ldn-works;opengl-backend-bug;LAN;amd-vendor-bug,playable,2024-08-04 23:49:11
 0100BA0018500000,"Splatoon™ 3: Splatfest World Premiere",gpu;online-broken;demo,ingame,2022-09-19 03:17:12
 010062800D39C000,"SpongeBob SquarePants: Battle for Bikini Bottom - Rehydrated",online-broken;UE4;ldn-broken;vulkan-backend-bug,playable,2023-08-01 19:29:34
-01009FB0172F4000,"SpongeBob SquarePants: The Cosmic Shake",gpu;UE4,ingame,2023-08-01 19:29:53
+01009FB0172F4000,"SpongeBob SquarePants: The Cosmic Shake",gpu;UE4,ingame,2024-03-04 16:35:00
 010097C01336A000,"Spooky Chase",,playable,2022-11-04 12:17:44
 0100C6100D75E000,"Spooky Ghosts Dot Com",,playable,2021-06-15 15:16:11
 0100DE9005170000,"Sports Party",nvdec,playable,2021-03-05 13:40:42
