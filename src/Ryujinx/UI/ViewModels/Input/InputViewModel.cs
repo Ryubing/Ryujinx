@@ -266,6 +266,8 @@ namespace Ryujinx.Ava.UI.ViewModels.Input
                 _mainWindow.InputManager.GamepadDriver.OnGamepadConnected += HandleOnGamepadConnected;
                 _mainWindow.InputManager.GamepadDriver.OnGamepadDisconnected += HandleOnGamepadDisconnected;
 
+                _mainWindow.AutoAssignController.ConfigurationUpdated += OnConfigurationUpdated;
+
                 _mainWindow.ViewModel.AppHost?.NpadManager.BlockInputUpdates();
 
                 _isLoaded = false;
@@ -380,12 +382,45 @@ namespace Ryujinx.Ava.UI.ViewModels.Input
 
         private void HandleOnGamepadDisconnected(string id)
         {
+            if(ConfigurationState.Instance.Hid.EnableAutoAssign) return;
             Dispatcher.UIThread.Post(LoadDevices);
         }
 
         private void HandleOnGamepadConnected(string id)
         {
+            if(ConfigurationState.Instance.Hid.EnableAutoAssign) return;
             Dispatcher.UIThread.Post(LoadDevices);
+        }
+
+        private void OnConfigurationUpdated()
+        {
+            Dispatcher.UIThread.Post(() => {
+                LoadDevices();
+                _isLoaded = false;
+                LoadConfiguration();
+                LoadDevice();
+                _isLoaded = true;
+                
+                UpdateGamepadLed();
+            });
+        }
+
+        private void UpdateGamepadLed()
+        {
+            if (ConfigViewModel is not ControllerInputViewModel controllerInputViewModel) return;
+            GamepadInputConfig inputConfig = controllerInputViewModel.Config;
+            
+            if (inputConfig is not { EnableLedChanging: true }) return;
+            
+            if (inputConfig.TurnOffLed)
+            {
+                SelectedGamepad.ClearLed();
+            }
+            
+            if (!inputConfig.TurnOffLed && !inputConfig.UseRainbowLed)
+            {
+                SelectedGamepad.SetLed(inputConfig.LedColor.ToUInt32()); 
+            }
         }
 
         private string GetCurrentGamepadId()
@@ -874,6 +909,12 @@ namespace Ryujinx.Ava.UI.ViewModels.Input
                 }
             }
 
+            if (_mainWindow.ViewModel.AppHost != null)
+            {
+                _mainWindow.ViewModel.AppHost.NpadManager.AutoAssignEnabled =
+                    ConfigurationState.Instance.Hid.EnableAutoAssign;
+            }
+
             _mainWindow.ViewModel.AppHost?.NpadManager.ReloadConfiguration(newConfig, ConfigurationState.Instance.Hid.EnableKeyboard, ConfigurationState.Instance.Hid.EnableMouse);
 
             // Atomically replace and signal input change.
@@ -905,6 +946,7 @@ namespace Ryujinx.Ava.UI.ViewModels.Input
 
             _mainWindow.InputManager.GamepadDriver.OnGamepadConnected -= HandleOnGamepadConnected;
             _mainWindow.InputManager.GamepadDriver.OnGamepadDisconnected -= HandleOnGamepadDisconnected;
+            _mainWindow.AutoAssignController.ConfigurationUpdated -= OnConfigurationUpdated;
 
             _mainWindow.ViewModel.AppHost?.NpadManager.UnblockInputUpdates();
 

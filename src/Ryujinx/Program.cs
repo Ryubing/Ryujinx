@@ -134,7 +134,7 @@ namespace Ryujinx.Ava
             SDL2Driver.MainThreadDispatcher = action => Dispatcher.UIThread.InvokeAsync(action, DispatcherPriority.Input);
 
             ReloadConfig();
-
+            
             WindowScaleFactor = ForceDpiAware.GetWindowScaleFactor();
 
             // Logging system information.
