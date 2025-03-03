@@ -10,6 +10,54 @@ namespace Ryujinx.Common
     {
         public static ReactiveObject<Optional<string>> CurrentApplication { get; } = new();
         
+        public static GraphicsBackend SelectGraphicsBackend(string titleId, GraphicsBackend currentBackend)
+        {
+            switch (currentBackend)
+            {
+                case GraphicsBackend.Metal when !OperatingSystem.IsMacOS():
+                case GraphicsBackend.OpenGl when OperatingSystem.IsMacOS():
+                    return GraphicsBackend.Vulkan;
+                case GraphicsBackend.Vulkan or GraphicsBackend.OpenGl or GraphicsBackend.Metal:
+                    return currentBackend;
+            }
+
+            if (!RunningPlatform.IsArmMac)
+                return GraphicsBackend.Vulkan;
+
+            return GreatMetalTitles.ContainsIgnoreCase(titleId) ? GraphicsBackend.Metal : GraphicsBackend.Vulkan;
+        }
+        
+        public static readonly string[] GreatMetalTitles =
+        [
+            "01009b500007c000", // ARMS
+            "0100a5c00d162000", // Cuphead
+            "010023800d64a000", // Deltarune
+            "01003a30012c0000", // LEGO City Undercover
+            "010048701995e000", // Luigi's Manion 2 HD
+            "010028600EBDA000", // Mario 3D World
+            "0100152000022000", // Mario Kart 8 Deluxe
+            "010075a016a3a000", // Persona 4 Arena Ultimax
+            "0100187003A36000", // Pokémon: Let's Go, Eevee!
+            "010003f003a34000", // Pokémon: Let's Go, Pikachu!
+            "01008C0016544000", // Sea of Stars
+            "01006A800016E000", // Smash Ultimate
+            "01006bb00c6f0000", // The Legend of Zelda: Link's Awakening
+
+            // These ones have small issues, but those happen on Vulkan as well:
+            "01006f8002326000", // Animal Crossings: New Horizons
+            "01009bf0072d4000", // Captain Toad: Treasure Tracker
+            "01009510001ca000", // Fast RMX
+            "01005CA01580E000", // Persona 5 Royal
+            "0100b880154fc000", // Persona 5 The Royal (Japan)
+            "010015100b514000", // Super Mario Bros. Wonder
+            "0100000000010000", // Super Mario Odyssey
+
+            // Further testing is appreciated, I did not test the entire game:
+            //"010076f0049a2000", // Bayonetta
+            //"0100cf5010fec000", // Bayonetta Origins: Cereza and the Lost Demon
+            //"0100f4300bf2c000", // New Pokemon Snap
+        ];
+        
         public static string GetDiscordGameAsset(string titleId) 
             => DiscordGameAssetKeys.Contains(titleId) ? titleId : "game";
 

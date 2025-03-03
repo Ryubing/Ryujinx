@@ -760,6 +760,8 @@ namespace Ryujinx.Ava.UI.ViewModels
 
             // Dirty Hacks
             config.Hacks.Xc2MenuSoftlockFix.Value = DirtyHacks.Xc2MenuSoftlockFix;
+            config.Hacks.EnableShaderTranslationDelay.Value = DirtyHacks.ShaderTranslationDelayEnabled;
+            config.Hacks.ShaderTranslationDelay.Value = DirtyHacks.ShaderTranslationDelay;
 
             config.ToFileFormat().SaveConfig(Program.ConfigurationPath);
 

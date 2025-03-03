@@ -318,14 +318,15 @@ namespace Ryujinx.Ava.Utilities.Configuration
 
         private static GraphicsBackend DefaultGraphicsBackend()
         {
-            // Any system running macOS or returning any amount of valid Vulkan devices should default to Vulkan.
-            // Checks for if the Vulkan version and featureset is compatible should be performed within VulkanRenderer.
-            if (OperatingSystem.IsMacOS() || VulkanRenderer.GetPhysicalDevices().Length > 0)
-            {
-                return GraphicsBackend.Vulkan;
-            }
+            // Any system running macOS should default to auto, so it uses Vulkan everywhere and Metal in games where it works well. 
+            if (OperatingSystem.IsMacOS())
+                return GraphicsBackend.Auto;
 
-            return GraphicsBackend.OpenGl;
+            // Any system returning any amount of valid Vulkan devices should default to Vulkan.
+            // Checks for if the Vulkan version and featureset is compatible should be performed within VulkanRenderer.
+            return VulkanRenderer.GetPhysicalDevices().Length > 0 
+                ? GraphicsBackend.Vulkan 
+                : GraphicsBackend.OpenGl;
         }
-            }
-        }
+    }
+}
