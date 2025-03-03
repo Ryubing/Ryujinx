@@ -28,8 +28,6 @@ namespace Ryujinx.Graphics.Vulkan
             _activeBufferMirrors = [];
 
             CommandBuffer = (Cbs = gd.CommandBufferPool.Rent()).CommandBuffer;
-
-            IsMainPipeline = true;
         }
 
         private void CopyPendingQuery()
@@ -237,7 +235,7 @@ namespace Ryujinx.Graphics.Vulkan
 
             if (Pipeline != null && Pbp == PipelineBindPoint.Graphics)
             {
-                DynamicState.ReplayIfDirty(Gd, CommandBuffer);
+                DynamicState.ReplayIfDirty(Gd.Api, CommandBuffer);
             }
         }
 
