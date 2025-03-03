@@ -3,16 +3,15 @@ using Avalonia.Controls;
 using Avalonia.Input;
 using Avalonia.Interactivity;
 using Ryujinx.Ava.Common;
+using Ryujinx.Ava.UI.Controls;
 using Ryujinx.Ava.UI.ViewModels;
 using Ryujinx.Ava.UI.Windows;
 using System;
 
 namespace Ryujinx.Ava.UI.Views.Main
 {
-    public partial class MainViewControls : UserControl
+    public partial class MainViewControls : RyujinxControl<MainWindowViewModel>
     {
-        public MainWindowViewModel ViewModel;
-
         public MainViewControls()
         {
             InitializeComponent();
@@ -24,7 +23,7 @@ namespace Ryujinx.Ava.UI.Views.Main
 
             if (VisualRoot is MainWindow window)
             {
-                DataContext = ViewModel = window.ViewModel;
+                ViewModel = window.ViewModel;
             }
         }
 

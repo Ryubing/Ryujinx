@@ -1,4 +1,3 @@
-using Avalonia.Controls;
 using Avalonia.Interactivity;
 using FluentAvalonia.UI.Controls;
 using FluentAvalonia.UI.Navigation;
@@ -11,7 +10,7 @@ using System.IO;
 
 namespace Ryujinx.Ava.UI.Views.User
 {
-    public partial class UserFirmwareAvatarSelectorView : UserControl
+    public partial class UserFirmwareAvatarSelectorView : RyujinxControl<UserFirmwareAvatarSelectorViewModel>
     {
         private NavigationDialogHost _parent;
         private TempProfile _profile;
@@ -19,8 +18,6 @@ namespace Ryujinx.Ava.UI.Views.User
         public UserFirmwareAvatarSelectorView(ContentManager contentManager)
         {
             ContentManager = contentManager;
-
-            DataContext = ViewModel;
 
             InitializeComponent();
         }
@@ -54,8 +51,6 @@ namespace Ryujinx.Ava.UI.Views.User
         }
 
         public ContentManager ContentManager { get; private set; }
-
-        internal UserFirmwareAvatarSelectorViewModel ViewModel { get; set; }
 
         private void GoBack(object sender, RoutedEventArgs e)
         {

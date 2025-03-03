@@ -7,7 +7,7 @@
              xmlns:models="using:Ryujinx.Ava.Common.Models"
              xmlns:viewModels="using:Ryujinx.Ava.UI.ViewModels"
              mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
-             x:Class="Ryujinx.Ava.UI.Controls.DlcSelectView"
+             x:Class="Ryujinx.Ava.UI.Views.Misc.DlcSelectView"
              x:DataType="viewModels:DlcSelectViewModel">
     <Grid RowDefinitions="*,Auto,*">
         <TextBlock

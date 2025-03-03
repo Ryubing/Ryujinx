@@ -14,15 +14,7 @@
     mc:Ignorable="d"
     Focusable="True"
     x:DataType="models:TempProfile">
-    <Grid Margin="0">
-        <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="Auto" />
-            <ColumnDefinition />
-        </Grid.ColumnDefinitions>
-        <Grid.RowDefinitions>
-            <RowDefinition Height="*" />
-            <RowDefinition Height="Auto" />
-        </Grid.RowDefinitions>
+    <Grid Margin="0" ColumnDefinitions="Auto,*" RowDefinitions="*,Auto">
         <StackPanel
             Grid.Row="0"
             Grid.Column="0"

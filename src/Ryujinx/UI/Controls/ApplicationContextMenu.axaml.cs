@@ -9,6 +9,7 @@ using Ryujinx.Ava.Common.Locale;
 using Ryujinx.Ava.Common.Models;
 using Ryujinx.Ava.UI.Helpers;
 using Ryujinx.Ava.UI.ViewModels;
+using Ryujinx.Ava.UI.Views.Misc;
 using Ryujinx.Ava.UI.Windows;
 using Ryujinx.Ava.Utilities;
 using Ryujinx.Ava.Utilities.AppLibrary;
@@ -26,6 +27,7 @@ namespace Ryujinx.Ava.UI.Controls
 {
     public class ApplicationContextMenu : MenuFlyout
     {
+        
         public ApplicationContextMenu()
         {
             InitializeComponent();

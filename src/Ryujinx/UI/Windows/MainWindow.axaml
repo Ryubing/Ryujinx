@@ -9,6 +9,7 @@
     xmlns:helpers="clr-namespace:Ryujinx.Ava.UI.Helpers"
     xmlns:controls="clr-namespace:Ryujinx.Ava.UI.Controls"
     xmlns:main="clr-namespace:Ryujinx.Ava.UI.Views.Main"
+    xmlns:viewsMisc="clr-namespace:Ryujinx.Ava.UI.Views.Misc"
     Cursor="{Binding Cursor}"
     Title="{Binding Title}"
     WindowState="{Binding WindowState}"
@@ -73,7 +74,7 @@
                     <main:MainViewControls
                         Name="ViewControls"
                         Grid.Row="0"/>
-                    <controls:ApplicationListView
+                    <viewsMisc:ApplicationListView
                         x:Name="ApplicationList"
                         Grid.Row="1"
                         HorizontalAlignment="Stretch"
@@ -81,7 +82,7 @@
                         HorizontalContentAlignment="Stretch"
                         VerticalContentAlignment="Stretch"
                         IsVisible="{Binding IsList}" />
-                    <controls:ApplicationGridView
+                    <viewsMisc:ApplicationGridView
                         x:Name="ApplicationGrid"
                         Grid.Row="1"
                         HorizontalAlignment="Stretch"

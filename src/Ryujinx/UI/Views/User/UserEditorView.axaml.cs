@@ -13,13 +13,12 @@ using UserProfile = Ryujinx.Ava.UI.Models.UserProfile;
 
 namespace Ryujinx.Ava.UI.Views.User
 {
-    public partial class UserEditorView : UserControl
+    public partial class UserEditorView : RyujinxControl<TempProfile>
     {
         private NavigationDialogHost _parent;
         private UserProfile _profile;
         private bool _isNewUser;
-
-        public TempProfile TempProfile { get; set; }
+        
         public static uint MaxProfileNameLength => 0x20;
         public bool IsDeletable => _profile.UserId != AccountManager.DefaultUserId;
 
@@ -42,7 +41,7 @@ namespace Ryujinx.Ava.UI.Views.User
                         (NavigationDialogHost parent, UserProfile profile, bool isNewUser) = ((NavigationDialogHost parent, UserProfile profile, bool isNewUser))arg.Parameter;
                         _isNewUser = isNewUser;
                         _profile = profile;
-                        TempProfile = new TempProfile(_profile);
+                        ViewModel = new TempProfile(_profile);
 
                         _parent = parent;
                         break;
@@ -50,8 +49,6 @@ namespace Ryujinx.Ava.UI.Views.User
 
                 ((ContentDialog)_parent.Parent).Title = $"{LocaleManager.Instance[LocaleKeys.UserProfileWindowTitle]} - " +
                                                         $"{(_isNewUser ? LocaleManager.Instance[LocaleKeys.UserEditorTitleCreate] : LocaleManager.Instance[LocaleKeys.UserEditorTitle])}";
-
-                DataContext = TempProfile;
 
                 AddPictureButton.IsVisible = _isNewUser;
                 ChangePictureButton.IsVisible = !_isNewUser;
@@ -72,7 +69,7 @@ namespace Ryujinx.Ava.UI.Views.User
         {
             if (_isNewUser)
             {
-                if (TempProfile.Name != String.Empty || TempProfile.Image != null)
+                if (ViewModel.Name != string.Empty || ViewModel.Image != null)
                 {
                     if (await ContentDialogHelper.CreateChoiceDialog(
                             LocaleManager.Instance[LocaleKeys.DialogUserProfileUnsavedChangesTitle],
@@ -89,7 +86,7 @@ namespace Ryujinx.Ava.UI.Views.User
             }
             else
             {
-                if (_profile.Name != TempProfile.Name || _profile.Image != TempProfile.Image)
+                if (_profile.Name != ViewModel.Name || _profile.Image != ViewModel.Image)
                 {
                     if (await ContentDialogHelper.CreateChoiceDialog(
                             LocaleManager.Instance[LocaleKeys.DialogUserProfileUnsavedChangesTitle],
@@ -115,31 +112,31 @@ namespace Ryujinx.Ava.UI.Views.User
         {
             DataValidationErrors.ClearErrors(NameBox);
 
-            if (string.IsNullOrWhiteSpace(TempProfile.Name))
+            if (string.IsNullOrWhiteSpace(ViewModel.Name))
             {
                 DataValidationErrors.SetError(NameBox, new DataValidationException(LocaleManager.Instance[LocaleKeys.UserProfileEmptyNameError]));
 
                 return;
             }
 
-            if (TempProfile.Image == null)
+            if (ViewModel.Image == null)
             {
-                _parent.Navigate(typeof(UserProfileImageSelectorView), (_parent, TempProfile));
+                _parent.Navigate(typeof(UserProfileImageSelectorView), (_parent, ViewModel));
 
                 return;
             }
 
             if (_profile != null && !_isNewUser)
             {
-                _profile.Name = TempProfile.Name;
-                _profile.Image = TempProfile.Image;
+                _profile.Name = ViewModel.Name;
+                _profile.Image = ViewModel.Image;
                 _profile.UpdateState();
                 _parent.AccountManager.SetUserName(_profile.UserId, _profile.Name);
                 _parent.AccountManager.SetUserImage(_profile.UserId, _profile.Image);
             }
             else if (_isNewUser)
             {
-                _parent.AccountManager.AddUser(TempProfile.Name, TempProfile.Image, TempProfile.UserId);
+                _parent.AccountManager.AddUser(ViewModel.Name, ViewModel.Image, ViewModel.UserId);
             }
             else
             {
@@ -151,7 +148,7 @@ namespace Ryujinx.Ava.UI.Views.User
 
         public void SelectProfileImage()
         {
-            _parent.Navigate(typeof(UserProfileImageSelectorView), (_parent, TempProfile));
+            _parent.Navigate(typeof(UserProfileImageSelectorView), (_parent, ViewModel));
         }
 
         private void ChangePictureButton_Click(object sender, RoutedEventArgs e)

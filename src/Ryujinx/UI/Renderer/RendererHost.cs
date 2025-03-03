@@ -2,9 +2,7 @@
 using Avalonia.Controls;
 using Avalonia.Media;
 using Ryujinx.Ava.Utilities.Configuration;
-using Ryujinx.Common;
 using Ryujinx.Common.Configuration;
-using Ryujinx.Common.Logging;
 using System;
 
 namespace Ryujinx.Ava.UI.Renderer
@@ -38,32 +36,6 @@ namespace Ryujinx.Ava.UI.Renderer
                 EmbeddedWindowOpenGL => GraphicsBackend.OpenGl,
                 _ => throw new NotImplementedException()
             };
-
-        public RendererHost(string titleId)
-        {
-            Focusable = true;
-            FlowDirection = FlowDirection.LeftToRight;
-
-            EmbeddedWindow =
-#pragma warning disable CS8524
-                ConfigurationState.Instance.Graphics.GraphicsBackend.Value switch
-#pragma warning restore CS8524
-                {
-                    GraphicsBackend.OpenGl => new EmbeddedWindowOpenGL(),
-                    GraphicsBackend.Vulkan => new EmbeddedWindowVulkan(),
-                };
-
-            string backendText = EmbeddedWindow switch
-            {
-                EmbeddedWindowVulkan => "Vulkan",
-                EmbeddedWindowOpenGL => "OpenGL",
-                _ => throw new NotImplementedException()
-            };
-                    
-            Logger.Info?.PrintMsg(LogClass.Gpu, $"Backend ({ConfigurationState.Instance.Graphics.GraphicsBackend.Value}): {backendText}");
-
-            Initialize();
-        }
         
         
         private void Initialize()

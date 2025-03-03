@@ -35,25 +35,15 @@
             Margin="0 0 0 5"
             Orientation="Vertical"
             Spacing="5">
-            <Grid>
-                <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="*" />
-                    <ColumnDefinition Width="10" />
-                    <ColumnDefinition Width="*" />
-                </Grid.ColumnDefinitions>
+            <Grid ColumnDefinitions="*,10,*">
                 <!-- Player Selection -->
                 <Grid
                     Grid.Column="0"
                     Margin="2"
                     HorizontalAlignment="Stretch"
-                    VerticalAlignment="Center">
-                    <Grid.ColumnDefinitions>
-                        <ColumnDefinition Width="Auto"/>
-                        <ColumnDefinition Width="*" />
-                        <ColumnDefinition Width="Auto"/>
-                    </Grid.ColumnDefinitions>
+                    VerticalAlignment="Center" ColumnDefinitions="Auto,*,Auto">
                     <StackPanel 
-                        Orientation="Vertical"                             
+                        Orientation="Vertical"   
                         Margin="5,0,10,0"
                         HorizontalAlignment="Left"
                         VerticalAlignment="Center"
@@ -97,14 +87,7 @@
                     Grid.Column="2"
                     Margin="2"
                     HorizontalAlignment="Stretch"
-                    VerticalAlignment="Center">
-                    <Grid.ColumnDefinitions>
-                        <ColumnDefinition Width="Auto"/>
-                        <ColumnDefinition Width="*" />
-                        <ColumnDefinition Width="Auto"/>
-                        <ColumnDefinition Width="Auto"/>
-                        <ColumnDefinition Width="Auto"/>
-                    </Grid.ColumnDefinitions>
+                    VerticalAlignment="Center" ColumnDefinitions="Auto,*,Auto,Auto,Auto">
                     <TextBlock
                         Margin="5,0,10,0"
                         Width="90"
@@ -160,22 +143,12 @@
                 </Grid>
             </Grid>
             <Separator />
-            <Grid>
-                <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="*" />
-                    <ColumnDefinition Width="10" />
-                    <ColumnDefinition Width="*" />
-                </Grid.ColumnDefinitions>
+            <Grid ColumnDefinitions="*,10,*">
                 <!-- Input Device -->
                 <Grid
                     Grid.Column="0"
                     Margin="2"
-                    HorizontalAlignment="Stretch">
-                    <Grid.ColumnDefinitions>
-                        <ColumnDefinition Width="Auto"/>
-                        <ColumnDefinition Width="*"/>
-                        <ColumnDefinition Width="Auto" />
-                    </Grid.ColumnDefinitions>
+                    HorizontalAlignment="Stretch" ColumnDefinitions="Auto,*,Auto">
                     <TextBlock
                         Grid.Column="0"
                         Margin="5,0,10,0"
@@ -207,11 +180,7 @@
                     Grid.Column="2"
                     Margin="2"
                     HorizontalAlignment="Stretch"
-                    VerticalAlignment="Center">
-                    <Grid.ColumnDefinitions>
-                        <ColumnDefinition Width="Auto"/>
-                        <ColumnDefinition Width="*" />
-                    </Grid.ColumnDefinitions>
+                    VerticalAlignment="Center" ColumnDefinitions="Auto,*">
                     <TextBlock
                         Margin="5,0,10,0"
                         Width="90"

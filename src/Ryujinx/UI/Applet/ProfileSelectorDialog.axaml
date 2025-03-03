@@ -17,12 +17,8 @@
         <viewModels:ProfileSelectorDialogViewModel />
     </Design.DataContext>
     
-    <Grid HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
-        <Grid.RowDefinitions>
-            <RowDefinition />
-            <RowDefinition Height="Auto" />
-        </Grid.RowDefinitions>
-        
+    <Grid HorizontalAlignment="Stretch" VerticalAlignment="Stretch" RowDefinitions="*,Auto">
+
         <Border
             CornerRadius="5"
             BorderBrush="{DynamicResource AppListHoverBackgroundColor}"

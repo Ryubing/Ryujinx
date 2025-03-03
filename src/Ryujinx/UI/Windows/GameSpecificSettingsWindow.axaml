@@ -53,18 +53,12 @@
 
             <!-- For image -->
             <ui:NavigationView.PaneHeader>
-                <Grid HorizontalAlignment="Center" VerticalAlignment="Center">
-                    <Grid.RowDefinitions>
-                        <RowDefinition Height="Auto"/>
-                        <RowDefinition Height="Auto"/>
-                        <RowDefinition Height="Auto"/>
-                        <RowDefinition Height="5"/>
-                    </Grid.RowDefinitions>
+                <Grid HorizontalAlignment="Center" VerticalAlignment="Center" RowDefinitions="Auto,Auto,Auto,5">
                     <TextBlock Text="{Binding GameId}"
-                        HorizontalAlignment="Center"
-                        VerticalAlignment="Center"
-                        Margin="0,0,0,10"
-                        TextAlignment="Center" Grid.Row="0" />
+                               HorizontalAlignment="Center"
+                               VerticalAlignment="Center"
+                               Margin="0,0,0,10"
+                               TextAlignment="Center" Grid.Row="0" />
                     <Image Source="{Binding GameIcon}" 
                         Width="160" 
                         Height="160" 

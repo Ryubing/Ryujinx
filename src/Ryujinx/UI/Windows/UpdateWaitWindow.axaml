@@ -1,5 +1,5 @@
 <Window
-    x:Class="Ryujinx.Ava.UI.Controls.UpdateWaitWindow"
+    x:Class="Ryujinx.Ava.UI.Windows.UpdateWaitWindow"
     xmlns="https://github.com/avaloniaui"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
@@ -13,15 +13,7 @@
     <Grid
         Margin="20"
         HorizontalAlignment="Stretch"
-        VerticalAlignment="Stretch">
-        <Grid.RowDefinitions>
-            <RowDefinition Height="Auto" />
-            <RowDefinition Height="Auto" />
-        </Grid.RowDefinitions>
-        <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="Auto" />
-            <ColumnDefinition />
-        </Grid.ColumnDefinitions>
+        VerticalAlignment="Stretch" ColumnDefinitions="Auto,*" RowDefinitions="Auto,Auto">
         <Image
             Grid.Row="1"
             Height="70"

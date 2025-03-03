@@ -23,10 +23,8 @@ using UserId = LibHac.Fs.UserId;
 
 namespace Ryujinx.Ava.UI.Views.User
 {
-    public partial class UserSaveManagerView : UserControl
+    public partial class UserSaveManagerView : RyujinxControl<UserSaveManagerViewModel>
     {
-        internal UserSaveManagerViewModel ViewModel { get; private set; }
-
         private AccountManager _accountManager;
         private HorizonClient _horizonClient;
         private VirtualFileSystem _virtualFileSystem;
@@ -66,7 +64,7 @@ namespace Ryujinx.Ava.UI.Views.User
 
         public void LoadSaves()
         {
-            ViewModel.Saves.Clear();
+            Dispatcher.UIThread.Post(() => ViewModel.Saves.Clear());
             ObservableCollection<SaveModel> saves = [];
             SaveDataFilter saveDataFilter = SaveDataFilter.Make(
                 programId: default,

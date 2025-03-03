@@ -9,17 +9,14 @@ using Ryujinx.Ava.UI.ViewModels;
 using Ryujinx.Common.Logging;
 using Ryujinx.HLE.HOS.Services.Account.Acc;
 using System.Collections.ObjectModel;
-using System.ComponentModel;
 using System.Threading.Tasks;
 using UserProfile = Ryujinx.Ava.UI.Models.UserProfile;
 using UserProfileSft = Ryujinx.HLE.HOS.Services.Account.Acc.UserProfile;
 
 namespace Ryujinx.Ava.UI.Applet
 {
-    public partial class ProfileSelectorDialog : UserControl
+    public partial class ProfileSelectorDialog : RyujinxControl<ProfileSelectorDialogViewModel>
     {
-        public ProfileSelectorDialogViewModel ViewModel { get; set; }
-
         public ProfileSelectorDialog(ProfileSelectorDialogViewModel viewModel)
         {
             DataContext = ViewModel = viewModel;

@@ -40,19 +40,19 @@ namespace Ryujinx.Ava.UI.Helpers
                 SecondaryButtonText = secondaryButton,
                 CloseButtonText = closeButton,
                 Content = content,
-                PrimaryButtonCommand = MiniCommand.Create(() =>
+                PrimaryButtonCommand = Commands.Create(() =>
                 {
                     result = primaryButtonResult;
                 })
             };
 
-            contentDialog.SecondaryButtonCommand = MiniCommand.Create(() =>
+            contentDialog.SecondaryButtonCommand = Commands.Create(() =>
             {
                 result = UserResult.No;
                 contentDialog.PrimaryButtonClick -= deferCloseAction;
             });
 
-            contentDialog.CloseButtonCommand = MiniCommand.Create(() =>
+            contentDialog.CloseButtonCommand = Commands.Create(() =>
             {
                 result = UserResult.Cancel;
                 contentDialog.PrimaryButtonClick -= deferCloseAction;

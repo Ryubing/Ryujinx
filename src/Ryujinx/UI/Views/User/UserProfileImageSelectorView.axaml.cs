@@ -15,13 +15,11 @@ using System.IO;
 
 namespace Ryujinx.Ava.UI.Views.User
 {
-    public partial class UserProfileImageSelectorView : UserControl
+    public partial class UserProfileImageSelectorView : RyujinxControl<UserProfileImageSelectorViewModel>
     {
         private ContentManager _contentManager;
         private NavigationDialogHost _parent;
         private TempProfile _profile;
-
-        internal UserProfileImageSelectorViewModel ViewModel { get; private set; }
 
         public UserProfileImageSelectorView()
         {

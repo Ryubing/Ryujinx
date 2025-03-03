@@ -2,19 +2,18 @@
 using Avalonia.Controls;
 using FluentAvalonia.UI.Controls;
 using Ryujinx.Ava.Common.Locale;
+using Ryujinx.Ava.UI.Controls;
 using Ryujinx.Ava.UI.Models.Input;
 using Ryujinx.Ava.UI.ViewModels.Input;
 using System.Threading.Tasks;
 
 namespace Ryujinx.UI.Views.Input
 {
-    public partial class LedInputView : UserControl
+    public partial class LedInputView : RyujinxControl<LedInputViewModel>
     {
-        private readonly LedInputViewModel _viewModel;
-        
         public LedInputView(ControllerInputViewModel viewModel)
         {
-            DataContext = _viewModel = new LedInputViewModel
+            ViewModel = new LedInputViewModel
             {
                 ParentModel = viewModel.ParentModel,
                 TurnOffLed = viewModel.Config.TurnOffLed,
@@ -29,20 +28,18 @@ namespace Ryujinx.UI.Views.Input
         private void ColorPickerButton_OnColorChanged(ColorPickerButton sender, ColorButtonColorChangedEventArgs args)
         {
             if (!args.NewColor.HasValue) return;
-            if (DataContext is not LedInputViewModel lvm) return;
-            if (!lvm.EnableLedChanging) return;
-            if (lvm.TurnOffLed) return;
+            if (!ViewModel.EnableLedChanging) return;
+            if (ViewModel.TurnOffLed) return;
             
-            lvm.ParentModel.SelectedGamepad.SetLed(args.NewColor.Value.ToUInt32());
+            ViewModel.ParentModel.SelectedGamepad.SetLed(args.NewColor.Value.ToUInt32());
         }
 
         private void ColorPickerButton_OnAttachedToVisualTree(object sender, VisualTreeAttachmentEventArgs e)
         {
-            if (DataContext is not LedInputViewModel lvm) return;
-            if (!lvm.EnableLedChanging) return;
-            if (lvm.TurnOffLed) return;
+            if (!ViewModel.EnableLedChanging) return;
+            if (ViewModel.TurnOffLed) return;
             
-            lvm.ParentModel.SelectedGamepad.SetLed(lvm.LedColor.ToUInt32());
+            ViewModel.ParentModel.SelectedGamepad.SetLed(ViewModel.LedColor.ToUInt32());
         }
         
         public static async Task Show(ControllerInputViewModel viewModel)
@@ -57,13 +54,13 @@ namespace Ryujinx.UI.Views.Input
                 CloseButtonText = LocaleManager.Instance[LocaleKeys.ControllerSettingsClose],
                 Content = content,
             };
-            contentDialog.PrimaryButtonClick += (sender, args) =>
+            contentDialog.PrimaryButtonClick += (_, _) =>
             {
                 GamepadInputConfig config = viewModel.Config;
-                config.EnableLedChanging = content._viewModel.EnableLedChanging;
-                config.LedColor = content._viewModel.LedColor;
-                config.UseRainbowLed = content._viewModel.UseRainbowLed;
-                config.TurnOffLed = content._viewModel.TurnOffLed;
+                config.EnableLedChanging = content.ViewModel.EnableLedChanging;
+                config.LedColor = content.ViewModel.LedColor;
+                config.UseRainbowLed = content.ViewModel.UseRainbowLed;
+                config.TurnOffLed = content.ViewModel.TurnOffLed;
             };
 
             await contentDialog.ShowAsync();

@@ -11,11 +11,9 @@ using Button = Avalonia.Controls.Button;
 
 namespace Ryujinx.Ava.UI.Views.User
 {
-    public partial class UserSelectorViews : UserControl
+    public partial class UserSelectorViews : RyujinxControl<UserProfileViewModel>
     {
         private NavigationDialogHost _parent;
-
-        public UserProfileViewModel ViewModel { get; set; }
 
         public UserSelectorViews()
         {

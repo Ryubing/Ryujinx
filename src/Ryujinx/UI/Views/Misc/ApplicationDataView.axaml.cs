@@ -4,6 +4,7 @@ using Avalonia.Interactivity;
 using Avalonia.Styling;
 using FluentAvalonia.UI.Controls;
 using Ryujinx.Ava.Common.Locale;
+using Ryujinx.Ava.UI.Controls;
 using Ryujinx.Ava.UI.Helpers;
 using Ryujinx.Ava.UI.ViewModels;
 using Ryujinx.Ava.UI.Windows;
@@ -12,9 +13,9 @@ using Ryujinx.Ava.Utilities.Compat;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace Ryujinx.Ava.UI.Controls
+namespace Ryujinx.Ava.UI.Views.Misc
 {
-    public partial class ApplicationDataView : UserControl
+    public partial class ApplicationDataView : RyujinxControl<ApplicationDataViewModel>
     {
         public static async Task Show(ApplicationData appData)
         {
@@ -25,7 +26,7 @@ namespace Ryujinx.Ava.UI.Controls
                 SecondaryButtonText = string.Empty,
                 CloseButtonText = LocaleManager.Instance[LocaleKeys.SettingsButtonClose],
                 MinWidth = 256,
-                Content = new ApplicationDataView { DataContext = new ApplicationDataViewModel(appData) }
+                Content = new ApplicationDataView { ViewModel = new ApplicationDataViewModel(appData) }
             };
 
             Style closeButton = new(x => x.Name("CloseButton"));

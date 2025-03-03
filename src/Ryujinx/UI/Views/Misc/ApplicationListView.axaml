@@ -1,5 +1,5 @@
 <UserControl
-    x:Class="Ryujinx.Ava.UI.Controls.ApplicationListView"
+    x:Class="Ryujinx.Ava.UI.Views.Misc.ApplicationListView"
     xmlns="https://github.com/avaloniaui"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
@@ -13,10 +13,7 @@
     mc:Ignorable="d"
     xmlns:viewModels="clr-namespace:Ryujinx.Ava.UI.ViewModels"
     x:DataType="viewModels:MainWindowViewModel">
-    <Grid>
-        <Grid.RowDefinitions>
-            <RowDefinition Height="*" />
-        </Grid.RowDefinitions>
+    <Grid RowDefinitions="*">
         <ListBox
             Name="GameListBox"
             Grid.Row="0"
