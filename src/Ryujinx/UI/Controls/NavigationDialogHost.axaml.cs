@@ -23,13 +23,12 @@ using UserProfile = Ryujinx.Ava.UI.Models.UserProfile;
 
 namespace Ryujinx.Ava.UI.Controls
 {
-    public partial class NavigationDialogHost : UserControl
+    public partial class NavigationDialogHost : RyujinxControl<UserProfileViewModel>
     {
         public AccountManager AccountManager { get; }
         public ContentManager ContentManager { get; }
         public VirtualFileSystem VirtualFileSystem { get; }
         public HorizonClient HorizonClient { get; }
-        public UserProfileViewModel ViewModel { get; set; }
 
         public NavigationDialogHost()
         {

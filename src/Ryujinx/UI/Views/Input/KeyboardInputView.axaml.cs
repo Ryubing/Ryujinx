@@ -4,6 +4,7 @@ using Avalonia.Controls.Primitives;
 using Avalonia.Input;
 using Avalonia.Interactivity;
 using Avalonia.LogicalTree;
+using Ryujinx.Ava.UI.Controls;
 using Ryujinx.Ava.UI.Helpers;
 using Ryujinx.Ava.UI.ViewModels.Input;
 using Ryujinx.Input;
@@ -13,7 +14,7 @@ using Key = Ryujinx.Common.Configuration.Hid.Key;
 
 namespace Ryujinx.Ava.UI.Views.Input
 {
-    public partial class KeyboardInputView : UserControl
+    public partial class KeyboardInputView : RyujinxControl<KeyboardInputViewModel>
     {
         private ButtonKeyAssigner _currentAssigner;
 
@@ -60,106 +61,103 @@ namespace Ryujinx.Ava.UI.Views.Input
 
                     PointerPressed += MouseClick;
 
-                    if (DataContext is not KeyboardInputViewModel viewModel)
-                        return;
-
                     IKeyboard keyboard =
-                        (IKeyboard)viewModel.ParentModel.AvaloniaKeyboardDriver.GetGamepad("0"); // Open Avalonia keyboard for cancel operations.
+                        (IKeyboard)ViewModel.ParentModel.AvaloniaKeyboardDriver.GetGamepad("0"); // Open Avalonia keyboard for cancel operations.
                     IButtonAssigner assigner = 
-                        new KeyboardKeyAssigner((IKeyboard)viewModel.ParentModel.SelectedGamepad);
+                        new KeyboardKeyAssigner((IKeyboard)ViewModel.ParentModel.SelectedGamepad);
 
-                    _currentAssigner.ButtonAssigned += (_, e) =>
+                    _currentAssigner.ButtonAssigned += (_, be) =>
                     {
-                        if (e.ButtonValue.HasValue)
+                        if (be.ButtonValue.HasValue)
                         {
-                            Button buttonValue = e.ButtonValue.Value;
-                            viewModel.ParentModel.IsModified = true;
+                            Button buttonValue = be.ButtonValue.Value;
+                            ViewModel.ParentModel.IsModified = true;
 
                             switch (button.Name)
                             {
                                 case "ButtonZl":
-                                    viewModel.Config.ButtonZl = buttonValue.AsHidType<Key>();
+                                    ViewModel.Config.ButtonZl = buttonValue.AsHidType<Key>();
                                     break;
                                 case "ButtonL":
-                                    viewModel.Config.ButtonL = buttonValue.AsHidType<Key>();
+                                    ViewModel.Config.ButtonL = buttonValue.AsHidType<Key>();
                                     break;
                                 case "ButtonMinus":
-                                    viewModel.Config.ButtonMinus = buttonValue.AsHidType<Key>();
+                                    ViewModel.Config.ButtonMinus = buttonValue.AsHidType<Key>();
                                     break;
                                 case "LeftStickButton":
-                                    viewModel.Config.LeftStickButton = buttonValue.AsHidType<Key>();
+                                    ViewModel.Config.LeftStickButton = buttonValue.AsHidType<Key>();
                                     break;
                                 case "LeftStickUp":
-                                    viewModel.Config.LeftStickUp = buttonValue.AsHidType<Key>();
+                                    ViewModel.Config.LeftStickUp = buttonValue.AsHidType<Key>();
                                     break;
                                 case "LeftStickDown":
-                                    viewModel.Config.LeftStickDown = buttonValue.AsHidType<Key>();
+                                    ViewModel.Config.LeftStickDown = buttonValue.AsHidType<Key>();
                                     break;
                                 case "LeftStickRight":
-                                    viewModel.Config.LeftStickRight = buttonValue.AsHidType<Key>();
+                                    ViewModel.Config.LeftStickRight = buttonValue.AsHidType<Key>();
                                     break;
                                 case "LeftStickLeft":
-                                    viewModel.Config.LeftStickLeft = buttonValue.AsHidType<Key>();
+                                    ViewModel.Config.LeftStickLeft = buttonValue.AsHidType<Key>();
                                     break;
                                 case "DpadUp":
-                                    viewModel.Config.DpadUp = buttonValue.AsHidType<Key>();
+                                    ViewModel.Config.DpadUp = buttonValue.AsHidType<Key>();
                                     break;
                                 case "DpadDown":
-                                    viewModel.Config.DpadDown = buttonValue.AsHidType<Key>();
+                                    ViewModel.Config.DpadDown = buttonValue.AsHidType<Key>();
                                     break;
                                 case "DpadLeft":
-                                    viewModel.Config.DpadLeft = buttonValue.AsHidType<Key>();
+                                    ViewModel.Config.DpadLeft = buttonValue.AsHidType<Key>();
                                     break;
                                 case "DpadRight":
-                                    viewModel.Config.DpadRight = buttonValue.AsHidType<Key>();
+                                    ViewModel.Config.DpadRight = buttonValue.AsHidType<Key>();
                                     break;
                                 case "LeftButtonSr":
-                                    viewModel.Config.LeftButtonSr = buttonValue.AsHidType<Key>();
+                                    ViewModel.Config.LeftButtonSr = buttonValue.AsHidType<Key>();
                                     break;
                                 case "LeftButtonSl":
-                                    viewModel.Config.LeftButtonSl = buttonValue.AsHidType<Key>();
+                                    ViewModel.Config.LeftButtonSl = buttonValue.AsHidType<Key>();
                                     break;
                                 case "RightButtonSr":
-                                    viewModel.Config.RightButtonSr = buttonValue.AsHidType<Key>();
+                                    ViewModel.Config.RightButtonSr = buttonValue.AsHidType<Key>();
                                     break;
                                 case "RightButtonSl":
-                                    viewModel.Config.RightButtonSl = buttonValue.AsHidType<Key>();
+                                    ViewModel.Config.RightButtonSl = buttonValue.AsHidType<Key>();
                                     break;
                                 case "ButtonZr":
-                                    viewModel.Config.ButtonZr = buttonValue.AsHidType<Key>();
+                                    ViewModel.Config.ButtonZr = buttonValue.AsHidType<Key>();
                                     break;
                                 case "ButtonR":
-                                    viewModel.Config.ButtonR = buttonValue.AsHidType<Key>();
+                                    ViewModel.Config.ButtonR = buttonValue.AsHidType<Key>();
                                     break;
                                 case "ButtonPlus":
-                                    viewModel.Config.ButtonPlus = buttonValue.AsHidType<Key>();
+                                    ViewModel.Config.ButtonPlus = buttonValue.AsHidType<Key>();
                                     break;
                                 case "ButtonA":
-                                    viewModel.Config.ButtonA = buttonValue.AsHidType<Key>();
+                                    ViewModel.Config.ButtonA = buttonValue.AsHidType<Key>();
                                     break;
                                 case "ButtonB":
-                                    viewModel.Config.ButtonB = buttonValue.AsHidType<Key>();
+                                    ViewModel.Config.ButtonB = buttonValue.AsHidType<Key>();
                                     break;
                                 case "ButtonX":
-                                    viewModel.Config.ButtonX = buttonValue.AsHidType<Key>();
+                                    ViewModel.Config.ButtonX = buttonValue.AsHidType<Key>();
                                     break;
                                 case "ButtonY":
-                                    viewModel.Config.ButtonY = buttonValue.AsHidType<Key>();
+                                    ViewModel.Config.ButtonY = buttonValue.AsHidType<Key>();
                                     break;
                                 case "RightStickButton":
-                                    viewModel.Config.RightStickButton = buttonValue.AsHidType<Key>();
+                                    ViewModel.Config.RightStickButton = buttonValue.AsHidType<Key>();
                                     break;
                                 case "RightStickUp":
-                                    viewModel.Config.RightStickUp = buttonValue.AsHidType<Key>();
+                                    ViewModel.Config.RightStickUp = buttonValue.AsHidType<Key>();
                                     break;
                                 case "RightStickDown":
-                                    viewModel.Config.RightStickDown = buttonValue.AsHidType<Key>();
+                                    ViewModel.Config.RightStickDown = buttonValue.AsHidType<Key>();
                                     break;
                                 case "RightStickRight":
-                                    viewModel.Config.RightStickRight = buttonValue.AsHidType<Key>();
+                                    ViewModel.Config.RightStickRight = buttonValue.AsHidType<Key>();
                                     break;
                                 case "RightStickLeft":
-                                    viewModel.Config.RightStickLeft = buttonValue.AsHidType<Key>();
+                                    ViewModel.Config.RightStickLeft = buttonValue.AsHidType<Key>();
                                     break;
                             }
                         }

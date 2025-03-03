@@ -18,11 +18,7 @@
         <viewModels:UserProfileViewModel />
     </Design.DataContext>
     <Grid HorizontalAlignment="Stretch"
-          VerticalAlignment="Stretch">
-        <Grid.RowDefinitions>
-            <RowDefinition/>
-            <RowDefinition Height="Auto"/>
-        </Grid.RowDefinitions>
+          VerticalAlignment="Stretch" RowDefinitions="*,Auto">
         <Border
             CornerRadius="5"
             BorderBrush="{DynamicResource AppListHoverBackgroundColor}"
@@ -41,11 +37,7 @@
                                 VerticalAlignment="Stretch"
                                 ClipToBounds="True"
                                 CornerRadius="5">
-                                <Grid Margin="0">
-                                    <Grid.ColumnDefinitions>
-                                        <ColumnDefinition/>
-                                        <ColumnDefinition Width="Auto"/>
-                                    </Grid.ColumnDefinitions>
+                                <Grid Margin="0" ColumnDefinitions="*,Auto">
                                     <TextBlock
                                         HorizontalAlignment="Stretch"
                                         Text="{Binding UserId}"

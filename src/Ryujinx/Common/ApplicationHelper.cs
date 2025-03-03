@@ -13,7 +13,7 @@ using LibHac.Tools.Fs;
 using LibHac.Tools.FsSystem;
 using LibHac.Tools.FsSystem.NcaUtils;
 using Ryujinx.Ava.Common.Locale;
-using Ryujinx.Ava.UI.Controls;
+using Ryujinx.Ava.UI.Windows;
 using Ryujinx.Ava.UI.Helpers;
 using Ryujinx.Ava.Utilities;
 using Ryujinx.Ava.Utilities.Configuration;

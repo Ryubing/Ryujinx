@@ -7,7 +7,7 @@
              xmlns:ui="using:FluentAvalonia.UI.Controls"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
              mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
-             x:Class="Ryujinx.Ava.UI.Controls.ApplicationDataView"
+             x:Class="Ryujinx.Ava.UI.Views.Misc.ApplicationDataView"
              x:DataType="viewModels:ApplicationDataViewModel">
     <StackPanel Orientation="Horizontal">
         <Image Margin="0"

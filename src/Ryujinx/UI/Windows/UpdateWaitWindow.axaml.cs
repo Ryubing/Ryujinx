@@ -1,8 +1,7 @@
 using Avalonia.Controls;
-using Ryujinx.Ava.UI.Windows;
 using System.Threading;
 
-namespace Ryujinx.Ava.UI.Controls
+namespace Ryujinx.Ava.UI.Windows
 {
     public partial class UpdateWaitWindow : StyleableWindow
     {

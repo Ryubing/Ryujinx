@@ -4,6 +4,7 @@ using Avalonia.Controls.Primitives;
 using Avalonia.Input;
 using Avalonia.Interactivity;
 using Avalonia.LogicalTree;
+using Ryujinx.Ava.UI.Controls;
 using Ryujinx.Ava.UI.Helpers;
 using Ryujinx.Ava.UI.ViewModels.Input;
 using Ryujinx.Common.Configuration.Hid.Controller;
@@ -14,7 +15,7 @@ using StickInputId = Ryujinx.Common.Configuration.Hid.Controller.StickInputId;
 
 namespace Ryujinx.Ava.UI.Views.Input
 {
-    public partial class ControllerInputView : UserControl
+    public partial class ControllerInputView : RyujinxControl<ControllerInputViewModel>
     {
         private ButtonKeyAssigner _currentAssigner;
 
@@ -217,19 +218,11 @@ namespace Ryujinx.Ava.UI.Views.Input
             PointerPressed -= MouseClick;
         }
 
-        private IButtonAssigner CreateButtonAssigner(bool forStick)
-        {
-            IButtonAssigner assigner;
-
-            ControllerInputViewModel controllerInputViewModel = DataContext as ControllerInputViewModel;
-
-            assigner = new GamepadButtonAssigner(
-                controllerInputViewModel.ParentModel.SelectedGamepad,
-                (controllerInputViewModel.ParentModel.Config as StandardControllerInputConfig).TriggerThreshold,
+        private IButtonAssigner CreateButtonAssigner(bool forStick) =>
+            new GamepadButtonAssigner(
+                ViewModel.ParentModel.SelectedGamepad,
+                (ViewModel.ParentModel.Config as StandardControllerInputConfig).TriggerThreshold,
                 forStick);
-
-            return assigner;
-        }
 
         protected override void OnDetachedFromVisualTree(VisualTreeAttachmentEventArgs e)
         {

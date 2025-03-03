@@ -1,16 +1,15 @@
 using Avalonia.Controls;
 using FluentAvalonia.UI.Controls;
 using Ryujinx.Ava.Common.Locale;
+using Ryujinx.Ava.UI.Controls;
 using Ryujinx.Ava.UI.Models.Input;
 using Ryujinx.Ava.UI.ViewModels.Input;
 using System.Threading.Tasks;
 
 namespace Ryujinx.Ava.UI.Views.Input
 {
-    public partial class RumbleInputView : UserControl
+    public partial class RumbleInputView : RyujinxControl<RumbleInputViewModel>
     {
-        private readonly RumbleInputViewModel _viewModel;
-
         public RumbleInputView()
         {
             InitializeComponent();
@@ -20,15 +19,13 @@ namespace Ryujinx.Ava.UI.Views.Input
         {
             GamepadInputConfig config = viewModel.Config;
 
-            _viewModel = new RumbleInputViewModel
+            ViewModel = new RumbleInputViewModel
             {
                 StrongRumble = config.StrongRumble,
                 WeakRumble = config.WeakRumble,
             };
 
             InitializeComponent();
-
-            DataContext = _viewModel;
         }
 
         public static async Task Show(ControllerInputViewModel viewModel)
@@ -44,11 +41,11 @@ namespace Ryujinx.Ava.UI.Views.Input
                 Content = content,
             };
 
-            contentDialog.PrimaryButtonClick += (sender, args) =>
+            contentDialog.PrimaryButtonClick += (_, _) =>
             {
                 GamepadInputConfig config = viewModel.Config;
-                config.StrongRumble = content._viewModel.StrongRumble;
-                config.WeakRumble = content._viewModel.WeakRumble;
+                config.StrongRumble = content.ViewModel.StrongRumble;
+                config.WeakRumble = content.ViewModel.WeakRumble;
             };
 
             await contentDialog.ShowAsync();

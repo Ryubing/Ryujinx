@@ -21,7 +21,7 @@ using Image = SkiaSharp.SKImage;
 
 namespace Ryujinx.Ava.UI.ViewModels
 {
-    internal partial class UserFirmwareAvatarSelectorViewModel : BaseModel
+    public partial class UserFirmwareAvatarSelectorViewModel : BaseModel
     {
         private static readonly Dictionary<string, byte[]> _avatarStore = new();
 

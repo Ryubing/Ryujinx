@@ -1,5 +1,5 @@
 <UserControl
-    x:Class="Ryujinx.Ava.UI.Controls.ApplicationGridView"
+    x:Class="Ryujinx.Ava.UI.Views.Misc.ApplicationGridView"
     xmlns="https://github.com/avaloniaui"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:controls="clr-namespace:Ryujinx.Ava.UI.Controls"
@@ -14,10 +14,7 @@
     mc:Ignorable="d"
     xmlns:viewModels="clr-namespace:Ryujinx.Ava.UI.ViewModels"
     x:DataType="viewModels:MainWindowViewModel">
-    <Grid>
-        <Grid.RowDefinitions>
-            <RowDefinition Height="*" />
-        </Grid.RowDefinitions>
+    <Grid RowDefinitions="*">
         <ListBox
             Grid.Row="0"
             Padding="8"
@@ -57,11 +54,7 @@
                             Classes.small="{Binding $parent[UserControl].((viewModels:MainWindowViewModel)DataContext).IsGridSmall}"
                             ClipToBounds="True"
                             CornerRadius="4">
-                            <Grid>
-                                <Grid.RowDefinitions>
-                                    <RowDefinition Height="Auto" />
-                                    <RowDefinition Height="Auto" />
-                                </Grid.RowDefinitions>
+                            <Grid RowDefinitions="Auto,Auto">
                                 <Image
                                     Grid.Row="0"
                                     HorizontalAlignment="Stretch"

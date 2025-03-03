@@ -70,11 +70,7 @@
                     <DataTemplate
                         DataType="models:ModModel">
                         <Panel Margin="10">
-                            <Grid>
-                                <Grid.ColumnDefinitions>
-                                    <ColumnDefinition Width="*" />
-                                    <ColumnDefinition Width="Auto" />
-                                </Grid.ColumnDefinitions>
+                            <Grid ColumnDefinitions="*,Auto">
                                 <TextBlock
                                     HorizontalAlignment="Left"
                                     VerticalAlignment="Center"

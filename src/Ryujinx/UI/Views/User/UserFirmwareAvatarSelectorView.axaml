@@ -20,13 +20,7 @@
     <Grid
         Margin="0"
         HorizontalAlignment="Stretch"
-        VerticalAlignment="Stretch">
-        <Grid.RowDefinitions>
-            <RowDefinition Height="Auto" />
-            <RowDefinition Height="*" />
-            <RowDefinition Height="Auto" />
-            <RowDefinition Height="Auto" />
-        </Grid.RowDefinitions>
+        VerticalAlignment="Stretch" RowDefinitions="Auto,*,Auto,Auto">
         <ListBox
             Grid.Row="1"
             BorderThickness="0"

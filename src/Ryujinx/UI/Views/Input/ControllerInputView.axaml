@@ -34,12 +34,7 @@
         <!-- Button / JoyStick Settings -->
         <Grid
             Name="SettingButtons"
-            MinHeight="450">
-            <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="Auto" />
-                <ColumnDefinition Width="*" />
-                <ColumnDefinition Width="Auto" />
-            </Grid.ColumnDefinitions>
+            MinHeight="450" ColumnDefinitions="Auto,*,Auto">
             <!-- Left Controls -->
             <StackPanel
                 Orientation="Vertical"
@@ -54,15 +49,7 @@
                     CornerRadius="5">
                     <Grid
                         Margin="10"
-                        HorizontalAlignment="Stretch">
-                        <Grid.ColumnDefinitions>
-                            <ColumnDefinition />
-                            <ColumnDefinition />
-                        </Grid.ColumnDefinitions>
-                        <Grid.RowDefinitions>
-                            <RowDefinition />
-                            <RowDefinition />
-                        </Grid.RowDefinitions>
+                        HorizontalAlignment="Stretch" ColumnDefinitions="*,*" RowDefinitions="*,*">
                         <StackPanel
                             Grid.Column="0"
                             Grid.Row="0"
@@ -316,17 +303,99 @@
                 HorizontalAlignment="Stretch"
                 VerticalAlignment="Stretch">
                 <!-- Controller Picture -->
-                <Image
-                    Margin="0,10"
-                    MaxHeight="300"
-                    HorizontalAlignment="Stretch"
-                    VerticalAlignment="Stretch"
-                    Source="{Binding Image}" />
                 <Border
                     BorderBrush="{DynamicResource ThemeControlBorderColor}"
                     BorderThickness="1"
                     CornerRadius="5"
+                    Margin="0,0, 0, 5"
                     MinHeight="90">
+                    <StackPanel Orientation="Vertical">
+                        <Image
+                            Margin="5,10"
+                            MaxHeight="300"
+                            HorizontalAlignment="Stretch"
+                            VerticalAlignment="Stretch"
+                            Source="{Binding Image}" />
+                        <StackPanel
+                            Margin="10"
+                            Orientation="Horizontal"
+                            Spacing="20"
+                            HorizontalAlignment="Center">
+                            <Border
+                                BorderBrush="Transparent"
+                                Height="{Binding Visualizer.UiStickBorderSize}"
+                                Width="{Binding Visualizer.UiStickBorderSize}"
+                                IsVisible="{Binding IsLeft}">
+                                <Canvas
+                                    Background="{DynamicResource ThemeBackgroundColor}"
+                                    Height="{Binding Visualizer.UiCanvasSize}"
+                                    Width="{Binding Visualizer.UiCanvasSize}">
+                                    <Grid
+                                        Height="{Binding Visualizer.UiCanvasSize}"
+                                        Width="{Binding Visualizer.UiCanvasSize}"
+                                        Background="{DynamicResource ThemeBackgroundColor}">
+                                        <Ellipse
+                                            HorizontalAlignment="Center"
+                                            Stroke="{DynamicResource ThemeControlBorderColor}"
+                                            StrokeThickness="1"
+                                            Width="{Binding Visualizer.UiCanvasSize}"
+                                            Height="{Binding Visualizer.UiCanvasSize}" />
+                                        <Ellipse
+                                            HorizontalAlignment="Center"
+                                            Fill="Black"
+                                            Opacity="100"
+                                            Height="{Binding Visualizer.UiDeadzoneLeft}"
+                                            Width="{Binding Visualizer.UiDeadzoneLeft}" />
+                                    </Grid>
+                                    <Ellipse
+                                        Fill="{DynamicResource Warning}"
+                                        Width="{Binding Visualizer.UiStickCircumference}"
+                                        Height="{Binding Visualizer.UiStickCircumference}"
+                                        Canvas.Bottom="{Binding Visualizer.UiStickLeftY}"
+                                        Canvas.Left="{Binding Visualizer.UiStickLeftX}" />
+                                </Canvas>
+                            </Border>
+                            <Border
+                                BorderBrush="Transparent"
+                                Height="{Binding Visualizer.UiStickBorderSize}"
+                                Width="{Binding Visualizer.UiStickBorderSize}"
+                                IsVisible="{Binding IsRight}">
+                                <Canvas
+                                    Background="{DynamicResource ThemeBackgroundColor}"
+                                    Height="{Binding Visualizer.UiCanvasSize}"
+                                    Width="{Binding Visualizer.UiCanvasSize}">
+                                    <Grid
+                                        Height="{Binding Visualizer.UiCanvasSize}"
+                                        Width="{Binding Visualizer.UiCanvasSize}"
+                                        Background="{DynamicResource ThemeBackgroundColor}">
+                                        <Ellipse
+                                            HorizontalAlignment="Center"
+                                            Stroke="{DynamicResource ThemeControlBorderColor}"
+                                            StrokeThickness="1"
+                                            Width="{Binding Visualizer.UiCanvasSize}"
+                                            Height="{Binding Visualizer.UiCanvasSize}" />
+                                        <Ellipse
+                                            HorizontalAlignment="Center"
+                                            Fill="Black"
+                                            Opacity="100"
+                                            Height="{Binding Visualizer.UiDeadzoneRight}"
+                                            Width="{Binding Visualizer.UiDeadzoneRight}" />
+                                    </Grid>
+                                    <Ellipse
+                                        Fill="{DynamicResource Warning}"
+                                        Width="{Binding Visualizer.UiStickCircumference}"
+                                        Height="{Binding Visualizer.UiStickCircumference}"
+                                        Canvas.Bottom="{Binding Visualizer.UiStickRightY}"
+                                        Canvas.Left="{Binding Visualizer.UiStickRightX}" />
+                                </Canvas>
+                            </Border>
+                        </StackPanel>
+                    </StackPanel>
+                </Border>
+                <Border
+                    BorderBrush="{DynamicResource ThemeControlBorderColor}"
+                    BorderThickness="1"
+                    CornerRadius="5">
                     <StackPanel
                         Margin="8"
                         Orientation="Vertical">
@@ -345,8 +414,8 @@
                                 Minimum="0"
                                 Value="{Binding Config.TriggerThreshold, Mode=TwoWay}" />
                             <TextBlock
-                              Width="25"
-                              Text="{Binding Config.TriggerThreshold, StringFormat=\{0:0.00\}}" />
+                                Width="25"
+                                Text="{Binding Config.TriggerThreshold, StringFormat=\{0:0.00\}}" />
                         </StackPanel>
                         <StackPanel
                             Orientation="Vertical"
@@ -428,7 +497,7 @@
                 </Border>
                 <!-- Motion, Rumble, LED -->
                 <StackPanel
-                    Margin="0,10,0,0"
+                    Margin="0,5,0,0"
                     Spacing="5"
                     Orientation="Vertical"
                     VerticalAlignment="Bottom">
@@ -438,11 +507,7 @@
                         CornerRadius="5"
                         VerticalAlignment="Bottom"
                         HorizontalAlignment="Stretch">
-                        <Grid>
-                            <Grid.ColumnDefinitions>
-                                <ColumnDefinition Width="*" />
-                                <ColumnDefinition Width="Auto" />
-                            </Grid.ColumnDefinitions>
+                        <Grid ColumnDefinitions="*,Auto">
                             <CheckBox
                                 Margin="10"
                                 MinWidth="0"
@@ -464,11 +529,7 @@
                         CornerRadius="5"
                         HorizontalAlignment="Stretch"
                         Margin="0,-1,0,0">
-                        <Grid>
-                            <Grid.ColumnDefinitions>
-                                <ColumnDefinition Width="*" />
-                                <ColumnDefinition Width="Auto" />
-                            </Grid.ColumnDefinitions>
+                        <Grid ColumnDefinitions="*,Auto">
                             <CheckBox
                                 Margin="10"
                                 MinWidth="0"
@@ -490,11 +551,7 @@
                         CornerRadius="5"
                         HorizontalAlignment="Stretch"
                         Margin="0,-1,0,0">
-                        <Grid IsVisible="{Binding ParentModel.HasLed}">
-                            <Grid.ColumnDefinitions>
-                                <ColumnDefinition Width="*" />
-                                <ColumnDefinition Width="Auto" />
-                            </Grid.ColumnDefinitions>
+                        <Grid IsVisible="{Binding ParentModel.HasLed}" ColumnDefinitions="*,Auto">
                             <CheckBox
                                 Margin="10, 10, 5, 10"
                                 MinWidth="0"
@@ -526,15 +583,7 @@
                     CornerRadius="5">
                     <Grid
                         Margin="10"
-                        HorizontalAlignment="Stretch">
-                        <Grid.ColumnDefinitions>
-                            <ColumnDefinition />
-                            <ColumnDefinition />
-                        </Grid.ColumnDefinitions>
-                        <Grid.RowDefinitions>
-                            <RowDefinition />
-                            <RowDefinition />
-                        </Grid.RowDefinitions>
+                        HorizontalAlignment="Stretch" ColumnDefinitions="*,*" RowDefinitions="*,*">
                         <StackPanel
                             Grid.Column="1"
                             Grid.Row="0"

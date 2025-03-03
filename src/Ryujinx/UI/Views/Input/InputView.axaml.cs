@@ -1,19 +1,19 @@
 using Avalonia.Controls;
 using Ryujinx.Ava.Common.Locale;
+using Ryujinx.Ava.UI.Controls;
 using Ryujinx.Ava.UI.Helpers;
 using Ryujinx.Ava.UI.Models;
 using Ryujinx.Ava.UI.ViewModels.Input;
 
 namespace Ryujinx.Ava.UI.Views.Input
 {
-    public partial class InputView : UserControl
+    public partial class InputView : RyujinxControl<InputViewModel>
     {
         private bool _dialogOpen;
-        private InputViewModel ViewModel { get; set; }
 
         public InputView()
         {
-            DataContext = ViewModel = new InputViewModel(this);
+            ViewModel = new InputViewModel(this);
 
             InitializeComponent();
         }

@@ -10,11 +10,7 @@
     x:Class="Ryujinx.Ava.UI.Views.Input.RumbleInputView"
     x:DataType="viewModels:RumbleInputViewModel"
     Focusable="True">
-    <Grid Margin="10">
-        <Grid.RowDefinitions>
-            <RowDefinition Height="Auto" />
-            <RowDefinition />
-        </Grid.RowDefinitions>
+    <Grid Margin="10" RowDefinitions="Auto,*">
         <StackPanel Orientation="Vertical">
             <StackPanel Orientation="Horizontal">
                 <TextBlock

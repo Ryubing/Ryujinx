@@ -6,7 +6,29 @@ namespace Ryujinx.Ava.UI.ViewModels.Input
 {
     public partial class KeyboardInputViewModel : BaseModel
     {
-        [ObservableProperty] private KeyboardInputConfig _config;
+        private KeyboardInputConfig _config;
+        public KeyboardInputConfig Config
+        {
+            get => _config;
+            set
+            {
+                _config = value;
+
+                OnPropertyChanged();
+            }
+        }
+
+        private StickVisualizer _visualizer;
+        public StickVisualizer Visualizer
+        {
+            get => _visualizer;
+            set
+            {
+                _visualizer = value;
+
+                OnPropertyChanged();
+            }
+        }
 
         private bool _isLeft;
         public bool IsLeft
@@ -38,9 +60,10 @@ namespace Ryujinx.Ava.UI.ViewModels.Input
 
         public readonly InputViewModel ParentModel;
 
-        public KeyboardInputViewModel(InputViewModel model, KeyboardInputConfig config)
+        public KeyboardInputViewModel(InputViewModel model, KeyboardInputConfig config, StickVisualizer visualizer)
         {
             ParentModel = model;
+            Visualizer = visualizer;
             model.NotifyChangesEvent += OnParentModelChanged;
             OnParentModelChanged();
             Config = config;
