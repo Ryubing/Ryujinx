@@ -19,7 +19,7 @@ namespace Ryujinx.HLE.HOS.Services.Ldn.UserServiceCreator.LdnMitm
 
         private readonly LanDiscovery _lanDiscovery;
 
-        public LdnMitmClient(HLEConfiguration config)
+        public LdnMitmClient(HleConfiguration config)
         {
             UnicastIPAddressInformation localIpInterface = NetworkHelpers.GetLocalInterface(config.MultiplayerLanInterfaceId).Item2;
 

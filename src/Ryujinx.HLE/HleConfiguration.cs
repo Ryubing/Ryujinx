@@ -15,55 +15,55 @@ namespace Ryujinx.HLE
     /// <summary>
     /// HLE configuration.
     /// </summary>
-    public class HLEConfiguration
+    public class HleConfiguration
     {
         /// <summary>
         /// The virtual file system used by the FS service.
         /// </summary>
         /// <remarks>This cannot be changed after <see cref="Switch"/> instantiation.</remarks>
-        internal readonly VirtualFileSystem VirtualFileSystem;
+        internal VirtualFileSystem VirtualFileSystem { get; private set; }
 
         /// <summary>
         /// The manager for handling a LibHac Horizon instance.
         /// </summary>
         /// <remarks>This cannot be changed after <see cref="Switch"/> instantiation.</remarks>
-        internal readonly LibHacHorizonManager LibHacHorizonManager;
+        internal LibHacHorizonManager LibHacHorizonManager { get; private set; }
 
         /// <summary>
         /// The account manager used by the account service.
         /// </summary>
         /// <remarks>This cannot be changed after <see cref="Switch"/> instantiation.</remarks>
-        internal readonly AccountManager AccountManager;
+        internal AccountManager AccountManager { get; private set; }
 
         /// <summary>
         /// The content manager used by the NCM service.
         /// </summary>
         /// <remarks>This cannot be changed after <see cref="Switch"/> instantiation.</remarks>
-        internal readonly ContentManager ContentManager;
+        internal ContentManager ContentManager { get; private set; }
 
         /// <summary>
         /// The persistent information between run for multi-application capabilities.
         /// </summary>
         /// <remarks>This cannot be changed after <see cref="Switch"/> instantiation.</remarks>
-        public readonly UserChannelPersistence UserChannelPersistence;
+        public UserChannelPersistence UserChannelPersistence { get; private set; }
 
         /// <summary>
         /// The GPU renderer to use for all GPU operations.
         /// </summary>
         /// <remarks>This cannot be changed after <see cref="Switch"/> instantiation.</remarks>
-        internal readonly IRenderer GpuRenderer;
+        internal IRenderer GpuRenderer { get; private set; }
 
         /// <summary>
         /// The audio device driver to use for all audio operations.
         /// </summary>
         /// <remarks>This cannot be changed after <see cref="Switch"/> instantiation.</remarks>
-        internal readonly IHardwareDeviceDriver AudioDeviceDriver;
+        internal IHardwareDeviceDriver AudioDeviceDriver { get; private set; }
 
         /// <summary>
         /// The handler for various UI related operations needed outside of HLE.
         /// </summary>
         /// <remarks>This cannot be changed after <see cref="Switch"/> instantiation.</remarks>
-        internal readonly IHostUIHandler HostUIHandler;
+        internal IHostUIHandler HostUIHandler { get; private set; }
 
         /// <summary>
         /// Control the memory configuration used by the emulation context.
@@ -195,15 +195,7 @@ namespace Ryujinx.HLE
         /// <remarks>This cannot be changed after <see cref="Switch"/> instantiation.</remarks>
         public EnabledDirtyHack[] Hacks { internal get; set; }
 
-        public HLEConfiguration(VirtualFileSystem virtualFileSystem,
-                                LibHacHorizonManager libHacHorizonManager,
-                                ContentManager contentManager,
-                                AccountManager accountManager,
-                                UserChannelPersistence userChannelPersistence,
-                                IRenderer gpuRenderer,
-                                IHardwareDeviceDriver audioDeviceDriver,
-                                MemoryConfiguration memoryConfiguration,
-                                IHostUIHandler hostUIHandler,
+        public HleConfiguration(MemoryConfiguration memoryConfiguration,
                                 SystemLanguage systemLanguage,
                                 RegionCode region,
                                 VSyncMode vSyncMode,
@@ -227,15 +219,7 @@ namespace Ryujinx.HLE
                                 int customVSyncInterval,
                                 EnabledDirtyHack[] dirtyHacks = null)
         {
-            VirtualFileSystem = virtualFileSystem;
-            LibHacHorizonManager = libHacHorizonManager;
-            AccountManager = accountManager;
-            ContentManager = contentManager;
-            UserChannelPersistence = userChannelPersistence;
-            GpuRenderer = gpuRenderer;
-            AudioDeviceDriver = audioDeviceDriver;
             MemoryConfiguration = memoryConfiguration;
-            HostUIHandler = hostUIHandler;
             SystemLanguage = systemLanguage;
             Region = region;
             VSyncMode = vSyncMode;
@@ -258,6 +242,31 @@ namespace Ryujinx.HLE
             MultiplayerLdnPassphrase = multiplayerLdnPassphrase;
             MultiplayerLdnServer = multiplayerLdnServer;
             Hacks = dirtyHacks ?? [];
+        }
+
+        /// <summary>
+        /// Set the pre-configured services to use for this <see cref="HleConfiguration"/> instance.
+        /// </summary>
+        public HleConfiguration Configure(
+            VirtualFileSystem virtualFileSystem,
+            LibHacHorizonManager libHacHorizonManager,
+            ContentManager contentManager,
+            AccountManager accountManager,
+            UserChannelPersistence userChannelPersistence,
+            IRenderer gpuRenderer,
+            IHardwareDeviceDriver audioDeviceDriver,
+            IHostUIHandler hostUIHandler
+        )
+        {
+            VirtualFileSystem = virtualFileSystem;
+            LibHacHorizonManager = libHacHorizonManager;
+            AccountManager = accountManager;
+            ContentManager = contentManager;
+            UserChannelPersistence = userChannelPersistence;
+            GpuRenderer = gpuRenderer;
+            AudioDeviceDriver = audioDeviceDriver;
+            HostUIHandler = hostUIHandler;
+            return this;
         }
     }
 }

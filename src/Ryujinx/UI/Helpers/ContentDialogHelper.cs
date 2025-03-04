@@ -4,6 +4,7 @@ using Avalonia.Controls.ApplicationLifetimes;
 using Avalonia.Input;
 using Avalonia.Layout;
 using Avalonia.Media;
+using Avalonia.Styling;
 using Avalonia.Threading;
 using FluentAvalonia.Core;
 using FluentAvalonia.UI.Controls;
@@ -20,6 +21,23 @@ namespace Ryujinx.Ava.UI.Helpers
     {
         private static bool _isChoiceDialogOpen;
         private static ContentDialogOverlayWindow _contentDialogOverlayWindow;
+
+        public static ContentDialog ApplyStyles(
+            this ContentDialog contentDialog, 
+            double closeButtonWidth = 80, 
+            HorizontalAlignment buttonSpaceAlignment = HorizontalAlignment.Right)
+        {
+            Style closeButton = new(x => x.Name("CloseButton"));
+            closeButton.Setters.Add(new Setter(Layoutable.WidthProperty, closeButtonWidth));
+            
+            Style closeButtonParent = new(x => x.Name("CommandSpace"));
+            closeButtonParent.Setters.Add(new Setter(Layoutable.HorizontalAlignmentProperty, buttonSpaceAlignment));
+
+            contentDialog.Styles.Add(closeButton);
+            contentDialog.Styles.Add(closeButtonParent);
+
+            return contentDialog;
+        }
 
         private async static Task<UserResult> ShowContentDialog(
              string title,

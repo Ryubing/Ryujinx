@@ -5,6 +5,7 @@ using Avalonia.Layout;
 using Avalonia.Styling;
 using FluentAvalonia.UI.Controls;
 using Ryujinx.Ava.Common.Locale;
+using Ryujinx.Ava.UI.Controls;
 using Ryujinx.Ava.UI.Helpers;
 using Ryujinx.Ava.UI.ViewModels;
 using Ryujinx.Common;
@@ -14,7 +15,7 @@ using Button = Avalonia.Controls.Button;
 
 namespace Ryujinx.Ava.UI.Windows
 {
-    public partial class AboutWindow : UserControl
+    public partial class AboutWindow : RyujinxControl<AboutWindowViewModel>
     {
         public AboutWindow()
         {
@@ -33,19 +34,10 @@ namespace Ryujinx.Ava.UI.Windows
                 PrimaryButtonText = string.Empty,
                 SecondaryButtonText = string.Empty,
                 CloseButtonText = LocaleManager.Instance[LocaleKeys.UserProfilesClose],
-                Content = new AboutWindow { DataContext = viewModel }
+                Content = new AboutWindow { ViewModel = viewModel }
             };
 
-            Style closeButton = new(x => x.Name("CloseButton"));
-            closeButton.Setters.Add(new Setter(WidthProperty, 80d));
-
-            Style closeButtonParent = new(x => x.Name("CommandSpace"));
-            closeButtonParent.Setters.Add(new Setter(HorizontalAlignmentProperty, HorizontalAlignment.Right));
-
-            contentDialog.Styles.Add(closeButton);
-            contentDialog.Styles.Add(closeButtonParent);
-
-            await ContentDialogHelper.ShowAsync(contentDialog);
+            await ContentDialogHelper.ShowAsync(contentDialog.ApplyStyles());
         }
 
         private void Button_OnClick(object sender, RoutedEventArgs e)
