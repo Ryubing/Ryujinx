@@ -64,6 +64,7 @@ namespace Ryujinx.Ava.UI.Windows
         public LibHacHorizonManager LibHacHorizonManager { get; private set; }
 
         public InputManager InputManager { get; private set; }
+        public AutoAssignController AutoAssignController { get; private set; }
 
         public SettingsWindow SettingsWindow { get; set; }
 
@@ -110,6 +111,7 @@ namespace Ryujinx.Ava.UI.Windows
             if (Program.PreviewerDetached)
             {
                 InputManager = new InputManager(new AvaloniaKeyboardDriver(this), new SDL2GamepadDriver());
+                AutoAssignController = new AutoAssignController(InputManager, ViewModel);
 
                 _ = this.GetObservable(IsActiveProperty).Subscribe(it => ViewModel.IsActive = it);
                 this.ScalingChanged += OnScalingChanged;

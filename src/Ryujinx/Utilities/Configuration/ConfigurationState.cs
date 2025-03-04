@@ -133,6 +133,7 @@ namespace Ryujinx.Ava.Utilities.Configuration
                 ShowConsole = UI.ShowConsole,
                 EnableKeyboard = Hid.EnableKeyboard,
                 EnableMouse = Hid.EnableMouse,
+                EnableAutoAssign = Hid.EnableAutoAssign,
                 DisableInputWhenOutOfFocus = Hid.DisableInputWhenOutOfFocus,
                 Hotkeys = Hid.Hotkeys,
                 InputConfig = Hid.InputConfig,
@@ -249,6 +250,7 @@ namespace Ryujinx.Ava.Utilities.Configuration
             UI.WindowStartup.WindowMaximized.Value = false;
             Hid.EnableKeyboard.Value = false;
             Hid.EnableMouse.Value = false;
+            Hid.EnableAutoAssign.Value = false;
             Hid.DisableInputWhenOutOfFocus.Value = false;
             Hid.Hotkeys.Value = new KeyboardHotkeys
             {

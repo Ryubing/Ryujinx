@@ -451,6 +451,11 @@ namespace Ryujinx.Ava.Utilities.Configuration
             public ReactiveObject<bool> EnableMouse { get; private set; }
             
             /// <summary>
+            /// Enable or disable auto-assigning controllers to players
+            /// </summary>
+            public ReactiveObject<bool> EnableAutoAssign { get; private set; }
+            
+            /// <summary>
             /// Enable/disable the ability to control Ryujinx when it's not the currently focused window.
             /// </summary>
             public ReactiveObject<bool> DisableInputWhenOutOfFocus { get; private set; }
@@ -476,6 +481,7 @@ namespace Ryujinx.Ava.Utilities.Configuration
             {
                 EnableKeyboard = new ReactiveObject<bool>();
                 EnableMouse = new ReactiveObject<bool>();
+                EnableAutoAssign = new ReactiveObject<bool>();
                 DisableInputWhenOutOfFocus = new ReactiveObject<bool>();
                 Hotkeys = new ReactiveObject<KeyboardHotkeys>();
                 InputConfig = new ReactiveObject<List<InputConfig>>();

@@ -14,6 +14,7 @@ using ControllerType = Ryujinx.Common.Configuration.Hid.ControllerType;
 using PlayerIndex = Ryujinx.HLE.HOS.Services.Hid.PlayerIndex;
 using Switch = Ryujinx.HLE.Switch;
 
+
 namespace Ryujinx.Input.HLE
 {
     public class NpadManager : IDisposable
@@ -37,6 +38,8 @@ namespace Ryujinx.Input.HLE
         private bool _enableKeyboard;
         private bool _enableMouse;
         private Switch _device;
+
+        public bool AutoAssignEnabled { get; set; } = false;
 
         public NpadManager(IGamepadDriver keyboardDriver, IGamepadDriver gamepadDriver, IGamepadDriver mouseDriver)
         {
@@ -84,12 +87,14 @@ namespace Ryujinx.Input.HLE
                     }
                 }
 
+                if (AutoAssignEnabled) return;
                 ReloadConfiguration(_inputConfig, _enableKeyboard, _enableMouse);
             }
         }
 
         private void HandleOnGamepadConnected(string id)
         {
+            if (AutoAssignEnabled) return;
             // Force input reload
             ReloadConfiguration(_inputConfig, _enableKeyboard, _enableMouse);
         }
@@ -171,7 +176,7 @@ namespace Ryujinx.Input.HLE
                 _device.Hid.RefreshInputConfig(validInputs);
             }
         }
-
+        
         public void UnblockInputUpdates()
         {
             lock (_lock)
@@ -202,10 +207,12 @@ namespace Ryujinx.Input.HLE
             }
         }
 
-        public void Initialize(Switch device, List<InputConfig> inputConfig, bool enableKeyboard, bool enableMouse)
+        public void Initialize(Switch device, List<InputConfig> inputConfig, bool enableKeyboard, bool enableMouse, bool enableAutoAssign)
         {
             _device = device;
             _device.Configuration.RefreshInputConfig = RefreshInputConfigForHLE;
+
+            AutoAssignEnabled = enableAutoAssign;
 
             ReloadConfiguration(inputConfig, enableKeyboard, enableMouse);
         }

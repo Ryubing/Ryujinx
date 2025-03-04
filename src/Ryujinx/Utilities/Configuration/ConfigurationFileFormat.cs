@@ -390,6 +390,11 @@ namespace Ryujinx.Ava.Utilities.Configuration
         public bool EnableMouse { get; set; }
         
         /// <summary>
+        /// Enable or disable automatic controller assignment for players
+        /// </summary>
+        public bool EnableAutoAssign { get; set; }
+
+        /// <summary>
         /// Enable/disable the ability to control Ryujinx when it's not the currently focused window.
         /// </summary>
         public bool DisableInputWhenOutOfFocus { get; set; }
