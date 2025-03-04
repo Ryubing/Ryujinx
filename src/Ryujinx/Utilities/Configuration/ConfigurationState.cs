@@ -327,5 +327,5 @@ namespace Ryujinx.Ava.Utilities.Configuration
 
             return GraphicsBackend.OpenGl;
         }
-            }
-        }
+    }
+}

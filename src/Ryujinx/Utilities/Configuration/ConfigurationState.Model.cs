@@ -1,6 +1,6 @@
 using ARMeilleure;
 using Gommon;
-using Ryujinx.Ava.Utilities.AppLibrary;
+using LibHac.Tools.FsSystem;
 using Ryujinx.Ava.Utilities.Configuration.System;
 using Ryujinx.Ava.Utilities.Configuration.UI;
 using Ryujinx.Common;
@@ -11,6 +11,7 @@ using Ryujinx.Common.Helper;
 using Ryujinx.Common.Logging;
 using Ryujinx.Common.Utilities;
 using Ryujinx.HLE;
+using Ryujinx.HLE.HOS.SystemState;
 using System.Collections.Generic;
 using System.Linq;
 using RyuLogger = Ryujinx.Common.Logging.Logger;
@@ -19,7 +20,7 @@ namespace Ryujinx.Ava.Utilities.Configuration
 {
     public partial class ConfigurationState
     {
-                /// <summary>
+        /// <summary>
         /// UI configuration section
         /// </summary>
         public class UISection
@@ -838,5 +839,35 @@ namespace Ryujinx.Ava.Utilities.Configuration
             EnableHardwareAcceleration = new ReactiveObject<bool>();
             HideCursor = new ReactiveObject<HideCursorMode>();
         }
+
+        public HleConfiguration CreateHleConfiguration() =>
+            new(
+                System.DramSize,
+                (SystemLanguage)System.Language.Value,
+                (RegionCode)System.Region.Value,
+                Graphics.VSyncMode,
+                System.EnableDockedMode,
+                System.EnablePtc,
+                System.EnableInternetAccess,
+                System.EnableFsIntegrityChecks 
+                    ? IntegrityCheckLevel.ErrorOnInvalid 
+                    : IntegrityCheckLevel.None,
+                System.FsGlobalAccessLogMode,
+                System.MatchSystemTime
+                    ? 0
+                    : System.SystemTimeOffset,
+                System.TimeZone,
+                System.MemoryManagerMode,
+                System.IgnoreMissingServices,
+                Graphics.AspectRatio,
+                System.AudioVolume,
+                System.UseHypervisor,
+                Multiplayer.LanInterfaceId,
+                Multiplayer.Mode,
+                Multiplayer.DisableP2p,
+                Multiplayer.LdnPassphrase,
+                Instance.Multiplayer.GetLdnServer(),
+                Instance.Graphics.CustomVSyncInterval,
+                Instance.Hacks.ShowDirtyHacks ? Instance.Hacks.EnabledHacks : null);
     }
 }

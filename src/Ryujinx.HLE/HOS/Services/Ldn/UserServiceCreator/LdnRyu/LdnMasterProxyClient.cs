@@ -51,13 +51,13 @@ namespace Ryujinx.HLE.HOS.Services.Ldn.UserServiceCreator.LdnRyu
         private string _passphrase;
         private byte[] _gameVersion = new byte[0x10];
 
-        private readonly HLEConfiguration _config;
+        private readonly HleConfiguration _config;
 
         public event EventHandler<NetworkChangeEventArgs> NetworkChange;
 
         public ProxyConfig Config { get; private set; }
 
-        public LdnMasterProxyClient(string address, int port, HLEConfiguration config) : base(address, port)
+        public LdnMasterProxyClient(string address, int port, HleConfiguration config) : base(address, port)
         {
             if (ProxyHelpers.SupportsNoDelay())
             {

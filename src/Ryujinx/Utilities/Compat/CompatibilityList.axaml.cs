@@ -25,16 +25,7 @@ namespace Ryujinx.Ava.Utilities.Compat
                 }
             };
 
-            Style closeButton = new(x => x.Name("CloseButton"));
-            closeButton.Setters.Add(new Setter(WidthProperty, 80d));
-            
-            Style closeButtonParent = new(x => x.Name("CommandSpace"));
-            closeButtonParent.Setters.Add(new Setter(HorizontalAlignmentProperty, Avalonia.Layout.HorizontalAlignment.Right));
-
-            contentDialog.Styles.Add(closeButton);
-            contentDialog.Styles.Add(closeButtonParent);
-
-            await ContentDialogHelper.ShowAsync(contentDialog);
+            await ContentDialogHelper.ShowAsync(contentDialog.ApplyStyles());
         }
         
         public CompatibilityList()
