@@ -17,4 +17,9 @@
         <sty:FluentAvaloniaTheme PreferUserAccentColor="True" PreferSystemTheme="False" />
         <StyleInclude Source="/Assets/Styles/Styles.xaml" />
     </Application.Styles>
+    <NativeMenu.Menu>
+        <NativeMenu>
+            <NativeMenuItem Header="About Ryujinx" Click="AboutRyujinx_OnClick" />
+        </NativeMenu>
+    </NativeMenu.Menu>
 </Application>
