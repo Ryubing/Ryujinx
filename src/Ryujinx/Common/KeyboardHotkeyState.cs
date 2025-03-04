@@ -14,5 +14,6 @@ namespace Ryujinx.Ava.Common
         VolumeDown,
         CustomVSyncIntervalIncrement,
         CustomVSyncIntervalDecrement,
+        TurboMode,
     }
 }

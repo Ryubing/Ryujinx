@@ -4,9 +4,9 @@ using Avalonia.Controls.ApplicationLifetimes;
 using Avalonia.Input;
 using Avalonia.Threading;
 using DiscordRPC;
+using Gommon;
 using LibHac.Common;
 using LibHac.Ns;
-using LibHac.Tools.FsSystem;
 using Ryujinx.Audio.Backends.Dummy;
 using Ryujinx.Audio.Backends.OpenAL;
 using Ryujinx.Audio.Backends.SDL2;
@@ -35,11 +35,9 @@ using Ryujinx.Graphics.GAL.Multithreading;
 using Ryujinx.Graphics.Gpu;
 using Ryujinx.Graphics.OpenGL;
 using Ryujinx.Graphics.Vulkan;
-using Ryujinx.HLE;
 using Ryujinx.HLE.FileSystem;
 using Ryujinx.HLE.HOS;
 using Ryujinx.HLE.HOS.Services.Account.Acc;
-using Ryujinx.HLE.HOS.SystemState;
 using Ryujinx.Input;
 using Ryujinx.Input.HLE;
 using SkiaSharp;
@@ -1118,9 +1116,21 @@ namespace Ryujinx.Ava
                 LocaleManager.Instance[LocaleKeys.VolumeShort] + $": {(int)(Device.GetVolume() * 100)}%",
                 dockedMode,
                 ConfigurationState.Instance.Graphics.AspectRatio.Value.ToText(),
-                Device.Statistics.FormatGameFrameRate(),
+                FormatGameFrameRate(),
                 Device.Statistics.FormatFifoPercent(),
                 _displayCount));
+        }
+
+        private string FormatGameFrameRate()
+        {
+            string frameRate = Device.Statistics.GetGameFrameRate().ToString("00.00");
+            string frameTime = Device.Statistics.GetGameFrameTime().ToString("00.00");
+
+            return Device.TurboMode
+                ? LocaleManager.GetUnformatted(LocaleKeys.FpsTurboStatusBarText)
+                    .Format(frameRate, frameTime, Device.TickScalar)
+                : LocaleManager.GetUnformatted(LocaleKeys.FpsStatusBarText)
+                    .Format(frameRate, frameTime);
         }
 
         public async Task ShowExitPrompt()
@@ -1218,6 +1228,12 @@ namespace Ryujinx.Ava
 
                 if (currentHotkeyState != _prevHotkeyState)
                 {
+                    if (ConfigurationState.Instance.Hid.Hotkeys.Value.TurboModeWhileHeld &&
+                        _keyboardInterface.IsPressed((Key)ConfigurationState.Instance.Hid.Hotkeys.Value.TurboMode) != Device.TurboMode)
+                    {
+                        Device.ToggleTurbo();
+                    }
+                    
                     switch (currentHotkeyState)
                     {
                         case KeyboardHotkeyState.ToggleVSyncMode:
@@ -1228,6 +1244,12 @@ namespace Ryujinx.Ava
                             break;
                         case KeyboardHotkeyState.CustomVSyncIntervalIncrement:
                             _viewModel.CustomVSyncInterval = Device.IncrementCustomVSyncInterval();
+                            break;
+                        case KeyboardHotkeyState.TurboMode:
+                            if (!ConfigurationState.Instance.Hid.Hotkeys.Value.TurboModeWhileHeld)
+                            {
+                                Device.ToggleTurbo();
+                            }
                             break;
                         case KeyboardHotkeyState.Screenshot:
                             ScreenshotRequested = true;
@@ -1357,6 +1379,10 @@ namespace Ryujinx.Ava
             else if (_keyboardInterface.IsPressed((Key)ConfigurationState.Instance.Hid.Hotkeys.Value.CustomVSyncIntervalDecrement))
             {
                 state = KeyboardHotkeyState.CustomVSyncIntervalDecrement;
+            }
+            else if (_keyboardInterface.IsPressed((Key)ConfigurationState.Instance.Hid.Hotkeys.Value.TurboMode))
+            {
+                state = KeyboardHotkeyState.TurboMode;
             }
 
             return state;

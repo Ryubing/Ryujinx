@@ -60,6 +60,7 @@ namespace Ryujinx.Ava.UI.ViewModels
         private bool _enableCustomVSyncInterval;
         private int _customVSyncIntervalPercentageProxy;
         private VSyncMode _vSyncMode;
+        private long _turboModeMultiplier;
 
         public event Action CloseWindow;
         public event Action SaveSettingsEvent;
@@ -207,6 +208,25 @@ namespace Ryujinx.Ava.UI.ViewModels
         }
         public bool EnablePptc { get; set; }
         public bool EnableLowPowerPptc { get; set; }
+        
+        
+        public long TurboMultiplier
+        {
+            get => _turboModeMultiplier;
+            set
+            {
+                if (_turboModeMultiplier != value)
+                {
+                    _turboModeMultiplier = value;
+                    
+                    OnPropertyChanged();
+                    OnPropertyChanged((nameof(TurboMultiplierPercentageText)));
+                }
+            }
+        }
+        
+        public string TurboMultiplierPercentageText => $"{TurboMultiplier}%";
+
         public bool EnableInternetAccess { get; set; }
         public bool EnableFsIntegrityChecks { get; set; }
         public bool IgnoreMissingServices { get; set; }
@@ -594,6 +614,7 @@ namespace Ryujinx.Ava.UI.ViewModels
             EnableLowPowerPptc = config.System.EnableLowPowerPtc;
             MemoryMode = (int)config.System.MemoryManagerMode.Value;
             UseHypervisor = config.System.UseHypervisor;
+            TurboMultiplier = config.System.TickScalar;
 
             // Graphics
             GraphicsBackendIndex = (int)config.Graphics.GraphicsBackend.Value;
@@ -697,6 +718,7 @@ namespace Ryujinx.Ava.UI.ViewModels
             config.System.EnableLowPowerPtc.Value = EnableLowPowerPptc;
             config.System.MemoryManagerMode.Value = (MemoryManagerMode)MemoryMode;
             config.System.UseHypervisor.Value = UseHypervisor;
+            config.System.TickScalar.Value = TurboMultiplier;
 
             // Graphics
             config.Graphics.VSyncMode.Value = VSyncMode;

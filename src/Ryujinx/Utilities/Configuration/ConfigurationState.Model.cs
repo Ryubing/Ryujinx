@@ -336,6 +336,11 @@ namespace Ryujinx.Ava.Utilities.Configuration
             /// Enables or disables persistent profiled translation cache
             /// </summary>
             public ReactiveObject<bool> EnablePtc { get; private set; }
+            
+            /// <summary>
+            /// Clock tick scalar, in percent points (100 = 1.0).
+            /// </summary>
+            public ReactiveObject<long> TickScalar { get; set; }
 
             /// <summary>
             /// Enables or disables low-power persistent profiled translation cache loading
@@ -412,6 +417,15 @@ namespace Ryujinx.Ava.Utilities.Configuration
                 EnableLowPowerPtc.LogChangesToValue(nameof(EnableLowPowerPtc));
                 EnableLowPowerPtc.Event += (_, evnt) 
                     => Optimizations.LowPower = evnt.NewValue;
+                TickScalar = new ReactiveObject<long>();
+                TickScalar.LogChangesToValue(nameof(TickScalar));
+                TickScalar.Event += (_, evnt) =>
+                {
+                    if (Switch.Shared is null)
+                        return;
+
+                    Switch.Shared.Configuration.TickScalar = evnt.NewValue;
+                };
                 EnableInternetAccess = new ReactiveObject<bool>();
                 EnableInternetAccess.LogChangesToValue(nameof(EnableInternetAccess));
                 EnableFsIntegrityChecks = new ReactiveObject<bool>();
@@ -848,6 +862,7 @@ namespace Ryujinx.Ava.Utilities.Configuration
                 Graphics.VSyncMode,
                 System.EnableDockedMode,
                 System.EnablePtc,
+                System.TickScalar,
                 System.EnableInternetAccess,
                 System.EnableFsIntegrityChecks 
                     ? IntegrityCheckLevel.ErrorOnInvalid 
@@ -866,8 +881,8 @@ namespace Ryujinx.Ava.Utilities.Configuration
                 Multiplayer.Mode,
                 Multiplayer.DisableP2p,
                 Multiplayer.LdnPassphrase,
-                Instance.Multiplayer.GetLdnServer(),
-                Instance.Graphics.CustomVSyncInterval,
-                Instance.Hacks.ShowDirtyHacks ? Instance.Hacks.EnabledHacks : null);
+                Multiplayer.GetLdnServer(),
+                Graphics.CustomVSyncInterval,
+                Hacks.ShowDirtyHacks ? Hacks.EnabledHacks : null);
     }
 }

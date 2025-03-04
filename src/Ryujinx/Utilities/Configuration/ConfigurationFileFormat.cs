@@ -15,7 +15,7 @@ namespace Ryujinx.Ava.Utilities.Configuration
         /// <summary>
         /// The current version of the file format
         /// </summary>
-        public const int CurrentVersion = 67;
+        public const int CurrentVersion = 68;
 
         /// <summary>
         /// Version of the configuration file format
@@ -258,6 +258,11 @@ namespace Ryujinx.Ava.Utilities.Configuration
         /// Enables or disables low-power profiled translation cache persistency loading
         /// </summary>
         public bool EnableLowPowerPtc { get; set; }
+        
+        /// <summary>
+        /// Clock tick scalar, in percent points (100 = 1.0).
+        /// </summary>
+        public long TickScalar { get; set; }
 
         /// <summary>
         /// Enables or disables guest Internet access

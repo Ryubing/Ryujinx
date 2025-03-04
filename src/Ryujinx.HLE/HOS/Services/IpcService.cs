@@ -127,10 +127,7 @@ namespace Ryujinx.HLE.HOS.Services
                 }
                 else
                 {
-                    string serviceName;
-
-
-                    serviceName = (service is not DummyService dummyService) ? service.GetType().FullName : dummyService.ServiceName;
+                    string serviceName = (service is not DummyService dummyService) ? service.GetType().FullName : dummyService.ServiceName;
 
                     Logger.Warning?.Print(LogClass.KernelIpc, $"Missing service {serviceName}: {commandId} ignored");
                 }

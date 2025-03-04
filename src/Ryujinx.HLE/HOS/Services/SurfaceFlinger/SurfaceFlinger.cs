@@ -2,6 +2,7 @@ using Ryujinx.Common;
 using Ryujinx.Common.Configuration;
 using Ryujinx.Common.Logging;
 using Ryujinx.Common.PreciseSleep;
+using Ryujinx.Cpu;
 using Ryujinx.Graphics.GAL;
 using Ryujinx.Graphics.Gpu;
 using Ryujinx.HLE.HOS.Services.Nv.NvDrvServices.NvMap;
@@ -89,7 +90,7 @@ namespace Ryujinx.HLE.HOS.Services.SurfaceFlinger
             }
             else
             {
-                _ticksPerFrame = Stopwatch.Frequency / _device.TargetVSyncInterval;
+                _ticksPerFrame = ((Stopwatch.Frequency / _device.TargetVSyncInterval) * 100) / _device.TickScalar;
                 _targetVSyncInterval = _device.TargetVSyncInterval;
             }
         }
