@@ -147,5 +147,10 @@ namespace Ryujinx.Ava
             Current is RyujinxApp { PlatformSettings: not null } app
                 ? ConvertThemeVariant(app.PlatformSettings.GetColorValues().ThemeVariant)
                 : ThemeVariant.Default;
+
+        private async void AboutRyujinx_OnClick(object sender, EventArgs e)
+        {
+            await AboutWindow.Show();
+        }
     }
 }
