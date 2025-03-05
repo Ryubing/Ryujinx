@@ -303,27 +303,6 @@ namespace Ryujinx.Graphics.Vulkan
             _depthStencil?.Storage?.AddStoreOpUsage(true);
         }
 
-        public void ClearBindings()
-        {
-            _depthStencil?.Storage.ClearBindings();
-
-            for (int i = 0; i < _colorsCanonical.Length; i++)
-            {
-                _colorsCanonical[i]?.Storage.ClearBindings();
-            }
-        }
-
-        public void AddBindings()
-        {
-            _depthStencil?.Storage.AddBinding(_depthStencil);
-
-            for (int i = 0; i < _colorsCanonical.Length; i++)
-            {
-                TextureView color = _colorsCanonical[i];
-                color?.Storage.AddBinding(color);
-            }
-        }
-
         public (RenderPassHolder rpHolder, Auto<DisposableFramebuffer> framebuffer) GetPassAndFramebuffer(
             VulkanRenderer gd,
             Device device,
