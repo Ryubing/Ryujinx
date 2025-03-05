@@ -22,7 +22,7 @@ namespace Ryujinx.Ava.UI.Windows
             await appWindow.ShowDialog(owner ?? RyujinxApp.MainWindow);
         }
         
-        protected StyleableAppWindow(bool useCustomTitleBar = false)
+        protected StyleableAppWindow(bool useCustomTitleBar = false, double? titleBarHeight = null)
         {
             WindowStartupLocation = WindowStartupLocation.CenterOwner;
             TransparencyLevelHint = [WindowTransparencyLevel.None];
@@ -34,6 +34,9 @@ namespace Ryujinx.Ava.UI.Windows
             {
                 TitleBar.ExtendsContentIntoTitleBar = !ConfigurationState.Instance.ShowTitleBar;
                 TitleBar.TitleBarHitTestType = ConfigurationState.Instance.ShowTitleBar ? TitleBarHitTestType.Simple : TitleBarHitTestType.Complex;
+                
+                if (TitleBar.ExtendsContentIntoTitleBar && titleBarHeight != null)
+                    TitleBar.Height = titleBarHeight.Value;
             }
 
             Icon = MainWindowViewModel.IconBitmap;

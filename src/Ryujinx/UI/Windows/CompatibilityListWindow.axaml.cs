@@ -21,11 +21,9 @@ namespace Ryujinx.Ava.UI.Windows
                 SearchBoxNormal = { Text = titleId ?? string.Empty }
             });
 
-        public CompatibilityListWindow() : base(useCustomTitleBar: true)
+        public CompatibilityListWindow() : base(useCustomTitleBar: true, 37)
         {
             Title = RyujinxApp.FormatTitle(LocaleKeys.CompatibilityListTitle);
-            
-            TitleBar.Height = 37;
             
             InitializeComponent();
 

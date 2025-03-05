@@ -4,6 +4,7 @@ using Ryujinx.Ava.Common.Locale;
 using Ryujinx.Ava.UI.Models;
 using Ryujinx.Ava.Systems.AppLibrary;
 using Ryujinx.Ava.Systems.Configuration;
+using Ryujinx.Ava.UI.ViewModels;
 using Ryujinx.HLE.FileSystem;
 using Ryujinx.HLE.HOS;
 using System.Collections.Generic;
@@ -32,7 +33,7 @@ namespace Ryujinx.Ava.UI.Windows
             Title = RyujinxApp.FormatTitle(LocaleKeys.CheatWindowTitle);
         }
 
-        public CheatWindow(VirtualFileSystem virtualFileSystem, string titleId, string titleName, string titlePath)
+        public CheatWindow(VirtualFileSystem virtualFileSystem, string titleId, string titleName, string titlePath) : base(useCustomTitleBar: true, 46)
         {
             MinWidth = 500;
             MinHeight = 650;
@@ -43,6 +44,10 @@ namespace Ryujinx.Ava.UI.Windows
             BuildId = ApplicationData.GetBuildId(virtualFileSystem, ConfigurationState.Instance.System.IntegrityCheckLevel, titlePath);
 
             InitializeComponent();
+
+            FlushHeader.IsVisible = !ConfigurationState.Instance.ShowTitleBar;
+            NormalHeader.IsVisible = ConfigurationState.Instance.ShowTitleBar;
+            RyuLogo.Source = MainWindowViewModel.IconBitmap;
 
             string modsBasePath = ModLoader.GetModsBasePath();
             string titleModsPath = ModLoader.GetApplicationDir(modsBasePath, titleId);
