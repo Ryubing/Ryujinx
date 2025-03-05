@@ -1,7 +1,7 @@
 using Avalonia;
 using Avalonia.Controls;
 using Avalonia.Platform;
-using Ryujinx.Ava.Utilities.Configuration;
+using Ryujinx.Ava.Systems.Configuration;
 using Ryujinx.Common.Configuration;
 using Ryujinx.Common.Helper;
 using SPB.Graphics;

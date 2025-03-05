@@ -4,7 +4,7 @@ using Avalonia.Interactivity;
 using Ryujinx.Ava.UI.Controls;
 using Ryujinx.Ava.UI.Helpers;
 using Ryujinx.Ava.UI.ViewModels;
-using Ryujinx.Ava.Utilities.AppLibrary;
+using Ryujinx.Ava.Systems.AppLibrary;
 using System;
 
 namespace Ryujinx.Ava.UI.Views.Misc

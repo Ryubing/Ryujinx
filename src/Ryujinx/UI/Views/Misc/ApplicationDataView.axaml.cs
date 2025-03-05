@@ -2,15 +2,13 @@
 using Avalonia.Input.Platform;
 using Avalonia.Interactivity;
 using Avalonia.Layout;
-using Avalonia.Styling;
 using FluentAvalonia.UI.Controls;
 using Ryujinx.Ava.Common.Locale;
 using Ryujinx.Ava.UI.Controls;
 using Ryujinx.Ava.UI.Helpers;
 using Ryujinx.Ava.UI.ViewModels;
 using Ryujinx.Ava.UI.Windows;
-using Ryujinx.Ava.Utilities.AppLibrary;
-using Ryujinx.Ava.Utilities.Compat;
+using Ryujinx.Ava.Systems.AppLibrary;
 using System.Linq;
 using System.Threading.Tasks;
 
@@ -46,21 +44,18 @@ namespace Ryujinx.Ava.UI.Views.Misc
             if (RyujinxApp.AppLifetime.Windows.TryGetFirst(x => x is ContentDialogOverlayWindow, out Window window))
                 window.Close(ContentDialogResult.None);
             
-            await CompatibilityList.Show((string)playabilityLabel.Tag);
+            await CompatibilityListWindow.Show((string)playabilityLabel.Tag);
         }
 
         private async void IdString_OnClick(object sender, RoutedEventArgs e)
         {
-            if (DataContext is not MainWindowViewModel mwvm)
-                return;
-            
             if (sender is not Button { Content: TextBlock idText })
                 return;
 
             if (!RyujinxApp.IsClipboardAvailable(out IClipboard clipboard))
                 return;
             
-            ApplicationData appData = mwvm.Applications.FirstOrDefault(it => it.IdString == idText.Text);
+            ApplicationData appData = RyujinxApp.MainWindow.ViewModel.Applications.FirstOrDefault(it => it.IdString == idText.Text);
             if (appData is null)
                 return;
             

@@ -7,7 +7,7 @@ using FluentAvalonia.UI.Controls;
 using Ryujinx.Ava.Common.Locale;
 using Ryujinx.Ava.Common.Models;
 using Ryujinx.Ava.UI.Helpers;
-using Ryujinx.Ava.Utilities.AppLibrary;
+using Ryujinx.Ava.Systems.AppLibrary;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.IO;

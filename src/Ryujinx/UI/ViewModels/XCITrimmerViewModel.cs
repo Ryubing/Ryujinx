@@ -6,7 +6,7 @@ using Ryujinx.Ava.Common;
 using Ryujinx.Ava.Common.Locale;
 using Ryujinx.Ava.Common.Models;
 using Ryujinx.Ava.UI.Helpers;
-using Ryujinx.Ava.Utilities.AppLibrary;
+using Ryujinx.Ava.Systems.AppLibrary;
 using Ryujinx.Common.Utilities;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;

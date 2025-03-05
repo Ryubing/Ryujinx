@@ -11,9 +11,9 @@ using Ryujinx.Ava.UI.Helpers;
 using Ryujinx.Ava.UI.ViewModels;
 using Ryujinx.Ava.UI.Windows;
 using Ryujinx.Ava.Utilities;
-using Ryujinx.Ava.Utilities.AppLibrary;
-using Ryujinx.Ava.Utilities.Compat;
-using Ryujinx.Ava.Utilities.Configuration;
+using Ryujinx.Ava.Systems.AppLibrary;
+using Ryujinx.Ava.Systems.Configuration;
+using Ryujinx.Ava.UI.Views.Misc;
 using Ryujinx.Common;
 using Ryujinx.Common.Helper;
 using Ryujinx.Common.Utilities;
@@ -51,7 +51,7 @@ namespace Ryujinx.Ava.UI.Views.Main
             UninstallFileTypesMenuItem.Command = Commands.Create(UninstallFileTypes);
             XciTrimmerMenuItem.Command = Commands.Create(XCITrimmerWindow.Show);
             AboutWindowMenuItem.Command = Commands.Create(AboutWindow.Show);
-            CompatibilityListMenuItem.Command = Commands.Create(() => CompatibilityList.Show());
+            CompatibilityListMenuItem.Command = Commands.Create(() => CompatibilityListWindow.Show());
 
             UpdateMenuItem.Command = MainWindowViewModel.UpdateCommand;
 

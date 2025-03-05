@@ -1,7 +1,7 @@
 using CommandLine;
 using Gommon;
 using Ryujinx.Ava;
-using Ryujinx.Ava.Utilities.Configuration;
+using Ryujinx.Ava.Systems.Configuration;
 using Ryujinx.Common;
 using Ryujinx.Common.Configuration;
 using Ryujinx.Common.Configuration.Hid;

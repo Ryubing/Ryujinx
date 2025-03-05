@@ -6,6 +6,7 @@ using Avalonia.Media;
 using Avalonia.Platform;
 using FluentAvalonia.UI.Windowing;
 using Ryujinx.Ava.Common.Locale;
+using Ryujinx.Ava.Systems.Configuration;
 using Ryujinx.Ava.UI.ViewModels;
 using System.Threading.Tasks;
 
@@ -21,13 +22,19 @@ namespace Ryujinx.Ava.UI.Windows
             await appWindow.ShowDialog(owner ?? RyujinxApp.MainWindow);
         }
         
-        protected StyleableAppWindow()
+        protected StyleableAppWindow(bool useCustomTitleBar = false)
         {
             WindowStartupLocation = WindowStartupLocation.CenterOwner;
             TransparencyLevelHint = [WindowTransparencyLevel.None];
 
             LocaleManager.Instance.LocaleChanged += LocaleChanged;
             LocaleChanged();
+
+            if (useCustomTitleBar)
+            {
+                TitleBar.ExtendsContentIntoTitleBar = !ConfigurationState.Instance.ShowTitleBar;
+                TitleBar.TitleBarHitTestType = ConfigurationState.Instance.ShowTitleBar ? TitleBarHitTestType.Simple : TitleBarHitTestType.Complex;
+            }
 
             Icon = MainWindowViewModel.IconBitmap;
         }

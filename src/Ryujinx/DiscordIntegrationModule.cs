@@ -1,9 +1,9 @@
 using DiscordRPC;
 using Gommon;
 using Ryujinx.Ava.Utilities;
-using Ryujinx.Ava.Utilities.AppLibrary;
-using Ryujinx.Ava.Utilities.Configuration;
-using Ryujinx.Ava.Utilities.PlayReport;
+using Ryujinx.Ava.Systems.AppLibrary;
+using Ryujinx.Ava.Systems.Configuration;
+using Ryujinx.Ava.Systems.PlayReport;
 using Ryujinx.Common;
 using Ryujinx.Common.Logging;
 using Ryujinx.HLE;

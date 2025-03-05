@@ -6,7 +6,7 @@ using Ryujinx.Ava.Common.Locale;
 using Ryujinx.Ava.UI.Helpers;
 using Ryujinx.Ava.UI.Models;
 using Ryujinx.Ava.UI.ViewModels;
-using Ryujinx.Ava.Utilities.AppLibrary;
+using Ryujinx.Ava.Systems.AppLibrary;
 using Ryujinx.Common.Helper;
 using System.Threading.Tasks;
 using Button = Avalonia.Controls.Button;

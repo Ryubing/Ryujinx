@@ -23923,6 +23923,31 @@
       }
     },
     {
+      "ID": "CompatibilityListTitle",
+      "Translations": {
+        "ar_SA": "",
+        "de_DE": "",
+        "el_GR": "",
+        "en_US": "Compatibility List - {0} entries",
+        "es_ES": "",
+        "fr_FR": "",
+        "he_IL": "",
+        "it_IT": "",
+        "ja_JP": "",
+        "ko_KR": "",
+        "no_NO": "",
+        "pl_PL": "",
+        "pt_BR": "",
+        "ru_RU": "",
+        "sv_SE": "",
+        "th_TH": "",
+        "tr_TR": "",
+        "uk_UA": "",
+        "zh_CN": "",
+        "zh_TW": ""
+      }
+    },
+    {
       "ID": "CompatibilityListWarning",
       "Translations": {
         "ar_SA": "",
@@ -23970,6 +23995,31 @@
         "uk_UA": "Перевірити сумісність гри...",
         "zh_CN": "正在搜索兼容性条目...",
         "zh_TW": "搜尋相容性列表紀錄..."
+      }
+    },
+    {
+      "ID": "CompatibilityListSearchBoxWatermarkWithCount",
+      "Translations": {
+        "ar_SA": "",
+        "de_DE": "",
+        "el_GR": "",
+        "en_US": "Search {0} compatibility entries...",
+        "es_ES": "",
+        "fr_FR": "",
+        "he_IL": "",
+        "it_IT": "",
+        "ja_JP": "",
+        "ko_KR": "",
+        "no_NO": "Søk i {0} kompatibilitetsoppføringer...",
+        "pl_PL": "",
+        "pt_BR": "",
+        "ru_RU": "",
+        "sv_SE": "",
+        "th_TH": "",
+        "tr_TR": "",
+        "uk_UA": "",
+        "zh_CN": "",
+        "zh_TW": ""
       }
     },
     {

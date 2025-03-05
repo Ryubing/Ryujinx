@@ -12,8 +12,7 @@ using Ryujinx.Ava.UI.ViewModels;
 using Ryujinx.Ava.UI.Views.Misc;
 using Ryujinx.Ava.UI.Windows;
 using Ryujinx.Ava.Utilities;
-using Ryujinx.Ava.Utilities.AppLibrary;
-using Ryujinx.Ava.Utilities.Compat;
+using Ryujinx.Ava.Systems.AppLibrary;
 using Ryujinx.Common.Configuration;
 using Ryujinx.Common.Helper;
 using Ryujinx.HLE.HOS;
@@ -408,7 +407,7 @@ namespace Ryujinx.Ava.UI.Controls
         public async void OpenApplicationCompatibility_Click(object sender, RoutedEventArgs args)
         {
             if (sender is MenuItem { DataContext: MainWindowViewModel { SelectedApplication: not null } viewModel })
-                await CompatibilityList.Show(viewModel.SelectedApplication.IdString);
+                await CompatibilityListWindow.Show(viewModel.SelectedApplication.IdString);
         }
                
         public async void OpenApplicationData_Click(object sender, RoutedEventArgs args)

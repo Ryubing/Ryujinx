@@ -5,8 +5,8 @@ using Avalonia.Interactivity;
 using Ryujinx.Ava.UI.Controls;
 using Ryujinx.Ava.UI.Helpers;
 using Ryujinx.Ava.UI.ViewModels;
-using Ryujinx.Ava.Utilities.AppLibrary;
-using Ryujinx.Ava.Utilities.Compat;
+using Ryujinx.Ava.Systems.AppLibrary;
+using Ryujinx.Ava.UI.Windows;
 using System;
 using System.Linq;
 
@@ -36,7 +36,7 @@ namespace Ryujinx.Ava.UI.Views.Misc
             if (sender is not Button { Content: TextBlock playabilityLabel })
                 return;
 
-            await CompatibilityList.Show((string)playabilityLabel.Tag);
+            await CompatibilityListWindow.Show((string)playabilityLabel.Tag);
         }
 
         private async void IdString_OnClick(object sender, RoutedEventArgs e)
