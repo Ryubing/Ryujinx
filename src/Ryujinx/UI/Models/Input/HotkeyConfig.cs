@@ -1,6 +1,11 @@
 using CommunityToolkit.Mvvm.ComponentModel;
+using DynamicData;
+using Ryujinx.Ava.UI.Helpers;
 using Ryujinx.Ava.UI.ViewModels;
 using Ryujinx.Common.Configuration.Hid;
+using System.Collections.ObjectModel;
+using System.Linq;
+using System.Windows.Input;
 
 namespace Ryujinx.Ava.UI.Models.Input
 {
@@ -28,8 +33,15 @@ namespace Ryujinx.Ava.UI.Models.Input
 
         [ObservableProperty] private Key _customVSyncIntervalDecrement;
 
+        public ObservableCollection<CycleController> CycleControllers { get; set; } = new ObservableCollection<CycleController>();
+        public ICommand AddCycleController { get; set; }
+        public ICommand RemoveCycleController { get; set; }
+        public bool CanRemoveCycleController => CycleControllers.Count > 0 && CycleControllers.Count < 8;
+
         public HotkeyConfig(KeyboardHotkeys config)
         {
+            AddCycleController = MiniCommand.Create(() => CycleControllers.Add(new CycleController(CycleControllers.Count + 1, Key.Unbound)));
+            RemoveCycleController = MiniCommand.Create(() => CycleControllers.Remove(CycleControllers.Last()));
             if (config == null)
                 return;
 
@@ -44,6 +56,7 @@ namespace Ryujinx.Ava.UI.Models.Input
             VolumeDown = config.VolumeDown;
             CustomVSyncIntervalIncrement = config.CustomVSyncIntervalIncrement;
             CustomVSyncIntervalDecrement = config.CustomVSyncIntervalDecrement;
+            CycleControllers.AddRange((config.CycleControllers ?? []).Select((x, i) => new CycleController(i + 1, x)));
         }
 
         public KeyboardHotkeys GetConfig() =>
@@ -60,6 +73,7 @@ namespace Ryujinx.Ava.UI.Models.Input
                 VolumeDown = VolumeDown,
                 CustomVSyncIntervalIncrement = CustomVSyncIntervalIncrement,
                 CustomVSyncIntervalDecrement = CustomVSyncIntervalDecrement,
+                CycleControllers = CycleControllers.Select(x => x.Hotkey).ToList()
             };
     }
 }
