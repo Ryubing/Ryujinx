@@ -88,7 +88,7 @@ namespace Ryujinx.Ava.UI.ViewModels.Input
         public bool IsKeyboard => !IsController;
         public bool IsRight { get; set; }
         public bool IsLeft { get; set; }
-        public int DeviceIndexBeforeChange { get; set; }
+        public string RevertDeviceId { get; set; }
         public bool HasLed => SelectedGamepad.Features.HasFlag(GamepadFeaturesFlag.Led);
         public bool CanClearLed => SelectedGamepad.Name.ContainsIgnoreCase("DualSense");
 
@@ -116,7 +116,6 @@ namespace Ryujinx.Ava.UI.ViewModels.Input
             {
                 // When you select a profile, the settings from the profile will be applied.
                 // To save the settings, you still need to click the apply button
-
                 _profileChoose = value;
                 LoadProfile();
                 OnPropertyChanged();
@@ -167,7 +166,7 @@ namespace Ryujinx.Ava.UI.ViewModels.Input
                 LoadDevice();
                 LoadProfiles();
 
-                DeviceIndexBeforeChange = Device;
+                RevertDeviceId = Devices[Device].Id;
                 _isLoaded = true;
                 _isChangeTrackingActive = true;
                 OnPropertyChanged();
@@ -179,6 +178,8 @@ namespace Ryujinx.Ava.UI.ViewModels.Input
             get => _controller;
             set
             {
+                MarkAsChanged();
+
                 _controller = value;
 
                 if (_controller == -1)
@@ -216,7 +217,6 @@ namespace Ryujinx.Ava.UI.ViewModels.Input
                     
                     LoadInputDriver();
                     LoadProfiles();
-                    SetChangeTrackingActive();
                 }
        
                 OnPropertyChanged();
@@ -258,10 +258,7 @@ namespace Ryujinx.Ava.UI.ViewModels.Input
             get => _device;
             set
             {
-                if (!IsModified)
-                {
-                    DeviceIndexBeforeChange = _device;
-                }
+                MarkAsChanged();
 
                 _device = value < 0 ? 0 : value;
 
@@ -282,8 +279,7 @@ namespace Ryujinx.Ava.UI.ViewModels.Input
                     }
                 }
 
-                FindPairedDevice();
-                SetChangeTrackingActive();
+                FindPairedDeviceInConfigFile();
                 OnPropertyChanged();
                 NotifyChanges();
             }
@@ -363,50 +359,35 @@ namespace Ryujinx.Ava.UI.ViewModels.Input
                 ConfigViewModel = new ControllerInputViewModel(this, new GamepadInputConfig(controllerInputConfig), VisualStick);
             }
 
-            FindPairedDevice();
+            FindPairedDeviceInConfigFile();
         }
 
-        private void FindPairedDevice()
+        private void FindPairedDeviceInConfigFile()
         {
-            // This feature allows you to display a notification
-            // if a configuration is found, but the gamepad is not connected.
-            if (Config != null)
-            {
-                (DeviceType Type, string Id, string Name) activeDevice = Devices.FirstOrDefault(d => d.Id == Config.Id);
-
-                if (activeDevice.Id != Config.Id)
-                {
-                    // display notification when input device is turned off, and
-                    // if device and configuration do not match (different controllers)
-                    NotificationView = true; 
-                }
-                else
-                {
-                    NotificationView = false;
-                }
-            }
-            else
-            {
-                NotificationView = false;
-            }
+            // This function allows you to output a message about the device configuration found in the file
+            // NOTE: if the configuration is found, we display the message "Waiting for controller connection",
+            // but only if the id gamepad belongs to the selected player
+            NotificationView = Config != null && Devices.FirstOrDefault(d => d.Id == Config.Id).Id != Config.Id && Config.PlayerIndex == PlayerId;
         }
 
-        private void SetChangeTrackingActive()
+
+        private void MarkAsChanged()
         {
-          
-            if (_isChangeTrackingActive)
+            //If tracking is active, then allow changing the modifier      
+            if (!IsModified && _isChangeTrackingActive)
             {
+                RevertDeviceId = Devices[Device].Id; // Remember the device to undo changes
                 IsModified = true;
             }
         }
 
 
-        public void DisableDeviceForSaving()
+        public void UnlinkDevice()
         {
             // "Disabled" mode is available after unbinding the device
             // NOTE: the IsModified flag to be able to apply the settings.
-            IsModified = true;
             NotificationView = false;
+            IsModified = true;
         }
 
 
@@ -477,34 +458,31 @@ namespace Ryujinx.Ava.UI.ViewModels.Input
 
         private async void HandleOnGamepadDisconnected(string id)
         {
-            _isChangeTrackingActive = false;
+            _isChangeTrackingActive = false; // Disable configuration change tracking
             await Dispatcher.UIThread.InvokeAsync(() =>
             {
                 LoadDevices();
 
                 IsModified = true;
-                LoadSavedConfiguration();
-                FindPairedDevice();
+                RevertChanges();
+                FindPairedDeviceInConfigFile();
 
-                _isChangeTrackingActive = true;
+                _isChangeTrackingActive = true; // Enable configuration change tracking
                 return System.Threading.Tasks.Task.CompletedTask;
             });
         }
 
         private async void HandleOnGamepadConnected(string id)
         {
-            _isChangeTrackingActive = false;
+            _isChangeTrackingActive = false; // Disable configuration change tracking
             await Dispatcher.UIThread.InvokeAsync(() =>
             {
                 LoadDevices();
 
-                if (Config != null)
-                {
-                    // Load configuration after connection if it is in the configuration file
-                    IsModified = true;
-                    LoadSavedConfiguration();                  
-                }
-                _isChangeTrackingActive = true;
+                IsModified = true;
+                RevertChanges();                  
+
+                _isChangeTrackingActive = true;// Enable configuration change tracking
             });
         }
 
@@ -809,9 +787,9 @@ namespace Ryujinx.Ava.UI.ViewModels.Input
         }
 
         public void LoadProfileButton()
-        {
-            IsModified = true;
+        { 
             LoadProfile();
+            IsModified = true;
         }
 
         public async void LoadProfile()
@@ -865,12 +843,11 @@ namespace Ryujinx.Ava.UI.ViewModels.Input
             {
                 _isLoaded = false;
 
-                config.Id = null; // ignore device IDs (there is no longer a need to store device IDs for presets due to their independence from devices)
+                config.Id = Config.Id; // Set current device id instead of changing device(independent profiles)
 
                 LoadConfiguration(config);
 
-                // This line of code hard-links profiles to controllers, the commented line allows profiles to be applied to all controllers
-                // LoadDevice();
+                //LoadDevice();  This line of code hard-links profiles to controllers, the commented line allows profiles to be applied to all controllers 
 
                 _isLoaded = true;
 
@@ -880,56 +857,58 @@ namespace Ryujinx.Ava.UI.ViewModels.Input
 
         public async void SaveProfile()
         {
-            if (Device == 0)
-            {
-                return;
-            }
+           
+           if (Device == 0)
+           {
+               return;
+           }
+           
+           if (ConfigViewModel == null)
+           {
+               return;
+           }
+         
+           if (ProfileName == LocaleManager.Instance[LocaleKeys.ControllerSettingsProfileDefault])
+           {
+               await ContentDialogHelper.CreateErrorDialog(LocaleManager.Instance[LocaleKeys.DialogProfileDefaultProfileOverwriteErrorMessage]);
 
-            if (ConfigViewModel == null)
-            {
-                return;
-            }
+               return;
+           }
+           else
+           {
+               bool validFileName = ProfileName.IndexOfAny(Path.GetInvalidFileNameChars()) == -1;
 
-            if (ProfileName == LocaleManager.Instance[LocaleKeys.ControllerSettingsProfileDefault])
-            {
-                await ContentDialogHelper.CreateErrorDialog(LocaleManager.Instance[LocaleKeys.DialogProfileDefaultProfileOverwriteErrorMessage]);
+               if (validFileName)
+               {
+                   string path = Path.Combine(GetProfileBasePath(), ProfileName + ".json");
 
-                return;
-            }
-            else
-            {
-                bool validFileName = ProfileName.IndexOfAny(Path.GetInvalidFileNameChars()) == -1;
+                   InputConfig config = null;
 
-                if (validFileName)
-                {
-                    string path = Path.Combine(GetProfileBasePath(), ProfileName + ".json");
+                   if (IsKeyboard)
+                   {
+                       config = (ConfigViewModel as KeyboardInputViewModel).Config.GetConfig();
+                   }
+                   else if (IsController)
+                   {
+                       config = (ConfigViewModel as ControllerInputViewModel).Config.GetConfig();
+                   }
 
-                    InputConfig config = null;
+                   config.ControllerType = Controllers[_controller].Type;
 
-                    if (IsKeyboard)
-                    {
-                        config = (ConfigViewModel as KeyboardInputViewModel).Config.GetConfig();
-                    }
-                    else if (IsController)
-                    {
-                        config = (ConfigViewModel as ControllerInputViewModel).Config.GetConfig();
-                    }
+                   string jsonString = JsonHelper.Serialize(config, _serializerContext.InputConfig);
 
-                    config.ControllerType = Controllers[_controller].Type;
+                   await File.WriteAllTextAsync(path, jsonString);
 
-                    string jsonString = JsonHelper.Serialize(config, _serializerContext.InputConfig);
+                   LoadProfiles();
 
-                    await File.WriteAllTextAsync(path, jsonString);
-
-                    LoadProfiles();
-
-                    ProfileChoose = ProfileName; // Show new profile
-                }
-                else
-                {
-                    await ContentDialogHelper.CreateErrorDialog(LocaleManager.Instance[LocaleKeys.DialogProfileInvalidProfileNameErrorMessage]);
-                }
-            }
+                   ProfileChoose = ProfileName; // Show new profile
+               }
+               else
+               {
+                   await ContentDialogHelper.CreateErrorDialog(LocaleManager.Instance[LocaleKeys.DialogProfileInvalidProfileNameErrorMessage]);
+               }
+           }
+           
         }
 
         public async void RemoveProfile()
@@ -961,22 +940,13 @@ namespace Ryujinx.Ava.UI.ViewModels.Input
             }
         }
 
-        public void LoadSavedConfiguration()
+        public void RevertChanges()
         {
-            // Restores settings and sets the previously selected device to the last saved state
-            // NOTE: The current order allows the configuration and device to be loaded correctly until the configuration is changed.
-
-            if (IsModified) // Fixes random gamepad appearance in "disabled" option
-            {
-                Device = DeviceIndexBeforeChange;
-
+                Device = Devices.ToList().FindIndex(d => d.Id == RevertDeviceId);
                 LoadDevice();
                 LoadConfiguration();
-
-                IsModified = false;
-
                 OnPropertyChanged();
-            }
+                IsModified = false;
         }
 
         public void Save()
@@ -988,7 +958,9 @@ namespace Ryujinx.Ava.UI.ViewModels.Input
             }
 
             IsModified = false;
-            DeviceIndexBeforeChange = Device;
+
+            RevertDeviceId = Devices[Device].Id; // Remember selected device after saving
+
             List <InputConfig> newConfig = [];
 
             newConfig.AddRange(ConfigurationState.Instance.Hid.InputConfig.Value);

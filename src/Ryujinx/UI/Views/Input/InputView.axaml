@@ -75,7 +75,7 @@
                             Margin="5,0,0,0"
                             VerticalAlignment="Center"
                             ToolTip.Tip="{ext:Locale ControllerSettingsCancelCurrentChangesToolTip}"
-                            Command="{Binding LoadSavedConfiguration}">
+                            Command="{Binding RevertChanges}">
                         <ui:SymbolIcon
                             Symbol="Undo"
                             FontSize="15"
@@ -206,15 +206,14 @@
                 <StackPanel>
                     <TextBlock 
                         Margin="5,20,0,0"
-                        Text="{ext:Locale ControllerSettingsDisableDeviceForSaving}" />
-        
+                        Text="{ext:Locale ControllerSettingsDisableDeviceForSaving}" />       
                     <Button
                         MinWidth="0"
                         Width="90"
                         Height="27"
                         Margin="5,10,0,0"
                         VerticalAlignment="Center"
-                        Command="{Binding DisableDeviceForSaving}">
+                        Command="{Binding UnlinkDevice}">
                         <TextBlock
                             Text="{ext:Locale ControllerSettingsUnlink}"
                             VerticalAlignment="Center"
