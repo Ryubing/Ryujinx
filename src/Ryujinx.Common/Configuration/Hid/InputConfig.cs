@@ -22,6 +22,11 @@ namespace Ryujinx.Common.Configuration.Hid
         public string Id { get; set; }
 
         /// <summary>
+        /// Controller name
+        /// </summary>
+        public string Name { get; set; }
+
+        /// <summary>
         ///  Controller's Type
         /// </summary>
         public ControllerType ControllerType { get; set; }

@@ -51,6 +51,8 @@ namespace Ryujinx.Ava.UI.ViewModels.Input
         private int _device;
         private object _configViewModel;
         [ObservableProperty] private string _profileName;
+        [ObservableProperty] private bool _notificationIsVisible; // Automatically call the NotificationView property with OnPropertyChanged()
+        [ObservableProperty] private string _notificationText; // Automatically call the NotificationText property with OnPropertyChanged()
         private bool _isLoaded;
 
         private static readonly InputConfigJsonSerializerContext _serializerContext = new(JsonHelper.GetDefaultSerializerOptions());
@@ -95,6 +97,7 @@ namespace Ryujinx.Ava.UI.ViewModels.Input
         public bool _isChangeTrackingActive;
 
         public bool _isModified;
+
         public bool IsModified
         {
             get => _isModified;
@@ -106,7 +109,6 @@ namespace Ryujinx.Ava.UI.ViewModels.Input
         }
 
         public event Action NotifyChangesEvent;
-
 
         public string _profileChoose;
         public string ProfileChoose
@@ -288,18 +290,6 @@ namespace Ryujinx.Ava.UI.ViewModels.Input
 
         public InputConfig Config { get; set; }
 
-        public bool _notificationView;
-
-        public bool NotificationView
-        {
-            get => _notificationView;
-            set
-            {
-                _notificationView = value;
-                OnPropertyChanged();
-            }
-        }
-
         public InputViewModel(UserControl owner) : this()
         {
             if (Program.PreviewerDetached)
@@ -367,7 +357,18 @@ namespace Ryujinx.Ava.UI.ViewModels.Input
             // This function allows you to output a message about the device configuration found in the file
             // NOTE: if the configuration is found, we display the message "Waiting for controller connection",
             // but only if the id gamepad belongs to the selected player
-            NotificationView = Config != null && Devices.FirstOrDefault(d => d.Id == Config.Id).Id != Config.Id && Config.PlayerIndex == PlayerId;
+            NotificationIsVisible = Config != null && Devices.FirstOrDefault(d => d.Id == Config.Id).Id != Config.Id && Config.PlayerIndex == PlayerId;
+            if (NotificationIsVisible)
+            {
+                if (string.IsNullOrEmpty(Config.Name))
+                {
+                    NotificationText = $"{LocaleManager.Instance[LocaleKeys.ControllerSettingsWaitingConnectDevice].Format("No information", Config.Id)}";
+                }
+                else
+                {
+                    NotificationText = $"{LocaleManager.Instance[LocaleKeys.ControllerSettingsWaitingConnectDevice].Format(Config.Name, Config.Id)}";
+                }
+            }
         }
 
 
@@ -386,7 +387,7 @@ namespace Ryujinx.Ava.UI.ViewModels.Input
         {
             // "Disabled" mode is available after unbinding the device
             // NOTE: the IsModified flag to be able to apply the settings.
-            NotificationView = false;
+            NotificationIsVisible = false;
             IsModified = true;
         }
 
@@ -656,12 +657,14 @@ namespace Ryujinx.Ava.UI.ViewModels.Input
             if (activeDevice.Type == DeviceType.Keyboard)
             {
                 string id = activeDevice.Id;
+                string name = activeDevice.Name;
 
                 config = new StandardKeyboardInputConfig
                 {
                     Version = InputConfig.CurrentVersion,
                     Backend = InputBackendType.WindowKeyboard,
                     Id = id,
+                    Name = name,
                     ControllerType = ControllerType.ProController,
                     LeftJoycon = new LeftJoyconCommonConfig<Key>
                     {
@@ -711,12 +714,14 @@ namespace Ryujinx.Ava.UI.ViewModels.Input
                 bool isNintendoStyle = Devices.ToList().FirstOrDefault(x => x.Id == activeDevice.Id).Name.Contains("Nintendo");
 
                 string id = activeDevice.Id.Split(" ")[0];
+                string name = activeDevice.Name;
 
                 config = new StandardControllerInputConfig
                 {
                     Version = InputConfig.CurrentVersion,
                     Backend = InputBackendType.GamepadSDL2,
                     Id = id,
+                    Name = name,
                     ControllerType = ControllerType.ProController,
                     DeadzoneLeft = 0.1f,
                     DeadzoneRight = 0.1f,
@@ -991,6 +996,7 @@ namespace Ryujinx.Ava.UI.ViewModels.Input
                     : (ConfigViewModel as ControllerInputViewModel).Config.GetConfig();
                 config.ControllerType = Controllers[_controller].Type;
                 config.PlayerIndex = _playerId;
+                config.Name = device.Name;
 
                 int i = newConfig.FindIndex(x => x.PlayerIndex == PlayerId);
                 if (i == -1)

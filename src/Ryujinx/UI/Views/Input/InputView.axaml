@@ -201,17 +201,18 @@
                 </Grid>
             </Grid>
         </StackPanel>
-        <ContentControl IsVisible="{Binding NotificationView}">
+        <ContentControl IsVisible="{Binding NotificationIsVisible}">
             <ContentControl.Content>
+
                 <StackPanel>
                     <TextBlock 
                         Margin="5,20,0,0"
-                        Text="{ext:Locale ControllerSettingsDisableDeviceForSaving}" />       
+                        Text="{Binding NotificationText}" />       
                     <Button
                         MinWidth="0"
                         Width="90"
                         Height="27"
-                        Margin="5,10,0,0"
+                        Margin="0,10,0,0"
                         VerticalAlignment="Center"
                         Command="{Binding UnlinkDevice}">
                         <TextBlock
