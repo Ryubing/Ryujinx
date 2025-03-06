@@ -40,7 +40,7 @@
                         <DataTemplate DataType="{x:Type systems:CompatibilityEntry}">
                             <Grid MinWidth="800"
                                   Margin="10"
-                                  ColumnDefinitions="*,Auto,Auto,*"
+                                  ColumnDefinitions="Auto,Auto,Auto,*"
                                   Background="Transparent"
                                   ToolTip.Tip="{Binding  LocalizedLastUpdated}">
                                 <TextBlock Grid.Column="0"

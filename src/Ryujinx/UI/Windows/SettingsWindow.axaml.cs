@@ -31,8 +31,8 @@ namespace Ryujinx.Ava.UI.Windows
                     : NavigationViewPaneDisplayMode.Top;
 
             Height = ConfigurationState.Instance.ShowOldUI
-                ? 927
-                : 993; // nav panel is put on top with custom title bar so account for new height
+                ? 906
+                : 954; // nav panel is put on top with custom title bar so account for new height
             
             Load();
         }

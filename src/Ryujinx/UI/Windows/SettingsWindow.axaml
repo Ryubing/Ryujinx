@@ -13,7 +13,7 @@
     xmlns:helper="clr-namespace:Ryujinx.Common.Helper;assembly=Ryujinx.Common"
     xmlns:controls="clr-namespace:Ryujinx.Ava.UI.Controls"
     Width="1100"
-    MinWidth="800"
+    MinWidth="844"
     MinHeight="480"
     Title="{ext:WindowTitle Settings}"
     WindowStartupLocation="CenterOwner"
