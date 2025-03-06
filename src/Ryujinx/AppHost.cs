@@ -39,6 +39,7 @@ using Ryujinx.HLE;
 using Ryujinx.HLE.FileSystem;
 using Ryujinx.HLE.HOS;
 using Ryujinx.HLE.HOS.Services.Account.Acc;
+using Ryujinx.HLE.HOS.Services.Hid;
 using Ryujinx.HLE.HOS.SystemState;
 using Ryujinx.Input;
 using Ryujinx.Input.HLE;
@@ -48,6 +49,7 @@ using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
+using System.Linq;
 using System.Runtime.InteropServices;
 using System.Threading;
 using System.Threading.Tasks;
@@ -1277,6 +1279,18 @@ namespace Ryujinx.Ava
 
                             _viewModel.Volume = Device.GetVolume();
                             break;
+                        case KeyboardHotkeyState.CycleControllersPlayer1:
+                        case KeyboardHotkeyState.CycleControllersPlayer2:
+                        case KeyboardHotkeyState.CycleControllersPlayer3:
+                        case KeyboardHotkeyState.CycleControllersPlayer4:
+                        case KeyboardHotkeyState.CycleControllersPlayer5:
+                        case KeyboardHotkeyState.CycleControllersPlayer6:
+                        case KeyboardHotkeyState.CycleControllersPlayer7:
+                        case KeyboardHotkeyState.CycleControllersPlayer8:
+                            var player = currentHotkeyState - KeyboardHotkeyState.CycleControllersPlayer1;
+                            var ivm = new UI.ViewModels.Input.InputViewModel();
+                            Dispatcher.UIThread.Invoke(() => ivm.CyclePlayerDevice(player));
+                            break;
                         case KeyboardHotkeyState.None:
                             (_keyboardInterface as AvaloniaKeyboard).Clear();
                             break;
@@ -1357,6 +1371,15 @@ namespace Ryujinx.Ava
             else if (_keyboardInterface.IsPressed((Key)ConfigurationState.Instance.Hid.Hotkeys.Value.CustomVSyncIntervalDecrement))
             {
                 state = KeyboardHotkeyState.CustomVSyncIntervalDecrement;
+            }
+
+            foreach (var cycle in ConfigurationState.Instance.Hid.Hotkeys.Value.CycleControllers?.Select((value, index) => (value, index)) ?? [])
+            {
+                if (_keyboardInterface.IsPressed((Key)cycle.value))
+                {
+                    state = KeyboardHotkeyState.CycleControllersPlayer1 + cycle.index;
+                    break;
+                }
             }
 
             return state;
