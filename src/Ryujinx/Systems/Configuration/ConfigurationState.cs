@@ -56,12 +56,11 @@ namespace Ryujinx.Ava.Systems.Configuration
                 MatchSystemTime = System.MatchSystemTime,
                 DockedMode = System.EnableDockedMode,
                 EnableDiscordIntegration = EnableDiscordIntegration,
-                CheckUpdatesOnStart = CheckUpdatesOnStart,
                 UpdateCheckerType = UpdateCheckerType,
                 FocusLostActionType = FocusLostActionType,
                 ShowConfirmExit = ShowConfirmExit,
                 RememberWindowState = RememberWindowState,
-                ShowTitleBar = ShowTitleBar,
+                ShowTitleBar = ShowOldUI,
                 EnableHardwareAcceleration = EnableHardwareAcceleration,
                 HideCursor = HideCursor,
                 VSyncMode = Graphics.VSyncMode,
@@ -183,7 +182,7 @@ namespace Ryujinx.Ava.Systems.Configuration
             FocusLostActionType.Value = FocusLostType.DoNothing;
             ShowConfirmExit.Value = true;
             RememberWindowState.Value = true;
-            ShowTitleBar.Value = !OperatingSystem.IsWindows();
+            ShowOldUI.Value = !OperatingSystem.IsWindows();
             EnableHardwareAcceleration.Value = true;
             HideCursor.Value = HideCursorMode.OnIdle;
             Graphics.VSyncMode.Value = VSyncMode.Switch;

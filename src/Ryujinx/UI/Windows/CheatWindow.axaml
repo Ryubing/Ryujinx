@@ -6,6 +6,7 @@
     xmlns:ext="clr-namespace:Ryujinx.Ava.Common.Markup"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:window="clr-namespace:Ryujinx.Ava.UI.Windows"
+    xmlns:controls="clr-namespace:Ryujinx.Ava.UI.Controls"
     Width="600"
     Height="750"
     MinWidth="500"
@@ -21,14 +22,14 @@
     </Window.Styles>
     <Grid Name="CheatGrid" Margin="15" RowDefinitions="Auto,Auto,Auto,*,Auto" ColumnDefinitions="*,*">
         <Grid Name="FlushHeader" Grid.Row="1" Column="0" ColumnSpan="2" RowDefinitions="Auto,Auto,Auto" ColumnDefinitions="Auto,*,Auto,*">
-            <Image 
+            <controls:RyujinxLogo
                 Grid.Row="0"
                 Grid.Column="0"
-                Name="RyuLogo"
                 HorizontalAlignment="Left"
                 Margin="-7, -22, 7, 0"
                 Height="28"
-                Width="28" />
+                Width="28"
+                ToolTip.Tip="{ext:WindowTitle CheatWindowTitle}"/>
             <StackPanel Grid.Row="0" Grid.Column="1" Grid.ColumnSpan="2"
                         Margin="7, -7, 0, 5"
                         Orientation="Horizontal"

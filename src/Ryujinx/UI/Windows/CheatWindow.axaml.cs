@@ -45,9 +45,8 @@ namespace Ryujinx.Ava.UI.Windows
 
             InitializeComponent();
 
-            FlushHeader.IsVisible = !ConfigurationState.Instance.ShowTitleBar;
-            NormalHeader.IsVisible = ConfigurationState.Instance.ShowTitleBar;
-            RyuLogo.Source = MainWindowViewModel.IconBitmap;
+            FlushHeader.IsVisible = !ConfigurationState.Instance.ShowOldUI;
+            NormalHeader.IsVisible = ConfigurationState.Instance.ShowOldUI;
 
             string modsBasePath = ModLoader.GetModsBasePath();
             string titleModsPath = ModLoader.GetApplicationDir(modsBasePath, titleId);

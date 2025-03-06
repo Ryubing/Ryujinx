@@ -6,18 +6,16 @@
     xmlns:ext="clr-namespace:Ryujinx.Ava.Common.Markup"
     mc:Ignorable="d"
     xmlns:viewModels="clr-namespace:Ryujinx.Ava.UI.ViewModels"
+    xmlns:controls="clr-namespace:Ryujinx.Ava.UI.Controls"
     x:DataType="viewModels:MainWindowViewModel"
     x:Class="Ryujinx.Ava.UI.Views.Main.MainMenuBarView">
     <Design.DataContext>
         <viewModels:MainWindowViewModel />
     </Design.DataContext>
     <DockPanel HorizontalAlignment="Stretch">
-        <Image
-            Name="RyuLogo"
-            Margin="7, 0"
-            Height="25"
-            Width="25"
-            ToolTip.Tip="{Binding Title}" />
+        <controls:RyujinxLogo 
+            Margin="7, 0" 
+            ToolTip.Tip="{Binding Title}"/>
         <Menu
             Name="Menu"
             Height="32"

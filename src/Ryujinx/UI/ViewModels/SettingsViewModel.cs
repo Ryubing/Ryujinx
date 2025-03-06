@@ -130,11 +130,10 @@ namespace Ryujinx.Ava.UI.ViewModels
         public bool IsOpenGLAvailable => !OperatingSystem.IsMacOS();
 
         public bool EnableDiscordIntegration { get; set; }
-        public bool CheckUpdatesOnStart { get; set; }
         public bool ShowConfirmExit { get; set; }
         public bool IgnoreApplet { get; set; }
         public bool RememberWindowState { get; set; }
-        public bool ShowTitleBar { get; set; }
+        public bool ShowOldUI { get; set; }
         public int HideCursor { get; set; }
         public int UpdateCheckerType { get; set; }
         public bool EnableDockedMode { get; set; }
@@ -537,10 +536,9 @@ namespace Ryujinx.Ava.UI.ViewModels
 
             // User Interface
             EnableDiscordIntegration = config.EnableDiscordIntegration;
-            CheckUpdatesOnStart = config.CheckUpdatesOnStart;
             ShowConfirmExit = config.ShowConfirmExit;
             RememberWindowState = config.RememberWindowState;
-            ShowTitleBar = config.ShowTitleBar;
+            ShowOldUI = config.ShowOldUI;
             HideCursor = (int)config.HideCursor.Value;
             UpdateCheckerType = (int)config.UpdateCheckerType.Value;
             FocusLostActionType = (int)config.FocusLostActionType.Value;
@@ -646,10 +644,9 @@ namespace Ryujinx.Ava.UI.ViewModels
 
             // User Interface
             config.EnableDiscordIntegration.Value = EnableDiscordIntegration;
-            config.CheckUpdatesOnStart.Value = CheckUpdatesOnStart;
             config.ShowConfirmExit.Value = ShowConfirmExit;
             config.RememberWindowState.Value = RememberWindowState;
-            config.ShowTitleBar.Value = ShowTitleBar;
+            config.ShowOldUI.Value = ShowOldUI;
             config.HideCursor.Value = (HideCursorMode)HideCursor;
             config.UpdateCheckerType.Value = (UpdaterType)UpdateCheckerType;
             config.FocusLostActionType.Value = (FocusLostType)FocusLostActionType;

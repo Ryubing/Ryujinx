@@ -97,7 +97,7 @@ namespace Ryujinx.Ava.UI.Windows
             TitleBar.Height = MenuBarHeight;
             
             // Correctly size window when 'TitleBar' is enabled (Nov. 14, 2024)
-            TitleBarHeight = (ConfigurationState.Instance.ShowTitleBar ? TitleBar.Height : 0);
+            TitleBarHeight = (ConfigurationState.Instance.ShowOldUI ? TitleBar.Height : 0);
 
             ApplicationList.DataContext = DataContext;
             ApplicationGrid.DataContext = DataContext;

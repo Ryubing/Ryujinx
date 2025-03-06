@@ -34,9 +34,6 @@ namespace Ryujinx.Ava.UI.Views.Main
         {
             InitializeComponent();
 
-            RyuLogo.IsVisible = !ConfigurationState.Instance.ShowTitleBar;
-            RyuLogo.Source = MainWindowViewModel.IconBitmap;
-
             ToggleFileTypesMenuItem.ItemsSource = GenerateToggleFileTypeItems();
             ChangeLanguageMenuItem.ItemsSource = GenerateLanguageMenuItems();
 
@@ -226,7 +223,7 @@ namespace Ryujinx.Ava.UI.Views.Main
 
             // Correctly size window when 'TitleBar' is enabled (Nov. 14, 2024)
             double barsHeight = ((Window.StatusBarHeight + Window.MenuBarHeight) +
-                (ConfigurationState.Instance.ShowTitleBar ? (int)Window.TitleBar.Height : 0));
+                (ConfigurationState.Instance.ShowOldUI ? (int)Window.TitleBar.Height : 0));
 
             double windowWidthScaled = (resolutionWidth * Program.WindowScaleFactor);
             double windowHeightScaled = ((resolutionHeight + barsHeight) * Program.WindowScaleFactor);
