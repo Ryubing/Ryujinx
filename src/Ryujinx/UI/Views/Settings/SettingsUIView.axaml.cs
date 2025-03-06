@@ -3,10 +3,10 @@ using Avalonia.Controls;
 using Avalonia.Interactivity;
 using Avalonia.Platform.Storage;
 using Gommon;
+using Ryujinx.Ava.UI.Controls;
 using Ryujinx.Ava.UI.Helpers;
 using Ryujinx.Ava.UI.ViewModels;
 using Ryujinx.Ava.Utilities;
-using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
@@ -14,20 +14,18 @@ using System.Threading.Tasks;
 
 namespace Ryujinx.Ava.UI.Views.Settings
 {
-    public partial class SettingsUiView : UserControl
+    public partial class SettingsUiView : RyujinxControl<SettingsViewModel>
     {
-        public SettingsViewModel ViewModel;
-
         public SettingsUiView()
         {
             InitializeComponent();
             AddGameDirButton.Command =
-                Commands.Create(() => AddDirButton(GameDirPathBox, ViewModel.GameDirectories, true));
+                Commands.Create(() => AddDirButton(GameDirPathBox, ViewModel.GameDirectories));
             AddAutoloadDirButton.Command =
-                Commands.Create(() => AddDirButton(AutoloadDirPathBox, ViewModel.AutoloadDirectories, false));
+                Commands.Create(() => AddDirButton(AutoloadDirPathBox, ViewModel.AutoloadDirectories));
         }
 
-        private async Task AddDirButton(TextBox addDirBox, AvaloniaList<string> directories, bool isGameList)
+        private async Task AddDirButton(TextBox addDirBox, AvaloniaList<string> directories)
         {
             string path = addDirBox.Text;
 

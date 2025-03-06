@@ -8,7 +8,6 @@ using FluentAvalonia.UI.Windowing;
 using Ryujinx.Ava.Common.Locale;
 using Ryujinx.Ava.Systems.Configuration;
 using Ryujinx.Ava.UI.Controls;
-using Ryujinx.Ava.UI.ViewModels;
 using System.Threading.Tasks;
 
 namespace Ryujinx.Ava.UI.Windows

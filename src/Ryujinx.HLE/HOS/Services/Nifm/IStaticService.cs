@@ -13,7 +13,7 @@ namespace Ryujinx.HLE.HOS.Services.Nifm
         // CreateGeneralServiceOld() -> object<nn::nifm::detail::IGeneralService>
         public ResultCode CreateGeneralServiceOld(ServiceCtx context)
         {
-            MakeObject(context, new IGeneralService());
+            MakeObject(context, new IGeneralService(context));
 
             return ResultCode.Success;
         }
@@ -22,7 +22,7 @@ namespace Ryujinx.HLE.HOS.Services.Nifm
         // CreateGeneralService(u64, pid) -> object<nn::nifm::detail::IGeneralService>
         public ResultCode CreateGeneralService(ServiceCtx context)
         {
-            MakeObject(context, new IGeneralService());
+            MakeObject(context, new IGeneralService(context));
 
             return ResultCode.Success;
         }

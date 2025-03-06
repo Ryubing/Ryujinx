@@ -36,7 +36,7 @@ namespace Ryujinx.Ava.Systems.AppLibrary
             {
                 _id = value;
 
-                Compatibility = CompatibilityCsv.Find(value);
+                Compatibility = CompatibilityDatabase.Find(value);
                 RichPresenceSpec = PlayReports.Analyzer.TryGetSpec(IdString, out GameSpec gameSpec) 
                     ? gameSpec 
                     : default(Optional<GameSpec>);

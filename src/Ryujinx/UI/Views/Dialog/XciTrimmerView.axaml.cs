@@ -4,27 +4,17 @@ using Avalonia.Styling;
 using FluentAvalonia.UI.Controls;
 using Ryujinx.Ava.Common.Locale;
 using Ryujinx.Ava.Common.Models;
+using Ryujinx.Ava.UI.Controls;
 using Ryujinx.Ava.UI.ViewModels;
 using System;
 using System.Threading.Tasks;
 
-namespace Ryujinx.Ava.UI.Windows
+namespace Ryujinx.Ava.UI.Views.Dialog
 {
-    public partial class XCITrimmerWindow : UserControl
+    public partial class XciTrimmerView : RyujinxControl<XciTrimmerViewModel>
     {
-        public XCITrimmerViewModel ViewModel;
-
-        public XCITrimmerWindow()
+        public XciTrimmerView()
         {
-            DataContext = this;
-
-            InitializeComponent();
-        }
-
-        public XCITrimmerWindow(MainWindowViewModel mainWindowViewModel)
-        {
-            DataContext = ViewModel = new XCITrimmerViewModel(mainWindowViewModel);
-
             InitializeComponent();
         }
 
@@ -35,7 +25,10 @@ namespace Ryujinx.Ava.UI.Windows
                 PrimaryButtonText = string.Empty,
                 SecondaryButtonText = string.Empty,
                 CloseButtonText = string.Empty,
-                Content = new XCITrimmerWindow(RyujinxApp.MainWindow.ViewModel),
+                Content = new XciTrimmerView
+                {
+                    ViewModel = new XciTrimmerViewModel(RyujinxApp.MainWindow.ViewModel)
+                },
                 Title = LocaleManager.Instance[LocaleKeys.XCITrimmerWindowTitle]
             };
 
@@ -70,7 +63,7 @@ namespace Ryujinx.Ava.UI.Windows
         public void Sort_Checked(object sender, RoutedEventArgs args)
         {
             if (sender is RadioButton { Tag: string sortField })
-                ViewModel.SortingField = Enum.Parse<XCITrimmerViewModel.SortField>(sortField);
+                ViewModel.SortingField = Enum.Parse<XciTrimmerViewModel.SortField>(sortField);
         }
 
         public void Order_Checked(object sender, RoutedEventArgs args)

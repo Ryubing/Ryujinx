@@ -1,5 +1,4 @@
 using Avalonia.Markup.Xaml.MarkupExtensions;
-using Humanizer;
 using Projektanker.Icons.Avalonia;
 using Ryujinx.Ava.Common.Locale;
 

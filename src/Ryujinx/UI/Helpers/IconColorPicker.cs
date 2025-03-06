@@ -2,9 +2,9 @@ using SkiaSharp;
 using System;
 using System.Collections.Generic;
 
-namespace Ryujinx.Ava.UI.Windows
+namespace Ryujinx.Ava.UI.Helpers
 {
-    static class IconColorPicker
+    public static class IconColorPicker
     {
         private const int ColorsPerLine = 64;
         private const int TotalColors = ColorsPerLine * ColorsPerLine;

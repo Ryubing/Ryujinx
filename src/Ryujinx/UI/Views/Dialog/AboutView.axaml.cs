@@ -1,8 +1,6 @@
 using Avalonia.Controls;
 using Avalonia.Input;
 using Avalonia.Interactivity;
-using Avalonia.Layout;
-using Avalonia.Styling;
 using FluentAvalonia.UI.Controls;
 using Ryujinx.Ava.Common.Locale;
 using Ryujinx.Ava.UI.Controls;
@@ -13,11 +11,11 @@ using Ryujinx.Common.Helper;
 using System.Threading.Tasks;
 using Button = Avalonia.Controls.Button;
 
-namespace Ryujinx.Ava.UI.Windows
+namespace Ryujinx.Ava.UI.Views.Dialog
 {
-    public partial class AboutWindow : RyujinxControl<AboutWindowViewModel>
+    public partial class AboutView : RyujinxControl<AboutWindowViewModel>
     {
-        public AboutWindow()
+        public AboutView()
         {
             InitializeComponent();
 
@@ -34,7 +32,7 @@ namespace Ryujinx.Ava.UI.Windows
                 PrimaryButtonText = string.Empty,
                 SecondaryButtonText = string.Empty,
                 CloseButtonText = LocaleManager.Instance[LocaleKeys.UserProfilesClose],
-                Content = new AboutWindow { ViewModel = viewModel }
+                Content = new AboutView { ViewModel = viewModel }
             };
 
             await ContentDialogHelper.ShowAsync(contentDialog.ApplyStyles());

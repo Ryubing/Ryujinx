@@ -7,12 +7,12 @@ using Avalonia.Styling;
 using Avalonia.Threading;
 using FluentAvalonia.UI.Windowing;
 using Gommon;
-using Ryujinx.Ava.Common;
 using Ryujinx.Ava.Common.Locale;
 using Ryujinx.Ava.UI.Helpers;
 using Ryujinx.Ava.UI.Windows;
 using Ryujinx.Ava.Utilities;
 using Ryujinx.Ava.Systems.Configuration;
+using Ryujinx.Ava.UI.Views.Dialog;
 using Ryujinx.Common;
 using Ryujinx.Common.Logging;
 using System;
@@ -150,7 +150,7 @@ namespace Ryujinx.Ava
 
         private async void AboutRyujinx_OnClick(object sender, EventArgs e)
         {
-            await AboutWindow.Show();
+            await AboutView.Show();
         }
     }
 }

@@ -1,44 +1,27 @@
 <UserControl
-    x:Class="Ryujinx.Ava.UI.Windows.DownloadableContentManagerWindow"
     xmlns="https://github.com/avaloniaui"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:ext="clr-namespace:Ryujinx.Ava.Common.Markup"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:viewModels="clr-namespace:Ryujinx.Ava.UI.ViewModels"
+    xmlns:models="clr-namespace:Ryujinx.Ava.UI.Models"
     xmlns:ui="clr-namespace:FluentAvalonia.UI.Controls;assembly=FluentAvalonia"
-    xmlns:helpers="clr-namespace:Ryujinx.Ava.UI.Helpers"
-    xmlns:models="clr-namespace:Ryujinx.Ava.Common.Models"
     Width="500"
     Height="380"
     mc:Ignorable="d"
-    x:DataType="viewModels:DownloadableContentManagerViewModel"
+    x:Class="Ryujinx.Ava.UI.Views.Dialog.ModManagerView"
+    x:CompileBindings="True"
+    x:DataType="viewModels:ModManagerViewModel"
     Focusable="True">
-    <Grid RowDefinitions="Auto,Auto,*,Auto">
-        <StackPanel
-            Grid.Row="0"
-            Margin="0 0 0 10"
-            Spacing="5"
-            Orientation="Horizontal"
-            IsVisible="{Binding ShowBundledContentNotice}">
-            <ui:FontIcon
-                Margin="0"
-                HorizontalAlignment="Stretch"
-                FontFamily="avares://FluentAvalonia/Fonts#Symbols"
-                Glyph="{helpers:GlyphValueConverter Important}" />
-            <!-- NOTE: aligning to bottom for better visual alignment with glyph -->
-            <TextBlock
-                FontStyle="Italic"
-                VerticalAlignment="Bottom"
-                Text="{ext:Locale DlcWindowBundledContentNotice}" />
-        </StackPanel>
+    <Grid RowDefinitions="Auto,*,Auto">
         <Panel
             Margin="0 0 0 10"
-            Grid.Row="1">
+            Grid.Row="0">
             <Grid ColumnDefinitions="Auto,Auto,*">
                 <TextBlock
                     Grid.Column="0"
-                    Text="{Binding UpdateCount}" />
+                    Text="{Binding ModCount}" />
                 <StackPanel
                     Margin="10 0"
                     Grid.Column="1"
@@ -60,15 +43,15 @@
                 </StackPanel>
                 <TextBox
                     Grid.Column="2"
-                    MinHeight="29"
-                    MaxHeight="29"
+                    MinHeight="27"
+                    MaxHeight="27"
                     HorizontalAlignment="Stretch"
                     Watermark="{ext:Locale Search}"
                     Text="{Binding Search}" />
             </Grid>
         </Panel>
         <Border
-            Grid.Row="2"
+            Grid.Row="1"
             Margin="0 0 0 24"
             HorizontalAlignment="Stretch"
             VerticalAlignment="Stretch"
@@ -81,36 +64,20 @@
                 SelectionMode="Multiple, Toggle"
                 Background="Transparent"
                 SelectionChanged="OnSelectionChanged"
-                SelectedItems="{Binding SelectedDownloadableContents, Mode=OneWay}"
+                SelectedItems="{Binding SelectedMods, Mode=TwoWay}"
                 ItemsSource="{Binding Views}">
                 <ListBox.DataTemplates>
                     <DataTemplate
-                        DataType="models:DownloadableContentModel">
-                        <Panel Margin="10" Background="Transparent">
+                        DataType="models:ModModel">
+                        <Panel Margin="10">
                             <Grid ColumnDefinitions="*,Auto">
-                                <Grid
-                                    Grid.Column="0" ColumnDefinitions="*,Auto">
-                                    <TextBlock
-                                        Grid.Column="0"
-                                        HorizontalAlignment="Left"
-                                        VerticalAlignment="Center"
-                                        MaxLines="2"
-                                        TextWrapping="Wrap"
-                                        TextTrimming="CharacterEllipsis">
-                                        <TextBlock.Text>
-                                            <MultiBinding Converter="{x:Static helpers:DownloadableContentLabelConverter.Instance}">
-                                                <Binding Path="FileName" />
-                                                <Binding Path="IsBundled" />
-                                            </MultiBinding>
-                                        </TextBlock.Text>
-                                    </TextBlock>
-                                    <TextBlock
-                                        Grid.Column="1"
-                                        Margin="10 0"
-                                        HorizontalAlignment="Left"
-                                        VerticalAlignment="Center"
-                                        Text="{Binding TitleIdStr}" />
-                                </Grid>
+                                <TextBlock
+                                    HorizontalAlignment="Left"
+                                    VerticalAlignment="Center"
+                                    MaxLines="2"
+                                    TextWrapping="Wrap"
+                                    TextTrimming="CharacterEllipsis"
+                                    Text="{Binding FormattedName}" />
                                 <StackPanel
                                     Grid.Column="1"
                                     Spacing="10"
@@ -122,6 +89,7 @@
                                         Padding="10"
                                         MinWidth="0"
                                         MinHeight="0"
+                                        ToolTip.Tip="{Binding Path}"
                                         Click="OpenLocation">
                                         <ui:SymbolIcon
                                             Symbol="OpenFolder"
@@ -134,7 +102,7 @@
                                         Padding="10"
                                         MinWidth="0"
                                         MinHeight="0"
-                                        Click="RemoveDLC">
+                                        Click="DeleteMod">
                                         <ui:SymbolIcon
                                             Symbol="Cancel"
                                             HorizontalAlignment="Center"
@@ -153,7 +121,7 @@
             </ListBox>
         </Border>
         <Panel
-            Grid.Row="3"
+            Grid.Row="2"
             HorizontalAlignment="Stretch">
             <StackPanel
                 Orientation="Horizontal"
@@ -170,8 +138,8 @@
                     Name="RemoveAllButton"
                     MinWidth="90"
                     Margin="5"
-                    Command="{Binding RemoveAll}">
-                    <TextBlock Text="{ext:Locale DlcManagerRemoveAllButton}" />
+                    Click="DeleteAll">
+                    <TextBlock Text="{ext:Locale ModManagerDeleteAllButton}" />
                 </Button>
             </StackPanel>
             <StackPanel

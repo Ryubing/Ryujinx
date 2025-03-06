@@ -11,24 +11,9 @@ using System.Text;
 
 namespace Ryujinx.Ava.Systems
 {
-    public struct ColumnIndices(Func<ReadOnlySpan<char>, int> getIndex)
+    public class CompatibilityDatabase
     {
-        public const string TitleIdCol = "\"title_id\"";
-        public const string GameNameCol = "\"game_name\"";
-        public const string LabelsCol = "\"labels\"";
-        public const string StatusCol = "\"status\"";
-        public const string LastUpdatedCol = "\"last_updated\"";
-        
-        public readonly int TitleId = getIndex(TitleIdCol);
-        public readonly int GameName = getIndex(GameNameCol);
-        public readonly int Labels = getIndex(LabelsCol);
-        public readonly int Status = getIndex(StatusCol);
-        public readonly int LastUpdated = getIndex(LastUpdatedCol);
-    }
-    
-    public class CompatibilityCsv
-    {
-        static CompatibilityCsv() => Load();
+        static CompatibilityDatabase() => Load();
 
         public static void Load()
         {
@@ -65,16 +50,6 @@ namespace Ryujinx.Ava.Systems
         
         public static CompatibilityEntry Find(ulong titleId)
             => Find(titleId.ToString("X16"));
-        
-        public static LocaleKeys? GetStatus(string titleId)
-            => Find(titleId)?.Status;
-        
-        public static LocaleKeys? GetStatus(ulong titleId) => GetStatus(titleId.ToString("X16"));
-        
-        public static string GetLabels(string titleId)
-            => Find(titleId)?.FormattedIssueLabels;
-        
-        public static string GetLabels(ulong titleId) => GetLabels(titleId.ToString("X16"));
     }
 
     public class CompatibilityEntry
@@ -135,6 +110,7 @@ namespace Ryujinx.Ava.Systems
 
         public string FormattedIssueLabels => Labels
             .Select(FormatLabelName)
+            .Where(x => x != null)
             .JoinToString(", ");
 
         public override string ToString() =>
@@ -158,7 +134,6 @@ namespace Ryujinx.Ava.Systems
             "gui" => "GUI",
             "help wanted" => "Help Wanted",
             "horizon" => "Horizon",
-            "infra" => "Project Infra",
             "invalid" => "Invalid",
             "kernel" => "Kernel",
             "ldn" => "LDN",
@@ -172,9 +147,9 @@ namespace Ryujinx.Ava.Systems
             "ldn-untested" => "LDN Untested",
             "ldn-broken" => "LDN Broken",
             "ldn-partial" => "Partial LDN",
-            "nvdec" => "NVDEC",
-            "services" => "NX Services",
-            "services-horizon" => "Horizon OS Services",
+            "nvdec" => "GPU Video Decoding",
+            "services" => "HLE Services",
+            "services-horizon" => "New HLE Services",
             "slow" => "Runs Slow",
             "crash" => "Crashes",
             "deadlock" => "Deadlock",
@@ -182,7 +157,7 @@ namespace Ryujinx.Ava.Systems
             "opengl" => "OpenGL",
             "opengl-backend-bug" => "OpenGL Backend Bug",
             "vulkan-backend-bug" => "Vulkan Backend Bug",
-            "mac-bug" => "Mac-specific Bug(s)",
+            "mac-bug" => "Mac-specific Problems",
             "amd-vendor-bug" => "AMD GPU Bug",
             "intel-vendor-bug" => "Intel GPU Bug",
             "loader-allocator" => "Loader Allocator",
@@ -191,18 +166,22 @@ namespace Ryujinx.Ava.Systems
             "UE4" => "Unreal Engine 4",
             "homebrew" => "Homebrew Content",
             "online-broken" => "Online Broken",
-            _ => Capitalize(labelName)
+            _ => null
         };
+    }
+    
+    public struct ColumnIndices(Func<ReadOnlySpan<char>, int> getIndex)
+    {
+        private const string TitleIdCol = "\"title_id\"";
+        private const string GameNameCol = "\"game_name\"";
+        private const string LabelsCol = "\"labels\"";
+        private const string StatusCol = "\"status\"";
+        private const string LastUpdatedCol = "\"last_updated\"";
         
-        public static string Capitalize(string value)
-        {
-            if (value == string.Empty)
-                return string.Empty;
-        
-            char firstChar = value[0];
-            string rest = value[1..];
-
-            return $"{char.ToUpper(firstChar)}{rest}";
-        }
+        public readonly int TitleId = getIndex(TitleIdCol);
+        public readonly int GameName = getIndex(GameNameCol);
+        public readonly int Labels = getIndex(LabelsCol);
+        public readonly int Status = getIndex(StatusCol);
+        public readonly int LastUpdated = getIndex(LastUpdatedCol);
     }
 }

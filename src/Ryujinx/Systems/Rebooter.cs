@@ -1,8 +1,6 @@
 using FluentAvalonia.UI.Controls;
 using Ryujinx.Ava.Common.Locale;
-using Ryujinx.Ava.UI.ViewModels;
 using Ryujinx.Ava.Utilities;
-using SkiaSharp;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
@@ -10,7 +8,7 @@ using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace Ryujinx.Ava
+namespace Ryujinx.Ava.Systems
 {
     internal static class Rebooter
     {

@@ -12,7 +12,7 @@ using Ryujinx.Ava.Systems.AppLibrary;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace Ryujinx.Ava.UI.Views.Misc
+namespace Ryujinx.Ava.UI.Views.Dialog
 {
     public partial class ApplicationDataView : RyujinxControl<ApplicationDataViewModel>
     {

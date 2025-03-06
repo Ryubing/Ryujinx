@@ -7,27 +7,17 @@ using Ryujinx.Ava.UI.Helpers;
 using Ryujinx.Ava.UI.Models;
 using Ryujinx.Ava.UI.ViewModels;
 using Ryujinx.Ava.Systems.AppLibrary;
+using Ryujinx.Ava.UI.Controls;
 using Ryujinx.Common.Helper;
 using System.Threading.Tasks;
 using Button = Avalonia.Controls.Button;
 
-namespace Ryujinx.Ava.UI.Windows
+namespace Ryujinx.Ava.UI.Views.Dialog
 {
-    public partial class ModManagerWindow : UserControl
+    public partial class ModManagerView : RyujinxControl<ModManagerViewModel>
     {
-        public readonly ModManagerViewModel ViewModel;
-
-        public ModManagerWindow()
+        public ModManagerView()
         {
-            DataContext = this;
-
-            InitializeComponent();
-        }
-
-        public ModManagerWindow(ulong titleId, ulong titleIdBase, ApplicationLibrary applicationLibrary)
-        {
-            DataContext = ViewModel = new ModManagerViewModel(titleId, titleIdBase, applicationLibrary);
-
             InitializeComponent();
         }
 
@@ -38,7 +28,10 @@ namespace Ryujinx.Ava.UI.Windows
                 PrimaryButtonText = string.Empty,
                 SecondaryButtonText = string.Empty,
                 CloseButtonText = string.Empty,
-                Content = new ModManagerWindow(titleId, titleIdBase, appLibrary),
+                Content = new ModManagerView
+                {
+                    ViewModel = new ModManagerViewModel(titleId, titleIdBase, appLibrary)
+                },
                 Title = string.Format(LocaleManager.Instance[LocaleKeys.ModWindowTitle], titleName, titleId.ToString("X16")),
             };
 

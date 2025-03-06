@@ -16,7 +16,7 @@ using static Ryujinx.Common.Utilities.XCIFileTrimmer;
 
 namespace Ryujinx.Ava.UI.ViewModels
 {
-    public class XCITrimmerViewModel : BaseModel
+    public class XciTrimmerViewModel : BaseModel
     {
         private const long _bytesPerMB = 1024 * 1024;
         private enum ProcessingMode
@@ -46,7 +46,7 @@ namespace Ryujinx.Ava.UI.ViewModels
         private SortField _sortField = SortField.Name;
         private bool _sortAscending = true;
 
-        public XCITrimmerViewModel(MainWindowViewModel mainWindowViewModel)
+        public XciTrimmerViewModel(MainWindowViewModel mainWindowViewModel)
         {
             _logger = new XCITrimmerLog.TrimmerWindow(this);
             _mainWindowViewModel = mainWindowViewModel;
@@ -254,9 +254,9 @@ namespace Ryujinx.Ava.UI.ViewModels
 
         private class CompareXCITrimmerFiles : IComparer<XCITrimmerFileModel>
         {
-            private XCITrimmerViewModel _viewModel;
+            private XciTrimmerViewModel _viewModel;
 
-            public CompareXCITrimmerFiles(XCITrimmerViewModel ViewModel)
+            public CompareXCITrimmerFiles(XciTrimmerViewModel ViewModel)
             {
                 _viewModel = ViewModel;
             }

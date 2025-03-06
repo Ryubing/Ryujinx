@@ -6,7 +6,6 @@ using Avalonia.Threading;
 using DiscordRPC;
 using LibHac.Common;
 using LibHac.Ns;
-using LibHac.Tools.FsSystem;
 using Ryujinx.Audio.Backends.Dummy;
 using Ryujinx.Audio.Backends.OpenAL;
 using Ryujinx.Audio.Backends.SDL2;
@@ -35,11 +34,9 @@ using Ryujinx.Graphics.GAL.Multithreading;
 using Ryujinx.Graphics.Gpu;
 using Ryujinx.Graphics.OpenGL;
 using Ryujinx.Graphics.Vulkan;
-using Ryujinx.HLE;
 using Ryujinx.HLE.FileSystem;
 using Ryujinx.HLE.HOS;
 using Ryujinx.HLE.HOS.Services.Account.Acc;
-using Ryujinx.HLE.HOS.SystemState;
 using Ryujinx.Input;
 using Ryujinx.Input.HLE;
 using SkiaSharp;
@@ -62,7 +59,7 @@ using Size = Avalonia.Size;
 using Switch = Ryujinx.HLE.Switch;
 using VSyncMode = Ryujinx.Common.Configuration.VSyncMode;
 
-namespace Ryujinx.Ava
+namespace Ryujinx.Ava.Systems
 {
     internal class AppHost
     {

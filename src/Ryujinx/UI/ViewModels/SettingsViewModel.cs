@@ -757,6 +757,8 @@ namespace Ryujinx.Ava.UI.ViewModels
 
             // Dirty Hacks
             config.Hacks.Xc2MenuSoftlockFix.Value = DirtyHacks.Xc2MenuSoftlockFix;
+            config.Hacks.DisableNifmIsAnyInternetRequestAccepted.Value =
+                DirtyHacks.NifmDisableIsAnyInternetRequestAccepted;
 
             config.ToFileFormat().SaveConfig(Program.ConfigurationPath);
 

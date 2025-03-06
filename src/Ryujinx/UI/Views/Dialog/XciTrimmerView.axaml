@@ -1,5 +1,5 @@
 <UserControl
-    x:Class="Ryujinx.Ava.UI.Windows.XCITrimmerWindow"
+    x:Class="Ryujinx.Ava.UI.Views.Dialog.XciTrimmerView"
     xmlns="https://github.com/avaloniaui"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
@@ -10,7 +10,7 @@
     xmlns:models="clr-namespace:Ryujinx.Ava.Common.Models"
     Width="700"
     Height="600"
-    x:DataType="viewModels:XCITrimmerViewModel"
+    x:DataType="viewModels:XciTrimmerViewModel"
     Focusable="True"
     mc:Ignorable="d">    
     <Grid Margin="20 0 20 0" RowDefinitions="Auto,Auto,*,Auto,Auto">
@@ -151,7 +151,7 @@
                                         HorizontalAlignment="Stretch"
                                         VerticalAlignment="Center"
                                         CornerRadius="5"
-                                        IsVisible="{Binding $parent[UserControl].((viewModels:XCITrimmerViewModel)DataContext).Processing}"
+                                        IsVisible="{Binding $parent[UserControl].((viewModels:XciTrimmerViewModel)DataContext).Processing}"
                                         Maximum="100"
                                         Minimum="0"
                                         Value="{Binding PercentageProgress}" />

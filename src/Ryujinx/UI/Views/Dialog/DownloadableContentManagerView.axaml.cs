@@ -6,26 +6,16 @@ using Ryujinx.Ava.Common.Locale;
 using Ryujinx.Ava.Common.Models;
 using Ryujinx.Ava.UI.ViewModels;
 using Ryujinx.Ava.Systems.AppLibrary;
+using Ryujinx.Ava.UI.Controls;
 using Ryujinx.Common.Helper;
 using System.Threading.Tasks;
 
-namespace Ryujinx.Ava.UI.Windows
+namespace Ryujinx.Ava.UI.Views.Dialog
 {
-    public partial class DownloadableContentManagerWindow : UserControl
+    public partial class DownloadableContentManagerView : RyujinxControl<DownloadableContentManagerViewModel>
     {
-        public DownloadableContentManagerViewModel ViewModel;
-
-        public DownloadableContentManagerWindow()
+        public DownloadableContentManagerView()
         {
-            DataContext = this;
-
-            InitializeComponent();
-        }
-
-        public DownloadableContentManagerWindow(ApplicationLibrary applicationLibrary, ApplicationData applicationData)
-        {
-            DataContext = ViewModel = new DownloadableContentManagerViewModel(applicationLibrary, applicationData);
-
             InitializeComponent();
         }
 
@@ -36,8 +26,11 @@ namespace Ryujinx.Ava.UI.Windows
                 PrimaryButtonText = string.Empty,
                 SecondaryButtonText = string.Empty,
                 CloseButtonText = string.Empty,
-                Content = new DownloadableContentManagerWindow(applicationLibrary, applicationData),
                 Title = string.Format(LocaleManager.Instance[LocaleKeys.DlcWindowTitle], applicationData.Name, applicationData.IdBaseString),
+                Content = new DownloadableContentManagerView
+                {
+                    ViewModel = new DownloadableContentManagerViewModel(applicationLibrary, applicationData)
+                }
             };
 
             Style bottomBorder = new(x => x.OfType<Grid>().Name("DialogSpace").Child().OfType<Border>());

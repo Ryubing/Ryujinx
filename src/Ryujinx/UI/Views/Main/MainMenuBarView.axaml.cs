@@ -13,7 +13,7 @@ using Ryujinx.Ava.UI.Windows;
 using Ryujinx.Ava.Utilities;
 using Ryujinx.Ava.Systems.AppLibrary;
 using Ryujinx.Ava.Systems.Configuration;
-using Ryujinx.Ava.UI.Views.Misc;
+using Ryujinx.Ava.UI.Views.Dialog;
 using Ryujinx.Common;
 using Ryujinx.Common.Helper;
 using Ryujinx.Common.Utilities;
@@ -46,8 +46,8 @@ namespace Ryujinx.Ava.UI.Views.Main
             CheatManagerMenuItem.Command = Commands.CreateSilentFail(OpenCheatManagerForCurrentApp);
             InstallFileTypesMenuItem.Command = Commands.Create(InstallFileTypes);
             UninstallFileTypesMenuItem.Command = Commands.Create(UninstallFileTypes);
-            XciTrimmerMenuItem.Command = Commands.Create(XCITrimmerWindow.Show);
-            AboutWindowMenuItem.Command = Commands.Create(AboutWindow.Show);
+            XciTrimmerMenuItem.Command = Commands.Create(XciTrimmerView.Show);
+            AboutWindowMenuItem.Command = Commands.Create(AboutView.Show);
             CompatibilityListMenuItem.Command = Commands.Create(() => CompatibilityListWindow.Show());
 
             UpdateMenuItem.Command = MainWindowViewModel.UpdateCommand;

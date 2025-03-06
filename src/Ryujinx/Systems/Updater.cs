@@ -27,7 +27,7 @@ using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 
-namespace Ryujinx.Ava
+namespace Ryujinx.Ava.Systems
 {
     internal static class Updater
     {

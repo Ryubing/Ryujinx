@@ -11,7 +11,6 @@ using Ryujinx.Common.Helper;
 using Ryujinx.Common.Logging;
 using Ryujinx.Common.Utilities;
 using Ryujinx.HLE;
-using Ryujinx.HLE.HOS.SystemState;
 using System.Collections.Generic;
 using System.Linq;
 using RyuLogger = Ryujinx.Common.Logging.Logger;
@@ -684,18 +683,15 @@ namespace Ryujinx.Ava.Systems.Configuration
             
             public ReactiveObject<bool> Xc2MenuSoftlockFix { get; private set; }
             
-            public ReactiveObject<bool> EnableShaderTranslationDelay { get; private set; }
-            
-            public ReactiveObject<int> ShaderTranslationDelay { get; private set; }
+            public ReactiveObject<bool> DisableNifmIsAnyInternetRequestAccepted { get; private set; }
 
             public HacksSection()
             {
                 ShowDirtyHacks = new ReactiveObject<bool>();
                 Xc2MenuSoftlockFix = new ReactiveObject<bool>();
                 Xc2MenuSoftlockFix.Event += HackChanged;
-                EnableShaderTranslationDelay = new ReactiveObject<bool>();
-                EnableShaderTranslationDelay.Event += HackChanged;
-                ShaderTranslationDelay = new ReactiveObject<int>();
+                DisableNifmIsAnyInternetRequestAccepted = new ReactiveObject<bool>();
+                DisableNifmIsAnyInternetRequestAccepted.Event += HackChanged;
             }
 
             private void HackChanged(object sender, ReactiveEventArgs<bool> rxe)
@@ -726,8 +722,8 @@ namespace Ryujinx.Ava.Systems.Configuration
                     if (Xc2MenuSoftlockFix)
                         Apply(DirtyHack.Xc2MenuSoftlockFix);
                     
-                    if (EnableShaderTranslationDelay)
-                        Apply(DirtyHack.ShaderTranslationDelay, ShaderTranslationDelay);
+                    if (DisableNifmIsAnyInternetRequestAccepted)
+                        Apply(DirtyHack.NifmServiceDisableIsAnyInternetRequestAccepted);
                     
                     return enabledHacks.ToArray();
 

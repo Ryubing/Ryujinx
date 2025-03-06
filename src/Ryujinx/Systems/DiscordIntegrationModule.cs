@@ -9,10 +9,9 @@ using Ryujinx.Common.Logging;
 using Ryujinx.HLE;
 using Ryujinx.HLE.Loaders.Processes;
 using Ryujinx.Horizon;
-using Ryujinx.Horizon.Prepo.Types;
 using System.Text;
 
-namespace Ryujinx.Ava
+namespace Ryujinx.Ava.Systems
 {
     public static class DiscordIntegrationModule
     {
@@ -124,7 +123,7 @@ namespace Ryujinx.Ava
             _currentApp = null;
         }
 
-        private static void HandlePlayReport(PlayReport playReport)
+        private static void HandlePlayReport(Horizon.Prepo.Types.PlayReport playReport)
         {
             if (_discordClient is null) return;
             if (!TitleIDs.CurrentApplication.Value.HasValue) return;

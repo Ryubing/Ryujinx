@@ -1,6 +1,4 @@
-﻿using Avalonia.Controls;
-using Avalonia.Styling;
-using FluentAvalonia.UI.Controls;
+﻿using FluentAvalonia.UI.Controls;
 using Ryujinx.Ava.Common.Locale;
 using Ryujinx.Ava.Common.Models;
 using Ryujinx.Ava.UI.Controls;
@@ -9,7 +7,7 @@ using Ryujinx.Ava.UI.ViewModels;
 using Ryujinx.Ava.Systems.AppLibrary;
 using System.Threading.Tasks;
 
-namespace Ryujinx.Ava.UI.Views.Misc
+namespace Ryujinx.Ava.UI.Views.Dialog
 {
     public partial class DlcSelectView : RyujinxControl<DlcSelectViewModel>
     {

@@ -1,4 +1,5 @@
 using Ryujinx.Common;
+using Ryujinx.Common.Configuration;
 using Ryujinx.Common.Logging;
 using Ryujinx.Common.Utilities;
 using Ryujinx.HLE.HOS.Services.Nifm.StaticService.GeneralService;
@@ -17,12 +18,12 @@ namespace Ryujinx.HLE.HOS.Services.Nifm.StaticService
         private UnicastIPAddressInformation _targetAddressInfoCache = null;
         private string _cacheChosenInterface = null;
 
-        public IGeneralService()
+        public IGeneralService(ServiceCtx context)
         {
             _generalServiceDetail = new GeneralServiceDetail
             {
                 ClientId = GeneralServiceManager.Count,
-                IsAnyInternetRequestAccepted = true, // NOTE: Why not accept any internet request?
+                IsAnyInternetRequestAccepted = !context.Device.DirtyHacks.IsEnabled(DirtyHack.NifmServiceDisableIsAnyInternetRequestAccepted), // NOTE: Why not accept any internet request?
             };
 
             NetworkChange.NetworkAddressChanged += LocalInterfaceCacheHandler;
