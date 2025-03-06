@@ -88,12 +88,40 @@ namespace Ryujinx.Ava.UI.ViewModels.Input
         public bool IsKeyboard => !IsController;
         public bool IsRight { get; set; }
         public bool IsLeft { get; set; }
-
+        public int DeviceIndexBeforeChange { get; set; }
         public bool HasLed => SelectedGamepad.Features.HasFlag(GamepadFeaturesFlag.Led);
         public bool CanClearLed => SelectedGamepad.Name.ContainsIgnoreCase("DualSense");
 
-        public bool IsModified { get; set; }
+        public bool _isChangeTrackingActive;
+
+        public bool _isModified;
+        public bool IsModified
+        {
+            get => _isModified;
+            set 
+            {
+                _isModified = value;
+                OnPropertyChanged();
+            }
+        }
+
         public event Action NotifyChangesEvent;
+
+
+        public string _profileChoose;
+        public string ProfileChoose
+        {
+            get => _profileChoose;
+            set
+            {
+                // When you select a profile, the settings from the profile will be applied.
+                // To save the settings, you still need to click the apply button
+
+                _profileChoose = value;
+                LoadProfile();
+                OnPropertyChanged();
+            }
+        }
 
         public object ConfigViewModel
         {
@@ -120,14 +148,14 @@ namespace Ryujinx.Ava.UI.ViewModels.Input
             set
             {
                 if (IsModified)
-                {
-
+                {                 
                     _playerIdChoose = value;
                     return;
                 }
-
+             
                 IsModified = false;
                 _playerId = value;
+                _isChangeTrackingActive = false;
 
                 if (!Enum.IsDefined<PlayerIndex>(_playerId))
                 {
@@ -135,13 +163,13 @@ namespace Ryujinx.Ava.UI.ViewModels.Input
 
                 }
                 _isLoaded = false;
-
                 LoadConfiguration();
                 LoadDevice();
                 LoadProfiles();
 
+                DeviceIndexBeforeChange = Device;
                 _isLoaded = true;
-
+                _isChangeTrackingActive = true;
                 OnPropertyChanged();
             }
         }
@@ -185,11 +213,12 @@ namespace Ryujinx.Ava.UI.ViewModels.Input
                             IsLeft = false;
                             break;
                     }
-
+                    
                     LoadInputDriver();
                     LoadProfiles();
+                    SetChangeTrackingActive();
                 }
-
+       
                 OnPropertyChanged();
                 NotifyChanges();
             }
@@ -229,6 +258,11 @@ namespace Ryujinx.Ava.UI.ViewModels.Input
             get => _device;
             set
             {
+                if (!IsModified)
+                {
+                    DeviceIndexBeforeChange = _device;
+                }
+
                 _device = value < 0 ? 0 : value;
 
                 if (_device >= Devices.Count)
@@ -248,12 +282,27 @@ namespace Ryujinx.Ava.UI.ViewModels.Input
                     }
                 }
 
+                FindPairedDevice();
+                SetChangeTrackingActive();
                 OnPropertyChanged();
                 NotifyChanges();
             }
         }
 
+
         public InputConfig Config { get; set; }
+
+        public bool _notificationView;
+
+        public bool NotificationView
+        {
+            get => _notificationView;
+            set
+            {
+                _notificationView = value;
+                OnPropertyChanged();
+            }
+        }
 
         public InputViewModel(UserControl owner) : this()
         {
@@ -274,6 +323,8 @@ namespace Ryujinx.Ava.UI.ViewModels.Input
 
                 PlayerId = PlayerIndex.Player1;
             }
+
+            _isChangeTrackingActive = true;
         }
 
         public InputViewModel()
@@ -311,7 +362,53 @@ namespace Ryujinx.Ava.UI.ViewModels.Input
             {
                 ConfigViewModel = new ControllerInputViewModel(this, new GamepadInputConfig(controllerInputConfig), VisualStick);
             }
+
+            FindPairedDevice();
         }
+
+        private void FindPairedDevice()
+        {
+            // This feature allows you to display a notification
+            // if a configuration is found, but the gamepad is not connected.
+            if (Config != null)
+            {
+                (DeviceType Type, string Id, string Name) activeDevice = Devices.FirstOrDefault(d => d.Id == Config.Id);
+
+                if (activeDevice.Id != Config.Id)
+                {
+                    // display notification when input device is turned off, and
+                    // if device and configuration do not match (different controllers)
+                    NotificationView = true; 
+                }
+                else
+                {
+                    NotificationView = false;
+                }
+            }
+            else
+            {
+                NotificationView = false;
+            }
+        }
+
+        private void SetChangeTrackingActive()
+        {
+          
+            if (_isChangeTrackingActive)
+            {
+                IsModified = true;
+            }
+        }
+
+
+        public void DisableDeviceForSaving()
+        {
+            // "Disabled" mode is available after unbinding the device
+            // NOTE: the IsModified flag to be able to apply the settings.
+            IsModified = true;
+            NotificationView = false;
+        }
+
 
         public void LoadDevice()
         {
@@ -378,14 +475,37 @@ namespace Ryujinx.Ava.UI.ViewModels.Input
             }
         }
 
-        private void HandleOnGamepadDisconnected(string id)
+        private async void HandleOnGamepadDisconnected(string id)
         {
-            Dispatcher.UIThread.Post(LoadDevices);
+            _isChangeTrackingActive = false;
+            await Dispatcher.UIThread.InvokeAsync(() =>
+            {
+                LoadDevices();
+
+                IsModified = true;
+                LoadSavedConfiguration();
+                FindPairedDevice();
+
+                _isChangeTrackingActive = true;
+                return System.Threading.Tasks.Task.CompletedTask;
+            });
         }
 
-        private void HandleOnGamepadConnected(string id)
+        private async void HandleOnGamepadConnected(string id)
         {
-            Dispatcher.UIThread.Post(LoadDevices);
+            _isChangeTrackingActive = false;
+            await Dispatcher.UIThread.InvokeAsync(() =>
+            {
+                LoadDevices();
+
+                if (Config != null)
+                {
+                    // Load configuration after connection if it is in the configuration file
+                    IsModified = true;
+                    LoadSavedConfiguration();                  
+                }
+                _isChangeTrackingActive = true;
+            });
         }
 
         private string GetCurrentGamepadId()
@@ -688,6 +808,12 @@ namespace Ryujinx.Ava.UI.ViewModels.Input
             return config;
         }
 
+        public void LoadProfileButton()
+        {
+            IsModified = true;
+            LoadProfile();
+        }
+
         public async void LoadProfile()
         {
             if (Device == 0)
@@ -739,9 +865,12 @@ namespace Ryujinx.Ava.UI.ViewModels.Input
             {
                 _isLoaded = false;
 
+                config.Id = null; // ignore device IDs (there is no longer a need to store device IDs for presets due to their independence from devices)
+
                 LoadConfiguration(config);
 
-                LoadDevice();
+                // This line of code hard-links profiles to controllers, the commented line allows profiles to be applied to all controllers
+                // LoadDevice();
 
                 _isLoaded = true;
 
@@ -793,6 +922,8 @@ namespace Ryujinx.Ava.UI.ViewModels.Input
                     await File.WriteAllTextAsync(path, jsonString);
 
                     LoadProfiles();
+
+                    ProfileChoose = ProfileName; // Show new profile
                 }
                 else
                 {
@@ -825,14 +956,40 @@ namespace Ryujinx.Ava.UI.ViewModels.Input
                 }
 
                 LoadProfiles();
+
+                ProfileChoose = ProfilesList[0].ToString(); // Show default profile
+            }
+        }
+
+        public void LoadSavedConfiguration()
+        {
+            // Restores settings and sets the previously selected device to the last saved state
+            // NOTE: The current order allows the configuration and device to be loaded correctly until the configuration is changed.
+
+            if (IsModified) // Fixes random gamepad appearance in "disabled" option
+            {
+                Device = DeviceIndexBeforeChange;
+
+                LoadDevice();
+                LoadConfiguration();
+
+                IsModified = false;
+
+                OnPropertyChanged();
             }
         }
 
         public void Save()
         {
-            IsModified = false;
+            
+            if (!IsModified)
+            {
+                return; //If the input settings were not touched, then do nothing
+            }
 
-            List<InputConfig> newConfig = [];
+            IsModified = false;
+            DeviceIndexBeforeChange = Device;
+            List <InputConfig> newConfig = [];
 
             newConfig.AddRange(ConfigurationState.Instance.Hid.InputConfig.Value);
 
