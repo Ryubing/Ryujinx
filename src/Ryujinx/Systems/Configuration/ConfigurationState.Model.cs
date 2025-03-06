@@ -783,11 +783,6 @@ namespace Ryujinx.Ava.Systems.Configuration
         /// Enables or disables Discord Rich Presence
         /// </summary>
         public ReactiveObject<bool> EnableDiscordIntegration { get; private set; }
-
-        /// <summary>
-        /// Checks for updates when Ryujinx starts when enabled
-        /// </summary>
-        public ReactiveObject<bool> CheckUpdatesOnStart { get; private set; }
         
         /// <summary>
         /// Checks for updates when Ryujinx starts when enabled, either prompting when an update is found or just showing a notification.
@@ -810,9 +805,9 @@ namespace Ryujinx.Ava.Systems.Configuration
         public ReactiveObject<bool> RememberWindowState { get; private set; }
 
         /// <summary>
-        /// Enables or disables the redesigned title bar
+        /// Disable the new title bar layout & window layout changes.
         /// </summary>
-        public ReactiveObject<bool> ShowTitleBar { get; private set; }
+        public ReactiveObject<bool> ShowOldUI { get; private set; }
 
         /// <summary>
         /// Enables hardware-accelerated rendering for Avalonia
@@ -833,15 +828,14 @@ namespace Ryujinx.Ava.Systems.Configuration
             Hid = new HidSection();
             Multiplayer = new MultiplayerSection();
             Hacks = new HacksSection();
-            EnableDiscordIntegration = new ReactiveObject<bool>();
-            CheckUpdatesOnStart = new ReactiveObject<bool>();
             UpdateCheckerType = new ReactiveObject<UpdaterType>();
             FocusLostActionType = new ReactiveObject<FocusLostType>();
+            HideCursor = new ReactiveObject<HideCursorMode>();
+            EnableDiscordIntegration = new ReactiveObject<bool>();
             ShowConfirmExit = new ReactiveObject<bool>();
             RememberWindowState = new ReactiveObject<bool>();
-            ShowTitleBar = new ReactiveObject<bool>();
+            ShowOldUI = new ReactiveObject<bool>();
             EnableHardwareAcceleration = new ReactiveObject<bool>();
-            HideCursor = new ReactiveObject<HideCursorMode>();
         }
 
         public HleConfiguration CreateHleConfiguration() =>

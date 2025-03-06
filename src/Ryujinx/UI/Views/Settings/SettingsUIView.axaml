@@ -49,14 +49,15 @@
                         <StackPanel Orientation="Horizontal">
                             <TextBlock Text="{ext:Locale SettingsTabGeneralRememberWindowState}" />
                             <TextBlock Classes="globalConfigMarker" IsVisible="{Binding IsGameTitleNotNull}" />
-                            </StackPanel>
+                        </StackPanel>
                     </CheckBox>
                     <CheckBox
                         IsEnabled="{Binding !IsGameTitleNotNull}"
                         Opacity="{Binding PanelOpacity}"
-                        IsChecked="{Binding ShowTitleBar}" IsVisible="{x:Static helper:RunningPlatform.IsWindows}">
+                        IsChecked="{Binding ShowOldUI}"
+                        ToolTip.Tip="{ext:Locale SettingsTabGeneralShowOldUIToolTip}">
                         <StackPanel Orientation="Horizontal">
-                            <TextBlock Text="{ext:Locale SettingsTabGeneralShowTitleBar}" />
+                            <TextBlock Text="{ext:Locale SettingsTabGeneralShowOldUI}" />
                             <TextBlock Classes="globalConfigMarker" IsVisible="{Binding IsGameTitleNotNull}" />
                         </StackPanel>
                     </CheckBox>

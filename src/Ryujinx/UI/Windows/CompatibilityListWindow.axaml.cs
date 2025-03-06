@@ -26,10 +26,9 @@ namespace Ryujinx.Ava.UI.Windows
             Title = RyujinxApp.FormatTitle(LocaleKeys.CompatibilityListTitle);
             
             InitializeComponent();
-
-            RyuLogo.Source = MainWindowViewModel.IconBitmap;
-            FlushControls.IsVisible = !ConfigurationState.Instance.ShowTitleBar;
-            NormalControls.IsVisible = ConfigurationState.Instance.ShowTitleBar;
+            
+            FlushControls.IsVisible = !ConfigurationState.Instance.ShowOldUI;
+            NormalControls.IsVisible = ConfigurationState.Instance.ShowOldUI;
         }
 
         // ReSharper disable once UnusedMember.Local

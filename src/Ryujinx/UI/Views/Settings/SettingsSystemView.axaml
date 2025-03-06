@@ -191,16 +191,16 @@
                         IsEnabled="{Binding !IsGameTitleNotNull}"
                         Opacity="{Binding PanelOpacity}"
                         Orientation="Horizontal">
-                        <TextBlock
-                            VerticalAlignment="Center"
-                            Text="{ext:Locale SettingsTabSystemSystemTimeMatch}"
-                            ToolTip.Tip="{ext:Locale MatchTimeTooltip}"
-                            Width="250"/>
                         <CheckBox
                             VerticalAlignment="Center"
                             IsChecked="{Binding MatchSystemTime}"
-                            ToolTip.Tip="{ext:Locale MatchTimeTooltip}"/>
-                        <TextBlock  Classes="globalConfigMarker" IsVisible="{Binding IsGameTitleNotNull}"/>
+                            ToolTip.Tip="{ext:Locale MatchTimeTooltip}">
+                            <TextBlock
+                                VerticalAlignment="Center"
+                                Text="{ext:Locale SettingsTabSystemSystemTimeMatch}"
+                                Width="250"/>
+                        </CheckBox>
+                        <TextBlock Classes="globalConfigMarker" IsVisible="{Binding IsGameTitleNotNull}"/>
                     </StackPanel>
                     <Separator />
                     <StackPanel Margin="0,10,0,10"
