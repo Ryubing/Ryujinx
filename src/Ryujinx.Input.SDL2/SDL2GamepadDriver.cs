@@ -57,16 +57,19 @@ namespace Ryujinx.Input.SDL2
                 return null;
             }
 
+            // Remove the first 4 char of the guid (CRC part) to make it stable
+            string guidString = "0000" + guid.ToString().Substring(4);
+
             string id;
 
             lock (_lock)
             {
                 int guidIndex = 0;
-                id = guidIndex + "-" + guid;
+                id = guidIndex + "-" + guidString;
 
                 while (_gamepadsIds.Contains(id))
                 {
-                    id = (++guidIndex) + "-" + guid;
+                    id = (++guidIndex) + "-" + guidString;
                 }
             }
 
