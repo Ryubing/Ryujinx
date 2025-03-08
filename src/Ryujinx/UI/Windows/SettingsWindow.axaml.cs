@@ -1,6 +1,7 @@
 using Avalonia.Controls;
 using FluentAvalonia.UI.Controls;
 using Ryujinx.Ava.Common.Locale;
+using Ryujinx.Ava.Systems.Configuration;
 using Ryujinx.Ava.UI.ViewModels;
 using Ryujinx.HLE.FileSystem;
 using Ryujinx.Input;
@@ -13,7 +14,7 @@ namespace Ryujinx.Ava.UI.Windows
     {
         internal readonly SettingsViewModel ViewModel;
 
-        public SettingsWindow(VirtualFileSystem virtualFileSystem, ContentManager contentManager)
+        public SettingsWindow(VirtualFileSystem virtualFileSystem, ContentManager contentManager) : base(true)
         {
             Title = RyujinxApp.FormatTitle(LocaleKeys.Settings);
 
@@ -23,6 +24,16 @@ namespace Ryujinx.Ava.UI.Windows
             ViewModel.SaveSettingsEvent += SaveSettings;
 
             InitializeComponent();
+
+            NavPanel.PaneDisplayMode =
+                ConfigurationState.Instance.ShowOldUI
+                    ? NavigationViewPaneDisplayMode.Left
+                    : NavigationViewPaneDisplayMode.Top;
+
+            Height = ConfigurationState.Instance.ShowOldUI
+                ? 906
+                : 954; // nav panel is put on top with custom title bar so account for new height
+            
             Load();
         }
 

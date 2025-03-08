@@ -91,10 +91,12 @@
     <Content Include="..\..\distribution\legal\THIRDPARTY.md">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
       <TargetPath>THIRDPARTY.md</TargetPath>
+      <Visible>False</Visible>
     </Content>
     <Content Include="..\..\LICENSE.txt">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
       <TargetPath>LICENSE.txt</TargetPath>
+      <Visible>False</Visible>
     </Content>
   </ItemGroup>
 

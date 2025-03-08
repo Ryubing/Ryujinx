@@ -1,7 +1,4 @@
 using Gommon;
-using Ryujinx.Common.Configuration;
-using Ryujinx.Common.Helper;
-using System;
 using System.Linq;
 
 namespace Ryujinx.Common

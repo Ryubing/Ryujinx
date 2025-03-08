@@ -7,20 +7,19 @@ using Avalonia.Platform;
 using Avalonia.Threading;
 using DynamicData;
 using FluentAvalonia.UI.Controls;
-using FluentAvalonia.UI.Windowing;
 using Gommon;
 using LibHac.Ns;
-using LibHac.Tools.FsSystem;
 using Ryujinx.Ava.Common;
 using Ryujinx.Ava.Common.Locale;
 using Ryujinx.Ava.Input;
+using Ryujinx.Ava.Systems;
 using Ryujinx.Ava.UI.Applet;
 using Ryujinx.Ava.UI.Helpers;
 using Ryujinx.Ava.UI.ViewModels;
 using Ryujinx.Ava.Utilities;
-using Ryujinx.Ava.Utilities.AppLibrary;
-using Ryujinx.Ava.Utilities.Configuration;
-using Ryujinx.Ava.Utilities.Configuration.UI;
+using Ryujinx.Ava.Systems.AppLibrary;
+using Ryujinx.Ava.Systems.Configuration;
+using Ryujinx.Ava.Systems.Configuration.UI;
 using Ryujinx.Common;
 using Ryujinx.Common.Helper;
 using Ryujinx.Common.Logging;
@@ -76,7 +75,7 @@ namespace Ryujinx.Ava.UI.Windows
         public readonly double StatusBarHeight;
         public readonly double MenuBarHeight;
 
-        public MainWindow()
+        public MainWindow() : base(useCustomTitleBar: true)
         {
             DataContext = ViewModel = new MainWindowViewModel
             {
@@ -90,9 +89,6 @@ namespace Ryujinx.Ava.UI.Windows
 
             ViewModel.Title = RyujinxApp.FormatTitle();
 
-            TitleBar.ExtendsContentIntoTitleBar = !ConfigurationState.Instance.ShowTitleBar;
-            TitleBar.TitleBarHitTestType = (ConfigurationState.Instance.ShowTitleBar) ? TitleBarHitTestType.Simple : TitleBarHitTestType.Complex;
-
             // NOTE: Height of MenuBar and StatusBar is not usable here, since it would still be 0 at this point.
             StatusBarHeight = StatusBarView.StatusBar.MinHeight;
             MenuBarHeight = MenuBar.MinHeight;
@@ -100,7 +96,7 @@ namespace Ryujinx.Ava.UI.Windows
             TitleBar.Height = MenuBarHeight;
             
             // Correctly size window when 'TitleBar' is enabled (Nov. 14, 2024)
-            TitleBarHeight = (ConfigurationState.Instance.ShowTitleBar ? TitleBar.Height : 0);
+            TitleBarHeight = (ConfigurationState.Instance.ShowOldUI ? TitleBar.Height : 0);
 
             ApplicationList.DataContext = DataContext;
             ApplicationGrid.DataContext = DataContext;
@@ -273,11 +269,7 @@ namespace Ryujinx.Ava.UI.Windows
             LibHacHorizonManager.InitializeBcatServer();
             LibHacHorizonManager.InitializeSystemClients();
 
-            IntegrityCheckLevel checkLevel = ConfigurationState.Instance.System.EnableFsIntegrityChecks
-                ? IntegrityCheckLevel.ErrorOnInvalid
-                : IntegrityCheckLevel.None;
-
-            ApplicationLibrary = new ApplicationLibrary(VirtualFileSystem, checkLevel)
+            ApplicationLibrary = new ApplicationLibrary(VirtualFileSystem, ConfigurationState.Instance.System.IntegrityCheckLevel)
             {
                 DesiredLanguage = ConfigurationState.Instance.System.Language,
             };

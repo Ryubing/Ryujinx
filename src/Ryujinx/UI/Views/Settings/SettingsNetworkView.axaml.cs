@@ -1,15 +1,13 @@
-using Avalonia.Controls;
 using Avalonia.Interactivity;
+using Ryujinx.Ava.UI.Controls;
 using Ryujinx.Ava.UI.ViewModels;
 using System;
 
 namespace Ryujinx.Ava.UI.Views.Settings
 {
-    public partial class SettingsNetworkView : UserControl
+    public partial class SettingsNetworkView : RyujinxControl<SettingsViewModel>
     {
         private readonly Random _random;
-        
-        public SettingsViewModel ViewModel;
 
         public SettingsNetworkView()
         {

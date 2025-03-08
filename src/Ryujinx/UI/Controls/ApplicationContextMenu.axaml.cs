@@ -9,11 +9,10 @@ using Ryujinx.Ava.Common.Locale;
 using Ryujinx.Ava.Common.Models;
 using Ryujinx.Ava.UI.Helpers;
 using Ryujinx.Ava.UI.ViewModels;
-using Ryujinx.Ava.UI.Views.Misc;
 using Ryujinx.Ava.UI.Windows;
 using Ryujinx.Ava.Utilities;
-using Ryujinx.Ava.Utilities.AppLibrary;
-using Ryujinx.Ava.Utilities.Compat;
+using Ryujinx.Ava.Systems.AppLibrary;
+using Ryujinx.Ava.UI.Views.Dialog;
 using Ryujinx.Common.Configuration;
 using Ryujinx.Common.Helper;
 using Ryujinx.HLE.HOS;
@@ -81,13 +80,13 @@ namespace Ryujinx.Ava.UI.Controls
         public async void OpenTitleUpdateManager_Click(object sender, RoutedEventArgs args)
         {
             if (sender is MenuItem { DataContext: MainWindowViewModel { SelectedApplication: not null } viewModel })
-                await TitleUpdateWindow.Show(viewModel.ApplicationLibrary, viewModel.SelectedApplication);
+                await TitleUpdateManagerView.Show(viewModel.ApplicationLibrary, viewModel.SelectedApplication);
         }
 
         public async void OpenDownloadableContentManager_Click(object sender, RoutedEventArgs args)
         {
             if (sender is MenuItem { DataContext: MainWindowViewModel { SelectedApplication: not null } viewModel })
-                await DownloadableContentManagerWindow.Show(viewModel.ApplicationLibrary, viewModel.SelectedApplication);
+                await DownloadableContentManagerView.Show(viewModel.ApplicationLibrary, viewModel.SelectedApplication);
         }
 
         public async void OpenCheatManager_Click(object sender, RoutedEventArgs args)
@@ -128,7 +127,7 @@ namespace Ryujinx.Ava.UI.Controls
         public async void OpenModManager_Click(object sender, RoutedEventArgs args)
         {
             if (sender is MenuItem { DataContext: MainWindowViewModel { SelectedApplication: not null } viewModel })
-                await ModManagerWindow.Show(
+                await ModManagerView.Show(
                     viewModel.SelectedApplication.Id, 
                     viewModel.SelectedApplication.IdBase, 
                     viewModel.ApplicationLibrary, 
@@ -408,7 +407,7 @@ namespace Ryujinx.Ava.UI.Controls
         public async void OpenApplicationCompatibility_Click(object sender, RoutedEventArgs args)
         {
             if (sender is MenuItem { DataContext: MainWindowViewModel { SelectedApplication: not null } viewModel })
-                await CompatibilityList.Show(viewModel.SelectedApplication.IdString);
+                await CompatibilityListWindow.Show(viewModel.SelectedApplication.IdString);
         }
                
         public async void OpenApplicationData_Click(object sender, RoutedEventArgs args)

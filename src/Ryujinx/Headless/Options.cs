@@ -1,6 +1,7 @@
 using CommandLine;
 using Gommon;
-using Ryujinx.Ava.Utilities.Configuration;
+using Ryujinx.Ava.Systems.Configuration;
+using Ryujinx.Ava.Systems.Configuration.System;
 using Ryujinx.Common.Configuration;
 using Ryujinx.Common.Configuration.Hid;
 using Ryujinx.HLE;
@@ -37,7 +38,7 @@ namespace Ryujinx.Headless
                 EnableInternetAccess = configurationState.System.EnableInternetAccess;
 
             if (NeedsOverride(nameof(DisableFsIntegrityChecks)))
-                DisableFsIntegrityChecks = configurationState.System.EnableFsIntegrityChecks;
+                DisableFsIntegrityChecks = !configurationState.System.EnableFsIntegrityChecks;
             
             if (NeedsOverride(nameof(FsGlobalAccessLogMode)))
                 FsGlobalAccessLogMode = configurationState.System.FsGlobalAccessLogMode;
@@ -58,10 +59,10 @@ namespace Ryujinx.Headless
                 DisableDockedMode = !configurationState.System.EnableDockedMode;
 
             if (NeedsOverride(nameof(SystemLanguage)))
-                SystemLanguage = (SystemLanguage)(int)configurationState.System.Language.Value;
+                SystemLanguage = configurationState.System.Language.Value.ToHLE();
             
             if (NeedsOverride(nameof(SystemRegion)))
-                SystemRegion = (RegionCode)(int)configurationState.System.Region.Value;
+                SystemRegion = configurationState.System.Region.Value.ToHLE();
             
             if (NeedsOverride(nameof(SystemTimeZone)))
                 SystemTimeZone = configurationState.System.TimeZone;

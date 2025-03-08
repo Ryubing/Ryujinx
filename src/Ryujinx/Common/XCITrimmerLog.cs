@@ -26,9 +26,9 @@ namespace Ryujinx.Ava.Common
         
         internal class TrimmerWindow : Ryujinx.Common.Logging.XCIFileTrimmerLog
         {
-            private readonly XCITrimmerViewModel _viewModel;
+            private readonly XciTrimmerViewModel _viewModel;
 
-            public TrimmerWindow(XCITrimmerViewModel viewModel)
+            public TrimmerWindow(XciTrimmerViewModel viewModel)
             {
                 _viewModel = viewModel;
             }

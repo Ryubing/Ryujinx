@@ -3,7 +3,6 @@ using Avalonia.Controls;
 using Avalonia.Controls.ApplicationLifetimes;
 using Avalonia.Input;
 using Avalonia.Media;
-using Avalonia.Media.Imaging;
 using Avalonia.Platform.Storage;
 using Avalonia.Threading;
 using CommunityToolkit.Mvvm.ComponentModel;
@@ -17,14 +16,15 @@ using LibHac.Ns;
 using Ryujinx.Ava.Common;
 using Ryujinx.Ava.Common.Locale;
 using Ryujinx.Ava.Input;
+using Ryujinx.Ava.Systems;
 using Ryujinx.Ava.UI.Controls;
 using Ryujinx.Ava.UI.Helpers;
 using Ryujinx.Ava.UI.Models;
 using Ryujinx.Ava.UI.Models.Generic;
 using Ryujinx.Ava.UI.Renderer;
 using Ryujinx.Ava.UI.Windows;
-using Ryujinx.Ava.Utilities.AppLibrary;
-using Ryujinx.Ava.Utilities.Configuration;
+using Ryujinx.Ava.Systems.AppLibrary;
+using Ryujinx.Ava.Systems.Configuration;
 using Ryujinx.Common;
 using Ryujinx.Common.Configuration;
 using Ryujinx.Common.Helper;
@@ -46,7 +46,6 @@ using System.Collections.ObjectModel;
 using System.Globalization;
 using System.IO;
 using System.Linq;
-using System.Reflection;
 using System.Threading;
 using System.Threading.Tasks;
 using Key = Ryujinx.Input.Key;
@@ -136,13 +135,6 @@ namespace Ryujinx.Ava.UI.ViewModels
         
         // Key is Title ID
         public SafeDictionary<string, LdnGameData.Array> LdnData = [];
-
-        // The UI specifically uses a thicker bordered variant of the icon to avoid crunching out the border at lower resolutions.
-        // For an example of this, download canary 1.2.95, then open the settings menu, and look at the icon in the top-left.
-        // The border gets reduced to colored pixels in the 4 corners.
-        public static readonly Bitmap IconBitmap =
-            new(Assembly.GetAssembly(typeof(MainWindowViewModel))!
-                .GetManifestResourceStream("Ryujinx.Assets.UIImages.Logo_Ryujinx_AntiAlias.png")!);
 
         public MainWindow Window { get; init; }
 
@@ -1794,7 +1786,7 @@ namespace Ryujinx.Ava.UI.ViewModels
             if (WindowState is not WindowState.Normal)
             {
                 WindowState = WindowState.Normal;
-                Window.TitleBar.ExtendsContentIntoTitleBar = !ConfigurationState.Instance.ShowTitleBar;
+                Window.TitleBar.ExtendsContentIntoTitleBar = !ConfigurationState.Instance.ShowOldUI;
 
                 if (IsGameRunning)
                 {

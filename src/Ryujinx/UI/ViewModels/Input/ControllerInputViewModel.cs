@@ -1,9 +1,5 @@
 using Avalonia.Svg.Skia;
 using CommunityToolkit.Mvvm.ComponentModel;
-using CommunityToolkit.Mvvm.Input;
-using FluentAvalonia.UI.Controls;
-using Ryujinx.Ava.Input;
-using Ryujinx.Ava.UI.Helpers;
 using Ryujinx.Ava.UI.Models.Input;
 using Ryujinx.Ava.UI.Views.Input;
 using Ryujinx.Common.Utilities;

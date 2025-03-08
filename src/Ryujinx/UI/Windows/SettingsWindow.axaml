@@ -11,10 +11,11 @@
     xmlns:settings="clr-namespace:Ryujinx.Ava.UI.Views.Settings"
     xmlns:helpers="clr-namespace:Ryujinx.Ava.UI.Helpers"
     xmlns:helper="clr-namespace:Ryujinx.Common.Helper;assembly=Ryujinx.Common"
+    xmlns:controls="clr-namespace:Ryujinx.Ava.UI.Controls"
     Width="1100"
-    Height="927"
-    MinWidth="800"
+    MinWidth="844"
     MinHeight="480"
+    Title="{ext:WindowTitle Settings}"
     WindowStartupLocation="CenterOwner"
     x:DataType="viewModels:SettingsViewModel"
     mc:Ignorable="d"
@@ -22,13 +23,20 @@
     <Design.DataContext>
         <viewModels:SettingsViewModel />
     </Design.DataContext>
-    <Grid HorizontalAlignment="Stretch" VerticalAlignment="Stretch" MinWidth="600" RowDefinitions="Auto,*,Auto">
+    <Grid HorizontalAlignment="Stretch" VerticalAlignment="Stretch" MinWidth="600" RowDefinitions="Auto,Auto,*,Auto">
+        <StackPanel Grid.Row="0" Orientation="Horizontal">
+            <controls:RyujinxLogo
+                HorizontalAlignment="Left"
+                VerticalAlignment="Top"
+                Margin="7, 7, 7, 0"
+                ToolTip.Tip="{ext:WindowTitle Settings}"/>
+        </StackPanel>
         <ContentPresenter
             x:Name="ContentPresenter"
-            Grid.Row="1"
+            Grid.Row="2"
             IsVisible="False"
             KeyboardNavigation.IsTabStop="False"/>
-        <Grid Name="Pages" IsVisible="False" Grid.Row="2">
+        <Grid Name="Pages" IsVisible="False" Grid.Row="3">
             <settings:SettingsUiView Name="UiPage" />
             <settings:SettingsInputView Name="InputPage" />
             <settings:SettingsHotkeysView Name="HotkeysPage" />
@@ -41,12 +49,11 @@
             <settings:SettingsHacksView Name="HacksPage" />
         </Grid>
         <ui:NavigationView
-            Grid.Row="1"
+            Grid.Row="2"
             IsSettingsVisible="False"
             Name="NavPanel"
             IsBackEnabled="False"
-            PaneDisplayMode="Left"
-            Margin="2,10,10,0"
+            Margin="10,10,10,0"
             VerticalAlignment="Stretch"
             HorizontalAlignment="Stretch"
             OpenPaneLength="200">
@@ -108,7 +115,7 @@
                 </Style>
             </ui:NavigationView.Styles>
         </ui:NavigationView>
-        <Grid Grid.Row="2"
+        <Grid Grid.Row="3"
               ColumnDefinitions="Auto,*,Auto">
             <StackPanel Grid.Column="0" Orientation="Horizontal">
                 <Button

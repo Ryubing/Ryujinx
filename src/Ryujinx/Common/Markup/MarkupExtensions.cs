@@ -24,4 +24,17 @@ namespace Ryujinx.Ava.Common.Markup
         protected override void ConfigureBindingExtension(CompiledBindingExtension bindingExtension) 
             => bindingExtension.Source = LocaleManager.Instance;
     }
+    
+    internal class WindowTitleExtension(LocaleKeys key, bool includeVersion) : BasicMarkupExtension<string>
+    {
+        public WindowTitleExtension(LocaleKeys key) : this(key, true)
+        {
+        }
+        
+        public override string Name => "WindowTitleTranslation";
+        protected override string Value => RyujinxApp.FormatTitle(key, includeVersion);
+
+        protected override void ConfigureBindingExtension(CompiledBindingExtension bindingExtension) 
+            => bindingExtension.Source = LocaleManager.Instance;
+    }
 }

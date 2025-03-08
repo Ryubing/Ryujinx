@@ -3,7 +3,7 @@ using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
 using Humanizer;
 using Ryujinx.Ava.UI.Helpers;
-using Ryujinx.Ava.Utilities.Configuration;
+using Ryujinx.Ava.Systems.Configuration;
 using System.Globalization;
 
 namespace Ryujinx.Ava.UI.ViewModels.Input

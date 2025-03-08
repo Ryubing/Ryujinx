@@ -1,25 +1,9 @@
-using Avalonia;
 using Avalonia.Controls;
-using Avalonia.Controls.Shapes;
-using Avalonia.Input;
-using Avalonia.Media.Imaging;
-using FluentAvalonia.Core;
 using FluentAvalonia.UI.Controls;
-using Projektanker.Icons.Avalonia;
 using Ryujinx.Ava.Common.Locale;
-using Ryujinx.Ava.UI.Models;
 using Ryujinx.Ava.UI.ViewModels;
-using Ryujinx.Ava.UI.ViewModels.Input;
-using Ryujinx.Ava.Utilities;
-using Ryujinx.Ava.Utilities.Configuration;
-using Ryujinx.Common.Configuration;
-using Ryujinx.HLE.FileSystem;
-using Ryujinx.HLE.HOS.SystemState;
-using Ryujinx.Input;
 using System;
-using System.IO;
 using System.Linq;
-using Key = Avalonia.Input.Key;
 
 
 namespace Ryujinx.Ava.UI.Windows

@@ -9,7 +9,8 @@ namespace Ryujinx.Common.Configuration
     public enum DirtyHack : byte
     {
         Xc2MenuSoftlockFix = 1,
-        ShaderTranslationDelay = 2
+        // ShaderTranslationDelay = 2
+        NifmServiceDisableIsAnyInternetRequestAccepted = 3
     }
 
     public readonly struct EnabledDirtyHack(DirtyHack hack, int value)

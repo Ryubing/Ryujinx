@@ -1,7 +1,7 @@
 using Avalonia.Logging;
 using Avalonia.Utilities;
 using Gommon;
-using Ryujinx.Ava.Utilities.Configuration;
+using Ryujinx.Ava.Systems.Configuration;
 using Ryujinx.Common.Logging;
 using System;
 using System.Text;

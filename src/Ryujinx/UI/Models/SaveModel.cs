@@ -3,7 +3,7 @@ using LibHac.Fs;
 using LibHac.Ncm;
 using Ryujinx.Ava.UI.ViewModels;
 using Ryujinx.Ava.Utilities;
-using Ryujinx.Ava.Utilities.AppLibrary;
+using Ryujinx.Ava.Systems.AppLibrary;
 using Ryujinx.HLE.FileSystem;
 using System.IO;
 using System.Linq;

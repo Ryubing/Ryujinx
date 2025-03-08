@@ -1,6 +1,6 @@
 ﻿using CommunityToolkit.Mvvm.ComponentModel;
 using Ryujinx.Ava.Common.Models;
-using Ryujinx.Ava.Utilities.AppLibrary;
+using Ryujinx.Ava.Systems.AppLibrary;
 using System.Linq;
 
 namespace Ryujinx.Ava.UI.ViewModels

@@ -29,7 +29,7 @@
                 <TextBlock
                     Foreground="{DynamicResource SecondaryTextColor}"
                     TextDecorations="Underline"
-                    Text="Highly specific hacks &amp; tricks to alleviate performance issues, crashing, or freezing. Will cause issues." />
+                    Text="Highly specific hacks &amp; tricks to alleviate performance issues, crashing, or freezing. Can cause issues." />
                 <StackPanel
                     Margin="0,10,0,0"
                     Orientation="Horizontal"
@@ -43,6 +43,18 @@
                         Text="Xenoblade Chronicles 2 Menu Softlock Fix" />
                 </StackPanel>
                 <Separator/>
+                <StackPanel
+                    Margin="0,10,0,0"
+                    Orientation="Horizontal"
+                    HorizontalAlignment="Center"
+                    ToolTip.Tip="{Binding DirtyHacks.NifmDisableIsAnyInternetRequestAcceptedTooltip}">
+                    <CheckBox
+                        Margin="0"
+                        IsChecked="{Binding DirtyHacks.NifmDisableIsAnyInternetRequestAccepted}"/>
+                    <TextBlock
+                        VerticalAlignment="Center"
+                        Text="Disable IsAnyInternetRequestAccepted" />
+                </StackPanel>
             </StackPanel>
         </Border>
     </ScrollViewer>

@@ -1,0 +1,153 @@
+<UserControl
+    x:Class="Ryujinx.Ava.UI.Views.Dialog.TitleUpdateManagerView"
+    xmlns="https://github.com/avaloniaui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:ext="clr-namespace:Ryujinx.Ava.Common.Markup"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:viewModels="clr-namespace:Ryujinx.Ava.UI.ViewModels"
+    xmlns:ui="clr-namespace:FluentAvalonia.UI.Controls;assembly=FluentAvalonia"
+    xmlns:helpers="clr-namespace:Ryujinx.Ava.UI.Helpers"
+    xmlns:models="clr-namespace:Ryujinx.Ava.Common.Models"
+    Width="500"
+    Height="300"
+    mc:Ignorable="d"
+    x:DataType="viewModels:TitleUpdateViewModel"
+    Focusable="True">
+    <Grid RowDefinitions="Auto,*,Auto">
+        <StackPanel
+            Grid.Row="0"
+            Margin="0 0 0 10"
+            Spacing="5"
+            Orientation="Horizontal"
+            IsVisible="{Binding ShowBundledContentNotice}">
+            <ui:FontIcon
+                Margin="0"
+                HorizontalAlignment="Stretch"
+                FontFamily="avares://FluentAvalonia/Fonts#Symbols"
+                Glyph="{helpers:GlyphValueConverter Important}" />
+            <!-- NOTE: aligning to bottom for better visual alignment with glyph -->
+            <TextBlock
+                FontStyle="Italic"
+                VerticalAlignment="Bottom"
+                Text="{ext:Locale UpdateWindowBundledContentNotice}" />
+        </StackPanel>
+        <Border
+            Grid.Row="1"
+            Margin="0 0 0 24"
+            HorizontalAlignment="Stretch"
+            VerticalAlignment="Stretch"
+            BorderBrush="{DynamicResource AppListHoverBackgroundColor}"
+            BorderThickness="1"
+            CornerRadius="5"
+            Padding="2.5">
+            <ListBox
+                Background="Transparent"
+                SelectedItem="{Binding SelectedUpdate, Mode=TwoWay}"
+                ItemsSource="{Binding Views}">
+                <ListBox.DataTemplates>
+                    <DataTemplate
+                        DataType="models:TitleUpdateModel">
+                        <Panel Margin="10">
+                            <TextBlock
+                                HorizontalAlignment="Left"
+                                VerticalAlignment="Center"
+                                TextWrapping="Wrap">
+                                <TextBlock.Text>
+                                    <MultiBinding Converter="{x:Static helpers:TitleUpdateLabelConverter.Instance}">
+                                        <Binding Path="DisplayVersion" />
+                                        <Binding Path="IsBundled" />
+                                    </MultiBinding>
+                                </TextBlock.Text>
+                            </TextBlock>
+                            <StackPanel
+                                Spacing="10"
+                                Orientation="Horizontal"
+                                HorizontalAlignment="Right">
+                                <Button
+                                    VerticalAlignment="Center"
+                                    HorizontalAlignment="Right"
+                                    Padding="10"
+                                    MinWidth="0"
+                                    MinHeight="0"
+                                    Click="OpenLocation">
+                                    <ui:SymbolIcon
+                                        Symbol="OpenFolder"
+                                        HorizontalAlignment="Center"
+                                        VerticalAlignment="Center" />
+                                </Button>
+                                <Button
+                                    VerticalAlignment="Center"
+                                    HorizontalAlignment="Right"
+                                    Padding="10"
+                                    MinWidth="0"
+                                    MinHeight="0"
+                                    Click="RemoveUpdate">
+                                    <ui:SymbolIcon
+                                        Symbol="Cancel"
+                                        HorizontalAlignment="Center"
+                                        VerticalAlignment="Center" />
+                                </Button>
+                            </StackPanel>
+                        </Panel>
+                    </DataTemplate>
+                    <DataTemplate
+                        DataType="viewModels:TitleUpdateViewModelNoUpdate">
+                        <Panel
+                            Height="33"
+                            Margin="10">
+                            <TextBlock
+                                HorizontalAlignment="Left"
+                                VerticalAlignment="Center"
+                                TextWrapping="Wrap"
+                                Text="{ext:Locale NoUpdate}" />
+                        </Panel>
+                    </DataTemplate>
+                </ListBox.DataTemplates>
+                <ListBox.Styles>
+                    <Style Selector="ListBoxItem">
+                        <Setter Property="Background" Value="Transparent" />
+                    </Style>
+                </ListBox.Styles>
+            </ListBox>
+        </Border>
+        <Panel
+            Grid.Row="2"
+            HorizontalAlignment="Stretch">
+            <StackPanel
+                Orientation="Horizontal"
+                Spacing="10"
+                HorizontalAlignment="Left">
+                <Button
+                    Name="AddButton"
+                    MinWidth="90"
+                    Command="{Binding Add}">
+                    <TextBlock Text="{ext:Locale SettingsTabGeneralAdd}" />
+                </Button>
+                <Button
+                    Name="RemoveAllButton"
+                    MinWidth="90"
+                    Click="RemoveAll">
+                    <TextBlock Text="{ext:Locale DlcManagerRemoveAllButton}" />
+                </Button>
+            </StackPanel>
+            <StackPanel
+                Orientation="Horizontal"
+                Spacing="10"
+                HorizontalAlignment="Right">
+                <Button
+                    Name="SaveButton"
+                    MinWidth="90"
+                    Click="Save">
+                    <TextBlock Text="{ext:Locale SettingsButtonSave}" />
+                </Button>
+                <Button
+                    Name="CancelButton"
+                    MinWidth="90"
+                    Click="Close">
+                    <TextBlock Text="{ext:Locale InputDialogCancel}" />
+                </Button>
+            </StackPanel>
+        </Panel>
+    </Grid>
+</UserControl>

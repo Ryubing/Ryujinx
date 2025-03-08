@@ -6,6 +6,7 @@
     xmlns:ext="clr-namespace:Ryujinx.Ava.Common.Markup"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:window="clr-namespace:Ryujinx.Ava.UI.Windows"
+    xmlns:controls="clr-namespace:Ryujinx.Ava.UI.Controls"
     Width="600"
     Height="750"
     MinWidth="500"
@@ -20,38 +21,81 @@
         </Style>
     </Window.Styles>
     <Grid Name="CheatGrid" Margin="15" RowDefinitions="Auto,Auto,Auto,*,Auto" ColumnDefinitions="*,*">
-        <TextBlock
-            Grid.Row="1"
-            Grid.Column="0"
-            Grid.ColumnSpan="2"
-            MaxWidth="500"
-            Margin="20,15,20,5"
-            HorizontalAlignment="Center"
-            VerticalAlignment="Center"
-            LineHeight="18"
-            Text="{Binding Heading}"
-            TextAlignment="Center"
-            TextWrapping="Wrap" />
-        <TextBlock
-            Grid.Row="2"
-            Grid.Column="0"
-            MaxWidth="500"
-            Margin="140,15,20,5"
-            HorizontalAlignment="Center"
-            VerticalAlignment="Center"
-            LineHeight="30"
-            Text="{ext:Locale BuildId}"
-            TextAlignment="Center"
-            TextWrapping="Wrap" />
-        <TextBox
-            Grid.Row="2"
-            Grid.Column="1"
-            Margin="0,5,110,5"
-            MinWidth="160"
-            HorizontalAlignment="Center"
-            VerticalAlignment="Center"
-            Text="{Binding BuildId}"
-            IsReadOnly="True" />
+        <Grid Name="FlushHeader" Grid.Row="1" Column="0" ColumnSpan="2" RowDefinitions="Auto,Auto,Auto" ColumnDefinitions="Auto,*,Auto,*">
+            <controls:RyujinxLogo
+                Grid.Row="0"
+                Grid.Column="0"
+                HorizontalAlignment="Left"
+                Margin="-7, -22, 7, 0"
+                Height="28"
+                Width="28"
+                ToolTip.Tip="{ext:WindowTitle CheatWindowTitle}"/>
+            <StackPanel Grid.Row="0" Grid.Column="1" Grid.ColumnSpan="2"
+                        Margin="7, -7, 0, 5"
+                        Orientation="Horizontal"
+                        VerticalAlignment="Center"
+                        HorizontalAlignment="Stretch">
+                <TextBlock
+                    MaxWidth="500"
+                    Margin="0,8,5,0"
+                    LineHeight="30"
+                    Text="{ext:Locale BuildId}"
+                    TextAlignment="Center"
+                    TextWrapping="Wrap" />
+                <TextBox
+                    Margin="0,0,0,0"
+                    MinWidth="135"
+                    Text="{Binding BuildId}"
+                    IsReadOnly="True" />
+            </StackPanel>
+            <TextBlock
+                Grid.Row="1"
+                Grid.Column="0"
+                Grid.ColumnSpan="4"
+                MaxWidth="500"
+                Margin="0,10,0,5"
+                HorizontalAlignment="Stretch"
+                VerticalAlignment="Center"
+                LineHeight="18"
+                Text="{Binding Heading}"
+                TextAlignment="Center"
+                TextWrapping="Wrap" />
+
+        </Grid>
+        <Grid Name="NormalHeader" Grid.Row="1" Column="0" ColumnSpan="2" RowDefinitions="Auto,Auto,Auto" ColumnDefinitions="*,*">
+            <TextBlock
+                Grid.Row="1"
+                Grid.Column="0"
+                Grid.ColumnSpan="2"
+                MaxWidth="500"
+                Margin="20,15,20,5"
+                HorizontalAlignment="Center"
+                VerticalAlignment="Center"
+                LineHeight="18"
+                Text="{Binding Heading}"
+                TextAlignment="Center"
+                TextWrapping="Wrap" />
+            <TextBlock
+                Grid.Row="2"
+                Grid.Column="0"
+                MaxWidth="500"
+                Margin="140,15,20,5"
+                HorizontalAlignment="Center"
+                VerticalAlignment="Center"
+                LineHeight="30"
+                Text="{ext:Locale BuildId}"
+                TextAlignment="Center"
+                TextWrapping="Wrap" />
+            <TextBox
+                Grid.Row="2"
+                Grid.Column="1"
+                Margin="0,5,110,5"
+                MinWidth="160"
+                HorizontalAlignment="Center"
+                VerticalAlignment="Center"
+                Text="{Binding BuildId}"
+                IsReadOnly="True" />
+        </Grid>
         <Border
             Grid.Row="3"
             Grid.Column="0"

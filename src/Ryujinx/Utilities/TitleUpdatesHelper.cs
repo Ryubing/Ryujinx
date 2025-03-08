@@ -7,7 +7,7 @@ using LibHac.Ns;
 using LibHac.Tools.FsSystem;
 using LibHac.Tools.FsSystem.NcaUtils;
 using Ryujinx.Ava.Common.Models;
-using Ryujinx.Ava.Utilities.Configuration;
+using Ryujinx.Ava.Systems.Configuration;
 using Ryujinx.Common.Configuration;
 using Ryujinx.Common.Logging;
 using Ryujinx.Common.Utilities;
@@ -81,10 +81,6 @@ namespace Ryujinx.Ava.Utilities
         {
             List<(TitleUpdateModel, bool IsSelected)> result = [];
 
-            IntegrityCheckLevel checkLevel = ConfigurationState.Instance.System.EnableFsIntegrityChecks
-                ? IntegrityCheckLevel.ErrorOnInvalid
-                : IntegrityCheckLevel.None;
-
             foreach (string path in titleUpdateMetadata.Paths)
             {
                 if (!File.Exists(path))
@@ -95,7 +91,7 @@ namespace Ryujinx.Ava.Utilities
                     using IFileSystem pfs = PartitionFileSystemUtils.OpenApplicationFileSystem(path, vfs);
 
                     Dictionary<ulong, ContentMetaData> updates =
-                        pfs.GetContentData(ContentMetaType.Patch, vfs, checkLevel);
+                        pfs.GetContentData(ContentMetaType.Patch, vfs, ConfigurationState.Instance.System.IntegrityCheckLevel);
 
                     if (!updates.TryGetValue(applicationIdBase, out ContentMetaData content))
                         continue;

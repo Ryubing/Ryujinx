@@ -1,0 +1,82 @@
+﻿<window:StyleableAppWindow xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:helpers="using:Ryujinx.Ava.UI.Helpers"
+             xmlns:ext="using:Ryujinx.Ava.Common.Markup"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:viewModels="clr-namespace:Ryujinx.Ava.UI.ViewModels"
+             xmlns:systems="clr-namespace:Ryujinx.Ava.Systems"
+             xmlns:window="clr-namespace:Ryujinx.Ava.UI.Windows"
+             xmlns:controls="clr-namespace:Ryujinx.Ava.UI.Controls"
+             CanResize="False"
+             mc:Ignorable="d"
+             MinWidth="800"
+             MinHeight="745"
+             x:Class="Ryujinx.Ava.UI.Windows.CompatibilityListWindow"
+             x:DataType="viewModels:CompatibilityViewModel">
+    <window:StyleableAppWindow.DataContext>
+        <viewModels:CompatibilityViewModel />
+    </window:StyleableAppWindow.DataContext>
+    <Grid RowDefinitions="Auto,*">
+        <Grid Grid.Row="0" ColumnDefinitions="Auto,*,Auto,Auto" Name="FlushControls">
+            <controls:RyujinxLogo 
+                Grid.Column="0"
+                Margin="15, 0, 7, 0"
+                ToolTip.Tip="{ext:WindowTitle CompatibilityListTitle, False}"/>
+            <TextBox Name="SearchBoxFlush" Grid.Column="1" Margin="0, 5, 0, 5" HorizontalAlignment="Stretch" Watermark="{ext:Locale CompatibilityListSearchBoxWatermarkWithCount}" TextChanged="TextBox_OnTextChanged" />
+            <CheckBox Grid.Column="2" Margin="7, 0, 0, 0" IsChecked="{Binding OnlyShowOwnedGames}" />
+            <TextBlock Grid.Column="3" Padding="0, 0, 138, 0" Margin="-10, 0, 18, 0" Text="{ext:Locale CompatibilityListOnlyShowOwnedGames}" />
+        </Grid>
+        <Grid Grid.Row="0" ColumnDefinitions="*,Auto,Auto" Name="NormalControls">
+            <TextBox Name="SearchBoxNormal" Grid.Column="0" Margin="15, 0, 0, 5" HorizontalAlignment="Stretch" Watermark="{ext:Locale CompatibilityListSearchBoxWatermark}" TextChanged="TextBox_OnTextChanged" />
+            <CheckBox Grid.Column="1" Margin="7, 0, 0, 0" IsChecked="{Binding OnlyShowOwnedGames}" />
+            <TextBlock Grid.Column="2" Padding="0, 0, 1, 0" Margin="-10, 0, 18, 0" Text="{ext:Locale CompatibilityListOnlyShowOwnedGames}" />
+        </Grid>
+        <ScrollViewer Grid.Row="1">
+                <ListBox Margin="12, 0, 13, 0"
+                         Background="Transparent"
+                         ItemsSource="{Binding CurrentEntries}">
+                    <ListBox.ItemTemplate>
+                        <DataTemplate DataType="{x:Type systems:CompatibilityEntry}">
+                            <Grid MinWidth="800"
+                                  Margin="10"
+                                  ColumnDefinitions="Auto,Auto,Auto,*"
+                                  Background="Transparent"
+                                  ToolTip.Tip="{Binding  LocalizedLastUpdated}">
+                                <TextBlock Grid.Column="0"
+                                           Text="{Binding GameName}"
+                                           Width="525"
+                                           VerticalAlignment="Center"
+                                           HorizontalAlignment="Center"
+                                           TextWrapping="Wrap" />
+                                <TextBlock Grid.Column="1"
+                                           Width="135"
+                                           Padding="7, 0, 0, 0"
+                                           FontFamily="{StaticResource JetBrainsMono}"
+                                           Text="{Binding FormattedTitleId}"
+                                           VerticalAlignment="Center"
+                                           HorizontalAlignment="Center"
+                                           TextWrapping="Wrap" />
+                                <TextBlock Grid.Column="2"
+                                           Padding="7, 0"
+                                           Text="{Binding LocalizedStatus}"
+                                           Width="90"
+                                           Background="Transparent"
+                                           ToolTip.Tip="{Binding LocalizedStatusDescription}"
+                                           Foreground="{Binding Status, Converter={x:Static helpers:PlayabilityStatusConverter.Shared}}"
+                                           VerticalAlignment="Center"
+                                           HorizontalAlignment="Center"
+                                           TextWrapping="NoWrap" />
+                                <TextBlock Grid.Column="3"
+                                           Text="{Binding FormattedIssueLabels}"
+                                           VerticalAlignment="Center"
+                                           HorizontalAlignment="Left"
+                                           TextWrapping="WrapWithOverflow" />
+                            </Grid>
+                        </DataTemplate>
+                    </ListBox.ItemTemplate>
+                </ListBox>
+        </ScrollViewer>
+        <Grid></Grid>
+    </Grid>
+</window:StyleableAppWindow>

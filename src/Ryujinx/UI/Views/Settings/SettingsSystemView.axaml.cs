@@ -1,13 +1,12 @@
 using Avalonia.Controls;
+using Ryujinx.Ava.UI.Controls;
 using Ryujinx.Ava.UI.ViewModels;
 using TimeZone = Ryujinx.Ava.UI.Models.TimeZone;
 
 namespace Ryujinx.Ava.UI.Views.Settings
 {
-    public partial class SettingsSystemView : UserControl
+    public partial class SettingsSystemView : RyujinxControl<SettingsViewModel>
     {
-        public SettingsViewModel ViewModel;
-
         public SettingsSystemView()
         {
             InitializeComponent();

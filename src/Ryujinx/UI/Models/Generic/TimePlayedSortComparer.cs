@@ -1,4 +1,4 @@
-using Ryujinx.Ava.Utilities.AppLibrary;
+using Ryujinx.Ava.Systems.AppLibrary;
 using System;
 using System.Collections.Generic;
 

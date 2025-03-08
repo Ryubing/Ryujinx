@@ -1,7 +1,7 @@
 ﻿using Gommon;
 using Ryujinx.Ava.Common.Locale;
-using Ryujinx.Ava.Utilities.AppLibrary;
-using Ryujinx.Ava.Utilities.PlayReport;
+using Ryujinx.Ava.Systems.AppLibrary;
+using Ryujinx.Ava.Systems.PlayReport;
 
 namespace Ryujinx.Ava.UI.ViewModels
 {
