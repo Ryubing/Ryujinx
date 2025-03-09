@@ -11,7 +11,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ContentWithTargetPath Include="Native\libs\libarmeilleure-jitsupport.dylib" Condition="'$(RuntimeIdentifier)' == '' OR '$(RuntimeIdentifier)' == 'osx-arm64'">
+    <ContentWithTargetPath Include="Native\libs\libarmeilleure-jitsupport.dylib" Condition="'$(RuntimeIdentifier)' == 'osx-arm64'">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
       <TargetPath>libarmeilleure-jitsupport.dylib</TargetPath>
     </ContentWithTargetPath>
