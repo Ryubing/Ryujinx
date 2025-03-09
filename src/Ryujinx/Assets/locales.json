@@ -2767,7 +2767,7 @@
         "sv_SE": "",
         "th_TH": "",
         "tr_TR": "",
-        "uk_UA": "",
+        "uk_UA": "Створити користувацьку конфігурацію",
         "zh_CN": "",
         "zh_TW": ""
       }
@@ -2792,7 +2792,7 @@
         "sv_SE": "",
         "th_TH": "",
         "tr_TR": "",
-        "uk_UA": "",
+        "uk_UA": "Редагувати користувацьку конфігурацію",
         "zh_CN": "",
         "zh_TW": ""
       }
@@ -2842,7 +2842,7 @@
         "sv_SE": "Skapar en oberoende konfiguration för det aktuella spelet",
         "th_TH": "สร้างการกำหนดค่าที่เป็นอิสระสำหรับเกมปัจจุบัน",
         "tr_TR": "Mevcut oyun için bağımsız bir yapılandırma oluşturur",
-        "uk_UA": "Створює незалежну конфігурацію для поточної гри",
+        "uk_UA": "Створюйте незалежну конфігурацію для поточної гри",
         "zh_CN": "为当前游戏创建独立的配置",
         "zh_TW": "為當前遊戲創建獨立的配置"
       }
@@ -2867,7 +2867,7 @@
         "sv_SE": "",
         "th_TH": "",
         "tr_TR": "",
-        "uk_UA": "",
+        "uk_UA": "Відредагувати наявну індивідуальну конфігурацію для цієї гри.",
         "zh_CN": "",
         "zh_TW": ""
       }
@@ -3442,7 +3442,7 @@
         "sv_SE": "Användargränssnitt",
         "th_TH": "หน้าจอผู้ใช้",
         "tr_TR": "Kullancı Arayüzü",
-        "uk_UA": "Інтерфейс користувача",
+        "uk_UA": "Інтерфейс",
         "zh_CN": "用户界面",
         "zh_TW": "使用者介面"
       }
@@ -3817,7 +3817,7 @@
         "sv_SE": "Inaktivera inmatning när fokus tappas",
         "th_TH": "",
         "tr_TR": "",
-        "uk_UA": "",
+        "uk_UA": "Вимкнути введення, якщо вікно неактивне",
         "zh_CN": "在后台时禁用输入",
         "zh_TW": ""
       }
@@ -3842,7 +3842,7 @@
         "sv_SE": "",
         "th_TH": "",
         "tr_TR": "",
-        "uk_UA": "",
+        "uk_UA": "Показати оригінальний UI (Потрібен перезапуск)",
         "zh_CN": "",
         "zh_TW": ""
       }
@@ -3867,7 +3867,7 @@
         "sv_SE": "",
         "th_TH": "",
         "tr_TR": "",
-        "uk_UA": "",
+        "uk_UA": "Показати старий інтерфейс Avalonia Ryujinx, який був у Ryujinx 1.1.1403. Ця опція активна за замовчуванням на всіх інших, окрім Windows платформах.\nПовернеться класична панель заголовка, а всі суттєві зміни інтерфейсу будуть скасовані, зокрема горизонтальне розміщення навігації в налаштуваннях.",
         "zh_CN": "",
         "zh_TW": ""
       }
@@ -4867,7 +4867,7 @@
         "sv_SE": "Matcha systemtid",
         "th_TH": "",
         "tr_TR": "",
-        "uk_UA": "",
+        "uk_UA": "Синхронізувати з системним годинником",
         "zh_CN": "与系统时间同步",
         "zh_TW": ""
       }
@@ -8567,7 +8567,7 @@
         "sv_SE": "",
         "th_TH": "",
         "tr_TR": "",
-        "uk_UA": "",
+        "uk_UA": "LED-підсвітка",
         "zh_CN": "",
         "zh_TW": ""
       }
@@ -8592,7 +8592,7 @@
         "sv_SE": "Inaktivera",
         "th_TH": "",
         "tr_TR": "",
-        "uk_UA": "",
+        "uk_UA": "Вимкнути",
         "zh_CN": "关闭",
         "zh_TW": ""
       }
@@ -8617,7 +8617,7 @@
         "sv_SE": "Regnbåge",
         "th_TH": "",
         "tr_TR": "",
-        "uk_UA": "",
+        "uk_UA": "Веселка",
         "zh_CN": "彩虹",
         "zh_TW": ""
       }
@@ -8642,7 +8642,7 @@
         "sv_SE": "Regnbågshastighet",
         "th_TH": "",
         "tr_TR": "",
-        "uk_UA": "",
+        "uk_UA": "Швидкість зміни кольорів",
         "zh_CN": "彩虹滚动速度",
         "zh_TW": ""
       }
@@ -9267,7 +9267,7 @@
         "sv_SE": "",
         "th_TH": "",
         "tr_TR": "Esc",
-        "uk_UA": "",
+        "uk_UA": "Esc",
         "zh_CN": "Esc",
         "zh_TW": "Esc 鍵"
       }
@@ -10967,7 +10967,7 @@
         "sv_SE": "Diverse",
         "th_TH": "",
         "tr_TR": "Diğer",
-        "uk_UA": "",
+        "uk_UA": "Інше",
         "zh_CN": "截图键",
         "zh_TW": "其他按鍵"
       }
@@ -17817,7 +17817,7 @@
         "sv_SE": "Ändra ljudvolym",
         "th_TH": "ปรับระดับเสียง",
         "tr_TR": "Ses seviyesini değiştirir",
-        "uk_UA": "Змінити гучність звуку",
+        "uk_UA": "Регулювання гучності",
         "zh_CN": "调节音量",
         "zh_TW": "調節音量"
       }
@@ -19717,7 +19717,7 @@
         "sv_SE": "Alla tangentbord",
         "th_TH": "คีย์บอร์ดทั้งหมด",
         "tr_TR": "Tüm Klavyeler",
-        "uk_UA": "Всі клавіатури",
+        "uk_UA": "Усі клавіатури",
         "zh_CN": "所有键盘",
         "zh_TW": "所有鍵盤"
       }
@@ -19867,7 +19867,7 @@
         "sv_SE": "Snabbtangenter för tangentbord",
         "th_TH": "ปุ่มลัดของคีย์บอร์ด",
         "tr_TR": "Klavye Kısayolları",
-        "uk_UA": "Гарячі клавіші клавіатури",
+        "uk_UA": "Гарячі клавіші",
         "zh_CN": "快捷键",
         "zh_TW": "鍵盤快速鍵"
       }
@@ -22592,7 +22592,7 @@
         "sv_SE": "Tillämpar anti-aliasing på spelrenderaren.\n\nFXAA kommer att sudda det mesta av bilden, medan SMAA kommer att försöka hitta taggiga kanter och släta ut dem.\n\nRekommenderas inte att använda tillsammans med skalfiltret FSR.\n\nDet här alternativet kan ändras medan ett spel körs genom att klicka på \"Tillämpa\" nedan. Du kan helt enkelt flytta inställningsfönstret åt sidan och experimentera tills du hittar ditt föredragna utseende för ett spel.\n\nLämna som INGEN om du är osäker.",
         "th_TH": "ใช้การลดรอยหยักกับการเรนเดอร์เกม\n\nFXAA จะเบลอภาพส่วนใหญ่ ในขณะที่ SMAA จะพยายามค้นหารอยหยักและปรับให้เรียบ\n\nไม่แนะนำให้ใช้ร่วมกับตัวกรองสเกล FSR\n\nตัวเลือกนี้สามารถเปลี่ยนแปลงได้ในขณะที่เกมกำลังทำงานอยู่โดยคลิก \"นำไปใช้\" ด้านล่าง คุณสามารถย้ายหน้าต่างการตั้งค่าไปด้านข้างและทดลองจนกว่าคุณจะพบรูปลักษณ์ที่คุณต้องการสำหรับเกม\n\nปล่อยไว้ที่ NONE หากไม่แน่ใจ",
         "tr_TR": "",
-        "uk_UA": "Застосовує згладження до рендера гри.\n\nFXAA розмиє більшість зображення, а SMAA спробує знайти нерівні краї та згладити їх.\n\nНе рекомендується використовувати разом з фільтром масштабування FSR.\n\nЦю опцію можна міняти коли гра запущена кліком на \"Застосувати; ви можете відсунути вікно налаштувань і поекспериментувати з видом гри.\n\nЗалиште на \"Немає\", якщо не впевнені.",
+        "uk_UA": "Застосовує згладження до рендера гри.\n\nFXAA розмиє більшість зображення, а SMAA спробує знайти нерівні краї та згладити їх.\n\nНе рекомендується використовувати разом з фільтром масштабування FSR.\n\nЦю опцію можна міняти коли гра запущена кліком на \"Застосувати; ви можете відсунути вікно налаштувань і поекспериментувати з видом гри.\n\nЗалиште \"Немає\", якщо не впевнені.",
         "zh_CN": "抗锯齿是一种图形处理技术，用于减少图像边缘的锯齿状现象，使图像更加平滑。\n\nFXAA（快速近似抗锯齿）是一种性能开销相对较小的抗锯齿方法，但可能会使得整体图像看起来有些模糊。\n\nSMAA（增强型子像素抗锯齿）则更加精细，它会尝试找到锯齿边缘并平滑它们，相比 FXAA 有更好的图像质量，但性能开销可能会稍大一些。\n\n如果开启了 FSR（FidelityFX Super Resolution，超级分辨率锐画技术）来提高性能或图像质量，不建议再启用抗锯齿，因为它们会产生不必要的图形处理开销，或者相互之间效果不协调。\n\n在游戏运行时，通过点击下面的“应用”按钮可以使设置生效；你可以将设置窗口移开，并试验找到您喜欢的游戏画面效果。\n\n如果不确定，请保持为“无”。",
         "zh_TW": "對遊戲繪製進行反鋸齒處理。\n\nFXAA 會模糊大部分圖像，而 SMAA 則會嘗試找出鋸齒邊緣並將其平滑化。\n\n不建議與 FSR 縮放濾鏡一起使用。\n\n此選項可在遊戲執行時透過點選下方的「套用」進行變更；您只需將設定視窗移到一旁，然後進行試驗，直到找到您喜歡的遊戲效果。\n\n如果不確定，請選擇無狀態。"
       }
@@ -22667,7 +22667,7 @@
         "sv_SE": "Välj det skalfilter som ska tillämpas vid användning av upplösningsskala.\n\nBilinjär fungerar bra för 3D-spel och är ett säkert standardalternativ.\n\nNärmast rekommenderas för pixel art-spel.\n\nFSR 1.0 är bara ett skarpningsfilter, rekommenderas inte för FXAA eller SMAA.\n\nOmrådesskalning rekommenderas vid nedskalning av upplösning som är större än utdatafönstret. Det kan användas för att uppnå en supersamplad anti-alias-effekt vid nedskalning med mer än 2x.\n\nDetta alternativ kan ändras medan ett spel körs genom att klicka på \"Tillämpa\" nedan. du kan helt enkelt flytta inställningsfönstret åt sidan och experimentera tills du hittar ditt föredragna utseende för ett spel.\n\nLämna som BILINJÄR om du är osäker.",
         "th_TH": "เลือกตัวกรองสเกลที่จะใช้เมื่อใช้สเกลความละเอียด\n\nBilinear ทำงานได้ดีกับเกม 3D และเป็นตัวเลือกเริ่มต้นที่ปลอดภัย\n\nแนะนำให้ใช้เกมภาพพิกเซลที่ใกล้เคียงที่สุด\n\nFSR 1.0 เป็นเพียงตัวกรองความคมชัด ไม่แนะนำให้ใช้กับ FXAA หรือ SMAA\n\nตัวเลือกนี้สามารถเปลี่ยนแปลงได้ในขณะที่เกมกำลังทำงานอยู่โดยคลิก \"นำไปใช้\" ด้านล่าง คุณสามารถย้ายหน้าต่างการตั้งค่าไปด้านข้างและทดลองจนกว่าคุณจะพบรูปลักษณ์ที่คุณต้องการสำหรับเกม",
         "tr_TR": "Choose the scaling filter that will be applied when using resolution scale.\n\nBilinear works well for 3D games and is a safe default option.\n\nNearest is recommended for pixel art games.\n\nFSR 1.0 is merely a sharpening filter, not recommended for use with FXAA or SMAA.\n\nThis option can be changed while a game is running by clicking \"Apply\" below; you can simply move the settings window aside and experiment until you find your preferred look for a game.\n\nLeave on BILINEAR if unsure.",
-        "uk_UA": "Виберіть фільтр масштабування, що використається при збільшенні роздільної здатності.\n\n\"Білінійний\" добре виглядає в 3D іграх, і хороше налаштування за умовчуванням.\n\n\"Найближчий\" рекомендується для ігор з піксель-артом.\n\n\"FSR 1.0\" - фільтр різкості. Не варто використовувати разом з FXAA або SMAA.\n\nЦю опцію можна змінювати під час гри кліком на \"Застосувати\" нижче; ви можете відсунути вікно налаштувань і поекспериментувати з тим, як відображатиметься гра.\n\nЗалиште на \"Білінійний\", якщо не впевнені.",
+        "uk_UA": "Виберіть фільтр масштабування, що використається при збільшенні роздільної здатності.\n\n\"Білінійний\" добре виглядає в 3D іграх, і хороше налаштування за умовчуванням.\n\n\"Найближчий\" рекомендується для ігор з піксель-артом.\n\n\"FSR 1.0\" - фільтр різкості. Не варто використовувати разом з FXAA або SMAA.\n\nЦю опцію можна змінювати під час гри кліком на \"Застосувати\" нижче; ви можете відсунути вікно налаштувань і поекспериментувати з тим, як відображатиметься гра.\n\nЗалиште \"Білінійний\", якщо не впевнені.",
         "zh_CN": "选择在分辨率缩放时将使用的缩放过滤器。\n\nBilinear（双线性过滤）对于3D游戏效果较好，是一个安全的默认选项。\n\nNearest（最近邻过滤）推荐用于像素艺术游戏。\n\nFSR（超级分辨率锐画）只是一个锐化过滤器，不推荐与 FXAA 或 SMAA 抗锯齿一起使用。\n\nArea（局部过滤），当渲染分辨率大于窗口实际分辨率，推荐该选项。该选项在渲染比例大于2.0的情况下，可以实现超采样的效果。\n\n在游戏运行时，通过点击下面的“应用”按钮可以使设置生效；你可以将设置窗口移开，并试验找到您喜欢的游戏画面效果。\n\n如果不确定，请保持为“Bilinear（双线性过滤）”。",
         "zh_TW": "選擇使用解析度縮放時套用的縮放過濾器。\n\n雙線性 (Bilinear) 濾鏡適用於 3D 遊戲，是一個安全的預設選項。\n\n建議像素美術遊戲使用近鄰性 (Nearest) 濾鏡。\n\nFSR 1.0 只是一個銳化濾鏡，不建議與 FXAA 或 SMAA 一起使用。\n\n此選項可在遊戲執行時透過點選下方的「套用」進行變更；您只需將設定視窗移到一旁，然後進行試驗，直到找到您喜歡的遊戲效果。\n\n如果不確定，請保持雙線性 (Bilinear) 狀態。"
       }
@@ -23992,7 +23992,7 @@
         "sv_SE": "",
         "th_TH": "",
         "tr_TR": "",
-        "uk_UA": "",
+        "uk_UA": "Список сумісності — {0} ігор",
         "zh_CN": "",
         "zh_TW": ""
       }
@@ -24067,7 +24067,7 @@
         "sv_SE": "",
         "th_TH": "",
         "tr_TR": "",
-        "uk_UA": "",
+        "uk_UA": "Шукати серед {0} перевірених ігор...",
         "zh_CN": "",
         "zh_TW": ""
       }
@@ -24142,7 +24142,7 @@
         "sv_SE": "Spelbart",
         "th_TH": "",
         "tr_TR": "",
-        "uk_UA": "Оптимально",
+        "uk_UA": "Справна",
         "zh_CN": "可游玩",
         "zh_TW": "可暢順遊玩"
       }
@@ -24392,7 +24392,7 @@
         "sv_SE": "",
         "th_TH": "",
         "tr_TR": "",
-        "uk_UA": "",
+        "uk_UA": "Власна конфігурація",
         "zh_CN": "",
         "zh_TW": ""
       }
@@ -24417,7 +24417,7 @@
         "sv_SE": "",
         "th_TH": "",
         "tr_TR": "",
-        "uk_UA": "",
+        "uk_UA": "(Глобальні)",
         "zh_CN": "",
         "zh_TW": ""
       }
