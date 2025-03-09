@@ -21,7 +21,7 @@ namespace Ryujinx.Graphics.Vulkan
         private const string AppName = "Ryujinx.Graphics.Vulkan";
         private const int QueuesCount = 2;
 
-        private static readonly string[] _desirableExtensions =
+        private static readonly string[] _desirableExtensions = 
         [
             ExtConditionalRendering.ExtensionName,
             ExtExtendedDynamicState.ExtensionName,
@@ -46,8 +46,6 @@ namespace Ryujinx.Graphics.Vulkan
             "VK_EXT_4444_formats",
             "VK_KHR_8bit_storage",
             "VK_KHR_maintenance2",
-            "VK_EXT_attachment_feedback_loop_layout",
-            "VK_EXT_attachment_feedback_loop_dynamic_state"
         ];
 
         private static readonly string[] _requiredExtensions =
@@ -362,28 +360,6 @@ namespace Ryujinx.Graphics.Vulkan
                 features2.PNext = &supportedFeaturesDepthClipControl;
             }
 
-            PhysicalDeviceAttachmentFeedbackLoopLayoutFeaturesEXT supportedFeaturesAttachmentFeedbackLoopLayout = new()
-            {
-                SType = StructureType.PhysicalDeviceAttachmentFeedbackLoopLayoutFeaturesExt,
-                PNext = features2.PNext,
-            };
-
-            if (physicalDevice.IsDeviceExtensionPresent("VK_EXT_attachment_feedback_loop_layout"))
-            {
-                features2.PNext = &supportedFeaturesAttachmentFeedbackLoopLayout;
-            }
-
-            PhysicalDeviceAttachmentFeedbackLoopDynamicStateFeaturesEXT supportedFeaturesDynamicAttachmentFeedbackLoopLayout = new()
-            {
-                SType = StructureType.PhysicalDeviceAttachmentFeedbackLoopDynamicStateFeaturesExt,
-                PNext = features2.PNext,
-            };
-
-            if (physicalDevice.IsDeviceExtensionPresent("VK_EXT_attachment_feedback_loop_dynamic_state"))
-            {
-                features2.PNext = &supportedFeaturesDynamicAttachmentFeedbackLoopLayout;
-            }
-
             PhysicalDeviceVulkan12Features supportedPhysicalDeviceVulkan12Features = new()
             {
                 SType = StructureType.PhysicalDeviceVulkan12Features,
@@ -556,36 +532,6 @@ namespace Ryujinx.Graphics.Vulkan
                 };
 
                 pExtendedFeatures = &featuresDepthClipControl;
-            }
-
-            PhysicalDeviceAttachmentFeedbackLoopLayoutFeaturesEXT featuresAttachmentFeedbackLoopLayout;
-
-            if (physicalDevice.IsDeviceExtensionPresent("VK_EXT_attachment_feedback_loop_layout") &&
-                supportedFeaturesAttachmentFeedbackLoopLayout.AttachmentFeedbackLoopLayout)
-            {
-                featuresAttachmentFeedbackLoopLayout = new()
-                {
-                    SType = StructureType.PhysicalDeviceAttachmentFeedbackLoopLayoutFeaturesExt,
-                    PNext = pExtendedFeatures,
-                    AttachmentFeedbackLoopLayout = true,
-                };
-
-                pExtendedFeatures = &featuresAttachmentFeedbackLoopLayout;
-            }
-
-            PhysicalDeviceAttachmentFeedbackLoopDynamicStateFeaturesEXT featuresDynamicAttachmentFeedbackLoopLayout;
-
-            if (physicalDevice.IsDeviceExtensionPresent("VK_EXT_attachment_feedback_loop_dynamic_state") &&
-                supportedFeaturesDynamicAttachmentFeedbackLoopLayout.AttachmentFeedbackLoopDynamicState)
-            {
-                featuresDynamicAttachmentFeedbackLoopLayout = new()
-                {
-                    SType = StructureType.PhysicalDeviceAttachmentFeedbackLoopDynamicStateFeaturesExt,
-                    PNext = pExtendedFeatures,
-                    AttachmentFeedbackLoopDynamicState = true,
-                };
-
-                pExtendedFeatures = &featuresDynamicAttachmentFeedbackLoopLayout;
             }
 
             string[] enabledExtensions = _requiredExtensions.Union(_desirableExtensions.Intersect(physicalDevice.DeviceExtensions)).ToArray();
