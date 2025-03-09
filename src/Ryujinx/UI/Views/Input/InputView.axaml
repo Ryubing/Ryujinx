@@ -41,13 +41,20 @@
                     Grid.Column="0"
                     Margin="2"
                     HorizontalAlignment="Stretch"
-                    VerticalAlignment="Center" ColumnDefinitions="Auto,*">
-                    <TextBlock
+                    VerticalAlignment="Center" ColumnDefinitions="Auto,*,Auto">
+                    <StackPanel 
+                        Orientation="Vertical"   
                         Margin="5,0,10,0"
-                        Width="90"
                         HorizontalAlignment="Left"
                         VerticalAlignment="Center"
-                        Text="{ext:Locale ControllerSettingsPlayer}" />
+                        Width="90">
+                        <TextBlock
+                            Text="{ext:Locale ControllerSettingsPlayer}" />
+                         <TextBlock                        
+                            Classes="pending" 
+                            Text ="{ext:Locale ControllerSettingsModifiedNotification}"
+                            IsVisible="{Binding IsModified}"/>
+                    </StackPanel>
                     <ComboBox
                         Grid.Column="1"
                         Name="PlayerIndexBox"
@@ -62,6 +69,18 @@
                             </DataTemplate>
                         </ComboBox.ItemTemplate>
                     </ComboBox>
+                    <Button
+                        Grid.Column="2"
+                            MinWidth="0"
+                            Margin="5,0,0,0"
+                            VerticalAlignment="Center"
+                            ToolTip.Tip="{ext:Locale ControllerSettingsCancelCurrentChangesToolTip}"
+                            Command="{Binding RevertChanges}">
+                        <ui:SymbolIcon
+                            Symbol="Undo"
+                            FontSize="15"
+                            Height="20" />
+                    </Button>
                 </Grid>
                 <!-- Profile Selection -->
                 <Grid
@@ -81,7 +100,8 @@
                         Name="ProfileBox"
                         HorizontalAlignment="Stretch"
                         VerticalAlignment="Center"
-                        SelectedIndex="0"
+                        SelectedItem="{Binding ProfileChoose, Mode=TwoWay}"
+                        SelectionChanged="ComboBox_SelectionChanged"
                         ItemsSource="{Binding ProfilesList}"
                         Text="{Binding ProfileName, Mode=TwoWay}" />
                     <Button
@@ -90,7 +110,7 @@
                         Margin="5,0,0,0"
                         VerticalAlignment="Center"
                         ToolTip.Tip="{ext:Locale ControllerSettingsLoadProfileToolTip}"
-                        Command="{Binding LoadProfile}">
+                        Command="{Binding LoadProfileButton}">
                         <ui:SymbolIcon
                             Symbol="View"
                             FontSize="15"
@@ -148,7 +168,7 @@
                         MinWidth="0"
                         Margin="5,0,0,0"
                         VerticalAlignment="Center"
-                        Command="{Binding LoadDevices}">
+                        Command="{Binding LoadDevice}">
                         <ui:SymbolIcon
                             Symbol="Refresh"
                             FontSize="15"
@@ -181,15 +201,37 @@
                 </Grid>
             </Grid>
         </StackPanel>
-        <ContentControl Content="{Binding ConfigViewModel}" IsVisible="{Binding ShowSettings}">
-            <ContentControl.DataTemplates>
-                <DataTemplate DataType="viewModels:ControllerInputViewModel">
-                    <views:ControllerInputView />
-                </DataTemplate>
-                <DataTemplate DataType="viewModels:KeyboardInputViewModel">
-                    <views:KeyboardInputView />
-                </DataTemplate>
-            </ContentControl.DataTemplates>
+        <ContentControl IsVisible="{Binding NotificationIsVisible}">
+            <ContentControl.Content>
+
+                <StackPanel>
+                    <TextBlock 
+                        Margin="5,20,0,0"
+                        Text="{Binding NotificationText}" />       
+                    <Button
+                        MinWidth="0"
+                        Width="90"
+                        Height="27"
+                        Margin="0,10,0,0"
+                        VerticalAlignment="Center"
+                        Command="{Binding UnlinkDevice}">
+                        <TextBlock
+                            Text="{ext:Locale ControllerSettingsUnlink}"
+                            VerticalAlignment="Center"
+                            HorizontalAlignment="Center" />
+                    </Button>
+                </StackPanel>
+            </ContentControl.Content>
         </ContentControl>
+            <ContentControl Content="{Binding ConfigViewModel}" IsVisible="{Binding ShowSettings}">        
+                <ContentControl.DataTemplates>
+                    <DataTemplate DataType="viewModels:ControllerInputViewModel">
+                        <views:ControllerInputView />
+                    </DataTemplate>
+                    <DataTemplate DataType="viewModels:KeyboardInputViewModel">
+                        <views:KeyboardInputView />
+                    </DataTemplate>
+                </ContentControl.DataTemplates>
+            </ContentControl>
     </StackPanel>
 </UserControl>

@@ -2,12 +2,14 @@ using CommunityToolkit.Mvvm.ComponentModel;
 using Ryujinx.Ava.UI.ViewModels;
 using Ryujinx.Common.Configuration.Hid;
 using Ryujinx.Common.Configuration.Hid.Keyboard;
+using System.Xml.Linq;
 
 namespace Ryujinx.Ava.UI.Models.Input
 {
     public partial class KeyboardInputConfig : BaseModel
     {
         public string Id { get; set; }
+        public string Name { get; set; }
         public ControllerType ControllerType { get; set; }
         public PlayerIndex PlayerIndex { get; set; }
 
@@ -53,6 +55,7 @@ namespace Ryujinx.Ava.UI.Models.Input
             if (config != null)
             {
                 Id = config.Id;
+                Name = config.Name;
                 ControllerType = config.ControllerType;
                 PlayerIndex = config.PlayerIndex;
 
@@ -100,6 +103,7 @@ namespace Ryujinx.Ava.UI.Models.Input
             StandardKeyboardInputConfig config = new()
             {
                 Id = Id,
+                Name = Name,
                 Backend = InputBackendType.WindowKeyboard,
                 PlayerIndex = PlayerIndex,
                 ControllerType = ControllerType,

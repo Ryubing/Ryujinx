@@ -22,6 +22,8 @@ namespace Ryujinx.Ava.UI.Models.Input
         public float StrongRumble { get; set; }
 
         public string Id { get; set; }
+
+        public string Name { get; set; }
         public ControllerType ControllerType { get; set; }
         public PlayerIndex PlayerIndex { get; set; }
 
@@ -111,6 +113,7 @@ namespace Ryujinx.Ava.UI.Models.Input
             if (config != null)
             {
                 Id = config.Id;
+                Name = config.Name;
                 ControllerType = config.ControllerType;
                 PlayerIndex = config.PlayerIndex;
 
@@ -201,6 +204,7 @@ namespace Ryujinx.Ava.UI.Models.Input
             StandardControllerInputConfig config = new()
             {
                 Id = Id,
+                Name = Name, 
                 Backend = InputBackendType.GamepadSDL2,
                 PlayerIndex = PlayerIndex,
                 ControllerType = ControllerType,

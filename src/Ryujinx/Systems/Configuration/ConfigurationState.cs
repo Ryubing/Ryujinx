@@ -269,6 +269,7 @@ namespace Ryujinx.Ava.Systems.Configuration
                     Version = InputConfig.CurrentVersion,
                     Backend = InputBackendType.WindowKeyboard,
                     Id = "0",
+                    Name = "Keyboard",
                     PlayerIndex = PlayerIndex.Player1,
                     ControllerType = ControllerType.ProController,
                     LeftJoycon = new LeftJoyconCommonConfig<Key>
