@@ -25,14 +25,17 @@ namespace Ryujinx.SDL2.Common
 
         public static Action<Action> MainThreadDispatcher { get; set; }
 
-        private const uint SdlInitFlags = SDL_INIT_EVENTS | SDL_INIT_GAMECONTROLLER | SDL_INIT_JOYSTICK | SDL_INIT_AUDIO | SDL_INIT_VIDEO;
+        private const uint SdlInitFlags = SDL_INIT_EVENTS | SDL_INIT_GAMECONTROLLER | SDL_INIT_JOYSTICK |
+                                          SDL_INIT_AUDIO | SDL_INIT_VIDEO;
 
         private bool _isRunning;
         private uint _refereceCount;
         private Thread _worker;
 
+        private const uint SDL_JOYBATTERYUPDATED = 1543;
         public event Action<int, int> OnJoyStickConnected;
         public event Action<int> OnJoystickDisconnected;
+        public event Action<int, SDL_JoystickPowerLevel> OnJoyBatteryUpdated;
 
         private ConcurrentDictionary<uint, Action<SDL_Event>> _registeredWindowHandlers;
 
@@ -78,12 +81,14 @@ namespace Ryujinx.SDL2.Common
                 // First ensure that we only enable joystick events (for connected/disconnected).
                 if (SDL_GameControllerEventState(SDL_IGNORE) != SDL_IGNORE)
                 {
-                    Logger.Error?.PrintMsg(LogClass.Application, "Couldn't change the state of game controller events.");
+                    Logger.Error?.PrintMsg(LogClass.Application,
+                        "Couldn't change the state of game controller events.");
                 }
 
                 if (SDL_JoystickEventState(SDL_ENABLE) < 0)
                 {
-                    Logger.Error?.PrintMsg(LogClass.Application, $"Failed to enable joystick event polling: {SDL_GetError()}");
+                    Logger.Error?.PrintMsg(LogClass.Application,
+                        $"Failed to enable joystick event polling: {SDL_GetError()}");
                 }
 
                 // Disable all joysticks information, we don't need them no need to flood the event queue for that.
@@ -143,7 +148,12 @@ namespace Ryujinx.SDL2.Common
 
                 OnJoystickDisconnected?.Invoke(evnt.cbutton.which);
             }
-            else if (evnt.type is SDL_EventType.SDL_WINDOWEVENT or SDL_EventType.SDL_MOUSEBUTTONDOWN or SDL_EventType.SDL_MOUSEBUTTONUP)
+            else if ((uint)evnt.type == SDL_JOYBATTERYUPDATED)
+            {
+                OnJoyBatteryUpdated?.Invoke(evnt.cbutton.which, (SDL_JoystickPowerLevel)evnt.user.code);
+            }
+            else if (evnt.type is SDL_EventType.SDL_WINDOWEVENT or SDL_EventType.SDL_MOUSEBUTTONDOWN
+                     or SDL_EventType.SDL_MOUSEBUTTONUP)
             {
                 if (_registeredWindowHandlers.TryGetValue(evnt.window.windowID, out Action<SDL_Event> handler))
                 {
