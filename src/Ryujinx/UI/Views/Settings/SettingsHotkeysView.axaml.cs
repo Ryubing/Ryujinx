@@ -10,6 +10,8 @@ using Ryujinx.Ava.UI.Helpers;
 using Ryujinx.Ava.UI.ViewModels;
 using Ryujinx.Input;
 using Ryujinx.Input.Assigner;
+using System.Collections.Generic;
+using System;
 using Button = Ryujinx.Input.Button;
 using Key = Ryujinx.Common.Configuration.Hid.Key;
 
@@ -48,10 +50,45 @@ namespace Ryujinx.Ava.UI.Views.Settings
         private void MouseClick(object sender, PointerPressedEventArgs e)
         {
             bool shouldUnbind = e.GetCurrentPoint(this).Properties.IsMiddleButtonPressed;
+            bool shouldRemoveBinding = e.GetCurrentPoint(this).Properties.IsRightButtonPressed;
 
+            if (shouldRemoveBinding)
+            {
+                DeleteBind();
+            }
+          
             _currentAssigner?.Cancel(shouldUnbind);
 
             PointerPressed -= MouseClick;
+        }
+
+        private void DeleteBind()
+        {
+            if (DataContext is not SettingsViewModel viewModel)
+                return;
+
+            if (_currentAssigner != null)
+            {
+                Dictionary<string, Action> buttonActions = new Dictionary<string, Action>
+                {
+                    { "ToggleVSyncMode", () => viewModel.KeyboardHotkey.ToggleVSyncMode = Key.Unbound },
+                    { "Screenshot", () => viewModel.KeyboardHotkey.Screenshot = Key.Unbound },
+                    { "ShowUI", () => viewModel.KeyboardHotkey.ShowUI = Key.Unbound },
+                    { "Pause", () => viewModel.KeyboardHotkey.Pause = Key.Unbound },
+                    { "ToggleMute", () => viewModel.KeyboardHotkey.ToggleMute = Key.Unbound },
+                    { "ResScaleUp", () => viewModel.KeyboardHotkey.ResScaleUp = Key.Unbound },
+                    { "ResScaleDown", () => viewModel.KeyboardHotkey.ResScaleDown = Key.Unbound },
+                    { "VolumeUp", () => viewModel.KeyboardHotkey.VolumeUp = Key.Unbound },
+                    { "VolumeDown", () => viewModel.KeyboardHotkey.VolumeDown = Key.Unbound },
+                    { "CustomVSyncIntervalIncrement", () => viewModel.KeyboardHotkey.CustomVSyncIntervalIncrement = Key.Unbound },
+                    { "CustomVSyncIntervalDecrement", () => viewModel.KeyboardHotkey.CustomVSyncIntervalDecrement = Key.Unbound }
+                };
+
+                if (buttonActions.TryGetValue(_currentAssigner.ToggledButton.Name, out Action action))
+                {
+                    action();
+                }
+            }
         }
 
         private void Button_IsCheckedChanged(object sender, RoutedEventArgs e)

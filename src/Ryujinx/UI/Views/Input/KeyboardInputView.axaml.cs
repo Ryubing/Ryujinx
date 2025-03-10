@@ -9,6 +9,8 @@ using Ryujinx.Ava.UI.Helpers;
 using Ryujinx.Ava.UI.ViewModels.Input;
 using Ryujinx.Input;
 using Ryujinx.Input.Assigner;
+using System.Collections.Generic;
+using System;
 using Button = Ryujinx.Input.Button;
 using Key = Ryujinx.Common.Configuration.Hid.Key;
 
@@ -186,9 +188,61 @@ namespace Ryujinx.Ava.UI.Views.Input
         {
             bool shouldUnbind = e.GetCurrentPoint(this).Properties.IsMiddleButtonPressed;
 
+            bool shouldRemoveBinding = e.GetCurrentPoint(this).Properties.IsRightButtonPressed;
+
+            if (shouldRemoveBinding)
+            {
+                DeleteBind();
+            }
+
             _currentAssigner?.Cancel(shouldUnbind);
 
             PointerPressed -= MouseClick;
+        }
+
+        private void DeleteBind()
+        {
+
+            if (_currentAssigner != null)
+            {
+                Dictionary<string, Action> buttonActions = new Dictionary<string, Action>
+                {
+                    { "ButtonZl", () => ViewModel.Config.ButtonZl = Key.Unbound },
+                    { "ButtonL", () => ViewModel.Config.ButtonL = Key.Unbound },
+                    { "ButtonMinus", () => ViewModel.Config.ButtonMinus = Key.Unbound },
+                    { "LeftStickButton", () => ViewModel.Config.LeftStickButton = Key.Unbound },
+                    { "LeftStickUp", () => ViewModel.Config.LeftStickUp = Key.Unbound },
+                    { "LeftStickDown", () => ViewModel.Config.LeftStickDown = Key.Unbound },
+                    { "LeftStickRight", () => ViewModel.Config.LeftStickRight = Key.Unbound },
+                    { "LeftStickLeft", () => ViewModel.Config.LeftStickLeft = Key.Unbound },
+                    { "DpadUp", () => ViewModel.Config.DpadUp = Key.Unbound },
+                    { "DpadDown", () => ViewModel.Config.DpadDown = Key.Unbound },
+                    { "DpadLeft", () => ViewModel.Config.DpadLeft = Key.Unbound },
+                    { "DpadRight", () => ViewModel.Config.DpadRight = Key.Unbound },
+                    { "LeftButtonSr", () => ViewModel.Config.LeftButtonSr = Key.Unbound },
+                    { "LeftButtonSl", () => ViewModel.Config.LeftButtonSl = Key.Unbound },
+                    { "RightButtonSr", () => ViewModel.Config.RightButtonSr = Key.Unbound },
+                    { "RightButtonSl", () => ViewModel.Config.RightButtonSl = Key.Unbound },
+                    { "ButtonZr", () => ViewModel.Config.ButtonZr = Key.Unbound },
+                    { "ButtonR", () => ViewModel.Config.ButtonR = Key.Unbound },
+                    { "ButtonPlus", () => ViewModel.Config.ButtonPlus = Key.Unbound },
+                    { "ButtonA", () => ViewModel.Config.ButtonA = Key.Unbound },
+                    { "ButtonB", () => ViewModel.Config.ButtonB = Key.Unbound },
+                    { "ButtonX", () => ViewModel.Config.ButtonX = Key.Unbound },
+                    { "ButtonY", () => ViewModel.Config.ButtonY = Key.Unbound },
+                    { "RightStickButton", () => ViewModel.Config.RightStickButton = Key.Unbound },
+                    { "RightStickUp", () => ViewModel.Config.RightStickUp = Key.Unbound },
+                    { "RightStickDown", () => ViewModel.Config.RightStickDown = Key.Unbound },
+                    { "RightStickRight", () => ViewModel.Config.RightStickRight = Key.Unbound },
+                    { "RightStickLeft", () => ViewModel.Config.RightStickLeft = Key.Unbound }
+                };
+
+                if (buttonActions.TryGetValue(_currentAssigner.ToggledButton.Name, out Action action))
+                {
+                    action();
+                    ViewModel.ParentModel.IsModified = true;
+                }
+            }
         }
 
         protected override void OnDetachedFromVisualTree(VisualTreeAttachmentEventArgs e)

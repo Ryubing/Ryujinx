@@ -49,7 +49,6 @@
                 <TextBlock
                          Classes="globalConfigMarker"/>
             </StackPanel>
-            
         </Border>
     </Design.PreviewWith>
     <Style Selector="DropDownButton">

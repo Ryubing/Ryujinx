@@ -64,8 +64,9 @@ namespace Ryujinx.Ava.UI.Views.Input
                 };
 
                 if (!float.IsNaN(_changeSlider) && _changeSlider != (float)check.Value)
-                {
-                    (DataContext as ControllerInputViewModel)!.ParentModel.IsModified = true;
+                {     
+                    FlagInputConfigChanged();
+
                     _changeSlider = (float)check.Value;
                 }
             }
@@ -75,7 +76,8 @@ namespace Ryujinx.Ava.UI.Views.Input
         {
             if (sender is CheckBox { IsPointerOver: true })
             {
-                (DataContext as ControllerInputViewModel)!.ParentModel.IsModified = true;
+                FlagInputConfigChanged();
+
                 _currentAssigner?.Cancel();
                 _currentAssigner = null;
             }
@@ -102,7 +104,7 @@ namespace Ryujinx.Ava.UI.Views.Input
                         this.Focus(NavigationMethod.Pointer);
 
                         PointerPressed += MouseClick;
-
+                       
                         ControllerInputViewModel viewModel = (DataContext as ControllerInputViewModel);
 
                         IKeyboard keyboard =
@@ -115,7 +117,7 @@ namespace Ryujinx.Ava.UI.Views.Input
                             if (e.ButtonValue.HasValue)
                             {
                                 Button buttonValue = e.ButtonValue.Value;
-                                viewModel.ParentModel.IsModified = true;
+                                FlagInputConfigChanged();
 
                                 switch (button.Name)
                                 {
@@ -209,6 +211,11 @@ namespace Ryujinx.Ava.UI.Views.Input
             }
         }
 
+        private void FlagInputConfigChanged()
+        {
+            (DataContext as ControllerInputViewModel)!.ParentModel.IsModified = true;
+        }
+
         private void MouseClick(object sender, PointerPressedEventArgs e)
         {
             bool shouldUnbind = e.GetCurrentPoint(this).Properties.IsMiddleButtonPressed;
@@ -232,7 +239,6 @@ namespace Ryujinx.Ava.UI.Views.Input
             {
                 gamepad?.ClearLed();
             }
-            
             _currentAssigner?.Cancel();
             _currentAssigner = null;
         }
