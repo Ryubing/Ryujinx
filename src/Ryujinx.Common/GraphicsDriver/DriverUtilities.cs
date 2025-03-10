@@ -1,4 +1,3 @@
-using Ryujinx.Common.Utilities;
 using System;
 
 namespace Ryujinx.Common.GraphicsDriver
@@ -11,7 +10,7 @@ namespace Ryujinx.Common.GraphicsDriver
 
             string flags = existingFlags == null ? newFlags : $"{existingFlags},{newFlags}";
 
-            OsUtils.SetEnvironmentVariableNoCaching(envVar, flags);
+            Environment.SetEnvironmentVariable(envVar, flags);
         }
 
         public static void InitDriverConfig(bool oglThreading)
@@ -23,11 +22,10 @@ namespace Ryujinx.Common.GraphicsDriver
 
             ToggleOGLThreading(oglThreading);
         }
-
         public static void ToggleOGLThreading(bool enabled)
         {
-            OsUtils.SetEnvironmentVariableNoCaching("mesa_glthread", enabled.ToString().ToLower());
-            OsUtils.SetEnvironmentVariableNoCaching("__GL_THREADED_OPTIMIZATIONS", enabled ? "1" : "0");
+            Environment.SetEnvironmentVariable("mesa_glthread", enabled.ToString().ToLower());
+            Environment.SetEnvironmentVariable("__GL_THREADED_OPTIMIZATIONS", enabled ? "1" : "0");
 
             try
             {
