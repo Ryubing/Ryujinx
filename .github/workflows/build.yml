@@ -19,6 +19,7 @@ jobs:
         configuration: [Debug, Release]
         platform:
           - { name: win-x64,     os: windows-latest, zip_os_name: win_x64     }
+          - { name: win-arm64,   os: windows-latest, zip_os_name: win_arm64   }
           - { name: linux-x64,   os: ubuntu-latest,  zip_os_name: linux_x64   }
           - { name: linux-arm64, os: ubuntu-latest,  zip_os_name: linux_arm64 }
           - { name: osx-x64,     os: macos-13,       zip_os_name: osx_x64     }
