@@ -19,7 +19,7 @@
             <Setter Property="Margin" Value="10, 0, 0, 0" />
             <Setter Property="Orientation" Value="Horizontal" />
         </Style>
-        <Style Selector="StackPanel > StackPanel > TextBlock">
+        <Style Selector="StackPanel > StackPanel > TextBlock.settingHeader">
             <Setter Property="VerticalAlignment" Value="Center" />
             <Setter Property="Width" Value="230" />
         </Style>
@@ -47,70 +47,78 @@
                     Classes="h1"
                     Text="{ext:Locale SettingsTabHotkeysHotkeys}" />
                 <StackPanel>
-                    <TextBlock Text="{ext:Locale SettingsTabHotkeysToggleVSyncModeHotkey}" />
+                    <TextBlock Text="{ext:Locale SettingsTabHotkeysToggleVSyncModeHotkey}" Classes="settingHeader" />
                     <ToggleButton Name="ToggleVSyncMode">
                         <TextBlock Text="{Binding KeyboardHotkey.ToggleVSyncMode, Converter={x:Static helpers:KeyValueConverter.Instance}}" />
                     </ToggleButton>
                 </StackPanel>
                 <StackPanel>
-                    <TextBlock Text="{ext:Locale SettingsTabHotkeysScreenshotHotkey}" />
+                    <TextBlock Text="{ext:Locale SettingsTabHotkeysScreenshotHotkey}" Classes="settingHeader" />
                     <ToggleButton Name="Screenshot">
                         <TextBlock Text="{Binding KeyboardHotkey.Screenshot, Converter={x:Static helpers:KeyValueConverter.Instance}}" />
                     </ToggleButton>
                 </StackPanel>
                 <StackPanel>
-                    <TextBlock Text="{ext:Locale SettingsTabHotkeysShowUiHotkey}" />
+                    <TextBlock Text="{ext:Locale SettingsTabHotkeysShowUiHotkey}" Classes="settingHeader" />
                     <ToggleButton Name="ShowUI">
                         <TextBlock Text="{Binding KeyboardHotkey.ShowUI, Converter={x:Static helpers:KeyValueConverter.Instance}}" />
                     </ToggleButton>
                 </StackPanel>
                 <StackPanel>
-                    <TextBlock Text="{ext:Locale SettingsTabHotkeysPauseHotkey}" />
+                    <TextBlock Text="{ext:Locale SettingsTabHotkeysPauseHotkey}" Classes="settingHeader" />
                     <ToggleButton Name="Pause">
                         <TextBlock Text="{Binding KeyboardHotkey.Pause, Converter={x:Static helpers:KeyValueConverter.Instance}}" />
                     </ToggleButton>
                 </StackPanel>
                 <StackPanel>
-                    <TextBlock Text="{ext:Locale SettingsTabHotkeysToggleMuteHotkey}" />
+                    <TextBlock Text="{ext:Locale SettingsTabHotkeysToggleMuteHotkey}" Classes="settingHeader" />
                     <ToggleButton Name="ToggleMute">
                         <TextBlock Text="{Binding KeyboardHotkey.ToggleMute, Converter={x:Static helpers:KeyValueConverter.Instance}}" />
                     </ToggleButton>
                 </StackPanel>
                 <StackPanel>
-                    <TextBlock Text="{ext:Locale SettingsTabHotkeysResScaleUpHotkey}" />
+                    <TextBlock Text="{ext:Locale SettingsTabHotkeysResScaleUpHotkey}" Classes="settingHeader" />
                     <ToggleButton Name="ResScaleUp">
                         <TextBlock Text="{Binding KeyboardHotkey.ResScaleUp, Converter={x:Static helpers:KeyValueConverter.Instance}}" />
                     </ToggleButton>
                 </StackPanel>
                 <StackPanel>
-                    <TextBlock Text="{ext:Locale SettingsTabHotkeysResScaleDownHotkey}" />
+                    <TextBlock Text="{ext:Locale SettingsTabHotkeysResScaleDownHotkey}" Classes="settingHeader" />
                     <ToggleButton Name="ResScaleDown">
                         <TextBlock Text="{Binding KeyboardHotkey.ResScaleDown, Converter={x:Static helpers:KeyValueConverter.Instance}}" />
                     </ToggleButton>
                 </StackPanel>
                 <StackPanel>
-                    <TextBlock Text="{ext:Locale SettingsTabHotkeysVolumeUpHotkey}" />
+                    <TextBlock Text="{ext:Locale SettingsTabHotkeysVolumeUpHotkey}" Classes="settingHeader" />
                     <ToggleButton Name="VolumeUp">
                         <TextBlock Text="{Binding KeyboardHotkey.VolumeUp, Converter={x:Static helpers:KeyValueConverter.Instance}}" />
                     </ToggleButton>
                 </StackPanel>
                 <StackPanel>
-                    <TextBlock Text="{ext:Locale SettingsTabHotkeysVolumeDownHotkey}" />
+                    <TextBlock Text="{ext:Locale SettingsTabHotkeysVolumeDownHotkey}" Classes="settingHeader" />
                     <ToggleButton Name="VolumeDown">
                         <TextBlock Text="{Binding KeyboardHotkey.VolumeDown, Converter={x:Static helpers:KeyValueConverter.Instance}}" />
                     </ToggleButton>
                 </StackPanel>
                 <StackPanel Margin="10,0,0,0" Orientation="Horizontal">
-                    <TextBlock Text="{ext:Locale SettingsTabHotkeysIncrementCustomVSyncIntervalHotkey}" />
+                    <TextBlock Text="{ext:Locale SettingsTabHotkeysIncrementCustomVSyncIntervalHotkey}" Classes="settingHeader" />
                     <ToggleButton Name="CustomVSyncIntervalIncrement">
                         <TextBlock Text="{Binding KeyboardHotkey.CustomVSyncIntervalIncrement, Converter={x:Static helpers:KeyValueConverter.Instance}}" />
                     </ToggleButton>
                 </StackPanel>
                 <StackPanel Margin="10,0,0,0" Orientation="Horizontal">
-                    <TextBlock Text="{ext:Locale SettingsTabHotkeysDecrementCustomVSyncIntervalHotkey}" />
+                    <TextBlock Text="{ext:Locale SettingsTabHotkeysDecrementCustomVSyncIntervalHotkey}" Classes="settingHeader" />
                     <ToggleButton Name="CustomVSyncIntervalDecrement">
                         <TextBlock Text="{Binding KeyboardHotkey.CustomVSyncIntervalDecrement, Converter={x:Static helpers:KeyValueConverter.Instance}}" />
                     </ToggleButton>
+                </StackPanel>
+                <StackPanel Orientation="Horizontal">
+                    <TextBlock Text="{ext:Locale SettingsTabHotkeysTurboMode}" Classes="settingHeader" ToolTip.Tip="{ext:Locale SettingsTabHotkeysTurboModeToolTip}" Background="Transparent" />
+                    <ToggleButton Name="TurboMode">
+                        <TextBlock Text="{Binding KeyboardHotkey.TurboMode, Converter={x:Static helpers:KeyValueConverter.Instance}}" />
+                    </ToggleButton>
+                    <TextBlock Text="{ext:Locale SettingsTabHotkeysOnlyWhilePressed}" Margin="10,0" />
+                    <CheckBox IsChecked="{Binding KeyboardHotkey.TurboModeWhileHeld}" />
                 </StackPanel>
             </StackPanel>
         </Border>

@@ -72,6 +72,7 @@ namespace Ryujinx.Ava.Systems.Configuration
                 EnableColorSpacePassthrough = Graphics.EnableColorSpacePassthrough,
                 EnablePtc = System.EnablePtc,
                 EnableLowPowerPtc = System.EnableLowPowerPtc,
+                TickScalar = System.TickScalar,
                 EnableInternetAccess = System.EnableInternetAccess,
                 EnableFsIntegrityChecks = System.EnableFsIntegrityChecks,
                 FsGlobalAccessLogMode = System.FsGlobalAccessLogMode,
@@ -260,6 +261,10 @@ namespace Ryujinx.Ava.Systems.Configuration
                 ResScaleDown = Key.Unbound,
                 VolumeUp = Key.Unbound,
                 VolumeDown = Key.Unbound,
+                CustomVSyncIntervalIncrement = Key.Unbound,
+                CustomVSyncIntervalDecrement = Key.Unbound,
+                TurboMode = Key.Unbound,
+                TurboModeWhileHeld = false
             };
             Hid.RainbowSpeed.Value = 1f;
             Hid.InputConfig.Value =

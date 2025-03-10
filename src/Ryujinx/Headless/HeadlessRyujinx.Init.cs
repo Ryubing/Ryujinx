@@ -11,6 +11,7 @@ using Ryujinx.Common.Configuration.Hid.Controller.Motion;
 using Ryujinx.Common.Configuration.Hid.Keyboard;
 using Ryujinx.Common.Logging;
 using Ryujinx.Common.Utilities;
+using Ryujinx.Cpu;
 using Ryujinx.Graphics.GAL;
 using Ryujinx.Graphics.OpenGL;
 using Ryujinx.Graphics.Vulkan;
@@ -311,7 +312,7 @@ namespace Ryujinx.Headless
 
             return new OpenGLRenderer();
         }
-
+        
         private static Switch InitializeEmulationContext(WindowBase window, IRenderer renderer, Options options) =>
             new(
                 new HleConfiguration(
@@ -321,6 +322,7 @@ namespace Ryujinx.Headless
                         options.VSyncMode,
                         !options.DisableDockedMode,
                         !options.DisablePTC,
+                        ITickSource.RealityTickScalar,
                         options.EnableInternetAccess,
                         !options.DisableFsIntegrityChecks ? IntegrityCheckLevel.ErrorOnInvalid : IntegrityCheckLevel.None,
                         options.FsGlobalAccessLogMode,

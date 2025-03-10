@@ -13,5 +13,7 @@ namespace Ryujinx.Common.Configuration.Hid
         public Key VolumeDown { get; set; }
         public Key CustomVSyncIntervalIncrement { get; set; }
         public Key CustomVSyncIntervalDecrement { get; set; }
+        public Key TurboMode { get; set; }
+        public bool TurboModeWhileHeld { get; set; }
     }
 }

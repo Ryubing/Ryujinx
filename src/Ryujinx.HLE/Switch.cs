@@ -4,6 +4,7 @@ using Ryujinx.Audio.Backends.CompatLayer;
 using Ryujinx.Audio.Integration;
 using Ryujinx.Common;
 using Ryujinx.Common.Configuration;
+using Ryujinx.Cpu;
 using Ryujinx.Graphics.Gpu;
 using Ryujinx.HLE.FileSystem;
 using Ryujinx.HLE.HOS;
@@ -26,18 +27,26 @@ namespace Ryujinx.HLE
         public GpuContext Gpu { get; }
         public VirtualFileSystem FileSystem { get; }
         public HOS.Horizon System { get; }
+
+        public bool TurboMode = false;
+
+        public long TickScalar
+        {
+            get => System?.TickSource?.TickScalar ?? ITickSource.RealityTickScalar;
+            set => System.TickSource.TickScalar = value;
+        }
+        
         public ProcessLoader Processes { get; }
         public PerformanceStatistics Statistics { get; }
         public Hid Hid { get; }
         public TamperMachine TamperMachine { get; }
         public IHostUIHandler UIHandler { get; }
 
-        public int CpuCoresCount = 4; //Switch 1 has 4 cores
+        public int CpuCoresCount = 4; // Switch has a quad-core Tegra X1 SoC
 
         public VSyncMode VSyncMode { get; set; }
         public bool CustomVSyncIntervalEnabled { get; set; }
         public int CustomVSyncInterval { get; set; }
-
         public long TargetVSyncInterval { get; set; } = 60;
 
         public bool IsFrameAvailable => Gpu.Window.IsFrameAvailable;
@@ -64,7 +73,7 @@ namespace Ryujinx.HLE
             Memory            = new MemoryBlock(Configuration.MemoryConfiguration.ToDramSize(), memoryAllocationFlags);
             Gpu               = new GpuContext(Configuration.GpuRenderer, DirtyHacks);
             System            = new HOS.Horizon(this);
-            Statistics        = new PerformanceStatistics();
+            Statistics        = new PerformanceStatistics(this);
             Hid               = new Hid(this, System.HidStorage);
             Processes         = new ProcessLoader(this);
             TamperMachine     = new TamperMachine();
@@ -75,6 +84,7 @@ namespace Ryujinx.HLE
 
             VSyncMode                               = Configuration.VSyncMode;
             CustomVSyncInterval                     = Configuration.CustomVSyncInterval;
+            TickScalar                              = TurboMode ? Configuration.TickScalar : ITickSource.RealityTickScalar;
             System.State.DockedMode                 = Configuration.EnableDockedMode;
             System.PerformanceState.PerformanceMode = System.State.DockedMode ? PerformanceMode.Boost : PerformanceMode.Default;
             System.EnablePtc                        = Configuration.EnablePtc;
@@ -124,6 +134,12 @@ namespace Ryujinx.HLE
                     TargetVSyncInterval = 1;
                     break;
             }
+        }
+
+        public void ToggleTurbo()
+        {
+            TurboMode = !TurboMode;
+            TickScalar = TurboMode ? Configuration.TickScalar : ITickSource.RealityTickScalar;
         }
 
         public bool LoadCart(string exeFsDir, string romFsFile = null) => Processes.LoadUnpackedNca(exeFsDir, romFsFile);

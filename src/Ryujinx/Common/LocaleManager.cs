@@ -61,6 +61,13 @@ namespace Ryujinx.Ava.Common.Locale
             }
         }
 
+        public static string GetUnformatted(LocaleKeys key) => Instance.Get(key);
+
+        public string Get(LocaleKeys key) =>
+            _localeStrings.TryGetValue(key, out string value) 
+                ? value 
+                : key.ToString();
+
         public string this[LocaleKeys key]
         {
             get

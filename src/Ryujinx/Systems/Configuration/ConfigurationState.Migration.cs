@@ -93,6 +93,7 @@ namespace Ryujinx.Ava.Systems.Configuration
             System.EnableDockedMode.Value = cff.DockedMode;
             System.EnablePtc.Value = cff.EnablePtc;
             System.EnableLowPowerPtc.Value = cff.EnableLowPowerPtc;
+            System.TickScalar.Value = cff.TickScalar;
             System.EnableInternetAccess.Value = cff.EnableInternetAccess;
             System.EnableFsIntegrityChecks.Value = cff.EnableFsIntegrityChecks;
             System.FsGlobalAccessLogMode.Value = cff.FsGlobalAccessLogMode;
@@ -438,9 +439,27 @@ namespace Ryujinx.Ava.Systems.Configuration
                 (64, static cff => cff.LoggingEnableAvalonia = false),
                 (65, static cff => cff.UpdateCheckerType = cff.CheckUpdatesOnStart ? UpdaterType.PromptAtStartup : UpdaterType.Off),
                 (66, static cff => cff.DisableInputWhenOutOfFocus = false),
-                (67, static cff => cff.FocusLostActionType = cff.DisableInputWhenOutOfFocus ? FocusLostType.BlockInput : FocusLostType.DoNothing)
-                // 68 was the version that added per-game configs; the file structure did not change
-                // the version was increased so external tools could know that your Ryujinx version has per-game config capabilities.
+                (67, static cff => cff.FocusLostActionType = cff.DisableInputWhenOutOfFocus ? FocusLostType.BlockInput : FocusLostType.DoNothing),
+                (68, static cff =>
+                {
+                    cff.TickScalar = 200;
+                    cff.Hotkeys = new KeyboardHotkeys
+                    {
+                        ToggleVSyncMode = cff.Hotkeys.ToggleVSyncMode,
+                        Screenshot = cff.Hotkeys.Screenshot,
+                        ShowUI = cff.Hotkeys.ShowUI,
+                        Pause = cff.Hotkeys.Pause,
+                        ToggleMute = cff.Hotkeys.ToggleMute,
+                        ResScaleUp = cff.Hotkeys.ResScaleUp,
+                        ResScaleDown = cff.Hotkeys.ResScaleDown,
+                        VolumeUp = cff.Hotkeys.VolumeUp,
+                        VolumeDown = cff.Hotkeys.VolumeDown,
+                        CustomVSyncIntervalIncrement = cff.Hotkeys.CustomVSyncIntervalIncrement,
+                        CustomVSyncIntervalDecrement = cff.Hotkeys.CustomVSyncIntervalDecrement,
+                        TurboMode = Key.Unbound,
+                        TurboModeWhileHeld = false
+                    };
+                })
             );
     }
 }
